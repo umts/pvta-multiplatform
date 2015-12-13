@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $http, $ionicModal, $timeout) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -11,7 +11,7 @@ angular.module('starter.controllers', [])
 
   // Form data for the login modal
   $scope.loginData = {};
-
+  
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
@@ -41,7 +41,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
+.controller('PlaylistsCtrl', function($scope, $http) {
   $scope.playlists = [
     { title: 'Reggae', id: 1 },
     { title: 'Chill', id: 2 },
@@ -50,6 +50,21 @@ angular.module('starter.controllers', [])
     { title: 'Rap', id: 5 },
     { title: 'Cowbell', id: 6 }
   ];
+  $http.get('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').
+  then(function successCallback(response){
+    var data = response.data;
+    console.log(JSON.stringify(data));
+    for(var i = 0; i < data.length; i++){
+      console.log(data.length);
+      console.log(data[i]['Name']);  
+    }
+    
+    //console.log(JSON.stringify(data, null, 4));
+    $scope.playlists = data;
+  }, function errorCallback(response){
+    console.log('An error! D:');
+    console.log(response);
+  });
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
