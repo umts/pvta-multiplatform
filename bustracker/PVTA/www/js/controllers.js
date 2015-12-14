@@ -41,31 +41,22 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope, $http) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
+.controller('PlaylistsCtrl', function($scope, $http, detailsService) {
+  $scope.list = [];
+  $scope.push = function(object){
+    detailsService.addItem(object)
+  };
   $http.get('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').
   then(function successCallback(response){
     var data = response.data;
-    console.log(JSON.stringify(data));
-    for(var i = 0; i < data.length; i++){
-      console.log(data.length);
-      console.log(data[i]['Name']);  
-    }
-    
-    //console.log(JSON.stringify(data, null, 4));
-    $scope.playlists = data;
+    $scope.list = data;
   }, function errorCallback(response){
     console.log('An error! D:');
     console.log(response);
   });
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('PlaylistCtrl', function($scope, $stateParams, detailsService) {
+  $scope.detail = detailsService.getItems;
+  console.log($scope.detail);
 });
