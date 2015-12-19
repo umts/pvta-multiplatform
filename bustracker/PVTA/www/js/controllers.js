@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['starter.services'])
 
 .controller('AppCtrl', function($scope, $http, $ionicModal, $timeout) {
 
@@ -43,20 +43,22 @@ angular.module('starter.controllers', [])
 
 .controller('PlaylistsCtrl', function($scope, $http, detailsService) {
   $scope.list = [];
-  $scope.push = function(object){
-    detailsService.addItem(object)
-  };
   $http.get('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').
   then(function successCallback(response){
     var data = response.data;
     $scope.list = data;
+    console.log(JSON.stringify(data));
+    $scope.one;
+    detailsService.add(data);
   }, function errorCallback(response){
     console.log('An error! D:');
     console.log(response);
   });
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams, detailsService) {
-  $scope.detail = detailsService.getItems;
-  console.log($scope.detail);
+.controller('PlaylistCtrl', function($scope, $stateParams, detailsService, Playlist) {
+  $scope.$on('$ionicView.enter', function(e) {
+    $scope.detail = e;
+    $scope.playlist = Playlist.query();
+  });
 });

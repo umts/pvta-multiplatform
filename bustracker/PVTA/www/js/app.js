@@ -71,17 +71,3 @@ var app = angular.module('starter', ['ionic', 'starter.controllers'])
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/playlists');
 });
-app.service('detailsService', function(){
-  var detail = [];
-  var addItem = function(item){
-    detail.push(item);
-  };
-  var getItems = function(){
-    return detail.pop;
-  };
-  return {
-    addItem: addItem,
-    getItems: getItems
-  }
-});
-
