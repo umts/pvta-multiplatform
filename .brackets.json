@@ -1,6 +1,7 @@
 {
     "jscodehints.detectedExclusions": [
         "/Users/akaplowitz/Documents/Transit/apps/pvta-multiplatform/bustracker/PVTA/www/lib/ionic/js/angular-ui/angular-ui-router.min.js",
-        "/Users/akaplowitz/Documents/Transit/apps/pvta-multiplatform/bustracker/PVTA/www/js/services.js"
+        "/Users/akaplowitz/Documents/Transit/apps/pvta-multiplatform/bustracker/PVTA/www/js/services.js",
+        "/Users/akaplowitz/Documents/Transit/apps/pvta-multiplatform/ionic-tutorial/server/conference/www/js/controllers.js"
     ]
 }
