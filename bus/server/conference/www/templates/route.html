@@ -7,6 +7,14 @@
    <div class="item item-body">
      <p>RouteDetails:</p>
      <p>PVTA {{route.ShortName}}</p>
+     <h3>Buses on this route</h3>
+     <ion-list>
+      <ion-item ng-repeat="vehicle in route.Vehicles" href="#/app/sessions/{{vehicle.VehicleId}}">
+        <h4>Bus {{vehicle.Name}}</h4>
+        <p>Last Stop: {{vehicle.LastStop}}</p>
+        <p>Headed: {{vehicle.Direction}} toward {{vehicle.Destination}}</p>
+      </ion-item>
+     </ion-list>
      <h3>Stops</h3>
      <ion-list>
       <ion-item ng-repeat="stop in route.Stops | orderBy: 'Name'" href="#/app/stop/{{stop.StopId}}">
