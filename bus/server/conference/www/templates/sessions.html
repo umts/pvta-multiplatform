@@ -1,7 +1,7 @@
-<ion-view view-title="Sessions">
+<ion-view view-title="Vehicles">
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="session in sessions" href="#/app/sessions/{{sessions.indexOf(session)}}">
+      <ion-item ng-repeat="session in sessions" href="#/app/sessions/{{session.VehicleId}}">
         {{session.Name}}
       </ion-item>
     </ion-list>
