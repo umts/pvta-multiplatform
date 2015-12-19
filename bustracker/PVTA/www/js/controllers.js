@@ -41,24 +41,22 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope, $http, detailsService) {
+.controller('PlaylistsCtrl', function($scope, $http) {
   $scope.list = [];
   $http.get('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').
   then(function successCallback(response){
     var data = response.data;
     $scope.list = data;
     console.log(JSON.stringify(data));
-    $scope.one;
-    detailsService.add(data);
+    
   }, function errorCallback(response){
     console.log('An error! D:');
     console.log(response);
   });
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams, detailsService, Playlist) {
+.controller('PlaylistCtrl', function($scope, $stateParams) {
   $scope.$on('$ionicView.enter', function(e) {
-    $scope.detail = e;
-    $scope.playlist = Playlist.query();
+
   });
 });
