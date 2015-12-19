@@ -67,7 +67,27 @@ angular.module('starter', ['ionic', 'starter.controllers'])
           controller: 'SessionCtrl'
         }
     }
+  })
+  
+  .state('app.routes',{
+      url: "/routes",
+      views: {
+        'menuContent': {
+           templateUrl: "templates/routes.html",
+           controller: 'RouteController'
+        }
+      }
+    })
+
+  .state('app.route', {
+    url: "/routes/:routeId",
+    views: {
+        'menuContent': {
+          templateUrl: "templates/route.html",
+          controller: 'RouteCtrl'
+        }
+    }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/sessions');
+  $urlRouterProvider.otherwise('/app/search');
 });

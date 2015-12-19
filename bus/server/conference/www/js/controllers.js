@@ -44,6 +44,7 @@ angular.module('starter.controllers', ['starter.services'])
 .controller('SessionsCtrl', function($scope, $http, Session){
   //$scope.sessions = Session.query();
   $scope.sessions = {};
+  console.log('help!');
   $http.get('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').
   then(function successCallback(response){
     $scope.sessions = response.data.sort(function(a, b){return a.Name - b.Name});
@@ -55,4 +56,20 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('SessionCtrl', function($scope, $stateParams, Session){
   $scope.session = Session.get({sessionId: $stateParams.sessionId});
+})
+
+.controller('RouteController', function($scope, $http){
+  $scope.routes = [{Name: "B43"},{Name: "R14"}];
+  $http.get('http://bustracker.pvta.com/infopoint/rest/routes/getallroutes').
+  then(function successCallback(response){
+    $scope.routes = response.data.sort(function(a, b){return a.ShortName - b.ShortName});;
+  }, function errorCallback(response){
+    console.log('uh oh');
+  });
+})
+
+.controller('RouteCtrl', function($scope, $stateParams, Route){
+  var route = Route.get({routeId: $stateParams.routeId});
+  $scope.route = route;
 });
+
