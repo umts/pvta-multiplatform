@@ -87,6 +87,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
           controller: 'RouteCtrl'
         }
     }
+  })
+  
+  .state('app.stopDepartures', {
+    url: "/stopDepartures/:stopId",
+    views: {
+        'menuContent': {
+          templateUrl: "templates/stop_departures.html",
+          controller: 'StopDeparturesController'
+        }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/search');

@@ -1,4 +1,4 @@
-<ion-view view-title="Session">
+<ion-view view-title="Route">
   <ion-content>
     <div class="list card">
       <div class="item">
@@ -17,8 +17,9 @@
      </ion-list>
      <h3>Stops</h3>
      <ion-list>
-      <ion-item ng-repeat="stop in route.Stops | orderBy: 'Name'" href="#/app/stop/{{stop.StopId}}">
+      <ion-item ng-repeat="stop in route.Stops | orderBy: 'Name'" href="#/app/stopDepartures/{{stop.StopId}}">
         {{stop.Name}}
+        {{stop.StopId}}
       </ion-item>
     </ion-list>
       </div>

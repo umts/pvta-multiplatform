@@ -71,5 +71,34 @@ angular.module('starter.controllers', ['starter.services'])
 .controller('RouteCtrl', function($scope, $stateParams, Route){
   var route = Route.get({routeId: $stateParams.routeId});
   $scope.route = route;
+})
+
+.controller('StopDeparturesController', function($scope, $stateParams, $http, $resource){
+  $scope.s = {};// StopDeparture.query({stopId: $stateParams.StopDeparture});
+/*  $http.get("http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/72").
+  then(function successCallback(response){
+    $scope.s = response.data;
+    console.log(JSON.stringify(response.data));
+  }, function errorCallback(response){
+    console.log('uh oh');
+  });*/
+  var s = $resource('http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/:stopId');
+  var x = s.query({stopId: $stateParams.stopId});
+  $scope.s = x;
 });
 
+
+/********** POSSIBLE JSON DATE PARSING SOLUTION**********
+dateTimeReviver = function (key, value) {
+    var a;
+    if (typeof value === 'string') {
+        a = /\/Date\((\d*)\)\//.exec(value);
+        if (a) {
+            return new Date(+a[1]);
+        }
+    }
+    return value;
+}
+
+FROM http://stackoverflow.com/questions/4511705/how-to-parse-json-to-receive-a-date-object-in-javascript
+**********************************************************/
