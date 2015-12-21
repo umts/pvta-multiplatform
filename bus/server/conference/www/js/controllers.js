@@ -73,33 +73,21 @@ angular.module('starter.controllers', ['starter.services'])
   $scope.route = route;
 })
 
-.controller('StopDeparturesController', function($scope, $stateParams, $http, $resource){
-  $scope.s = {};// StopDeparture.query({stopId: $stateParams.StopDeparture});
-/*  $http.get("http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/72").
-  then(function successCallback(response){
-    $scope.s = response.data;
-    console.log(JSON.stringify(response.data));
-  }, function errorCallback(response){
-    console.log('uh oh');
-  });*/
+.controller('StopDeparturesController', function($scope, $stateParams, $http, $resource, moment){
+  $scope.s = {};
   var s = $resource('http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/:stopId');
   var x = s.query({stopId: $stateParams.stopId});
   $scope.s = x;
-  console.log(moment(info.Departure.EDT).from(moment().add(offset, 'hours'), true))
+  $scope.edt = {};
+  $scope.sdt = {};
+  var edt = $scope.edt;
+  var sdt = $scope.sdt;
+  var dep = moment(edt).add(1, 'd').format("ddd, hhmm");
+  var fromNow = moment(edt).add(1, 'd').fromNow();
+  var now = moment().format("ddd, hhmm");
+  var from =
+  console.log(JSON.stringify(dep) + " " + JSON.stringify(now) + " " + JSON.stringify(fromNow));
+  $scope.readableEDT = moment(edt).add(1, 'd').fromNow();
+  $scope.readableSDT = moment(sdt).add(1, 'd').format("dddd, MMMM Do YYYY, h:mm:ss a");
+
 });
-
-
-/********** POSSIBLE JSON DATE PARSING SOLUTION**********
-dateTimeReviver = function (key, value) {
-    var a;
-    if (typeof value === 'string') {
-        a = /\/Date\((\d*)\)\//.exec(value);
-        if (a) {
-            return new Date(+a[1]);
-        }
-    }
-    return value;
-}
-
-FROM http://stackoverflow.com/questions/4511705/how-to-parse-json-to-receive-a-date-object-in-javascript
-**********************************************************/
