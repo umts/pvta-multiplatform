@@ -85,6 +85,7 @@ angular.module('starter.controllers', ['starter.services'])
   var s = $resource('http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/:stopId');
   var x = s.query({stopId: $stateParams.stopId});
   $scope.s = x;
+  console.log(moment(info.Departure.EDT).from(moment().add(offset, 'hours'), true))
 });
 
 
