@@ -8,17 +8,17 @@
      <h3>StopDepartures</h3>
      <ion-list>
       <ion-item ng-repeat="routeDirection in s[0].RouteDirections">
-        <ion-item ng-repeat="departure in routeDirection.Departures" ng-init="init(departure.SDT, departure.EDT)">
-          <h3>{{departure.Trip.InternalSignDesc}}</h3>
-          <p>Departs {{edt}}</p>
-          <p>Sch: {{sdt}}</p>
-          <p>{{departure.Trip.InternetServiceDesc}}</p>
+        <p>New route!</p>
+        <!--<ion-item ng-repeat="departure in routeDirection.Departures">-->
+          <h3>{{routeDirection.Departures[0].departure.Trip.InternalSignDesc}}</h3>
+          {{init(routeDirection.Departures[0].SDT, routeDirection.Departures[0].EDT);""}}
+          <p>{{routeDirection.Departures[0].Trip.InternetServiceDesc}}</p>
           <!--<p>Scheduled At: {{readableSDT}}</p>-->
-          <p>Scheduled: {{departure.SDT}}</p>
-          <p>Estimated: {{departure.EDT}}</p>
-          <p>Unit: {{departure.Trip.RunId}}</p>
+          <p>Scheduled: {{sdtString}}</p>
+          <p>Estimated: {{edtString}}</p>
+          <p>Unit: {{routeDirection.Departures[0].Trip.RunId}}</p>
           
-        </ion-item>
+       <!-- </ion-item>-->
       </ion-item>
      </ion-list>
       </div>

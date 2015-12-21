@@ -78,12 +78,14 @@ angular.module('starter.controllers', ['starter.services'])
   var s = $resource('http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/:stopId');
   var x = s.query({stopId: $stateParams.stopId});
   $scope.s = x;
+  console.log("NEW STOP");
   //$scope.edt = {};
   //$scope.sdt = {};
   $scope.init = function(sdt, edt){
+    console.log("NEW DEPARTURE");
     console.log(moment(sdt).fromNow() + " vs EDT of " + moment(edt).fromNow());
-    $scope.sdt = moment(sdt).fromNow();
-    $scope.edt = moment(edt).fromNow();
+    $scope.sdtString = moment(sdt).fromNow();
+    $scope.edtString = moment(edt).fromNow();
     return {sdt: moment(sdt).fromNow(), edt: moment(edt).fromNow()}
     //console.log(JSON.stringify(moment(edt).format("ddd, hhmm")) + moment().format("ddd, hhmm"));
   };/*
