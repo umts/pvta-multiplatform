@@ -78,16 +78,24 @@ angular.module('starter.controllers', ['starter.services'])
   var s = $resource('http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/:stopId');
   var x = s.query({stopId: $stateParams.stopId});
   $scope.s = x;
-  $scope.edt = {};
-  $scope.sdt = {};
+  //$scope.edt = {};
+  //$scope.sdt = {};
+  $scope.init = function(sdt, edt){
+    console.log(moment(sdt).fromNow() + " vs EDT of " + moment(edt).fromNow());
+    $scope.sdt = moment(sdt).fromNow();
+    $scope.edt = moment(edt).fromNow();
+    return {sdt: moment(sdt).fromNow(), edt: moment(edt).fromNow()}
+    //console.log(JSON.stringify(moment(edt).format("ddd, hhmm")) + moment().format("ddd, hhmm"));
+  };/*
   var edt = $scope.edt;
   var sdt = $scope.sdt;
-  var dep = moment(edt).add(1, 'd').format("ddd, hhmm");
+  //var dep = moment(edt).add(1, 'd').format("ddd, hhmm");
+  var dep = moment(edt);
   var fromNow = moment(edt).add(1, 'd').fromNow();
   var now = moment().format("ddd, hhmm");
-  var from =
-  console.log(JSON.stringify(dep) + " " + JSON.stringify(now) + " " + JSON.stringify(fromNow));
-  $scope.readableEDT = moment(edt).add(1, 'd').fromNow();
+  //console.log(JSON.stringify(dep) + " " + JSON.stringify(now) + " " + JSON.stringify(fromNow));
+  //$scope.readableEDT = moment(edt).add(1, 'd').fromNow();
+  $scope.readableEDT = moment(sdt).add(1, 'd').format("dddd, MMMM Do YYYY, h:mm:ss a");
   $scope.readableSDT = moment(sdt).add(1, 'd').format("dddd, MMMM Do YYYY, h:mm:ss a");
-
+*/
 });
