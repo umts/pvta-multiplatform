@@ -1,0 +1,25 @@
+-x
+objective-c
+-arch
+i386
+-std=c99
+-fobjc-arc
+-gmodules
+-fpascal-strings
+-O0
+-isysroot
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk
+-fasm-blocks
+-mios-simulator-version-min=6.0
+-g
+-fobjc-abi-version=2
+-fobjc-legacy-dispatch
+-iquote
+-iquote
+-I/Users/akaplowitz/Documents/Transit/apps/pvta-multiplatform/bus/server/conference/platforms/ios/build/emulator/include
+-F/Users/akaplowitz/Documents/Transit/apps/pvta-multiplatform/bus/server/conference/platforms/ios/build/emulator
+-DDEBUG
+i386-apple-darwin15.2.0
+"4.2.1 Compatible Apple LLVM 7.0.2 (clang-700.1.81)"
+SDK_PRODUCT_BUILD_VERSION=13C75
+13C75
