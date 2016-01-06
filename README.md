@@ -5,7 +5,8 @@
 The app is a hybrid that uses the Ionic framework. This enables us to write Javascript
 and have a fluid, beautiful app on all the smartphone platforms we could dream of!
 
-All data comes from REST-ful endpoints located on the PVTA's website.
+All data comes from REST-ful endpoints located on the PVTA's website.  There is currently 
+no distinction between production and development data.
 
 To begin developing, follow these steps:
 
