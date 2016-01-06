@@ -1,2 +1,0 @@
-/Users/akaplowitz/Documents/Transit/apps/pvta-multiplatform/bus/server/conference/platforms/android/build/intermediates/classes/debug
-/Users/akaplowitz/Documents/Transit/apps/pvta-multiplatform/bus/server/conference/platforms/android/build/intermediates/pre-dexed/debug/classes-5d941714c8d64c0547cdf9c636993964d1030c4c.jar
