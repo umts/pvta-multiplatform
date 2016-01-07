@@ -42,8 +42,7 @@ angular.module('starter.controllers', ['starter.services'])
 })
 
 .controller('SearchCtrl', function($scope, $http){
-  $scope.v = {};
-  $scope.a = {};
+  $scope.v = [];
   var all = [];
   $http.get('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').
   then(function successCallback(response){
