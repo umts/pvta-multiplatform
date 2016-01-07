@@ -41,6 +41,35 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
+.controller('SearchCtrl', function($scope, $http){
+  $scope.v = {};
+  $scope.a = {};
+  var all = [];
+  $http.get('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').
+  then(function successCallback(response){
+    $scope.v = response.data.sort(function(a, b){return a.Name - b.Name});
+    all.push(response.data.sort(function(a, b){return a.Name - b.Name}));
+  }, function errorCallback(response){
+    console.log('An error! D:');
+    console.log(response);
+  });
+  $http.get('http://bustracker.pvta.com/infopoint/rest/routes/getallroutes').
+  then(function successCallback(response){
+    $scope.r = response.data.sort(function(a, b){return a.ShortName - b.ShortName});
+    all.push(response.data.sort(function(a, b){return a.ShortName - b.ShortName}));
+  }, function errorCallback(response){
+    console.log('uh oh');
+  });
+  $http.get('http://bustracker.pvta.com/infopoint/rest/stops/getallstops').
+  then(function successCallback(response){
+    $scope.s = response.data.sort(function(a, b){return a.Name - b.Name});
+    all.push(response.data.sort(function(a, b){return a.Name - b.Name}));
+  }, function errorCallback(response){
+    console.log('uh oh');
+  });
+  $scope.a = all;
+})
+
 .controller('VehiclesCtrl', function($scope, $http, Vehicle){
   //$scope.sessions = Session.query();
   $scope.vehicles = {};
