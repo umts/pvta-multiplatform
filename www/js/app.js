@@ -49,22 +49,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angularMoment'])
         }
       }
     })
-    .state('app.sessions',{
-      url: "/sessions",
+    .state('app.vehicles',{
+      url: "/vehicles",
       views: {
         'menuContent': {
-           templateUrl: "templates/sessions.html",
-           controller: 'SessionsCtrl'
+           templateUrl: "templates/vehicles.html",
+           controller: 'VehiclesCtrl'
         }
       }
     })
 
-  .state('app.session', {
-    url: "/sessions/:sessionId",
+  .state('app.vehicle', {
+    url: "/vehicles/:vehicleId",
     views: {
         'menuContent': {
-          templateUrl: "templates/session.html",
-          controller: 'SessionCtrl'
+          templateUrl: "templates/vehicle.html",
+          controller: 'VehicleCtrl'
         }
     }
   })

@@ -41,21 +41,21 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
-.controller('SessionsCtrl', function($scope, $http, Session){
+.controller('VehiclesCtrl', function($scope, $http, Vehicle){
   //$scope.sessions = Session.query();
-  $scope.sessions = {};
+  $scope.vehicles = {};
   console.log('help!');
   $http.get('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').
   then(function successCallback(response){
-    $scope.sessions = response.data.sort(function(a, b){return a.Name - b.Name});
+    $scope.vehicles = response.data.sort(function(a, b){return a.Name - b.Name});
   }, function errorCallback(response){
     console.log('An error! D:');
     console.log(response);
   });
 })
 
-.controller('SessionCtrl', function($scope, $stateParams, Session){
-  $scope.session = Session.get({sessionId: $stateParams.sessionId});
+.controller('VehicleCtrl', function($scope, $stateParams, Vehicle){
+  $scope.vehicle = Vehicle.get({vehicleId: $stateParams.vehicleId});
 })
 
 .controller('RouteController', function($scope, $http){
