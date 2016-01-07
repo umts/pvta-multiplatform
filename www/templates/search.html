@@ -22,8 +22,6 @@
         <ion-item ng-repeat="x in (filteredVehicles = (v | orderBy:'order_prop' | filter:query | limitTo:1))" href="#app/vehicles/{{filteredVehicles[0].VehicleId}}">
           <p>{{filteredVehicles[0].Name}}</p>
         </ion-item>
-      
-
     </div>
   </div>
 </div> 
