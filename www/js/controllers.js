@@ -73,7 +73,7 @@ angular.module('starter.controllers', ['starter.services'])
   $scope.route = route;
 })
 
-.controller('StopDeparturesController', function($scope, $stateParams, $http, $resource, moment){
+.controller('StopDeparturesController', function($scope, $stateParams, $resource, $location, Stop, moment, LatLong){
   $scope.s = {};
   var s = $resource('http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/:stopId');
   var x = s.query({stopId: $stateParams.stopId});
@@ -83,36 +83,60 @@ angular.module('starter.controllers', ['starter.services'])
     $scope.edtString = moment(edt).fromNow();
     return {sdt: moment(sdt).fromNow(), edt: moment(edt).fromNow()}
   };
+  var stop = Stop.get({stopId: $stateParams.stopId});
+  $scope.q = stop;
+  $scope.setCoordinates = function(lat, long){
+    console.log("Called the setCoordinates function");
+    console.log(lat);
+    console.log(long);
+    LatLong.push(lat, long);
+    $location.path('/app/map')
+  }
 })
 
-.controller('MapCtrl', function($scope, $state, $cordovaGeolocation) {
+.controller('MapCtrl', function($scope, $state, $resource, $stateParams, $cordovaGeolocation, Route, Vehicle, LatLong) {
   var options = {timeout: 10000, enableHighAccuracy: true};
+  
+  var ll = LatLong.pop();
+  $scope.lats = ll;
+  console.log(ll.lat);
  
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
  
-    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
- 
+    var latLng = new google.maps.LatLng(ll.lat, ll.long);
+    var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+  
+    var bounds = new google.maps.LatLngBounds();
+    bounds.extend(latLng);
+    bounds.extend(myLocation);
+    
     var mapOptions = {
-      center: latLng,
+      center: bounds.getCenter(),
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
- 
+    
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
     
     //Wait until the map is loaded
     google.maps.event.addListenerOnce($scope.map, 'idle', function(){
-      var marker = new google.maps.Marker({
+      $scope.map.fitBounds(bounds);
+      var neededMarker = new google.maps.Marker({
       map: $scope.map,
       animation: google.maps.Animation.DROP,
       position: latLng
+      });
+      var myMarker = new google.maps.Marker({
+      map: $scope.map,
+      animation: google.maps.Animation.DROP,
+      position: myLocation
       });
       var infoWindow = new google.maps.InfoWindow({
         content: "Here I am!"
       });
 
-      google.maps.event.addListener(marker, 'click', function () {
-          infoWindow.open($scope.map, marker);
+      google.maps.event.addListener(myMarker, 'click', function () {
+          infoWindow.open($scope.map, myMarker);
       });
     });
 

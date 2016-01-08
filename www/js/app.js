@@ -100,7 +100,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
   })
   
   .state('app.map', {
-    url: "/",
+    url: "/map",
     views: {
         'menuContent': {
           templateUrl: "templates/map.html",
@@ -109,5 +109,5 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/');
+  $urlRouterProvider.otherwise('/app/stopDepartures/96');
 });

@@ -3,6 +3,8 @@
     <div class="list card">
       <div class="item">
         <h3>Stop {{s[0].StopId}}</h3>
+        <button class="button button-positive" ng-click="setCoordinates(q.Latitude, q.Longitude)" ng-href="/app/map">View this stop on a map</button>
+        {{q}}
       </div>
    <div class="item item-body">
      <h3>Next Departures at this stop</h3>

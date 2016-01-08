@@ -8,6 +8,11 @@ angular.module('starter.services', ['ngResource'])
     return $resource('http://bustracker.pvta.com/infopoint/rest/routedetails/get/:routeId');
 })
 
+.factory('Stop', function ($resource) {
+    return $resource('http://bustracker.pvta.com/infopoint/rest/stops/get/:stopId');
+})
+
+
 .factory('StopDeparture', function ($resource, $http) {
     var x = $resource('http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/:stopId');
   console.log(JSON.stringify(x));
@@ -22,4 +27,21 @@ angular.module('starter.services', ['ngResource'])
     console.log('uh oh');
   });
   return s;*/
+})
+
+.service('LatLong', function(){
+  var latlong = [];
+  return {
+    push: function(lat, long){
+      var p = {lat, long};
+      latlong.push(p);
+      console.log("LatLong push called" + JSON.stringify(latlong));
+    },
+    pop: function(){
+      var x = latlong.pop();
+      console.log("LatLong PULL called" + JSON.stringify(x));
+      return x;
+    }
+  };
 });
+
