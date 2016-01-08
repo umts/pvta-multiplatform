@@ -78,13 +78,13 @@ angular.module('starter.controllers', ['starter.services'])
   var s = $resource('http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/:stopId');
   var x = s.query({stopId: $stateParams.stopId});
   $scope.s = x;
+  var stop = Stop.get({stopId: $stateParams.stopId});
+  $scope.stopDetails = stop;
   $scope.init = function(sdt, edt){
     $scope.sdtString = moment(sdt).fromNow();
     $scope.edtString = moment(edt).fromNow();
     return {sdt: moment(sdt).fromNow(), edt: moment(edt).fromNow()}
   };
-  var stop = Stop.get({stopId: $stateParams.stopId});
-  $scope.q = stop;
   $scope.setCoordinates = function(lat, long){
     console.log("Called the setCoordinates function");
     console.log(lat);
@@ -122,21 +122,28 @@ angular.module('starter.controllers', ['starter.services'])
     google.maps.event.addListenerOnce($scope.map, 'idle', function(){
       $scope.map.fitBounds(bounds);
       var neededMarker = new google.maps.Marker({
-      map: $scope.map,
-      animation: google.maps.Animation.DROP,
-      position: latLng
+        map: $scope.map,
+        icon: 'http://www.google.com/mapfiles/kml/paddle/go.png',
+        animation: google.maps.Animation.DROP,
+        position: latLng
       });
       var myMarker = new google.maps.Marker({
-      map: $scope.map,
-      animation: google.maps.Animation.DROP,
-      position: myLocation
-      });
-      var infoWindow = new google.maps.InfoWindow({
-        content: "Here I am!"
-      });
-
+        map: $scope.map,
+        animation: google.maps.Animation.DROP,
+        position: myLocation,
+        title: "You're here!"
+        });
       google.maps.event.addListener(myMarker, 'click', function () {
+          var infoWindow = new google.maps.InfoWindow({
+            content: "You are here!"
+          });
           infoWindow.open($scope.map, myMarker);
+      });
+      google.maps.event.addListener(neededMarker, 'click', function () {
+          var infoWindow = new google.maps.InfoWindow({
+            content: "Here's what you're looking for!"
+          });
+          infoWindow.open($scope.map, neededMarker);
       });
     });
 
