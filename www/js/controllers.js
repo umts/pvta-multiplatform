@@ -41,6 +41,34 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
+.controller('SearchCtrl', function($scope, $http){
+  $scope.v = [];
+  var all = [];
+  $http.get('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').
+  then(function successCallback(response){
+    $scope.v = response.data.sort(function(a, b){return a.Name - b.Name});
+    all.push(response.data.sort(function(a, b){return a.Name - b.Name}));
+  }, function errorCallback(response){
+    console.log('An error! D:');
+    console.log(response);
+  });
+  $http.get('http://bustracker.pvta.com/infopoint/rest/routes/getallroutes').
+  then(function successCallback(response){
+    $scope.r = response.data.sort(function(a, b){return a.ShortName - b.ShortName});
+    all.push(response.data.sort(function(a, b){return a.ShortName - b.ShortName}));
+  }, function errorCallback(response){
+    console.log('uh oh');
+  });
+  $http.get('http://bustracker.pvta.com/infopoint/rest/stops/getallstops').
+  then(function successCallback(response){
+    $scope.s = response.data.sort(function(a, b){return a.Name - b.Name});
+    all.push(response.data.sort(function(a, b){return a.Name - b.Name}));
+  }, function errorCallback(response){
+    console.log('uh oh');
+  });
+  $scope.a = all;
+})
+
 .controller('VehiclesCtrl', function($scope, $http, Vehicle){
   //$scope.sessions = Session.query();
   $scope.vehicles = {};
@@ -96,28 +124,28 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('MapCtrl', function($scope, $state, $resource, $stateParams, $cordovaGeolocation, Route, Vehicle, LatLong) {
   var options = {timeout: 10000, enableHighAccuracy: true};
-  
+
   var ll = LatLong.pop();
   $scope.lats = ll;
   console.log(ll.lat);
- 
+
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
- 
+
     var latLng = new google.maps.LatLng(ll.lat, ll.long);
     var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-  
+
     var bounds = new google.maps.LatLngBounds();
     bounds.extend(latLng);
     bounds.extend(myLocation);
-    
+
     var mapOptions = {
       center: bounds.getCenter(),
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    
+
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    
+
     //Wait until the map is loaded
     google.maps.event.addListenerOnce($scope.map, 'idle', function(){
       $scope.map.fitBounds(bounds);

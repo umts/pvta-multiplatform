@@ -187,7 +187,7 @@ exports.defineAutoTests = function () {
 
                         expect(p.coords).toBeDefined();
                         expect(p.timestamp).toBeDefined();
-                        // callback could be called sync so we invoke done async to make sure we know watcher id to .clear in afterEach 
+                        // callback could be called sync so we invoke done async to make sure we know watcher id to .clear in afterEach
                         setTimeout(function () {
                             done();
                         });
@@ -385,7 +385,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
             'Expected result: Will update location values with a cached position that is up to 30 seconds old. Verify with time value. Status will read Done.',
         values_info =
             '<h3>Details about each value are listed below in the status box</h3>',
-        note = 
+        note =
             '<h3>Allow use of current location, if prompted</h3>';
 
     contentEl.innerHTML = values_info + location_div + latitude + longitude + altitude + accuracy + heading + speed

@@ -30,11 +30,11 @@ function createErrorCode() {
         case Windows.Devices.Geolocation.PositionStatus.initializing:
             // This status indicates that a location device is still initializing
         case Windows.Devices.Geolocation.PositionStatus.noData:
-            // No location data is currently available 
+            // No location data is currently available
         case Windows.Devices.Geolocation.PositionStatus.notInitialized:
             // This status indicates that the app has not yet requested
-            // location data by calling GetGeolocationAsync() or 
-            // registering an event handler for the positionChanged event. 
+            // location data by calling GetGeolocationAsync() or
+            // registering an event handler for the positionChanged event.
         case Windows.Devices.Geolocation.PositionStatus.notAvailable:
             // Location is not available on this version of Windows
             return PositionError.POSITION_UNAVAILABLE;
@@ -56,7 +56,7 @@ function createResult(pos) {
         altitudeAccuracy: pos.coordinate.altitudeAccuracy,
         timestamp: pos.coordinate.timestamp
     }
-    
+
     if (pos.coordinate.point) {
         res.latitude = pos.coordinate.point.position.latitude;
         res.longitude = pos.coordinate.point.position.longitude;
@@ -66,7 +66,7 @@ function createResult(pos) {
         res.longitude = pos.coordinate.longitude;
         res.altitude = pos.coordinate.altitude;
     }
-    
+
     return res;
 }
 

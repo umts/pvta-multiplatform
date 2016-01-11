@@ -1,5 +1,30 @@
 <ion-view view-title="Search">
   <ion-content>
     <h1>Search</h1>
+    
+   <div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <!--Sidebar content-->
+
+      Search: <input ng-model="query">
+
+    </div>
+    <div class="col-md-10">
+      <!--Body content-->
+
+        <ion-item ng-repeat="x in (filteredRoutes = (r | orderBy:'order_prop' | filter:query | limitTo:1))" href="#app/routes/{{filteredRoutes[0].RouteId}}">
+          <p>{{filteredRoutes[0].ShortName}}</p>
+        </ion-item>
+        <ion-item ng-repeat="x in (filteredStops = (s | orderBy:'order_prop' | filter:query | limitTo:1))" href="#app/stopDepartures/{{filteredStops[0].StopId}}">
+          <p>{{filteredStops[0].Name}}</p>
+        </ion-item>
+        <ion-item ng-repeat="x in (filteredVehicles = (v | orderBy:'order_prop' | filter:query | limitTo:1))" href="#app/vehicles/{{filteredVehicles[0].VehicleId}}">
+          <p>{{filteredVehicles[0].Name}}</p>
+        </ion-item>
+    </div>
+  </div>
+</div> 
+    
   </ion-content>
 </ion-view>

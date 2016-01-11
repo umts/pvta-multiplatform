@@ -1483,7 +1483,7 @@ ngCordovaMocks.factory('$cordovaFileTransfer', ['$q', function ($q) {
         },
 
         upload: function (server, filePath, options) {
-            return mockIt.call(this, 'There was an error uploading the file.'); 
+            return mockIt.call(this, 'There was an error uploading the file.');
         }
     };
 }]);
@@ -2307,7 +2307,7 @@ ngCordovaMocks.factory('$cordovaKeychain', ['$q', function ($q) {
 ngCordovaMocks.factory('$cordovaLocalNotification', ['$q', function ($q) {
 
   var storageKeyPfx  = "ngCordLocNotif-";
-  
+
   function pfxId(id) {
     return storageKeyPfx + id;
   }
@@ -2330,7 +2330,7 @@ ngCordovaMocks.factory('$cordovaLocalNotification', ['$q', function ($q) {
       if (typeof(ids) == "number") ids = [ids];
       ids.forEach(function (id){
         localStorage.removeItem([pfxId(id)]);
-      });      
+      });
       defer.resolve();
       return defer.promise;
     },
@@ -2345,7 +2345,7 @@ ngCordovaMocks.factory('$cordovaLocalNotification', ['$q', function ($q) {
       var defer = $q.defer();
       ids.forEach(function (id){
         localStorage.removeItem([pfxId(id)]);
-      });      
+      });
       defer.resolve();
       return defer.promise;
     },
