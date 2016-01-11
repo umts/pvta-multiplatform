@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "moment": "~2.10.6",
-    "angular-moment": "~0.10.3"
+    "angular-moment": "~0.10.3",
+    "ngCordova": "~0.1.23-alpha"
   }
 }
