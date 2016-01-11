@@ -9,7 +9,7 @@
      <p>PVTA {{route.ShortName}}</p>
      <h3>Buses on this route</h3>
      <ion-list>
-      <ion-item ng-repeat="vehicle in route.Vehicles" href="#/app/sessions/{{vehicle.VehicleId}}">
+      <ion-item ng-repeat="vehicle in route.Vehicles" href="#/app/vehicles/{{vehicle.VehicleId}}">
         <h4>Bus {{vehicle.Name}}</h4>
         <p>Last Stop: {{vehicle.LastStop}}</p>
         <p>Headed: {{vehicle.Direction}} toward {{vehicle.Destination}}</p>
