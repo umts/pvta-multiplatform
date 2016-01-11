@@ -44,10 +44,11 @@ angular.module('starter.controllers', ['starter.services'])
 .controller('SearchCtrl', function($scope, $http){
   $scope.v = [];
   var all = [];
+  $scope.all = [];
   $http.get('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').
   then(function successCallback(response){
     $scope.v = response.data.sort(function(a, b){return a.Name - b.Name});
-    all.push(response.data.sort(function(a, b){return a.Name - b.Name}));
+    $scope.all.push(response.data.sort(function(a, b){return a.Name - b.Name}));
   }, function errorCallback(response){
     console.log('An error! D:');
     console.log(response);
@@ -55,14 +56,14 @@ angular.module('starter.controllers', ['starter.services'])
   $http.get('http://bustracker.pvta.com/infopoint/rest/routes/getallroutes').
   then(function successCallback(response){
     $scope.r = response.data.sort(function(a, b){return a.ShortName - b.ShortName});
-    all.push(response.data.sort(function(a, b){return a.ShortName - b.ShortName}));
+    $scope.all.concat(response.data.sort(function(a, b){return a.ShortName - b.ShortName}));
   }, function errorCallback(response){
     console.log('uh oh');
   });
   $http.get('http://bustracker.pvta.com/infopoint/rest/stops/getallstops').
   then(function successCallback(response){
     $scope.s = response.data.sort(function(a, b){return a.Name - b.Name});
-    all.push(response.data.sort(function(a, b){return a.Name - b.Name}));
+    $scope.all.concat(response.data.sort(function(a, b){return a.Name - b.Name}));
   }, function errorCallback(response){
     console.log('uh oh');
   });
