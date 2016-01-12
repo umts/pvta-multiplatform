@@ -110,5 +110,5 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/stopDepartures/96');
+  $urlRouterProvider.otherwise('/app/search');
 });
