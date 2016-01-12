@@ -41,7 +41,7 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
-.controller('SearchCtrl', function($scope, $http, $ionicFilterBar){
+.controller('SearchCtrl', function($scope, $http, $ionicFilterBar, $location, $interpolate, $state){
   var filterBarInstance;
   function getItems () {
       var items = [];
@@ -58,7 +58,10 @@ angular.module('starter.controllers', ['starter.services'])
         $scope.r = response.data;
         for(var i = 0; i < r.length; i++){
          //if(r[i].ShortName !== null)
-          $scope.all.push(r[i].ShortName + ": " + r[i].LongName);
+          $scope.all.push({name: r[i].ShortName + ": " + r[i].LongName,
+                          type: 'route',
+                          id: r[i].RouteId
+                          });
         }
         //$scope.all.push(response.data);
       }, function errorCallback(response){
@@ -71,7 +74,10 @@ angular.module('starter.controllers', ['starter.services'])
         //$scope.all.push(response.data);
         for(var i = 0; i < s.length; i++){
          // if(s[i].Name !== null)
-          $scope.all.push(s[i].Name);
+          $scope.all.push({name: s[i].Name,
+                          type: 'stopDeparture',
+                          id: s[i].StopId
+                          });
         }
       }, function errorCallback(response){
         console.log('uh oh');

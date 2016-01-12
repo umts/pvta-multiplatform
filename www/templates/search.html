@@ -11,8 +11,8 @@
     </ion-refresher>
     
     <ion-list>
-      <ion-item collection-repeat="item in items" >
-        <p>{{item}}</p>
+      <ion-item collection-repeat="item in items" href="#app/{{item.type}}s/{{item.id}}">
+        <p>{{item.name}}</p>
       </ion-item>
     </ion-list>
 
