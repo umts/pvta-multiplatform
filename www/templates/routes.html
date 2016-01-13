@@ -2,7 +2,9 @@
   <ion-content>
     <ion-list>
       <ion-item ng-repeat="route in routes" href="#/app/routes/{{route.RouteId}}">
+        <i class="icon ion-android-bus"></i>
         {{route.ShortName}}
+        <p>{{route.LongName}}</p>
       </ion-item>
     </ion-list>
   </ion-content>
