@@ -123,8 +123,15 @@ angular.module('starter.controllers', ['starter.services'])
   });
 })
 
-.controller('VehicleCtrl', function($scope, $stateParams, Vehicle){
+.controller('VehicleCtrl', function($scope, $stateParams, Vehicle, LatLong, $location){
   $scope.vehicle = Vehicle.get({vehicleId: $stateParams.vehicleId});
+  $scope.setCoordinates = function(lat, long){
+    console.log("Called the setCoordinates function");
+    console.log(lat);
+    console.log(long);
+    LatLong.push(lat, long);
+    $location.path('/app/map')
+  }
 })
 
 .controller('RouteController', function($scope, $http){
