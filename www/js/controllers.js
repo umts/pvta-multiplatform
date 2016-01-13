@@ -136,7 +136,7 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('RouteController', function($scope, $http){
   $scope.routes = [{Name: "B43"},{Name: "R14"}];
-  $http.get('http://bustracker.pvta.com/infopoint/rest/routes/getallroutes').
+  $http.get('http://bustracker.pvta.com/infopoint/rest/routes/getvisibleroutes').
   then(function successCallback(response){
     $scope.routes = response.data.sort(function(a, b){return a.ShortName - b.ShortName});;
   }, function errorCallback(response){
