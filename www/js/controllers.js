@@ -31,8 +31,6 @@ angular.module('starter.controllers', ['starter.services'])
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
     $timeout(function() {
@@ -65,7 +63,6 @@ angular.module('starter.controllers', ['starter.services'])
         }
         //$scope.all.push(response.data);
       }, function errorCallback(response){
-        console.log('uh oh');
       });
       $http.get('http://bustracker.pvta.com/infopoint/rest/stops/getallstops').
       then(function successCallback(response){
@@ -80,7 +77,6 @@ angular.module('starter.controllers', ['starter.services'])
                           });
         }
       }, function errorCallback(response){
-        console.log('uh oh');
       });
       $scope.items = $scope.all;
     }
@@ -91,9 +87,6 @@ angular.module('starter.controllers', ['starter.services'])
         items: $scope.items,
         update: function (filteredItems, filterText) {
           $scope.items = filteredItems;
-          if (filterText) {
-            console.log(filterText);
-          }
         }
       });
     };
@@ -113,7 +106,6 @@ angular.module('starter.controllers', ['starter.services'])
 .controller('VehiclesCtrl', function($scope, $http, Vehicle){
   //$scope.sessions = Session.query();
   $scope.vehicles = {};
-  console.log('help!');
   $http.get('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').
   then(function successCallback(response){
     $scope.vehicles = response.data.sort(function(a, b){return a.Name - b.Name});
@@ -126,9 +118,6 @@ angular.module('starter.controllers', ['starter.services'])
 .controller('VehicleCtrl', function($scope, $stateParams, Vehicle, LatLong, $location){
   $scope.vehicle = Vehicle.get({vehicleId: $stateParams.vehicleId});
   $scope.setCoordinates = function(lat, long){
-    console.log("Called the setCoordinates function");
-    console.log(lat);
-    console.log(long);
     LatLong.push(lat, long);
     $location.path('/app/map')
   }
@@ -145,10 +134,24 @@ angular.module('starter.controllers', ['starter.services'])
 })
 
 .controller('RouteCtrl', function($scope, $stateParams, Route){
-  var route = Route.get({routeId: $stateParams.routeId});
+  var size = 0
+  var route = Route.get({routeId: $stateParams.routeId}, function() {
+    route.$save();
+    groups(route.Stops.length);
+  });
   $scope.route = route;
   $scope.groups = [];
   $scope.groups.push(route);
+    $scope.groups[0] = {
+    //  name: 'stops',
+      items: []
+    };
+  var j = $scope.size
+  var groups = function(length){
+    for (var j=0; j < length; j++) {
+      $scope.groups[0].items.push(route.Stops[j]);
+    }
+  };
   $scope.toggleGroup = function(group) {
     if ($scope.isGroupShown(group)) {
       $scope.shownGroup = null;
@@ -174,9 +177,6 @@ angular.module('starter.controllers', ['starter.services'])
     return {sdt: moment(sdt).fromNow(), edt: moment(edt).fromNow()}
   };
   $scope.setCoordinates = function(lat, long){
-    console.log("Called the setCoordinates function");
-    console.log(lat);
-    console.log(long);
     LatLong.push(lat, long);
     $location.path('/app/map')
   }
@@ -187,7 +187,6 @@ angular.module('starter.controllers', ['starter.services'])
 
   var ll = LatLong.pop();
   $scope.lats = ll;
-  console.log(ll.lat);
 
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
 
