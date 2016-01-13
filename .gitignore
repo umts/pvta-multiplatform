@@ -1,2 +1,3 @@
 platforms/android/*
 platforms/ios/*
+bower_components
