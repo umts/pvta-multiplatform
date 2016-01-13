@@ -41,32 +41,73 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
-.controller('SearchCtrl', function($scope, $http){
-  $scope.v = [];
-  var all = [];
-  $http.get('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').
-  then(function successCallback(response){
-    $scope.v = response.data.sort(function(a, b){return a.Name - b.Name});
-    all.push(response.data.sort(function(a, b){return a.Name - b.Name}));
-  }, function errorCallback(response){
-    console.log('An error! D:');
-    console.log(response);
-  });
-  $http.get('http://bustracker.pvta.com/infopoint/rest/routes/getallroutes').
-  then(function successCallback(response){
-    $scope.r = response.data.sort(function(a, b){return a.ShortName - b.ShortName});
-    all.push(response.data.sort(function(a, b){return a.ShortName - b.ShortName}));
-  }, function errorCallback(response){
-    console.log('uh oh');
-  });
-  $http.get('http://bustracker.pvta.com/infopoint/rest/stops/getallstops').
-  then(function successCallback(response){
-    $scope.s = response.data.sort(function(a, b){return a.Name - b.Name});
-    all.push(response.data.sort(function(a, b){return a.Name - b.Name}));
-  }, function errorCallback(response){
-    console.log('uh oh');
-  });
-  $scope.a = all;
+.controller('SearchCtrl', function($scope, $http, $ionicFilterBar, $location, $interpolate, $state){
+  var filterBarInstance;
+  function getItems () {
+      var items = [];
+      for (var x = 1; x < 2000; x++) {
+        items.push({text: 'This is item number ' + x + ' which is an ' + (x % 2 === 0 ? 'EVEN' : 'ODD') + ' number.'});
+      }
+      $scope.items = items;
+      $scope.v = [];
+      var all = [];
+      $scope.all = [];
+      $http.get('http://bustracker.pvta.com/infopoint/rest/routes/getallroutes').
+      then(function successCallback(response){
+        r = response.data
+        $scope.r = response.data;
+        for(var i = 0; i < r.length; i++){
+         //if(r[i].ShortName !== null)
+          $scope.all.push({name: r[i].ShortName + ": " + r[i].LongName,
+                          type: 'route',
+                          id: r[i].RouteId
+                          });
+        }
+        //$scope.all.push(response.data);
+      }, function errorCallback(response){
+        console.log('uh oh');
+      });
+      $http.get('http://bustracker.pvta.com/infopoint/rest/stops/getallstops').
+      then(function successCallback(response){
+        s = response.data
+        $scope.s = response.data;
+        //$scope.all.push(response.data);
+        for(var i = 0; i < s.length; i++){
+         // if(s[i].Name !== null)
+          $scope.all.push({name: s[i].Name,
+                          type: 'stopDeparture',
+                          id: s[i].StopId
+                          });
+        }
+      }, function errorCallback(response){
+        console.log('uh oh');
+      });
+      $scope.items = $scope.all;
+    }
+
+    getItems();
+  $scope.showFilterBar = function () {
+      filterBarInstance = $ionicFilterBar.show({
+        items: $scope.items,
+        update: function (filteredItems, filterText) {
+          $scope.items = filteredItems;
+          if (filterText) {
+            console.log(filterText);
+          }
+        }
+      });
+    };
+  $scope.refreshItems = function () {
+      if (filterBarInstance) {
+        filterBarInstance();
+        filterBarInstance = null;
+      }
+
+      $timeout(function () {
+        getItems();
+        $scope.$broadcast('scroll.refreshComplete');
+      }, 1000);
+    };
 })
 
 .controller('VehiclesCtrl', function($scope, $http, Vehicle){

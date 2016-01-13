@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angularMoment'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angularMoment', 'jett.ionic.filter.bar'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -22,7 +22,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicFilterBarConfigProvider) {
   $stateProvider
 
     .state('app', {
@@ -110,5 +110,5 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/stopDepartures/96');
+  $urlRouterProvider.otherwise('/app/search');
 });

@@ -66,5 +66,6 @@
     <splash src="resources/ios/splash/Default-Portrait~ipad.png" height="1024" width="768"/>
     <splash src="resources/ios/splash/Default@2x~iphone.png" height="960" width="640"/>
     <splash src="resources/ios/splash/Default~iphone.png" height="480" width="320"/>
+    <preference name="KeyboardDisplayRequiresUserAction" value="false"/>
   </platform>
 </widget>
