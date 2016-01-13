@@ -147,6 +147,18 @@ angular.module('starter.controllers', ['starter.services'])
 .controller('RouteCtrl', function($scope, $stateParams, Route){
   var route = Route.get({routeId: $stateParams.routeId});
   $scope.route = route;
+  $scope.groups = [];
+  $scope.groups.push(route);
+  $scope.toggleGroup = function(group) {
+    if ($scope.isGroupShown(group)) {
+      $scope.shownGroup = null;
+    } else {
+      $scope.shownGroup = group;
+    }
+  };
+  $scope.isGroupShown = function(group) {
+    return $scope.shownGroup === group;
+  };
 })
 
 .controller('StopDeparturesController', function($scope, $stateParams, $resource, $location, Stop, moment, LatLong){
