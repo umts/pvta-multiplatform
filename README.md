@@ -1,6 +1,6 @@
 # pvta-multiplatform 
 
-### Welcome to the repository for the PVTA's official app (name TBD)!
+### Welcome to the repository for UMass Transit's PVTA realtime app (name TBD)!
 
 The app is a hybrid that uses the Ionic framework. This enables us to write Javascript
 and have a fluid, beautiful app on all the smartphone platforms we could dream of!
