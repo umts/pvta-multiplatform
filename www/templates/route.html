@@ -2,17 +2,16 @@
   <ion-content>
     <div class="list card">
       <div class="item">
-        <h3>Route {{route.ShortName}}: {{route.LongName}}</h3>
+        <h3 style="color: #{{route.Color}}">Route {{route.ShortName}}: {{route.LongName}}</h3>
       </div>
+
    <div class="item item-body">
-     <p>RouteDetails:</p>
-     <p>PVTA {{route.ShortName}}</p>
      <h3>Buses on this route</h3>
      <ion-list>
       <ion-item ng-repeat="vehicle in route.Vehicles" href="#/app/vehicles/{{vehicle.VehicleId}}">
         <h4>Bus {{vehicle.Name}}</h4>
-        <p>Last Stop: {{vehicle.LastStop}}</p>
-        <p>Headed: {{vehicle.Direction}} toward {{vehicle.Destination}}</p>
+        <p>Last Stop: <b>{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</b></p>
+        <p>Headed <b>{{vehicle.Direction? vehicle.Direction : "in an ungiven direction"}}</b> toward <b>{{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b></p>
       </ion-item>
      </ion-list>
      

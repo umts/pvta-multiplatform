@@ -3,7 +3,7 @@
     <ion-list>
       <ion-item ng-repeat="route in routes" href="#/app/routes/{{route.RouteId}}">
         <i class="icon ion-android-bus"></i>
-        {{route.ShortName}}
+        <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.ShortName}}</span>
         <p>{{route.LongName}}</p>
       </ion-item>
     </ion-list>
