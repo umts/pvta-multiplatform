@@ -39,54 +39,35 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
-.controller('SearchCtrl', function($scope, $http, $ionicFilterBar, $location, $interpolate, $state){
+.controller('SearchCtrl', function($scope, $http, $ionicFilterBar, $location, $interpolate, $state, $resource){
   var filterBarInstance;
   function getItems () {
-      var items = [];
-      for (var x = 1; x < 2000; x++) {
-        items.push({text: 'This is item number ' + x + ' which is an ' + (x % 2 === 0 ? 'EVEN' : 'ODD') + ' number.'});
+    $scope.all = [];
+    var routes = $resource('http://bustracker.pvta.com/infopoint/rest/routes/getallroutes').query({}, function(){
+      for(var i = 0; i < routes.length; i++){
+       //if(r[i].ShortName !== null)
+        $scope.all.push({name: routes[i].ShortName + ": " + routes[i].LongName,
+                        type: 'route',
+                        id: routes[i].RouteId
+                        });
       }
-      $scope.items = items;
-      $scope.v = [];
-      var all = [];
-      $scope.all = [];
-      $http.get('http://bustracker.pvta.com/infopoint/rest/routes/getallroutes').
-      then(function successCallback(response){
-        r = response.data
-        $scope.r = response.data;
-        for(var i = 0; i < r.length; i++){
-         //if(r[i].ShortName !== null)
-          $scope.all.push({name: r[i].ShortName + ": " + r[i].LongName,
-                          type: 'route',
-                          id: r[i].RouteId
-                          });
-        }
-        //$scope.all.push(response.data);
-      }, function errorCallback(response){
-      });
-      $http.get('http://bustracker.pvta.com/infopoint/rest/stops/getallstops').
-      then(function successCallback(response){
-        s = response.data
-        $scope.s = response.data;
-        //$scope.all.push(response.data);
-        for(var i = 0; i < s.length; i++){
-         // if(s[i].Name !== null)
-          $scope.all.push({name: s[i].Name,
-                          type: 'stopDeparture',
-                          id: s[i].StopId
-                          });
-        }
-      }, function errorCallback(response){
-      });
-      $scope.items = $scope.all;
+    });
+    var stops = $resource('http://bustracker.pvta.com/infopoint/rest/stops/getallstops').query({}, function(){
+      for(var i = 0; i < stops.length; i++){
+       //if(r[i].ShortName !== null)
+        $scope.all.push({name: stops[i].ShortName + ": " + stops[i].LongName,
+                        type: 'stopDeparture',
+                        id: stops[i].RouteId
+                        });
+      }
+    });
     }
-
-    getItems();
+  getItems();
   $scope.showFilterBar = function () {
       filterBarInstance = $ionicFilterBar.show({
-        items: $scope.items,
+        items: $scope.all,
         update: function (filteredItems, filterText) {
-          $scope.items = filteredItems;
+          $scope.all = filteredItems;
         }
       });
     };
