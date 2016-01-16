@@ -13,7 +13,7 @@ angular.module('starter.services', ['ngResource'])
 })
 
 
-.factory('StopDeparture', function ($resource, $http) {
+.factory('StopDeparture', function ($resource) {
     var x = $resource('http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/:stopId');
   console.log(JSON.stringify(x));
     return x;
