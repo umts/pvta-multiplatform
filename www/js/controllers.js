@@ -39,13 +39,12 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
-.controller('SearchCtrl', function($scope, $http, $ionicFilterBar, $location, $interpolate, $state, $resource){
+.controller('SearchCtrl', function($scope, $ionicFilterBar, $location, $interpolate, $state, $resource){
   var filterBarInstance;
   function getItems () {
     $scope.all = [];
     var routes = $resource('http://bustracker.pvta.com/infopoint/rest/routes/getallroutes').query({}, function(){
       for(var i = 0; i < routes.length; i++){
-       //if(r[i].ShortName !== null)
         $scope.all.push({name: routes[i].ShortName + ": " + routes[i].LongName,
                         type: 'route',
                         id: routes[i].RouteId
@@ -54,7 +53,6 @@ angular.module('starter.controllers', ['starter.services'])
     });
     var stops = $resource('http://bustracker.pvta.com/infopoint/rest/stops/getallstops').query({}, function(){
       for(var i = 0; i < stops.length; i++){
-       //if(r[i].ShortName !== null)
         $scope.all.push({name: stops[i].ShortName + ": " + stops[i].LongName,
                         type: 'stopDeparture',
                         id: stops[i].RouteId
@@ -84,9 +82,7 @@ angular.module('starter.controllers', ['starter.services'])
     };
 })
 
-.controller('VehiclesCtrl', function($scope, $http, $resource, Vehicle){
-  //$scope.sessions = Session.query();
-  $scope.vehicles = {};
+.controller('VehiclesCtrl', function($scope, $resource, Vehicle){
   $scope.vehicles = $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').query(function(){
     $scope.vehicles.sort(function(a, b){return a.Name - b.Name});
   });
@@ -100,8 +96,7 @@ angular.module('starter.controllers', ['starter.services'])
   }
 })
 
-.controller('RouteController', function($scope, $http, $resource){
-  $scope.routes = [{Name: "B43"},{Name: "R14"}];
+.controller('RouteController', function($scope, $resource){
   $scope.routes = $resource('http://bustracker.pvta.com/infopoint/rest/routes/getvisibleroutes').query(function(){
     $scope.routes.sort(function(a, b){return a.ShortName - b.ShortName})
   });
