@@ -84,15 +84,11 @@ angular.module('starter.controllers', ['starter.services'])
     };
 })
 
-.controller('VehiclesCtrl', function($scope, $http, Vehicle){
+.controller('VehiclesCtrl', function($scope, $http, $resource, Vehicle){
   //$scope.sessions = Session.query();
   $scope.vehicles = {};
-  $http.get('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').
-  then(function successCallback(response){
-    $scope.vehicles = response.data.sort(function(a, b){return a.Name - b.Name});
-  }, function errorCallback(response){
-    console.log('An error! D:');
-    console.log(response);
+  $scope.vehicles = $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').query(function(){
+    $scope.vehicles.sort(function(a, b){return a.Name - b.Name});
   });
 })
 
@@ -104,13 +100,10 @@ angular.module('starter.controllers', ['starter.services'])
   }
 })
 
-.controller('RouteController', function($scope, $http){
+.controller('RouteController', function($scope, $http, $resource){
   $scope.routes = [{Name: "B43"},{Name: "R14"}];
-  $http.get('http://bustracker.pvta.com/infopoint/rest/routes/getvisibleroutes').
-  then(function successCallback(response){
-    $scope.routes = response.data.sort(function(a, b){return a.ShortName - b.ShortName});;
-  }, function errorCallback(response){
-    console.log('uh oh');
+  $scope.routes = $resource('http://bustracker.pvta.com/infopoint/rest/routes/getvisibleroutes').query(function(){
+    $scope.routes.sort(function(a, b){return a.ShortName - b.ShortName})
   });
 })
 
