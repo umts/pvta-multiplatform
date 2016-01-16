@@ -53,9 +53,9 @@ angular.module('starter.controllers', ['starter.services'])
     });
     var stops = $resource('http://bustracker.pvta.com/infopoint/rest/stops/getallstops').query({}, function(){
       for(var i = 0; i < stops.length; i++){
-        $scope.all.push({name: stops[i].ShortName + ": " + stops[i].LongName,
+        $scope.all.push({name: stops[i].Name,
                         type: 'stopDeparture',
-                        id: stops[i].RouteId
+                        id: stops[i].StopId
                         });
       }
     });
