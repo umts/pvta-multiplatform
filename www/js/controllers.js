@@ -134,44 +134,44 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
-.controller('StopDeparturesController', function($scope, $stateParams, $resource, $location, Stop, StopDeparture, moment, LatLong, getDepartureInfo){
-  
-  $scope.s = StopDeparture.query({stopId: $stateParams.stopId}, function(){
-   // $scope.s = $scope.s || {RouteDirections: []};
-    var directions = $scope.s[0].RouteDirections;
-    $scope.z = [];
-    var refresh = function(){
-      for(var i = 0; i < directions.length; i++){
-        if (directions[i].IsDone) {
-          directions.splice(i, 1);
-          $scope.s = directions;
-        }
-        else if(directions[i].Departures.length !== 0 && !directions[i].IsDone){
-          var departureNum = 0;
-       //   console.log(directions[i].RouteId);
-          //var times = $scope.init(directions[i].Departures[departureNum].SDT, directions[i].Departures[departureNum].EDT);
-          var sdt = directions[i].Departures[departureNum].SDT;
-          var edt = directions[i].Departures[departureNum].EDT;
-          var times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
-          while(times.e.includes('ago')){
-            departureNum++;
-            sdt = directions[i].Departures[departureNum].SDT;
-            edt = directions[i].Departures[departureNum].EDT;
-            times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
+.controller('StopDeparturesController', function($scope, $stateParams, $resource, $location, $interval, $rootScope, Stop, StopDeparture, moment, LatLong, getDepartureInfo){
+  var originalGoBack = $rootScope.$ionicGoBack;
+  $rootScope.$ionicGoBack = function() {
+    $interval.cancel(timer);
+    originalGoBack();
+  };
+  var timer=$interval(function(){
+        getDepartures();
+      },3000);
+  var getDepartures = function(){
+    var deps = StopDeparture.query({stopId: $stateParams.stopId}, function(){
+      var directions = deps[0].RouteDirections;
+      $scope.departures = [];
+        console.log("refreshed!");
+        for(var i = 0; i < directions.length; i++){
+          if(directions[i].Departures.length !== 0 && !directions[i].IsDone){
+            var departureNum = 0;
+            var sdt = directions[i].Departures[departureNum].SDT;
+            var edt = directions[i].Departures[departureNum].EDT;
+            var times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
+            while(times.e.includes('ago')){
+              departureNum++;
+              sdt = directions[i].Departures[departureNum].SDT;
+              edt = directions[i].Departures[departureNum].EDT;
+              times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
+            }
+            directions[i].StringifiedTimes = times;
+            var r = {route: directions[i].RouteId, trip: directions[i].Departures[departureNum].Trip, departures: times};
+            $scope.departures.push(r);
           }
-          directions[i].StringifiedTimes = times;
-          var r = {route: directions[i].RouteId, trip: directions[i].Departures[departureNum].Trip, departures: times};
-        //  console.log(JSON.stringify(r));
-          $scope.z.push(r);
         }
-      }
-    } // end refresh
-    refresh();
-  });
+    });
+  } // end getDepartures
   $scope.stop = Stop.get({stopId: $stateParams.stopId});
 
   $scope.setCoordinates = function(lat, long){
     LatLong.push(lat, long);
+    $interval.cancel(timer);
     $location.path('/app/map')
   }
 })
