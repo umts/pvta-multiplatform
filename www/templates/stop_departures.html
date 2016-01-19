@@ -3,17 +3,16 @@
     <div class="list card">
       <div class="item">
         <h3>Stop {{stop.StopId}}: {{stop.Name}}</h3>
-        <button class="button button-positive" ng-click="setCoordinates(stopDetails.Latitude,
-                  stopDetails.Longitude)" ng-href="/app/map">View this stop on a map</button>
+        <button class="button button-positive" ng-click="setCoordinates(stop.Latitude,
+                  stop.Longitude)" ng-href="/app/map">View this stop on a map</button>
       </div>
    <div class="item item-body">
      <h3>Next Departures at this stop</h3>
      <ion-list>
-      <ion-item ng-repeat="routeDirection in s">
-        <h2>{{routeDirection.Departures[0].Trip.InternetServiceDesc}}</h2>
-        <h1>Scheduled {{routeDirection.StringifiedTimes.edt}}</h1>
-        <h1>Estimated {{routeDirection.StringifiedTimes.sdt}}</h1>
-        <p>Unit: {{routeDirection.Departures[0].Trip.RunId}}</p>
+      <ion-item ng-repeat="route in z">
+        <h2>{{route.trip.InternetServiceDesc}}</h2>
+        <h2>Scheduled in {{route.departures.s}}</h2>
+        <h2>Estimated in {{route.departures.e}}</h2>
       </ion-item>
      </ion-list>
       </div>

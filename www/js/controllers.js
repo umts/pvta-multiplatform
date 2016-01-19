@@ -137,35 +137,37 @@ angular.module('starter.controllers', ['starter.services'])
 .controller('StopDeparturesController', function($scope, $stateParams, $resource, $location, Stop, StopDeparture, moment, LatLong, getDepartureInfo){
   
   $scope.s = StopDeparture.query({stopId: $stateParams.stopId}, function(){
-    $scope.s = $scope.s || {RouteDirections: []};
+   // $scope.s = $scope.s || {RouteDirections: []};
     var directions = $scope.s[0].RouteDirections;
+    $scope.z = [];
     for(var i = 0; i < directions.length; i++){
       if (directions[i].IsDone) {
         directions.splice(i, 1);
-    //    $scope.s = directions;
+        $scope.s = directions;
       }
-      else{
+      else if(directions[i].Departures.length !== 0 && !directions[i].IsDone){
         var departureNum = 0;
-        var times = $scope.init(directions[i].Departures[departureNum].SDT, directions[i].Departures[departureNum].EDT);
-        while(times == 0){
-          $scope.init(directions[i].Departures[++departureNum].SDT, directions[i].Departures[++departureNum].EDT);
+        console.log(directions[i].RouteId);
+        //var times = $scope.init(directions[i].Departures[departureNum].SDT, directions[i].Departures[departureNum].EDT);
+        var sdt = directions[i].Departures[departureNum].SDT;
+        var edt = directions[i].Departures[departureNum].EDT;
+        var times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
+        if(times.e.includes('ago')) console.log('true');
+        while(times.e.includes('ago')){
+          departureNum++;
+          sdt = directions[i].Departures[departureNum].SDT;
+          edt = directions[i].Departures[departureNum].EDT;
+          times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
         }
         directions[i].StringifiedTimes = times;
-        //$scope.s = directions;
+        var r = {route: directions[i].RouteId, trip: directions[i].Departures[departureNum].Trip, departures: times};
+        console.log(JSON.stringify(r));
+        $scope.z.push(r);
       }
-      $scope.s = directions.sort(function(a, b){a.StringifiedTimes - b.StringifiedTimes});
     }
   });
   $scope.stop = Stop.get({stopId: $stateParams.stopId});
-  $scope.init = function(sdt, edt){
-    $scope.sdtString = moment(sdt).fromNow();
-    $scope.edtString = moment(edt).fromNow();
-    if($scope.edtString.includes('ago')){
-      console.log("dsflkdjsf")
-      return 0;
-    }
-    else return {sdt: moment(sdt).fromNow(), edt: moment(edt).fromNow()}
-  };
+
   $scope.setCoordinates = function(lat, long){
     LatLong.push(lat, long);
     $location.path('/app/map')
