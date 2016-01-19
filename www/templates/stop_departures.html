@@ -1,3 +1,4 @@
+<meta http-equiv="refresh" content="30" />
 <ion-view view-title="Stop Departures">
   <ion-content>
     <div class="list card">
@@ -11,8 +12,8 @@
      <ion-list>
       <ion-item ng-repeat="route in z">
         <h2>{{route.trip.InternetServiceDesc}}</h2>
-        <h2>Scheduled in {{route.departures.s}}</h2>
-        <h2>Estimated in {{route.departures.e}}</h2>
+        <h2>Scheduled {{route.departures.s}}</h2>
+        <h2>Estimated {{route.departures.e}}</h2>
       </ion-item>
      </ion-list>
       </div>

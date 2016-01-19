@@ -140,31 +140,33 @@ angular.module('starter.controllers', ['starter.services'])
    // $scope.s = $scope.s || {RouteDirections: []};
     var directions = $scope.s[0].RouteDirections;
     $scope.z = [];
-    for(var i = 0; i < directions.length; i++){
-      if (directions[i].IsDone) {
-        directions.splice(i, 1);
-        $scope.s = directions;
-      }
-      else if(directions[i].Departures.length !== 0 && !directions[i].IsDone){
-        var departureNum = 0;
-        console.log(directions[i].RouteId);
-        //var times = $scope.init(directions[i].Departures[departureNum].SDT, directions[i].Departures[departureNum].EDT);
-        var sdt = directions[i].Departures[departureNum].SDT;
-        var edt = directions[i].Departures[departureNum].EDT;
-        var times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
-        if(times.e.includes('ago')) console.log('true');
-        while(times.e.includes('ago')){
-          departureNum++;
-          sdt = directions[i].Departures[departureNum].SDT;
-          edt = directions[i].Departures[departureNum].EDT;
-          times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
+    var refresh = function(){
+      for(var i = 0; i < directions.length; i++){
+        if (directions[i].IsDone) {
+          directions.splice(i, 1);
+          $scope.s = directions;
         }
-        directions[i].StringifiedTimes = times;
-        var r = {route: directions[i].RouteId, trip: directions[i].Departures[departureNum].Trip, departures: times};
-        console.log(JSON.stringify(r));
-        $scope.z.push(r);
+        else if(directions[i].Departures.length !== 0 && !directions[i].IsDone){
+          var departureNum = 0;
+       //   console.log(directions[i].RouteId);
+          //var times = $scope.init(directions[i].Departures[departureNum].SDT, directions[i].Departures[departureNum].EDT);
+          var sdt = directions[i].Departures[departureNum].SDT;
+          var edt = directions[i].Departures[departureNum].EDT;
+          var times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
+          while(times.e.includes('ago')){
+            departureNum++;
+            sdt = directions[i].Departures[departureNum].SDT;
+            edt = directions[i].Departures[departureNum].EDT;
+            times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
+          }
+          directions[i].StringifiedTimes = times;
+          var r = {route: directions[i].RouteId, trip: directions[i].Departures[departureNum].Trip, departures: times};
+        //  console.log(JSON.stringify(r));
+          $scope.z.push(r);
+        }
       }
-    }
+    } // end refresh
+    refresh();
   });
   $scope.stop = Stop.get({stopId: $stateParams.stopId});
 
