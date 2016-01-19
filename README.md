@@ -22,9 +22,10 @@ To begin developing, follow these steps:
 2. Clone your fork onto your local machine
 
 3. In your fork's directory, run the following setup stuff:
-  1. <code>npm install</code>
-  2. <code>bower install</code>
-  3. <code>gulp</code>
+  1. <code>npm install -g bower</code>
+  2. <code>npm install -g gulp</code>
+  3. <code>bower install</code>
+  4. <code>gulp</code>
 
 ##Developing, Building, and Running
 
