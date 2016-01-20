@@ -142,12 +142,11 @@ angular.module('starter.controllers', ['starter.services'])
   };
   var timer=$interval(function(){
         getDepartures();
-      },3000);
+      },30000);
   var getDepartures = function(){
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function(){
       var directions = deps[0].RouteDirections;
       $scope.departures = [];
-        console.log("refreshed!");
         for(var i = 0; i < directions.length; i++){
           if(directions[i].Departures.length !== 0 && !directions[i].IsDone){
             var departureNum = 0;
