@@ -168,7 +168,9 @@ angular.module('starter.controllers', ['starter.services'])
     });
   } // end getDepartures
   $scope.stop = Stop.get({stopId: $stateParams.stopId});
-
+  $scope.$on('$destroy', function() {
+    $interval.cancel(timer);
+  });
   $scope.setCoordinates = function(lat, long){
     LatLong.push(lat, long);
     $interval.cancel(timer);
