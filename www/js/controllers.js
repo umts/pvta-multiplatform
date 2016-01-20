@@ -59,6 +59,14 @@ angular.module('starter.controllers', ['starter.services'])
                         });
       }
     });
+    var vehicles = $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').query({}, function(){
+      for(var i = 0; i < vehicles.length; i++){
+        $scope.all.push({name: vehicles[i].Name,
+                        type: 'vehicle',
+                        id: vehicles[i].vehicleId
+                        });
+      }
+    });
     }
   getItems();
   $scope.showFilterBar = function () {
