@@ -134,15 +134,7 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
-.controller('StopDeparturesController', function($scope, $stateParams, $resource, $location, $interval, $rootScope, Stop, StopDeparture, moment, LatLong, getDepartureInfo){
-  var originalGoBack = $rootScope.$ionicGoBack;
-  $rootScope.$ionicGoBack = function() {
-    $interval.cancel(timer);
-    originalGoBack();
-  };
-  var timer=$interval(function(){
-        getDepartures();
-      },30000);
+.controller('StopDeparturesController', function($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong){
   var getDepartures = function(){
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function(){
       var directions = deps[0].RouteDirections;
@@ -167,6 +159,10 @@ angular.module('starter.controllers', ['starter.services'])
     });
   } // end getDepartures
   $scope.stop = Stop.get({stopId: $stateParams.stopId});
+  getDepartures();
+  var timer=$interval(function(){
+        getDepartures();
+      },30000);
   $scope.$on('$destroy', function() {
     $interval.cancel(timer);
   });
