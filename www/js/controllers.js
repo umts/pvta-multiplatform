@@ -63,7 +63,7 @@ angular.module('starter.controllers', ['starter.services'])
       for(var i = 0; i < vehicles.length; i++){
         $scope.all.push({name: vehicles[i].Name,
                         type: 'vehicle',
-                        id: vehicles[i].vehicleId
+                        id: vehicles[i].VehicleId
                         });
       }
     });
