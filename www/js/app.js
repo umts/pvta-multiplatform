@@ -77,7 +77,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
       views: {
         'menuContent': {
            templateUrl: "templates/routes.html",
-           controller: 'RouteController'
+           controller: 'RoutesController'
         }
       }
     })
