@@ -67,7 +67,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     views: {
         'menuContent': {
           templateUrl: "templates/vehicle.html",
-          controller: 'VehicleCtrl'
+          controller: 'VehicleController'
         }
     }
   })
@@ -87,7 +87,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     views: {
         'menuContent': {
           templateUrl: "templates/route.html",
-          controller: 'RouteCtrl'
+          controller: 'RouteController'
         }
     }
   })
