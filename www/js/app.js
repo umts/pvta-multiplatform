@@ -4,6 +4,8 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
+angular.module('starter.controllers', ['starter.services']);
+
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angularMoment', 'jett.ionic.filter.bar'])
 
 .run(function($ionicPlatform) {
@@ -37,7 +39,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     views: {
       'menuContent': {
         templateUrl: 'templates/search.html',
-        controller: 'SearchCtrl'
+        controller: 'SearchController'
       }
     }
   })
