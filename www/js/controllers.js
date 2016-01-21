@@ -142,7 +142,7 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
-.controller('StopDeparturesController', function($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong){
+.controller('OldStopDeparturesController', function($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong){
   var getDepartures = function(){
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function(){
       var directions = deps[0].RouteDirections;
