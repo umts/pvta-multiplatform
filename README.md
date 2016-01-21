@@ -29,12 +29,14 @@ To begin developing, follow these steps:
 
 ##Developing, Building, and Running
 
-4. The javascript is contained in <i>www/js</i>.Start editing away!
+1. The javascript is contained in <i>www/js</i>.Start editing away!
 
-5. Viewing the results of your changes is quick and easy to do in the browser:
-   a. <code>ionic serve -c</code> from the root project directory boots an <i>ionic server</i>, enables consolelogs, and opens the app in your default browser.
+###2. <b>Viewing the results of your changes is quick and easy to do:
+## In the browser (do this during development):</b>
+    Run <b><code>ionic serve -c</code></b> from the root project directory.
 
-6. The project has been configured to be an Android and iOS project.  If you want to build a copy for an emulator on your machine, or you'd like to run it on your phone, do the following:
+###On a Device (do this sparingly)
+1. The project has been configured to be an Android and iOS project.  If you want to build a copy for an emulator on your machine, or you'd like to run it on your phone, do the following:
 
    a. <code>ionic build</code> generates, populates, and compiles all files for both platforms.  You must have <i>xcode</i>, <i>xcode command line tools</i>, Java and the JDK (version 1.7 or 1.8), and the Android SDK (kitkat, lollipop, and marshmallow preferrably) all installed. [Android SDK Download Page](http://developer.android.com/sdk/installing/index.html). I HIGHLY recommend downloading it with Android Studio.
    
