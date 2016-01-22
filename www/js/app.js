@@ -75,7 +75,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
       views: {
         'menuContent': {
            templateUrl: "templates/routes.html",
-           controller: 'RouteController'
+           controller: 'RoutesCtrl'
         }
       }
     })
@@ -90,22 +90,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     }
   })
   
-  .state('app.stopDepartures', {
+  .state('app.stop', {
     url: "/stops/:stopId",
     views: {
         'menuContent': {
-          templateUrl: "templates/stop_departures.html",
-          controller: 'StopDeparturesController'
-        }
-    }
-  })
-
-  .state('app.map', {
-    url: "/map",
-    views: {
-        'menuContent': {
-          templateUrl: "templates/map.html",
-          controller: 'MapCtrl'
+          templateUrl: "templates/stop.html",
+          controller: 'StopCtrl'
         }
     }
   })
@@ -117,6 +107,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
         templateUrl: "templates/stops.html",
         controller: 'StopsCtrl'
       }
+    }
+  })
+
+  .state('app.map', {
+    url: "/map",
+    views: {
+        'menuContent': {
+          templateUrl: "templates/map.html",
+          controller: 'MapCtrl'
+        }
     }
   });
   // if none of the above states are matched, use this as the fallback
