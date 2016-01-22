@@ -108,6 +108,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
           controller: 'MapCtrl'
         }
     }
+  })
+
+  .state('app.stops', {
+    url: "/stops",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/stops.html",
+        controller: 'StopsCtrl'
+      }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/search');
