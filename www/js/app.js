@@ -91,7 +91,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
   })
   
   .state('app.stopDepartures', {
-    url: "/stopDepartures/:stopId",
+    url: "/stops/:stopId",
     views: {
         'menuContent': {
           templateUrl: "templates/stop_departures.html",

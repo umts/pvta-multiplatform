@@ -142,6 +142,12 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
+.controller('StopsCtrl', function($scope, $resource){
+  $scope.stops = $resource('http://bustracker.pvta.com/infopoint/rest/stops/getallstops').query(function(){
+    $scope.stops.sort(function(a, b){return a.Name - b.Name})
+  });
+})
+
 .controller('StopDeparturesController', function($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong){
   var getDepartures = function(){
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function(){
