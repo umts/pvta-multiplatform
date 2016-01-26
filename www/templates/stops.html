@@ -1,0 +1,9 @@
+<ion-view view-title="Stops">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="stop in stops" href="#/app/stops/{{stop.StopId}}">
+        {{stop.Name}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

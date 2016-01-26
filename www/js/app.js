@@ -75,7 +75,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
       views: {
         'menuContent': {
            templateUrl: "templates/routes.html",
-           controller: 'RouteController'
+           controller: 'RoutesCtrl'
         }
       }
     })
@@ -90,13 +90,23 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     }
   })
   
-  .state('app.stopDepartures', {
-    url: "/stopDepartures/:stopId",
+  .state('app.stop', {
+    url: "/stops/:stopId",
     views: {
         'menuContent': {
-          templateUrl: "templates/stop_departures.html",
-          controller: 'StopDeparturesController'
+          templateUrl: "templates/stop.html",
+          controller: 'StopCtrl'
         }
+    }
+  })
+
+  .state('app.stops', {
+    url: "/stops",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/stops.html",
+        controller: 'StopsCtrl'
+      }
     }
   })
 

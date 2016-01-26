@@ -54,7 +54,7 @@ angular.module('starter.controllers', ['starter.services'])
     var stops = $resource('http://bustracker.pvta.com/infopoint/rest/stops/getallstops').query({}, function(){
       for(var i = 0; i < stops.length; i++){
         $scope.all.push({name: stops[i].Name,
-                        type: 'stopDeparture',
+                        type: 'stop',
                         id: stops[i].StopId
                         });
       }
@@ -104,7 +104,7 @@ angular.module('starter.controllers', ['starter.services'])
   }
 })
 
-.controller('RouteController', function($scope, $resource){
+.controller('RoutesCtrl', function($scope, $resource){
   $scope.routes = $resource('http://bustracker.pvta.com/infopoint/rest/routes/getvisibleroutes').query(function(){
     $scope.routes.sort(function(a, b){return a.ShortName - b.ShortName})
   });
@@ -142,7 +142,13 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
-.controller('StopDeparturesController', function($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong){
+.controller('StopsCtrl', function($scope, $resource){
+  $scope.stops = $resource('http://bustracker.pvta.com/infopoint/rest/stops/getallstops').query(function(){
+    $scope.stops.sort(function(a, b){return a.Name - b.Name})
+  });
+})
+
+.controller('StopCtrl', function($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong){
   var getDepartures = function(){
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function(){
       var directions = deps[0].RouteDirections;
