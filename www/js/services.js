@@ -109,7 +109,6 @@ angular.module('starter.services', ['ngResource'])
   
 })
 
-
 .service('LatLong', function(){
   var latlong = [];
   return {
