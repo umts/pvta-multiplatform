@@ -39,22 +39,34 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
-.controller('SearchCtrl', function($scope, $ionicFilterBar, $location, $interpolate, $state, $resource, Stops, StopList){
+.controller('SearchCtrl', function($scope, $ionicFilterBar, $location, $interpolate, $state, $resource, Stops, StopList, RouteList){
   var filterBarInstance;
   function getItems () {
     $scope.all = [];
-    var routes = $resource('http://bustracker.pvta.com/infopoint/rest/routes/getallroutes').query({}, function(){
+    if(RouteList.isEmpty()){
+      var routes = $resource('http://bustracker.pvta.com/infopoint/rest/routes/getallroutes').query({}, function(){
+        routes = prepareRoutes(routes);
+        RouteList.pushEntireList(routes);
+      });
+    }
+    else{
+      var routes = RouteList.getEntireList();
+      routes = prepareRoutes(routes);
+    }
+    var prepareRoutes = function(routes){
       for(var i = 0; i < routes.length; i++){
-        $scope.all.push({name: routes[i].ShortName + ": " + routes[i].LongName,
-                        type: 'route',
-                        id: routes[i].RouteId
-                        });
+          $scope.all.push({name: "Route " + routes[i].ShortName + ": " + routes[i].LongName,
+                          type: 'route',
+                          id: routes[i].RouteId
+                          });
+        if(!routes[i].IsVisible){
+          routes.splice(i, 1);
+        }
       }
-    });
-    
+      return routes;
+    }
     var stops = [];
     if(StopList.isEmpty()){
-      console.log("the list is empty");
       stops = Stops.query(function(){
         stops.sort(function(a, b){return a.Name - b.Name})
         StopList.pushEntireList(stops);
@@ -62,9 +74,7 @@ angular.module('starter.controllers', ['starter.services'])
       });
     }
     else{
-      console.log("list isn't empty!");
       stops = StopList.getEntireList(); 
-     // console.log(JSON.stringify(stops))
       for(var id in stops){
         if(stops.hasOwnProperty(id))
         $scope.all.push({name: stops[id].Name,
@@ -80,7 +90,6 @@ angular.module('starter.controllers', ['starter.services'])
                         id: list[i].StopId
                         });
     }
-    
     var vehicles = $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').query({}, function(){
       for(var i = 0; i < vehicles.length; i++){
         $scope.all.push({name: vehicles[i].Name,
@@ -104,7 +113,6 @@ angular.module('starter.controllers', ['starter.services'])
         filterBarInstance();
         filterBarInstance = null;
       }
-
       $timeout(function () {
         getItems();
         $scope.$broadcast('scroll.refreshComplete');
@@ -126,10 +134,16 @@ angular.module('starter.controllers', ['starter.services'])
   }
 })
 
-.controller('RoutesCtrl', function($scope, $resource){
-  $scope.routes = $resource('http://bustracker.pvta.com/infopoint/rest/routes/getvisibleroutes').query(function(){
-    $scope.routes.sort(function(a, b){return a.ShortName - b.ShortName})
-  });
+.controller('RoutesCtrl', function($scope, $resource, Routes, RouteList){
+  if(RouteList.isEmpty()){
+    $scope.routes = Routes.query(function(){
+      $scope.routes.sort(function(a, b){return a.ShortName - b.ShortName});
+      RouteList.pushEntireList($scope.routes);
+    });
+  }
+  else{
+    $scope.routes = RouteList.getEntireList();
+  }
 })
 
 .controller('RouteCtrl', function($scope, $stateParams, Route, RouteVehicles){
@@ -166,14 +180,12 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('StopsCtrl', function($scope, $resource, StopList, Stops){
   if(StopList.isEmpty()){
-    console.log("the list is empty");
     $scope.stops = Stops.query(function(){
       $scope.stops.sort(function(a, b){return a.Name - b.Name})
       StopList.pushEntireList($scope.stops);
     });
   }
   else{
-    console.log("list isn't empty!");
    $scope.stops = StopList.getEntireList(); 
   }
 })

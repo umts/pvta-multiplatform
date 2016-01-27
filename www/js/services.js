@@ -8,6 +8,10 @@ angular.module('starter.services', ['ngResource'])
     return $resource('http://bustracker.pvta.com/infopoint/rest/routedetails/get/:routeId');
 })
 
+.factory('Routes', function ($resource) {
+    return $resource('http://bustracker.pvta.com/infopoint/rest/routes/getvisibleroutes');
+})
+
 .factory('Stop', function ($resource) {
     return $resource('http://bustracker.pvta.com/infopoint/rest/stops/get/:stopId');
 })
