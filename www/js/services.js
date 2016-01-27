@@ -42,11 +42,13 @@ angular.module('starter.services', ['ngResource'])
   };
 
   var getStopFromList = function(id){
-    return stopsList[id];
+    if(stopsList[id] !== undefined) return stopsList[id];
+    else return 0;
   };
   
   var getEntireList = function(){
-    return stopsList;
+    if(stopsList !== undefined) return stopsList;
+    else return 0;
   }
   
   var isEmpty = function(){
