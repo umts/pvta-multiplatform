@@ -90,12 +90,6 @@ angular.module('starter.controllers', ['starter.services'])
     };
 })
 
-.controller('VehiclesCtrl', function($scope, $resource, Vehicle){
-  $scope.vehicles = $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').query(function(){
-    $scope.vehicles.sort(function(a, b){return a.Name - b.Name});
-  });
-})
-
 .controller('VehicleCtrl', function($scope, $stateParams, Vehicle, LatLong, $location){
   $scope.vehicle = Vehicle.get({vehicleId: $stateParams.vehicleId});
   $scope.setCoordinates = function(lat, long){
@@ -105,9 +99,7 @@ angular.module('starter.controllers', ['starter.services'])
 })
 
 .controller('RoutesCtrl', function($scope, $resource){
-  $scope.routes = $resource('http://bustracker.pvta.com/infopoint/rest/routes/getvisibleroutes').query(function(){
-    $scope.routes.sort(function(a, b){return a.ShortName - b.ShortName})
-  });
+  $scope.routes = $resource('http://bustracker.pvta.com/infopoint/rest/routes/getvisibleroutes').query();
 })
 
 .controller('RouteCtrl', function($scope, $stateParams, Route, RouteVehicles){

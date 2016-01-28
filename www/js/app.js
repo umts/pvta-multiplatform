@@ -50,17 +50,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
         }
       }
     })
-    .state('app.vehicles',{
-      url: "/vehicles",
-      views: {
-        'menuContent': {
-           templateUrl: "templates/vehicles.html",
-           controller: 'VehiclesCtrl'
-        }
-      }
-    })
-
-  .state('app.vehicle', {
+  
+    .state('app.vehicle', {
     url: "/vehicles/:vehicleId",
     views: {
         'menuContent': {
