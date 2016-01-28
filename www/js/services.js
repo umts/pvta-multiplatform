@@ -51,7 +51,9 @@ angular.module('pvta.services', ['ngResource'])
   };
   
   var getEntireList = function(){
-    if(stopsList !== undefined) return stopsList;
+    if(stopsList !== undefined){
+      return stopsList;
+    }
     else return 0;
   }
   
@@ -81,6 +83,7 @@ angular.module('pvta.services', ['ngResource'])
       var id = list[i].RouteId;
       routesList[id] = list[i];
     }
+   
     return routesList;
   };
 
@@ -90,7 +93,9 @@ angular.module('pvta.services', ['ngResource'])
   };
   
   var getEntireList = function(){
-    if(!isEmpty()) return routesList;
+    if(!isEmpty()) {
+      return routesList;
+    }
     else return 0;
   }
   
