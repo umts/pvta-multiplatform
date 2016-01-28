@@ -9,17 +9,12 @@ angular.module('starter.controllers').controller('StopController', function($sco
             var sdt = directions[i].Departures[departureNum].SDT;
             var edt = directions[i].Departures[departureNum].EDT;
             var times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
-            console.log(JSON.stringify(directions[i].RouteId));
-            console.log(JSON.stringify(times.e.includes('ago')));
-            console.log(JSON.stringify(directions[i].Departures.length));
             if(times.e.includes('ago')){
               for(var currentDeparture = 0; currentDeparture < directions[i].Departures.length; currentDeparture++){
-                //console.log(JSON.stringify(currentDeparture));
                 sdt = directions[i].Departures[currentDeparture].SDT;
                 edt = directions[i].Departures[currentDeparture].EDT;
                 times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
                 if(!times.e.includes('ago')) {
-                  console.log("Found one not in the past");
                   directions[i].StringifiedTimes = times;
                   var r = {route: directions[i].RouteId, trip: directions[i].Departures[currentDeparture].Trip, departures: times};
                   $scope.departures.push(r);
