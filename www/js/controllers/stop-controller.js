@@ -27,13 +27,6 @@ angular.module('starter.controllers').controller('StopController', function($sco
               var r = {route: directions[i].RouteId, trip: directions[i].Departures[departureNum].Trip, departures: times};
               $scope.departures.push(r);
             }
-            
-            if(times.e.includes('ago')){
-              times = {s: 'not in the near future', e: 'tomorrow'};
-              directions[i].StringifiedTimes = times;
-              var r = {route: directions[i].RouteId, trip: directions[i].Departures[0].Trip, departures: times};
-              $scope.departures.push(r);
-            }
           }
         }
     });
