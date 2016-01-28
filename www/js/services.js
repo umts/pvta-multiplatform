@@ -73,25 +73,16 @@ angular.module('pvta.services', ['ngResource'])
 })
 
 .factory('RouteList', function(){
-  var routesList = {};
+  var routesList = [];
+  
   var pushToList = function(route){
-    var id = route.RouteId
-    routesList[id] = route;
+    routesList.push(route);
   };
   var pushEntireList = function(list){
-    for(var i = 0; i < list.length; i++){
-      var id = list[i].RouteId;
-      routesList[id] = list[i];
-    }
-   
-    return routesList;
+   routesList = list;
+   return routesList;
   };
 
-  var getRouteFromList = function(id){
-    if(routesList[id] !== undefined) return routesList[id];
-    else return 0;
-  };
-  
   var getEntireList = function(){
     if(!isEmpty()) {
       return routesList;
@@ -100,13 +91,12 @@ angular.module('pvta.services', ['ngResource'])
   }
   
   var isEmpty = function(){
-    if(Object.keys(routesList).length === 0) return true;
+    if(routesList.length === 0) return true;
     else return false
   };
   
   return {
     pushEntireList: pushEntireList,
-    getRouteFromList: getRouteFromList,
     getEntireList: getEntireList,
     pushToList: pushToList,
     isEmpty: isEmpty,  
