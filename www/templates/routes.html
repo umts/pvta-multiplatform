@@ -5,7 +5,7 @@
   <ion-content>
     
     <ion-list>
-      <ion-item collection-repeat="route in all" href="#app/routes/{{route.RouteId}}">
+      <ion-item collection-repeat="route in routes" href="#app/routes/{{route.RouteId}}">
         <i class="icon ion-android-bus"></i>
         <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.ShortName}}</span>
         <p>{{route.LongName}}</p>

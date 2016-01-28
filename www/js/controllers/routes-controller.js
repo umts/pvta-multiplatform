@@ -2,40 +2,36 @@ angular.module('pvta.controllers').controller('RoutesController', function($scop
   var filterBarInstance;
   
   if(RouteList.isEmpty()){
-    $scope.all = Routes.query(function(){
-      RouteList.pushEntireList($scope.all);
-      for(var route = 0; route < $scope.all.length; route++){
-        $scope.all[route] = {
-          LongName: $scope.all[route].LongName,
-          ShortName: $scope.all[route].ShortName,
-          RouteId: $scope.all[route].RouteId,
-          Color: $scope.all[route].Color,
+    $scope.routes = Routes.query(function(){
+      RouteList.pushEntireList($scope.routes);
+      for(var route = 0; route < $scope.routes.length; route++){
+        $scope.routes[route] = {
+          LongName: $scope.routes[route].LongName,
+          ShortName: $scope.routes[route].ShortName,
+          RouteId: $scope.routes[route].RouteId,
+          Color: $scope.routes[route].Color,
         }
       }
     });
   }
   else{
-    $scope.all = RouteList.getEntireList();
+    $scope.routes = RouteList.getEntireList();
+    for(var route = 0; route < $scope.routes.length; route++){
+      $scope.routes[route] = {
+        LongName: $scope.routes[route].LongName,
+        ShortName: $scope.routes[route].ShortName,
+        RouteId: $scope.routes[route].RouteId,
+        Color: $scope.routes[route].Color,
+      }
+    }
   }
   
   $scope.showFilterBar = function () {
-      filterBarInstance = $ionicFilterBar.show({
-        items: $scope.all,
-        update: function (filteredItems, filterText) {
-          $scope.all = filteredItems;
-        }
-      });
-    };
-  $scope.refreshItems = function () {
-      if (filterBarInstance) {
-        filterBarInstance();
-        filterBarInstance = null;
+    filterBarInstance = $ionicFilterBar.show({
+      items: $scope.routes,
+      update: function (filteredItems, filterText) {
+        $scope.routes = filteredItems;
       }
-
-      $timeout(function () {
-        getItems();
-        $scope.$broadcast('scroll.refreshComplete');
-      }, 1000);
-    };
-  
+    });
+  };
 })
