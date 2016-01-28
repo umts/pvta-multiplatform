@@ -1,12 +1,12 @@
-// Ionic Starter App
+// pvta-multiplatform
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// 'pvta' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
-angular.module('starter.controllers', ['starter.services']);
+// 'pvta.controllers' is found in controllers.js
+angular.module('pvta.controllers', ['pvta.services']);
 
-angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angularMoment', 'jett.ionic.filter.bar'])
+angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

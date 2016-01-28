@@ -1,4 +1,4 @@
-angular.module('starter.controllers').controller('MapController', function($scope, $state, $resource, $stateParams, $cordovaGeolocation, Route, Vehicle, LatLong) {
+angular.module('pvta.controllers').controller('MapController', function($scope, $state, $resource, $stateParams, $cordovaGeolocation, Route, Vehicle, LatLong) {
   var options = {timeout: 10000, enableHighAccuracy: true};
 
   var ll = LatLong.pop();
