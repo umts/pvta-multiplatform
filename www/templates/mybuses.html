@@ -1,0 +1,19 @@
+<ion-view view-title="My Buses">
+    <ion-content>
+        Your Routes
+      <ion-list>
+      <ion-item ng-repeat="route in routes" href="#app/routes/{{route.RouteId}}">
+        <i class="icon ion-android-bus"></i>
+        <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.ShortName}}</span>
+        <p>{{route.LongName}}</p>
+      </ion-item>
+        
+        Your Stops
+        <ion-list>
+      <ion-item ng-repeat="stop in stops" href="#/app/stops/{{stop.StopId}}">
+        {{stop.Name}}
+      </ion-item>
+    </ion-list>
+    </ion-list>
+    </ion-content>
+</ion-view>

@@ -26,14 +26,24 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
 
 .config(function($stateProvider, $urlRouterProvider, $ionicFilterBarConfigProvider) {
   $stateProvider
-
-    .state('app', {
+  
+  .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'AppController'
   })
-
+  
+  
+  .state('app.my-buses', {
+    url: '/my-buses',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/mybuses.html',
+        controller: 'MyBusesController'
+      }
+    }
+  })
   .state('app.search', {
     url: '/search',
     views: {
