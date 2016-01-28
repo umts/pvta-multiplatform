@@ -26,7 +26,7 @@
           </ion-item>
           <ion-item class="item-accordion"
                     ng-repeat="item in group.items | orderBy: '+Name'"
-                    ng-show="isGroupShown(group)" href="#/app/stopDepartures/{{item.StopId}}">
+                    ng-show="isGroupShown(group)" href="#/app/stops/{{item.StopId}}">
             {{item.Name}}
           </ion-item>
         </div>

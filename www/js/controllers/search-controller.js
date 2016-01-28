@@ -1,4 +1,4 @@
-angular.module('starter.controllers').controller('SearchController', function($scope, $ionicFilterBar, $location, $interpolate, $state, $resource){
+angular.module('starter.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource){
   var filterBarInstance;
   function getItems () {
     $scope.all = [];
@@ -13,7 +13,7 @@ angular.module('starter.controllers').controller('SearchController', function($s
     var stops = $resource('http://bustracker.pvta.com/infopoint/rest/stops/getallstops').query({}, function(){
       for(var i = 0; i < stops.length; i++){
         $scope.all.push({name: stops[i].Name,
-                        type: 'stopDeparture',
+                        type: 'stop',
                         id: stops[i].StopId
                         });
       }
@@ -47,5 +47,4 @@ angular.module('starter.controllers').controller('SearchController', function($s
         $scope.$broadcast('scroll.refreshComplete');
       }, 1000);
     };
-});
-
+})

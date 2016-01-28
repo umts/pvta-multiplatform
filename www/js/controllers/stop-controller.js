@@ -1,4 +1,4 @@
-angular.module('starter.controllers').controller('StopDeparturesController', function($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong){
+angular.module('starter.controllers').controller('StopController', function($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong){
   var getDepartures = function(){
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function(){
       var directions = deps[0].RouteDirections;

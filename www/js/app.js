@@ -52,17 +52,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
         }
       }
     })
-    .state('app.vehicles',{
-      url: "/vehicles",
-      views: {
-        'menuContent': {
-           templateUrl: "templates/vehicles.html",
-           controller: 'VehiclesCtrl'
-        }
-      }
-    })
-
-  .state('app.vehicle', {
+  
+    .state('app.vehicle', {
     url: "/vehicles/:vehicleId",
     views: {
         'menuContent': {
@@ -92,13 +83,23 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     }
   })
   
-  .state('app.stopDepartures', {
-    url: "/stopDepartures/:stopId",
+  .state('app.stop', {
+    url: "/stops/:stopId",
     views: {
         'menuContent': {
-          templateUrl: "templates/stop_departures.html",
-          controller: 'StopDeparturesController'
+          templateUrl: "templates/stop.html",
+          controller: 'StopController'
         }
+    }
+  })
+
+  .state('app.stops', {
+    url: "/stops",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/stops.html",
+        controller: 'StopsController'
+      }
     }
   })
 
