@@ -4,6 +4,8 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
+angular.module('starter.controllers', ['starter.services']);
+
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angularMoment', 'jett.ionic.filter.bar'])
 
 .run(function($ionicPlatform) {
@@ -29,7 +31,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
+    controller: 'AppController'
   })
 
   .state('app.search', {
@@ -37,26 +39,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     views: {
       'menuContent': {
         templateUrl: 'templates/search.html',
-        controller: 'SearchCtrl'
+        controller: 'SearchController'
       }
     }
   })
-
-  .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-  
     .state('app.vehicle', {
     url: "/vehicles/:vehicleId",
     views: {
         'menuContent': {
           templateUrl: "templates/vehicle.html",
-          controller: 'VehicleCtrl'
+          controller: 'VehicleController'
         }
     }
   })
@@ -66,7 +58,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
       views: {
         'menuContent': {
            templateUrl: "templates/routes.html",
-           controller: 'RoutesCtrl'
+           controller: 'RoutesController'
         }
       }
     })
@@ -76,7 +68,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     views: {
         'menuContent': {
           templateUrl: "templates/route.html",
-          controller: 'RouteCtrl'
+          controller: 'RouteController'
         }
     }
   })
@@ -86,7 +78,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     views: {
         'menuContent': {
           templateUrl: "templates/stop.html",
-          controller: 'StopCtrl'
+          controller: 'StopController'
         }
     }
   })
@@ -96,7 +88,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     views: {
       'menuContent': {
         templateUrl: "templates/stops.html",
-        controller: 'StopsCtrl'
+        controller: 'StopsController'
       }
     }
   })
@@ -106,7 +98,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     views: {
         'menuContent': {
           templateUrl: "templates/map.html",
-          controller: 'MapCtrl'
+          controller: 'MapController'
         }
     }
   });
