@@ -43,16 +43,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
       }
     }
   })
-
-  .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-  
     .state('app.vehicle', {
     url: "/vehicles/:vehicleId",
     views: {
