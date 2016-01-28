@@ -1,4 +1,4 @@
-angular.module('starter.controllers').controller('RouteController', function($scope, $stateParams, Route, RouteVehicles){
+angular.module('pvta.controllers').controller('RouteController', function($scope, $stateParams, Route, RouteVehicles){
   var size = 0
   var route = Route.get({routeId: $stateParams.routeId}, function() {
     route.$save();

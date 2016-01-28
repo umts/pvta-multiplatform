@@ -1,4 +1,4 @@
-angular.module('starter.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource){
+angular.module('pvta.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource){
   var filterBarInstance;
   function getItems () {
     $scope.all = [];

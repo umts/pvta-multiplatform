@@ -1,4 +1,4 @@
-angular.module('starter.services', ['ngResource'])
+angular.module('pvta.services', ['ngResource'])
 
 .factory('Vehicle', function ($resource) {
     return $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/get/:vehicleId');
