@@ -107,7 +107,6 @@ angular.module('pvta.services', ['ngResource'])
 .factory('FavoriteRoutes', function(){
   var routes = [];
   var push = function(route){
-    //routes.push(route);
     localforage.getItem('favoriteRoutes', function(err, value){
       var newArray = [];
       if(value !== null) {
@@ -117,11 +116,7 @@ angular.module('pvta.services', ['ngResource'])
       else{
         newArray.push(route);
       }
-    //  console.log(JSON.stringify(newArray));
-    //  console.log("newArray.size");
       localforage.setItem('favoriteRoutes', newArray, function(err, value){
-     //   console.log("SUCCESS!");
-     //   console.log(JSON.stringify(value));
       })  
     })
   };
@@ -146,40 +141,63 @@ angular.module('pvta.services', ['ngResource'])
     
   };
   
-  var contains = function(RouteId){
-    return (routes[RouteId] === undefined);
+  return{
+    push: push,
+    getAll: getAll,
+    remove: remove,
+  };
+})
+
+.factory('FavoriteStops', function(){
+  var stops = [];
+  var push = function(stop){
+    localforage.getItem('favoriteStops', function(err, value){
+      var newArray = [];
+      if(value !== null) {
+        console.log("no  stops yet!");
+        newArray = value;
+        newArray.push(stop);
+      }
+      else{
+        console.log("already stops");
+        newArray.push(stop);
+      }
+      localforage.setItem('favoriteStops', newArray, function(err, value){
+      })  
+    })
+  };
+  
+  var getAll = function(){
+    var ret = [];
+    localforage.getItem('favoriteStops', function(err, value){
+      
+    })
+  };
+  
+  var remove = function(stopId){
+    localforage.getItem('favoriteStops', function(err, stops){
+      console.log(stopId);
+      //console.log(JSON.stringify(stops));
+      for(var i = 0; i < stops.length; i++){
+        if(stops[i].StopId === stopId) {
+          stops.splice(i, 1);
+        }
+        //console.log(JSON.stringify(stops));
+      }
+      console.log(JSON.stringify(stops));
+      localforage.setItem('favoriteStops', stops, function(err, newStops){
+        console.log(JSON.stringify(newStops));
+      })
+    })
+    
   };
   
   return{
     push: push,
     getAll: getAll,
     remove: remove,
-    contains: contains
   };
 })
-
-.factory('FavoriteStops', function(){
-  var stops = [];
-  
-  var push = function(stop){
-    stops[stop.StopId] = stop;
-  }
-  
-  var get = function(StopId){
-    return stops[StopId];
-  }
-  
-  var remove = function(StopId){
-    stops[StopId] = undefined;
-  }
-  
-  return{
-    push: push,
-    get: get,
-    remove: remove
-  };
-})
-
 
 .service('LatLong', function(){
   var latlong = [];

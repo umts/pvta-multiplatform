@@ -1,6 +1,5 @@
 angular.module('pvta.controllers').controller('RouteController', function($scope, $stateParams, Route, RouteVehicles, FavoriteRoutes){
-  var size = 0
-  $scope.heart = 'ion-ios-heart-outline'
+  var size = 0;
   var route = Route.get({routeId: $stateParams.routeId}, function() {
     route.$save();
     groups(route.Stops.length);
@@ -33,6 +32,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   $scope.toggleHeart = function(liked){
   //  console.log(liked);
     var name = 'Route ' + route.ShortName + " favorite";
+    console.log(name);
       localforage.setItem(name, liked, function(err, value){
         if(value) {
           FavoriteRoutes.push(route);

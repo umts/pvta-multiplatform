@@ -9,6 +9,11 @@
       </ion-item>
         </ion-list>
         Your Stops
+      <ion-list>
+        <ion-item ng-repeat="stop in stops" href="#app/stops/{{stop.StopId}}">
+          <p>{{stop.Name}}</p>
+        </ion-item>
+      </ion-list>
       <button ng-click="removeAll()">Remove All</button>
     </ion-content>
 </ion-view>
