@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteController', function($scope, $stateParams, Route, RouteVehicles){
+angular.module('pvta.controllers').controller('RouteController', function($scope, $stateParams, Route, RouteVehicles, FavoriteRoutes){
   var size = 0
   var route = Route.get({routeId: $stateParams.routeId}, function() {
     route.$save();
@@ -28,4 +28,8 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   $scope.isGroupShown = function(group) {
     return $scope.shownGroup === group;
   };
+  $scope.addToFavorites = function(){
+   //console.log(JSON.stringify(route));
+    FavoriteRoutes.push(route);
+  }
 });

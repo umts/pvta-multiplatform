@@ -104,6 +104,56 @@ angular.module('pvta.services', ['ngResource'])
   
 })
 
+.factory('FavoriteRoutes', function(){
+  var routes = [];
+  
+  var push = function(route){
+    routes.push(route);
+  };
+  
+  var getAll = function(){
+    return routes;
+  };
+  
+  var remove = function(RouteId){
+    routes[RouteId] = undefined;
+  };
+  
+  var contains = function(RouteId){
+    return (routes[RouteId] === undefined);
+  };
+  
+  return{
+    push: push,
+    getAll: getAll,
+    remove: remove,
+    contains: contains
+  };
+})
+
+.factory('FavoriteStops', function(){
+  var stops = [];
+  
+  var push = function(stop){
+    stops[stop.StopId] = stop;
+  }
+  
+  var get = function(StopId){
+    return stops[StopId];
+  }
+  
+  var remove = function(StopId){
+    stops[StopId] = undefined;
+  }
+  
+  return{
+    push: push,
+    get: get,
+    remove: remove
+  };
+})
+
+
 .service('LatLong', function(){
   var latlong = [];
   return {
