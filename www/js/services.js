@@ -106,13 +106,31 @@ angular.module('pvta.services', ['ngResource'])
 
 .factory('FavoriteRoutes', function(){
   var routes = [];
-  
   var push = function(route){
-    routes.push(route);
+    //routes.push(route);
+    localforage.getItem('favoriteRoutes', function(err, value){
+      var newArray = [];
+      if(value !== null) {
+        newArray = value;
+        newArray.push(route);
+      }
+      else{
+        newArray.push(route);
+      }
+      console.log(JSON.stringify(newArray));
+      console.log("newArray.size");
+      localforage.setItem('favoriteRoutes', newArray, function(err, value){
+        console.log("SUCCESS!");
+        console.log(JSON.stringify(value));
+      })  
+    })
   };
   
   var getAll = function(){
-    return routes;
+    var ret = [];
+    localforage.getItem('favoriteRoutes', function(err, value){
+      
+    })
   };
   
   var remove = function(RouteId){

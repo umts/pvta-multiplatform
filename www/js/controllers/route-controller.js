@@ -29,7 +29,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     return $scope.shownGroup === group;
   };
   $scope.addToFavorites = function(){
-   //console.log(JSON.stringify(route));
+  // console.log(JSON.stringify(route));
     FavoriteRoutes.push(route);
   }
 });
