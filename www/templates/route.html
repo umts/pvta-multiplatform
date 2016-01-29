@@ -1,13 +1,13 @@
 <ion-view view-title="Route">
   <ion-nav-buttons side="secondary">
-    <button class="button button-icon icon ion-ios-heart-outline" ng-click="addToFavorites()"></button>
+    <button id="like"  ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}" ng-click="liked= !liked; toggleHeart(liked)"></button>
+    <!--<i id="like" ng-class="{'icon ion-ios-heart': liked, 'icon ion-ios-heart-outline': !liked}" ng-click="liked=!liked"></i>-->
   </ion-nav-buttons>  
   <ion-content>
     <div class="list card">
       <div class="item">
         <h3 style="color: #{{route.Color}}">Route {{route.ShortName}}: {{route.LongName}}</h3>
       </div>
-
    <div class="item item-body">
      <h3>Buses on this route</h3>
      <ion-list>

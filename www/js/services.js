@@ -117,11 +117,11 @@ angular.module('pvta.services', ['ngResource'])
       else{
         newArray.push(route);
       }
-      console.log(JSON.stringify(newArray));
-      console.log("newArray.size");
+    //  console.log(JSON.stringify(newArray));
+    //  console.log("newArray.size");
       localforage.setItem('favoriteRoutes', newArray, function(err, value){
-        console.log("SUCCESS!");
-        console.log(JSON.stringify(value));
+     //   console.log("SUCCESS!");
+     //   console.log(JSON.stringify(value));
       })  
     })
   };
@@ -133,8 +133,17 @@ angular.module('pvta.services', ['ngResource'])
     })
   };
   
-  var remove = function(RouteId){
-    routes[RouteId] = undefined;
+  var remove = function(routeId){
+    localforage.getItem('favoriteRoutes', function(err, routes){
+      for(var i = 0; i < routes.length; i++){
+        if(routes[i].RouteId === routeId) {
+          routes.splice(i, 1);
+        }
+      }
+      localforage.setItem('favoriteRoutes', routes, function(err, newRoutes){
+      })
+    })
+    
   };
   
   var contains = function(RouteId){
