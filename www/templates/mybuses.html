@@ -11,7 +11,8 @@
         Your Stops
       <ion-list>
         <ion-item ng-repeat="stop in stops" href="#app/stops/{{stop.StopId}}">
-          <p>{{stop.Name}}</p>
+          <i class="icon ion-ios-location" style="margin-right: 10px"></i>
+          <span>{{stop.Name}}</span>
         </ion-item>
       </ion-list>
       <button ng-click="removeAll()">Remove All</button>
