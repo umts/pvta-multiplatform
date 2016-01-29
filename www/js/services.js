@@ -28,6 +28,10 @@ angular.module('pvta.services', ['ngResource'])
     return $resource('http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/:stopId');
 })
 
+.factory('Messages', function ($resource) {
+  return $resource('http://bustracker.pvta.com/infopoint/rest/publicmessages/getcurrentmessages');
+})
+
 
 
 

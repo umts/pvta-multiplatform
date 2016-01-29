@@ -1,20 +1,43 @@
 <ion-view view-title="My Buses">
     <ion-content>
-        Your Routes
+      <div class="button button-block" style="margin-bottom: 20px">Your Routes</div>
       <ion-list>
-      <ion-item ng-repeat="route in routes" href="#app/routes/{{route.RouteId}}">
-        <i class="icon ion-android-bus"></i>
-       <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.ShortName}}</span>
-       <p>{{route.LongName}}</p>
+      <ion-item class="card" ng-repeat="route in routes">
+        <div class="item item-button-right">
+          <ion-item href="#app/routes/{{route.RouteId}}">
+            <span class="col text-left">
+              <i class="icon ion-android-bus" style="margin-right: 10px"></i>
+              <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px; margin-right: 50px">{{route.ShortName}}</span>              
+            </span>
+            <span class="item-text-wrap">{{route.LongName}}</span>
+          </ion-item>
+          <ion-item>
+            <button class="button ion-android-close" ng-click="removeRoute(route)"></button>
+          </ion-item>
+        </div>
       </ion-item>
-        </ion-list>
-        Your Stops
+      </ion-list>
+      
+      <div class="button button-block" style="margin-bottom: 20px">Your Stops</div>
       <ion-list>
-        <ion-item ng-repeat="stop in stops" href="#app/stops/{{stop.StopId}}">
-          <i class="icon ion-ios-location" style="margin-right: 10px"></i>
-          <span>{{stop.Name}}</span>
+        <ion-item class="card" ng-repeat="stop in stops" href="#app/stops/{{stop.StopId}}">
+          <div class="item item-button-right">
+            <i class="icon ion-ios-location" style="margin-right: 10px"></i>
+            {{stop.Name}}
+            <button class="button ion-android-close" ng-click="removeStop(stop)"></button>
+          </div>
         </ion-item>
       </ion-list>
-      <button ng-click="removeAll()">Remove All</button>
+      <button class="button button-center ion-button-light" ng-click="removeAll()">Remove All</button> 
+      <div class="button button-block button-assertive" style="margin-bottom: 20px">Active Alerts</div>
+      
+        <div ng-repeat="message in messages">
+          <div class="card item-text-wrap">
+            <div class="item">
+              <i class="icon ion-android-alert" style="margin-right: 10px"></i>
+              {{message.Message}}
+            </div>
+          </div>
+        </div>
     </ion-content>
 </ion-view>
