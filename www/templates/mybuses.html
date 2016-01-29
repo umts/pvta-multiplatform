@@ -2,8 +2,8 @@
     <ion-content>
       <div class="button button-block" style="margin-bottom: 20px">Your Routes</div>
       <ion-list>
-      <ion-item class="card" ng-repeat="route in routes">
-        <div class="item item-button-right">
+      <ion-item class="item item-button-right" ng-repeat="route in routes">
+        
           <ion-item href="#app/routes/{{route.RouteId}}">
             <span class="col text-left">
               <i class="icon ion-android-bus" style="margin-right: 10px"></i>
@@ -11,23 +11,36 @@
             </span>
             <span class="item-text-wrap">{{route.LongName}}</span>
           </ion-item>
-          <ion-item>
-            <button class="button ion-android-close" ng-click="removeRoute(route)"></button>
-          </ion-item>
-        </div>
+          <button class="button ion-android-close" ng-click="removeRoute(route)"></button>
+        
       </ion-item>
       </ion-list>
       
       <div class="button button-block" style="margin-bottom: 20px">Your Stops</div>
-      <ion-list>
-        <ion-item class="card" ng-repeat="stop in stops" href="#app/stops/{{stop.StopId}}">
-          <div class="item item-button-right">
-            <i class="icon ion-ios-location" style="margin-right: 10px"></i>
+     
+      <!--
+      <ion-list show-delete="shouldShowDelete" can-swipe="listCanSwipe">
+        <ion-item  ng-repeat="stop in stops">
+          <ion-delete-button class="ion-minus-circled"></ion-delete-button>  
             {{stop.Name}}
-            <button class="button ion-android-close" ng-click="removeStop(stop)"></button>
-          </div>
         </ion-item>
       </ion-list>
+      
+      -->
+      
+      <ion-toggle ng-model="shouldShowDelete">
+        Delete?
+      </ion-toggle>
+      
+      <ion-list show-delete="true">
+        <ion-item ng-repeat="stop in stops" href="#app/stops/{{stop.StopId}}">
+          <ion-delete-button class="ion-android-close" ng-click="removeStop(stop)"></ion-delete-button>
+            Hello, list item!
+          {{stop.Name}}
+        </ion-item>
+      </ion-list>
+      
+      
       <button class="button button-center ion-button-light" ng-click="removeAll()">Remove All</button> 
       <div class="button button-block button-assertive" style="margin-bottom: 20px">Active Alerts</div>
       
