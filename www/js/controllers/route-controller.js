@@ -31,7 +31,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   };
   $scope.toggleHeart = function(liked){
   //  console.log(liked);
-    var name = 'Route ' + route.ShortName + " favorite";
+    var name = 'Route ' + route.ShortName + ' favorite';
     console.log(name);
       localforage.setItem(name, liked, function(err, value){
         if(value) {
@@ -39,7 +39,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
           console.log('pushing a new fav route');
         }
         else {
-          FavoriteRoutes.remove(route.RouteId);
+          FavoriteRoutes.remove(route);
           console.log('removing ' + route.ShortName + " " + route.RouteId);
         }
     });

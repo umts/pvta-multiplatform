@@ -10,7 +10,6 @@ angular.module('pvta.controllers').controller('MyBusesController', function($sco
     });
     localforage.getItem('favoriteStops', function(err, value){
       $scope.stops = value;
-      console.log(JSON.stringify($scope.stops));
     })
     
   };
@@ -24,12 +23,12 @@ angular.module('pvta.controllers').controller('MyBusesController', function($sco
   $scope.messages = Messages.query();
   
   $scope.removeRoute = function(route){
-    FavoriteRoutes.remove(route.RouteId);
+    FavoriteRoutes.remove(route);
     reload();
   }
   
   $scope.removeStop = function(stop){
-    FavoriteStops.remove(stop.StopId);
+    FavoriteStops.remove(stop);
     reload();
   }
   

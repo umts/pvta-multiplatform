@@ -51,15 +51,14 @@ angular.module('pvta.controllers').controller('StopController', function($scope,
   $scope.toggleHeart = function(liked){
     console.log(liked);
     var name = 'Stop ' + stop.Name + " favorite";
-    console.log(name);
     localforage.setItem(name, liked, function(err, value){
-        console.log(value);
+        //console.log(value);
         if(value) {
           FavoriteStops.push(stop);
           console.log('pushing a new fav stop');
         }
         else {
-          FavoriteStops.remove(stop.StopId);
+          FavoriteStops.remove(stop);
           console.log('removing ' + stop.Name + " " + stop.StopId);
         }
     });
@@ -68,7 +67,7 @@ angular.module('pvta.controllers').controller('StopController', function($scope,
     var name = 'Stop ' + stop.Name + " favorite";
     localforage.getItem(name, function(err, value){
       $scope.liked = value;
-      console.log($scope.liked);
+      if($scope.liked) console.log($scope.liked);
     });
   };
 })

@@ -1,41 +1,21 @@
 <ion-view view-title="My Buses">
     <ion-content>
       <div class="button button-block" style="margin-bottom: 20px">Your Routes</div>
-      <ion-list>
-      <ion-item class="item item-button-right" ng-repeat="route in routes">
-        
-          <ion-item href="#app/routes/{{route.RouteId}}">
-            <span class="col text-left">
-              <i class="icon ion-android-bus" style="margin-right: 10px"></i>
-              <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px; margin-right: 50px">{{route.ShortName}}</span>              
-            </span>
-            <span class="item-text-wrap">{{route.LongName}}</span>
-          </ion-item>
-          <button class="button ion-android-close" ng-click="removeRoute(route)"></button>
-        
-      </ion-item>
-      </ion-list>
-      
-      <div class="button button-block" style="margin-bottom: 20px">Your Stops</div>
-     
-      <!--
-      <ion-list show-delete="shouldShowDelete" can-swipe="listCanSwipe">
-        <ion-item  ng-repeat="stop in stops">
-          <ion-delete-button class="ion-minus-circled"></ion-delete-button>  
-            {{stop.Name}}
+      <ion-list show-delete="false" can-swipe="true">
+        <ion-item ng-repeat="route in routes" href="#/app/routes/{{route.RouteId}}">
+          <ion-option-button class="button-assertive icon ion-trash-a" ng-click=removeRoute(route)></ion-option-button>
+          <i class="icon ion-android-bus" style="margin-right: 10px"></i>
+          <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px; margin-right: 50px">{{route.ShortName}}</span>              
+          <span class="item-text-wrap">{{route.LongName}}</span>
         </ion-item>
       </ion-list>
-      
-      -->
-      
-      <ion-toggle ng-model="shouldShowDelete">
-        Delete?
-      </ion-toggle>
-      
-      <ion-list show-delete="true">
-        <ion-item ng-repeat="stop in stops" href="#app/stops/{{stop.StopId}}">
-          <ion-delete-button class="ion-android-close" ng-click="removeStop(stop)"></ion-delete-button>
-            Hello, list item!
+
+        <div class="button button-block" style="margin-bottom: 20px">Your Stops</div>
+     
+      <ion-list show-delete="false" can-swipe="true">
+        <ion-item ng-repeat="stop in stops" href="#/app/stops/{{stop.StopId}}">
+          <ion-option-button class="button-assertive icon ion-trash-a" ng-click=removeStop(stop)></ion-option-button>
+          <i class="icon ion-ios-location" style="margin-right: 10px"></i>
           {{stop.Name}}
         </ion-item>
       </ion-list>

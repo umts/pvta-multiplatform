@@ -132,23 +132,31 @@ angular.module('pvta.services', ['ngResource'])
     })
   };
   
-  var remove = function(routeId){
+  var remove = function(route){
     localforage.getItem('favoriteRoutes', function(err, routes){
       for(var i = 0; i < routes.length; i++){
-        if(routes[i].RouteId === routeId) {
+        if(routes[i].RouteId === route.RouteId) {
           routes.splice(i, 1);
         }
       }
       localforage.setItem('favoriteRoutes', routes, function(err, newRoutes){
-      })
-    })
-    
+      });
+    });
+    removeOneRoute(route);
+  };
+  
+  var removeOneRoute = function(route){
+    var name = 'Route ' + route.ShortName + ' favorite';
+    localforage.removeItem(name, function(err){
+      if(err) console.log(err);
+      else console.log("yay!");
+    });
   };
   
   return{
     push: push,
     getAll: getAll,
-    remove: remove,
+    remove: remove
   };
 })
 
@@ -178,12 +186,12 @@ angular.module('pvta.services', ['ngResource'])
     })
   };
   
-  var remove = function(stopId){
+  var remove = function(stop){
     localforage.getItem('favoriteStops', function(err, stops){
-      console.log(stopId);
+      console.log(stop.StopId);
       //console.log(JSON.stringify(stops));
       for(var i = 0; i < stops.length; i++){
-        if(stops[i].StopId === stopId) {
+        if(stops[i].StopId === stop.StopId) {
           stops.splice(i, 1);
         }
         //console.log(JSON.stringify(stops));
@@ -194,12 +202,24 @@ angular.module('pvta.services', ['ngResource'])
       })
     })
     
+    //Since stops also have their own separate entries,
+    // (for toggling the heart on the Stop's page),
+    // remove that too.
+    removeOneStop(stop);
   };
+  
+  var removeOneStop = function(stop){
+    var name = 'Stop ' + stop.Name + " favorite";
+    localforage.removeItem(name, function(err){
+      if(err) console.log(err);
+      else console.log(value + " yay!");
+    });
+  }
   
   return{
     push: push,
     getAll: getAll,
-    remove: remove,
+    remove: remove
   };
 })
 
