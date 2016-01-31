@@ -1,6 +1,6 @@
 <ion-view view-title="My Buses">
     <ion-content>
-      <div class="button button-block" style="margin-bottom: 20px">Your Routes</div>
+      <div class="button button-block button-positive" style="margin-bottom: 20px">Your Routes</div>
       <ion-list show-delete="false" can-swipe="true">
         <ion-item ng-repeat="route in routes" href="#/app/routes/{{route.RouteId}}">
           <ion-option-button class="button-assertive icon ion-trash-a" ng-click=removeRoute(route)></ion-option-button>
@@ -10,7 +10,7 @@
         </ion-item>
       </ion-list>
 
-        <div class="button button-block" style="margin-bottom: 20px">Your Stops</div>
+        <div class="button button-block button-royal" style="margin-bottom: 20px">Your Stops</div>
      
       <ion-list show-delete="false" can-swipe="true">
         <ion-item ng-repeat="stop in stops" href="#/app/stops/{{stop.StopId}}">
@@ -19,10 +19,8 @@
           {{stop.Name}}
         </ion-item>
       </ion-list>
-      
-      
-      <button class="button button-center ion-button-light" ng-click="removeAll()">Remove All</button> 
-      <div class="button button-block button-assertive" style="margin-bottom: 20px">Active Alerts</div>
+
+      <div class="button button-block button-assertive" style="margin-top: 1cm">Active Alerts</div>
       
         <div ng-repeat="message in messages">
           <div class="card item-text-wrap">
