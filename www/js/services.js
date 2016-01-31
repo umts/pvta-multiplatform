@@ -149,7 +149,6 @@ angular.module('pvta.services', ['ngResource'])
     var name = 'Route ' + route.ShortName + ' favorite';
     localforage.removeItem(name, function(err){
       if(err) console.log(err);
-      else console.log("yay!");
     });
   };
   
@@ -166,41 +165,33 @@ angular.module('pvta.services', ['ngResource'])
     localforage.getItem('favoriteStops', function(err, value){
       var newArray = [];
       if(value !== null) {
-        console.log("no  stops yet!");
         newArray = value;
         newArray.push(stop);
       }
       else{
-        console.log("already stops");
         newArray.push(stop);
       }
       localforage.setItem('favoriteStops', newArray, function(err, value){
-      })  
-    })
+      });  
+    });
   };
   
   var getAll = function(){
     var ret = [];
     localforage.getItem('favoriteStops', function(err, value){
-      
-    })
+    });
   };
   
   var remove = function(stop){
     localforage.getItem('favoriteStops', function(err, stops){
-      console.log(stop.StopId);
-      //console.log(JSON.stringify(stops));
       for(var i = 0; i < stops.length; i++){
         if(stops[i].StopId === stop.StopId) {
           stops.splice(i, 1);
         }
-        //console.log(JSON.stringify(stops));
       }
-      console.log(JSON.stringify(stops));
       localforage.setItem('favoriteStops', stops, function(err, newStops){
-        console.log(JSON.stringify(newStops));
-      })
-    })
+      });
+    });
     
     //Since stops also have their own separate entries,
     // (for toggling the heart on the Stop's page),
@@ -212,7 +203,6 @@ angular.module('pvta.services', ['ngResource'])
     var name = 'Stop ' + stop.Name + " favorite";
     localforage.removeItem(name, function(err){
       if(err) console.log(err);
-      else console.log(value + " yay!");
     });
   }
   
@@ -229,11 +219,9 @@ angular.module('pvta.services', ['ngResource'])
     push: function(lat, long){
       var p = {lat, long};
       latlong.push(p);
-      console.log("LatLong push called" + JSON.stringify(latlong));
     },
     pop: function(){
       var x = latlong.pop();
-      console.log("LatLong PULL called" + JSON.stringify(x));
       return x;
     }
   };

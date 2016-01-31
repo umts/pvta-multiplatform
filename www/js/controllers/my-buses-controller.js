@@ -2,16 +2,13 @@ angular.module('pvta.controllers').controller('MyBusesController', function($sco
   $scope.$on('$ionicView.enter', function(e){
     reload();
   }) 
-  
   var reload = function(){
     localforage.getItem('favoriteRoutes', function(err, value){
       $scope.routes = value;
-      //console.log(JSON.stringify($scope.routes));
     });
     localforage.getItem('favoriteStops', function(err, value){
       $scope.stops = value;
-    })
-    
+    });
   };
   
   $scope.stops = [];
@@ -25,11 +22,10 @@ angular.module('pvta.controllers').controller('MyBusesController', function($sco
   $scope.removeRoute = function(route){
     FavoriteRoutes.remove(route);
     reload();
-  }
+  };
   
   $scope.removeStop = function(stop){
     FavoriteStops.remove(stop);
     reload();
-  }
-  
+  };
 })

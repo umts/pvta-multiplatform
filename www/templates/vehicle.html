@@ -7,8 +7,8 @@
         <button class="button button-positive" ng-click="setCoordinates(vehicle.Latitude,
                   vehicle.Longitude)" ng-href="/app/map">Find on map</button>
       </div>
-   <div class="item item-body">
-     <p>Last Stop: <b>{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</b></p>
+      <div class="item item-body">
+        <p>Last Stop: <b>{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</b></p>
         <p>Headed <b>{{vehicle.Direction? vehicle.Direction : "in an ungiven direction"}}</b> toward <b>{{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b></p>
       </div>
       <div class="item tabs tabs-secondary tabs-icon-left">

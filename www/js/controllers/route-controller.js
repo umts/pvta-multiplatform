@@ -10,7 +10,6 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   $scope.vehicles = RouteVehicles.query({routeId: $stateParams.routeId});
   $scope.groups.push(route);
     $scope.groups[0] = {
-    //  name: 'stops',
       items: []
     };
   var j = $scope.size
@@ -30,17 +29,13 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     return $scope.shownGroup === group;
   };
   $scope.toggleHeart = function(liked){
-  //  console.log(liked);
     var name = 'Route ' + route.ShortName + ' favorite';
-    console.log(name);
       localforage.setItem(name, liked, function(err, value){
         if(value) {
           FavoriteRoutes.push(route);
-          console.log('pushing a new fav route');
         }
         else {
           FavoriteRoutes.remove(route);
-          console.log('removing ' + route.ShortName + " " + route.RouteId);
         }
     });
   };
