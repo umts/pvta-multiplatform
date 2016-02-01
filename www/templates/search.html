@@ -5,12 +5,13 @@
   <ion-content direction="y" scrollbar-y="false">
     <ion-refresher pulling-icon="ion-arrow-down-b" on-refresh="refreshItems()"></ion-refresher>
     <ion-list>
-      <ion-item collection-repeat="item in all" item-height= "50" href="#app/{{item.type}}s/{{item.id}}">
+      <ion-item collection-repeat="item in display_items" item-height= "50" href="#app/{{item.type}}s/{{item.id}}">
         <p>{{item.name}}</p>
       </ion-item>
     </ion-list>
-    <div ng-if="items !== undefined && !items.length" class="no-results">
-      <p>No Results</p>
+    <div ng-if="!display_items.length" class="no-results">
+      <center>Enter a search query to find stops, routes, and buses.</center>
+      <center ng-if="filterText.length > 0">No results found.</center>
     </div>
   </ion-content>
 </ion-view>
