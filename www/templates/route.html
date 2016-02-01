@@ -1,37 +1,37 @@
 <ion-view view-title="Route">
+  <ion-nav-buttons side="secondary">
+    <button id="like"  ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}" ng-click="liked= !liked; toggleHeart(liked)"></button>
+  </ion-nav-buttons>  
   <ion-content>
     <div class="list card">
       <div class="item">
         <h3 style="color: #{{route.Color}}">Route {{route.ShortName}}: {{route.LongName}}</h3>
       </div>
-
-   <div class="item item-body">
-     <h3>Buses on this route</h3>
-     <ion-list>
-      <ion-item ng-repeat="vehicle in vehicles" href="#/app/vehicles/{{vehicle.VehicleId}}">
-        <h4>Bus {{vehicle.Name}}</h4>
-        <p>Last Stop: <b>{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</b></p>
-        <p>Headed <b>{{vehicle.Direction? vehicle.Direction : "in an ungiven direction"}}</b> toward <b>{{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b></p>
-      </ion-item>
-     </ion-list>
-     
-     <ion-list>
-        <div ng-repeat="group in groups">
-          <ion-item class="item-stable"
-                    ng-click="toggleGroup(group)"
-                    ng-class="{active: isGroupShown(group)}">
+      <div class="item item-body">
+        <h3>Buses on this route</h3>
+        <ion-list>
+          <ion-item ng-repeat="vehicle in vehicles" href="#/app/vehicles/{{vehicle.VehicleId}}">
+            <h4>Bus {{vehicle.Name}}</h4>
+            <p>Last Stop: <b>{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</b></p>
+            <p>Headed <b>{{vehicle.Direction? vehicle.Direction : "in an ungiven direction"}}</b> toward <b>{{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b></p>
+          </ion-item>
+       </ion-list>
+       <ion-list>
+          <div ng-repeat="group in groups">
+            <ion-item class="item-stable"
+                      ng-click="toggleGroup(group)"
+                      ng-class="{active: isGroupShown(group)}">
               <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
-            
-            Stops on the {{route.ShortName}}
-          </ion-item>
-          <ion-item class="item-accordion"
-                    ng-repeat="item in group.items | orderBy: '+Name'"
-                    ng-show="isGroupShown(group)" href="#/app/stops/{{item.StopId}}">
-            {{item.Name}}
-          </ion-item>
-        </div>
-      </ion-list>
-     
+              Stops on the {{route.ShortName}}
+            </ion-item>
+            <ion-item class="item-accordion"
+                      ng-repeat="item in group.items | orderBy: '+Name'"
+                      ng-show="isGroupShown(group)" href="#/app/stops/{{item.StopId}}">
+              <i class="icon ion-ios-location" style="margin-right: 10px"></i>
+              {{item.Name}}
+            </ion-item>
+          </div>
+        </ion-list>
       </div>
       <div class="item tabs tabs-secondary tabs-icon-left">
         <a class="tab-item">

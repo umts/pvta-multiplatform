@@ -1,4 +1,7 @@
 <ion-view view-title="Stops">
+  <ion-nav-buttons side="secondary">
+    <button id="like"  ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}" ng-click="liked= !liked; toggleHeart(liked)"></button>
+  </ion-nav-buttons>
   <ion-content>
     <div class="list card">
       <div class="item">
@@ -6,15 +9,15 @@
         <button class="button button-positive" ng-click="setCoordinates(stop.Latitude,
                   stop.Longitude)" ng-href="/app/map">View this stop on a map</button>
       </div>
-   <div class="item item-body">
-     <h3>Next Departures at this stop</h3>
-     <ion-list>
-      <ion-item ng-repeat="route in departures">
-        <h2>{{route.trip.InternetServiceDesc}}</h2>
-        <h2>Scheduled {{route.departures.s}}</h2>
-        <h2>Estimated {{route.departures.e}}</h2>
-      </ion-item>
-     </ion-list>
+      <div class="item item-body">
+        <h3>Next Departures at this stop</h3>
+        <ion-list>
+          <ion-item ng-repeat="route in departures">
+            <h2>{{route.trip.InternetServiceDesc}}</h2>
+            <h2>Scheduled {{route.departures.s}}</h2>
+            <h2>Estimated {{route.departures.e}}</h2>
+          </ion-item>
+         </ion-list>
       </div>
       <div class="item tabs tabs-secondary tabs-icon-left">
         <a class="tab-item">

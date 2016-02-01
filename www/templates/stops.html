@@ -2,6 +2,7 @@
   <ion-content>
     <ion-list>
       <ion-item ng-repeat="stop in stops" href="#/app/stops/{{stop.StopId}}">
+        <i class="icon ion-ios-location" style="margin-right: 10px"></i>
         {{stop.Name}}
       </ion-item>
     </ion-list>
