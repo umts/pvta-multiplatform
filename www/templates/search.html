@@ -1,48 +1,17 @@
 <ion-view view-title="Search">
   <ion-nav-buttons side="secondary">
-      <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()">
-      </button>
-    </ion-nav-buttons>  
-  
-  
-  
+    <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()"></button>
+  </ion-nav-buttons>  
   <ion-content direction="y" scrollbar-y="false">
-    <ion-refresher pulling-icon="ion-arrow-down-b" on-refresh="refreshItems()">
-    </ion-refresher>
-    
+    <ion-refresher pulling-icon="ion-arrow-down-b" on-refresh="refreshItems()"></ion-refresher>
     <ion-list>
-      <ion-item collection-repeat="item in all" href="#app/{{item.type}}s/{{item.id}}">
+      <ion-item collection-repeat="item in display_items" item-height= "50" href="#app/{{item.type}}s/{{item.id}}">
         <p>{{item.name}}</p>
       </ion-item>
     </ion-list>
-
-    <div ng-if="items !== undefined && !items.length" class="no-results">
-      <p>No Results</p>
+    <div ng-if="!display_items.length" class="no-results">
+      <center>Enter a search query to find stops, routes, and buses.</center>
+      <center ng-if="filterText.length > 0">No results found.</center>
     </div>
-
   </ion-content>
-  
-  <!--<ion-content>
-    <h1>Search</h1>
-
-      <label class="item item-input">
-        <i class="icon ion-search placeholder-icon"></i>
-        <input type="search" placeholder="Search" ng-model="query">
-      </label>
-    <ion-list>
-      <h4>Routes</h4>
-      <ion-item ng-repeat="x in (filteredRoutes = (r | orderBy:'order_prop' | filter:query | limitTo: 1))" href="#app/routes/{{filteredRoutes[0].RouteId}}">
-        <p>{{filteredRoutes[0].ShortName}}: {{filteredRoutes[0].LongName}}</p>
-      </ion-item>
-      <h4>Stops</h4>
-      <ion-item ng-repeat="x in (filteredStops = (s | orderBy:'order_prop' | filter:query | limitTo:1))" href="#app/stopDepartures/{{filteredStops[0].StopId}}">
-        <p>{{filteredStops[0].Name}}</p>
-      </ion-item>
-      <h4>Buses</h4>
-      <ion-item ng-repeat="x in (filteredVehicles = (v | orderBy:'order_prop' | filter:query | limitTo:1))" href="#app/vehicles/{{filteredVehicles[0].VehicleId}}">
-        <p>{{filteredVehicles[0].Name}}</p>
-      </ion-item>
-    </ion-list>
-      
-  </ion-content>-->
 </ion-view>

@@ -1,10 +1,12 @@
-// Ionic Starter App
+// pvta-multiplatform
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// 'pvta' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angularMoment', 'jett.ionic.filter.bar'])
+// 'pvta.controllers' is found in controllers.js
+angular.module('pvta.controllers', ['pvta.services']);
+
+angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -24,48 +26,39 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
 
 .config(function($stateProvider, $urlRouterProvider, $ionicFilterBarConfigProvider) {
   $stateProvider
-
-    .state('app', {
+  
+  .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
+    controller: 'AppController'
   })
-
+  
+  
+  .state('app.my-buses', {
+    url: '/my-buses',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/mybuses.html',
+        controller: 'MyBusesController'
+      }
+    }
+  })
   .state('app.search', {
     url: '/search',
     views: {
       'menuContent': {
         templateUrl: 'templates/search.html',
-        controller: 'SearchCtrl'
+        controller: 'SearchController'
       }
     }
   })
-
-  .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-    .state('app.vehicles',{
-      url: "/vehicles",
-      views: {
-        'menuContent': {
-           templateUrl: "templates/vehicles.html",
-           controller: 'VehiclesCtrl'
-        }
-      }
-    })
-
-  .state('app.vehicle', {
+    .state('app.vehicle', {
     url: "/vehicles/:vehicleId",
     views: {
         'menuContent': {
           templateUrl: "templates/vehicle.html",
-          controller: 'VehicleCtrl'
+          controller: 'VehicleController'
         }
     }
   })
@@ -75,7 +68,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
       views: {
         'menuContent': {
            templateUrl: "templates/routes.html",
-           controller: 'RouteController'
+           controller: 'RoutesController'
         }
       }
     })
@@ -85,18 +78,28 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     views: {
         'menuContent': {
           templateUrl: "templates/route.html",
-          controller: 'RouteCtrl'
+          controller: 'RouteController'
         }
     }
   })
   
-  .state('app.stopDepartures', {
-    url: "/stopDepartures/:stopId",
+  .state('app.stop', {
+    url: "/stops/:stopId",
     views: {
         'menuContent': {
-          templateUrl: "templates/stop_departures.html",
-          controller: 'StopDeparturesController'
+          templateUrl: "templates/stop.html",
+          controller: 'StopController'
         }
+    }
+  })
+
+  .state('app.stops', {
+    url: "/stops",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/stops.html",
+        controller: 'StopsController'
+      }
     }
   })
 
@@ -105,10 +108,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'angular
     views: {
         'menuContent': {
           templateUrl: "templates/map.html",
-          controller: 'MapCtrl'
+          controller: 'MapController'
         }
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/search');
+  $urlRouterProvider.otherwise('/app/my-buses');
 });
