@@ -1,6 +1,5 @@
 angular.module('pvta.controllers').controller('RoutesController', function($scope, $resource, Routes, RouteList, $ionicFilterBar){
   var filterBarInstance;
-  
   if(RouteList.isEmpty()){
     $scope.routes = Routes.query(function(){
       RouteList.pushEntireList($scope.routes);
@@ -30,7 +29,7 @@ angular.module('pvta.controllers').controller('RoutesController', function($scop
     filterBarInstance = $ionicFilterBar.show({
       items: $scope.routes,
       update: function (filteredItems, filterText) {
-        $scope.routes = filteredItems;
+	    $scope.routes = filteredItems;
       }
     });
   };
