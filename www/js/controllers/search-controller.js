@@ -10,6 +10,15 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
                           });
         if(!routes[i].IsVisible){
           routes.splice(i, 1);
+          /********************************************
+           * Because splice() removes the entry at
+           * the current index and slides all others
+           * to the left, we must ***decrement i*** so that
+           * we don't miss adding a route that ocurrs
+           * immediately AFTER a non-visible route to
+           * $scope.all.
+           ********************************************/
+          i--;
         }
       }
       return routes;
