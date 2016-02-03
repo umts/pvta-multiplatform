@@ -13,12 +13,13 @@ angular.module('pvta.controllers').controller('StopsController', function($scope
     });
   }
   else{
-   $scope.stops = StopList.getEntireList(); 
-   for(var stop = 0; stop < $scope.stops.length; stop++) {
-     $scope.stops[stop] = {
-       Name: $scope.stops[stop].Name,
-       StopId: $scope.stops[stop].StopId 
-     }
+   loaded_stops = StopList.getEntireList(); 
+   $scope.stops = [];
+   for (var id in loaded_stops){  
+     $scope.stops.push({
+       Name: loaded_stops[id].Name,
+       StopId: loaded_stops[id].StopId 
+     })
    }
   }
 
