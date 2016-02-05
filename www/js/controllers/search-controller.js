@@ -36,20 +36,21 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
     var stops = [];
     if(StopList.isEmpty()){
       stops = Stops.query(function(){
-        stops.sort(function(a, b){return a.Name - b.Name})
         StopList.pushEntireList(stops);
-        prepareStops(stops);
+        for(var i = 0; i<stops.length; i++)
+          $scope.all.push({name: stops[i].Name,
+                           type: 'stop',
+                           id: stops[i].StopId
+                           });        
       });
     }
     else{
       stops = StopList.getEntireList(); 
-      for(var id in stops){
-        if(stops.hasOwnProperty(id))
-        $scope.all.push({name: stops[id].Name,
+      for(var i = 0; i<stops.length; i++)
+        $scope.all.push({name: stops[i].Name,
                         type: 'stop',
-                        id: stops[id].StopId
+                        id: stops[i].StopId
                         });
-      }
     }
     var prepareStops = function(list){
       for(var i = 0; i < list.length; i++)

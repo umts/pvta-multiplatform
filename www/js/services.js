@@ -36,24 +36,15 @@ angular.module('pvta.services', ['ngResource'])
 
 
 .factory('StopList', function(){
-  var stopsList = {};
+  var stopsList = [];
   var pushToList = function(stop){
-    var id = stop.StopId
-    stopsList[id] = stop;
+    stopsList.push(stop);
   };
   var pushEntireList = function(list){
-    for(var i = 0; i < list.length; i++){
-      var id = list[i].StopId;
-      stopsList[id] = list[i];
-    }
+    stopsList.concat(list);
     return stopsList;
   };
 
-  var getStopFromList = function(id){
-    if(!isEmpty()) return stopsList[id];
-    else return 0;
-  };
-  
   var getEntireList = function(){
     if(stopsList !== undefined){
       return stopsList;
@@ -62,13 +53,12 @@ angular.module('pvta.services', ['ngResource'])
   }
   
   var isEmpty = function(){
-    if(Object.keys(stopsList).length === 0) return true;
+    if(stopsList.length === 0) return true;
     else return false
   };
   
   return {
     pushEntireList: pushEntireList,
-    getStopFromList: getStopFromList,
     getEntireList: getEntireList,
     pushToList: pushToList,
     isEmpty: isEmpty,  
@@ -213,6 +203,37 @@ angular.module('pvta.services', ['ngResource'])
   };
 })
 
+.factory('MyLocation', function($cordovaGeolocation){
+  var userLocation;
+
+  calculateLocation = function(){
+    $cordovaGeolocation.getCurrentPosition().then(function(position){
+      userLocation = position.coords;
+    });
+  }
+  
+  getDistanceFrom = function(lat2, lon2) {
+    lat1 = userLocation.latitude;
+    lon1 = userLocation.longitude;
+    var radlat1 = Math.PI * lat1/180
+    var radlat2 = Math.PI * lat2/180
+    var radlon1 = Math.PI * lon1/180
+    var radlon2 = Math.PI * lon2/180
+    var theta = lon1-lon2
+    var radtheta = Math.PI * theta/180
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    dist = Math.acos(dist)
+    dist = dist * 180/Math.PI
+    dist = dist * 60 * 1.1515
+    return dist
+  }
+  return{
+    userLocation: userLocation,
+    calculateLocation: calculateLocation,
+    getDistanceFrom: getDistanceFrom
+  };
+})
+
 .service('LatLong', function(){
   var latlong = [];
   return {
@@ -227,3 +248,16 @@ angular.module('pvta.services', ['ngResource'])
   };
 });
 
+function distance(lat1, lon1, lat2, lon2) {
+  var radlat1 = Math.PI * lat1/180
+  var radlat2 = Math.PI * lat2/180
+  var radlon1 = Math.PI * lon1/180
+  var radlon2 = Math.PI * lon2/180
+  var theta = lon1-lon2
+  var radtheta = Math.PI * theta/180
+  var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+  dist = Math.acos(dist)
+  dist = dist * 180/Math.PI
+  dist = dist * 60 * 1.1515
+  return dist
+} 
