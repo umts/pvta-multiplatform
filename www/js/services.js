@@ -31,6 +31,9 @@ angular.module('pvta.services', ['ngResource'])
 .factory('Messages', function ($resource) {
   return $resource('http://bustracker.pvta.com/infopoint/rest/publicmessages/getcurrentmessages');
 })
+.factory('SimpleRoute', function($resource){
+  return $resource('http://bustracker.pvta.com/infopoint/rest/routes/get/:routeId');
+})
 
 
 

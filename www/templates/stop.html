@@ -1,4 +1,4 @@
-<ion-view view-title="Stops">
+<ion-view view-title="{{stop.Name}}">
   <ion-nav-buttons side="secondary">
     <button id="like"  ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}" ng-click="liked= !liked; toggleHeart(liked)"></button>
   </ion-nav-buttons>
@@ -12,10 +12,13 @@
       <div class="item item-body">
         <h3>Next Departures at this stop</h3>
         <ion-list>
-          <ion-item ng-repeat="route in departures">
-            <h2>{{route.trip.InternetServiceDesc}}</h2>
-            <h2>Scheduled {{route.departures.s}}</h2>
-            <h2>Estimated {{route.departures.e}}</h2>
+          <ion-item ng-repeat="route in departures" ng-init="rdet=getRoute(route.route)">
+            <p>{{route.route}}</p>
+            <button class="button button-block" style="background-color: #{{color.Color}};">
+              <span style="float: left;">{{route.trip.InternetServiceDesc}}</span>
+              <span style="float: center;">Scheduled {{route.departures.s}}</span>
+              <span style="float: right;">Estimated {{route.departures.e}}</span>
+            </button>
           </ion-item>
          </ion-list>
       </div>
