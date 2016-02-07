@@ -1,8 +1,7 @@
 angular.module('pvta.controllers').controller('StopController', function($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong, FavoriteStops, SimpleRoute){
   
-  var routes = [];
-  
   var getDepartures = function(){
+    var routes = [];
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function(){
       var directions = deps[0].RouteDirections;
       $scope.departures = [];
@@ -67,10 +66,10 @@ angular.module('pvta.controllers').controller('StopController', function($scope,
   
   var getRoutes = function(routes){
     $scope.colors = [];
-    console.log(JSON.stringify(routes));
     for(var i = 0; i < routes.length; i++){
+      console.log(routes[i]);
       var r = SimpleRoute.get({routeId: routes[i]}, function(){
-        $scope.colors.push({id: r.RouteId, color: r.Color});
+        $scope.colors.push(r.Color);
       });
     }
   };
