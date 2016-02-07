@@ -6,8 +6,6 @@
     <div class="list card">
       <div class="item">
         <h3>Stop {{stop.StopId}}: {{stop.Name}}</h3>
-        <button class="button button-positive" ng-click="setCoordinates(stop.Latitude,
-                  stop.Longitude)" ng-href="/app/map">View this stop on a map</button>
       </div>
       <div class="item item-body">
         <h3>Next Departures at this stop</h3>
@@ -26,13 +24,14 @@
         <center>No remaining departures found.</center>
       </div>
       <div class="item tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item">
-          <i class="icon ion-thumbsup"></i>
-          Like
+        <a class="tab-item" ng-click="setCoordinates(stop.Latitude,
+                  stop.Longitude)">
+          <i class="icon ion-ios-location"></i>
+          Find On Map
         </a>
-        <a class="tab-item">
-          <i class="icon ion-chatbox"></i>
-          Comment
+        <a class="tab-item" href="#app/mybuses">
+          <i class="icon ion-android-home"></i>
+          My Buses
         </a>
         <a class="tab-item">
           <i class="icon ion-share"></i>
