@@ -12,16 +12,18 @@
       <div class="item item-body">
         <h3>Next Departures at this stop</h3>
         <ion-list>
-          <ion-item ng-repeat="route in departures">
-            <p>{{route.route}}</p>
-            <p>{{colors}}</p>
-            <button class="button button-block" style="background-color: #{{colors[route.route].Color}};">
-              <span style="float: left;">{{route.trip.InternetServiceDesc}}</span>
+          <ion-item ng-repeat="route in departures" href="#/app/routes/{{route.route}}">
+            <button class="button button-block" style="background-color: #{{routeList[route.route].Color}}; color: #{{routeList[route.route].TextColor}}">
+              <span style="float: left;"></span>
+              <span style="float: left;">{{routeList[route.route].ShortName}} {{route.trip.InternetServiceDesc}}</span>
               <span style="float: center;">Scheduled {{route.departures.s}}</span>
               <span style="float: right;">Estimated {{route.departures.e}}</span>
             </button>
           </ion-item>
          </ion-list>
+      </div>
+      <div ng-if="!departures.length">
+        <center>No remaining departures found.</center>
       </div>
       <div class="item tabs tabs-secondary tabs-icon-left">
         <a class="tab-item">

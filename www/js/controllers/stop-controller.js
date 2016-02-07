@@ -32,7 +32,7 @@ angular.module('pvta.controllers').controller('StopController', function($scope,
             }
           }
         }
-      getRoutes(routes);
+      getRoutes($scope.departures);
     });
   } // end getDepartures
   var stop = Stop.get({stopId: $stateParams.stopId}, function(){
@@ -65,17 +65,15 @@ angular.module('pvta.controllers').controller('StopController', function($scope,
   };
   
   var getRoutes = function(routes){
-    $scope.colors = [];
     for(var i = 0; i < routes.length; i++){
-      console.log(routes[i]);
-      var r = SimpleRoute.get({routeId: routes[i]}, function(){
-        $scope.colors.push(r.Color);
-      });
+      $scope.getRoute(routes[i].route);
     }
   };
-  
+  $scope.routeList = {};
   $scope.getRoute = function(id){
-    $scope.color = SimpleRoute.get({routeId: id});
+    var x = SimpleRoute.get({routeId: id}, function(){
+      $scope.routeList[id] = (x);
+    });
   };
   
   var getHeart = function(){
