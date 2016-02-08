@@ -37,20 +37,12 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
     if(StopList.isEmpty()){
       stops = Stops.query(function(){
         StopList.pushEntireList(stops);
-        for(var i = 0; i<stops.length; i++)
-          $scope.all.push({name: stops[i].Name,
-                           type: 'stop',
-                           id: stops[i].StopId
-                           });        
+        prepareStops(stops);
       });
     }
     else{
       stops = StopList.getEntireList(); 
-      for(var i = 0; i<stops.length; i++)
-        $scope.all.push({name: stops[i].Name,
-                        type: 'stop',
-                        id: stops[i].StopId
-                        });
+      prepareStops(stops);
     }
     var prepareStops = function(list){
       for(var i = 0; i < list.length; i++)
