@@ -1,6 +1,7 @@
 angular.module('pvta.controllers').controller('StopsController', function($scope, $resource, StopList, Stops, MyLocation, $ionicFilterBar, $cordovaGeolocation){
   var filterBarInstance;
   MyLocation.calculateLocation();
+  $scope.displayMessage = "Loading stops closest to you...";
   if(StopList.isEmpty()){
     $scope.stops = Stops.query(function(){
       StopList.pushEntireList($scope.stops);
@@ -9,6 +10,7 @@ angular.module('pvta.controllers').controller('StopsController', function($scope
   else{
    $scope.stops = StopList.getEntireList(); 
    }
+   $scope.displayMessage = "No results found.";
 
   $scope.showFilterBar = function () {
     filterBarInstance = $ionicFilterBar.show({
