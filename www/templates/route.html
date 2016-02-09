@@ -4,9 +4,9 @@
     <button id="like"  ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}" ng-click="liked= !liked; toggleHeart(liked)"></button>
   </ion-nav-buttons>  
   <ion-content>
-    <div class="card">
-      <div class="item">
-        <h2 class="item-text-wrap" style="text-align: center; font-size: 150%">{{route.LongName}}</h2>
+    <div>
+      <div class="item-text-wrap">
+        <h2 class="item" style="text-align: center; font-size: 150%">{{route.LongName}}</h2>
       </div>
       <div class="item item-body">
         <h2 style="text-align:center;">Buses currently on the {{route.ShortName}}:</h2>
@@ -20,28 +20,30 @@
           </div>
           <div class="list card">
             <ion-item class="item" ng-repeat="vehicle in vehicles" href="#/app/vehicles/{{vehicle.VehicleId}}" style="background-color: #{{route.Color}}">
-              <div class="row">
-                <div class="col" style="text-align: center; font-weight: bold; font-size: 125%">
-                  <span ng-if="vehicle.DisplayStatus==='Late'" style="color: red;">
+              <div class="row" style="font-weight: bold;">
+                  <div class="col" ng-if="vehicle.DisplayStatus==='Late'" style="color: red; text-align: center;">
                     Bus {{vehicle.Name}} - {{vehicle.DisplayStatus}}
-                  </span>
-                  <span ng-if="vehicle.DisplayStatus==='On Time'" style="color: green;">
+                  </div>
+                  <div class="col" ng-if="vehicle.DisplayStatus==='On Time'" style="color: green; text-align: center;">
                     Bus {{vehicle.Name}} - {{vehicle.DisplayStatus}}
-                  </span>
+                  </div>
+              </div>
+              <div class="row item-text-wrap" ng-if="vehicle.DisplayStatus === 'Late'">
+                <div class="col" style="text-align: center; color: red">
+                  Late by {{vehicle.Deviation}} minutes
                 </div>
               </div>
               <div class="row">
                 <div class="col item-text-wrap" style="text-align: center;">
-                  Last Stop: <b>{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</b>
-                </div>
-                <div class="col item-text-wrap" style="text-align: center;">
-                  Headed <b>{{vehicle.Direction? vehicle.Direction : "in an ungiven direction"}}</b> 
+                  Headed {{vehicle.Direction? vehicle.Direction : "in an ungiven direction"}}
                   toward <b>{{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b>
                 </div >
-                <div class="col item-text-wrap" ng-if="vehicle.DisplayStatus === 'Late'" style="text-align: center; color: red">
-                  Late by {{vehicle.Deviation}} minutes
+              </div>
+              <div class="row item-text-wrap">
+                <div class="col" style="text-align: center;">
+                  Last Stop: <b>{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</b>
                 </div>
-              </div>   
+              </div>
             </ion-item>
           </div>
        </ion-list>
