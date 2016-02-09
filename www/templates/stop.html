@@ -1,9 +1,9 @@
-<ion-view view-title="Stop">
+<ion-view>
+  <ion-nav-title>Upcoming Departures at {{stop.Name}}</ion-nav-title>
   <ion-nav-buttons side="secondary">
     <button id="like"  ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}" ng-click="liked= !liked; toggleHeart(liked)"></button>
   </ion-nav-buttons>
   <ion-content>
-    <h2 class="title">Upcoming Departures at {{stop.Name}}</h2>
     <div>
         <ion-list>
           <ion-item class="list card" ng-repeat="route in departures" style="color: #{{routeList[route.route].Color}}; background-color: #{{routeList[route.route].Color}}" href="#/app/routes/{{route.route}}">
