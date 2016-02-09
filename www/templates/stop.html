@@ -3,35 +3,33 @@
     <button id="like"  ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}" ng-click="liked= !liked; toggleHeart(liked)"></button>
   </ion-nav-buttons>
   <ion-content>
-    <div class="list card">
-      <div class="item">
-        <h3>Stop {{stop.StopId}}: {{stop.Name}}</h3>
-      </div>
-      <div class="item item-body">
-        <h3>Next Departures at this stop</h3>
+    <h2 class="title">Upcoming Departures at {{stop.Name}}</h2>
+    <div>
         <ion-list>
-          <ion-item ng-repeat="route in departures" href="#/app/routes/{{route.route}}">
-            <button class="button button-block icon-left " style="background-color: #{{routeList[route.route].Color}}; color: #{{routeList[route.route].TextColor}}">
-              <div class="row">
-                <div class="col-10" style="font-weight: bold; font-size: 155%;">
+          <ion-item class="list card" ng-repeat="route in departures" style="color: #{{routeList[route.route].Color}}; background-color: #{{routeList[route.route].Color}}" href="#/app/routes/{{route.route}}">
+           
+            <div class="row">
+              <div class="col-10" style="font-weight: bold; text-align: left; font-size: 175%; color: #{{routeList[route.route].Color}}">
                   {{routeList[route.route].ShortName}}
                 </div>
-                <div class="col" style="font-weight: bold; text-align: left">
+                <div class="col item-text-wrap" style="font-weight: bold; text-align: center">
                   {{route.trip.InternetServiceDesc}}
                 </div>
-                  
-                <div class="col" style="font-weight: bold; text-align: right;">
+            </div>
+                
+            <div class="row">
+                <div class="col-50 item-text-wrap" style="font-weight: light; text-align: center;">
                   Scheduled {{route.departures.s}}
                 </div>
                 
-                <div class="col" style="font-weight: bold; text-align: right;">
+                <div class="col-50 item-text-wrap" style="font-weight: light; text-align: center;">
                   Estimated {{route.departures.e}}
                 </div>
                 
               
               </div>
               
-            </button>
+           
           </ion-item>
          </ion-list>
       </div>
@@ -50,6 +48,6 @@
         </a>
         
       </div>
-    </div>
+    
   </ion-content>
 </ion-view>
