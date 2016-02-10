@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource, RouteList, StopList, Stops){
+angular.module('pvta.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource, RouteList, StopList, Stops, Avail){
   var filterBarInstance;
   function getItems () {
     $scope.all = [];
@@ -24,7 +24,7 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
       return routes;
     }
     if(RouteList.isEmpty()){
-      var routes = $resource('http://bustracker.pvta.com/infopoint/rest/routes/getallroutes').query({}, function(){
+      var routes = $resource(Avail + '/routes/getallroutes').query({}, function(){
         routes = prepareRoutes(routes);
         RouteList.pushEntireList(routes);
       });
