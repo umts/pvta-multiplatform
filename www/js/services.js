@@ -1,38 +1,42 @@
 angular.module('pvta.services', ['ngResource'])
 
-.factory('Vehicle', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/get/:vehicleId');
+.factory('Avail', function(){
+  return 'http://bustracker.pvta.com/infopoint/rest';
 })
 
-.factory('Route', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/routedetails/get/:routeId');
+.factory('Vehicle', function ($resource, Avail) {
+    return $resource(Avail + '/vehicles/get/:vehicleId');
 })
 
-.factory('Routes', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/routes/getvisibleroutes');
+.factory('Route', function ($resource, Avail) {
+    return $resource(Avail + '/routedetails/get/:routeId');
 })
 
-.factory('Stop', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/stops/get/:stopId');
+.factory('Routes', function ($resource, Avail) {
+    return $resource(Avail + '/routes/getvisibleroutes');
 })
 
-.factory('Stops', function($resource){
-    return $resource('http://bustracker.pvta.com/infopoint/rest/stops/getallstops');
+.factory('Stop', function ($resource, Avail) {
+    return $resource(Avail + '/stops/get/:stopId');
 })
 
-.factory('RouteVehicles', function($resource){
-    return $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehiclesforroute?routeId=:routeId')
+.factory('Stops', function ($resource, Avail){
+    return $resource(Avail + '/stops/getallstops');
 })
 
-.factory('StopDeparture', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/:stopId');
+.factory('RouteVehicles', function ($resource, Avail){
+    return $resource(Avail + '/vehicles/getallvehiclesforroute?routeId=:routeId')
 })
 
-.factory('Messages', function ($resource) {
-  return $resource('http://bustracker.pvta.com/infopoint/rest/publicmessages/getcurrentmessages');
+.factory('StopDeparture', function ($resource, Avail) {
+    return $resource(Avail + '/stopdepartures/get/:stopId');
 })
-.factory('SimpleRoute', function($resource){
-  return $resource('http://bustracker.pvta.com/infopoint/rest/routes/get/:routeId');
+
+.factory('Messages', function ($resource, Avail) {
+  return $resource(Avail + '/publicmessages/getcurrentmessages');
+})
+.factory('SimpleRoute', function ($resource, Avail){
+  return $resource(Avail + '/routes/get/:routeId');
 })
 
 
