@@ -3,4 +3,5 @@ platforms/ios/*
 node_modules
 bower_components
 .idea
-
+npm-debug.log
+npm-debug.log.*
