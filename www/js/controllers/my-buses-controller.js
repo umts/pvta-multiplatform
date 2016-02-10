@@ -1,9 +1,8 @@
-angular.module('pvta.controllers').controller('MyBusesController', function($scope, Messages, FavoriteRoutes, FavoriteStops, MyLocation){
+angular.module('pvta.controllers').controller('MyBusesController', function($scope, Messages, FavoriteRoutes, FavoriteStops){
   $scope.$on('$ionicView.enter', function(e){
     reload();
   }) 
   var reload = function(){
-    MyLocation.calculateLocation();
     localforage.getItem('favoriteRoutes', function(err, value){
       $scope.routes = value;
     });

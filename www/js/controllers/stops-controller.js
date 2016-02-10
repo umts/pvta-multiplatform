@@ -1,10 +1,15 @@
-angular.module('pvta.controllers').controller('StopsController', function($scope, $resource, StopList, Stops, MyLocation, $ionicFilterBar, $cordovaGeolocation){
-  MyLocation.calculateLocation();
+angular.module('pvta.controllers').controller('StopsController', function($scope, $resource, StopList, Stops, NearestStops, $ionicFilterBar, $cordovaGeolocation){
   $scope.display_message = "No results found.";
   var filterBarInstance;
   if(StopList.isEmpty()){
-    $scope.stops = Stops.query(function(){
-      StopList.pushEntireList($scope.stops);
+    $cordovaGeolocation.getCurrentPosition().then(function(position){
+      $scope.stops = NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function(){
+        StopList.pushEntireList($scope.stops);
+      });
+    }, function(err) {
+      $scope.stops = Stops.query(function(){
+        StopList.pushEntireList($scope.stops);
+      }); 
     });
   }
   else{
@@ -19,9 +24,5 @@ angular.module('pvta.controllers').controller('StopsController', function($scope
       }
     });
   };
-  $scope.distanceFromHere = function(stop) {
-    return MyLocation.getDistanceFrom(stop.Latitude, stop.Longitude);
-  };
-
 
 })
