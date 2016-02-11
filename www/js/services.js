@@ -35,6 +35,7 @@ angular.module('pvta.services', ['ngResource'])
 .factory('Messages', function ($resource, Avail) {
   return $resource(Avail + '/publicmessages/getcurrentmessages');
 })
+
 .factory('SimpleRoute', function ($resource, Avail){
   return $resource(Avail + '/routes/get/:routeId');
 })

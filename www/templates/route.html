@@ -47,6 +47,16 @@
             </ion-item>
           </div>
        </ion-list>
+       <div class="list card" style="text-align: center;" ng-if="messages.length !== 0">
+         <h2>Active alerts for the {{route.ShortName}}:</h2>
+         <ion-list>
+           <ion-item class=item ng-repeat="item in messages">
+             <div class="row item-text-wrap">
+               {{item.Message}}
+             </div>
+           </ion-item>
+         </ion-list>
+       </div>
        <div class="list card">
         <ion-list>
         <ion-item class="item" ng-click="toggleGroup(stops)" ng-class="{active: isGroupShown(stops)}">
