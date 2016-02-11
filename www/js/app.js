@@ -15,13 +15,18 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
-
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
     }
   });
+  /******************************************************
+  * Set the status bar color to our app's color.
+  *********************************************************
+  * Only after the device has specifically told us it's ready
+  * may we access the global StatusBar object.  
+  * **************************************************/
+  document.addEventListener("deviceready", onDeviceReady, true);
+  function onDeviceReady() {
+    StatusBar.backgroundColorByHexString("#387ef5");
+  };
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicFilterBarConfigProvider) {
