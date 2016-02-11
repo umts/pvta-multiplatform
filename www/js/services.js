@@ -86,11 +86,11 @@ angular.module('pvta.services', ['ngResource'])
 .factory('RouteList', function(){
   var routesList = [];
   
-  var pushToList = function(route){
-    routesList.push(route);
-  };
   var pushEntireList = function(list){
-   routesList = list;
+   // only store the route attributes we need
+   routesList = _.map(list, function(route){
+     return _.pick(route, 'ShortName', 'LongName', 'Color', 'RouteId');
+   });
    return routesList;
   };
 
@@ -109,7 +109,6 @@ angular.module('pvta.services', ['ngResource'])
   return {
     pushEntireList: pushEntireList,
     getEntireList: getEntireList,
-    pushToList: pushToList,
     isEmpty: isEmpty,  
   };
   
