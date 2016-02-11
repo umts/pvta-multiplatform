@@ -90,7 +90,7 @@ angular.module('pvta.services', ['ngResource'])
     routesList.push(route);
   };
   var pushEntireList = function(list){
-   var stripDigit = /[a-z]?(\d{1,2})/
+   var stripDigit = /[A-z]?(\d{1,2})/
    routesList = list.sort(function(a, b){
      aRouteChunk = a.ShortName.match(stripDigit)[0];
      bRouteChunk = b.ShortName.match(stripDigit)[0];
