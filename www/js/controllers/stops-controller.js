@@ -1,27 +1,20 @@
-angular.module('pvta.controllers').controller('StopsController', function($scope, $resource, StopList, Stops, $ionicFilterBar){
+angular.module('pvta.controllers').controller('StopsController', function($scope, $resource, StopList, Stops, NearestStops, $ionicFilterBar, $cordovaGeolocation){
+  $scope.display_message = "No results found.";
   var filterBarInstance;
   if(StopList.isEmpty()){
-    $scope.stops = Stops.query(function(){
-      $scope.stops.sort(function(a, b){return a.Name - b.Name})
-      StopList.pushEntireList($scope.stops);
-      for(var stop = 0; stop < $scope.stops.length; stop++) {
-        $scope.stops[stop] = {
-        Name: $scope.stops[stop].Name,
-        StopId: $scope.stops[stop].StopId  
-        }
-      }
+    $cordovaGeolocation.getCurrentPosition().then(function(position){
+      $scope.stops = NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function(){
+        StopList.pushEntireList($scope.stops);
+      });
+    }, function(err) {
+      $scope.stops = Stops.query(function(){
+        StopList.pushEntireList($scope.stops);
+      }); 
     });
   }
   else{
-   loaded_stops = StopList.getEntireList(); 
-   $scope.stops = [];
-   for (var id in loaded_stops){  
-     $scope.stops.push({
-       Name: loaded_stops[id].Name,
-       StopId: loaded_stops[id].StopId 
-     })
+   $scope.stops = StopList.getEntireList(); 
    }
-  }
 
   $scope.showFilterBar = function () {
     filterBarInstance = $ionicFilterBar.show({
@@ -31,6 +24,5 @@ angular.module('pvta.controllers').controller('StopsController', function($scope
       }
     });
   };
-
 
 })

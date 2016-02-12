@@ -16,6 +16,10 @@ angular.module('pvta.services', ['ngResource'])
     return $resource(Avail + '/routes/getvisibleroutes');
 })
 
+.factory('NearestStops', function($resource, Avail){
+    return $resource(Avail + '/Stops/Nearest?latitude=:latitude&longitude=:longitude', {latitude: "@latitude", longitude: "@longitude"})
+})
+
 .factory('Stop', function ($resource, Avail) {
     return $resource(Avail + '/stops/get/:stopId');
 })
@@ -44,24 +48,15 @@ angular.module('pvta.services', ['ngResource'])
 
 
 .factory('StopList', function(){
-  var stopsList = {};
+  var stopsList = [];
   var pushToList = function(stop){
-    var id = stop.StopId
-    stopsList[id] = stop;
+    stopsList.push(stop);
   };
   var pushEntireList = function(list){
-    for(var i = 0; i < list.length; i++){
-      var id = list[i].StopId;
-      stopsList[id] = list[i];
-    }
+    stopsList = stopsList.concat(list);
     return stopsList;
   };
 
-  var getStopFromList = function(id){
-    if(!isEmpty()) return stopsList[id];
-    else return 0;
-  };
-  
   var getEntireList = function(){
     if(stopsList !== undefined){
       return stopsList;
@@ -70,13 +65,12 @@ angular.module('pvta.services', ['ngResource'])
   }
   
   var isEmpty = function(){
-    if(Object.keys(stopsList).length === 0) return true;
+    if(stopsList.length === 0) return true;
     else return false
   };
   
   return {
     pushEntireList: pushEntireList,
-    getStopFromList: getStopFromList,
     getEntireList: getEntireList,
     pushToList: pushToList,
     isEmpty: isEmpty,  
@@ -239,4 +233,3 @@ angular.module('pvta.services', ['ngResource'])
     }
   };
 });
-
