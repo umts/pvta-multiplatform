@@ -16,6 +16,10 @@ angular.module('pvta.services', ['ngResource'])
     return $resource(Avail + '/routes/getvisibleroutes');
 })
 
+.factory('NearestStops', function($resource, Avail){
+    return $resource(Avail + '/Stops/Nearest?latitude=:latitude&longitude=:longitude', {latitude: "@latitude", longitude: "@longitude"})
+})
+
 .factory('Stop', function ($resource, Avail) {
     return $resource(Avail + '/stops/get/:stopId');
 })
@@ -55,11 +59,6 @@ angular.module('pvta.services', ['ngResource'])
     return stopsList;
   };
 
-  var getStopFromList = function(id){
-    if(!isEmpty()) return stopsList[id];
-    else return 0;
-  };
-  
   var getEntireList = function(){
     if(stopsList !== undefined){
       return stopsList;
@@ -68,13 +67,12 @@ angular.module('pvta.services', ['ngResource'])
   }
   
   var isEmpty = function(){
-    if(Object.keys(stopsList).length === 0) return true;
+    if(stopsList.length === 0) return true;
     else return false
   };
   
   return {
     pushEntireList: pushEntireList,
-    getStopFromList: getStopFromList,
     getEntireList: getEntireList,
     isEmpty: isEmpty,  
   };
@@ -88,6 +86,12 @@ angular.module('pvta.services', ['ngResource'])
    // only store the route attributes we need
    routesList = _.map(list, function(route){
      return _.pick(route, 'ShortName', 'LongName', 'Color', 'RouteId');
+   });
+   // sort routes by their number
+   var routeNumber = /\d{1,2}/;
+   routesList = _.sortBy(routesList, function(route){
+     matches = route.ShortName.match(routeNumber)
+     return Number(_.first(matches));
    });
    return routesList;
   };
@@ -230,4 +234,3 @@ angular.module('pvta.services', ['ngResource'])
     }
   };
 });
-
