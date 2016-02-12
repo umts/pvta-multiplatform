@@ -92,6 +92,12 @@ angular.module('pvta.services', ['ngResource'])
    routesList = _.map(list, function(route){
      return _.pick(route, 'ShortName', 'LongName', 'Color', 'RouteId');
    });
+   // sort routes by their number
+   var routeNumber = /\d{1,2}/;
+   routesList = _.sortBy(routesList, function(route){
+     matches = route.ShortName.match(routeNumber)
+     return Number(_.first(matches));
+   });
    return routesList;
   };
 
