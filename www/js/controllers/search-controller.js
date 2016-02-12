@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource, RouteList, StopList, Stops){
+angular.module('pvta.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, StopList, Stops, NearestStops){
   var filterBarInstance;
   function getItems () {
     $scope.all = [];
@@ -35,9 +35,16 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
     }
     var stops = [];
     if(StopList.isEmpty()){
-      stops = Stops.query(function(){
-        StopList.pushEntireList(stops);
-        prepareStops(stops);
+      $cordovaGeolocation.getCurrentPosition().then(function(position){
+        stops = NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function(){
+          StopList.pushEntireList(stops);
+          prepareStops(stops);
+        });
+      }, function(err) {
+        stops = Stops.query(function() {
+          StopList.pushEntireList(stops);
+          prepareStops(stops);
+        });
       });
     }
     else{

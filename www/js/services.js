@@ -21,9 +21,7 @@ angular.module('pvta.services', ['ngResource'])
 })
 
 .factory('NearestStops', function($resource){
-    return $resource('http://bustracker.pvta.com/infopoint/rest/Stops/Nearest?latitude=:latitude&longitude=:longitude', {latitude: "@latitude", longitude: "@longitude"}, {
-        query: {method: 'get', isArray: true}          
-    });
+    return $resource('http://bustracker.pvta.com/infopoint/rest/Stops/Nearest?latitude=:latitude&longitude=:longitude', {latitude: "@latitude", longitude: "@longitude"})
 })
 
 .factory('RouteVehicles', function($resource){
@@ -47,7 +45,7 @@ angular.module('pvta.services', ['ngResource'])
     stopsList.push(stop);
   };
   var pushEntireList = function(list){
-    stopsList.concat(list);
+    stopsList = stopsList.concat(list);
     return stopsList;
   };
 
