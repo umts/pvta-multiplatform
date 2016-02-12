@@ -3,3 +3,6 @@ platforms/ios/*
 node_modules
 bower_components
 .idea
+*.apk
+npm-debug.log
+npm-debug.log.*

@@ -1,39 +1,47 @@
 angular.module('pvta.services', ['ngResource'])
 
-.factory('Vehicle', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/get/:vehicleId');
+.factory('Avail', function(){
+  return 'http://bustracker.pvta.com/infopoint/rest';
 })
 
-.factory('Route', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/routedetails/get/:routeId');
+.factory('Vehicle', function ($resource, Avail) {
+    return $resource(Avail + '/vehicles/get/:vehicleId');
 })
 
-.factory('Routes', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/routes/getvisibleroutes');
+.factory('Route', function ($resource, Avail) {
+    return $resource(Avail + '/routedetails/get/:routeId');
 })
 
-.factory('Stop', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/stops/get/:stopId');
+.factory('Routes', function ($resource, Avail) {
+    return $resource(Avail + '/routes/getvisibleroutes');
 })
 
-.factory('Stops', function($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/stops/getallstops');
+.factory('NearestStops', function($resource, Avail){
+    return $resource(Avail + '/Stops/Nearest?latitude=:latitude&longitude=:longitude', {latitude: "@latitude", longitude: "@longitude"})
 })
 
-.factory('NearestStops', function($resource){
-    return $resource('http://bustracker.pvta.com/infopoint/rest/Stops/Nearest?latitude=:latitude&longitude=:longitude', {latitude: "@latitude", longitude: "@longitude"})
+.factory('Stop', function ($resource, Avail) {
+    return $resource(Avail + '/stops/get/:stopId');
 })
 
-.factory('RouteVehicles', function($resource){
-    return $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehiclesforroute?routeId=:routeId')
+.factory('Stops', function ($resource, Avail){
+    return $resource(Avail + '/stops/getallstops');
 })
 
-.factory('StopDeparture', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/:stopId');
+.factory('RouteVehicles', function ($resource, Avail){
+    return $resource(Avail + '/vehicles/getallvehiclesforroute?routeId=:routeId')
 })
 
-.factory('Messages', function ($resource) {
-  return $resource('http://bustracker.pvta.com/infopoint/rest/publicmessages/getcurrentmessages');
+.factory('StopDeparture', function ($resource, Avail) {
+    return $resource(Avail + '/stopdepartures/get/:stopId');
+})
+
+.factory('Messages', function ($resource, Avail) {
+  return $resource(Avail + '/publicmessages/getcurrentmessages');
+})
+
+.factory('SimpleRoute', function ($resource, Avail){
+  return $resource(Avail + '/routes/get/:routeId');
 })
 
 
@@ -73,11 +81,17 @@ angular.module('pvta.services', ['ngResource'])
 .factory('RouteList', function(){
   var routesList = [];
   
-  var pushToList = function(route){
-    routesList.push(route);
-  };
   var pushEntireList = function(list){
-   routesList = list;
+   // only store the route attributes we need
+   routesList = _.map(list, function(route){
+     return _.pick(route, 'ShortName', 'LongName', 'Color', 'RouteId');
+   });
+   // sort routes by their number
+   var routeNumber = /\d{1,2}/;
+   routesList = _.sortBy(routesList, function(route){
+     matches = route.ShortName.match(routeNumber)
+     return Number(_.first(matches));
+   });
    return routesList;
   };
 
@@ -96,7 +110,6 @@ angular.module('pvta.services', ['ngResource'])
   return {
     pushEntireList: pushEntireList,
     getEntireList: getEntireList,
-    pushToList: pushToList,
     isEmpty: isEmpty,  
   };
   

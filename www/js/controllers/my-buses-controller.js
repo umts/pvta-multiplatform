@@ -14,18 +14,18 @@ angular.module('pvta.controllers').controller('MyBusesController', function($sco
   $scope.stops = [];
   $scope.removeAll = function(){
     localforage.clear();
-    reload();
+    $scope.routes = [];
   };
   
   $scope.messages = Messages.query();
   
-  $scope.removeRoute = function(route){
+  $scope.removeRoute = function(route, currentIndex){
     FavoriteRoutes.remove(route);
-    reload();
+    $scope.routes.splice(currentIndex, 1);
   };
   
-  $scope.removeStop = function(stop){
+  $scope.removeStop = function(stop, currentIndex){
     FavoriteStops.remove(stop);
-    reload();
+    $scope.stops.splice(currentIndex, 1);
   };
 })

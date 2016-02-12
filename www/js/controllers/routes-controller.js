@@ -2,28 +2,10 @@ angular.module('pvta.controllers').controller('RoutesController', function($scop
   var filterBarInstance;
   if(RouteList.isEmpty()){
     $scope.routes = Routes.query(function(){
-      RouteList.pushEntireList($scope.routes);
-      for(var route = 0; route < $scope.routes.length; route++){
-        $scope.routes[route] = {
-          LongName: $scope.routes[route].LongName,
-          ShortName: $scope.routes[route].ShortName,
-          RouteId: $scope.routes[route].RouteId,
-          Color: $scope.routes[route].Color,
-        }
-      }
+      $scope.routes = RouteList.pushEntireList($scope.routes);
     });
   }
-  else{
-    $scope.routes = RouteList.getEntireList();
-    for(var route = 0; route < $scope.routes.length; route++){
-      $scope.routes[route] = {
-        LongName: $scope.routes[route].LongName,
-        ShortName: $scope.routes[route].ShortName,
-        RouteId: $scope.routes[route].RouteId,
-        Color: $scope.routes[route].Color,
-      }
-    }
-  }
+  else $scope.routes = RouteList.getEntireList();
   
   $scope.showFilterBar = function () {
     filterBarInstance = $ionicFilterBar.show({
