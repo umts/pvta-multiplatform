@@ -34,15 +34,22 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
       routes = prepareRoutes(routes);
     }
     var stops = [];
+
+    var prepareStops = function(list){
+      _.each(list, function(stop){
+        $scope.all.push({name: stop.Name, type: 'stop', id: stop.StopId});
+      });
+    }
+
     if(StopList.isEmpty()){
       $cordovaGeolocation.getCurrentPosition().then(function(position){
         stops = NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function(){
-          StopList.pushEntireList(stops);
+          stops = StopList.pushEntireList(stops);
           prepareStops(stops);
         });
       }, function(err) {
         stops = Stops.query(function() {
-          StopList.pushEntireList(stops);
+          stops = StopList.pushEntireList(stops);
           prepareStops(stops);
         });
       });
@@ -52,11 +59,6 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
       prepareStops(stops);
     }
 
-    var prepareStops = function(list){
-      _.each(list, function(stop){
-        $scope.all.push({name: stop.Name, type: 'stop', id: stop.StopId});
-      });
-    }
 
     var vehicles = $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').query({}, function(){
       for(var i = 0; i < vehicles.length; i++){
