@@ -67,7 +67,8 @@ angular.module('pvta.services', ['ngResource'])
   }
   
   var isEmpty = function(){
-    if(stopsList.length === 0) return true;
+    var len = Object.keys(stopsList).length
+    if(len === 0) return true;
     else return false
   };
   
