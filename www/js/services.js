@@ -48,14 +48,12 @@ angular.module('pvta.services', ['ngResource'])
 
 
 .factory('StopList', function(){
-  var stopsList = {};
-
+  var stopsList = [];
+  var pushToList = function(stop){
+    stopsList.push(stop);
+  };
   var pushEntireList = function(list){
-    list = _.sortBy(list, 'Name');
-    list = _.uniq(list, true, 'Name');
-    _.each(list, function(stop){
-      stopsList[stop.StopId] = stop;
-    });
+    stopsList = stopsList.concat(list);
     return stopsList;
   };
 
@@ -67,12 +65,14 @@ angular.module('pvta.services', ['ngResource'])
   }
   
   var isEmpty = function(){
-    return _.isEmpty(stopsList);
+    if(stopsList.length === 0) return true;
+    else return false
   };
   
   return {
     pushEntireList: pushEntireList,
     getEntireList: getEntireList,
+    pushToList: pushToList,
     isEmpty: isEmpty,  
   };
   
