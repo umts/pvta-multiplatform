@@ -16,9 +16,8 @@
               None
               <i class="icon ion-thumbsdown"></i>
             </div>
-            
           </div>
-          <div class="list card">
+          <div class="list card" ng-if="vehicles.length > 0">
             <ion-item class="item" ng-repeat="vehicle in vehicles" href="#/app/vehicles/{{vehicle.VehicleId}}" style="background-color: #{{route.Color}}">
               <div class="row" style="font-weight: bold;">
                   <div class="col" ng-if="vehicle.DisplayStatus==='Late'" style="color: red; text-align: center;">
