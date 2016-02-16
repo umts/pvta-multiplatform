@@ -66,12 +66,14 @@ angular.module('pvta.services', ['ngResource'])
   }
   
   var isEmpty = function(){
-    return _.isEmpty(stopsList);
+    if(stopsList.length === 0) return true;
+    else return false
   };
   
   return {
     pushEntireList: pushEntireList,
     getEntireList: getEntireList,
+    pushToList: pushToList,
     isEmpty: isEmpty,  
   };
   
