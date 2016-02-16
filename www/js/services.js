@@ -48,13 +48,12 @@ angular.module('pvta.services', ['ngResource'])
 
 
 .factory('StopList', function(){
-  var stopsList = {};
+  var stopsList = []; 
 
   var pushEntireList = function(list){
-    list = _.sortBy(list, 'Name');
     list = _.uniq(list, true, 'Name');
     _.each(list, function(stop){
-      stopsList[stop.StopId] = stop;
+      stopsList.push(stop);
     });
     return stopsList;
   };
