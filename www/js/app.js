@@ -116,7 +116,17 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
           controller: 'MapController'
         }
     }
-  });
+  })
+
+  .state('app.plan-trip', {
+    url: "/plan-trip",
+    views: {
+        'menuContent': {
+          templateUrl: "templates/plan-trip.html",
+        controller: 'PlanTripController'
+        }
+    }
+  })
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/my-buses');
 });
