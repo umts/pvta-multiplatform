@@ -1,0 +1,8 @@
+exclude_paths:
+- bower_components/*
+- hooks/*
+- platforms/*
+- node_modules/*
+- plugins/*
+- resources/*
+- www/lib/*
