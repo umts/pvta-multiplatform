@@ -2,7 +2,7 @@
 
 ### Welcome to the repository for UMass Transit's PVTA realtime app (name TBD)!
 
-[![Code Climate](https://codeclimate.com/github/umts/pvta-multiplatform/badges/gpa.svg)](https://codeclimate.com/github/umts/pvta-multiplatform)
+<a href="https://codeclimate.com/github/umts/pvta-multiplatform"><img src="https://codeclimate.com/github/umts/pvta-multiplatform/badges/gpa.svg" /></a>
 [![Issue Count](https://codeclimate.com/github/umts/pvta-multiplatform/badges/issue_count.svg)](https://codeclimate.com/github/umts/pvta-multiplatform)
 
 The app is a hybrid that uses the Ionic framework. This enables us to write Javascript
