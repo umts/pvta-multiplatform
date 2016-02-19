@@ -59,7 +59,10 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     }
   })
     .state('app.vehicle', {
-    url: "/vehicles/:vehicleId",
+    url: "/vehicles/:vehicleId/:route",
+    params: {
+      route: {squash: true}
+    },
     views: {
         'menuContent': {
           templateUrl: "templates/vehicle.html",

@@ -77,6 +77,7 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
   // us to display a route.
   var shortName = KML.pop();
   if(shortName) {
+    console.log('oo');
     // If something exists, we should
     // add the route's corresponding KML
     // to the Map.
