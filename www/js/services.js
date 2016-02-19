@@ -229,7 +229,14 @@ angular.module('pvta.services', ['ngResource'])
     if(kml.length === 1){
       return kml.pop();
     }
-    else return null;
+    else{
+      // Empty the array,
+      // because anything else
+      // will produce undesired 
+      // activity in MapController
+      kml = [];
+      return null;
+    }
   }
   return {
     push: push,
@@ -248,7 +255,14 @@ angular.module('pvta.services', ['ngResource'])
       if(latlong.length === 1){
         return latlong.pop();
       }
-      else return null;
+      else {
+       // Empty the array,
+      // because anything else
+      // will produce undesired 
+      // activity in MapController
+      latlong = []; 
+      return null;
+      }
     }
   };
 });
