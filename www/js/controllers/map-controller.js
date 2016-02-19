@@ -77,7 +77,6 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
   // us to display a route.
   var shortName = KML.pop();
   if(shortName) {
-    console.log('oo');
     // If something exists, we should
     // add the route's corresponding KML
     // to the Map.
@@ -96,73 +95,4 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
     });
     georssLayer.setMap($scope.map);
   };
-  
-  /*
-  var bounds = new google.maps.LatLngBounds();
- var mapOptions = {
-      center: bounds.getCenter(),
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
-  
-  function setDesiredMarker(latLng){
-    var neededMarker = new google.maps.Marker({
-        map: $scope.map,
-        icon: 'http://www.google.com/mapfiles/kml/paddle/go.png',
-        animation: google.maps.Animation.DROP,
-        position: latLng
-      });
-    return neededMarker;
-  };
-  function addListener(neededMarker){
-    google.maps.event.addListener(neededMarker, 'click', function () {
-            var infoWindow = new google.maps.InfoWindow({
-              content: "Here's what you're looking for!"
-            });
-            infoWindow.open($scope.map, neededMarker);
-    });
-  };
-  
-  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-    var ll = LatLong.pop();
-    
-    if(ll !== null) {
-      var latLng = new google.maps.LatLng(ll.lat, ll.long);
-      bounds.extend(latLng);
-      addListener(setDesiredMarker(latLng));
-      
-    }
-    var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-   // bounds.extend(myLocation);
-     
-    
-    var georssLayer = new google.maps.KmlLayer({
-      url: 'http://bustracker.pvta.com/infopoint/Resources/Traces/route31.kml'
-    });
-    georssLayer.setMap($scope.map);
-    bounds.extend(georssLayer);
-
-    //Wait until the map is loaded
-    google.maps.event.addListenerOnce($scope.map, 'idle', function(){
-      $scope.map.fitBounds(bounds);  
-      var myMarker = new google.maps.Marker({
-        map: $scope.map,
-        animation: google.maps.Animation.DROP,
-        position: myLocation,
-        title: "You're here!"
-        });
-      google.maps.event.addListener(myMarker, 'click', function () {
-          var infoWindow = new google.maps.InfoWindow({
-            content: "You are here!"
-          });
-          infoWindow.open($scope.map, myMarker);
-      });
-      
-    });
-
-    }, function(error){
-      console.log("Could not get location");
-    });*/
 });

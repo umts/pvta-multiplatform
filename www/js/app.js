@@ -61,6 +61,9 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     .state('app.vehicle', {
     url: "/vehicles/:vehicleId/:route",
     params: {
+      // For whatever reason,
+      // squash: true means that
+      // :route is an optional param
       route: {squash: true}
     },
     views: {
