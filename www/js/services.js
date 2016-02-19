@@ -1,59 +1,62 @@
 angular.module('pvta.services', ['ngResource'])
 
-.factory('Vehicle', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/get/:vehicleId');
+.factory('Avail', function(){
+  return 'http://bustracker.pvta.com/infopoint/rest';
 })
 
-.factory('Route', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/routedetails/get/:routeId');
+.factory('Vehicle', function ($resource, Avail) {
+    return $resource(Avail + '/vehicles/get/:vehicleId');
 })
 
-.factory('Routes', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/routes/getvisibleroutes');
+.factory('Route', function ($resource, Avail) {
+    return $resource(Avail + '/routedetails/get/:routeId');
 })
 
-.factory('Stop', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/stops/get/:stopId');
+.factory('Routes', function ($resource, Avail) {
+    return $resource(Avail + '/routes/getvisibleroutes');
 })
 
-.factory('Stops', function($resource){
-    return $resource('http://bustracker.pvta.com/infopoint/rest/stops/getallstops');
+.factory('NearestStops', function($resource, Avail){
+    return $resource(Avail + '/Stops/Nearest?latitude=:latitude&longitude=:longitude', {latitude: "@latitude", longitude: "@longitude"})
 })
 
-.factory('RouteVehicles', function($resource){
-    return $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehiclesforroute?routeId=:routeId')
+.factory('Stop', function ($resource, Avail) {
+    return $resource(Avail + '/stops/get/:stopId');
 })
 
-.factory('StopDeparture', function ($resource) {
-    return $resource('http://bustracker.pvta.com/infopoint/rest/stopdepartures/get/:stopId');
+.factory('Stops', function ($resource, Avail){
+    return $resource(Avail + '/stops/getallstops');
 })
 
-.factory('Messages', function ($resource) {
-  return $resource('http://bustracker.pvta.com/infopoint/rest/publicmessages/getcurrentmessages');
+.factory('RouteVehicles', function ($resource, Avail){
+    return $resource(Avail + '/vehicles/getallvehiclesforroute?routeId=:routeId')
+})
+
+.factory('StopDeparture', function ($resource, Avail) {
+    return $resource(Avail + '/stopdepartures/get/:stopId');
+})
+
+.factory('Messages', function ($resource, Avail) {
+  return $resource(Avail + '/publicmessages/getcurrentmessages');
+})
+
+.factory('SimpleRoute', function ($resource, Avail){
+  return $resource(Avail + '/routes/get/:routeId');
 })
 
 
 
 
 .factory('StopList', function(){
-  var stopsList = {};
+  var stopsList = [];
   var pushToList = function(stop){
-    var id = stop.StopId
-    stopsList[id] = stop;
+    stopsList.push(stop);
   };
   var pushEntireList = function(list){
-    for(var i = 0; i < list.length; i++){
-      var id = list[i].StopId;
-      stopsList[id] = list[i];
-    }
+    stopsList = stopsList.concat(list);
     return stopsList;
   };
 
-  var getStopFromList = function(id){
-    if(!isEmpty()) return stopsList[id];
-    else return 0;
-  };
-  
   var getEntireList = function(){
     if(stopsList !== undefined){
       return stopsList;
@@ -62,13 +65,12 @@ angular.module('pvta.services', ['ngResource'])
   }
   
   var isEmpty = function(){
-    if(Object.keys(stopsList).length === 0) return true;
+    if(stopsList.length === 0) return true;
     else return false
   };
   
   return {
     pushEntireList: pushEntireList,
-    getStopFromList: getStopFromList,
     getEntireList: getEntireList,
     pushToList: pushToList,
     isEmpty: isEmpty,  
@@ -79,11 +81,17 @@ angular.module('pvta.services', ['ngResource'])
 .factory('RouteList', function(){
   var routesList = [];
   
-  var pushToList = function(route){
-    routesList.push(route);
-  };
   var pushEntireList = function(list){
-   routesList = list;
+   // only store the route attributes we need
+   routesList = _.map(list, function(route){
+     return _.pick(route, 'ShortName', 'LongName', 'Color', 'RouteId');
+   });
+   // sort routes by their number
+   var routeNumber = /\d{1,2}/;
+   routesList = _.sortBy(routesList, function(route){
+     matches = route.ShortName.match(routeNumber)
+     return Number(_.first(matches));
+   });
    return routesList;
   };
 
@@ -102,7 +110,6 @@ angular.module('pvta.services', ['ngResource'])
   return {
     pushEntireList: pushEntireList,
     getEntireList: getEntireList,
-    pushToList: pushToList,
     isEmpty: isEmpty,  
   };
   
@@ -226,4 +233,3 @@ angular.module('pvta.services', ['ngResource'])
     }
   };
 });
-

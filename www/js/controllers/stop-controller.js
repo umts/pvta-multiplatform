@@ -1,9 +1,12 @@
-angular.module('pvta.controllers').controller('StopController', function($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong, FavoriteStops){
+angular.module('pvta.controllers').controller('StopController', function($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong, FavoriteStops, SimpleRoute){
+  
   var getDepartures = function(){
+    var routes = [];
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function(){
       var directions = deps[0].RouteDirections;
       $scope.departures = [];
         for(var i = 0; i < directions.length; i++){
+          routes.push(directions[i].RouteId);
           if(directions[i].Departures.length !== 0 && !directions[i].IsDone){
             var departureNum = 0;
             var sdt = directions[i].Departures[departureNum].SDT;
@@ -29,6 +32,7 @@ angular.module('pvta.controllers').controller('StopController', function($scope,
             }
           }
         }
+      getRoutes($scope.departures);
     });
   } // end getDepartures
   var stop = Stop.get({stopId: $stateParams.stopId}, function(){
@@ -59,6 +63,19 @@ angular.module('pvta.controllers').controller('StopController', function($scope,
         }
     });
   };
+  
+  var getRoutes = function(routes){
+    for(var i = 0; i < routes.length; i++){
+      $scope.getRoute(routes[i].route);
+    }
+  };
+  $scope.routeList = {};
+  $scope.getRoute = function(id){
+    var x = SimpleRoute.get({routeId: id}, function(){
+      $scope.routeList[id] = (x);
+    });
+  };
+  
   var getHeart = function(){
     var name = 'Stop ' + stop.Name + " favorite";
     localforage.getItem(name, function(err, value){
