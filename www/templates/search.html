@@ -5,7 +5,7 @@
   <ion-content direction="y" scrollbar-y="false">
     <ion-refresher pulling-icon="ion-arrow-down-b" on-refresh="refreshItems()"></ion-refresher>
     <ion-list>
-      <ion-item collection-repeat="item in display_items" item-height= "50" href="#app/{{item.type}}s/{{item.id}}/">
+      <ion-item collection-repeat="item in display_items" item-height= "50" href="#app/{{item.type}}s/{{item.id}}">
         <p>{{item.name}}</p>
       </ion-item>
     </ion-list>
