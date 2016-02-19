@@ -4,7 +4,7 @@
     <button id="like"  ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}" ng-click="liked= !liked; toggleHeart(liked)"></button>
   </ion-nav-buttons>  
   <ion-content>
-    <div>
+    <div class="list card">
       <div class="item-text-wrap">
         <h2 class="item" style="text-align: center; font-size: 150%">{{route.LongName}}</h2>
       </div>
@@ -75,6 +75,12 @@
       </ion-list>
        </div>
         
+      </div>
+      <div class="item tabs tabs-secondary tabs-icon-left">
+        <a class="tab-item" ng-click="setKML()">
+          <i class="icon ion-ios-location"></i>
+          Map This Route
+        </a>
       </div>
     </div>
   </ion-content>
