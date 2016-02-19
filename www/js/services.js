@@ -51,10 +51,7 @@ angular.module('pvta.services', ['ngResource'])
   var stopsList = []; 
 
   var pushEntireList = function(list){
-    list = _.uniq(list, true, 'Name');
-    _.each(list, function(stop){
-      stopsList.push(stop);
-    });
+    stopsList = stopsList.concat(_.uniq(list, true, 'Name'));
     return stopsList;
   };
 
