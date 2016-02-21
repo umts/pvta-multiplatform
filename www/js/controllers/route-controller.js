@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteController', function($scope, $stateParams, Route, RouteVehicles, FavoriteRoutes, Messages){
+angular.module('pvta.controllers').controller('RouteController', function($scope, $stateParams, Route, RouteVehicles, FavoriteRoutes, Messages, KML, $location){
   var size = 0;
   var route = Route.get({routeId: $stateParams.routeId}, function() {
     route.$save();
@@ -48,5 +48,10 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     localforage.getItem(name, function(err, value){
       $scope.liked = value;
     });
+  };
+  
+  $scope.setKML = function(){
+    KML.push(route.ShortName);
+    $location.path('/app/map')
   };
 });

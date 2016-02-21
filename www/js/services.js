@@ -220,6 +220,30 @@ angular.module('pvta.services', ['ngResource'])
   };
 })
 
+.factory('KML', function(){
+  var kml = [];
+  function push(shortName){
+    kml.push(shortName);
+  };
+  function pop(){
+    if(kml.length === 1){
+      return kml.pop();
+    }
+    else{
+      // Empty the array,
+      // because anything else
+      // will produce undesired 
+      // activity in MapController
+      kml = [];
+      return null;
+    }
+  }
+  return {
+    push: push,
+    pop: pop
+  };
+})
+
 .service('LatLong', function(){
   var latlong = [];
   return {
@@ -228,8 +252,17 @@ angular.module('pvta.services', ['ngResource'])
       latlong.push(p);
     },
     pop: function(){
-      var x = latlong.pop();
-      return x;
+      if(latlong.length === 1){
+        return latlong.pop();
+      }
+      else {
+       // Empty the array,
+      // because anything else
+      // will produce undesired 
+      // activity in MapController
+      latlong = []; 
+      return null;
+      }
     }
   };
 });
