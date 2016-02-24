@@ -3,12 +3,12 @@ angular.module('pvta.controllers').controller('StopsController', function($scope
   var filterBarInstance;
   if(StopList.isEmpty()){
     $cordovaGeolocation.getCurrentPosition().then(function(position){
-      $scope.stops = NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function(){
-        StopList.pushEntireList($scope.stops);
+      NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function(stops){
+        $scope.stops = StopList.pushEntireList(stops);
       });
     }, function(err) {
-      $scope.stops = Stops.query(function(){
-        StopList.pushEntireList($scope.stops);
+      Stops.query(function(stops){
+        $scope.stops = StopList.pushEntireList(stops);
       }); 
     });
   }
