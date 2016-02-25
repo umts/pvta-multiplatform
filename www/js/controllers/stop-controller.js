@@ -6,8 +6,8 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
       var directions = deps[0].RouteDirections;
       $scope.departures = [];
       for (var i = 0; i < directions.length; i++) {
-          routes.push(directions[i].RouteId);
-          if (directions[i].Departures.length !== 0 && !directions[i].IsDone) {
+        routes.push(directions[i].RouteId);
+        if (directions[i].Departures.length !== 0 && !directions[i].IsDone) {
             var departureNum = 0;
             var sdt = directions[i].Departures[departureNum].SDT;
             var edt = directions[i].Departures[departureNum].EDT;
@@ -31,7 +31,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
               $scope.departures.push(r);
             }
           }
-        }
+      }
       getRoutes($scope.departures);
     });
   }; // end getDepartures
@@ -56,11 +56,11 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     var name = 'Stop ' + stop.Name + ' favorite';
     localforage.setItem(name, liked, function (err, value) {
       if (value) {
-          FavoriteStops.push(stop);
-        }
+        FavoriteStops.push(stop);
+      }
         else {
-          FavoriteStops.remove(stop);
-        }
+        FavoriteStops.remove(stop);
+      }
     });
   };
 
@@ -82,4 +82,4 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
       $scope.liked = value;
     });
   };
-})
+});

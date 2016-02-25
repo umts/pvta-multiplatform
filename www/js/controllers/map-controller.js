@@ -66,8 +66,8 @@ angular.module('pvta.controllers').controller('MapController', function ($scope,
   function addMapListener (marker, onClickString) {
     google.maps.event.addListener(marker, 'click', function () {
       var infoWindow = new google.maps.InfoWindow({
-              content: onClickString
-            });
+        content: onClickString
+      });
       infoWindow.open($scope.map, marker);
     });
   }

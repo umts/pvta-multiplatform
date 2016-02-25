@@ -64,33 +64,33 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
       // For whatever reason,
       // squash: true means that
       // :route is an optional param
-      route: {squash: true}
-    },
+        route: {squash: true}
+      },
       views: {
-      'menuContent': {
-          templateUrl: 'templates/vehicle.html',
-          controller: 'VehicleController'
-        }
-    }
+        'menuContent': {
+        templateUrl: 'templates/vehicle.html',
+        controller: 'VehicleController'
+      }
+      }
     })
 
   .state('app.routes', {
     url: '/routes',
     views: {
-        'menuContent': {
+      'menuContent': {
           templateUrl: 'templates/routes.html',
           controller: 'RoutesController'
         }
-      }
+    }
   })
 
   .state('app.route', {
     url: '/routes/:routeId',
     views: {
       'menuContent': {
-          templateUrl: 'templates/route.html',
-          controller: 'RouteController'
-        }
+        templateUrl: 'templates/route.html',
+        controller: 'RouteController'
+      }
     }
   })
 
@@ -98,9 +98,9 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     url: '/stops/:stopId',
     views: {
       'menuContent': {
-          templateUrl: 'templates/stop.html',
-          controller: 'StopController'
-        }
+        templateUrl: 'templates/stop.html',
+        controller: 'StopController'
+      }
     }
   })
 
@@ -118,9 +118,9 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     url: '/map',
     views: {
       'menuContent': {
-          templateUrl: 'templates/map.html',
-          controller: 'MapController'
-        }
+        templateUrl: 'templates/map.html',
+        controller: 'MapController'
+      }
     }
   });
   // if none of the above states are matched, use this as the fallback
