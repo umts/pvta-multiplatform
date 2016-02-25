@@ -1,7 +1,7 @@
 platforms/android/*
 platforms/ios/*
 node_modules
-bower_components
+www/bower_components/*
 .idea
 *.apk
 npm-debug.log

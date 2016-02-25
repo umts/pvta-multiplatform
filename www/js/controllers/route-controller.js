@@ -4,7 +4,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     route.$save();
     getHeart();
     $scope.stops = route.Stops;
-    $scope.vehicles = route.Vehicles
+    $scope.vehicles = route.Vehicles;
 
     // Need route to be defined before we can filter messages
     var messages = Messages.query(function(){

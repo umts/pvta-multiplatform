@@ -9,6 +9,7 @@ var sh = require('shelljs');
 var gutil = require('gulp-util');
 var bower = require('bower');
 var concat = require('gulp-concat');
+var gulpIf = require('gulp-if');
 
 
 
@@ -34,6 +35,21 @@ gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);
 });
 
+function isFixed(file) {
+	// Has ESLint fixed the file contents?
+	return file.eslint != null && file.eslint.fixed;
+}
+
+gulp.task('lint-n-fix', function() {
+
+	return gulp.src('www/js/**/*.js')
+		.pipe(eslint({
+			fix: true
+		}))
+		.pipe(eslint.format())
+		// if fixed, write the file to dest
+		.pipe(gulpIf(isFixed, gulp.dest('www/js')));
+});
 
 gulp.task('lint-watch', function() {
 	// Lint only files that change after this watch starts
@@ -77,4 +93,4 @@ gulp.task('cached-lint-watch', ['cached-lint'], function() {
 	});
 });
 
-gulp.task('default', ['cached-lint-watch', 'sass']);
+gulp.task('default', ['cached-lint-watch', 'sass', 'lint-n-fix']);
