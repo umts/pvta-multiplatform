@@ -1,17 +1,21 @@
 var gulp = require('gulp');
-var gutil = require('gulp-util');
-var bower = require('bower');
-var concat = require('gulp-concat');
+var path = require('path');
+var eslint = require('gulp-eslint');
+var cache = require('gulp-cached');
 var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var gutil = require('gulp-util');
+var bower = require('bower');
+var concat = require('gulp-concat');
+
+
 
 var paths = {
   sass: ['./scss/**/*.scss']
 };
 
-gulp.task('default', ['sass']);
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
@@ -30,22 +34,47 @@ gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);
 });
 
-gulp.task('install', ['git-check'], function() {
-  return bower.commands.install()
-    .on('log', function(data) {
-      gutil.log('bower', gutil.colors.cyan(data.id), data.message);
-    });
+
+gulp.task('lint-watch', function() {
+	// Lint only files that change after this watch starts
+	var lintAndPrint = eslint();
+	// format results with each file, since this stream won't end.
+	lintAndPrint.pipe(eslint.formatEach());
+
+	return gulp.watch('www/js/**/*.js', function(event) {
+		if (event.type !== 'deleted') {
+			gulp.src(event.path)
+				.pipe(lintAndPrint, {end: false});
+		}
+	});
 });
 
-gulp.task('git-check', function(done) {
-  if (!sh.which('git')) {
-    console.log(
-      '  ' + gutil.colors.red('Git is not installed.'),
-      '\n  Git, the version control system, is required to download Ionic.',
-      '\n  Download git here:', gutil.colors.cyan('http://git-scm.com/downloads') + '.',
-      '\n  Once git is installed, run \'' + gutil.colors.cyan('gulp install') + '\' again.'
-    );
-    process.exit(1);
-  }
-  done();
+
+
+gulp.task('cached-lint', function() {
+	// Read all js files within test/fixtures
+	return gulp.src('www/js/**/*.js')
+		.pipe(cache('eslint'))
+		// Only uncached and changed files past this point
+		.pipe(eslint())
+		.pipe(eslint.format())
+		.pipe(eslint.result(function(result) {
+			if (result.warningCount > 0 || result.errorCount > 0) {
+				// If a file has errors/warnings remove uncache it
+				delete cache.caches.eslint[path.resolve(result.filePath)];
+			}
+		}));
 });
+
+// Run the "cached-lint" task initially...
+gulp.task('cached-lint-watch', ['cached-lint'], function() {
+	// ...and whenever a watched file changes
+	return gulp.watch('www/js/**/*.js', ['cached-lint'], function(event) {
+		if (event.type === 'deleted' && cache.caches.eslint) {
+			// remove deleted files from cache
+			delete cache.caches.eslint[event.path];
+		}
+	});
+});
+
+gulp.task('default', ['cached-lint-watch', 'sass']);
