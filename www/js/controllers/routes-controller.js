@@ -11,7 +11,7 @@ angular.module('pvta.controllers').controller('RoutesController', function ($sco
     filterBarInstance = $ionicFilterBar.show({
       items: $scope.routes,
       update: function (filteredItems, filterText) {
-	                                    $scope.routes = filteredItems;
+	                                                    $scope.routes = filteredItems;
       }
     });
   };

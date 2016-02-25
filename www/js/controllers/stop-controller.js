@@ -14,16 +14,16 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
           var times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
           if (times.e.includes('ago')) {
             for (var currentDeparture = 0; currentDeparture < directions[i].Departures.length; currentDeparture++) {
-                sdt = directions[i].Departures[currentDeparture].SDT;
-                edt = directions[i].Departures[currentDeparture].EDT;
-                times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
-                if (!times.e.includes('ago')) {
-                  directions[i].StringifiedTimes = times;
-                  var r = {route: directions[i].RouteId, trip: directions[i].Departures[currentDeparture].Trip, departures: times};
-                  $scope.departures.push(r);
-                  break;
-                }
+              sdt = directions[i].Departures[currentDeparture].SDT;
+              edt = directions[i].Departures[currentDeparture].EDT;
+              times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
+              if (!times.e.includes('ago')) {
+                directions[i].StringifiedTimes = times;
+                var r = {route: directions[i].RouteId, trip: directions[i].Departures[currentDeparture].Trip, departures: times};
+                $scope.departures.push(r);
+                break;
               }
+            }
           }
             else {
             directions[i].StringifiedTimes = times;

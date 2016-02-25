@@ -68,7 +68,7 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
     filterBarInstance = $ionicFilterBar.show({
       items: $scope.all,
       update: function (filteredItems, filterText) {
-	                                      $scope.filterText = filterText;
+	                                                      $scope.filterText = filterText;
         if (filterText != '' && filterText != null)
           $scope.display_items = filteredItems;
           else
