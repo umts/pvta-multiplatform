@@ -48,11 +48,12 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
       prepareStops(StopList.getEntireList());
     }
     function prepareStops (list) {
-      for (var i = 0; i < list.length; i++)
+      for (var i = 0; i < list.length; i++) {
         $scope.all.push({name: list[i].Name,
                         type: 'stop',
                         id: list[i].StopId
                         });
+      }
     }
     var vehicles = $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').query({}, function () {
       for (var i = 0; i < vehicles.length; i++) {
@@ -68,11 +69,13 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
     filterBarInstance = $ionicFilterBar.show({
       items: $scope.all,
       update: function (filteredItems, filterText) {
-	                                                      $scope.filterText = filterText;
-        if (filterText != '' && filterText != null)
-          $scope.display_items = filteredItems;
-          else
-	    $scope.display_items = [];
+        $scope.filterText = filterText;
+        if (filterText !== '' && filterText !== null) {
+          $scope.displayItems = filteredItems;
+        }
+        else {
+          $scope.displayItems = [];
+        }
       }
     });
   };
