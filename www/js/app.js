@@ -68,9 +68,9 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
       },
       views: {
         'menuContent': {
-        templateUrl: 'templates/vehicle.html',
-        controller: 'VehicleController'
-      }
+          templateUrl: 'templates/vehicle.html',
+          controller: 'VehicleController'
+        }
       }
     })
 
@@ -78,9 +78,9 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     url: '/routes',
     views: {
       'menuContent': {
-          templateUrl: 'templates/routes.html',
-          controller: 'RoutesController'
-        }
+        templateUrl: 'templates/routes.html',
+        controller: 'RoutesController'
+      }
     }
   })
 
