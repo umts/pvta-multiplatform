@@ -1,14 +1,15 @@
-angular.module('pvta.controllers').controller('RouteController', function($scope, $stateParams, Route, RouteVehicles, FavoriteRoutes, Messages, KML, $location){
+angular.module('pvta.controllers').controller('RouteController', function($scope, $stateParams, Route, RouteVehicles, FavoriteRoutes, Messages, KML, $location, LatLong){
   var size = 0;
 
   var getVehicles = function(){
     $scope.vehicles = RouteVehicles.query({id: $stateParams.routeId});
   };
+
   var route = Route.get({routeId: $stateParams.routeId}, function() {
     route.$save();
     getHeart();
     $scope.stops = route.Stops;
-    $scope.vehicles = route.Vehicles
+    $scope.vehicles = route.Vehicles;
 
     // Need route to be defined before we can filter messages
     var messages = Messages.query(function(){
@@ -56,7 +57,10 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
 
   $scope.setKML = function(){
     KML.push(route.ShortName);
-    $location.path('/app/map')
+    _.each($scope.vehicles, function(vehicle){
+      LatLong.push(vehicle.Latitude, vehicle.Longitude);
+    });
+    $location.path('/app/map');
   };
 
   $scope.refresh = function(){
