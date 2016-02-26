@@ -1,5 +1,9 @@
 angular.module('pvta.controllers').controller('RouteController', function($scope, $stateParams, Route, RouteVehicles, FavoriteRoutes, Messages, KML, $location){
   var size = 0;
+
+  var getVehicles = function(){
+    $scope.vehicles = RouteVehicles.query({id: $stateParams.routeId});
+  };
   var route = Route.get({routeId: $stateParams.routeId}, function() {
     route.$save();
     getHeart();
@@ -21,7 +25,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
 
   $scope.stops = [];
   var j = $scope.size;
-  
+
   $scope.toggleGroup = function(group) {
     if ($scope.isGroupShown(group)) {
       $scope.shownGroup = null;
@@ -49,9 +53,14 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
       $scope.liked = value;
     });
   };
-  
+
   $scope.setKML = function(){
     KML.push(route.ShortName);
     $location.path('/app/map')
+  };
+
+  $scope.refresh = function(){
+    getVehicles();
+    $scope.$broadcast('scroll.refreshComplete');
   };
 });

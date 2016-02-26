@@ -45,7 +45,7 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
       });
     }
     else{
-      prepareStops(StopList.getEntireList()); 
+      prepareStops(StopList.getEntireList());
     }
     function prepareStops(list){
       for(var i = 0; i < list.length; i++)
@@ -69,22 +69,11 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
         items: $scope.all,
         update: function (filteredItems, filterText) {
 	  $scope.filterText = filterText;
-          if (filterText!='' && filterText!=null) 
+          if (filterText!='' && filterText!=null)
             $scope.display_items = filteredItems;
           else
 	    $scope.display_items = [];
         }
       });
-    };
-  $scope.refreshItems = function () {
-      if (filterBarInstance) {
-        filterBarInstance();
-        filterBarInstance = null;
-      }
-
-      $timeout(function () {
-        getItems();
-        $scope.$broadcast('scroll.refreshComplete');
-      }, 1000);
     };
 })
