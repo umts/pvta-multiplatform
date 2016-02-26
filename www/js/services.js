@@ -46,8 +46,8 @@ angular.module('pvta.services', ['ngResource'])
 
 .factory('Info', function(){
   return {
-    versionNum: '0.0.1',
-    versionName: 'Beta 1'
+    versionNum: '0.5.0',
+    versionName: 'Beta 2'
   };
 })
 
