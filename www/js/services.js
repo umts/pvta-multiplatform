@@ -44,6 +44,12 @@ angular.module('pvta.services', ['ngResource'])
   return $resource(Avail + '/routes/get/:routeId');
 })
 
+.factory('Info', function(){
+  return {
+    versionNum: '0.5.0',
+    versionName: 'Beta 2'
+  };
+})
 
 
 

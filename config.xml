@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.conference849931" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.umts.pvta-multiplaform" version="0.5.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>PVTA</name>
   <description>
         The best way to find your buses on the go.
     </description>
-  <author email="akaplowitz@umass.edu" href="http://example.com.com/">
-      Aaron Kaplowitz
+  <author email="transit-it@umass.edu" href="http://umass.edu/bus">
+      UMass Transit
     </author>
   <content src="index.html"/>
   <access origin="*"/>
+  <access origin="mailto:*" launch-external="yes" />
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
