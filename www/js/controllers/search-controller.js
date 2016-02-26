@@ -33,25 +33,21 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
       var routes = RouteList.getEntireList();
       routes = prepareRoutes(routes);
     }
-    var stops = [];
     if(StopList.isEmpty()){
       $cordovaGeolocation.getCurrentPosition().then(function(position){
-        stops = NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function(){
-          StopList.pushEntireList(stops);
-          prepareStops(stops);
+        NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function(stops){
+          prepareStops(StopList.pushEntireList(stops));
         });
       }, function(err) {
-        stops = Stops.query(function() {
-          StopList.pushEntireList(stops);
-          prepareStops(stops);
+        Stops.query(function(stops) {
+          prepareStops(StopList.pushEntireList(stops));
         });
       });
     }
     else{
-      stops = StopList.getEntireList(); 
-      prepareStops(stops);
+      prepareStops(StopList.getEntireList()); 
     }
-    var prepareStops = function(list){
+    function prepareStops(list){
       for(var i = 0; i < list.length; i++)
       $scope.all.push({name: list[i].Name,
                         type: 'stop',
