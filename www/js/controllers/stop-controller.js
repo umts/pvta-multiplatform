@@ -1,6 +1,7 @@
 angular.module('pvta.controllers').controller('StopController', function($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong, FavoriteStops, SimpleRoute){
-  
-  var getDepartures = function(){
+
+
+  $scope.getDepartures = function(){
     var routes = [];
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function(){
       var directions = deps[0].RouteDirections;
@@ -24,7 +25,7 @@ angular.module('pvta.controllers').controller('StopController', function($scope,
                   break;
                 }
               }
-            }      
+            }
             else{
               directions[i].StringifiedTimes = times;
               var r = {route: directions[i].RouteId, trip: directions[i].Departures[departureNum].Trip, departures: times};
@@ -40,9 +41,9 @@ angular.module('pvta.controllers').controller('StopController', function($scope,
     getHeart();
   });
   $scope.stop = stop;
-  getDepartures();
+  $scope.getDepartures();
   var timer=$interval(function(){
-        getDepartures();
+        $scope.getDepartures();
       },30000);
   $scope.$on('$destroy', function() {
     $interval.cancel(timer);
@@ -63,7 +64,7 @@ angular.module('pvta.controllers').controller('StopController', function($scope,
         }
     });
   };
-  
+
   var getRoutes = function(routes){
     for(var i = 0; i < routes.length; i++){
       $scope.getRoute(routes[i].route);
@@ -75,11 +76,16 @@ angular.module('pvta.controllers').controller('StopController', function($scope,
       $scope.routeList[id] = (x);
     });
   };
-  
+
   var getHeart = function(){
     var name = 'Stop ' + stop.Name + " favorite";
     localforage.getItem(name, function(err, value){
       $scope.liked = value;
     });
+  };
+
+  $scope.refresh = function(){
+    $scope.getDepartures();
+    $scope.$broadcast('scroll.refreshComplete');
   };
 })
