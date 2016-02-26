@@ -26,7 +26,7 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
       var loc = new google.maps.LatLng(location.lat, location.long);
       // Nested call: first, place the desired marker, then
       // add a listener for when it's tapped
-      addMapListener(placeDesiredMarker(loc), "here's what you're looking for!");
+      addMapListener(placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), "here's what you're looking for!");
       bounds.extend(loc);
     });
 
@@ -37,17 +37,17 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
   var currentLocation = $cordovaGeolocation.getCurrentPosition(options).then(function(position){
     var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     bounds.extend(myLocation);
-    addMapListener(placeDesiredMarker(myLocation), 'You are here!');
+    addMapListener(placeDesiredMarker(myLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'), 'You are here!');
   }, function(error){});
 
 
   // Takes a google.maps.LatLng object and places a marker
   // on the map in the requested spot.
   // Returns a reference to said marker.
-  function placeDesiredMarker(location){
+  function placeDesiredMarker(location, icon){
     var neededMarker = new google.maps.Marker({
         map: $scope.map,
-        icon: 'http://www.google.com/mapfiles/kml/paddle/go.png',
+        icon: icon,
         animation: google.maps.Animation.DROP,
         position: location
       });
