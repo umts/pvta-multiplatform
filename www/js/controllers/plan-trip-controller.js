@@ -1,6 +1,9 @@
 angular.module('pvta.controllers').controller('PlanTripController', function($scope, $cordovaGeolocation, $cordovaDatePicker){
-        var options = {timeout: 10000, enableHighAccuracy: true};
 
+        $scope.currentDate = new Date();
+        document.getElementById("plan-trip-time").value
+        console.log($scope.currentDate);
+        var options = {timeout: 10000, enableHighAccuracy: true};
         $scope.map = null;
 
         $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
@@ -35,13 +38,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function($sc
                 var origin_input = document.getElementById("origin-input");
                 var destination_input = document.getElementById("destination-input");
 
-                //$scope.map.controls[google.maps.ControlPosition.TOP_LEFT].push(origin_input);
-                //$scope.map.controls[google.maps.ControlPosition.TOP_LEFT].push(destination_input);
 
                 var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
-                //origin_autocomplete.bindTo("bounds", $scope.map);
                 var destination_autocomplete = new google.maps.places.Autocomplete(destination_input);
-                //destination_autocomplete.bindTo("bounds", $scope.map);
 
                 origin_autocomplete.addListener('place_changed', function() {
                         var place = origin_autocomplete.getPlace();
@@ -80,24 +79,73 @@ angular.module('pvta.controllers').controller('PlanTripController', function($sc
 
 
         function route(originPlaceId, destinationPlaceId, directionsService, directionsDisplay) {
+                $scope.steps = [];
+                $scope.step_links = [];
                 if (!originPlaceId || !destinationPlaceId)
                         return;
+                transitOptions = {
+                        modes: [google.maps.TransitMode.BUS]
+                };
+                var thetime = document.getElementById("plan-trip-time").innerHTML;
                 directionsService.route({
                         origin: {"placeId": originPlaceId},
                         destination: {"placeId": destinationPlaceId},
                         travelMode: google.maps.TravelMode.TRANSIT,
-                        //transitMode: google.maps.TransitMode.BUS
+                        transitOptions: transitOptions
                 }, function(response, status){
                         if (status === google.maps.DirectionsStatus.OK){
                                 directionsDisplay.setDirections(response);
                                 console.log(response);
-                                for (var step=0; step<response.routes[0].legs[0].steps.length; step++) {
-                                    console.log(response.routes[0].legs[0].steps[step]['instructions']);
-                                }
+                                route = response.routes[0].legs[0];
+                                createStepList(response);
+                                $scope.arrival_time = route['arrival_time']['text'];
+                                $scope.departure_time = route['departure_time']['text'];
+                                $scope.origin = route['start_address'];
+                                $scope.destination = route['end_address'];
+                                $scope.$apply();
                         }
                         else
                         console.log("Directions request failed due to " + status);
                 });
+        }
+
+        function createStepList(response) {
+                for (var i=0; i<response.routes[0].legs[0].steps.length; i++) {
+                        var step = response.routes[0].legs[0].steps[i];
+
+                        if (step['travel_mode'] === 'TRANSIT') {
+                                var line_name;
+                                if (step['transit']['line']['short_name'])
+                                        line_name = step['transit']['line']['short_name'];
+                                else
+                                        line_name = step['transit']['line']['name'];
+                                var depart_instruction = "Take "+step['transit']['line']['vehicle']['name']+" "+line_name+ " at " + step['transit']['departure_time']['text'] + ". " + step['instructions'];
+                                var arrive_instruction = "Arrive at "+step['transit']['arrival_stop']['name'] + " " + step['transit']['arrival_time']['text'];
+                                $scope.steps.push(depart_instruction);
+                                $scope.steps.push(arrive_instruction);
+                                if (step['transit']['line']['agencies'][0]['name'] === 'PVTA') {
+                                        linkToStop(step['transit']['departure_stop']['name']);
+                                        linkToStop(step['transit']['arrival_stop']['name']);
+                                }
+                                else {
+                                        $scope.step_links.concat(['','']);
+                                }
+
+
+                        }
+                        else {
+                                $scope.steps.push(step['instructions']); 
+                                $scope.step_links.push('');
+                        }
+                }
+        }
+
+        function linkToStop(stop) {
+                stop = stop.split(" ");
+                stop = stop[stop.length-1];
+                stop = stop.substring(1, stop.length-1);
+                $scope.step_links.push('#/app/stops/' + stop);
+
         }
 
 
