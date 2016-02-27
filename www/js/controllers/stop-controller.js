@@ -42,9 +42,17 @@ angular.module('pvta.controllers').controller('StopController', function($scope,
   });
   $scope.stop = stop;
   $scope.getDepartures();
+  $scope.delay = 30000;
+  localforage.getItem('autoRefresh', function(err, value){
+    if (value) {
+      $scope.delay = value;
+    }
+    else console.log(err);
+  });
   var timer=$interval(function(){
         $scope.getDepartures();
-      },30000);
+    console.log(refresh + "booty");
+      },$scope.delay, 25);
   $scope.$on('$destroy', function() {
     $interval.cancel(timer);
   });
