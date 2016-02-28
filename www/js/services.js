@@ -265,4 +265,4 @@ angular.module('pvta.services', ['ngResource'])
       }
     }
   };
-});
+})
