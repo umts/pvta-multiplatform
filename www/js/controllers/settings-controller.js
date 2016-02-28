@@ -1,5 +1,6 @@
 angular.module('pvta.controllers').controller('SettingsController', function($scope){
   
+  $scope.message = "";
   
   $scope.autorefresh = 45000;
   localforage.getItem('autoRefresh', function(err, value){
@@ -13,4 +14,10 @@ angular.module('pvta.controllers').controller('SettingsController', function($sc
       console.log(err + value);
     })
   }
+  
+  $scope.clear = function(){
+    localforage.clear(function(err){
+      $scope.message = "Your favorites have been successfully deleted";
+    });
+  };
 });

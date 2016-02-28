@@ -41,19 +41,39 @@ angular.module('pvta.controllers').controller('StopController', function($scope,
     getHeart();
   });
   $scope.stop = stop;
+  // Load the departures for the first time
   $scope.getDepartures();
-  $scope.delay = 30000;
-  localforage.getItem('autoRefresh', function(err, value){
-    if (value) {
-      $scope.delay = value;
-    }
-    else console.log(err);
+  var timer;
+  /********************************************
+   * Every time we enter a Stop page,
+   * retrieve the autoRefresh setting.
+   * If set by the user, we use that as our 
+   * timer value. If a sanity-check on the value
+   * fails (ie anything <= 1s) or
+   * localforage throws an error, set to 30s.
+   ********************************************/
+  $scope.$on('$ionicView.enter', function(){
+    localforage.getItem('autoRefresh', function(err, value){
+      if (value) {
+        if (value <= 1000) value = 30000;
+        timer=$interval(function(){
+          $scope.getDepartures();
+        }, value);
+      }
+      else{
+        timer=$interval(function(){
+          $scope.getDepartures();
+        }, 30000);
+        console.log(err);
+      }
+    });
   });
-  var timer=$interval(function(){
-        $scope.getDepartures();
-    console.log(refresh + "booty");
-      },$scope.delay, 25);
-  $scope.$on('$destroy', function() {
+  /****************************************
+   * When the angular $scope recognizes that
+   * ionic's view engine has fired the *leave*
+   * event, stop the autorefresh!
+   ****************************************/
+  $scope.$on('$ionicView.leave', function() {
     $interval.cancel(timer);
   });
   $scope.setCoordinates = function(lat, long){
