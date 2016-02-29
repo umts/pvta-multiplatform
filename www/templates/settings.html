@@ -1,0 +1,37 @@
+<ion-view view-title="Settings">
+  <ion-content>
+    <ion-list>
+      <ion-item href="#/app/about">
+        About
+      </ion-item>
+        <li class="item item-toggle">
+          Data Saver
+          <label class="toggle">
+           <input type="checkbox">
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+        </li>
+        <li class="item item-toggle">
+          Use location to find nearest stops
+          <label class="toggle">
+           <input type="checkbox">
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+        </li>
+      <!--Let the user know when we've deleted their stuff-->
+      {{message}}
+      <li class="item button-item" ng-click="clear()">
+        Delete all of your favorites
+      </li>
+      <div class="item item-divider">Autorefresh Timing</div>
+        <ion-radio ng-model="autorefresh" ng-value="15000" ng-click="updateRefresh(15000)">15 Seconds</ion-radio>
+        <ion-radio ng-model="autorefresh" ng-value="30000" ng-click="updateRefresh(30000)">30 Seconds</ion-radio>
+        <ion-radio ng-model="autorefresh" ng-value="45000" ng-click="updateRefresh(45000)">45 Seconds</ion-radio>
+        <ion-radio ng-model="autorefresh" ng-value="60000" ng-click="updateRefresh(60000)">60 Seconds</ion-radio>
+    </ion-list>
+  </ion-content>
+</ion-view>

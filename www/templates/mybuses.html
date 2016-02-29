@@ -1,8 +1,11 @@
 <ion-view view-title="My Buses">
   <ion-content>
-    <div class="button button-block button-positive" style="margin-bottom: 20px">Your Routes</div>
-    <ion-list class="item" show-delete="false" can-swipe="true">
-      <ion-item class="item item-text-wrap" ng-repeat="route in routes" href="#/app/routes/{{route.RouteId}}">  
+    <div class="item item-divider item-positive">Your Routes</div>
+    <ion-list class="list card" show-delete="false" can-swipe="true">
+      <div ng-if="!routes.length" class="no-results">
+        You have no favorite routes! Go add some.
+      </div>
+      <ion-item class="item" ng-repeat="route in routes" href="#/app/routes/{{route.RouteId}}">  
         <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeRoute(route, $index)"></ion-option-button>
           <div class=" item-icon-left">
             <div class="row">
@@ -18,9 +21,10 @@
           </div>
         </div>
       </ion-item>
-    </ion-list>
-    <div class="button button-block button-royal" style="margin-bottom: 20px">Your Stops</div>
-    <ion-list class="item" show-delete="false" can-swipe="true">
+      <div class="item item-divider item-positive">Your Stops</div>
+      <div ng-if="!stops.length" class="no-results">
+        You have no favorite stops! Go add some.
+      </div>
       <ion-item class="item item-text-wrap" ng-repeat="stop in stops" href="#/app/stops/{{stop.StopId}}">
         <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeStop(stop, $index)"></ion-option-button>
         <div class="item-icon-left">
@@ -28,15 +32,15 @@
           {{stop.Name}}
         </div>
       </ion-item>
-    </ion-list>
-    <div class="button button-block button-assertive" style="margin-top: 1cm">Active Alerts</div>
-    
-    <div class="list card" ng-repeat="message in messages">    
-      <div class="item item-icon-left item-text-wrap">
-        <i class="icon ion-android-alert" style="margin-right: 10px"></i>
-        {{message.Message}}
+      <div ng-if="messages.length > 0">
+        <div class="item item-divider item-assertive">Active Alerts</div>
+        <ion-item class="item" ng-repeat="message in messages">    
+          <div class="item-icon-left item-text-wrap">
+            <i class="icon ion-android-alert" style="margin-right: 10px"></i>
+            {{message.Message}}
+          </div>
+        </ion-item>
       </div>
-    </div>
-  
+    </ion-list>
   </ion-content>
 </ion-view>

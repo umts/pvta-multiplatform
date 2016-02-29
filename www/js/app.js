@@ -113,6 +113,26 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
       }
     }
   })
+  
+  .state('app.settings', {
+    url: "/settings",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/settings.html",
+        controller: 'SettingsController'
+      }
+    }
+  })
+  
+   .state('app.about', {
+    url: "/about",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/about.html",
+        controller: 'AboutController'
+      }
+    }
+  })
 
   .state('app.map', {
     url: "/map",
