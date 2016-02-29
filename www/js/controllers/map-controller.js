@@ -28,7 +28,6 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
       // Nested call: first, place the desired marker, then
       // add a listener for when it's tapped
       addMapListener(placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), "here's what you're looking for!");
-      bounds.extend(loc);
     });
 
   }
@@ -39,7 +38,6 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
   var currentLocation = $cordovaGeolocation.getCurrentPosition(options).then(function(position){
     var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     bounds.extend(myLocation);
-    $scope.map.fitBounds(bounds);
     addMapListener(placeDesiredMarker(myLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'), 'You are here!');
   }, function(error){});
 
@@ -54,6 +52,8 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
         animation: google.maps.Animation.DROP,
         position: location
       });
+      bounds.extend(location);
+      $scope.map.fitBounds(bounds);
     return neededMarker;
   };
 
