@@ -3,10 +3,11 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
 
   //set original bounds
   var bounds = new google.maps.LatLngBounds();
+
   //set some configurable options before initializing map
   var mapOptions = {
     // bounds is originally the entire planet, so getCenter()
-    // will return the intersection of the Prime Meridian
+    // will return the intersection of the International Date Line
     // and Equator by default
     center: bounds.getCenter(),
     zoom: 15,
@@ -34,9 +35,11 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
 
   // Almost the same as immediately above.
   // Query Cordova for current location first.
+  // Also fits the bounds to include everything we've added/removed from them
   var currentLocation = $cordovaGeolocation.getCurrentPosition(options).then(function(position){
     var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     bounds.extend(myLocation);
+    $scope.map.fitBounds(bounds);
     addMapListener(placeDesiredMarker(myLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'), 'You are here!');
   }, function(error){});
 
@@ -53,13 +56,6 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
       });
     return neededMarker;
   };
-
-  // When the map is ready, resize it to
-  // the bounds that we have been setting each
-  // time we add something to it.
-  google.maps.event.addListenerOnce($scope.map, 'idle', function(){
-      $scope.map.fitBounds(bounds);
-  });
 
   // Takes an already-created Maps marker and
   // a string.
