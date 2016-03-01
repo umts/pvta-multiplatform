@@ -37,7 +37,6 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
   // Also fits the bounds to include everything we've added/removed from them
   var currentLocation = $cordovaGeolocation.getCurrentPosition(options).then(function(position){
     var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    bounds.extend(myLocation);
     addMapListener(placeDesiredMarker(myLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'), 'You are here!');
   }, function(error){});
 
