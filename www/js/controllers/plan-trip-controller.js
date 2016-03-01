@@ -1,7 +1,10 @@
 angular.module('pvta.controllers').controller('PlanTripController', function($scope, $cordovaGeolocation, $cordovaDatePicker){
 
         $scope.currentDate = new Date();
-        document.getElementById("plan-trip-time").value
+        $scope.timeInput = document.getElementById("trip-time");
+        $scope.dateInput = document.getElementById("trip-date");
+        $scope.timeChoice = document.getElementById("time-trip-choice");
+
         console.log($scope.currentDate);
         var options = {timeout: 10000, enableHighAccuracy: true};
         $scope.map = null;
@@ -19,9 +22,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function($sc
         function constructMap(latLng) {
                 var mapOptions = {
                         center: latLng,
-                        zoom: 15,
-                        mapTypeControl: false,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP
+zoom: 15,
+mapTypeControl: false,
+mapTypeId: google.maps.MapTypeId.ROADMAP
                 }
 
                 $scope.map = new google.maps.Map(document.getElementById("directions-map"), mapOptions);
@@ -51,7 +54,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function($sc
 
                         expandViewportToFitPlace($scope.map, place);
                         originPlaceId = place.place_id;
-                        route(originPlaceId, destinationPlaceId, directionsService, directionsDisplay);
+                        $scope.route(originPlaceId, destinationPlaceId, directionsService, directionsDisplay);
                 });
 
                 destination_autocomplete.addListener('place_changed', function() {
@@ -63,7 +66,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function($sc
 
                         expandViewportToFitPlace($scope.map, place);
                         destinationPlaceId = place.place_id;
-                        route(originPlaceId, destinationPlaceId, directionsService, directionsDisplay);
+                        $scope.route(originPlaceId, destinationPlaceId, directionsService, directionsDisplay);
                 });
         }
 
@@ -78,7 +81,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function($sc
         }
 
 
-        function route(originPlaceId, destinationPlaceId, directionsService, directionsDisplay) {
+        $scope.route = function(originPlaceId, destinationPlaceId, directionsService, directionsDisplay) {
                 $scope.steps = [];
                 $scope.step_links = [];
                 if (!originPlaceId || !destinationPlaceId)
@@ -86,7 +89,12 @@ angular.module('pvta.controllers').controller('PlanTripController', function($sc
                 transitOptions = {
                         modes: [google.maps.TransitMode.BUS]
                 };
-                var thetime = document.getElementById("plan-trip-time").innerHTML;
+
+                var date = new Date($scope.dateInput.value+ ' ' +$scope.timeInput.value);
+                if ($scope.timeChoice.value === "departure")
+                        transitOptions['departure'] = date;
+                else
+                        transitOptions['arrival'] = date;
                 directionsService.route({
                         origin: {"placeId": originPlaceId},
                         destination: {"placeId": destinationPlaceId},

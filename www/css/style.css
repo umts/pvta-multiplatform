@@ -4,10 +4,15 @@
 }
 
 .user-input{
+  border-radius: 5px;
+  background-color: #FFFFFF;
+}
+
+.location-typeahead {
   width:100%;
   text-overflow: ellipsis;
-  padding: 16px 49px 16px 16px;
 }
+
 
 .input-div {
 background-color: #387ef5;
@@ -27,9 +32,25 @@ float:left;
 left:0;
 }
 
-#plan-trip-time {
+#trip-time, #trip-date {
 display:inline-block;
 float:left;
 margin-left: 20px;
 }
 
+#save-button, #route-button{
+  border: 3px white solid;
+  background-color: #2C63BF;
+  color: white;
+  padding: 10px;
+  display: inline-block;
+  font-weight: bold;
+}
+
+#save-button{
+  margin-left:20px;
+}
+
+#route-button{
+  width:25%;
+}

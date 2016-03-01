@@ -7,13 +7,13 @@
 <div class="input-div">
         <div style="margin-bottom: 20px">
                 <b>Origin</b>
-                <input id="origin-input" class="user-input" type="text" placeholder="Enter an origin location">
+                <input id="origin-input" class="user-input location-typeahead" type="text" placeholder="Enter an origin location">
         </div>
         <div style="margin-bottom: 20px">
                 <b>Destination</b>
-                <input id="destination-input" class="user-input" type="text" placeholder="Enter a destination location">
+                <input id="destination-input" class="user-input location-typeahead" type="text" placeholder="Enter a destination location">
         </div>
-        <div style="margin-bottom: 60px">
+        <div style="margin-bottom: 80px">
                 <label class="item item-input item-select">
                         <div class="input-label">
                                 &nbsp;
@@ -23,7 +23,12 @@
                                 <option value="arrival">Time of Arrival</option>
                         </select> 
                 </label>
-                <input type="datetime-local" id="plan-trip-time" >
+                <input type="time" id="trip-time" class="user-input" ng-model="currentDate">
+                <input type="date" id="trip-date" class="user-input" ng-model="currentDate">
+        </div>
+        <div>
+                <button ng-click="route" id="route-button" class="user-input">Route</button>
+                <button ng-click="saveTrip" id="save-button" class="user-input">Save Trip</button>
         </div>
 </div>
 <div style="margin: 30px" ng-if="steps != null">
