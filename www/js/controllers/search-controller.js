@@ -24,10 +24,33 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
       return routes;
     }
     if(RouteList.isEmpty()){
-      var routes = $resource(Avail + '/routes/getallroutes').query({}, function(){
-        routes = prepareRoutes(routes);
-        RouteList.pushEntireList(routes);
-      });
+        // get the routelist from localforage
+      localforage.getItem('routes', function(routes){
+        // If the routelist exists already and
+        // it has been updated recently
+        console.log("got routes form localforage");
+        if(routes && (Time.recent(routes.time))){
+          console.log('we have recent routes yay');
+          routes = prepareRoutes(routes.list);
+          RouteList.pushEntireList(routes);
+        }
+        // If a recently updated list can't be found
+        // anywhere, time to download it.
+        else {
+          var routes = $resource(Avail + '/routes/getallroutes').query({}, function(){
+            var toForage = {
+              list: routes,
+              time: moment()
+            };
+            localforage.setItem('routes', toForage, function(err, val){
+              if (err) console.log(err);
+              else console.log("successfully set routes");
+            });
+            routes = prepareRoutes(routes);
+            RouteList.pushEntireList(routes);
+          });    
+        }
+      });    
     }
     else{
       var routes = RouteList.getEntireList();
