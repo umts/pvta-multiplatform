@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, StopList, Stops, NearestStops, Avail){
+angular.module('pvta.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, StopList, Stops, NearestStops, Avail, Recent){
   var filterBarInstance;
   function getItems () {
     $scope.all = [];
@@ -24,12 +24,12 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
       return routes;
     }
     if(RouteList.isEmpty()){
+      console.log('hello..?');
         // get the routelist from localforage
-      localforage.getItem('routes', function(routes){
+      localforage.getItem('routes', function(err, routes){
         // If the routelist exists already and
         // it has been updated recently
-        console.log("got routes form localforage");
-        if(routes && (Time.recent(routes.time))){
+        if(routes && (Recent.recent(routes.time))){
           console.log('we have recent routes yay');
           routes = prepareRoutes(routes.list);
           RouteList.pushEntireList(routes);
@@ -53,23 +53,59 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
       });    
     }
     else{
+      console.log("routelist wasn't empty");
       var routes = RouteList.getEntireList();
       routes = prepareRoutes(routes);
     }
+    
     if(StopList.isEmpty()){
-      $cordovaGeolocation.getCurrentPosition().then(function(position){
-        NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function(stops){
-          prepareStops(StopList.pushEntireList(stops));
+      console.log('none stops in here');
+      localforage.getItem('stops', function(err, stops){
+        // If the stoplist exists already and
+        // it has been updated recently
+        if(stops && (Recent.recent(stops.time))){
+          console.log('we have recent stops yay');
+          stops = prepareStops(stops.list);
+          StopList.pushEntireList(stops);
+        }
+        // If a recently updated list can't be found
+        // anywhere, time to download it.
+        else {
+          $cordovaGeolocation.getCurrentPosition().then(function(position){
+            NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function(stops){
+              var toForage = {
+                list: stops,
+                time: moment()
+              };
+              localforage.setItem('stops', toForage, function(err, val){
+                if (err) console.log(err);
+                else console.log("successfully set stops");
+              });
+              stops = prepareStops(stops);
+              StopList.pushEntireList(stops);
+            });
+            }, function(err) {
+              Stops.query(function(stops) {
+                prepareStops(StopList.pushEntireList(stops));
+                var toForage = {
+                  list: stops,
+                  time: moment()
+                };
+                localforage.setItem('stops', toForage, function(err, val){
+                  if (err) console.log(err);
+                  else console.log("successfully set stops");
+                });
+                stops = prepareStops(stops);
+                StopList.pushEntireList(stops);
+              });
+            });
+          }    
         });
-      }, function(err) {
-        Stops.query(function(stops) {
-          prepareStops(StopList.pushEntireList(stops));
-        });
-      });
     }
     else{
       prepareStops(StopList.getEntireList());
     }
+    
     function prepareStops(list){
       for(var i = 0; i < list.length; i++)
       $scope.all.push({name: list[i].Name,

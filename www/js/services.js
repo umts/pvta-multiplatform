@@ -266,3 +266,15 @@ angular.module('pvta.services', ['ngResource'])
     }
   };
 })
+.factory('Recent', function(moment){
+  function recent(timestamp){
+    console.log(JSON.stringify(timestamp));
+    var now = moment();
+    var diff = now.diff(timestamp, 'days');
+    if (diff <= 5) return true;
+    else return false;
+  };
+  return {
+    recent: recent
+  };
+})
