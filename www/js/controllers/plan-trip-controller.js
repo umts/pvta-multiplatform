@@ -29,14 +29,12 @@ mapTypeId: google.maps.MapTypeId.ROADMAP
 
                 $scope.map = new google.maps.Map(document.getElementById("directions-map"), mapOptions);
 
-                var originPlaceId = null;
-                var destinationPlaceId = null;
 
-                var directionsService = new google.maps.DirectionsService;
-                var directionsDisplay = new google.maps.DirectionsRenderer;
+                $scope.directionsService = new google.maps.DirectionsService;
+                $scope.directionsDisplay = new google.maps.DirectionsRenderer;
 
 
-                directionsDisplay.setMap($scope.map);
+                $scope.directionsDisplay.setMap($scope.map);
 
                 var origin_input = document.getElementById("origin-input");
                 var destination_input = document.getElementById("destination-input");
@@ -53,8 +51,7 @@ mapTypeId: google.maps.MapTypeId.ROADMAP
                         }
 
                         expandViewportToFitPlace($scope.map, place);
-                        originPlaceId = place.place_id;
-                        $scope.route(originPlaceId, destinationPlaceId, directionsService, directionsDisplay);
+                        $scope.originPlaceId = place.place_id;
                 });
 
                 destination_autocomplete.addListener('place_changed', function() {
@@ -65,8 +62,7 @@ mapTypeId: google.maps.MapTypeId.ROADMAP
                         }
 
                         expandViewportToFitPlace($scope.map, place);
-                        destinationPlaceId = place.place_id;
-                        $scope.route(originPlaceId, destinationPlaceId, directionsService, directionsDisplay);
+                        $scope.destinationPlaceId = place.place_id;
                 });
         }
 
@@ -81,10 +77,10 @@ mapTypeId: google.maps.MapTypeId.ROADMAP
         }
 
 
-        $scope.route = function(originPlaceId, destinationPlaceId, directionsService, directionsDisplay) {
+        $scope.route = function() {
                 $scope.steps = [];
                 $scope.step_links = [];
-                if (!originPlaceId || !destinationPlaceId)
+                if (!$scope.originPlaceId || !$scope.destinationPlaceId)
                         return;
                 transitOptions = {
                         modes: [google.maps.TransitMode.BUS]
@@ -92,17 +88,17 @@ mapTypeId: google.maps.MapTypeId.ROADMAP
 
                 var date = new Date($scope.dateInput.value+ ' ' +$scope.timeInput.value);
                 if ($scope.timeChoice.value === "departure")
-                        transitOptions['departure'] = date;
+                        transitOptions['departureTime'] = date;
                 else
-                        transitOptions['arrival'] = date;
-                directionsService.route({
-                        origin: {"placeId": originPlaceId},
-                        destination: {"placeId": destinationPlaceId},
+                        transitOptions['arrivalTime'] = date;
+                $scope.directionsService.route({
+                        origin: {"placeId": $scope.originPlaceId},
+                        destination: {"placeId": $scope.destinationPlaceId},
                         travelMode: google.maps.TravelMode.TRANSIT,
                         transitOptions: transitOptions
                 }, function(response, status){
                         if (status === google.maps.DirectionsStatus.OK){
-                                directionsDisplay.setDirections(response);
+                                $scope.directionsDisplay.setDirections(response);
                                 console.log(response);
                                 route = response.routes[0].legs[0];
                                 createStepList(response);
