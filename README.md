@@ -30,9 +30,10 @@ To begin developing, follow these steps:
 
 The javascript is contained in `www/js`.Start editing away!
 
-2. Viewing the results of your changes is quick and easy to do:
-   In the browser (do this during development):
-   Run `ionic serve -c` from the root project directory.
+2. Viewing the results of your changes is easy:
+   Just run `ionic serve -c` from the root project directory.
+
+  Ionic will open your default browser and navigate to itself for you.
 
 ### Emulating
 
