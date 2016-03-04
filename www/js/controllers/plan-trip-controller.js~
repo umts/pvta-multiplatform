@@ -79,7 +79,7 @@ mapTypeId: google.maps.MapTypeId.ROADMAP
                         }
                         else {
                                 destination_input.value = '';
-                                invalidLocationPopup();
+                                invalidLocaitonPopup();
                         }
                 });
         }

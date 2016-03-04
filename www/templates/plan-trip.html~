@@ -24,6 +24,7 @@
                         </select> 
                 </label>
                 <input type="datetime-local" ng-model="time.datetime" id="trip-time" class="user-input">
+                <button ng-click="timeToNow()" id="time-now-button" class="user-input">Set Time to Now</button>
         </div>
         <div>
                 <button ng-click="route()" id="route-button" class="user-input">Route</button>

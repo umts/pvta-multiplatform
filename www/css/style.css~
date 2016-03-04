@@ -36,6 +36,7 @@ left:0;
 display:inline-block;
 float:left;
 margin-left: 20px;
+margin-right: 0;
 }
 
 #save-button, #route-button, #time-now-button{
