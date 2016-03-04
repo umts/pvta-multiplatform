@@ -57,15 +57,17 @@ The javascript is contained in `www/js`.Start editing away!
 
 ### Angular
 
-I've found that the Angular APIs have a learning curve that flattens out fairly quickly.
-While confusing at first, I absolutely recommend them, as other tutorials have steered me
-wrong in ways that I now have to refactor into better code.
+Angular's APIs are pretty darn good.
+
+Angular has a roller-coaster-ey learning curve. Fair warning.
+wrong.  **Only look at Angular 1 stuff, as Angular 2 is almost out and is wildly different.**
 
 [Angular APIDocs Root Page](https://docs.angularjs.org/api)
 
 ### Ionic
 
-Ionic is what makes our app pretty.  It has little else to do, but it is built *on top of* Cordova and Angular.
+Ionic is what makes our app pretty and is built *on top of* Cordova and Angular.  Although it looks like that's all it does, Ionic includes powerful JavaScript modules for simplifying TONS of view logic in our app.
+
 The Ionic team made it easy to do things with the `ionic {command}` syntax instead of switching between
 Cordova and Angular calls.
 
@@ -76,13 +78,10 @@ Recommend random tutorials as a second resource if the API isn't sufficient (in 
 
 ### Cordova
 
-Cordova does all the real heavy lifting that makes our app a mobile app. Since ionic has aliases for the most
+Cordova provides plugins that bridge the gap between Web app and native app. Since ionic has aliases for the most
 common cordova commands, searching out Cordova features is currently on a need-to-know basis.  (Read: use Google)
 
-Their API is thorough but has some quirks.  The real gem of Cordova is their plugins that will make our app
-seem native, such as push notifications and local database support.  
-
-Currently, we leverage only 2 plugins: keyboard and statusbar.
+Their API is thorough but quirky.  When seeking out Cordova documentation, remember that the Ionic team has written an Angular wrapper called [ng-cordova](http://ngcordova.com), which is what we actually use.
 
 [CordovaDocs](https://cordova.apache.org/docs/en/5.0.0/) (loves to say it's outdated, but the updated version
 doesn't cover everything and has too many 404s)
@@ -92,13 +91,8 @@ doesn't cover everything and has too many 404s)
 - The first time you boot an ionic server after installing all your dependencies, it's possible you'll run into errors.
 The error codes are long and mostly useless; the source of your problem is assuredly the very first line of the first error block in the trace.
   - If you haven't changed any code, it's an error with your dependency binaries.
-    This is common, and a better way to organize them is being worked on.  
-    - See which dependencies you seem to be missing.  In `index.html`, make sure the import statements (`<script >` tags) have paths
-      to files that actually exist in your project.  bower installs to `bower_components`, a directory in the
-      project's root, but `index.html` has trouble finding this directory.
-    - To fix, I recommend moving the file from bower_components (assuming it's there and it's causing you trouble) to the
-      `www/lib`, which, in unison with updating `index.html` to point there, should resolve this.  
+    bower installs to `bower_components`, a subdirectory of `www` . 
+
+    Ensure that this directory exists and is populated.  run `npm install` and `bower install` again.
     
-    - **Before you push it, holler at Aaron, who thinks he has it set up with so many redundancies that you really shouldn't encounter this problem at all.**
- - If it worked before, but doesn't after you've begun editing, it's likely that you're using a service that you need to import in controllers that now use
-   this service (or your code just has problems).
+ - If it worked before, but doesn't after you've begun editing, it's likely that you're using a dependency that you need to import in controllers that require it (or your code just has problems). Search google for "angular dependency injection examples."
