@@ -93,4 +93,4 @@ gulp.task('cached-lint-watch', ['cached-lint'], function() {
 	});
 });
 
-gulp.task('default', ['cached-lint-watch', 'sass', 'lint-n-fix']);
+gulp.task('default', ['cached-lint-watch', 'sass']);
