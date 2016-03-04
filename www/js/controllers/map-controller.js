@@ -3,10 +3,11 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
 
   //set original bounds
   var bounds = new google.maps.LatLngBounds();
+
   //set some configurable options before initializing map
   var mapOptions = {
     // bounds is originally the entire planet, so getCenter()
-    // will return the intersection of the Prime Meridian
+    // will return the intersection of the International Date Line
     // and Equator by default
     center: bounds.getCenter(),
     zoom: 15,
@@ -26,40 +27,34 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
       var loc = new google.maps.LatLng(location.lat, location.long);
       // Nested call: first, place the desired marker, then
       // add a listener for when it's tapped
-      addMapListener(placeDesiredMarker(loc), "here's what you're looking for!");
-      bounds.extend(loc);
+      addMapListener(placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), "here's what you're looking for!");
     });
 
   }
 
   // Almost the same as immediately above.
   // Query Cordova for current location first.
+  // Also fits the bounds to include everything we've added/removed from them
   var currentLocation = $cordovaGeolocation.getCurrentPosition(options).then(function(position){
     var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    bounds.extend(myLocation);
-    addMapListener(placeDesiredMarker(myLocation), 'You are here!');
+    addMapListener(placeDesiredMarker(myLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'), 'You are here!');
   }, function(error){});
 
 
   // Takes a google.maps.LatLng object and places a marker
   // on the map in the requested spot.
   // Returns a reference to said marker.
-  function placeDesiredMarker(location){
+  function placeDesiredMarker(location, icon){
     var neededMarker = new google.maps.Marker({
         map: $scope.map,
-        icon: 'http://www.google.com/mapfiles/kml/paddle/go.png',
+        icon: icon,
         animation: google.maps.Animation.DROP,
         position: location
       });
+      bounds.extend(location);
+      $scope.map.fitBounds(bounds);
     return neededMarker;
   };
-
-  // When the map is ready, resize it to
-  // the bounds that we have been setting each
-  // time we add something to it.
-  google.maps.event.addListenerOnce($scope.map, 'idle', function(){
-      $scope.map.fitBounds(bounds);
-  });
 
   // Takes an already-created Maps marker and
   // a string.
