@@ -1,20 +1,18 @@
 # pvta-multiplatform 
 
-### Welcome to the repository for UMass Transit's PVTA realtime app (name TBD)!
+UMass Transit's PVTA realtime app (name TBD)!
 
 <a href="https://codeclimate.com/github/umts/pvta-multiplatform"><img src="https://codeclimate.com/github/umts/pvta-multiplatform/badges/gpa.svg" /></a>
 [![Issue Count](https://codeclimate.com/github/umts/pvta-multiplatform/badges/issue_count.svg)](https://codeclimate.com/github/umts/pvta-multiplatform)
 
-The app is a hybrid that uses the Ionic framework. This enables us to write Javascript
-and have a fluid, beautiful app on all the smartphone platforms we could dream of!
+The app is a hybrid that uses Ionic.
 
-All data comes from REST-ful endpoints located on the PVTA's website.  There is currently 
-no distinction between production and development data.
+All data is live, and comes from endpoints located on the PVTA's website.
 
 To begin developing, follow these steps:
 
 ## Prerequisites
-- [Node.js <b>4.x</b>](https://nodejs.org/en/)
+- [Node.js <b>4.x and NPM</b>](https://nodejs.org/en/)
 - Angular.js (no explicit installation necessary)
 - Ionic and Cordova: `npm install -g cordova ionic`
 
@@ -25,12 +23,10 @@ To begin developing, follow these steps:
 1. Clone your fork onto your local machine
 
 1. In your fork's directory, run the following setup stuff:
-  1. `npm install -g bower`
-  1. `npm install -g gulp`
-  1. `bower install`
-  1. `gulp`
+  1. `npm install`
+  2. `bower install`
 
-## Developing, Building, and Running
+## Developing
 
 The javascript is contained in `www/js`.Start editing away!
 
@@ -38,29 +34,24 @@ The javascript is contained in `www/js`.Start editing away!
    In the browser (do this during development):
    Run `ionic serve -c` from the root project directory.
 
-### On a Device (do this sparingly)
+### Emulating
 
 1. The project has been configured to be an Android and iOS project.  If you want to build a
    copy for an emulator on your machine, or you'd like to run it on your phone, do the following:
 
-   a. `ionic build` generates, populates, and compiles all files for both platforms.  You must have
-      *xcode*, *xcode command line tools*, Java and the JDK (version 1.7 or 1.8),
-      and the Android SDK (kitkat, lollipop, and marshmallow preferrably) all installed.
-      [Android SDK Download Page](http://developer.android.com/sdk/installing/index.html).
-      I HIGHLY recommend downloading it with Android Studio.
+   a. `ionic build` generates necessary files.
    
-   b. `ionic emulate {platform}` where `platform` is `android` or `ios`
+      You must have
+      
+      **android**: JDK (version 1.7 or 1.8) and the [Android SDK](http://developer.android.com/sdk/installing/index.html) installed.
+      You must also [create an Android Virtual Device](http://developer.android.com/tools/devices/managing-avds.html).
+      
+      **ios**: OS X, Xcode, and Xcode command line tools installed.
    
-   c.`ionic run` **should** install and run your app on a connected Android device
-      (developer tools > USB Debugging must be enabled on the phone and the Android Debugger executable
-      (ships with SDK in android_sdk_path/platform_tools/adb).
-   Some phones royally screw this up, namely the Galaxy S5.
+   b. `ionic emulate {platform}` where `platform` is `android` or `ios` will open an emulator and run the app.
    
-   d. For Android that give you trouble and iPhones/etc on iOS >= 9.0, open the project in
-      `{project_root}/platforms/{android or ios}/` in Android Studio or Xcode. 
-      From there, you can follow a tutorial on installing it on your phone
-      (hint: click the Run button and select your device).
-
+   Installing it on your phone can be tricky.  Consult [Ionic's page](http://ionicframework.com/docs/guide/testing.html) for basic info.  Recommend online tutorials.  **To use a stable, approved version of pvta-multiplatform on your phone, see [releases](https://github.com/umts/pvta-multiplatform/releases).**
+   
 ## Research/Learning:
 
 ### Angular
