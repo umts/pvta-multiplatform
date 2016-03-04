@@ -1,6 +1,6 @@
-angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong, FavoriteStops, SimpleRoute) {
+angular.module('pvta.controllers').controller('StopController', function($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong, FavoriteStops, SimpleRoute){
 
-  var getDepartures = function () {
+  $scope.getDepartures = function(){
     var routes = [];
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function () {
       var directions = deps[0].RouteDirections;
@@ -25,13 +25,13 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
               }
             }
           }
-            else {
+          else{
             directions[i].StringifiedTimes = times;
             var r = {route: directions[i].RouteId, trip: directions[i].Departures[departureNum].Trip, departures: times};
             $scope.departures.push(r);
           }
-        }
-      }
+        } // end first if
+      } // end for
       getRoutes($scope.departures);
     });
   }; // end getDepartures
@@ -40,18 +40,49 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     getHeart();
   });
   $scope.stop = stop;
-  getDepartures();
-  var timer = $interval(function () {
-    getDepartures();
-  }, 30000);
-  $scope.$on('$destroy', function () {
+
+  // Load the departures for the first time
+  $scope.getDepartures();
+  var timer;
+  /********************************************
+   * Every time we enter a Stop page,
+   * retrieve the autoRefresh setting.
+   * If set by the user, we use that as our 
+   * timer value. If a sanity-check on the value
+   * fails (ie anything <= 1s) or
+   * localforage throws an error, set to 30s.
+   ********************************************/
+  $scope.$on('$ionicView.enter', function(){
+    localforage.getItem('autoRefresh', function(err, value){
+      if (value) {
+        if (value <= 1000) value = 30000;
+        timer=$interval(function(){
+          $scope.getDepartures();
+        }, value);
+      }
+      else{
+        timer=$interval(function(){
+          $scope.getDepartures();
+        }, 30000);
+        console.log(err);
+      }
+    });
+  });
+  /****************************************
+   * When the angular $scope recognizes that
+   * ionic's view engine has fired the *leave*
+   * event, stop the autorefresh!
+   ****************************************/
+  $scope.$on('$ionicView.leave', function() {
     $interval.cancel(timer);
   });
+    
   $scope.setCoordinates = function (lat, long) {
     LatLong.push(lat, long);
     $interval.cancel(timer);
     $location.path('/app/map');
   };
+    
   $scope.toggleHeart = function (liked) {
     var name = 'Stop ' + stop.Name + ' favorite';
     localforage.setItem(name, liked, function (err, value) {
@@ -63,7 +94,6 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
       }
     });
   };
-
   var getRoutes = function (routes) {
     for (var i = 0; i < routes.length; i++) {
       $scope.getRoute(routes[i].route);
@@ -75,11 +105,15 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
       $scope.routeList[id] = (x);
     });
   };
-
   var getHeart = function () {
     var name = 'Stop ' + stop.Name + ' favorite';
     localforage.getItem(name, function (err, value) {
       $scope.liked = value;
     });
   };
-});
+  
+  $scope.refresh = function(){
+    $scope.getDepartures();
+    $scope.$broadcast('scroll.refreshComplete');
+  };
+})

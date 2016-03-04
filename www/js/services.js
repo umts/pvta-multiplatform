@@ -29,7 +29,7 @@ angular.module('pvta.services', ['ngResource'])
 })
 
 .factory('RouteVehicles', function ($resource, Avail){
-    return $resource(Avail + '/vehicles/getallvehiclesforroute?routeId=:routeId')
+    return $resource(Avail + '/vehicles/getallvehiclesforroute?routeid=:id')
 })
 
 .factory('StopDeparture', function ($resource, Avail) {
@@ -44,11 +44,17 @@ angular.module('pvta.services', ['ngResource'])
   return $resource(Avail + '/routes/get/:routeId');
 })
 
+.factory('Info', function(){
+  return {
+    versionNum: '0.5.2',
+    versionName: 'Beta 2'
+  };
+})
 
 
 
 .factory('StopList', function(){
-  var stopsList = []; 
+  var stopsList = [];
 
   var pushEntireList = function(list){
     stopsList = stopsList.concat(_.uniq(list, true, 'Name'));
@@ -61,23 +67,23 @@ angular.module('pvta.services', ['ngResource'])
     }
     else return 0;
   };
-  
+
   var isEmpty = function(){
     if(stopsList.length === 0) return true;
     else return false
   };
-  
+
   return {
     pushEntireList: pushEntireList,
     getEntireList: getEntireList,
-    isEmpty: isEmpty,  
+    isEmpty: isEmpty,
   };
-  
+
 })
 
 .factory('RouteList', function(){
   var routesList = [];
-  
+
   var pushEntireList = function(list){
    // only store the route attributes we need
    routesList = _.map(list, function(route){
@@ -98,18 +104,18 @@ angular.module('pvta.services', ['ngResource'])
     }
     else return 0;
   }
-  
+
   var isEmpty = function(){
     if(routesList.length === 0) return true;
     else return false
   };
-  
+
   return {
     pushEntireList: pushEntireList,
     getEntireList: getEntireList,
-    isEmpty: isEmpty,  
+    isEmpty: isEmpty,
   };
-  
+
 })
 
 .factory('FavoriteRoutes', function(){
@@ -125,17 +131,17 @@ angular.module('pvta.services', ['ngResource'])
         newArray.push(route);
       }
       localforage.setItem('favoriteRoutes', newArray, function(err, value){
-      })  
+      })
     })
   };
-  
+
   var getAll = function(){
     var ret = [];
     localforage.getItem('favoriteRoutes', function(err, value){
-      
+
     })
   };
-  
+
   var remove = function(route){
     localforage.getItem('favoriteRoutes', function(err, routes){
       for(var i = 0; i < routes.length; i++){
@@ -148,14 +154,14 @@ angular.module('pvta.services', ['ngResource'])
     });
     removeOneRoute(route);
   };
-  
+
   var removeOneRoute = function(route){
     var name = 'Route ' + route.ShortName + ' favorite';
     localforage.removeItem(name, function(err){
       if(err) console.log(err);
     });
   };
-  
+
   return{
     push: push,
     getAll: getAll,
@@ -176,16 +182,16 @@ angular.module('pvta.services', ['ngResource'])
         newArray.push(stop);
       }
       localforage.setItem('favoriteStops', newArray, function(err, value){
-      });  
+      });
     });
   };
-  
+
   var getAll = function(){
     var ret = [];
     localforage.getItem('favoriteStops', function(err, value){
     });
   };
-  
+
   var remove = function(stop){
     localforage.getItem('favoriteStops', function(err, stops){
       for(var i = 0; i < stops.length; i++){
@@ -196,20 +202,20 @@ angular.module('pvta.services', ['ngResource'])
       localforage.setItem('favoriteStops', stops, function(err, newStops){
       });
     });
-    
+
     //Since stops also have their own separate entries,
     // (for toggling the heart on the Stop's page),
     // remove that too.
     removeOneStop(stop);
   };
-  
+
   var removeOneStop = function(stop){
     var name = 'Stop ' + stop.Name + " favorite";
     localforage.removeItem(name, function(err){
       if(err) console.log(err);
     });
   }
-  
+
   return{
     push: push,
     getAll: getAll,
@@ -223,13 +229,13 @@ angular.module('pvta.services', ['ngResource'])
     kml.push(shortName);
   };
   function pop(){
-    if(kml.length === 1){
+    if(kml.length == 1){
       return kml.pop();
     }
     else{
       // Empty the array,
       // because anything else
-      // will produce undesired 
+      // will produce undesired
       // activity in MapController
       kml = [];
       return null;
@@ -248,18 +254,15 @@ angular.module('pvta.services', ['ngResource'])
       var p = {lat, long};
       latlong.push(p);
     },
-    pop: function(){
-      if(latlong.length === 1){
-        return latlong.pop();
+    getAll: function(){
+      if(latlong.length > 0){
+        var toReturn = latlong;
+        latlong = [];
+        return toReturn;
       }
       else {
-       // Empty the array,
-      // because anything else
-      // will produce undesired 
-      // activity in MapController
-      latlong = []; 
-      return null;
+        return null;
       }
     }
   };
-});
+})

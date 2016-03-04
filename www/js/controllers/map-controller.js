@@ -13,19 +13,22 @@ angular.module('pvta.controllers').controller('MapController', function ($scope,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   //initialize map
-  $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
   // Assuming the user has requested something
   // be placed on the map, grab the lat/long of that thing
-  var desiredMarkerLocation = LatLong.pop();
-  if (desiredMarkerLocation) {
-    // If our assumption was correct, query the Maps API
-    // to get a valid, placeable location of our lat/long
-    var location = new google.maps.LatLng(desiredMarkerLocation.lat, desiredMarkerLocation.long);
-    // Nested call: first, place the desired marker, then
-    // add a listener for when it's tapped
-    addMapListener(placeDesiredMarker(location), 'here\'s what you\'re looking for!');
-    bounds.extend(location);
+  var desiredMarkerLocation = LatLong.getAll();
+  if(desiredMarkerLocation){
+    _.each(desiredMarkerLocation, function(location){
+
+      // If our assumption was correct, query the Maps API
+      // to get a valid, placeable location of our lat/long
+      var loc = new google.maps.LatLng(location.lat, location.long);
+      // Nested call: first, place the desired marker, then
+      // add a listener for when it's tapped
+      addMapListener(placeDesiredMarker(loc), "here's what you're looking for!");
+      bounds.extend(loc);
+    });
   }
 
   // Almost the same as immediately above.
