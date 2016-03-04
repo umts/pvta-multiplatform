@@ -6,4 +6,3 @@ bower_components
 *.apk
 npm-debug.log
 npm-debug.log.*
-www/bower_components
