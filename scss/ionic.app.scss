@@ -20,8 +20,8 @@ $ionicons-font-path: "../bower_components/ionic/fonts" !default;
 
 // Include all of Ionic
 @import 
-  "bower_components/ionic/scss/ionic",
-  "bower_components/ionic-filter-bar/scss/ionic.filter.bar";
+  "www/bower_components/ionic/scss/ionic",
+  "www/bower_components/ionic-filter-bar/scss/ionic.filter.bar.scss";
 
 .scroll {
     height: 100%;
