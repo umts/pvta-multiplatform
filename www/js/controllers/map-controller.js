@@ -1,63 +1,60 @@
-angular.module('pvta.controllers').controller('MapController', function ($scope, $state, $resource, $stateParams, $cordovaGeolocation, Route, Vehicle, LatLong, KML) {
+angular.module('pvta.controllers').controller('MapController', function($scope, $state, $resource, $stateParams, $cordovaGeolocation, Route, Vehicle, LatLong, KML) {
   var options = {timeout: 10000, enableHighAccuracy: true};
 
   //set original bounds
   var bounds = new google.maps.LatLngBounds();
+
   //set some configurable options before initializing map
   var mapOptions = {
     // bounds is originally the entire planet, so getCenter()
-    // will return the intersection of the Prime Meridian
+    // will return the intersection of the International Date Line
     // and Equator by default
     center: bounds.getCenter(),
     zoom: 15,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   //initialize map
-  $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
   // Assuming the user has requested something
   // be placed on the map, grab the lat/long of that thing
   var desiredMarkerLocation = LatLong.getAll();
-  if (desiredMarkerLocation) {
-    _.each(desiredMarkerLocation, function (location) {
+  if(desiredMarkerLocation){
+    _.each(desiredMarkerLocation, function(location){
 
       // If our assumption was correct, query the Maps API
       // to get a valid, placeable location of our lat/long
       var loc = new google.maps.LatLng(location.lat, location.long);
       // Nested call: first, place the desired marker, then
       // add a listener for when it's tapped
-      addMapListener(placeDesiredMarker(loc), 'here\'s what you\'re looking for!');
-      bounds.extend(loc);
+      addMapListener(placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), "here's what you're looking for!");
     });
+
   }
 
   // Almost the same as immediately above.
   // Query Cordova for current location first.
-  var currentLocation = $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
+  // Also fits the bounds to include everything we've added/removed from them
+  var currentLocation = $cordovaGeolocation.getCurrentPosition(options).then(function(position){
     var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    bounds.extend(myLocation);
-    addMapListener(placeDesiredMarker(myLocation), 'You are here!');
-  }, function (error) {});
+    addMapListener(placeDesiredMarker(myLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'), 'You are here!');
+  }, function(error){});
+
 
   // Takes a google.maps.LatLng object and places a marker
   // on the map in the requested spot.
   // Returns a reference to said marker.
-  function placeDesiredMarker (location) {
+  function placeDesiredMarker(location, icon){
     var neededMarker = new google.maps.Marker({
-      map: $scope.map,
-      icon: 'http://www.google.com/mapfiles/kml/paddle/go.png',
-      animation: google.maps.Animation.DROP,
-      position: location
-    });
+        map: $scope.map,
+        icon: icon,
+        animation: google.maps.Animation.DROP,
+        position: location
+      });
+      bounds.extend(location);
+      $scope.map.fitBounds(bounds);
     return neededMarker;
-  }
-
-  // When the map is ready, resize it to
-  // the bounds that we have been setting each
-  // time we add something to it.
-  google.maps.event.addListenerOnce($scope.map, 'idle', function () {
-    $scope.map.fitBounds(bounds);
-  });
+  };
 
   // Takes an already-created Maps marker and
   // a string.
@@ -66,12 +63,12 @@ angular.module('pvta.controllers').controller('MapController', function ($scope,
   // in a little popup when the marker is
   // tapped on.
   // Returns nothing.
-  function addMapListener (marker, onClickString) {
+  function addMapListener(marker, onClickString){
     google.maps.event.addListener(marker, 'click', function () {
-      var infoWindow = new google.maps.InfoWindow({
-        content: onClickString
-      });
-      infoWindow.open($scope.map, marker);
+            var infoWindow = new google.maps.InfoWindow({
+              content: onClickString
+            });
+            infoWindow.open($scope.map, marker);
     });
   }
 
@@ -79,7 +76,7 @@ angular.module('pvta.controllers').controller('MapController', function ($scope,
   // if previous controller wanted
   // us to display a route.
   var shortName = KML.pop();
-  if (shortName) {
+  if(shortName) {
     // If something exists, we should
     // add the route's corresponding KML
     // to the Map.
@@ -91,11 +88,11 @@ angular.module('pvta.controllers').controller('MapController', function ($scope,
   // any route (by downloading its KML file from PVTA/Avail)
   // to the Map.
   // Returns nothing.
-  function addKML (shortName) {
+  function addKML(shortName){
     var toAdd = 'http://bustracker.pvta.com/infopoint/Resources/Traces/route' + shortName + '.kml';
     var georssLayer = new google.maps.KmlLayer({
-      url: toAdd
+    url: toAdd
     });
     georssLayer.setMap($scope.map);
-  }
+  };
 });
