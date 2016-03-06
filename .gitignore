@@ -6,7 +6,7 @@ www/bower_components/*
 
 .idea
 
-
+*.swp
 
 *.apk
 
