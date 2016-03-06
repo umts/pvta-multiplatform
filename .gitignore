@@ -6,6 +6,8 @@ www/bower_components/*
 
 .idea
 
+
+
 *.apk
 
 node_modules/gulp/package.json
