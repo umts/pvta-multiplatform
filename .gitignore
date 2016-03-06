@@ -1,6 +1,6 @@
 platforms/android/*
 platforms/ios/*
-node_modules
+node_modules/*
 www/bower_components/*
 .idea
 *.apk
