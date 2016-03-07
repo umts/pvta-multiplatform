@@ -278,3 +278,42 @@ angular.module('pvta.services', ['ngResource'])
     recent: recent
   };
 })
+
+.factory('forage', function(RouteList, Avail, moment, Recent){
+  function getAndSaveRouteList(){
+    console.log('getAndSaveRouteList here');
+    localforage.getItem('routes', function(err, routes){
+      console.log('localforage getitem has returned');
+      // If the routelist exists already and
+      // it has been updated recently
+      if(routes && (Recent.recent(routes.time))){
+        console.log('we have recent routes yay');
+        console.log(routes instanceof Array);
+        var booty = RouteList.pushEntireList(routes);
+
+        console.log(JSON.stringify(routes));
+        return routes;
+      }
+      // If a recently updated list can't be found
+      // anywhere, time to download it.
+      else {
+        console.log('obvs no routes saved');
+        var routes = $resource(Avail + '/routes/getallroutes').query({}, function(){
+          var toForage = {
+            list: routes,
+            time: moment()
+          };
+          localforage.setItem('routes', toForage, function(err, val){
+            if (err) console.log(err);
+            else console.log("successfully set routes");
+          });
+          RouteList.pushEntireList(routes);
+          return routes;
+        });
+      }
+    });
+  }
+  return {
+    getAndSaveRouteList: getAndSaveRouteList
+  }
+})

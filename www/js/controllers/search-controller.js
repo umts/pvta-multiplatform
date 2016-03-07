@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, StopList, Stops, NearestStops, Avail, Recent){
+angular.module('pvta.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, StopList, Stops, NearestStops, Avail, Recent, forage){
   var filterBarInstance;
   function getItems () {
     $scope.all = [];
@@ -26,7 +26,7 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
     if(RouteList.isEmpty()){
       console.log('hello..?');
         // get the routelist from localforage
-      localforage.getItem('routes', function(err, routes){
+      /*localforage.getItem('routes', function(err, routes){
         // If the routelist exists already and
         // it has been updated recently
         if(routes && (Recent.recent(routes.time))){
@@ -48,23 +48,26 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
             });
             routes = prepareRoutes(routes);
             RouteList.pushEntireList(routes);
-          });    
+          });
         }
-      });    
+      });    */
+      console.log('the route list is empty');
+      var routes = forage.getAndSaveRouteList();
+      console.log(JSON.stringify(routes));
     }
     else{
       console.log("routelist wasn't empty");
       var routes = RouteList.getEntireList();
       routes = prepareRoutes(routes);
     }
-    
+
     if(StopList.isEmpty()){
-      console.log('none stops in here');
+      //console.log('none stops in here');
       localforage.getItem('stops', function(err, stops){
         // If the stoplist exists already and
         // it has been updated recently
         if(stops && (Recent.recent(stops.time))){
-          console.log('we have recent stops yay');
+      //    console.log('we have recent stops yay');
           stops = prepareStops(stops.list);
           StopList.pushEntireList(stops);
         }
@@ -99,13 +102,13 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
                 StopList.pushEntireList(stops);
               });
             });
-          }    
+          }
         });
     }
     else{
       prepareStops(StopList.getEntireList());
     }
-    
+
     function prepareStops(list){
       for(var i = 0; i < list.length; i++)
       $scope.all.push({name: list[i].Name,
