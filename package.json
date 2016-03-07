@@ -1,6 +1,6 @@
 {
   "name": "PVTA",
-  "version": "0.1",
+  "version": "0.5.2",
   "description": "The best way to find your buses on the go.",
   "dependencies": {
     "gulp": "^3.9.0",
