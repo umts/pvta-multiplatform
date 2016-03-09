@@ -71,17 +71,20 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
     filterBarInstance = $ionicFilterBar.show({
       items: $scope.all,
       update: function (filteredItems, filterText) {
-        $scope.filterText = filterText;
         if (filterText !== '' && filterText !== null) {
           $scope.displayItems = filteredItems;
+          $scope.filterText = filterText;
         }
         else {
           $scope.displayItems = [];
         }
+      },
+      cancel: function(){
+        $scope.displayItems = [];
       }
     });
   };
-  $scope.refreshItems = function () {
+  /*$scope.refreshItems = function () {
     if (filterBarInstance) {
       filterBarInstance();
       filterBarInstance = null;
@@ -91,5 +94,5 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
       getItems();
       $scope.$broadcast('scroll.refreshComplete');
     }, 1000);
-  };
+  };*/
 });
