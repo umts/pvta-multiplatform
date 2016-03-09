@@ -2,10 +2,12 @@ angular.module('pvta.controllers').controller('RoutesController', function ($sco
   var filterBarInstance;
   if (RouteList.isEmpty()) {
     $scope.routes = Routes.query(function () {
-      $scope.routes = RouteList.pushEntireList($scope.routes);
+      RouteList.pushEntireList($scope.routes);
     });
   }
-  else $scope.routes = RouteList.getEntireList();
+  else {
+    $scope.routes = RouteList.getEntireList();
+  }
 
   $scope.showFilterBar = function () {
     filterBarInstance = $ionicFilterBar.show({
