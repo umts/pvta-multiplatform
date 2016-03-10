@@ -4,6 +4,9 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
   //set original bounds
   var bounds = new google.maps.LatLngBounds();
 
+  $scope.route = Route.get({routeId: $stateParams.routeId});
+  $scope.vehicle = Vehicle.get({vehicleId: $stateParams.vehicleId});
+
   //set some configurable options before initializing map
   var mapOptions = {
     // bounds is originally the entire planet, so getCenter()
@@ -25,9 +28,10 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
       // If our assumption was correct, query the Maps API
       // to get a valid, placeable location of our lat/long
       var loc = new google.maps.LatLng(location.lat, location.long);
+
       // Nested call: first, place the desired marker, then
       // add a listener for when it's tapped
-      addMapListener(placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), "here's what you're looking for!");
+      addBusListener(placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'));
     });
 
   }
@@ -63,10 +67,22 @@ angular.module('pvta.controllers').controller('MapController', function($scope, 
   // in a little popup when the marker is
   // tapped on.
   // Returns nothing.
-  function addMapListener(marker, onClickString){
+  function addMapListener(marker, onClick){
     google.maps.event.addListener(marker, 'click', function () {
             var infoWindow = new google.maps.InfoWindow({
-              content: onClickString
+              content: onClick
+            });
+            infoWindow.open($scope.map, marker);
+    });
+  }
+
+  //adds a listener specifically for buses (it otherwise)
+  //will not allow you to access scope variables for things
+  //like route name and vehicle number
+  function addBusListener(marker){
+    google.maps.event.addListener(marker, 'click', function () {
+            var infoWindow = new google.maps.InfoWindow({
+              content: "<div><h2>" + $scope.route.ShortName + "</h2></div>"
             });
             infoWindow.open($scope.map, marker);
     });

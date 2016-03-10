@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteController', function($scope, $stateParams, Route, RouteVehicles, FavoriteRoutes, Messages, KML, $location, LatLong){
+angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, Route, RouteVehicles, FavoriteRoutes, Messages, KML, $location, LatLong){
   var size = 0;
 
   var getVehicles = function(){
@@ -60,7 +60,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     _.each($scope.vehicles, function(vehicle){
       LatLong.push(vehicle.Latitude, vehicle.Longitude);
     });
-    $location.path('/app/map');
+    $state.go('app.map', {routeId: $stateParams.routeId});
   };
 
   $scope.refresh = function(){
