@@ -137,12 +137,32 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
   .state('app.map', {
     url: '/map',
     params: {
-      routeId: {squash: true}
+      vehicleId: {squash: true}
     },
     views: {
       'menuContent': {
         templateUrl: 'templates/map.html',
-        controller: 'MapController'
+        controller: 'RouteMapController'
+      }
+    }
+  })
+
+  .state('app.route-map',{
+    url: '/map/route',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/map.html',
+        controller: 'RouteMapController'
+      }
+    }
+  })
+
+  .state('app.stop-map',{
+    url: '/map/stop',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/map.html',
+        controller: 'StopMapController'
       }
     }
   });

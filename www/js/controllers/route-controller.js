@@ -60,7 +60,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     _.each($scope.vehicles, function(vehicle){
       LatLong.push(vehicle.Latitude, vehicle.Longitude);
     });
-    $state.go('app.map', {routeId: $stateParams.routeId});
+    $location.path('/app/map/route');
   };
 
   $scope.refresh = function(){

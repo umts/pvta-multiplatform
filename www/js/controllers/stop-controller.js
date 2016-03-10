@@ -80,7 +80,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   $scope.setCoordinates = function (lat, long) {
     LatLong.push(lat, long);
     $interval.cancel(timer);
-    $location.path('/app/map');
+    $location.path('/app/map/stop');
   };
 
   $scope.toggleHeart = function (liked) {

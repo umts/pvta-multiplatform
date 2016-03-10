@@ -266,3 +266,49 @@ angular.module('pvta.services', ['ngResource'])
     }
   };
 })
+
+.service('Map', function($cordovaGeolocation){
+
+  var map;
+  var bounds;
+  var options = {timeout: 5000, enableHighAccuracy: true};
+
+  function placeDesiredMarker(location, icon){
+    var neededMarker = new google.maps.Marker({
+        map: map,
+        icon: icon,
+        animation: google.maps.Animation.DROP,
+        position: location
+      });
+      bounds.extend(location);
+      map.fitBounds(bounds);
+    return neededMarker;
+  };
+
+  function plotCurrentLocation(){
+    var currentLocation = $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+      var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      addMapListener(placeDesiredMarker(myLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'), 'You are here!');
+    }, function(error){});
+  }
+
+  function addMapListener(marker, onClick){
+    google.maps.event.addListener(marker, 'click', function () {
+            var infoWindow = new google.maps.InfoWindow({
+              content: onClick
+            });
+            infoWindow.open(map, marker);
+    });
+  }
+
+
+  return {
+    placeDesiredMarker: placeDesiredMarker,
+    init: function(incomingMap, incomingBounds){
+      map = incomingMap;
+      bounds = incomingBounds;
+    },
+    plotCurrentLocation: plotCurrentLocation,
+    addMapListener: addMapListener
+  }
+})
