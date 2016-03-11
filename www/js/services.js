@@ -95,18 +95,21 @@ angular.module('pvta.services', ['ngResource'])
      matches = route.ShortName.match(routeNumber)
      return Number(_.first(matches));
    });
+    console.log(JSON.stringify(routesList));
    return routesList;
   };
 
   var getEntireList = function(){
     if(!isEmpty()) {
+      console.log('we just figured out that the routelist isnt empty');
       return routesList;
     }
     else return 0;
   }
 
   var isEmpty = function(){
-    if(routesList.length === 0) return true;
+    console.log(routesList.length);
+    if(routesList.length == 0) return true;
     else return false
   };
 

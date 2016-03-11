@@ -25,8 +25,8 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
     };
     if (RouteList.isEmpty()) {
       var routes = $resource(Avail + '/routes/getallroutes').query({}, function () {
-        routes = prepareRoutes(routes);
         RouteList.pushEntireList(routes);
+        routes = prepareRoutes(routes);
       });
     }
     else {
