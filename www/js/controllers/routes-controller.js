@@ -4,18 +4,20 @@ angular.module('pvta.controllers').controller('RoutesController', function ($sco
   if (RouteList.isEmpty()) {
     $scope.routes = Routes.query(function () {
       RouteList.pushEntireList($scope.routes);
-      toSearch = _.map($scope.routes, function(route){
-        return _.pick(route, 'ShortName', 'LongName', 'Color');
-      });
+      toSearch = stripDetails($scope.routes);
     });
   }
   else {
     $scope.routes = RouteList.getEntireList();
-    toSearch = _.map($scope.routes, function(route){
+    toSearch = stripDetails($scope.routes);
+  }
+
+  function stripDetails(routeList){
+    return _.map(routeList, function(route){
         return _.pick(route, 'ShortName', 'LongName', 'Color');
     });
   }
-
+  
   $scope.showFilterBar = function () {
     filterBarInstance = $ionicFilterBar.show({
       items: toSearch,
