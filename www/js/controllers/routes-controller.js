@@ -14,7 +14,7 @@ angular.module('pvta.controllers').controller('RoutesController', function ($sco
 
   function stripDetails(routeList){
     return _.map(routeList, function(route){
-        return _.pick(route, 'ShortName', 'LongName', 'Color');
+        return _.pick(route, 'RouteId', 'ShortName', 'LongName', 'Color');
     });
   }
   
