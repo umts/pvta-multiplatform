@@ -286,10 +286,11 @@ angular.module('pvta.services', ['ngResource'])
   };
 })
 
-.factory('routeForage', function(RouteList, moment, Recent){
+.factory('routeForage', function(RouteList, moment, Recent, Routes){
+  console.log('hello')
   function getSavedRouteList(){
     if(RouteList.isEmpty()){
-      localforage.getItem('routes', function(err, routes){
+      return localforage.getItem('routes', function(err, routes){
         // If the routelist exists already and
         // it has been updated recently
         if(routes && (Recent.recent(routes.time))){
@@ -298,23 +299,27 @@ angular.module('pvta.services', ['ngResource'])
           return routes.list;
         }
         else {
+          var list;
           console.log('downloading routes');
-          var routes = RouteList.download();
-          console.log(JSON.stringify(routes));
-          var toForage = {
-            list: routes,
-            time: moment()
-          };
-          localforage.setItem('routes', toForage, function(err, val){
-            if (err){
-              console.log(err);
-              return false;
-            }
-            else {
-              RouteList.pushEntireList(val.list);
-              return val.list;
-            }
+          var routes = Routes.query({}, function(){
+            var toForage = {
+              list: routes,
+              time: moment()
+            };
+            localforage.setItem('routes', toForage, function(err, val){
+              if (err){
+                console.log(err);
+                list = false;
+              }
+              else {
+                console.log('downloaded routes, hooray. Pushed to forage and about to return.');
+                RouteList.pushEntireList(val.list);
+                console.log(JSON.stringify(val.list));
+                list = val.list;
+              }
+            });  
           });
+          return list;
         }
       });
     }

@@ -25,8 +25,9 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
       return routes;
     }
     
-    var routes = routeForage.get();
-    console.log(JSON.stringify(routes));
+    $scope.routes = routeForage.get();
+    console.log(JSON.stringify($scope.routes));
+    prepareRoutes($scope.routes);
     
     if(StopList.isEmpty()){
       //console.log('none stops in here');
