@@ -1,4 +1,5 @@
-angular.module('pvta.controllers').controller('SearchController', function ($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, StopList, Stops, NearestStops, Avail) {
+angular.module('pvta.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, StopList, Stops, NearestStops, Avail, Recent, RouteForage){
+
   var filterBarInstance;
   function getItems () {
     $scope.all = [];
@@ -22,17 +23,14 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
         }
       }
       return routes;
-    };
-    if (RouteList.isEmpty()) {
-      var routes = $resource(Avail + '/routes/getallroutes').query({}, function () {
-        RouteList.pushEntireList(routes);
-        routes = prepareRoutes(routes);
-      });
     }
-    else {
-      var routes = RouteList.getEntireList();
-      routes = prepareRoutes(routes);
-    }
+    
+    RouteForage.get().then(function(routes){
+      RouteForage.save(routes);
+      prepareRoutes(routes);
+    });
+
+    
     if (StopList.isEmpty()) {
       $cordovaGeolocation.getCurrentPosition().then(function (position) {
         NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function (stops) {
@@ -48,9 +46,8 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
     else {
       prepareStops(StopList.getEntireList());
     }
-
-    function prepareStops (list) {
-      for (var i = 0; i < list.length; i++) {
+    function prepareStops(list){
+      for(var i = 0; i < list.length; i++) {
         $scope.all.push({name: list[i].Name,
                         type: 'stop',
                         id: list[i].StopId
@@ -84,15 +81,4 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
       }
     });
   };
-  /*$scope.refreshItems = function () {
-    if (filterBarInstance) {
-      filterBarInstance();
-      filterBarInstance = null;
-    }
-
-    $timeout(function () {
-      getItems();
-      $scope.$broadcast('scroll.refreshComplete');
-    }, 1000);
-  };*/
 });
