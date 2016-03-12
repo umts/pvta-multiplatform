@@ -110,17 +110,10 @@ angular.module('pvta.services', ['ngResource'])
     else return false
   };
   
-  var download = function(){
-    var routes = SimpleRoute.query({}, function(){
-      return routes;
-    });
-  }
-
   return {
     pushEntireList: pushEntireList,
     getEntireList: getEntireList,
-    isEmpty: isEmpty,
-    download: download
+    isEmpty: isEmpty
   };
 
 })
