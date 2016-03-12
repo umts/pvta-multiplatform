@@ -25,25 +25,11 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
       return routes;
     }
     
-    $scope.routes = routeForage.get();
-    $scope.routes.$promise.then(function(routes){
-      var toForage = {
-        list: routes,
-        time: moment()
-      };
-      localforage.setItem('routes', toForage, function(err, val){
-        if (err){
-          console.log(err);
-        }
-        else {
-          console.log('downloaded routes, hooray');
-          console.log(JSON.stringify(val.list));
-          RouteList.pushEntireList(val.list);
-          list = val.list;
-        }
-      });  
-
+    routeForage.get().then(function(routes){
+      routeForage.save(routes);
+      prepareRoutes(routes);
     });
+
     
     if(StopList.isEmpty()){
       //console.log('none stops in here');
