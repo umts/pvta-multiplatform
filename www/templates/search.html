@@ -4,12 +4,13 @@
   </ion-nav-buttons>
   <ion-content direction="y" scrollbar-y="false">
     <ion-list>
-      <ion-item collection-repeat="item in display_items" item-height= "50" href="#app/{{item.type}}s/{{item.id}}">
+      
+      <ion-item collection-repeat="item in displayItems" item-height= "50" href="#app/{{item.type}}s/{{item.id}}">
         <p>{{item.name}}</p>
       </ion-item>
     </ion-list>
-    <div ng-if="!display_items.length" class="no-results">
-      <center>Enter a search query to find stops, routes, and buses.</center>
+    <div ng-if="!displayItems.length" class="no-results">
+      <center ng-if="!filterText.length">Enter a search query to find stops, routes, and buses.</center>
       <center ng-if="filterText.length > 0">No results found.</center>
     </div>
   </ion-content>

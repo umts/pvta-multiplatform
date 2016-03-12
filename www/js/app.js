@@ -8,8 +8,8 @@ angular.module('pvta.controllers', ['pvta.services']);
 
 angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore'])
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
+.run(function ($ionicPlatform) {
+  $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -21,25 +21,25 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
   * Set the status bar color to our app's color.
   *********************************************************
   * Only after the device has specifically told us it's ready
-  * may we access the global StatusBar object.  
+  * may we access the global StatusBar object.
   * **************************************************/
-  document.addEventListener("deviceready", onDeviceReady, true);
-  function onDeviceReady() {
-    StatusBar.backgroundColorByHexString("#387ef5");
-  };
+  document.addEventListener('deviceready', onDeviceReady, true);
+  function onDeviceReady () {
+    StatusBar.backgroundColorByHexString('#387ef5');
+  }
 })
 
-.config(function($stateProvider, $urlRouterProvider, $ionicFilterBarConfigProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $ionicFilterBarConfigProvider) {
   $stateProvider
-  
+
   .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'AppController'
   })
-  
-  
+
+
   .state('app.my-buses', {
     url: '/my-buses',
     views: {
@@ -59,88 +59,88 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     }
   })
     .state('app.vehicle', {
-    url: "/vehicles/:vehicleId/:route",
-    params: {
+      url: '/vehicles/:vehicleId/:route',
+      params: {
       // For whatever reason,
       // squash: true means that
       // :route is an optional param
-      route: {squash: true}
-    },
-    views: {
-        'menuContent': {
-          templateUrl: "templates/vehicle.html",
-          controller: 'VehicleController'
-        }
-    }
-  })
-  
-  .state('app.routes',{
-      url: "/routes",
+        route: {squash: true}
+      },
       views: {
         'menuContent': {
-           templateUrl: "templates/routes.html",
-           controller: 'RoutesController'
+          templateUrl: 'templates/vehicle.html',
+          controller: 'VehicleController'
         }
       }
     })
 
-  .state('app.route', {
-    url: "/routes/:routeId",
+  .state('app.routes', {
+    url: '/routes',
     views: {
-        'menuContent': {
-          templateUrl: "templates/route.html",
-          controller: 'RouteController'
-        }
+      'menuContent': {
+        templateUrl: 'templates/routes.html',
+        controller: 'RoutesController'
+      }
     }
   })
-  
-  .state('app.stop', {
-    url: "/stops/:stopId",
+
+  .state('app.route', {
+    url: '/routes/:routeId',
     views: {
-        'menuContent': {
-          templateUrl: "templates/stop.html",
-          controller: 'StopController'
-        }
+      'menuContent': {
+        templateUrl: 'templates/route.html',
+        controller: 'RouteController'
+      }
+    }
+  })
+
+  .state('app.stop', {
+    url: '/stops/:stopId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/stop.html',
+        controller: 'StopController'
+      }
     }
   })
 
   .state('app.stops', {
-    url: "/stops",
+    url: '/stops',
     views: {
       'menuContent': {
-        templateUrl: "templates/stops.html",
+        templateUrl: 'templates/stops.html',
         controller: 'StopsController'
       }
     }
   })
-  
+
   .state('app.settings', {
-    url: "/settings",
+    url: '/settings',
     views: {
       'menuContent': {
-        templateUrl: "templates/settings.html",
+        templateUrl: 'templates/settings.html',
         controller: 'SettingsController'
       }
     }
   })
-  
+
    .state('app.about', {
-    url: "/about",
-    views: {
+     url: '/about',
+     views: {
       'menuContent': {
-        templateUrl: "templates/about.html",
+        templateUrl: 'templates/about.html',
         controller: 'AboutController'
       }
     }
-  })
+   })
 
   .state('app.map', {
-    url: "/map",
+    url: '/map',
     views: {
-        'menuContent': {
-          templateUrl: "templates/map.html",
-          controller: 'MapController'
-        }
+      'menuContent': {
+        templateUrl: 'templates/map.html',
+        controller: 'MapController'
+      }
     }
   });
   // if none of the above states are matched, use this as the fallback

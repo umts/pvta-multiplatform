@@ -106,7 +106,7 @@ angular.module('pvta.services', ['ngResource'])
   }
 
   var isEmpty = function(){
-    if(routesList.length === 0) return true;
+    if(routesList.length == 0) return true;
     else return false
   };
 

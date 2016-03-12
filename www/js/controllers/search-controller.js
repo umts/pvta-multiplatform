@@ -1,14 +1,15 @@
 angular.module('pvta.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, StopList, Stops, NearestStops, Avail, Recent, forage){
+
   var filterBarInstance;
   function getItems () {
     $scope.all = [];
-    var prepareRoutes = function(routes){
-      for(var i = 0; i < routes.length; i++){
-          $scope.all.push({name: "Route " + routes[i].ShortName + ": " + routes[i].LongName,
+    var prepareRoutes = function (routes) {
+      for (var i = 0; i < routes.length; i++) {
+        $scope.all.push({name: 'Route ' + routes[i].ShortName + ': ' + routes[i].LongName,
                           type: 'route',
                           id: routes[i].RouteId
                           });
-        if(!routes[i].IsVisible){
+        if (!routes[i].IsVisible) {
           routes.splice(i, 1);
           /********************************************
            * Because splice() removes the entry at
@@ -26,7 +27,7 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
     if(RouteList.isEmpty()){
       console.log('hello..?');
         // get the routelist from localforage
-      /*localforage.getItem('routes', function(err, routes){
+      localforage.getItem('routes', function(err, routes){
         // If the routelist exists already and
         // it has been updated recently
         if(routes && (Recent.recent(routes.time))){
@@ -50,7 +51,7 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
             RouteList.pushEntireList(routes);
           });
         }
-      });    */
+      });
       console.log('the route list is empty');
       var routes = forage.getAndSaveRouteList();
       console.log(JSON.stringify(routes));
@@ -105,7 +106,8 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
           }
         });
     }
-    else{
+
+    else {
       prepareStops(StopList.getEntireList());
     }
 
@@ -116,26 +118,42 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
                         id: list[i].StopId
                         });
     }
-    var vehicles = $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').query({}, function(){
-      for(var i = 0; i < vehicles.length; i++){
+    var vehicles = $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').query({}, function () {
+      for (var i = 0; i < vehicles.length; i++) {
         $scope.all.push({name: vehicles[i].Name,
                         type: 'vehicle',
                         id: vehicles[i].VehicleId
                         });
       }
     });
-    }
+  }
   getItems();
   $scope.showFilterBar = function () {
-      filterBarInstance = $ionicFilterBar.show({
-        items: $scope.all,
-        update: function (filteredItems, filterText) {
-	  $scope.filterText = filterText;
-          if (filterText!='' && filterText!=null)
-            $scope.display_items = filteredItems;
-          else
-	    $scope.display_items = [];
+    filterBarInstance = $ionicFilterBar.show({
+      items: $scope.all,
+      update: function (filteredItems, filterText) {
+        if (filterText !== '' && filterText !== null) {
+          $scope.displayItems = filteredItems;
+          $scope.filterText = filterText;
         }
-      });
-    };
-})
+        else {
+          $scope.displayItems = [];
+        }
+      },
+      cancel: function(){
+        $scope.displayItems = [];
+      }
+    });
+  };
+  $scope.refreshItems = function () {
+    if (filterBarInstance) {
+      filterBarInstance();
+      filterBarInstance = null;
+    }
+
+    $timeout(function () {
+      getItems();
+      $scope.$broadcast('scroll.refreshComplete');
+    }, 1000);
+  };
+});
