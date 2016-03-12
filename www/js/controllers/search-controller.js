@@ -48,7 +48,7 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
     }
     function prepareStops(list){
       for(var i = 0; i < list.length; i++) {
-      $scope.all.push({name: list[i].Name,
+        $scope.all.push({name: list[i].Name,
                         type: 'stop',
                         id: list[i].StopId
                         });
