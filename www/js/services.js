@@ -109,11 +109,18 @@ angular.module('pvta.services', ['ngResource'])
     if(routesList.length == 0) return true;
     else return false
   };
+  
+  var download = function(){
+    var routes = SimpleRoute.query({}, function(){
+      return routes;
+    });
+  }
 
   return {
     pushEntireList: pushEntireList,
     getEntireList: getEntireList,
     isEmpty: isEmpty,
+    download: download
   };
 
 })
@@ -279,41 +286,41 @@ angular.module('pvta.services', ['ngResource'])
   };
 })
 
-.factory('forage', function(RouteList, Avail, moment, Recent){
-  function getAndSaveRouteList(){
-    console.log('getAndSaveRouteList here');
-    localforage.getItem('routes', function(err, routes){
-      console.log('localforage getitem has returned');
-      // If the routelist exists already and
-      // it has been updated recently
-      if(routes && (Recent.recent(routes.time))){
-        console.log('we have recent routes yay');
-        console.log(routes instanceof Array);
-        var booty = RouteList.pushEntireList(routes);
-
-        console.log(JSON.stringify(routes));
-        return routes;
-      }
-      // If a recently updated list can't be found
-      // anywhere, time to download it.
-      else {
-        console.log('obvs no routes saved');
-        var routes = $resource(Avail + '/routes/getallroutes').query({}, function(){
+.factory('routeForage', function(RouteList, moment, Recent){
+  function getSavedRouteList(){
+    if(RouteList.isEmpty()){
+      localforage.getItem('routes', function(err, routes){
+        // If the routelist exists already and
+        // it has been updated recently
+        if(routes && (Recent.recent(routes.time))){
+          console.log('routes already saved in forage');
+          RouteList.pushEntireList(routes.list);
+          return routes.list;
+        }
+        else {
+          console.log('downloading routes');
+          var routes = RouteList.download();
+          console.log(JSON.stringify(routes));
           var toForage = {
             list: routes,
             time: moment()
           };
           localforage.setItem('routes', toForage, function(err, val){
-            if (err) console.log(err);
-            else console.log("successfully set routes");
+            if (err){
+              console.log(err);
+              return false;
+            }
+            else {
+              RouteList.pushEntireList(val.list);
+              return val.list;
+            }
           });
-          RouteList.pushEntireList(routes);
-          return routes;
-        });
-      }
-    });
-  }
+        }
+      });
+    }
+    else return RouteList.getEntireList();
+  };
   return {
-    getAndSaveRouteList: getAndSaveRouteList
+    get: getSavedRouteList
   }
 })
