@@ -35,23 +35,7 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
         prepareStops(stops);
       });  
     });
-    
-    /*
-    if (StopList.isEmpty()) {
-      $cordovaGeolocation.getCurrentPosition().then(function (position) {
-        NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function (stops) {
-          prepareStops(StopList.pushEntireList(stops));
-        });
-      }, function (err) {
-        Stops.query(function (stops) {
-          prepareStops(StopList.pushEntireList(stops));
-        });
-      });
-    }
-
-    else {
-      prepareStops(StopList.getEntireList());
-    }*/
+  
     function prepareStops(list){
       for(var i = 0; i < list.length; i++) {
         $scope.all.push({name: list[i].Name,
