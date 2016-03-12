@@ -290,7 +290,7 @@ angular.module('pvta.services', ['ngResource'])
   console.log('hello')
   function getSavedRouteList(){
     if(RouteList.isEmpty()){
-      return localforage.getItem('routes', function(err, routes){
+      localforage.getItem('routes', function(err, routes){
         // If the routelist exists already and
         // it has been updated recently
         if(routes && (Recent.recent(routes.time))){
@@ -301,25 +301,7 @@ angular.module('pvta.services', ['ngResource'])
         else {
           var list;
           console.log('downloading routes');
-          var routes = Routes.query({}, function(){
-            var toForage = {
-              list: routes,
-              time: moment()
-            };
-            localforage.setItem('routes', toForage, function(err, val){
-              if (err){
-                console.log(err);
-                list = false;
-              }
-              else {
-                console.log('downloaded routes, hooray. Pushed to forage and about to return.');
-                RouteList.pushEntireList(val.list);
-                console.log(JSON.stringify(val.list));
-                list = val.list;
-              }
-            });  
-          });
-          return list;
+          return routes = Routes.query()
         }
       });
     }
