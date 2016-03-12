@@ -31,49 +31,16 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
     });
 
     
-    if(StopList.isEmpty()){
-      //console.log('none stops in here');
-      localforage.getItem('stops', function(err, stops){
-        // If the stoplist exists already and
-        // it has been updated recently
-        if(stops && (Recent.recent(stops.time))){
-      //    console.log('we have recent stops yay');
-          stops = prepareStops(stops.list);
-          StopList.pushEntireList(stops);
-        }
-        // If a recently updated list can't be found
-        // anywhere, time to download it.
-        else {
-          $cordovaGeolocation.getCurrentPosition().then(function(position){
-            NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function(stops){
-              var toForage = {
-                list: stops,
-                time: moment()
-              };
-              localforage.setItem('stops', toForage, function(err, val){
-                if (err) console.log(err);
-                else console.log("successfully set stops");
-              });
-              stops = prepareStops(stops);
-              StopList.pushEntireList(stops);
-            });
-            }, function(err) {
-              Stops.query(function(stops) {
-                prepareStops(StopList.pushEntireList(stops));
-                var toForage = {
-                  list: stops,
-                  time: moment()
-                };
-                localforage.setItem('stops', toForage, function(err, val){
-                  if (err) console.log(err);
-                  else console.log("successfully set stops");
-                });
-                stops = prepareStops(stops);
-                StopList.pushEntireList(stops);
-              });
-            });
-          }
+    if (StopList.isEmpty()) {
+      $cordovaGeolocation.getCurrentPosition().then(function (position) {
+        NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function (stops) {
+          prepareStops(StopList.pushEntireList(stops));
         });
+      }, function (err) {
+        Stops.query(function (stops) {
+          prepareStops(StopList.pushEntireList(stops));
+        });
+      });
     }
 
     else {

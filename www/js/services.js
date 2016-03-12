@@ -286,7 +286,7 @@ angular.module('pvta.services', ['ngResource'])
 })
 
 .factory('RouteForage', function(RouteList, moment, Recent, Routes, $q){
-  function getSavedRouteList(){
+  function getRouteList(){
     if(RouteList.isEmpty()){
       return localforage.getItem('routes').then(function(routes){
         if(routes && (Recent.recent(routes.time))){
@@ -313,7 +313,7 @@ angular.module('pvta.services', ['ngResource'])
     localforage.setItem('routes', toForage, function(err, val){if (err) console.log(err)});
   }
   return {
-    get: getSavedRouteList,
+    get: getRouteList,
     save: saveRouteList
   }
 })
