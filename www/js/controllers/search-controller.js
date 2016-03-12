@@ -81,15 +81,4 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
       }
     });
   };
-  $scope.refreshItems = function () {
-    if (filterBarInstance) {
-      filterBarInstance();
-      filterBarInstance = null;
-    }
-
-    $timeout(function () {
-      getItems();
-      $scope.$broadcast('scroll.refreshComplete');
-    }, 1000);
-  };
 });
