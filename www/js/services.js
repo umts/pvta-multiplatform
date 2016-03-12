@@ -285,7 +285,7 @@ angular.module('pvta.services', ['ngResource'])
   };
 })
 
-.factory('routeForage', function(RouteList, moment, Recent, Routes){
+.factory('RouteForage', function(RouteList, moment, Recent, Routes, $q){
   function getSavedRouteList(){
     if(RouteList.isEmpty()){
       return localforage.getItem('routes').then(function(routes){
@@ -297,7 +297,7 @@ angular.module('pvta.services', ['ngResource'])
         }
       });
     }
-    else return RouteList.getEntireList();
+    else return $q.when(RouteList.getEntireList());
   };
   function saveRouteList(list){
     if(RouteList.isEmpty()) {
