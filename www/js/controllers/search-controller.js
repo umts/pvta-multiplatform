@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('SearchController', function ($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, StopList, Stops, NearestStops, Avail) {
+angular.module('pvta.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, NearestStops, Avail, Recent, RouteForage, StopsForage){
   var filterBarInstance;
   function getItems () {
     $scope.all = [];
@@ -22,35 +22,22 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
         }
       }
       return routes;
-    };
-    if (RouteList.isEmpty()) {
-      var routes = $resource(Avail + '/routes/getallroutes').query({}, function () {
-        routes = prepareRoutes(routes);
-        RouteList.pushEntireList(routes);
-      });
     }
-    else {
-      var routes = RouteList.getEntireList();
-      routes = prepareRoutes(routes);
-    }
-    if (StopList.isEmpty()) {
-      $cordovaGeolocation.getCurrentPosition().then(function (position) {
-        NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}, function (stops) {
-          prepareStops(StopList.pushEntireList(stops));
-        });
-      }, function (err) {
-        Stops.query(function (stops) {
-          prepareStops(StopList.pushEntireList(stops));
-        });
-      });
-    }
-
-    else {
-      prepareStops(StopList.getEntireList());
-    }
-
-    function prepareStops (list) {
-      for (var i = 0; i < list.length; i++) {
+    
+    RouteForage.get().then(function(routes){
+      RouteForage.save(routes);
+      prepareRoutes(routes);
+    });
+  
+    $cordovaGeolocation.getCurrentPosition().then(function (position) {
+      StopsForage.get(position.coords.latitude, position.coords.longitude).then(function(stops){
+        StopsForage.save(stops);
+        prepareStops(stops);
+      });  
+    });
+  
+    function prepareStops(list){
+      for(var i = 0; i < list.length; i++) {
         $scope.all.push({name: list[i].Name,
                         type: 'stop',
                         id: list[i].StopId
@@ -71,25 +58,17 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
     filterBarInstance = $ionicFilterBar.show({
       items: $scope.all,
       update: function (filteredItems, filterText) {
-        $scope.filterText = filterText;
         if (filterText !== '' && filterText !== null) {
           $scope.displayItems = filteredItems;
+          $scope.filterText = filterText;
         }
         else {
           $scope.displayItems = [];
         }
+      },
+      cancel: function(){
+        $scope.displayItems = [];
       }
     });
-  };
-  $scope.refreshItems = function () {
-    if (filterBarInstance) {
-      filterBarInstance();
-      filterBarInstance = null;
-    }
-
-    $timeout(function () {
-      getItems();
-      $scope.$broadcast('scroll.refreshComplete');
-    }, 1000);
   };
 });

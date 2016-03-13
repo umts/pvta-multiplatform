@@ -106,14 +106,14 @@ angular.module('pvta.services', ['ngResource'])
   }
 
   var isEmpty = function(){
-    if(routesList.length === 0) return true;
+    if(routesList.length == 0) return true;
     else return false
   };
 
   return {
     pushEntireList: pushEntireList,
     getEntireList: getEntireList,
-    isEmpty: isEmpty,
+    isEmpty: isEmpty
   };
 
 })
@@ -311,4 +311,87 @@ angular.module('pvta.services', ['ngResource'])
     plotCurrentLocation: plotCurrentLocation,
     addMapListener: addMapListener
   }
+})
+
+.factory('Recent', function(moment){
+  function recent(timestamp){
+    var now = moment();
+    var diff = now.diff(timestamp, 'days');
+    if (diff <= 5) return true;
+    else return false;
+  };
+  return {
+    recent: recent
+  };
+})
+
+.factory('RouteForage', function(RouteList, moment, Recent, Routes, $q){
+  function getRouteList(){
+    if(RouteList.isEmpty()){
+      return localforage.getItem('routes').then(function(routes){
+        if(routes && (Recent.recent(routes.time))){
+          return routes.list;
+        }
+        else {
+          return Routes.query().$promise;
+        }
+      });
+    }
+    else return $q.when(RouteList.getEntireList());
+  };
+  function saveRouteList(list){
+    if(RouteList.isEmpty()) {
+      RouteList.pushEntireList(list);
+    }
+    pushListToForage(list);
+  }
+  function pushListToForage(routes){
+    var toForage = {
+      list: routes,
+      time: moment()
+    }
+    localforage.setItem('routes', toForage, function(err, val){if (err) console.log(err)});
+  }
+  return {
+    get: getRouteList,
+    save: saveRouteList
+  };
+})
+
+.factory('StopsForage', function(StopList, Recent, Stops, NearestStops, $q){
+  function getStopList(lat, long){
+    if(StopList.isEmpty()){
+      return localforage.getItem('stops').then(function(stops){
+        if(stops && (Recent.recent(stops.time))){
+          return stops.list;
+        }
+        else {
+          if(lat && long) {
+            return NearestStops.query({latitude: lat, longitude: long}).$promise;
+          }
+          else {
+            return Stops.query().$promise;
+          }
+        }
+      });
+    }
+    else return $q.when(StopList.getEntireList());
+  };
+  function saveStopList(list){
+    if(StopList.isEmpty()) {
+      StopList.pushEntireList(list);
+    }
+    pushListToForage(list);
+  }
+  function pushListToForage(stops){
+    var toForage = {
+      list: stops,
+      time: moment()
+    }
+    localforage.setItem('stops', toForage, function(err, val){if (err)console.log(err);});
+  }
+  return {
+    get: getStopList,
+    save: saveStopList
+  };
 })
