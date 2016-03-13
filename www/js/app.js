@@ -134,12 +134,22 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     }
    })
 
-  .state('app.map', {
-    url: '/map',
+  .state('app.route-map',{
+    url: '/map/route',
     views: {
       'menuContent': {
         templateUrl: 'templates/map.html',
-        controller: 'MapController'
+        controller: 'RouteMapController'
+      }
+    }
+  })
+
+  .state('app.stop-map',{
+    url: '/map/stop',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/map.html',
+        controller: 'StopMapController'
       }
     }
   });
