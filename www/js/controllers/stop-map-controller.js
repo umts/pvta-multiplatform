@@ -16,7 +16,7 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
   function placeStop(){
     var stopLocation = LatLong.getAll();
     var loc = new google.maps.LatLng(stopLocation[0].lat, stopLocation[0].long);
-    Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), 'Here is your stop!');
+    Map.addMapListener(Map.placeDesiredMarker(loc), 'Here is your stop!');
     return loc;
   }
 
@@ -24,7 +24,7 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
     var start = Map.plotCurrentLocation();
     var end = placeStop();
     var request = {
-      origin: "Amherst, MA",
+      origin: start,
       destination: end,
       travelMode: google.maps.TravelMode.WALKING
     };
