@@ -152,6 +152,16 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
         controller: 'StopMapController'
       }
     }
+  })
+
+  .state('app.vehicle-map',{
+    url: '/map/vehicle',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/map.html',
+        controller: 'VehicleMapController'
+      }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/my-buses');
