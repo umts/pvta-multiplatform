@@ -10,17 +10,15 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
   $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
   Map.init($scope.map, bounds);
 
-  Map.plotCurrentLocation();
 
   function placeStop(){
     var stop = LatLong.getAll();
-    _.each(stop, function(location){
-      var loc = new google.maps.LatLng(location.lat, location.long);
-      Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), 'Here is your stop!');
-    })
+    var loc = new google.maps.LatLng(stop[0].lat, stop[0].long);
+    Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), 'Here is your stop!');
   }
 
   $scope.$on('$ionicView.enter', function () {
+    Map.plotCurrentLocation();
     placeStop();
   });
 
