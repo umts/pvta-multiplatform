@@ -8,7 +8,7 @@ angular.module('pvta.controllers').controller('VehicleController', function ($sc
   $scope.setCoordinates = function (lat, long) {
     LatLong.push(lat, long);
     KML.push($stateParams.route);
-    $location.path('/app/map');
+    $location.path('/app/map/vehicle');
   };
 
   $scope.refresh = function () {
