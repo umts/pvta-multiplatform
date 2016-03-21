@@ -267,11 +267,12 @@ angular.module('pvta.services', ['ngResource'])
   };
 })
 
-.factory('Map', function(){
+.factory('Map', function($cordovaGeolocation){
 
   var map;
   var bounds;
   var currentLocation;
+  var options = {timeout: 5000, enableHighAccuracy: true};
 
   function placeDesiredMarker(location, icon){
     var neededMarker = new google.maps.Marker({
@@ -286,7 +287,7 @@ angular.module('pvta.services', ['ngResource'])
   };
 
   function plotCurrentLocation(){
-    navigator.geolocation.getCurrentPosition(function(position){
+    $cordovaGeolocation.getCurrentPosition(options).then(function(position){
       currentLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       addMapListener(placeDesiredMarker(currentLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'), 'You are here!');
     }, function(){});

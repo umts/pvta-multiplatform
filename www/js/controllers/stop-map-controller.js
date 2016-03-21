@@ -30,7 +30,7 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
     };
     directionsService.route(request, function(result, status){
       if(status == google.maps.DirectionsStatus.OK)
-        directionsDisplay.setDirections(result)
+        directionsDisplay.setDirections(result);
     });
   }
 
