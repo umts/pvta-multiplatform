@@ -148,7 +148,7 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     url: '/map/stop',
     views: {
       'menuContent': {
-        templateUrl: 'templates/map.html',
+        templateUrl: 'templates/stop-map.html',
         controller: 'StopMapController'
       }
     }

@@ -1,0 +1,35 @@
+<ion-view view-title="Map">
+  <style>
+    #container {
+      display: flex;
+    }
+    #right-panel {
+      height: 100%;
+      float: right;
+      width: 390px;
+      overflow: auto;
+    }
+
+    #map {
+      margin-right: 400px;
+      height: 100%;
+    }
+
+    @media print {
+      #map {
+        height: 500px;
+        margin: 0;
+      }
+      #right-panel {
+        float: none;
+        width: auto;
+      }
+    }
+  </style>
+  <ion-content>
+    <div id="container">
+      <span id="right-panel"></span>
+      <div id="map"></div>
+    </div>
+  </ion-content>
+</ion-view>

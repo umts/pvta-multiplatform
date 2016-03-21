@@ -37,6 +37,7 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
   $scope.$on('$ionicView.enter', function () {
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsDisplay.setMap($scope.map);
+    directionsDisplay.setPanel(document.getElementById("right-panel"));
     calculateDirections();
   });
 
