@@ -14,31 +14,35 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
 
 
   function placeStop(){
-    var stopLocation = LatLong.getAll();
-    var loc = new google.maps.LatLng(stopLocation[0].lat, stopLocation[0].long);
+    var stopLocation = _.first(LatLong.getAll());
+    var loc = new google.maps.LatLng(stopLocation.lat, stopLocation.long);
     Map.addMapListener(Map.placeDesiredMarker(loc), 'Here is your stop!');
     return loc;
   }
 
   function calculateDirections(){
-    var start = Map.plotCurrentLocation();
-    var end = placeStop();
-    var request = {
-      origin: start,
-      destination: end,
-      travelMode: google.maps.TravelMode.WALKING
-    };
-    directionsService.route(request, function(result, status){
-      if(status == google.maps.DirectionsStatus.OK)
-        directionsDisplay.setDirections(result);
-    });
+    var cb = function(position){
+      start = position
+      var end = placeStop();
+      var request = {
+        origin: start,
+        destination: end,
+        travelMode: google.maps.TravelMode.WALKING
+      };
+      directionsService.route(request, function(result, status){
+        if(status == google.maps.DirectionsStatus.OK){
+          directionsDisplay.setDirections(result);
+        }
+      });
+    }
+    Map.plotCurrentLocation(cb);
   }
 
   $scope.$on('$ionicView.enter', function () {
     directionsDisplay = new google.maps.DirectionsRenderer();
-    directionsDisplay.setMap($scope.map);
-    directionsDisplay.setPanel(document.getElementById("right-panel"));
     calculateDirections();
+    directionsDisplay.setMap($scope.map);
+    //directionsDisplay.setPanel(document.getElementById("right-panel"));
   });
 
 })

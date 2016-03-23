@@ -286,10 +286,11 @@ angular.module('pvta.services', ['ngResource'])
     return neededMarker;
   };
 
-  function plotCurrentLocation(){
+  function plotCurrentLocation(cb){
     $cordovaGeolocation.getCurrentPosition(options).then(function(position){
       currentLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       addMapListener(placeDesiredMarker(currentLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'), 'You are here!');
+      if(cb) { cb(currentLocation); }
     }, function(){});
     return currentLocation;
   };
