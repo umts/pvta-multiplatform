@@ -329,7 +329,7 @@ angular.module('pvta.services', ['ngResource'])
   function getRouteList(){
     if(RouteList.isEmpty()){
       return localforage.getItem('routes').then(function(routes){
-        if(routes && (Recent.recent(routes.time))){
+        if((routes != null) && (routes.length > 0) && (Recent.recent(routes.time))){
           return routes.list;
         }
         else {
@@ -362,7 +362,7 @@ angular.module('pvta.services', ['ngResource'])
   function getStopList(lat, long){
     if(StopList.isEmpty()){
       return localforage.getItem('stops').then(function(stops){
-        if(stops && (Recent.recent(stops.time))){
+        if((stops != null) && (stops.length > 0) && (Recent.recent(stops.time))){
           return stops.list;
         }
         else {
