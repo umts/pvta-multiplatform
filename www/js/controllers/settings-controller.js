@@ -9,15 +9,7 @@ angular.module('pvta.controllers').controller('SettingsController', function ($s
   });
 
   $scope.updateRefresh = function (val) {
-    console.log('updaterefresh called');
     localforage.setItem('autoRefresh', val, function (err, value) {
-      console.log(err + value);
-    });
-  };
-
-  $scope.clear = function () {
-    localforage.clear(function (err) {
-      $scope.message = 'Your favorites have been successfully deleted';
     });
   };
 });
