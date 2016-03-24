@@ -23,12 +23,10 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
       }
       return routes;
     }
-    
     RouteForage.get().then(function(routes){
       RouteForage.save(routes);
       prepareRoutes(routes);
     });
-  
     $cordovaGeolocation.getCurrentPosition().then(function (position) {
       StopsForage.get(position.coords.latitude, position.coords.longitude).then(function(stops){
         StopsForage.save(stops);
