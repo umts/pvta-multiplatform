@@ -123,6 +123,16 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
       }
     }
   })
+  
+  .state('app.storage-settings',{
+    url: '/settings/storage',
+    views: {
+      menuContent: {
+        templateUrl: 'templates/storage-settings.html',
+        controller: 'StorageSettingsController'
+      }
+    }
+  })
 
    .state('app.about', {
      url: '/about',
