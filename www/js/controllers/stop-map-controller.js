@@ -4,7 +4,10 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
   var directionsService = new google.maps.DirectionsService();
 
   var mapOptions = {
-    center: bounds.getCenter(),
+    //sets the center to Haigis Mall
+    //This may have to change if we end up deploying this to
+    //the entire PVTA ridership
+    center: new google.maps.LatLng(42.386270, -72.525844),
     zoom: 15,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
