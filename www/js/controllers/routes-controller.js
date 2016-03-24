@@ -6,6 +6,7 @@ angular.module('pvta.controllers').controller('RoutesController', function ($sco
   RouteForage.get().then(function(routes){
     RouteForage.save(routes);
     $scope.routes = stripDetails(routes);
+    $scope.$apply();
   });
   
   function stripDetails(routeList){
