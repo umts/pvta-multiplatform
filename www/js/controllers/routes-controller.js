@@ -2,7 +2,6 @@ angular.module('pvta.controllers').controller('RoutesController', function ($sco
   var filterBarInstance;
   var toSearch;
 
-  
   RouteForage.get().then(function(routes){
     RouteForage.save(routes);
     $scope.routes = stripDetails(routes);
@@ -16,7 +15,7 @@ angular.module('pvta.controllers').controller('RoutesController', function ($sco
   
   $scope.showFilterBar = function () {
     filterBarInstance = $ionicFilterBar.show({
-      items: toSearch,
+      items: $scope.routes,
       update: function (filteredItems, filterText) {
         $scope.routes = filteredItems;
       }
