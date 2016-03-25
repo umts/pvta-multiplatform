@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteMapController', function($scope, Map, LatLong, KML){
+angular.module('pvta.controllers').controller('RouteMapController', function($scope, $ionicLoading, Map, LatLong, KML){
   var bounds = new google.maps.LatLngBounds();
 
   var mapOptions = {
@@ -26,10 +26,12 @@ angular.module('pvta.controllers').controller('RouteMapController', function($sc
   }
 
   $scope.$on('$ionicView.enter', function () {
+    $ionicLoading.show({});
     placeVehicles();
     var shortName = KML.pop();
     if(shortName)
       addKML(shortName);
+    $ionicLoading.hide();
   });
 
 

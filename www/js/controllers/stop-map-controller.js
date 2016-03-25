@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('StopMapController', function($scope, Map, LatLong){
+angular.module('pvta.controllers').controller('StopMapController', function($scope, $ionicLoading, Map, LatLong){
   var bounds = new google.maps.LatLngBounds();
   var directionsDisplay;
   var directionsService = new google.maps.DirectionsService();
@@ -36,15 +36,17 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
         if(status == google.maps.DirectionsStatus.OK){
           directionsDisplay.setDirections(result);
         }
+        $ionicLoading.hide();
       });
     }
     Map.plotCurrentLocation(cb);
   }
 
   $scope.$on('$ionicView.enter', function () {
+    $ionicLoading.show({});
     directionsDisplay = new google.maps.DirectionsRenderer();
-    calculateDirections();
     directionsDisplay.setMap($scope.map);
+    calculateDirections();
     //directionsDisplay.setPanel(document.getElementById("right-panel"));
   });
 
