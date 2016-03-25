@@ -7,7 +7,6 @@ angular.module('pvta.controllers').controller('StopsController', function ($scop
       StopsForage.save(stops);
     });
   }, function(err){
-    console.log(JSON.stringify(err));
     StopsForage.get().then(function(stops){
       $scope.stops = stops;
       StopsForage.save(stops);

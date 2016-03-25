@@ -29,7 +29,6 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
     });
     $ionicLoading.show({});
     $cordovaGeolocation.getCurrentPosition({timeout: 3000}).then(function (position) {
-      console.log('found position!');
       StopsForage.get(position.coords.latitude, position.coords.longitude).then(function(stops){
         StopsForage.save(stops);
         $ionicLoading.hide();
@@ -42,7 +41,6 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
         StopsForage.save(stops);
         $ionicLoading.hide();
         prepareStops(stops);
-        console.log('we finished though, soo...');
       });
     });
   
