@@ -329,7 +329,7 @@ angular.module('pvta.services', ['ngResource'])
   function getRouteList(){
     if(RouteList.isEmpty()){
       return localforage.getItem('routes').then(function(routes){
-        if((routes != null) && (routes.length > 0) && (Recent.recent(routes.time))){
+        if((routes != null) && (routes.list.length > 0) && (Recent.recent(routes.time))){
           return routes.list;
         }
         else {
@@ -362,7 +362,9 @@ angular.module('pvta.services', ['ngResource'])
   function getStopList(lat, long){
     if(StopList.isEmpty()){
       return localforage.getItem('stops').then(function(stops){
-        if((stops != null) && (stops.length > 0) && (Recent.recent(stops.time))){
+        console.log(JSON.stringify(stops.list.length > 0));
+        if((stops != null) && (stops.list.length > 0) && (Recent.recent(stops.time))){
+          console.log('we have a saved pile of nonsense!');
           return stops.list;
         }
         else {
@@ -370,6 +372,7 @@ angular.module('pvta.services', ['ngResource'])
             return NearestStops.query({latitude: lat, longitude: long}).$promise;
           }
           else {
+            console.log('were going to find an unordered pile of nonsense!');
             return Stops.query().$promise;
           }
         }
@@ -387,8 +390,9 @@ angular.module('pvta.services', ['ngResource'])
     var toForage = {
       list: stops,
       time: moment()
-    }
-    localforage.setItem('stops', toForage, function(err, val){if (err)console.log(err);});
+    };
+    console.log('saving stops to forage now');
+    localforage.setItem('stops', toForage, function(err, val){if (err)console.log(err); else console.log('done')});
   }
   return {
     get: getStopList,

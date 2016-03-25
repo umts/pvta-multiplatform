@@ -8,6 +8,10 @@ angular.module('pvta.controllers').controller('StopsController', function ($scop
     });
   }, function(err){
     console.log(JSON.stringify(err));
+    StopsForage.get().then(function(stops){
+      $scope.stops = stops;
+      StopsForage.save(stops);
+    })
   });
   $scope.showFilterBar = function () {
     filterBarInstance = $ionicFilterBar.show({

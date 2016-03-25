@@ -28,12 +28,22 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
       prepareRoutes(routes);
     });
     $ionicLoading.show({});
-    $cordovaGeolocation.getCurrentPosition().then(function (position) {
+    $cordovaGeolocation.getCurrentPosition({timeout: 3000}).then(function (position) {
+      console.log('found position!');
       StopsForage.get(position.coords.latitude, position.coords.longitude).then(function(stops){
         StopsForage.save(stops);
         $ionicLoading.hide();
         prepareStops(stops);
-      });  
+      });
+    }, function(err){
+      console.log(JSON.stringify(err));
+      console.log('couldnt find position, oh no');
+      StopsForage.get().then(function(stops){
+        StopsForage.save(stops);
+        $ionicLoading.hide();
+        prepareStops(stops);
+        console.log('we finished though, soo...');
+      });
     });
   
     function prepareStops(list){
