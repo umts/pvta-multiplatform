@@ -294,12 +294,21 @@ angular.module('pvta.services', ['ngResource'])
     return currentLocation;
   };
 
+  var bubbles = [];
   function addMapListener(marker, onClick){
     google.maps.event.addListener(marker, 'click', function () {
-            var infoBubble= new InfoBubble({
-              content: onClick
-            });
-            infoBubble.open(map, marker);
+      //this deletes any bubbles that may already be open,
+      //so that multiple bubbles aren't open at once
+      _.each(bubbles, function(bubble){
+        bubble.close();
+        bubbles.pop(bubble);
+      });
+      var infoBubble = new InfoBubble({
+        content: onClick,
+        hideCloseButton: true
+      });
+      bubbles.push(infoBubble);
+      infoBubble.open(map, marker);
     });
   }
 
