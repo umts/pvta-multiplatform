@@ -84,13 +84,13 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   };
 
   $scope.toggleHeart = function (liked) {
-    var name = 'Stop ' + stop.Name + ' favorite';
-    localforage.setItem(name, liked, function (err, value) {
-      if (value) {
-        FavoriteStops.push(stop);
-      }
-        else {
-        FavoriteStops.remove(stop);
+    FavoriteStops.contains($scope.stop, function(bool){
+      if(bool) {
+        FavoriteStops.remove($scope.stop);
+      } 
+      else {
+        console.log('gotta add it!');
+        FavoriteStops.push($scope.stop);
       }
     });
   };
@@ -106,9 +106,9 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     });
   };
   var getHeart = function () {
-    var name = 'Stop ' + stop.Name + ' favorite';
-    localforage.getItem(name, function (err, value) {
-      $scope.liked = value;
+    FavoriteStops.contains($scope.stop, function(bool){
+      $scope.liked = bool;
+      $scope.$apply();
     });
   };
 
