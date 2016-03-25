@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteMapController', function($scope, Map, LatLong, KML){
+angular.module('pvta.controllers').controller('RouteMapController', function($scope, $stateParams, Map, LatLong, KML, Route, RouteVehicles){
   var bounds = new google.maps.LatLngBounds();
 
   var mapOptions = {
@@ -14,22 +14,42 @@ angular.module('pvta.controllers').controller('RouteMapController', function($sc
 
   function placeVehicles(){
   //places every vehicle on said route on the map
-    var vehicles = LatLong.getAll();
-    _.each(vehicles, function(location){
+    var vehicleLocations = LatLong.getAll();
+    _.each(vehicleLocations, function(location){
+
+      var color, message;
 
       var loc = new google.maps.LatLng(location.lat, location.long);
 
       // Nested call: first, place the desired marker, then
       // add a listener for when it's tapped
-      Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), "Here is your bus");
+      var vehicle = _.first(_.where($scope.vehicles, {Latitude: location.lat, Longitude: location.long}));
+      if(vehicle.DisplayStatus === "On Time"){
+        color = "green";
+        message = "<h3 style='color: " + color + ";'>Bus " + vehicle.Name + " - " + vehicle.DisplayStatus + "</h3>";
+      }
+      else {
+        color = "red";
+        message = "<h3 style='color: " + color + ";'>Bus " + vehicle.Name + " - " + vehicle.DisplayStatus
+          + " by " + vehicle.Deviation + " minutes</h3>";
+      }
+
+      var html = "<ion-view><h1 style='color: #" + $scope.route.Color + "'>Route "+ $scope.route.ShortName
+      + "</h1>" + message + "<h5>Last Stop: " + vehicle.LastStop + "</h5></ion-view>"
+
+      Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), html);
     });
   }
 
   $scope.$on('$ionicView.enter', function () {
-    placeVehicles();
     var shortName = KML.pop();
     if(shortName)
       addKML(shortName);
+    $scope.route = Route.get({routeId: $stateParams.routeId}, function(){
+      $scope.stops = $scope.route.Stops;
+      $scope.vehicles = $scope.route.Vehicles;
+      placeVehicles();
+    });
   });
 
 

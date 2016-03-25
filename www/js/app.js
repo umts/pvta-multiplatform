@@ -136,6 +136,9 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
 
   .state('app.route-map',{
     url: '/map/route',
+    params: {
+      routeId: {squash: true}
+    },
     views: {
       'menuContent': {
         templateUrl: 'templates/map.html',
