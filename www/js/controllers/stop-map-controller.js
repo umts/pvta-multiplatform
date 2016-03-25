@@ -33,7 +33,7 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
         travelMode: google.maps.TravelMode.WALKING
       };
       directionsService.route(request, function(result, status){
-        if(status == google.maps.DirectionsStatus.OK){
+        if(status === google.maps.DirectionsStatus.OK){
           directionsDisplay.setDirections(result);
         }
         $ionicLoading.hide();
@@ -46,8 +46,8 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
     $ionicLoading.show({});
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsDisplay.setMap($scope.map);
+    directionsDisplay.setPanel(document.getElementById("right-panel"));
     calculateDirections();
-    //directionsDisplay.setPanel(document.getElementById("right-panel"));
   });
 
 })
