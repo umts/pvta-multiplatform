@@ -1,6 +1,5 @@
 angular.module('pvta.controllers').controller('RoutesController', function ($scope, $resource, Routes, RouteList, $ionicFilterBar, RouteForage) {
   var filterBarInstance;
-  var toSearch;
 
   RouteForage.get().then(function(routes){
     RouteForage.save(routes);
