@@ -7,12 +7,12 @@ angular.module('pvta.controllers').controller('RouteMapController', function($sc
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
-  $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+  $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
   Map.init($scope.map, bounds);
 
   Map.plotCurrentLocation();
 
-  function placeVehicles(){
+  function placeVehicles () {
   //places every vehicle on said route on the map
     var vehicleLocations = LatLong.getAll();
     _.each(vehicleLocations, function(location){
@@ -41,10 +41,11 @@ angular.module('pvta.controllers').controller('RouteMapController', function($sc
     });
   }
 
-  $scope.$on('$ionicView.enter', function () {
+  $scope.$on('$ionicView.enter', function(){
     var shortName = KML.pop();
-    if(shortName)
+    if (shortName) {
       addKML(shortName);
+    }
     $scope.route = Route.get({routeId: $stateParams.routeId}, function(){
       $scope.stops = $scope.route.Stops;
       $scope.vehicles = $scope.route.Vehicles;
@@ -53,12 +54,12 @@ angular.module('pvta.controllers').controller('RouteMapController', function($sc
   });
 
 
-  function addKML(shortName){
+  function addKML (shortName) {
     var toAdd = 'http://bustracker.pvta.com/infopoint/Resources/Traces/route' + shortName + '.kml';
     var georssLayer = new google.maps.KmlLayer({
-    url: toAdd
+      url: toAdd
     });
     georssLayer.setMap($scope.map);
-  };
+  }
 
-})
+});
