@@ -2,9 +2,6 @@ angular.module('pvta.controllers').controller('StopsController', function ($scop
   $cordovaGeolocation.getCurrentPosition({timeout: 3000}).then(function (position) {
     StopsForage.get(position.coords.latitude, position.coords.longitude).then(function (stops) {
       $scope.stops = stops;
-      if (!$scope.$$phase) {
-        $scope.$apply();
-      }
       StopsForage.save(stops);
     });
   }, function () {

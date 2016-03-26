@@ -14,7 +14,6 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   var getHeart = function () {
     FavoriteStops.contains($scope.stop, function (bool) {
       $scope.liked = bool;
-      $scope.$apply();
     });
   };
 

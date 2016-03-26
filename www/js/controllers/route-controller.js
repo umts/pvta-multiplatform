@@ -51,7 +51,6 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   var getHeart = function(){
     FavoriteRoutes.contains(route, function(bool){
       $scope.liked = bool;
-      $scope.$apply();
     });  
   };
 
