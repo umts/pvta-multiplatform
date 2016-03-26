@@ -4,7 +4,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
       $scope.routeList[id] = (x);
     });
   };
-  
+
   var getRoutes = function (routes) {
     for (var i = 0; i < routes.length; i++) {
       $scope.getRoute(routes[i].route);
@@ -17,7 +17,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
       $scope.$apply();
     });
   };
-  
+
   $scope.getDepartures = function () {
     var routes = [];
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function () {
@@ -114,7 +114,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     });
   };
   $scope.routeList = {};
-  
+
   $scope.refresh = function () {
     $scope.getDepartures();
     $scope.$broadcast('scroll.refreshComplete');
