@@ -7,7 +7,7 @@
     // overrides from 'recommended'
     "comma-dangle": 0,
     "no-console": 0,
-    "no-undef": off,
+    "no-undef": 0,
     
     // formatting, spaces, operators
     "indent": [2, 2, {"SwitchCase": 1}],
