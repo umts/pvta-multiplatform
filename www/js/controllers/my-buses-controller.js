@@ -11,7 +11,7 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
   $scope.$on('$ionicView.enter', function () {
     reload();
   });
-  
+
   $scope.stops = [];
   $scope.removeAll = function () {
     localforage.clear();
