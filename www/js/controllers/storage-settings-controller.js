@@ -1,5 +1,4 @@
 angular.module('pvta.controllers').controller('StorageSettingsController', function ($scope, $ionicPopup, $ionicLoading) {
-
   $scope.clearAll = function () {
     var confirmPopup = showConfirmPopup('Delete All Data?', 'Are you sure?  This removes all your favorites and cannot be undone.');
     confirmPopup.then(function (res) {
@@ -12,8 +11,6 @@ angular.module('pvta.controllers').controller('StorageSettingsController', funct
       }
     });
   };
-
-
   $scope.clearRoutes = function () {
     var confirmPopup = showConfirmPopup('Delete All Route Storage?', '<center>Are you sure? This removes all routes and could cost you data when redowloading.</center>');
     confirmPopup.then(function (res) {
@@ -24,8 +21,6 @@ angular.module('pvta.controllers').controller('StorageSettingsController', funct
       }
     });
   };
-
-
   $scope.clearStops = function () {
     var confirmPopup = showConfirmPopup('Delete All Stop Storage?', '<center>Are you sure? This removes all stops and could cost you data when redowloading.</center>');
     confirmPopup.then(function (res) {
@@ -59,10 +54,6 @@ angular.module('pvta.controllers').controller('StorageSettingsController', funct
       }
     });
   };
-
-
-
-
 
   function showConfirmPopup (header, body) {
     return $ionicPopup.confirm({
