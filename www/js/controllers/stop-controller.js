@@ -1,5 +1,23 @@
 angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong, FavoriteStops, SimpleRoute) {
+  $scope.getRoute = function (id) {
+    var x = SimpleRoute.get({routeId: id}, function () {
+      $scope.routeList[id] = (x);
+    });
+  };
+  
+  var getRoutes = function (routes) {
+    for (var i = 0; i < routes.length; i++) {
+      $scope.getRoute(routes[i].route);
+    }
+  };
 
+  var getHeart = function () {
+    FavoriteStops.contains($scope.stop, function (bool) {
+      $scope.liked = bool;
+      $scope.$apply();
+    });
+  };
+  
   $scope.getDepartures = function () {
     var routes = [];
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function () {
@@ -27,8 +45,8 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
           }
           else {
             directions[i].StringifiedTimes = times;
-            var r = {route: directions[i].RouteId, trip: directions[i].Departures[departureNum].Trip, departures: times};
-            $scope.departures.push(r);
+            var dir = {route: directions[i].RouteId, trip: directions[i].Departures[departureNum].Trip, departures: times};
+            $scope.departures.push(dir);
           }
         } // end first if
       } // end for
@@ -55,7 +73,9 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   $scope.$on('$ionicView.enter', function () {
     localforage.getItem('autoRefresh', function (err, value) {
       if (value) {
-        if (value <= 1000) value = 30000;
+        if (value <= 1000) {
+          value = 30000;
+        }
         timer = $interval(function () {
           $scope.getDepartures();
         }, value);
@@ -83,7 +103,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     $location.path('/app/map/stop');
   };
 
-  $scope.toggleHeart = function (liked) {
+  $scope.toggleHeart = function () {
     FavoriteStops.contains($scope.stop, function (bool) {
       if (bool) {
         FavoriteStops.remove($scope.stop);
@@ -93,24 +113,8 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
       }
     });
   };
-  var getRoutes = function (routes) {
-    for (var i = 0; i < routes.length; i++) {
-      $scope.getRoute(routes[i].route);
-    }
-  };
   $scope.routeList = {};
-  $scope.getRoute = function (id) {
-    var x = SimpleRoute.get({routeId: id}, function () {
-      $scope.routeList[id] = (x);
-    });
-  };
-  var getHeart = function () {
-    FavoriteStops.contains($scope.stop, function (bool) {
-      $scope.liked = bool;
-      $scope.$apply();
-    });
-  };
-
+  
   $scope.refresh = function () {
     $scope.getDepartures();
     $scope.$broadcast('scroll.refreshComplete');
