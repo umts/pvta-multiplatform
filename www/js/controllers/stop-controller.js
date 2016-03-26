@@ -89,7 +89,6 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         FavoriteStops.remove($scope.stop);
       } 
       else {
-        console.log('gotta add it!');
         FavoriteStops.push($scope.stop);
       }
     });

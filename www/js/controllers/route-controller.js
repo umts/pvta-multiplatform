@@ -43,7 +43,6 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
         FavoriteRoutes.remove(route);
       } 
       else {
-        console.log('gotta add it!');
         FavoriteRoutes.push(route);
       }
     });
@@ -69,7 +68,6 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     $scope.$broadcast('scroll.refreshComplete');
   };
   $scope.$on('$ionicView.enter', function(){
-    console.log('enetered wtf');
     getHeart();
   });
 });

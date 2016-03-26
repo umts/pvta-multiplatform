@@ -123,7 +123,6 @@ angular.module('pvta.services', ['ngResource'])
   var push = function(route){
     localforage.getItem('favoriteRoutes', function(err, routes){
       var newRoute = {RouteId: route.RouteId, LongName: route.LongName, ShortName: route.ShortName, Color: route.Color};
-      console.log(JSON.stringify(newRoute));
       if(routes) {
         routes.push(newRoute);
         localforage.setItem('favoriteRoutes', routes);
@@ -157,20 +156,16 @@ angular.module('pvta.services', ['ngResource'])
   */
   function contains(route, cb){
     localforage.getItem('favoriteRoutes', function(err, routes){
-      console.log(JSON.stringify(routes));
       if(routes){
        var r = _.where(routes, {RouteId: route.RouteId});
         if (r.length > 0) {
-          console.log('it contains the route!');
           cb(true);
         }
         else {
-          console.log('it doesnt contain the route!');
           cb(false);
         } 
       }
       else {
-        console.log("There was a problem");
         cb(false);
       }
     });
@@ -189,7 +184,6 @@ angular.module('pvta.services', ['ngResource'])
   var push = function(stop){
     localforage.getItem('favoriteStops', function(err, stops){
       var newStop = {StopId: stop.StopId, Name: stop.Name};
-      console.log(JSON.stringify(newStop));
       if(stops) {
         stops.push(newStop);
         localforage.setItem('favoriteStops', stops);
@@ -221,20 +215,16 @@ angular.module('pvta.services', ['ngResource'])
 
   function contains(stop, cb){
     localforage.getItem('favoriteStops', function(err, stops){
-      console.log(JSON.stringify(stops));
       if(stops){
        var r = _.where(stops, {StopId: stop.StopId});
         if (r.length > 0) {
-          console.log('it contains the stop!');
           cb(true);
         }
         else {
-          console.log('it doesnt contain the stop!');
           cb(false);
         } 
       }
       else {
-        console.log("There was a problem");
         cb(false);
       }
     });

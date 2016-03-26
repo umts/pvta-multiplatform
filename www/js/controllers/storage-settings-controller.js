@@ -9,7 +9,6 @@ angular.module('pvta.controllers').controller('StorageSettingsController', funct
         });
       } 
       else {
-        console.log('Youve escaped this time, localforage!');
       }
     });
   };
