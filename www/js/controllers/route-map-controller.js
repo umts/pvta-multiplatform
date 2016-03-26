@@ -7,21 +7,21 @@ angular.module('pvta.controllers').controller('RouteMapController', function($sc
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
-  $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+  $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
   Map.init($scope.map, bounds);
 
   Map.plotCurrentLocation();
 
-  function placeVehicles(){
+  function placeVehicles () {
   //places every vehicle on said route on the map
     var vehicles = LatLong.getAll();
-    _.each(vehicles, function(location){
+    _.each(vehicles, function (location) {
 
       var loc = new google.maps.LatLng(location.lat, location.long);
 
       // Nested call: first, place the desired marker, then
       // add a listener for when it's tapped
-      Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), "Here is your bus");
+      Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), 'Here is your bus');
     });
   }
 
@@ -29,18 +29,19 @@ angular.module('pvta.controllers').controller('RouteMapController', function($sc
     $ionicLoading.show({});
     placeVehicles();
     var shortName = KML.pop();
-    if(shortName)
+    if (shortName) {
       addKML(shortName);
+    }
     $ionicLoading.hide();
   });
 
 
-  function addKML(shortName){
+  function addKML (shortName) {
     var toAdd = 'http://bustracker.pvta.com/infopoint/Resources/Traces/route' + shortName + '.kml';
     var georssLayer = new google.maps.KmlLayer({
-    url: toAdd
+      url: toAdd
     });
     georssLayer.setMap($scope.map);
-  };
+  }
 
-})
+});

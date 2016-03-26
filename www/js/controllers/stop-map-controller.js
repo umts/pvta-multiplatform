@@ -12,9 +12,8 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
-  $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+  $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
   Map.init($scope.map, bounds);
-
 
   function placeStop(){
     var stopLocation = _.first(LatLong.getAll());
@@ -50,4 +49,4 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
     calculateDirections();
   });
 
-})
+});

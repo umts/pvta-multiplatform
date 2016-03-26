@@ -1,0 +1,31 @@
+<ion-view view-title="Storage">
+  <ion-content>
+    <div class="list card">
+      <div class="item item-text-wrap item-divider">
+        <p style="text-align: center">
+          We store some data for you on your phone. Should you wish to 
+          remove any of that data, this is the page for you!
+        </p>
+      </div>
+      <ion-list>
+        <ion-item class="item item-text-wrap" ng-click="clearFavoriteRoutes()">
+          <p>Remove your favorite routes</p>
+        </ion-item>
+        <ion-item class="item item-text-wrap" ng-click="clearFavoriteStops()">
+          <p>Remove your favorite stops</p>
+        </ion-item>
+        <ion-item class="item item-text-wrap" ng-click="clearRoutes()">
+          <p>Remove data-saving route storage</p>
+        </ion-item>
+        <ion-item class="item item-text-wrap" ng-click="clearStops()">
+          <p>Remove data-saving stop storage</p>
+        </ion-item>
+        <ion-item class="item item-text-wrap" ng-click="clearAll()">
+          <p>Remove ALL of your stored data (use with caution!)</p>
+        </ion-item>
+      </ion-list>
+      
+    </div>
+    
+  </ion-content>
+</ion-view>
