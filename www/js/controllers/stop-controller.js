@@ -84,10 +84,10 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   };
 
   $scope.toggleHeart = function (liked) {
-    FavoriteStops.contains($scope.stop, function(bool){
-      if(bool) {
+    FavoriteStops.contains($scope.stop, function (bool) {
+      if (bool) {
         FavoriteStops.remove($scope.stop);
-      } 
+      }
       else {
         FavoriteStops.push($scope.stop);
       }
@@ -105,7 +105,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     });
   };
   var getHeart = function () {
-    FavoriteStops.contains($scope.stop, function(bool){
+    FavoriteStops.contains($scope.stop, function (bool) {
       $scope.liked = bool;
       $scope.$apply();
     });
@@ -115,4 +115,4 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     $scope.getDepartures();
     $scope.$broadcast('scroll.refreshComplete');
   };
-})
+});

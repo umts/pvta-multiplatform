@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('SearchController', function($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, NearestStops, Avail, Recent, RouteForage, StopsForage, $ionicLoading){
+angular.module('pvta.controllers').controller('SearchController', function ($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, NearestStops, Avail, Recent, RouteForage, StopsForage, $ionicLoading) {
   var filterBarInstance;
   function getItems () {
     $scope.all = [];
@@ -22,30 +22,30 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
         }
       }
       return routes;
-    }
-    RouteForage.get().then(function(routes){
+    };
+    RouteForage.get().then(function (routes) {
       RouteForage.save(routes);
       prepareRoutes(routes);
     });
     $ionicLoading.show({});
     $cordovaGeolocation.getCurrentPosition({timeout: 3000}).then(function (position) {
-      StopsForage.get(position.coords.latitude, position.coords.longitude).then(function(stops){
+      StopsForage.get(position.coords.latitude, position.coords.longitude).then(function (stops) {
         StopsForage.save(stops);
         $ionicLoading.hide();
         prepareStops(stops);
       });
-    }, function(err){
+    }, function (err) {
       console.log(JSON.stringify(err));
       console.log('couldnt find position, oh no');
-      StopsForage.get().then(function(stops){
+      StopsForage.get().then(function (stops) {
         StopsForage.save(stops);
         $ionicLoading.hide();
         prepareStops(stops);
       });
     });
-  
-    function prepareStops(list){
-      for(var i = 0; i < list.length; i++) {
+
+    function prepareStops (list) {
+      for (var i = 0; i < list.length; i++) {
         $scope.all.push({name: list[i].Name,
                         type: 'stop',
                         id: list[i].StopId
@@ -74,7 +74,7 @@ angular.module('pvta.controllers').controller('SearchController', function($scop
           $scope.displayItems = [];
         }
       },
-      cancel: function(){
+      cancel: function () {
         $scope.displayItems = [];
       }
     });

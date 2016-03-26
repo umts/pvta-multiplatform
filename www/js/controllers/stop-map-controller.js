@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('StopMapController', function($scope, Map, LatLong){
+angular.module('pvta.controllers').controller('StopMapController', function ($scope, Map, LatLong) {
   var bounds = new google.maps.LatLngBounds();
 
   var mapOptions = {
@@ -7,11 +7,11 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
-  $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+  $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
   Map.init($scope.map, bounds);
 
 
-  function placeStop(){
+  function placeStop () {
     var stop = LatLong.getAll();
     var loc = new google.maps.LatLng(stop[0].lat, stop[0].long);
     Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), 'Here is your stop!');
@@ -22,4 +22,4 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
     placeStop();
   });
 
-})
+});

@@ -123,8 +123,8 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
       }
     }
   })
-  
-  .state('app.storage-settings',{
+
+  .state('app.storage-settings', {
     url: '/settings/storage',
     views: {
       menuContent: {
@@ -137,14 +137,14 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
    .state('app.about', {
      url: '/about',
      views: {
-      'menuContent': {
-        templateUrl: 'templates/about.html',
-        controller: 'AboutController'
-      }
-    }
+       'menuContent': {
+         templateUrl: 'templates/about.html',
+         controller: 'AboutController'
+       }
+     }
    })
 
-  .state('app.route-map',{
+  .state('app.route-map', {
     url: '/map/route',
     views: {
       'menuContent': {
@@ -154,7 +154,7 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     }
   })
 
-  .state('app.stop-map',{
+  .state('app.stop-map', {
     url: '/map/stop',
     views: {
       'menuContent': {
@@ -164,7 +164,7 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     }
   })
 
-  .state('app.vehicle-map',{
+  .state('app.vehicle-map', {
     url: '/map/vehicle',
     views: {
       'menuContent': {
