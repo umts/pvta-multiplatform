@@ -14,7 +14,7 @@ angular.module('pvta.controllers').controller('StopsController', function ($scop
   $scope.showFilterBar = function () {
     $ionicFilterBar.show({
       items: $scope.stops,
-      update: function (filteredItems, filterText) {
+      update: function (filteredItems) {
         $scope.stops = filteredItems;
       }
     });
