@@ -41,13 +41,12 @@
       <div ng-if="!directions.length">
         <ion-item class="item item-assertive" style="text-align:center">{{stop.Name}} has no departures for at least the next 3 hours.</ion-item>
       </div>
-    <div class="bar bar-footer bar-positive">
+    
+  </ion-content>
+  <div class="bar bar-footer bar-positive">
       <a class="button col-offset-50" ng-click="setCoordinates(stop.Latitude, stop.Longitude)">
         Find on map
       <i class="icon ion-ios-location"></i> 
       </a>
     </div> 
-    
-
-  </ion-content>
 </ion-view>
