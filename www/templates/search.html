@@ -9,9 +9,9 @@
         <p>{{item.name}}</p>
       </ion-item>
     </ion-list>
-    <div ng-if="!displayItems.length" class="no-results">
+    <div ng-if="!displayItems.length">
       <center ng-if="!filterText.length">Enter a search query to find stops, routes, and buses.</center>
-      <center ng-if="filterText.length > 0">No results found.</center>
+      <div class="bar bar-assertive" ng-if="filterText.length > 0">No results found.</div>
     </div>
   </ion-content>
 </ion-view>
