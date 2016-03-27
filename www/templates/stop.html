@@ -5,9 +5,7 @@
   </ion-nav-buttons>
   <ion-content direction="y" scrollbar-y="false">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
-    <ion-list>
-      <ion-item ng-repeat="direction in directions">  
-        <div class="card">
+      <ion-list ng-repeat="direction in directions">  
         
             <ion-item class="item-text-wrap" ng-click="toggleGroup({{direction.RouteId}})" ng-class="{active: isGroupShown({{direction.RouteId}})}">
               <div class="row">
@@ -36,24 +34,20 @@
                 </div>
               </div>
             </ion-item>
-        </div>
-      </ion-item>
-         </ion-list>
+
+      </ion-list>
+         
      
       <div ng-if="!directions.length">
-        <center>No remaining directions found.</center>
+        <ion-item class="item item-assertive" style="text-align:center">{{stop.Name}} has no departures for at least the next 3 hours.</ion-item>
       </div>
-      <div class="item tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" ng-click="setCoordinates(stop.Latitude,
-                  stop.Longitude)">
-          <i class="icon ion-ios-location"></i>
-          Find On Map
-        </a>
-        <a class="tab-item" href="#app/mybuses">
-          <i class="icon ion-android-home"></i>
-          My Buses
-        </a>
-      </div>
+    <div class="bar bar-footer bar-positive">
+      <a class="button col-offset-50" ng-click="setCoordinates(stop.Latitude, stop.Longitude)">
+        Find on map
+      <i class="icon ion-ios-location"></i> 
+      </a>
+    </div> 
+    
 
   </ion-content>
 </ion-view>

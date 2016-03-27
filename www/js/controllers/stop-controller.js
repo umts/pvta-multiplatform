@@ -20,24 +20,26 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   $scope.getDepartures = function () {
     var routes = [];
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function () {
-      var directions = deps[0].RouteDirections;
-      $scope.directions = [];
-      _.each(directions, function (direction) {
-        if (direction.Departures.length !== 0 && !direction.IsDone) {
-          var dir = {RouteId: direction.RouteId, departures: []};
-          routes.push(direction.RouteId);
-          _.each(direction.Departures, function (departure) {
-            if (moment(departure.EDT).fromNow().includes('ago')) return;
-            else {
-              var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
-              departure.Times = times;
-              dir.departures.push(departure);
-            }
-          });
-          $scope.directions.push(dir);
-        }
-      }); // end underscore.each
-      getRoutes($scope.directions);
+      if (deps) {
+        var directions = deps[0].RouteDirections;
+        $scope.directions = [];
+        _.each(directions, function (direction) {
+          if (direction.Departures.length !== 0 && !direction.IsDone) {
+            var dir = {RouteId: direction.RouteId, departures: []};
+            routes.push(direction.RouteId);
+            _.each(direction.Departures, function (departure) {
+              if (moment(departure.EDT).fromNow().includes('ago')) return;
+              else {
+                var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
+                departure.Times = times;
+                dir.departures.push(departure);
+              }
+            });
+            $scope.directions.push(dir);
+          }
+        }); // end underscore.each
+        getRoutes($scope.directions);
+      } // end highest if
     });
   }; // end getDepartures
   var stop = Stop.get({stopId: $stateParams.stopId}, function () {
