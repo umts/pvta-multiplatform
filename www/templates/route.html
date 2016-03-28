@@ -64,16 +64,15 @@
             <span>Stops on the {{route.ShortName}}</span>
           </div>
         </ion-item>
-        <ion-item class="item-accordion"
-                        ng-repeat="item in stops | orderBy: '+Name'"
-                        ng-show="isGroupShown(stops)" href="#/app/stops/{{item.StopId}}">
-        <i class="icon ion-ios-location" style="margin-right: 10px"></i>
-        {{item.Name}}
-        </ion-item>
-
+        <ion-scroll zooming="false" direction="y" style="width:100%; height: 200px;" ng-show="isGroupShown(stops)">
+          <ion-item ng-repeat="item in stops | orderBy: '+Name'">
+            {{item.Name}}
+          </ion-item>
+        </ion-scroll>
       </ion-list>
        </div>
-      </div>    
+      </div>
+    
   </ion-content>
   <ion-footer-bar class="bar-positive">
     <a class="button col-offset-50" ng-click="setKML()">

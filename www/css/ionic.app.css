@@ -9967,11 +9967,12 @@ a.button {
 .list .item.item-accordion {
   line-height: 38px;
   padding-top: 0;
-  padding-bottom: 0;
-  transition: 0.09s all linear; }
+  padding-bottom: 0; }
 
 .list .item.item-accordion.ng-hide {
-  line-height: 0px; }
+  line-height: 0px;
+  item-height: 10px;
+  item-width: 75%; }
 
 .list .item.item-accordion.ng-hide-add,
 .list .item.item-accordion.ng-hide-remove {
