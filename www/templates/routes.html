@@ -10,8 +10,8 @@
         <p>{{route.LongName}}</p>
       </ion-item>
     </ion-list>
-    <div ng-if="routes.length == 0" class="no-results">
-      <center>No results found.</center>
+    <div class="bar bar-assertive title" ng-if="routes.length == 0">
+      <h1 class="title">No results found.</h1>
     </div>
   </ion-content>
 </ion-view>
