@@ -35,7 +35,7 @@
           Stops
           </ion-item>
           <ion-item menu-close href="#/app/plan-trip">
-          <i class="icon ion-map" style="margin-right: 10px"></i>
+          <i class="icon" style="margin-right: 10px"></i>
           Plan Trip
           </ion-item>
         </ion-item>

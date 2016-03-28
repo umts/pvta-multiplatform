@@ -32,7 +32,7 @@
         <div>
                 <button ng-click="route()" id="route-button" class="user-input">Route</button>
                 <button ng-click="saveTrip()" id="save-button" class="user-input">Save Trip</button>
-                <button ng-click="newTrip()" id="save-button" class="user-input">New Trip</button>
+                <button ng-click="newTrip()" class="user-input">New Trip</button>
         </div>
 </div>
 <div id="route">

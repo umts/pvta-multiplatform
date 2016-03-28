@@ -2,8 +2,7 @@
   "name": "PVTA",
   "app_id": "",
   "gulpStartupTasks": [
-    "sass",
-    "watch"
+    "default"
   ],
   "watchPatterns": [
     "www/**/*",

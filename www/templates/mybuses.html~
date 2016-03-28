@@ -39,7 +39,7 @@
       <ion-item class="item item-text-wrap" ng-repeat="trip in trips track by $index" ng-click="openTrip($index)">
       <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeTrip($index)"></ion-option-button>
       <div class="item-icon-left">
-              <i class="icon ion-map" style="margin-right: 10px"></i>
+              <i class="icon ion-ios-trip" style="margin-right: 10px"></i>
               {{trip.name}}
       </div>
       </ion-item>

@@ -14,7 +14,7 @@
 }
 
 
-.input-div {
+.input-div, #time-asap {
 background-color: #387ef5;
 color: white;
 text-align: center;
@@ -53,11 +53,4 @@ margin:10px;
 
 #route-button{
   width:25%;
-}
-
-#time-asap {
-background-color: #387ef5;
-color: white;
-text-align: center;
-border: none;
 }

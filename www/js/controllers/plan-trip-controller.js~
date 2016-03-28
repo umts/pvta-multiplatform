@@ -246,7 +246,7 @@ $scope.scrollTo = function(anchor) {
 $scope.newTrip = function() {
         $ionicPopup.confirm({
                 title: "New Trip",
-                template: "<div style='text-align:center'>Close current trip?</div>"
+                template: "Close current trip?"
         }).then(function(res){
                 if (res) {
                         $scope.loaded = false;

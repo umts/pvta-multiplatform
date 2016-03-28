@@ -276,7 +276,9 @@ angular.module('pvta.services', ['ngResource'])
     };
 
    var add = function(trip) {
+        console.log(trips);
         trips.push(trip);
+        console.log(trips);
         localforage.setItem('savedTrips', JSON.stringify(trips), function(err, value) {
             if (err!== null) console.log("Error saving trips.");
         });

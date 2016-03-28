@@ -7,6 +7,8 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
       $scope.routes = value;
     });
     localforage.getItem('favoriteStops', function (err, value) {
+            console.log("D:");
+      console.log(value);
       $scope.stops = value;
     });
     Trips.getAll(function(savedTrips) {

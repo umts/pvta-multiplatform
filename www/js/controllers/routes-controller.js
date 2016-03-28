@@ -1,18 +1,18 @@
-angular.module('pvta.controllers').controller('RoutesController', function($scope, $resource, Routes, RouteList, $ionicFilterBar){
+angular.module('pvta.controllers').controller('RoutesController', function ($scope, $resource, Routes, RouteList, $ionicFilterBar) {
   var filterBarInstance;
-  if(RouteList.isEmpty()){
-    $scope.routes = Routes.query(function(){
+  if (RouteList.isEmpty()) {
+    $scope.routes = Routes.query(function () {
       $scope.routes = RouteList.pushEntireList($scope.routes);
     });
   }
   else $scope.routes = RouteList.getEntireList();
-  
+
   $scope.showFilterBar = function () {
     filterBarInstance = $ionicFilterBar.show({
       items: $scope.routes,
       update: function (filteredItems, filterText) {
-	    $scope.routes = filteredItems;
+        $scope.routes = filteredItems;
       }
     });
   };
-})
+});
