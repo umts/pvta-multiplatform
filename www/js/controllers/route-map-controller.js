@@ -26,16 +26,16 @@ angular.module('pvta.controllers').controller('RouteMapController', function($sc
       var vehicle = _.first(_.where($scope.vehicles, {Latitude: location.lat, Longitude: location.long}));
       if(vehicle.DisplayStatus === "On Time"){
         color = "green";
-        message = "<h3 style='color: " + color + ";'>Bus " + vehicle.Name + " - " + vehicle.DisplayStatus + "</h3>";
+        message = "<h4 style='color: " + color + ";'>Bus " + vehicle.Name + " - " + vehicle.DisplayStatus + "</h4>";
       }
       else {
         color = "red";
-        message = "<h3 style='color: " + color + ";'>Bus " + vehicle.Name + " - " + vehicle.DisplayStatus
-          + " by " + vehicle.Deviation + " minutes</h3>";
+        message = "<h4 style='color: " + color + ";'>Bus " + vehicle.Name + " - " + vehicle.DisplayStatus
+          + " by " + vehicle.Deviation + " minutes</h4>";
       }
 
-      var html = "<div style='font-family: Arial'><h2 style='color: #" + $scope.route.Color + "'>Route "+ $scope.route.ShortName
-      + "</h2>" + message + "<h3>Last Stop: " + vehicle.LastStop + "</h3></div>"
+      var html = "<div style='font-family: Arial;text-align: center'><h2 style='color: #" + $scope.route.Color + "'>"+ $scope.route.ShortName + ": " + vehicle.Destination
+      + "</h2>" + message + "<h4>Last Stop: " + vehicle.LastStop + "</h4></div>";
 
       Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), html);
     });
