@@ -109,7 +109,7 @@ angular.module('pvta.services', ['ngResource'])
     if(routesList.length == 0) return true;
     else return false
   };
-  
+
   return {
     pushEntireList: pushEntireList,
     getEntireList: getEntireList,
@@ -163,7 +163,7 @@ angular.module('pvta.services', ['ngResource'])
         }
         else {
           cb(false);
-        } 
+        }
       }
       else {
         cb(false);
@@ -222,7 +222,7 @@ angular.module('pvta.services', ['ngResource'])
         }
         else {
           cb(false);
-        } 
+        }
       }
       else {
         cb(false);
@@ -303,7 +303,8 @@ angular.module('pvta.services', ['ngResource'])
   function plotCurrentLocation(){
     $cordovaGeolocation.getCurrentPosition(options).then(function(position){
       currentLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      addMapListener(placeDesiredMarker(currentLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'), 'You are here!');
+      addMapListener(placeDesiredMarker(currentLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'),
+        "<h4 style='color: #387ef5'>You are here!</h4>");
     }, function(){});
     return currentLocation;
   };
@@ -311,7 +312,7 @@ angular.module('pvta.services', ['ngResource'])
   var bubbles = [];
   function addMapListener(marker, onClick){
     google.maps.event.addListener(marker, 'click', function () {
-      //this deletes any bubbles that may already be open,
+      //this auto-closes any bubbles that may already be open,
       //so that multiple bubbles aren't open at once
       _.each(bubbles, function(bubble){
         bubble.close();
@@ -319,7 +320,13 @@ angular.module('pvta.services', ['ngResource'])
       });
       var infoBubble = new InfoBubble({
         content: onClick,
-        hideCloseButton: true
+        borderColor: '#387ef5',
+        borderWidth: 3,
+        minWidth: '300px',
+        minHeight: '300px',
+        //backgroundClassName: 'info-bubble',
+        //backgroundColor: 'rgba(56,126,245, 0.85)'
+        backgroundColor: 'rgba(224, 255, 255, 0.85)'
       });
       bubbles.push(infoBubble);
       infoBubble.open(map, marker);
