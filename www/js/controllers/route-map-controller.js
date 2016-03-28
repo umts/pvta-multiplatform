@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteMapController', function($scope, $stateParams, Map, LatLong, KML, Route, RouteVehicles){
+angular.module('pvta.controllers').controller('RouteMapController', function ($scope, $stateParams, Map, LatLong, KML, Route, RouteVehicles) {
   var bounds = new google.maps.LatLngBounds();
 
   var mapOptions = {
@@ -15,7 +15,7 @@ angular.module('pvta.controllers').controller('RouteMapController', function($sc
   function placeVehicles () {
   //places every vehicle on said route on the map
     var vehicleLocations = LatLong.getAll();
-    _.each(vehicleLocations, function(location){
+    _.each(vehicleLocations, function (location) {
 
       var color, message;
 
@@ -24,29 +24,29 @@ angular.module('pvta.controllers').controller('RouteMapController', function($sc
       // Nested call: first, place the desired marker, then
       // add a listener for when it's tapped
       var vehicle = _.first(_.where($scope.vehicles, {Latitude: location.lat, Longitude: location.long}));
-      if(vehicle.DisplayStatus === "On Time"){
-        color = "green";
-        message = "<h4 style='color: " + color + ";'>Bus " + vehicle.Name + " - " + vehicle.DisplayStatus + "</h4>";
+      if (vehicle.DisplayStatus === 'On Time') {
+        color = 'green';
+        message = '<h4 style=\'color: ' + color + ';\'>Bus ' + vehicle.Name + ' - ' + vehicle.DisplayStatus + '</h4>';
       }
       else {
-        color = "red";
-        message = "<h4 style='color: " + color + ";'>Bus " + vehicle.Name + " - " + vehicle.DisplayStatus
-          + " by " + vehicle.Deviation + " minutes</h4>";
+        color = 'red';
+        message = '<h4 style=\'color: ' + color + ';\'>Bus ' + vehicle.Name + ' - ' + vehicle.DisplayStatus
+          + ' by ' + vehicle.Deviation + ' minutes</h4>';
       }
 
-      var html = "<div style='font-family: Arial;text-align: center'><h2 style='color: #" + $scope.route.Color + "'>"+ $scope.route.ShortName + ": " + vehicle.Destination
-      + "</h2>" + message + "<h4>Last Stop: " + vehicle.LastStop + "</h4></div>";
+      var html = '<div style=\'font-family: Arial;text-align: center\'><h2 style=\'color: #' + $scope.route.Color + "'>" + $scope.route.ShortName + ': ' + vehicle.Destination
+      + '</h2>' + message + '<h4>Last Stop: ' + vehicle.LastStop + '</h4></div>';
 
       Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), html);
     });
   }
 
-  $scope.$on('$ionicView.enter', function(){
+  $scope.$on('$ionicView.enter', function () {
     var shortName = KML.pop();
     if (shortName) {
       addKML(shortName);
     }
-    $scope.route = Route.get({routeId: $stateParams.routeId}, function(){
+    $scope.route = Route.get({routeId: $stateParams.routeId}, function () {
       $scope.stops = $scope.route.Stops;
       $scope.vehicles = $scope.route.Vehicles;
       placeVehicles();

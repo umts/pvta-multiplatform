@@ -324,7 +324,7 @@ angular.module('pvta.services', ['ngResource'])
         borderWidth: 3,
         minWidth: '300px',
         minHeight: '300px',
-        backgroundColor: 'rgb(255, 250, 250)'
+        backgroundColor: 'rgb(255, 250, 252)'
       });
       bubbles.push(infoBubble);
       infoBubble.open(map, marker);
