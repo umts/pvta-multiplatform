@@ -5,7 +5,6 @@
   </ion-nav-buttons>
   <ion-content>
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
-    <div class="list card">
       <div class="item-text-wrap">
         <h2 class="item" style="text-align: center; font-size: 150%">{{route.LongName}}</h2>
       </div>
@@ -74,14 +73,12 @@
 
       </ion-list>
        </div>
-
-      </div>
-      <div class="item tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" ng-click="setKML()">
-          <i class="icon ion-ios-location"></i>
-          Map This Route
-        </a>
-      </div>
-    </div>
+      </div>    
   </ion-content>
+  <ion-footer-bar class="bar-positive">
+    <a class="button col-offset-50" ng-click="setKML()">
+      <i class="icon ion-ios-location"></i>
+      Map This Route
+    </a>
+  </ion-footer-bar>
 </ion-view>
