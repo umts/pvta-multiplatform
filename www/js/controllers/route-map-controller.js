@@ -34,8 +34,8 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
           + ' by ' + vehicle.Deviation + ' minutes</h4>';
       }
 
-      var html = '<div style=\'font-family: Arial;text-align: center\'><h2 style=\'color: #' + $scope.route.Color + "'>" + $scope.route.ShortName + ': ' + vehicle.Destination
-      + '</h2>' + message + '<h4>Last Stop: ' + vehicle.LastStop + '</h4></div>';
+      var html = '<div style=\'font-family: Arial;text-align: center\'><h3 style=\'color: #' + $scope.route.Color + "'>" + $scope.route.ShortName + ': ' + vehicle.Destination
+      + '</h3>' + message + '<h4>Last Stop: ' + vehicle.LastStop + '</h4></div>';
 
       Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), html);
     });
