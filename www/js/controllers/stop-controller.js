@@ -26,16 +26,32 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         _.each(directions, function (direction) {
           if (direction.Departures.length !== 0 && !direction.IsDone) {
             var dir = {RouteId: direction.RouteId, departures: []};
-            routes.push(direction.RouteId);
-            _.each(direction.Departures, function (departure) {
-              if (moment(departure.EDT).fromNow().includes('ago')) return;
-              else {
-                var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
-                departure.Times = times;
-                dir.departures.push(departure);
-              }
-            });
-            $scope.directions.push(dir);
+            if (!(_.contains(routes, direction.RouteId))) {
+              routes.push(direction.RouteId);
+              _.each(direction.Departures, function (departure) {
+                if (moment(departure.EDT).fromNow().includes('ago')) return;
+                else {
+                  var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
+                  departure.Times = times;
+                  dir.departures.push(departure);
+                }
+              });
+              $scope.directions.push(dir);
+            }
+            else {
+              _.each(direction.Departures, function(departure) {
+                if (moment(departure.EDT).fromNow().includes('ago')) return;
+                else {
+                  var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
+                  departure.Times = times;
+                  dir.departures.push(departure);
+                }
+              });
+              var alreadyExistingDirection = _.findWhere($scope.directions, {RouteId: direction.RouteId});
+              var index = _.indexOf($scope.directions, alreadyExistingDirection);
+              alreadyExistingDirection.departures.push(dir);
+              $scope.directions[index] = alreadyExistingDirection;
+            }
           }
         }); // end underscore.each
         getRoutes($scope.directions);

@@ -5,8 +5,9 @@
   </ion-nav-buttons>
   <ion-content direction="y" scrollbar-y="false">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
-    <!-- For every route, group it and allow it to be toggled open or closed -->  
-    <ion-list ng-repeat="direction in directions">  
+    <!-- For every route, group it and allow it to be toggled open or closed -->
+    <ion-list ng-repeat="direction in directions">
+      {{direction}}
       <ion-item class="item-text-wrap" ng-click="toggleGroup({{direction.RouteId}})" ng-class="{active: isGroupShown({{direction.RouteId}})}">
         <div class="row">
           <span class="col" style="font-weight: bold;font-size: 175%; color: #{{routeList[direction.RouteId].Color}};">
@@ -18,7 +19,7 @@
           </span>
         </div>
       </ion-item>
-      <!-- When a route has been expanded, show its departures -->        
+      <!-- When a route has been expanded, show its departures -->
       <ion-item class="item-accordion"
                       ng-repeat="departure in direction.departures"
                       ng-show="isGroupShown({{direction.RouteId}})" href="#/app/routes/{{direction.RouteId}}">
@@ -34,15 +35,15 @@
           </span>
         </div>
       </ion-item>
-    </ion-list> 
+    </ion-list>
     <div ng-if="!directions.length">
       <ion-item class="item item-assertive" style="text-align:center">{{stop.Name}} has no departures for at least the next 3 hours.</ion-item>
-    </div> 
+    </div>
   </ion-content>
   <ion-footer-bar class="bar-positive">
     <a class="button col-offset-50" ng-click="setCoordinates(stop.Latitude, stop.Longitude)">
       Find on map
-    <i class="icon ion-ios-location"></i> 
+    <i class="icon ion-ios-location"></i>
     </a>
-  </ion-footer-bar> 
+  </ion-footer-bar>
 </ion-view>
