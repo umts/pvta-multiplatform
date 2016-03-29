@@ -22,33 +22,17 @@
       <ion-item class="item-accordion"
                       ng-repeat="departure in direction.departures"
                       ng-show="isGroupShown({{direction.RouteId}})" href="#/app/routes/{{direction.RouteId}}">
-          <div class="row">
-            <span class="col" style="font-weight:bold;">
-              {{departure.Trip.InternetServiceDesc}}
-            </span>
-            <span class="col">
-              Scheduled {{departure.Times.s}}
-            </span>
-            <span class="col">
-              Estimated {{departure.Times.e}}
-            </span>
-            
-            
-            
-            
-            
-         </div>
-        <!--  <div class="col-25 item-text-wrap" style="font-weight: light; text-align: center;">
-            Scheduled {{departure.Times.s}}
-          </div>
-          <div class="col-25 item-text-wrap" >
+        <div class="row">
+          <span class="col" style="font-weight:bold;">
             {{departure.Trip.InternetServiceDesc}}
-          </div>
-          
-          <div class="col-25 item-text-wrap" style="font-weight: light; text-align: center;">
+          </span>
+          <span class="col">
+            Scheduled {{departure.Times.s}}
+          </span>
+          <span class="col">
             Estimated {{departure.Times.e}}
-          </div>
-        </div>-->
+          </span>
+        </div>
       </ion-item>
     </ion-list> 
     <div ng-if="!directions.length">
