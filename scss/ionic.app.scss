@@ -33,18 +33,24 @@ $ionicons-font-path: "../bower_components/ionic/fonts" !default;
 }
 
 .list .item.item-accordion {
-  line-height: 38px;
+  line-height: 10px;
   padding-top: 0;
   padding-bottom: 0;
 }
 
 .list .item.item-accordion.ng-hide {
   line-height: 0px;
-  item-height: 10px;
-  item-width: 75%;
 }
 
 .list .item.item-accordion.ng-hide-add,
 .list .item.item-accordion.ng-hide-remove {
   display: block !important;
+}
+
+.route {
+  border-radius: 10px;
+  margin-bottom: 10px;
+  
+  font-weight: bold;
+  overflow: hidden;
 }
