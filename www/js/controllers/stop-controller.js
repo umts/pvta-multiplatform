@@ -6,9 +6,9 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   };
 
   var getRoutes = function (routes) {
-    for (var i = 0; i < routes.length; i++) {
-      $scope.getRoute(routes[i].route);
-    }
+    _.each(routes, function (route) {
+      $scope.getRoute(route.RouteId);
+    });
   };
 
   var getHeart = function () {
@@ -20,36 +20,26 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   $scope.getDepartures = function () {
     var routes = [];
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function () {
-      var directions = deps[0].RouteDirections;
-      $scope.departures = [];
-      for (var i = 0; i < directions.length; i++) {
-        routes.push(directions[i].RouteId);
-        if (directions[i].Departures.length !== 0 && !directions[i].IsDone) {
-          var departureNum = 0;
-          var sdt = directions[i].Departures[departureNum].SDT;
-          var edt = directions[i].Departures[departureNum].EDT;
-          var times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
-          if (times.e.includes('ago')) {
-            for (var currentDeparture = 0; currentDeparture < directions[i].Departures.length; currentDeparture++) {
-              sdt = directions[i].Departures[currentDeparture].SDT;
-              edt = directions[i].Departures[currentDeparture].EDT;
-              times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
-              if (!times.e.includes('ago')) {
-                directions[i].StringifiedTimes = times;
-                var r = {route: directions[i].RouteId, trip: directions[i].Departures[currentDeparture].Trip, departures: times};
-                $scope.departures.push(r);
-                break;
+      if (deps) {
+        var directions = deps[0].RouteDirections;
+        $scope.directions = [];
+        _.each(directions, function (direction) {
+          if (direction.Departures.length !== 0 && !direction.IsDone) {
+            var dir = {RouteId: direction.RouteId, departures: []};
+            routes.push(direction.RouteId);
+            _.each(direction.Departures, function (departure) {
+              if (moment(departure.EDT).fromNow().includes('ago')) return;
+              else {
+                var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
+                departure.Times = times;
+                dir.departures.push(departure);
               }
-            }
+            });
+            $scope.directions.push(dir);
           }
-          else {
-            directions[i].StringifiedTimes = times;
-            var dir = {route: directions[i].RouteId, trip: directions[i].Departures[departureNum].Trip, departures: times};
-            $scope.departures.push(dir);
-          }
-        } // end first if
-      } // end for
-      getRoutes($scope.departures);
+        }); // end underscore.each
+        getRoutes($scope.directions);
+      } // end highest if
     });
   }; // end getDepartures
   var stop = Stop.get({stopId: $stateParams.stopId}, function () {
@@ -117,5 +107,15 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   $scope.refresh = function () {
     $scope.getDepartures();
     $scope.$broadcast('scroll.refreshComplete');
+  };
+  $scope.toggleGroup = function (group) {
+    if ($scope.isGroupShown(group)) {
+      $scope.shownGroup = null;
+    } else {
+      $scope.shownGroup = group;
+    }
+  };
+  $scope.isGroupShown = function (group) {
+    return $scope.shownGroup === group;
   };
 });
