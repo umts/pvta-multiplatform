@@ -6,8 +6,8 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   };
 
   var getRoutes = function (routes) {
-    _.each(routes, function(route){
-      $scope.getRoute(route.RouteId);     
+    _.each(routes, function (route) {
+      $scope.getRoute(route.RouteId);
     });
   };
 
@@ -108,14 +108,14 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     $scope.getDepartures();
     $scope.$broadcast('scroll.refreshComplete');
   };
-  $scope.toggleGroup = function(group) {
+  $scope.toggleGroup = function (group) {
     if ($scope.isGroupShown(group)) {
       $scope.shownGroup = null;
     } else {
       $scope.shownGroup = group;
     }
   };
-  $scope.isGroupShown = function(group) {
+  $scope.isGroupShown = function (group) {
     return $scope.shownGroup === group;
   };
 });
