@@ -6,8 +6,8 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   };
 
   var getRoutes = function (routes) {
-    _.each(routes, function (route) {
-      $scope.getRoute(route.RouteId);
+    _.each(routes, function (routeId) {
+      $scope.getRoute(routeId);
     });
   };
 
@@ -31,10 +31,10 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
           // Pull out the departures that match the RouteId
           // of our current iteration:
           var departuresForRoute = _.map(directions, function(routeDirection){
-            // Make sure that the departures array isn't empty
-            // and that this direction isn't done
-            // servicing this stop for the day
-            if (routeDirection.Departures.length !== 0 && !routeDirection.IsDone) {
+            // Make sure that the departures array exists / isn't empty
+            // (basically is a truthy), and that this direction
+            // isn't done servicing this stop for the day.
+            if (routeDirection.Departures.length != 0 && !routeDirection.IsDone) {
               // Finally, return the departures that
               // match this RouteId
               if (routeDirection.RouteId === id) {
