@@ -8,6 +8,7 @@
     <!-- compiled css output -->
     <link href="css/ionic.app.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/ion-place-autocomplete.css" rel="stylesheet">
 
     <!-- ionic/angularjs js -->
     <script src="bower_components/ionic/js/ionic.bundle.js"></script>
@@ -49,6 +50,7 @@
     <script src="js/controllers/plan-trip-controller.js"></script>    
     <script src="js/controllers/settings-controller.js"></script>
     <script src="js/controllers/about-controller.js"></script>
+    <script src="js/ion-place-autocomplete.js"></script>
     
 
 

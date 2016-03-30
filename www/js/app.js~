@@ -6,128 +6,145 @@
 // 'pvta.controllers' is found in controllers.js
 angular.module('pvta.controllers', ['pvta.services']);
 
-angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore'])
+angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore' ])
 
 .run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
-    }
-  });
-  /******************************************************
-  * Set the status bar color to our app's color.
-  *********************************************************
-  * Only after the device has specifically told us it's ready
-  * may we access the global StatusBar object.  
-  * **************************************************/
-  document.addEventListener("deviceready", onDeviceReady, true);
-  function onDeviceReady() {
-    StatusBar.backgroundColorByHexString("#387ef5");
-  };
+        $ionicPlatform.ready(function() {
+                // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+                // for form inputs)
+                if (window.cordova && window.cordova.plugins.Keyboard) {
+                        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                        cordova.plugins.Keyboard.disableScroll(true);
+                }
+        });
+        /******************************************************
+         * Set the status bar color to our app's color.
+         *********************************************************
+         * Only after the device has specifically told us it's ready
+         * may we access the global StatusBar object.  
+         * **************************************************/
+        document.addEventListener("deviceready", onDeviceReady, true);
+        function onDeviceReady() {
+                StatusBar.backgroundColorByHexString("#387ef5");
+        };
 })
 
+.directive('disabletap', function($timeout) {
+        return {
+                link: function() {
+                              $timeout(function() {
+                                      container = document.getElementsByClassName('pac-container');
+                                      // disable ionic data tab
+                                               angular.element(container).attr('data-tap-disabled', 'true');
+                                      //                 // leave input field if google-address-entry is selected
+                                                               angular.element(container).on("click", function(){
+                                                                           document.getElementById('type-selector').blur();
+                                                               });},500);
+                                      //
+                                                                                             }
+                                                                                               };
+                                                                                               })
+
 .config(function($stateProvider, $urlRouterProvider, $ionicFilterBarConfigProvider) {
-  $stateProvider
-  
-  .state('app', {
-    url: '/app',
-    abstract: true,
-    templateUrl: 'templates/menu.html',
-    controller: 'AppController'
-  })
-  
-  
-  .state('app.my-buses', {
-    url: '/my-buses',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/mybuses.html',
-        controller: 'MyBusesController'
-      }
-    }
-  })
-  .state('app.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html',
-        controller: 'SearchController'
-      }
-    }
-  })
-    .state('app.vehicle', {
-    url: "/vehicles/:vehicleId",
-    views: {
-        'menuContent': {
-          templateUrl: "templates/vehicle.html",
-          controller: 'VehicleController'
-        }
-    }
-  })
-  
-  .state('app.routes',{
-      url: "/routes",
-      views: {
-        'menuContent': {
-           templateUrl: "templates/routes.html",
-           controller: 'RoutesController'
-        }
-      }
-    })
+        $stateProvider
 
-  .state('app.route', {
-    url: "/routes/:routeId",
-    views: {
-        'menuContent': {
-          templateUrl: "templates/route.html",
-          controller: 'RouteController'
-        }
-    }
-  })
-  
-  .state('app.stop', {
-    url: "/stops/:stopId",
-    views: {
-        'menuContent': {
-          templateUrl: "templates/stop.html",
-          controller: 'StopController'
-        }
-    }
-  })
+        .state('app', {
+                url: '/app',
+        abstract: true,
+        templateUrl: 'templates/menu.html',
+        controller: 'AppController'
+        })
 
-  .state('app.stops', {
-    url: "/stops",
-    views: {
-      'menuContent': {
-        templateUrl: "templates/stops.html",
-        controller: 'StopsController'
-      }
-    }
-  })
 
-  .state('app.map', {
-    url: "/map",
-    views: {
+.state('app.my-buses', {
+        url: '/my-buses',
+views: {
         'menuContent': {
-          templateUrl: "templates/map.html",
-          controller: 'MapController'
+                templateUrl: 'templates/mybuses.html',
+controller: 'MyBusesController'
         }
-    }
-  })
-
-  .state('app.plan-trip', {
-    url: "/plan-trip",
-    views: {
+}
+})
+.state('app.search', {
+        url: '/search',
+views: {
         'menuContent': {
-          templateUrl: "templates/plan-trip.html",
-        controller: 'PlanTripController'
+                templateUrl: 'templates/search.html',
+controller: 'SearchController'
         }
-    }
-  })
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/my-buses');
+}
+})
+.state('app.vehicle', {
+        url: "/vehicles/:vehicleId",
+views: {
+        'menuContent': {
+                templateUrl: "templates/vehicle.html",
+controller: 'VehicleController'
+        }
+}
+})
 
-});
+.state('app.routes',{
+        url: "/routes",
+views: {
+        'menuContent': {
+                templateUrl: "templates/routes.html",
+controller: 'RoutesController'
+        }
+}
+})
+
+.state('app.route', {
+        url: "/routes/:routeId",
+views: {
+        'menuContent': {
+                templateUrl: "templates/route.html",
+controller: 'RouteController'
+        }
+}
+})
+
+.state('app.stop', {
+        url: "/stops/:stopId",
+views: {
+        'menuContent': {
+                templateUrl: "templates/stop.html",
+controller: 'StopController'
+        }
+}
+})
+
+.state('app.stops', {
+        url: "/stops",
+views: {
+        'menuContent': {
+                templateUrl: "templates/stops.html",
+controller: 'StopsController'
+        }
+}
+})
+
+.state('app.map', {
+        url: "/map",
+views: {
+        'menuContent': {
+                templateUrl: "templates/map.html",
+controller: 'MapController'
+        }
+}
+})
+
+.state('app.plan-trip', {
+        url: "/plan-trip",
+views: {
+        'menuContent': {
+                templateUrl: "templates/plan-trip.html",
+controller: 'PlanTripController'
+        }
+}
+})
+      // if none of the above states are matched, use this as the fallback
+                              $urlRouterProvider.otherwise('/app/my-buses');
+
+                              });
+                               

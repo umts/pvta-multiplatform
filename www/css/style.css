@@ -29,13 +29,14 @@ float:left;
 }
 
 .item-select select {
-left:0;
+        padding: 5px 5px;
+        left: 0;
 }
 
 .trip-time {
 display:inline-block;
 float:left;
-margin:10px;
+margin:5px;
 }
 
 #save-button, #route-button{
@@ -56,6 +57,7 @@ margin:10px;
 }
 
 #time-asap {
+        width: 50%;
 background-color: #387ef5;
 color: white;
 text-align: center;

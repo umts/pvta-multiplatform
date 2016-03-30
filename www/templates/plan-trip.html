@@ -1,7 +1,4 @@
 <ion-view view-title="Plan Trip">
-<ion-nav-buttons side="secondary">
-<button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()"></button>
-</ion-nav-buttons>
 <ion-content>
 <div id="directions-map"></div>
 <div class="input-div">
@@ -13,21 +10,23 @@
         </div>
         <div style="margin-bottom: 20px">
                 <b>Origin</b>
-                <input id="origin-input" class="user-input location-typeahead" type="text" placeholder="Enter an origin location" ng-model="params.origin.name" />
+                <input id="origin-input" class="user-input location-typeahead" type="text" placeholder="Enter an origin location" ng-model="params.origin.name" ng-focus="disableTap()" />
         </div>
         <div style="margin-bottom: 20px">
                 <b>Destination</b>
-                <input id="destination-input" class="user-input location-typeahead" type="text" placeholder="Enter a destination location" ng-model="params.destination.name" />
+                <input id="destination-input" class="user-input location-typeahead" type="text" placeholder="Enter a destination location" ng-model="params.destination.name" ng-focus="disableTap()" />
         </div>
         <div style="margin-bottom: 100px">
                 <ion-toggle class="user-input trip-time" ng-model="params.time.asap" id="time-asap">ASAP</ion-toggle>
-                <label class="item item-input item-select trip-time" ng-if="!params.time.asap">
+                <label class="item item-input item-select trip-time" ng-if="!params.time.asap" style="width: 55%">
                         <select ng-model="params.time.type">
-                                <option value="departure">Time of Departure</option>
-                                <option value="arrival">Time of Arrival</option>
+                                <option value="departure">Departure</option>
+                                <option value="arrival">Arrival</option>
                         </select> 
                 </label>
-                <input class="trip-time" type="datetime-local" ng-if="!params.time.asap" ng-model="params.time.datetime" id="trip-time" class="user-input">
+        </div>
+        <div ng-if="!params.time.asap" style="margin-bottom: 200px">
+                <input class="trip-time user-input" type="datetime-local" ng-model="params.time.datetime" id="trip-time" class="user-input">
         </div>
         <div>
                 <button ng-click="route()" id="route-button" class="user-input">Route</button>
