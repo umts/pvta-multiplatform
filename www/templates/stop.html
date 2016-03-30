@@ -6,23 +6,23 @@
   <ion-content direction="y" scrollbar-y="false">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
     <!-- For every route, group it and allow it to be toggled open or closed -->
-    <ion-list ng-repeat="direction in directions">
-      {{direction}}
-      <ion-item class="item-text-wrap" ng-click="toggleGroup({{direction.RouteId}})" ng-class="{active: isGroupShown({{direction.RouteId}})}">
+    <ion-list ng-repeat="routeDepartures in departuresByRoute">
+      {{routeDepartures}}
+      <ion-item class="item-text-wrap" ng-click="toggleGroup({{routeDepartures.RouteId}})" ng-class="{active: isGroupShown({{routeDepartures.RouteId}})}">
         <div class="row">
-          <span class="col" style="font-weight: bold;font-size: 175%; color: #{{routeList[direction.RouteId].Color}};">
-            {{routeList[direction.RouteId].ShortName}}
+          <span class="col" style="font-weight: bold;font-size: 175%; color: #{{routeList[routeDepartures.RouteId].Color}};">
+            {{routeList[routeDepartures.RouteId].ShortName}}
           </span>
-          <span class="col">View upcoming departures for the {{routeList[direction.RouteId].ShortName}}</span>
+          <span class="col">View upcoming departures for the {{routeList[routeDepartures.RouteId].ShortName}}</span>
           <span class="col">
-            <i class="icon" ng-class="isGroupShown({{direction.RouteId}}) ? 'ion-ios-arrow-down' : 'ion-ios-arrow-up'" style="margin-right: 10px;"></i>
+            <i class="icon" ng-class="isGroupShown({{routeDepartures.RouteId}}) ? 'ion-ios-arrow-down' : 'ion-ios-arrow-up'" style="margin-right: 10px;"></i>
           </span>
         </div>
       </ion-item>
       <!-- When a route has been expanded, show its departures -->
       <ion-item class="item-accordion"
-                      ng-repeat="departure in direction.departures"
-                      ng-show="isGroupShown({{direction.RouteId}})" href="#/app/routes/{{direction.RouteId}}">
+                      ng-repeat="departure in routeDepartures.Departures"
+                      ng-show="isGroupShown({{routeDepartures.RouteId}})" href="#/app/routes/{{routeDepartures.RouteId}}">
         <div class="row">
           <span class="col" style="font-weight:bold;">
             {{departure.Trip.InternetServiceDesc}}

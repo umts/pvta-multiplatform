@@ -63,11 +63,16 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
               departuresForRoute[indexInList] = departure;
             }
           });
+          // Remove any null values created by departures in the past.
+          departuresForRoute = _.compact(departuresForRoute);
           // This is the last thing we do for each route:
           // push it (as an object) to the array that will be used in the view.
           $scope.departuresByRoute.push({RouteId: id, Departures: departuresForRoute});
         });
-        getRoutes($scope.directions);
+        // The very last thing we need to do is download
+        // route details for each route that has
+        // upcoming departures at this stop.
+        getRoutes(routes);
       } // end highest if
     });
   }; // end getDepartures
