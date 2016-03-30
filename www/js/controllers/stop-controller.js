@@ -18,42 +18,55 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   };
 
   $scope.getDepartures = function () {
+    $scope.departuresByRoute = [];
     var routes = [];
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function () {
       if (deps) {
         var directions = deps[0].RouteDirections;
-        $scope.directions = [];
-        _.each(directions, function (direction) {
-          if (direction.Departures.length !== 0 && !direction.IsDone) {
-            var dir = {RouteId: direction.RouteId, departures: []};
-            if (!(_.contains(routes, direction.RouteId))) {
-              routes.push(direction.RouteId);
-              _.each(direction.Departures, function (departure) {
-                if (moment(departure.EDT).fromNow().includes('ago')) return;
-                else {
-                  var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
-                  departure.Times = times;
-                  dir.departures.push(departure);
-                }
-              });
-              $scope.directions.push(dir);
+        // First, push each route to an array so that we can
+        // keep track of ROUTES vs DIRECTIONS
+        routes = _.uniq(_.pluck(directions, 'RouteId'));
+        // Now, loop through each RouteId
+        _.each(routes, function(id){
+          // Pull out the departures that match the RouteId
+          // of our current iteration:
+          var departuresForRoute = _.map(directions, function(routeDirection){
+            // Make sure that the departures array isn't empty
+            // and that this direction isn't done
+            // servicing this stop for the day
+            if (routeDirection.Departures.length !== 0 && !routeDirection.IsDone) {
+              // Finally, return the departures that
+              // match this RouteId
+              if (routeDirection.RouteId === id) {
+                return routeDirection.Departures;
+              }
             }
+          });
+          //At this point, we should have an array of every
+          // departure for the current route at this stop,
+          // regardless of direction.
+          // Call _.compact to remove all falsy values.
+          departuresForRoute = _.flatten(_.compact(departuresForRoute));
+          //console.log(JSON.stringify(departuresForRoute));
+          // Before we add it to the master list for the entire stop,
+          // we define an extra property **to each departure** to make the times
+          // easily readable.
+          _.each(departuresForRoute, function(departure, indexInList){
+            // If the departure was in the past, toss it.
+            if (moment(departure.EDT).fromNow().includes('ago')) departuresForRoute[indexInList] = null;
             else {
-              _.each(direction.Departures, function(departure) {
-                if (moment(departure.EDT).fromNow().includes('ago')) return;
-                else {
-                  var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
-                  departure.Times = times;
-                  dir.departures.push(departure);
-                }
-              });
-              var alreadyExistingDirection = _.findWhere($scope.directions, {RouteId: direction.RouteId});
-              var index = _.indexOf($scope.directions, alreadyExistingDirection);
-              alreadyExistingDirection.departures.push(dir);
-              $scope.directions[index] = alreadyExistingDirection;
+              // stringify the times
+              var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
+              // Throw them into the object, which we're editing in-place
+              departure.Times = times;
+              // Reassign the object in the master list to our edited object
+              departuresForRoute[indexInList] = departure;
             }
-          }
-        }); // end underscore.each
+          });
+          // This is the last thing we do for each route:
+          // push it (as an object) to the array that will be used in the view.
+          $scope.departuresByRoute.push({RouteId: id, Departures: departuresForRoute});
+        });
         getRoutes($scope.directions);
       } // end highest if
     });
