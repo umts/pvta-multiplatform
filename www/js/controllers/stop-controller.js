@@ -39,12 +39,12 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         // keep track of ROUTES vs DIRECTIONS
         routes = _.uniq(_.pluck(directions, 'RouteId'));
         // Now, loop through each RouteId
-        _.each(routes, function(id){
+        _.each(routes, function (id) {
           // Pull out the departures that match the RouteId
           // of our current iteration:
-          var departuresForRoute = _.map(directions, function(routeDirection){
+          var departuresForRoute = _.map(directions, function (routeDirection) {
             // Make sure that the departures array exists / isn't empty
-            // (basically is a truthy), and that this direction
+            // (basically is a truthy. != as opposed to !== IS ON PURPOSE.), and that this direction
             // isn't done servicing this stop for the day.
             if (routeDirection.Departures.length != 0 && !routeDirection.IsDone) {
               // Finally, return the departures that
@@ -63,7 +63,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
           // Before we add it to the master list for the entire stop,
           // we define an extra property **to each departure** to make the times
           // easily readable.
-          _.each(departuresForRoute, function(departure, indexInList){
+          _.each(departuresForRoute, function (departure, indexInList) {
             // If the departure was in the past, toss it.
             if (moment(departure.EDT).fromNow().includes('ago')) departuresForRoute[indexInList] = null;
             else {
