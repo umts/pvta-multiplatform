@@ -148,3 +148,55 @@ controller: 'PlanTripController'
 
                               });
                                
+  .state('app.storage-settings', {
+    url: '/settings/storage',
+    views: {
+      menuContent: {
+        templateUrl: 'templates/storage-settings.html',
+        controller: 'StorageSettingsController'
+      }
+    }
+  })
+
+   .state('app.about', {
+     url: '/about',
+     views: {
+       'menuContent': {
+         templateUrl: 'templates/about.html',
+         controller: 'AboutController'
+       }
+     }
+   })
+
+  .state('app.route-map', {
+    url: '/map/route',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/map.html',
+        controller: 'RouteMapController'
+      }
+    }
+  })
+
+  .state('app.stop-map', {
+    url: '/map/stop',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/map.html',
+        controller: 'StopMapController'
+      }
+    }
+  })
+
+  .state('app.vehicle-map', {
+    url: '/map/vehicle',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/map.html',
+        controller: 'VehicleMapController'
+      }
+    }
+  });
+  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/app/my-buses');
+});

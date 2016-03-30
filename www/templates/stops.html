@@ -9,8 +9,8 @@
         {{stop.Name}}
       </ion-item>
     </ion-list>
-    <div ng-if="stops.length == 0">
-      <center ng-bind-html="displayMessage"></center>
+    <div class="bar bar-assertive title" ng-if="stops.length == 0">
+      <h1 class="title">No results found.</h1>
     </div>
   </ion-content>
 </ion-view>

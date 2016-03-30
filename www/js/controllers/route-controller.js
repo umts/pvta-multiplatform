@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteController', function($scope, $stateParams, Route, RouteVehicles, FavoriteRoutes, Messages, KML, $location, LatLong){
+angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, Route, RouteVehicles, FavoriteRoutes, Messages, KML, $location, LatLong){
   var size = 0;
 
   var getVehicles = function(){
@@ -38,21 +38,20 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     return $scope.shownGroup === group;
   };
   $scope.toggleHeart = function(liked){
-    var name = 'Route ' + route.ShortName + ' favorite';
-      localforage.setItem(name, liked, function(err, value){
-        if(value) {
-          FavoriteRoutes.push(route);
-        }
-        else {
-          FavoriteRoutes.remove(route);
-        }
+    FavoriteRoutes.contains(route, function(bool){
+      if(bool) {
+        FavoriteRoutes.remove(route);
+      } 
+      else {
+        FavoriteRoutes.push(route);
+      }
     });
   };
+  $scope.liked = false;
   var getHeart = function(){
-    var name = 'Route ' + route.ShortName + " favorite";
-    localforage.getItem(name, function(err, value){
-      $scope.liked = value;
-    });
+    FavoriteRoutes.contains(route, function(bool){
+      $scope.liked = bool;
+    });  
   };
 
   $scope.setKML = function(){
@@ -60,11 +59,14 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     _.each($scope.vehicles, function(vehicle){
       LatLong.push(vehicle.Latitude, vehicle.Longitude);
     });
-    $location.path('/app/map');
+    $location.path('/app/map/route');
   };
 
   $scope.refresh = function(){
     getVehicles();
     $scope.$broadcast('scroll.refreshComplete');
   };
+  $scope.$on('$ionicView.enter', function(){
+    getHeart();
+  });
 });

@@ -1,7 +1,4 @@
-angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips) {
-  $scope.$on('$ionicView.enter', function (e) {
-    reload();
-  });
+angular.module('pvta.controllers').controller('MyBusesController', function ($scope, Messages, FavoriteRoutes, FavoriteStops, Trips) {
   var reload = function () {
     localforage.getItem('favoriteRoutes', function (err, value) {
       $scope.routes = value;
@@ -13,6 +10,10 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
             $scope.trips = savedTrips;
     });
   };
+
+  $scope.$on('$ionicView.enter', function () {
+    reload();
+  });
 
   $scope.stops = [];
   $scope.removeAll = function () {

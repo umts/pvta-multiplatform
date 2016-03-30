@@ -3,15 +3,15 @@
     <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()"></button>
   </ion-nav-buttons>  
   <ion-content padding="true" overflow-scroll="true" scrollbar-y="true" has-bouncing="true">
-    <ion-list>
-      <ion-item ng-repeat="route in routes" href="#app/routes/{{route.RouteId}}">
+    <ion-list class="list card">
+      <ion-item class="item" ng-repeat="route in routes" href="#app/routes/{{route.RouteId}}">
         <i class="icon ion-android-bus"></i>
         <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.ShortName}}</span>
         <p>{{route.LongName}}</p>
       </ion-item>
     </ion-list>
-    <div ng-if="routes.length == 0" class="no-results">
-      <center>No results found.</center>
+    <div class="bar bar-assertive title" ng-if="routes.length == 0">
+      <h1 class="title">No results found.</h1>
     </div>
   </ion-content>
 </ion-view>

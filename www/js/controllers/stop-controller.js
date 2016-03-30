@@ -1,38 +1,45 @@
 angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong, FavoriteStops, SimpleRoute) {
+  $scope.getRoute = function (id) {
+    var x = SimpleRoute.get({routeId: id}, function () {
+      $scope.routeList[id] = (x);
+    });
+  };
+
+  var getRoutes = function (routes) {
+    _.each(routes, function (route) {
+      $scope.getRoute(route.RouteId);
+    });
+  };
+
+  var getHeart = function () {
+    FavoriteStops.contains($scope.stop, function (bool) {
+      $scope.liked = bool;
+    });
+  };
 
   $scope.getDepartures = function () {
     var routes = [];
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function () {
-      var directions = deps[0].RouteDirections;
-      $scope.departures = [];
-      for (var i = 0; i < directions.length; i++) {
-        routes.push(directions[i].RouteId);
-        if (directions[i].Departures.length !== 0 && !directions[i].IsDone) {
-          var departureNum = 0;
-          var sdt = directions[i].Departures[departureNum].SDT;
-          var edt = directions[i].Departures[departureNum].EDT;
-          var times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
-          if (times.e.includes('ago')) {
-            for (var currentDeparture = 0; currentDeparture < directions[i].Departures.length; currentDeparture++) {
-              sdt = directions[i].Departures[currentDeparture].SDT;
-              edt = directions[i].Departures[currentDeparture].EDT;
-              times = {s: moment(sdt).fromNow(), e: moment(edt).fromNow()};
-              if (!times.e.includes('ago')) {
-                directions[i].StringifiedTimes = times;
-                var r = {route: directions[i].RouteId, trip: directions[i].Departures[currentDeparture].Trip, departures: times};
-                $scope.departures.push(r);
-                break;
+      if (deps) {
+        var directions = deps[0].RouteDirections;
+        $scope.directions = [];
+        _.each(directions, function (direction) {
+          if (direction.Departures.length !== 0 && !direction.IsDone) {
+            var dir = {RouteId: direction.RouteId, departures: []};
+            routes.push(direction.RouteId);
+            _.each(direction.Departures, function (departure) {
+              if (moment(departure.EDT).fromNow().includes('ago')) return;
+              else {
+                var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
+                departure.Times = times;
+                dir.departures.push(departure);
               }
-            }
+            });
+            $scope.directions.push(dir);
           }
-          else {
-            directions[i].StringifiedTimes = times;
-            var r = {route: directions[i].RouteId, trip: directions[i].Departures[departureNum].Trip, departures: times};
-            $scope.departures.push(r);
-          }
-        } // end first if
-      } // end for
-      getRoutes($scope.departures);
+        }); // end underscore.each
+        getRoutes($scope.directions);
+      } // end highest if
     });
   }; // end getDepartures
   var stop = Stop.get({stopId: $stateParams.stopId}, function () {
@@ -55,7 +62,9 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   $scope.$on('$ionicView.enter', function () {
     localforage.getItem('autoRefresh', function (err, value) {
       if (value) {
-        if (value <= 1000) value = 30000;
+        if (value <= 1000) {
+          value = 30000;
+        }
         timer = $interval(function () {
           $scope.getDepartures();
         }, value);
@@ -80,40 +89,33 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   $scope.setCoordinates = function (lat, long) {
     LatLong.push(lat, long);
     $interval.cancel(timer);
-    $location.path('/app/map');
+    $location.path('/app/map/stop');
   };
 
-  $scope.toggleHeart = function (liked) {
-    var name = 'Stop ' + stop.Name + ' favorite';
-    localforage.setItem(name, liked, function (err, value) {
-      if (value) {
-        FavoriteStops.push(stop);
+  $scope.toggleHeart = function () {
+    FavoriteStops.contains($scope.stop, function (bool) {
+      if (bool) {
+        FavoriteStops.remove($scope.stop);
       }
-        else {
-        FavoriteStops.remove(stop);
+      else {
+        FavoriteStops.push($scope.stop);
       }
     });
-  };
-  var getRoutes = function (routes) {
-    for (var i = 0; i < routes.length; i++) {
-      $scope.getRoute(routes[i].route);
-    }
   };
   $scope.routeList = {};
-  $scope.getRoute = function (id) {
-    var x = SimpleRoute.get({routeId: id}, function () {
-      $scope.routeList[id] = (x);
-    });
-  };
-  var getHeart = function () {
-    var name = 'Stop ' + stop.Name + ' favorite';
-    localforage.getItem(name, function (err, value) {
-      $scope.liked = value;
-    });
-  };
 
   $scope.refresh = function () {
     $scope.getDepartures();
     $scope.$broadcast('scroll.refreshComplete');
   };
-})
+  $scope.toggleGroup = function (group) {
+    if ($scope.isGroupShown(group)) {
+      $scope.shownGroup = null;
+    } else {
+      $scope.shownGroup = group;
+    }
+  };
+  $scope.isGroupShown = function (group) {
+    return $scope.shownGroup === group;
+  };
+});
