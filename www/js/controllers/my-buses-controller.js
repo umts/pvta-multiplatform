@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('MyBusesController', function ($scope, Messages, FavoriteRoutes, FavoriteStops, Trips) {
+angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips) {
   var reload = function () {
     localforage.getItem('favoriteRoutes', function (err, value) {
       $scope.routes = value;

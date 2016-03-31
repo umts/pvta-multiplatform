@@ -160,8 +160,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         $scope.directionsDisplay.setDirections(response);
         route = response.routes[0].legs[0];
         createStepList(response);
-        $scope.route.arrivalTime = route['arrivalTime']['text'];
-        $scope.route.departureTime = route['departureTime']['text'];
+        $scope.route.arrivalTime = route['arrival_time']['text'];
+        $scope.route.departureTime = route['departure_time']['text'];
         $scope.route.origin = route['start_address'];
         $scope.route.destination = route['end_address'];
         $scope.$apply();
@@ -188,8 +188,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         else {
           lineName = step['transit']['line']['name'];
         }
-        var departInstruction = 'Take ' + step['transit']['line']['vehicle']['name'] + ' ' + lineName + ' at ' + step['transit']['departureTime']['text'] + '. ' + step['instructions'];
-        var arriveInstruction = 'Arrive at ' + step['transit']['arrival_stop']['name'] + ' ' + step['transit']['arrivalTime']['text'];
+        var departInstruction = 'Take ' + step['transit']['line']['vehicle']['name'] + ' ' + lineName + ' at ' + step['transit']['departure_time']['text'] + '. ' + step['instructions'];
+        var arriveInstruction = 'Arrive at ' + step['transit']['arrival_stop']['name'] + ' ' + step['transit']['arrival_time']['text'];
         $scope.route.steps.push(departInstruction);
         $scope.route.steps.push(arriveInstruction);
         if (step['transit']['line']['agencies'][0]['name'] === 'PVTA') {

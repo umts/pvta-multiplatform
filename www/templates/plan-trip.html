@@ -40,9 +40,9 @@
     <br>
     <b>Destination:</b> {{route.destination}}
     <br>
-    <b>Departure Time:</b> {{route.departure_time}}
+    <b>Departure Time:</b> {{route.departureTime}}
     <br>
-    <b>Arrival Time:</b> {{route.arrival_time}}
+    <b>Arrival Time:</b> {{route.arrivalTime}}
   </div>
   <ion-list>
   <ion-item ng-repeat="step in route.steps" href={{route.stepLinks[$index]}}>
