@@ -12,7 +12,7 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
-  $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  $scope.map = new google.maps.Map(document.getElementById('stop-map'), mapOptions);
   Map.init($scope.map, bounds);
 
   function placeStop(){
@@ -45,7 +45,7 @@ angular.module('pvta.controllers').controller('StopMapController', function($sco
     $ionicLoading.show({});
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsDisplay.setMap($scope.map);
-    directionsDisplay.setPanel(document.getElementById("right-panel"));
+    directionsDisplay.setPanel(document.getElementById('directions'));
     calculateDirections();
   });
 
