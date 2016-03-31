@@ -39,7 +39,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         // keep track of ROUTES vs DIRECTIONS
         routes = _.uniq(_.pluck(directions, 'RouteId'));
         // Now, loop through each RouteId
-        _.each(routes, function (id) {
+        /*_.each(routes, function (id, index) {
           // Pull out the departures that match the RouteId
           // of our current iteration:
           var departuresForRoute = _.map(directions, function (routeDirection) {
@@ -78,9 +78,42 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
           // Remove any null values created by departures in the past.
           departuresForRoute = _.compact(departuresForRoute);
           // This is the last thing we do for each route:
+          // Assuming that is has departures (which we finally know for certain)
           // push it (as an object) to the array that will be used in the view.
-          $scope.departuresByRoute.push({RouteId: id, Departures: departuresForRoute});
+          if (departuresForRoute.length > 1) {
+              $scope.departuresByRoute.push({RouteId: id, Departures: departuresForRoute});
+          }
+          // Otherwise, remove its ID from the routes array so that it's dealt with no further.
+          else {
+            routes.slice(index, 1);
+          }
         });
+      */
+
+      _.each(routes, function(routeId){
+        var routeObject = {RouteId: routeId, Departures: []};
+        $scope.departuresByRoute.push(routeObject);
+      });
+      var newDeps = $scope.departuresByRoute;
+      _.each(directions, function(routeDirection) {
+        if (!routeDirection.IsDone && routeDirection.Departures.length > 0) {
+          for (var i = 0; i < newDeps.length; i++) {
+            if (newDeps[i].RouteId === routeDirection.RouteId) {
+              newDeps[i].Departures = newDeps[i].Departures.concat(routeDirection.Departures);
+            }
+          }
+        }
+      });
+      console.log(JSON.stringify(newDeps));
+      _.each(newDeps, function(routeObject, index) {
+        console.log(JSON.stringify(routeObject.RouteId));
+        console.log(JSON.stringify(routeObject.Departures));
+        if (!routeObject.Departures || routeObject.Departures.length < 1) {
+          newDeps = newDeps.splice(index, 1);
+        }
+      });
+      console.log(JSON.stringify(newDeps));
+
         // The very last thing we need to do is download
         // some details (name, color, etc) for each route that has
         // upcoming departures at this stop.
