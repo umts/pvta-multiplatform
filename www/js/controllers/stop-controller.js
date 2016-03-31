@@ -38,82 +38,39 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         // First, push each route to an array so that we can
         // keep track of ROUTES vs DIRECTIONS
         routes = _.uniq(_.pluck(directions, 'RouteId'));
-        // Now, loop through each RouteId
-        _.each(routes, function (id, index) {
-          // Pull out the departures that match the RouteId
-          // of our current iteration:
-          var departuresForRoute = _.map(directions, function (routeDirection) {
-            // Make sure that the departures array exists / isn't empty
-            // (basically is a truthy. != as opposed to !== IS ON PURPOSE.), and that this direction
-            // isn't done servicing this stop for the day.
-            if (routeDirection.Departures.length != 0 && !routeDirection.IsDone) {
-              // Finally, return the departures that
-              // match this RouteId
-              if (routeDirection.RouteId === id) {
-                return routeDirection.Departures;
-              }
-            }
-          });
-          //At this point, we should have an array of every
-          // departure for the current route at this stop,
-          // regardless of direction.
-          // Call _.compact to remove all falsy values.
-          departuresForRoute = _.flatten(_.compact(departuresForRoute));
-          //console.log(JSON.stringify(departuresForRoute));
-          // Before we add it to the master list for the entire stop,
-          // we define an extra property **to each departure** to make the times
-          // easily readable.
-          _.each(departuresForRoute, function (departure, indexInList) {
-            // If the departure was in the past, toss it.
-            if (moment(departure.EDT).fromNow().includes('ago')) departuresForRoute[indexInList] = null;
-            else {
-              // stringify the times
-              var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
-              // Throw them into the object, which we're editing in-place
-              departure.Times = times;
-              // Reassign the object in the master list to our edited object
-              departuresForRoute[indexInList] = departure;
-            }
-          });
-          // Remove any null values created by departures in the past.
-          departuresForRoute = _.compact(departuresForRoute);
-          // This is the last thing we do for each route:
-          // Assuming that is has departures (which we finally know for certain)
-          // push it (as an object) to the array that will be used in the view.
-          if (departuresForRoute.length > 1) {
-              $scope.departuresByRoute.push({RouteId: id, Departures: departuresForRoute});
-          }
-          // Otherwise, remove its ID from the routes array so that it's dealt with no further.
-          else {
-            routes.splice(index, 1);
+
+        var dirs = []
+        _.each(directions, function(direction) {
+          if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
+            var newDirs = {RouteId: direction.RouteId, Departures: direction.Departures};
+            dirs.push(newDirs);
           }
         });
-
-/*
-      _.each(routes, function(routeId){
-        var routeObject = {RouteId: routeId, Departures: []};
-        $scope.departuresByRoute.push(routeObject);
-      });
-      var newDeps = $scope.departuresByRoute;
-      _.each(directions, function(routeDirection) {
-        if (!routeDirection.IsDone && routeDirection.Departures.length > 0) {
-          for (var i = 0; i < newDeps.length; i++) {
-            if (newDeps[i].RouteId === routeDirection.RouteId) {
-              newDeps[i].Departures = newDeps[i].Departures.concat(routeDirection.Departures);
+        var closer = []
+        _.each(routes, function(route) {
+          var x = _.where(dirs, {RouteId : route});
+          var y = _.pluck(x, 'Departures');
+          console.log(JSON.stringify(y));
+          var z = _.flatten(y, true);
+          console.log(JSON.stringify(z));
+          var newDir = {RouteId: route, Departures: z};
+          closer.push(newDir);
+        });
+        $scope.departuresByRoute = [];
+        _.each(closer, function(routeAndDepartures) {
+          var newDirsWithTimes = {RouteId: routeAndDepartures.RouteId, Departures: []}
+          _.each(routeAndDepartures.Departures, function(departure) {
+           if (moment(departure.EDT).fromNow().includes('ago')) return;
+            else {
+              var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
+              departure.Times = times;
+              newDirsWithTimes.Departures.push(departure);
             }
-          }
-        }
-      });
-      console.log(JSON.stringify(newDeps));
-      _.each(newDeps, function(routeObject, index) {
-        console.log(JSON.stringify(routeObject.RouteId));
-        console.log(JSON.stringify(routeObject.Departures));
-        if (!routeObject.Departures || routeObject.Departures.length < 1) {
-          newDeps = newDeps.splice(index, 1);
-        }
-      });
-      console.log(JSON.stringify(newDeps));
-*/
+          });
+          $scope.departuresByRoute.push(newDirsWithTimes);
+        })
+
+
         // The very last thing we need to do is download
         // some details (name, color, etc) for each route that has
         // upcoming departures at this stop.
