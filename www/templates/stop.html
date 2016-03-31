@@ -6,7 +6,7 @@
   <ion-content direction="y" scrollbar-y="false">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
     <!-- For every route, group it and allow it to be toggled open or closed -->
-    <ion-list ng-repeat="routeDepartures in thenewone">
+    <ion-list ng-repeat="routeDepartures in departuresByRoute">
       <ion-item class="item-text-wrap" ng-click="toggleGroup({{routeDepartures.RouteId}})" ng-class="{active: isGroupShown({{routeDepartures.RouteId}})}">
         <div class="row">
           <span class="col" style="font-weight: bold;font-size: 175%; color: #{{routeList[routeDepartures.RouteId].Color}};">

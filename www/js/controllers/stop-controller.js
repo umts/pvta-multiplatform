@@ -39,7 +39,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         // keep track of ROUTES vs DIRECTIONS
         routes = _.uniq(_.pluck(directions, 'RouteId'));
         // Now, loop through each RouteId
-        /*_.each(routes, function (id, index) {
+        _.each(routes, function (id, index) {
           // Pull out the departures that match the RouteId
           // of our current iteration:
           var departuresForRoute = _.map(directions, function (routeDirection) {
@@ -85,11 +85,11 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
           }
           // Otherwise, remove its ID from the routes array so that it's dealt with no further.
           else {
-            routes.slice(index, 1);
+            routes.splice(index, 1);
           }
         });
-      */
 
+/*
       _.each(routes, function(routeId){
         var routeObject = {RouteId: routeId, Departures: []};
         $scope.departuresByRoute.push(routeObject);
@@ -113,7 +113,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         }
       });
       console.log(JSON.stringify(newDeps));
-
+*/
         // The very last thing we need to do is download
         // some details (name, color, etc) for each route that has
         // upcoming departures at this stop.
