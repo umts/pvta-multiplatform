@@ -63,17 +63,17 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * actually HAS departures, we have now
          * found every known departure for this route.
          */
-        var closer = []
+        var routeDepartures = []
         _.each(routes, function(route) {
-          var x = _.where(dirs, {RouteId : route});
-          var y = _.pluck(x, 'Departures');
-          var z = _.flatten(y, true);
-          if (z && z.length > 0) {
-            var newDir = {RouteId: route, Departures: z};
-            closer.push(newDir);
+          var entireObject = _.where(dirs, {RouteId : route});
+          var justDepartures = _.pluck(entireObject, 'Departures');
+          var flattenedDepartures = _.flatten(justDepartures, true);
+          if (flattenedDepartures && flattenedDepartures.length > 0) {
+            var newDir = {RouteId: route, Departures: flattenedDepartures};
+            routeDepartures.push(newDir);
           }
         });
-        console.log(JSON.stringify(closer));
+        console.log(JSON.stringify(routeDepartures));
         /* Step 3:
          * We now have an array of {RoudId, Departure}
          * objects. We now get "stringified" times for each departure.
@@ -90,7 +90,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * everything for that route to the final array.
          */
         $scope.departuresByRoute = [];
-        _.each(closer, function(routeAndDepartures) {
+        _.each(routeDepartures, function(routeAndDepartures) {
           var newDirsWithTimes = {RouteId: routeAndDepartures.RouteId, Departures: []}
           _.each(routeAndDepartures.Departures, function(departure) {
            if (moment(departure.EDT).fromNow().includes('ago')) return;
