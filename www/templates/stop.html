@@ -5,23 +5,23 @@
   </ion-nav-buttons>
   <ion-content direction="y" scrollbar-y="false">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
-    <!-- For every route, group it and allow it to be toggled open or closed -->  
-    <ion-list ng-repeat="direction in directions">  
-      <ion-item class="item-text-wrap" ng-click="toggleGroup({{direction.RouteId}})" ng-class="{active: isGroupShown({{direction.RouteId}})}">
+    <!-- For every route, group it and allow it to be toggled open or closed -->
+    <ion-list ng-repeat="routeDepartures in departuresByRoute">
+      <ion-item class="item-text-wrap" ng-click="toggleGroup({{routeDepartures.RouteId}})" ng-class="{active: isGroupShown({{routeDepartures.RouteId}})}">
         <div class="row">
-          <span class="col" style="font-weight: bold;font-size: 175%; color: #{{routeList[direction.RouteId].Color}};">
-            {{routeList[direction.RouteId].ShortName}}
+          <span class="col" style="font-weight: bold;font-size: 175%; color: #{{routeList[routeDepartures.RouteId].Color}};">
+            {{routeList[routeDepartures.RouteId].ShortName}}
           </span>
-          <span class="col">View upcoming departures for the {{routeList[direction.RouteId].ShortName}}</span>
+          <span class="col">View upcoming departures for the {{routeList[routeDepartures.RouteId].ShortName}}</span>
           <span class="col">
-            <i class="icon" ng-class="isGroupShown({{direction.RouteId}}) ? 'ion-ios-arrow-down' : 'ion-ios-arrow-up'" style="margin-right: 10px;"></i>
+            <i class="icon" ng-class="isGroupShown({{routeDepartures.RouteId}}) ? 'ion-ios-arrow-down' : 'ion-ios-arrow-up'" style="margin-right: 10px;"></i>
           </span>
         </div>
       </ion-item>
-      <!-- When a route has been expanded, show its departures -->        
+      <!-- When a route has been expanded, show its departures -->
       <ion-item class="item-accordion"
-                      ng-repeat="departure in direction.departures"
-                      ng-show="isGroupShown({{direction.RouteId}})" href="#/app/routes/{{direction.RouteId}}">
+                      ng-repeat="departure in routeDepartures.Departures"
+                      ng-show="isGroupShown({{routeDepartures.RouteId}})" href="#/app/routes/{{routeDepartures.RouteId}}">
         <div class="row">
           <span class="col" style="font-weight:bold;">
             {{departure.Trip.InternetServiceDesc}}
@@ -34,15 +34,15 @@
           </span>
         </div>
       </ion-item>
-    </ion-list> 
-    <div ng-if="!directions.length">
+    </ion-list>
+    <div ng-if="!departuresByRoute.length">
       <ion-item class="item item-assertive" style="text-align:center">{{stop.Name}} has no departures for at least the next 3 hours.</ion-item>
-    </div> 
+    </div>
   </ion-content>
   <ion-footer-bar class="bar-positive">
     <a class="button col-offset-50" ng-click="setCoordinates(stop.Latitude, stop.Longitude)">
       Find on map
-    <i class="icon ion-ios-location"></i> 
+    <i class="icon ion-ios-location"></i>
     </a>
-  </ion-footer-bar> 
+  </ion-footer-bar>
 </ion-view>
