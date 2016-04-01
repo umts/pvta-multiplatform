@@ -72,17 +72,19 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          */
         var routeDepartures = []
         _.each(routes, function(route) {
+          //[{RouteId: 20034, Departures[...]},]
           var entireObject = _.where(dirs, {RouteId : route});
+          // [[...], [...]]
           var justDepartures = _.pluck(entireObject, 'Departures');
+          // [, , , ]
           var flattenedDepartures = _.flatten(justDepartures, true);
           if (flattenedDepartures && flattenedDepartures.length > 0) {
             var newDir = {RouteId: route, Departures: flattenedDepartures};
             routeDepartures.push(newDir);
           }
         });
-        console.log(JSON.stringify(routeDepartures));
         /* Step 3:
-         * We now have an array of {RoudId, Departure}
+         * We now have an array of {RouteId, Departure}
          * objects. We now get "stringified" times for each departure.
          * We define a new object ($scope.departuresByRoute) to hold
          * our final data.
@@ -100,22 +102,24 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         _.each(routeDepartures, function(routeAndDepartures) {
           var newDirsWithTimes = {RouteId: routeAndDepartures.RouteId, Departures: []}
           _.each(routeAndDepartures.Departures, function(departure) {
-           if (moment(departure.EDT).fromNow().includes('ago')) return;
+           if (!moment(departure.EDT).isAfter(Date.now())) return;
             else {
               var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
               departure.Times = times;
               newDirsWithTimes.Departures.push(departure);
             }
           });
-          $scope.departuresByRoute.push(newDirsWithTimes);
-        })
+          if (newDirsWithTimes.Departures.length > 0) {
+              $scope.departuresByRoute.push(newDirsWithTimes);
+          }
+        });
 
 
         /* Step 4:
          * Download some details (name, color, etc) for each
          * route that has upcoming departures at this stop.
          */
-        getRoutes(routes);
+        getRoutes(_.pluck($scope.departuresByRoute, 'RouteId'));
       } // end highest if
     });
   }; // end getDepartures
