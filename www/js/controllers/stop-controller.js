@@ -35,10 +35,18 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         // Avail returns a one element array that contains
         // a ton of stuff. Pull this stuff out.
         var directions = deps[0].RouteDirections;
-        // First, push each route to an array so that we can
-        // keep track of ROUTES vs DIRECTIONS
+        /* Step 0:
+         * Get a unique list of RouteIds that service this stop.
+         * There can be multiple RouteDirections with the same
+         * RouteId, so thus the uniqueness requirement.
+         */
         routes = _.uniq(_.pluck(directions, 'RouteId'));
 
+        /* Step 1:
+         * For each RouteDirection,
+         * pull out its RouteId and Departures array,
+         * assuming that it HAS departures and isn't 'done.'
+         */
         var dirs = []
         _.each(directions, function(direction) {
           if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
@@ -46,6 +54,15 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
             dirs.push(newDirs);
           }
         });
+        /* Step 2:
+         * For each RouteId, find all the departures
+         * (obtained in Step 1) whose RouteDirection matches this Id.
+         * This obtains an array of Departure arrays, so "flatten"
+         * it down to a single array.
+         * Assuming this array of departures exists and
+         * actually HAS departures, we have now
+         * found every known departure for this route.
+         */
         var closer = []
         _.each(routes, function(route) {
           var x = _.where(dirs, {RouteId : route});
@@ -57,6 +74,21 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
           }
         });
         console.log(JSON.stringify(closer));
+        /* Step 3:
+         * We now have an array of {RoudId, Departure}
+         * objects. We now get "stringified" times for each departure.
+         * We define a new object ($scope.departuresByRoute) to hold
+         * our final data.
+         * For each route, loop through its departures.
+         * For each departure:
+         *    If it was estimated in the past:
+                do not add it to the final array.
+         *    Otherwise:
+                Stringify its times, add them to the
+                  original Departure object
+         * Now that a route has its departures stringified, push
+         * everything for that route to the final array.
+         */
         $scope.departuresByRoute = [];
         _.each(closer, function(routeAndDepartures) {
           var newDirsWithTimes = {RouteId: routeAndDepartures.RouteId, Departures: []}
@@ -72,9 +104,10 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         })
 
 
-        // The very last thing we need to do is download
-        // some details (name, color, etc) for each route that has
-        // upcoming departures at this stop.
+        /* Step 4:
+         * Download some details (name, color, etc) for each
+         * route that has upcoming departures at this stop.
+         */
         getRoutes(routes);
       } // end highest if
     });
