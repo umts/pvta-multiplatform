@@ -57,11 +57,18 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         /* Step 2:
          * For each RouteId, find all the departures
          * (obtained in Step 1) whose RouteDirection matches this Id.
-         * This obtains an array of Departure arrays, so "flatten"
-         * it down to a single array.
+         * This obtains an array of Departure arrays
+         *    (this root array has one element when
+         *       there's only 1 RouteDirection for a RouteId, but has
+         *       n elements for each RouteId that has n RouteDirections
+         *    ), so "flatten" it down to a single array.
          * Assuming this array of departures exists and
          * actually HAS departures, we have now
          * found every known departure for this route.
+         *
+         * The routeDepartures variable will contain
+         * an array of routes and their corresponding
+         * departures in form [{RouteId, Departures}, ...]
          */
         var routeDepartures = []
         _.each(routes, function(route) {
