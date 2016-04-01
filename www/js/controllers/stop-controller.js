@@ -50,12 +50,13 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         _.each(routes, function(route) {
           var x = _.where(dirs, {RouteId : route});
           var y = _.pluck(x, 'Departures');
-          console.log(JSON.stringify(y));
           var z = _.flatten(y, true);
-          console.log(JSON.stringify(z));
-          var newDir = {RouteId: route, Departures: z};
-          closer.push(newDir);
+          if (z && z.length > 0) {
+            var newDir = {RouteId: route, Departures: z};
+            closer.push(newDir);
+          }
         });
+        console.log(JSON.stringify(closer));
         $scope.departuresByRoute = [];
         _.each(closer, function(routeAndDepartures) {
           var newDirsWithTimes = {RouteId: routeAndDepartures.RouteId, Departures: []}
