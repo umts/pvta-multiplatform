@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteMapController', function($scope, $ionicLoading, Map, LatLong, KML){
+angular.module('pvta.controllers').controller('RouteMapController', function ($scope, $ionicLoading, Map, LatLong, KML) {
   var bounds = new google.maps.LatLngBounds();
 
   var mapOptions = {
