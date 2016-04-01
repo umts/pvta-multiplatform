@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, Route, RouteVehicles, FavoriteRoutes, Messages, KML, $location, LatLong){
+angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, $location, Route, RouteVehicles, FavoriteRoutes, Messages, KML, LatLong){
   var size = 0;
 
   var getVehicles = function(){
