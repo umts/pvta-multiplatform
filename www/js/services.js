@@ -5,35 +5,35 @@ angular.module('pvta.services', ['ngResource'])
 })
 
 .factory('Vehicle', function ($resource, Avail) {
-    return $resource(Avail + '/vehicles/get/:vehicleId');
+  return $resource(Avail + '/vehicles/get/:vehicleId');
 })
 
 .factory('Route', function ($resource, Avail) {
-    return $resource(Avail + '/routedetails/get/:routeId');
+  return $resource(Avail + '/routedetails/get/:routeId');
 })
 
 .factory('Routes', function ($resource, Avail) {
-    return $resource(Avail + '/routes/getvisibleroutes');
+  return $resource(Avail + '/routes/getvisibleroutes');
 })
 
 .factory('NearestStops', function($resource, Avail){
-    return $resource(Avail + '/Stops/Nearest?latitude=:latitude&longitude=:longitude', {latitude: "@latitude", longitude: "@longitude"})
+  return $resource(Avail + '/Stops/Nearest?latitude=:latitude&longitude=:longitude', {latitude: "@latitude", longitude: "@longitude"})
 })
 
 .factory('Stop', function ($resource, Avail) {
-    return $resource(Avail + '/stops/get/:stopId');
+  return $resource(Avail + '/stops/get/:stopId');
 })
 
 .factory('Stops', function ($resource, Avail){
-    return $resource(Avail + '/stops/getallstops');
+  return $resource(Avail + '/stops/getallstops');
 })
 
 .factory('RouteVehicles', function ($resource, Avail){
-    return $resource(Avail + '/vehicles/getallvehiclesforroute?routeid=:id')
+  return $resource(Avail + '/vehicles/getallvehiclesforroute?routeid=:id')
 })
 
 .factory('StopDeparture', function ($resource, Avail) {
-    return $resource(Avail + '/stopdepartures/get/:stopId');
+  return $resource(Avail + '/stopdepartures/get/:stopId');
 })
 
 .factory('Messages', function ($resource, Avail) {
@@ -47,7 +47,7 @@ angular.module('pvta.services', ['ngResource'])
 .factory('Info', function(){
   return {
     versionNum: '0.5.2',
-    versionName: 'Beta 2'
+versionName: 'Beta 2'
   };
 })
 
@@ -75,8 +75,8 @@ angular.module('pvta.services', ['ngResource'])
 
   return {
     pushEntireList: pushEntireList,
-    getEntireList: getEntireList,
-    isEmpty: isEmpty,
+      getEntireList: getEntireList,
+      isEmpty: isEmpty,
   };
 
 })
@@ -85,17 +85,17 @@ angular.module('pvta.services', ['ngResource'])
   var routesList = [];
 
   var pushEntireList = function(list){
-   // only store the route attributes we need
-   routesList = _.map(list, function(route){
-     return _.pick(route, 'ShortName', 'LongName', 'Color', 'RouteId');
-   });
-   // sort routes by their number
-   var routeNumber = /\d{1,2}/;
-   routesList = _.sortBy(routesList, function(route){
-     matches = route.ShortName.match(routeNumber)
-     return Number(_.first(matches));
-   });
-   return routesList;
+    // only store the route attributes we need
+    routesList = _.map(list, function(route){
+      return _.pick(route, 'ShortName', 'LongName', 'Color', 'RouteId');
+    });
+    // sort routes by their number
+    var routeNumber = /\d{1,2}/;
+    routesList = _.sortBy(routesList, function(route){
+      matches = route.ShortName.match(routeNumber)
+      return Number(_.first(matches));
+    });
+    return routesList;
   };
 
   var getEntireList = function(){
@@ -109,11 +109,11 @@ angular.module('pvta.services', ['ngResource'])
     if(routesList.length == 0) return true;
     else return false
   };
-  
+
   return {
     pushEntireList: pushEntireList,
-    getEntireList: getEntireList,
-    isEmpty: isEmpty
+      getEntireList: getEntireList,
+      isEmpty: isEmpty
   };
 
 })
@@ -153,11 +153,11 @@ angular.module('pvta.services', ['ngResource'])
 
   /* Checks to see if a route is included
    * in the favorites. Returns boolean.
-  */
+   */
   function contains(route, cb){
     localforage.getItem('favoriteRoutes', function(err, routes){
       if(routes){
-       var r = _.where(routes, {RouteId: route.RouteId});
+        var r = _.where(routes, {RouteId: route.RouteId});
         if (r.length > 0) {
           cb(true);
         }
@@ -216,7 +216,7 @@ angular.module('pvta.services', ['ngResource'])
   function contains(stop, cb){
     localforage.getItem('favoriteStops', function(err, stops){
       if(stops){
-       var r = _.where(stops, {StopId: stop.StopId});
+        var r = _.where(stops, {StopId: stop.StopId});
         if (r.length > 0) {
           cb(true);
         }
@@ -231,86 +231,86 @@ angular.module('pvta.services', ['ngResource'])
   }
   return{
     push: push,
-    getAll: getAll,
-    remove: remove,
-    contains: contains
+      getAll: getAll,
+      remove: remove,
+      contains: contains
   };
 })
 
 .factory('Trips', function(){
-    var trips = [];
-    var loadedTrip = null;
-    var lastPoppedIndex = 0;
-    var push = function(index) {
-        lastPoppedIndex = index; 
-        loadedTrip = trips[index];
-    };
+  var trips = [];
+  var loadedTrip = null;
+  var lastPoppedIndex = 0;
+  var push = function(index) {
+    lastPoppedIndex = index; 
+    loadedTrip = trips[index];
+  };
 
-    var pop = function() {
-        toReturn = loadedTrip;
-        loadedTrip = null;
-        return toReturn;
-    };
+  var pop = function() {
+    toReturn = loadedTrip;
+    loadedTrip = null;
+    return toReturn;
+  };
 
-    var getAll =  function(callback){
-      localforage.getItem('savedTrips', function(err, value){
-        if (err) {
-              console.log("Error loading trips.");
-              callback([]);
-              return;
-        }
-        if (value === null){
-                console.log("No trips loaded");
-                callback([]);
-                return; 
-        }
-        trips = JSON.parse(value);
-        for (var i = 0; i<trips.length; i=i+1) {
-            trips[i].time.datetime = new Date(trips[i].time.datetime);
-        }
-        callback(trips);
-      });
-    };
+  var getAll =  function(callback){
+    localforage.getItem('savedTrips', function(err, value){
+      if (err) {
+        console.log("Error loading trips.");
+        callback([]);
+        return;
+      }
+      if (value === null){
+        console.log("No trips loaded");
+        callback([]);
+        return; 
+      }
+      trips = JSON.parse(value);
+      for (var i = 0; i<trips.length; i=i+1) {
+        trips[i].time.datetime = new Date(trips[i].time.datetime);
+      }
+      callback(trips);
+    });
+  };
 
-    var pop = function() {
-         var toReturn = loadedTrip;
-         loadedTrip = null;
-         return toReturn;
-         };
+  var pop = function() {
+    var toReturn = loadedTrip;
+    loadedTrip = null;
+    return toReturn;
+  };
 
-   var push = function(index){
-          loadedTrip = trips[index];
-          };
+  var push = function(index){
+    loadedTrip = trips[index];
+  };
 
-   var set = function(trip) {//Sets a new trip object at the index of the last trip popped
-        trips[lastPoppedIndex] = trip;
-        localforage.setItem('savedTrips', JSON.stringify(trips), function(err, value) {
-            if (err !== null) console.log("Error saving trips.");
-        });
-    };
+  var set = function(trip) {//Sets a new trip object at the index of the last trip popped
+    trips[lastPoppedIndex] = trip;
+    localforage.setItem('savedTrips', JSON.stringify(trips), function(err, value) {
+      if (err !== null) console.log("Error saving trips.");
+    });
+  };
 
-   var add = function(trip) {
-        trips.push(trip);
-        localforage.setItem('savedTrips', JSON.stringify(trips), function(err, value) {
-            if (err!== null) console.log("Error saving trips.");
-        });
-    };
+  var add = function(trip) {
+    trips.push(trip);
+    localforage.setItem('savedTrips', JSON.stringify(trips), function(err, value) {
+      if (err!== null) console.log("Error saving trips.");
+    });
+  };
 
-   var remove = function(index) {
-        trips.splice(index, 1);
-        localforage.setItem('savedTrips', JSON.stringify(trips), function(err, value) {
-            if (err!== null) console.log("Error saving trips.");
-        });
-    }; 
-    
-   return {
+  var remove = function(index) {
+    trips.splice(index, 1);
+    localforage.setItem('savedTrips', JSON.stringify(trips), function(err, value) {
+      if (err!== null) console.log("Error saving trips.");
+    });
+  }; 
+
+  return {
     getAll: getAll,
-    push: push,
-    pop: pop,
-    set: set,
-    add: add,
-    remove: remove
-   }; 
+      push: push,
+      pop: pop,
+      set: set,
+      add: add,
+      remove: remove
+  }; 
 })
 
 .factory('KML', function(){
@@ -333,7 +333,7 @@ angular.module('pvta.services', ['ngResource'])
   }
   return {
     push: push,
-    pop: pop
+pop: pop
   };
 })
 
@@ -341,19 +341,19 @@ angular.module('pvta.services', ['ngResource'])
   var latlong = [];
   return {
     push: function(lat, long){
-      var p = {lat, long};
-      latlong.push(p);
-    },
-    getAll: function(){
-      if(latlong.length > 0){
-        var toReturn = latlong;
-        latlong = [];
-        return toReturn;
-      }
-      else {
-        return null;
-      }
-    }
+            var p = {lat, long};
+            latlong.push(p);
+          },
+getAll: function(){
+          if(latlong.length > 0){
+            var toReturn = latlong;
+            latlong = [];
+            return toReturn;
+          }
+          else {
+            return null;
+          }
+        }
   };
 })
 
@@ -365,13 +365,13 @@ angular.module('pvta.services', ['ngResource'])
 
   function placeDesiredMarker(location, icon){
     var neededMarker = new google.maps.Marker({
-        map: map,
+      map: map,
         icon: icon,
         animation: google.maps.Animation.DROP,
         position: location
-      });
-      bounds.extend(location);
-      map.fitBounds(bounds);
+    });
+    bounds.extend(location);
+    map.fitBounds(bounds);
     return neededMarker;
   };
 
@@ -384,22 +384,22 @@ angular.module('pvta.services', ['ngResource'])
 
   function addMapListener(marker, onClick){
     google.maps.event.addListener(marker, 'click', function () {
-            var infoWindow = new google.maps.InfoWindow({
-              content: onClick
-            });
-            infoWindow.open(map, marker);
+      var infoWindow = new google.maps.InfoWindow({
+        content: onClick
+      });
+      infoWindow.open(map, marker);
     });
   }
 
 
   return {
     placeDesiredMarker: placeDesiredMarker,
-    init: function(incomingMap, incomingBounds){
-      map = incomingMap;
-      bounds = incomingBounds;
-    },
-    plotCurrentLocation: plotCurrentLocation,
-    addMapListener: addMapListener
+      init: function(incomingMap, incomingBounds){
+        map = incomingMap;
+        bounds = incomingBounds;
+      },
+      plotCurrentLocation: plotCurrentLocation,
+      addMapListener: addMapListener
   }
 })
 
@@ -444,7 +444,7 @@ angular.module('pvta.services', ['ngResource'])
   }
   return {
     get: getRouteList,
-    save: saveRouteList
+      save: saveRouteList
   };
 })
 
@@ -482,6 +482,6 @@ angular.module('pvta.services', ['ngResource'])
   }
   return {
     get: getStopList,
-    save: saveStopList
+      save: saveStopList
   };
 })
