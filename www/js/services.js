@@ -46,7 +46,7 @@ angular.module('pvta.services', ['ngResource'])
 
 .factory('Info', function(){
   return {
-    versionNum: '0.5.2',
+    versionNum: '0.5.9',
     versionName: 'Beta 2'
   };
 })
@@ -109,7 +109,7 @@ angular.module('pvta.services', ['ngResource'])
     if(routesList.length == 0) return true;
     else return false
   };
-  
+
   return {
     pushEntireList: pushEntireList,
     getEntireList: getEntireList,
@@ -163,7 +163,7 @@ angular.module('pvta.services', ['ngResource'])
         }
         else {
           cb(false);
-        } 
+        }
       }
       else {
         cb(false);
@@ -222,7 +222,7 @@ angular.module('pvta.services', ['ngResource'])
         }
         else {
           cb(false);
-        } 
+        }
       }
       else {
         cb(false);
