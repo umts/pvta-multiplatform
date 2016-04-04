@@ -1,16 +1,14 @@
-angular.module('pvta.controllers').controller('VehicleController', function ($scope, $state, $stateParams, $location, Vehicle, LatLong, Route, KML) {
+angular.module('pvta.controllers').controller('VehicleController', function ($scope, $stateParams, Vehicle, LatLong, $location, KML) {
   var getVehicle = function () {
     $scope.vehicle = Vehicle.get({vehicleId: $stateParams.vehicleId});
   };
-
-  $scope.route = Route.get({routeId: $stateParams.routeId});
 
   getVehicle();
 
   $scope.setCoordinates = function (lat, long) {
     LatLong.push(lat, long);
-    KML.push($scope.route.RouteTraceFilename);
-    $state.go('app.vehicle-map', {vehicleId: $stateParams.vehicleId});
+    KML.push($stateParams.route);
+    $location.path('/app/map/vehicle');
   };
 
   $scope.refresh = function () {
