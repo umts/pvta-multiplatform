@@ -41,7 +41,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     FavoriteRoutes.contains(route, function(bool){
       if(bool) {
         FavoriteRoutes.remove(route);
-      } 
+      }
       else {
         FavoriteRoutes.push(route);
       }
@@ -51,11 +51,11 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   var getHeart = function(){
     FavoriteRoutes.contains(route, function(bool){
       $scope.liked = bool;
-    });  
+    });
   };
 
   $scope.setKML = function(){
-    KML.push(route.ShortName);
+    KML.push(route.RouteTraceFilename);
     _.each($scope.vehicles, function(vehicle){
       LatLong.push(vehicle.Latitude, vehicle.Longitude);
     });

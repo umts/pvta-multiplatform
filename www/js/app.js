@@ -59,13 +59,7 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     }
   })
     .state('app.vehicle', {
-      url: '/vehicles/:vehicleId/:route',
-      params: {
-      // For whatever reason,
-      // squash: true means that
-      // :route is an optional param
-        route: {squash: true}
-      },
+      url: '/vehicles/:vehicleId/:routeId',
       views: {
         'menuContent': {
           templateUrl: 'templates/vehicle.html',
@@ -169,6 +163,9 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
 
   .state('app.vehicle-map', {
     url: '/map/vehicle',
+    params: {
+      vehicleId: {squash: true}
+    },
     views: {
       'menuContent': {
         templateUrl: 'templates/map.html',

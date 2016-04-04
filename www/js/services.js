@@ -312,12 +312,16 @@ angular.module('pvta.services', ['ngResource'])
   var bubbles = [];
   function addMapListener(marker, onClick){
     google.maps.event.addListener(marker, 'click', function () {
-      //this auto-closes any bubbles that may already be open,
-      //so that multiple bubbles aren't open at once
+      //this auto-closes any bubbles that may already be open
+      //when you open another one, so that only one bubble can
+      //be open at once
       _.each(bubbles, function(bubble){
         bubble.close();
         bubbles.pop(bubble);
       });
+      //infobubble is a utility class that is
+      //much more styleable than Google's InfoWindow.
+      //source located in www/bower_components/js-info-bubble
       var infoBubble = new InfoBubble({
         content: onClick,
         borderColor: '#387ef5',
@@ -331,6 +335,14 @@ angular.module('pvta.services', ['ngResource'])
     });
   }
 
+  function addKML (fileName) {
+    var toAdd = 'http://bustracker.pvta.com/infopoint/Resources/Traces/' + fileName;
+    var georssLayer = new google.maps.KmlLayer({
+      url: toAdd
+    });
+    georssLayer.setMap(map);
+  }
+
 
   return {
     placeDesiredMarker: placeDesiredMarker,
@@ -339,7 +351,8 @@ angular.module('pvta.services', ['ngResource'])
       bounds = incomingBounds;
     },
     plotCurrentLocation: plotCurrentLocation,
-    addMapListener: addMapListener
+    addMapListener: addMapListener,
+    addKML: addKML
   }
 })
 
