@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteMapController', function ($scope, $stateParams, $ionicLoading, Map, LatLong, KML, Route, RouteVehicles) {
+angular.module('pvta.controllers').controller('RouteMapController', function ($scope, $stateParams, $ionicLoading, Map, KML, Route) {
   var bounds = new google.maps.LatLngBounds();
 
   var mapOptions = {
@@ -15,7 +15,7 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
     _.each($scope.vehicles, function (vehicle) {
       var color, message;
       var loc = new google.maps.LatLng(vehicle.Latitude, vehicle.Longitude);
-      
+
       //if the vehicle is on time, make the text green. If it's late, make the text red and say late by how much
       if (vehicle.DisplayStatus === 'On Time') {
         color = 'green';
@@ -28,7 +28,7 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
       }
 
       //sets the content of the window to have a ton of information about the vehicle
-      var content = '<div style=\'font-family: Arial;text-align: center\'><h3 style=\'color: #' + $scope.route.Color+ "'>"
+      var content = '<div style=\'font-family: Arial;text-align: center\'><h3 style=\'color: #' + $scope.route.Color + '\'>'
       + $scope.route.ShortName + ': ' + vehicle.Destination + '</h3>' + message + '<h4>Last Stop: ' + vehicle.LastStop + '</h4></div>';
 
       //add a listener for that vehicle with that content as part of the infobubble
