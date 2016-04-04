@@ -18,7 +18,7 @@
             </div>
           </div>
           <div class="list card">
-            <ion-item class="item" ng-repeat="vehicle in vehicles" href="#/app/vehicles/{{vehicle.VehicleId}}/{{route.ShortName}}" style="background-color: #{{route.Color}}">
+            <ion-item class="item" ng-repeat="vehicle in vehicles" href="#/app/vehicles/{{vehicle.VehicleId}}/{{route.RouteId}}" style="background-color: #{{route.Color}}">
               <div class="row" style="font-weight: bold;">
                   <div class="col" ng-if="vehicle.DisplayStatus==='Late'" style="color: red; text-align: center;">
                     Bus {{vehicle.Name}} - {{vehicle.DisplayStatus}}

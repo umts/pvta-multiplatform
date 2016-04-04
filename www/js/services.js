@@ -109,7 +109,7 @@ angular.module('pvta.services', ['ngResource'])
     if(routesList.length == 0) return true;
     else return false
   };
-  
+
   return {
     pushEntireList: pushEntireList,
     getEntireList: getEntireList,
@@ -163,7 +163,7 @@ angular.module('pvta.services', ['ngResource'])
         }
         else {
           cb(false);
-        } 
+        }
       }
       else {
         cb(false);
@@ -222,7 +222,7 @@ angular.module('pvta.services', ['ngResource'])
         }
         else {
           cb(false);
-        } 
+        }
       }
       else {
         cb(false);
@@ -303,19 +303,45 @@ angular.module('pvta.services', ['ngResource'])
   function plotCurrentLocation(cb){
     $cordovaGeolocation.getCurrentPosition(options).then(function(position){
       currentLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      addMapListener(placeDesiredMarker(currentLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'), 'You are here!');
-      if(cb) { cb(currentLocation); }
+      addMapListener(placeDesiredMarker(currentLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'),
+        "<h4 style='color: #387ef5'>You are here!</h4>");
+        if(cb) { cb(currentLocation); }
     }, function(){});
     return currentLocation;
   };
 
+  var bubbles = [];
   function addMapListener(marker, onClick){
     google.maps.event.addListener(marker, 'click', function () {
-            var infoWindow = new google.maps.InfoWindow({
-              content: onClick
-            });
-            infoWindow.open(map, marker);
+      //this auto-closes any bubbles that may already be open
+      //when you open another one, so that only one bubble can
+      //be open at once
+      _.each(bubbles, function(bubble){
+        bubble.close();
+        bubbles.pop(bubble);
+      });
+      //infobubble is a utility class that is
+      //much more styleable than Google's InfoWindow.
+      //source located in www/bower_components/js-info-bubble
+      var infoBubble = new InfoBubble({
+        content: onClick,
+        borderColor: '#387ef5',
+        borderWidth: 3,
+        minWidth: '300px',
+        minHeight: '300px',
+        backgroundColor: 'rgb(255, 250, 252)'
+      });
+      bubbles.push(infoBubble);
+      infoBubble.open(map, marker);
     });
+  }
+
+  function addKML (fileName) {
+    var toAdd = 'http://bustracker.pvta.com/infopoint/Resources/Traces/' + fileName;
+    var georssLayer = new google.maps.KmlLayer({
+      url: toAdd
+    });
+    georssLayer.setMap(map);
   }
 
 
@@ -326,7 +352,8 @@ angular.module('pvta.services', ['ngResource'])
       bounds = incomingBounds;
     },
     plotCurrentLocation: plotCurrentLocation,
-    addMapListener: addMapListener
+    addMapListener: addMapListener,
+    addKML: addKML
   }
 })
 
