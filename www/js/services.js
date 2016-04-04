@@ -323,13 +323,8 @@ angular.module('pvta.services', ['ngResource'])
       //infobubble is a utility class that is
       //much more styleable than Google's InfoWindow.
       //source located in www/bower_components/js-info-bubble
-      var infoBubble = new InfoBubble({
-        content: onClick,
-        borderColor: '#387ef5',
-        borderWidth: 3,
-        minWidth: '300px',
-        minHeight: '300px',
-        backgroundColor: 'rgb(255, 250, 252)'
+      var infoBubble = new google.maps.InfoWindow({
+        content: onClick
       });
       bubbles.push(infoBubble);
       infoBubble.open(map, marker);

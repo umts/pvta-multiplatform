@@ -56,9 +56,6 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
 
   $scope.setKML = function(){
     KML.push(route.RouteTraceFilename);
-    _.each($scope.vehicles, function(vehicle){
-      LatLong.push(vehicle.Latitude, vehicle.Longitude);
-    });
     $state.go('app.route-map', {routeId: $stateParams.routeId});
   };
 
