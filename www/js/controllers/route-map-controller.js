@@ -13,17 +13,15 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
   function placeVehicles () {
   //places every vehicle on said route on the map
     _.each($scope.vehicles, function (vehicle) {
-      var color, message;
+      var message;
       var loc = new google.maps.LatLng(vehicle.Latitude, vehicle.Longitude);
 
       //if the vehicle is on time, make the text green. If it's late, make the text red and say late by how much
       if (vehicle.DisplayStatus === 'On Time') {
-        color = 'green';
-        message = '<h4 style=\'color: ' + color + ';\'>Bus ' + vehicle.Name + ' - ' + vehicle.DisplayStatus + '</h4>';
+        message = '<h4 style=\'color: green;\'>Bus ' + vehicle.Name + ' - ' + vehicle.DisplayStatus + '</h4>';
       }
       else {
-        color = 'red';
-        message = '<h4 style=\'color: ' + color + ';\'>Bus ' + vehicle.Name + ' - ' + vehicle.DisplayStatus
+        message = '<h4 style=\'color: red;\'>Bus ' + vehicle.Name + ' - ' + vehicle.DisplayStatus
           + ' by ' + vehicle.Deviation + ' minutes</h4>';
       }
 
