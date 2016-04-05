@@ -316,18 +316,18 @@ angular.module('pvta.services', ['ngResource'])
       //this auto-closes any bubbles that may already be open
       //when you open another one, so that only one bubble can
       //be open at once
-      _.each(bubbles, function(bubble){
-        bubble.close();
-        bubbles.pop(bubble);
+      _.each(windows, function(window){
+        window.close();
+        window.pop(window);
       });
       //infobubble is a utility class that is
       //much more styleable than Google's InfoWindow.
       //source located in www/bower_components/js-info-bubble
-      var infoBubble = new google.maps.InfoWindow({
+      var infoWindow = new google.maps.InfoWindow({
         content: onClick
       });
-      bubbles.push(infoBubble);
-      infoBubble.open(map, marker);
+      windows.push(infoWindow);
+      infoWindow.open(map, marker);
     });
   }
 
