@@ -104,10 +104,10 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
           _.each(routeAndDepartures.Departures, function (departure) {
             if (!moment(departure.EDT).isAfter(Date.now())) return;
             else {
-             var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
-             departure.Times = times;
-             newDirsWithTimes.Departures.push(departure);
-           }
+              var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
+              departure.Times = times;
+              newDirsWithTimes.Departures.push(departure);
+            }
           });
           if (newDirsWithTimes.Departures.length > 0) {
             $scope.departuresByRoute.push(newDirsWithTimes);

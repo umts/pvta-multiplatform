@@ -310,7 +310,7 @@ angular.module('pvta.services', ['ngResource'])
     return currentLocation;
   };
 
-  var bubbles = [];
+  var windows = [];
   function addMapListener(marker, onClick){
     google.maps.event.addListener(marker, 'click', function () {
       //this auto-closes any bubbles that may already be open
@@ -318,7 +318,7 @@ angular.module('pvta.services', ['ngResource'])
       //be open at once
       _.each(windows, function(window){
         window.close();
-        window.pop(window);
+        windows.pop(window);
       });
       //infobubble is a utility class that is
       //much more styleable than Google's InfoWindow.

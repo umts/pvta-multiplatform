@@ -22,14 +22,14 @@ angular.module('pvta.controllers').controller('VehicleMapController', function (
     Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), content);
   }
 
-  console.log("vehicle" + $stateParams.vehicleId);
+  console.log('vehicle' + $stateParams.vehicleId);
   $scope.$on('$ionicView.enter', function () {
     Map.plotCurrentLocation();
     var fileName = KML.pop();
     if (fileName)
       Map.addKML(fileName);
     vehicle = Vehicle.get({vehicleId: $stateParams.vehicleId}, function () {
-      console.log("yo man");
+      console.log('yo man');
       placeVehicle();
     });
   });
