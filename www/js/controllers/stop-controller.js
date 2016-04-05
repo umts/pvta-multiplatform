@@ -47,8 +47,8 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * pull out its RouteId and Departures array,
          * assuming that it HAS departures and isn't 'done.'
          */
-        var dirs = []
-        _.each(directions, function(direction) {
+        var dirs = [];
+        _.each(directions, function (direction) {
           if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
             var newDirs = {RouteId: direction.RouteId, Departures: direction.Departures};
             dirs.push(newDirs);
@@ -70,8 +70,8 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * an array of routes and their corresponding
          * departures in form [{RouteId, Departures}, ...]
          */
-        var routeDepartures = []
-        _.each(routes, function(route) {
+        var routeDepartures = [];
+        _.each(routes, function (route) {
           //[{RouteId: 20034, Departures[...]},]
           var entireObject = _.where(dirs, {RouteId : route});
           // [[...], [...]]
@@ -99,10 +99,10 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * everything for that route to the final array.
          */
         $scope.departuresByRoute = [];
-        _.each(routeDepartures, function(routeAndDepartures) {
-          var newDirsWithTimes = {RouteId: routeAndDepartures.RouteId, Departures: []}
-          _.each(routeAndDepartures.Departures, function(departure) {
-           if (!moment(departure.EDT).isAfter(Date.now())) return;
+        _.each(routeDepartures, function (routeAndDepartures) {
+          var newDirsWithTimes = {RouteId: routeAndDepartures.RouteId, Departures: []};
+          _.each(routeAndDepartures.Departures, function (departure) {
+            if (!moment(departure.EDT).isAfter(Date.now())) return;
             else {
               var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
               departure.Times = times;
@@ -110,7 +110,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
             }
           });
           if (newDirsWithTimes.Departures.length > 0) {
-              $scope.departuresByRoute.push(newDirsWithTimes);
+            $scope.departuresByRoute.push(newDirsWithTimes);
           }
         });
 
