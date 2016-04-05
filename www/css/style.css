@@ -1,1 +1,15 @@
 /* Empty. Add your own CSS if you like */
+#stop-map {
+  height: 50%;
+}
+
+#directions {
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 50%;
+  float: top;
+  overflow: auto;
+  width: 100%;
+}

@@ -2,7 +2,7 @@ angular.module('pvta.controllers').controller('VehicleMapController', function (
   var bounds = new google.maps.LatLngBounds();
 
   var mapOptions = {
-    center: bounds.getCenter(),
+    center: new google.maps.LatLng(42.386270, -72.525844),
     zoom: 15,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
