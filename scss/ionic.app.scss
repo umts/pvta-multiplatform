@@ -19,7 +19,7 @@ $dark:                            #444 !default;
 $ionicons-font-path: "../bower_components/ionic/fonts" !default;
 
 // Include all of Ionic
-@import 
+@import
   "www/bower_components/ionic/scss/ionic",
   "www/bower_components/ionic-filter-bar/scss/ionic.filter.bar.scss";
 
@@ -33,7 +33,7 @@ $ionicons-font-path: "../bower_components/ionic/fonts" !default;
 }
 
 .list .item.item-accordion {
-  line-height: 10px;
+  line-height: 15px;
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -50,7 +50,7 @@ $ionicons-font-path: "../bower_components/ionic/fonts" !default;
 .route {
   border-radius: 10px;
   margin-bottom: 10px;
-  
+
   font-weight: bold;
   overflow: hidden;
 }
