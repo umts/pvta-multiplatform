@@ -139,10 +139,7 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
    })
 
   .state('app.route-map', {
-    url: '/map/route',
-    params: {
-      routeId: {squash: true}
-    },
+    url: '/map/route/:routeId',
     views: {
       'menuContent': {
         templateUrl: 'templates/map.html',
@@ -162,7 +159,7 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
   })
 
   .state('app.vehicle-map', {
-    url: '/map/vehicle',
+    url: '/map/vehicle/:vehicleId',
     views: {
       'menuContent': {
         templateUrl: 'templates/map.html',
