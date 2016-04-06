@@ -38,7 +38,7 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
     }, function (err) {
       console.log('error finding position: ' + JSON.stringify(err));
       StopsForage.get().then(function (stops) {
-        stops = StopsForage.uniq(stops)
+        stops = StopsForage.uniq(stops);
         StopsForage.save(stops);
         prepareStops(stops);
         $ionicLoading.hide();
