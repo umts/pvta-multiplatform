@@ -114,6 +114,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   $scope.$on('$ionicView.enter', function(){
     getHeart();
     getVehicles();
+    initMap();
     mapVehicles();
     addKML(route.ShortName);
   });
