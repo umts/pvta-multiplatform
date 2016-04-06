@@ -47,8 +47,8 @@ angular.module('pvta.services', ['ngResource'])
 .factory('Info', function(){
   return {
 
-    versionNum: '0.5.9',
-    versionName: 'Beta 2'
+    versionNum: '0.6.0',
+    versionName: 'Beta 3'
   };
 })
 
@@ -243,7 +243,7 @@ angular.module('pvta.services', ['ngResource'])
   var loadedTrip = null;
   var lastPoppedIndex = 0;
   var push = function(index) {
-    lastPoppedIndex = index; 
+    lastPoppedIndex = index;
     loadedTrip = trips[index];
   };
 
@@ -263,7 +263,7 @@ angular.module('pvta.services', ['ngResource'])
       if (value === null){
         console.log("No trips loaded");
         callback([]);
-        return; 
+        return;
       }
       trips = JSON.parse(value);
       for (var i = 0; i<trips.length; i=i+1) {
@@ -302,7 +302,7 @@ angular.module('pvta.services', ['ngResource'])
     localforage.setItem('savedTrips', JSON.stringify(trips), function(err, value) {
       if (err!== null) console.log("Error saving trips.");
     });
-  }; 
+  };
 
   return {
     getAll: getAll,
@@ -311,7 +311,7 @@ angular.module('pvta.services', ['ngResource'])
       set: set,
       add: add,
       remove: remove
-  }; 
+  };
 })
 
 .factory('KML', function(){
