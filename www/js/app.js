@@ -108,6 +108,16 @@ controller: 'StopsController'
 }
 })
 
+.state('app.storage-settings', {
+  url: '/settings/storage',
+  views: {
+    menuContent: {
+      templateUrl: 'templates/storage-settings.html',
+      controller: 'SettingsController'
+    }
+  }
+})
+
 .state('app.settings', {
   url: '/settings',
   views: {
