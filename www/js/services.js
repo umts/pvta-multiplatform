@@ -46,8 +46,9 @@ angular.module('pvta.services', ['ngResource'])
 
 .factory('Info', function(){
   return {
-    versionNum: '0.5.2',
-versionName: 'Beta 2'
+
+    versionNum: '0.5.9',
+    versionName: 'Beta 2'
   };
 })
 
@@ -163,7 +164,7 @@ versionName: 'Beta 2'
         }
         else {
           cb(false);
-        } 
+        }
       }
       else {
         cb(false);
@@ -222,7 +223,7 @@ versionName: 'Beta 2'
         }
         else {
           cb(false);
-        } 
+        }
       }
       else {
         cb(false);
@@ -357,10 +358,11 @@ getAll: function(){
   };
 })
 
-.service('Map', function($cordovaGeolocation){
+.factory('Map', function($cordovaGeolocation){
 
   var map;
   var bounds;
+  var currentLocation;
   var options = {timeout: 5000, enableHighAccuracy: true};
 
   function placeDesiredMarker(location, icon){
@@ -375,31 +377,71 @@ getAll: function(){
     return neededMarker;
   };
 
-  function plotCurrentLocation(){
-    var currentLocation = $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-      var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      addMapListener(placeDesiredMarker(myLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'), 'You are here!');
-    }, function(error){});
-  }
+  function plotCurrentLocation(cb){
+    $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+      currentLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      addMapListener(placeDesiredMarker(currentLocation, 'http://www.google.com/mapfiles/kml/paddle/red-circle.png'),
+        "<h4 style='color: #387ef5'>You are here!</h4>");
+        if(cb) { cb(currentLocation); }
+    }, function(){});
+    return currentLocation;
+  };
 
+  var windows = [];
   function addMapListener(marker, onClick){
     google.maps.event.addListener(marker, 'click', function () {
+<<<<<<< HEAD
       var infoWindow = new google.maps.InfoWindow({
         content: onClick
       });
       infoWindow.open(map, marker);
+=======
+      //this auto-closes any bubbles that may already be open
+      //when you open another one, so that only one bubble can
+      //be open at once
+      _.each(windows, function(window){
+        window.close();
+        windows.pop(window);
+      });
+      //infobubble is a utility class that is
+      //much more styleable than Google's InfoWindow.
+      //source located in www/bower_components/js-info-bubble
+      var infoWindow = new google.maps.InfoWindow({
+        content: onClick
+      });
+      windows.push(infoWindow);
+      infoWindow.open(map, marker);
     });
+  }
+
+  function addKML (fileName) {
+    var toAdd = 'http://bustracker.pvta.com/infopoint/Resources/Traces/' + fileName;
+    var georssLayer = new google.maps.KmlLayer({
+      url: toAdd
+>>>>>>> 9234aae5f00164d272b96bdfb77e93c9db4e881e
+    });
+    georssLayer.setMap(map);
   }
 
 
   return {
     placeDesiredMarker: placeDesiredMarker,
+<<<<<<< HEAD
       init: function(incomingMap, incomingBounds){
         map = incomingMap;
         bounds = incomingBounds;
       },
       plotCurrentLocation: plotCurrentLocation,
       addMapListener: addMapListener
+=======
+    init: function(incomingMap, incomingBounds){
+      map = incomingMap;
+      bounds = incomingBounds;
+    },
+    plotCurrentLocation: plotCurrentLocation,
+    addMapListener: addMapListener,
+    addKML: addKML
+>>>>>>> 9234aae5f00164d272b96bdfb77e93c9db4e881e
   }
 })
 
@@ -440,7 +482,7 @@ getAll: function(){
       list: routes,
       time: moment()
     }
-    localforage.setItem('routes', toForage, function(err, val){if (err) console.log(err)});
+    localforage.setItem('routes', toForage, function(err, val){if (err) console.log("localforage routes saving error: "+err)});
   }
   return {
     get: getRouteList,
@@ -478,10 +520,20 @@ getAll: function(){
       list: stops,
       time: moment()
     };
-    localforage.setItem('stops', toForage, function(err, val){if (err)console.log(err); else console.log('done')});
+    localforage.setItem('stops', toForage, function(err, val){if (err)console.log("localforage stops saving error: "+err); else console.log('done')});
+  }
+  function uniq(stops) {
+    return _.uniq(stops, false, function (stop) {
+      return stop.StopId;
+    });
   }
   return {
     get: getStopList,
+<<<<<<< HEAD
       save: saveStopList
+=======
+    save: saveStopList,
+    uniq: uniq
+>>>>>>> 9234aae5f00164d272b96bdfb77e93c9db4e881e
   };
 })

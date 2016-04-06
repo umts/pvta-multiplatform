@@ -40,39 +40,43 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
   })
 
 
-.state('app.my-buses', {
-  url: '/my-buses',
-views: {
-  'menuContent': {
-    templateUrl: 'templates/mybuses.html',
-controller: 'MyBusesController'
-  }
-}
-})
-.state('app.search', {
-  url: '/search',
-views: {
-  'menuContent': {
-    templateUrl: 'templates/search.html',
-controller: 'SearchController'
-  }
-}
-})
-.state('app.vehicle', {
-  url: '/vehicles/:vehicleId/:route',
-  params: {
-  // For whatever reason,
-  // squash: true means that
-  // :route is an optional param
-    route: {squash: true}
-  },
-views: {
-  'menuContent': {
-    templateUrl: 'templates/vehicle.html',
-controller: 'VehicleController'
-  }
-}
-})
+  .state('app.my-buses', {
+    url: '/my-buses',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/mybuses.html',
+        controller: 'MyBusesController'
+      }
+    }
+  })
+  .state('app.search', {
+    url: '/search',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/search.html',
+        controller: 'SearchController'
+      }
+    }
+  })
+    .state('app.vehicle', {
+      url: '/vehicles/:vehicleId/:routeId',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/vehicle.html',
+          controller: 'VehicleController'
+        }
+      }
+    })
+
+  .state('app.routes', {
+    url: '/routes',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/routes.html',
+        controller: 'RoutesController'
+      }
+    }
+  })
 
 .state('app.routes', {
   url: '/routes',
@@ -124,16 +128,6 @@ controller: 'StopsController'
   }
 })
 
-.state('app.map', {
-  url: '/map',
-views: {
-  'menuContent': {
-    templateUrl: 'templates/map.html',
-controller: 'MapController'
-  }
-}
-})
-
 .state('app.plan-trip', {
   url: '/plan-trip',
 views: {
@@ -143,56 +137,45 @@ controller: 'PlanTripController'
   }
 }
 })
-// if none of the above states are matched, use this as the fallback
-.state('app.storage-settings', {
-  url: '/settings/storage',
-views: {
-  menuContent: {
-                 templateUrl: 'templates/storage-settings.html',
-controller: 'StorageSettingsController'
-               }
-}
-})
+   .state('app.about', {
+     url: '/about',
+     views: {
+       'menuContent': {
+         templateUrl: 'templates/about.html',
+         controller: 'AboutController'
+       }
+     }
+   })
 
-.state('app.about', {
-  url: '/about',
-views: {
-  'menuContent': {
-    templateUrl: 'templates/about.html',
-controller: 'AboutController'
-  }
-}
-})
+  .state('app.route-map', {
+    url: '/map/route/:routeId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/map.html',
+        controller: 'RouteMapController'
+      }
+    }
+  })
 
-.state('app.route-map', {
-  url: '/map/route',
-views: {
-  'menuContent': {
-    templateUrl: 'templates/map.html',
-controller: 'RouteMapController'
-  }
-}
-})
+  .state('app.stop-map', {
+    url: '/map/stop',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/stop-map.html',
+        controller: 'StopMapController'
+      }
+    }
+  })
 
-.state('app.stop-map', {
-  url: '/map/stop',
-views: {
-  'menuContent': {
-    templateUrl: 'templates/map.html',
-controller: 'StopMapController'
-  }
-}
-})
-
-.state('app.vehicle-map', {
-  url: '/map/vehicle',
-views: {
-  'menuContent': {
-    templateUrl: 'templates/map.html',
-controller: 'VehicleMapController'
-  }
-}
-});
-// if none of the above states are matched, use this as the fallback
-$urlRouterProvider.otherwise('/app/my-buses');
+  .state('app.vehicle-map', {
+    url: '/map/vehicle/:vehicleId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/map.html',
+        controller: 'VehicleMapController'
+      }
+    }
+  });
+  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/app/my-buses');
 });

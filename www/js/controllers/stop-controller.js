@@ -1,16 +1,26 @@
 angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong, FavoriteStops, SimpleRoute) {
+
+  // For a given RouteId, downloads the simplest
+  // version of the details for that route from
+  // Avail.  Adds it to a $scope-wide list.
+  // Returns nothing.
   $scope.getRoute = function (id) {
     var x = SimpleRoute.get({routeId: id}, function () {
       $scope.routeList[id] = (x);
     });
   };
-
+  // Calls getRoute() for each RouteId in
+  // the input array.
+  // Ex input: [20030, 30031, 20035]
   var getRoutes = function (routes) {
-    _.each(routes, function (route) {
-      $scope.getRoute(route.RouteId);
+    _.each(routes, function (routeId) {
+      $scope.getRoute(routeId);
     });
   };
 
+  // Check whether this stop is favorited.
+  // Used to allow the 'heart' in the view
+  // to draw itself accordingly.
   var getHeart = function () {
     FavoriteStops.contains($scope.stop, function (bool) {
       $scope.liked = bool;
@@ -18,30 +28,102 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   };
 
   $scope.getDepartures = function () {
+    $scope.departuresByRoute = [];
     var routes = [];
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function () {
       if (deps) {
+        // Avail returns a one element array that contains
+        // a ton of stuff. Pull this stuff out.
         var directions = deps[0].RouteDirections;
-        $scope.directions = [];
+        /* Step 0:
+         * Get a unique list of RouteIds that service this stop.
+         * There can be multiple RouteDirections with the same
+         * RouteId, so thus the uniqueness requirement.
+         */
+        routes = _.uniq(_.pluck(directions, 'RouteId'));
+
+        /* Step 1:
+         * For each RouteDirection,
+         * pull out its RouteId and Departures array,
+         * assuming that it HAS departures and isn't 'done.'
+         */
+        var dirs = [];
         _.each(directions, function (direction) {
-          if (direction.Departures.length !== 0 && !direction.IsDone) {
-            var dir = {RouteId: direction.RouteId, departures: []};
-            routes.push(direction.RouteId);
-            _.each(direction.Departures, function (departure) {
-              if (moment(departure.EDT).fromNow().includes('ago')) return;
-              else {
-                var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
-                departure.Times = times;
-                dir.departures.push(departure);
-              }
-            });
-            $scope.directions.push(dir);
+          if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
+            var newDirs = {RouteId: direction.RouteId, Departures: direction.Departures};
+            dirs.push(newDirs);
           }
-        }); // end underscore.each
-        getRoutes($scope.directions);
+        });
+        /* Step 2:
+         * For each RouteId, find all the departures
+         * (obtained in Step 1) whose RouteDirection matches this Id.
+         * This obtains an array of Departure arrays
+         *    (this root array has one element when
+         *       there's only 1 RouteDirection for a RouteId, but has
+         *       n elements for each RouteId that has n RouteDirections
+         *    ), so "flatten" it down to a single array.
+         * Assuming this array of departures exists and
+         * actually HAS departures, we have now
+         * found every known departure for this route.
+         *
+         * The routeDepartures variable will contain
+         * an array of routes and their corresponding
+         * departures in form [{RouteId, Departures}, ...]
+         */
+        var routeDepartures = [];
+        _.each(routes, function (route) {
+          //[{RouteId: 20034, Departures[...]},]
+          var entireObject = _.where(dirs, {RouteId : route});
+          // [[...], [...]]
+          var justDepartures = _.pluck(entireObject, 'Departures');
+          // [, , , ]
+          var flattenedDepartures = _.flatten(justDepartures, true);
+          if (flattenedDepartures && flattenedDepartures.length > 0) {
+            var newDir = {RouteId: route, Departures: flattenedDepartures};
+            routeDepartures.push(newDir);
+          }
+        });
+        /* Step 3:
+         * We now have an array of {RouteId, Departure}
+         * objects. We now get "stringified" times for each departure.
+         * We define a new object ($scope.departuresByRoute) to hold
+         * our final data.
+         * For each route, loop through its departures.
+         * For each departure:
+         *    If it was estimated in the past:
+                do not add it to the final array.
+         *    Otherwise:
+                Stringify its times, add them to the
+                  original Departure object
+         * Now that a route has its departures stringified, push
+         * everything for that route to the final array.
+         */
+        $scope.departuresByRoute = [];
+        _.each(routeDepartures, function (routeAndDepartures) {
+          var newDirsWithTimes = {RouteId: routeAndDepartures.RouteId, Departures: []};
+          _.each(routeAndDepartures.Departures, function (departure) {
+            if (!moment(departure.EDT).isAfter(Date.now())) return;
+            else {
+              var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
+              departure.Times = times;
+              newDirsWithTimes.Departures.push(departure);
+            }
+          });
+          if (newDirsWithTimes.Departures.length > 0) {
+            $scope.departuresByRoute.push(newDirsWithTimes);
+          }
+        });
+
+
+        /* Step 4:
+         * Download some details (name, color, etc) for each
+         * route that has upcoming departures at this stop.
+         */
+        getRoutes(_.pluck($scope.departuresByRoute, 'RouteId'));
       } // end highest if
     });
   }; // end getDepartures
+
   var stop = Stop.get({stopId: $stateParams.stopId}, function () {
     stop.$save;
     getHeart();
@@ -65,6 +147,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         if (value <= 1000) {
           value = 30000;
         }
+        // Refresh departures every `value` seconds
         timer = $interval(function () {
           $scope.getDepartures();
         }, value);
@@ -86,12 +169,16 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     $interval.cancel(timer);
   });
 
+  // Push the coordinates of the stop to
+  // the service and redirect to the
+  // StopMapController.
   $scope.setCoordinates = function (lat, long) {
     LatLong.push(lat, long);
     $interval.cancel(timer);
     $location.path('/app/map/stop');
   };
 
+  // Update whether this Stop is favorited.
   $scope.toggleHeart = function () {
     FavoriteStops.contains($scope.stop, function (bool) {
       if (bool) {
@@ -102,12 +189,17 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
       }
     });
   };
-  $scope.routeList = {};
 
+  $scope.routeList = {};
+  // Executed when the "pull to refresh" directive
+  // in the view is activated
   $scope.refresh = function () {
     $scope.getDepartures();
     $scope.$broadcast('scroll.refreshComplete');
   };
+
+  // **Sets** whether a route's
+  // departures have been expanded on the page
   $scope.toggleGroup = function (group) {
     if ($scope.isGroupShown(group)) {
       $scope.shownGroup = null;
@@ -115,6 +207,8 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
       $scope.shownGroup = group;
     }
   };
+  // **Checks** whether a route's departures
+  // have been expanded on the page
   $scope.isGroupShown = function (group) {
     return $scope.shownGroup === group;
   };

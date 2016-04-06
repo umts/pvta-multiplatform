@@ -3,80 +3,77 @@
   <ion-nav-buttons side="secondary">
     <button id="like"  ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}" ng-click="liked= !liked; toggleHeart(liked)"></button>
   </ion-nav-buttons>
-  <ion-content>
+  <ion-content style="margin-bottom: 2%">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
       <div class="item-text-wrap">
         <h2 class="item" style="text-align: center; font-size: 150%">{{route.LongName}}</h2>
       </div>
-      <div class="item item-body">
-        <h2 style="text-align:center;">Buses currently on the {{route.ShortName}}:</h2>
+      <div class="bar bar-positive">
+        <h1 class="title">Buses currently on the {{route.ShortName}}:</h1>
+      </div>
+      <div style="padding-top: 40px;">
         <ion-list>
-          <div ng-if="vehicles.length === 0">
-            <div style="text-align:center;">
-              None
-              <i class="icon ion-thumbsdown"></i>
+          <div ng-if="vehicles.length === 0" style="text-align:center;">
+            None
+            <i class="icon ion-thumbsdown"></i>
+          </div>
+          <ion-item class="item" ng-repeat="vehicle in vehicles" href="#/app/vehicles/{{vehicle.VehicleId}}/{{route.ShortName}}">
+            <div class="row item-text-wrap" style="font-weight: bold;">
+                <div class="col" ng-if="vehicle.DisplayStatus==='On Time'" style="color: green; text-align: center;">
+                  {{vehicle.DisplayStatus}}
+                </div>
             </div>
-          </div>
-          <div class="list card">
-            <ion-item class="item" ng-repeat="vehicle in vehicles" href="#/app/vehicles/{{vehicle.VehicleId}}/{{route.ShortName}}" style="background-color: #{{route.Color}}">
-              <div class="row" style="font-weight: bold;">
-                  <div class="col" ng-if="vehicle.DisplayStatus==='Late'" style="color: red; text-align: center;">
-                    Bus {{vehicle.Name}} - {{vehicle.DisplayStatus}}
-                  </div>
-                  <div class="col" ng-if="vehicle.DisplayStatus==='On Time'" style="color: green; text-align: center;">
-                    Bus {{vehicle.Name}} - {{vehicle.DisplayStatus}}
-                  </div>
+            <div class="row item-text-wrap" ng-if="vehicle.DisplayStatus === 'Late'">
+              <div class="col" style="text-align: center; color: red">
+                Late by {{vehicle.Deviation}} minutes
               </div>
-              <div class="row item-text-wrap" ng-if="vehicle.DisplayStatus === 'Late'">
-                <div class="col" style="text-align: center; color: red">
-                  Late by {{vehicle.Deviation}} minutes
-                </div>
+            </div>
+            <div class="row">
+              <div class="col item-text-wrap" style="text-align: center;">
+                Headed toward <b>{{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b>
+              </div >
+            </div>
+            <div class="row item-text-wrap">
+              <div class="col" style="text-align: center;">
+                Last Stop: <b>{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</b>
               </div>
-              <div class="row">
-                <div class="col item-text-wrap" style="text-align: center;">
-                  Headed {{vehicle.Direction? vehicle.Direction : "in an ungiven direction"}}
-                  toward <b>{{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b>
-                </div >
-              </div>
-              <div class="row item-text-wrap">
-                <div class="col" style="text-align: center;">
-                  Last Stop: <b>{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</b>
-                </div>
-              </div>
-            </ion-item>
-          </div>
-       </ion-list>
-       <div class="list card" style="text-align: center;" ng-if="messages.length !== 0">
-         <h2>Active alerts for the {{route.ShortName}}:</h2>
-         <ion-list>
-           <ion-item class=item ng-repeat="item in messages">
-             <div class="row item-text-wrap">
-               {{item.Message}}
-             </div>
-           </ion-item>
-         </ion-list>
-       </div>
-       <div class="list card">
-        <ion-list>
-          <ion-item class="item" ng-click="toggleGroup(stops)" ng-class="{active: isGroupShown(stops)}">
-            <div style="text-align:center;">
-              <i class="icon" ng-class="isGroupShown(stops) ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'" style="margin-right: 10px;"></i>
-              <span>Stops on the {{route.ShortName}}</span>
             </div>
           </ion-item>
-          <ion-scroll zooming="false" direction="y" style="width:100%; height: 200px;" ng-show="isGroupShown(stops)">
-            <ion-item ng-repeat="item in stops | orderBy: '+Name'">
-              {{item.Name}}
-            </ion-item>
-          </ion-scroll>
-        </ion-list>
-      </div>
+       </ion-list>
+     </div>
+     <!-- Container div for the alerts -->
+     <div class="bar bar-assertive" ng-if="messages.length > 0">
+      <h1 class="title">Alerts for the {{route.ShortName}}</h1>
+    </div>
+    <div style="padding-top:40px;">
+      <ion-list>
+        <ion-item class=item ng-repeat="item in messages">
+          <div class="row item-text-wrap">
+            {{item.Message}}
+          </div>
+        </ion-item>
+      </ion-list>
+    </div>
+
+     <div class="list card" style="margin-bottom: 205px;">
+      <ion-list>
+        <ion-item class="item" ng-click="toggleGroup(stops)" ng-class="{active: isGroupShown(stops)}">
+          <div style="text-align:center;">
+            <i class="icon" ng-class="isGroupShown(stops) ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'" style="margin-right: 10px;"></i>
+            <span>Stops on the {{route.ShortName}}</span>
+          </div>
+        </ion-item>
+        <ion-scroll zooming="false" direction="y" style="width:100%; height: 200px;" ng-show="isGroupShown(stops)">
+          <ion-item ng-repeat="item in stops | orderBy: '+Name'" href="#/app/stops/{{item.StopId}}">
+            {{item.Name}}
+          </ion-item>
+        </ion-scroll>
+      </ion-list>
     </div>
   </ion-content>
   <ion-footer-bar class="bar-positive">
-    <a class="button col-offset-50" ng-click="setKML()">
-      <i class="icon ion-ios-location"></i>
+    <button class="button icon-center ion-ios-location title" ng-click="setKML()">
       Map This Route
-    </a>
+    </button>
   </ion-footer-bar>
 </ion-view>

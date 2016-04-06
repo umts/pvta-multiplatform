@@ -31,16 +31,17 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
     $cordovaGeolocation.getCurrentPosition({timeout: 3000}).then(function (position) {
       StopsForage.get(position.coords.latitude, position.coords.longitude).then(function (stops) {
         StopsForage.save(stops);
+        stops = StopsForage.uniq(stops);
         $ionicLoading.hide();
         prepareStops(stops);
       });
     }, function (err) {
-      console.log(JSON.stringify(err));
-      console.log('couldnt find position, oh no');
+      console.log('error finding position: ' + JSON.stringify(err));
       StopsForage.get().then(function (stops) {
+        stops = StopsForage.uniq(stops);
         StopsForage.save(stops);
-        $ionicLoading.hide();
         prepareStops(stops);
+        $ionicLoading.hide();
       });
     });
 
@@ -52,14 +53,6 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
                         });
       }
     }
-    var vehicles = $resource('http://bustracker.pvta.com/infopoint/rest/vehicles/getallvehicles').query({}, function () {
-      for (var i = 0; i < vehicles.length; i++) {
-        $scope.all.push({name: vehicles[i].Name,
-                        type: 'vehicle',
-                        id: vehicles[i].VehicleId
-                        });
-      }
-    });
   }
   getItems();
   $scope.showFilterBar = function () {
