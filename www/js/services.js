@@ -390,12 +390,6 @@ getAll: function(){
   var windows = [];
   function addMapListener(marker, onClick){
     google.maps.event.addListener(marker, 'click', function () {
-<<<<<<< HEAD
-      var infoWindow = new google.maps.InfoWindow({
-        content: onClick
-      });
-      infoWindow.open(map, marker);
-=======
       //this auto-closes any bubbles that may already be open
       //when you open another one, so that only one bubble can
       //be open at once
@@ -418,7 +412,6 @@ getAll: function(){
     var toAdd = 'http://bustracker.pvta.com/infopoint/Resources/Traces/' + fileName;
     var georssLayer = new google.maps.KmlLayer({
       url: toAdd
->>>>>>> 9234aae5f00164d272b96bdfb77e93c9db4e881e
     });
     georssLayer.setMap(map);
   }
@@ -426,14 +419,6 @@ getAll: function(){
 
   return {
     placeDesiredMarker: placeDesiredMarker,
-<<<<<<< HEAD
-      init: function(incomingMap, incomingBounds){
-        map = incomingMap;
-        bounds = incomingBounds;
-      },
-      plotCurrentLocation: plotCurrentLocation,
-      addMapListener: addMapListener
-=======
     init: function(incomingMap, incomingBounds){
       map = incomingMap;
       bounds = incomingBounds;
@@ -441,7 +426,6 @@ getAll: function(){
     plotCurrentLocation: plotCurrentLocation,
     addMapListener: addMapListener,
     addKML: addKML
->>>>>>> 9234aae5f00164d272b96bdfb77e93c9db4e881e
   }
 })
 
@@ -529,11 +513,7 @@ getAll: function(){
   }
   return {
     get: getStopList,
-<<<<<<< HEAD
-      save: saveStopList
-=======
     save: saveStopList,
     uniq: uniq
->>>>>>> 9234aae5f00164d272b96bdfb77e93c9db4e881e
   };
 })
