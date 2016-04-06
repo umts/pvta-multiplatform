@@ -6,7 +6,7 @@
 // 'pvta.controllers' is found in controllers.js
 angular.module('pvta.controllers', ['pvta.services']);
 
-angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore'])
+angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore', 'ion-datetime-picker'])
 
 .run(function ($ionicPlatform) {
   $ionicPlatform.ready(function () {
@@ -18,25 +18,25 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     }
   });
   /******************************************************
-  * Set the status bar color to our app's color.
-  *********************************************************
-  * Only after the device has specifically told us it's ready
-  * may we access the global StatusBar object.
-  * **************************************************/
+   * Set the status bar color to our app's color.
+   *********************************************************
+   * Only after the device has specifically told us it's ready
+   * may we access the global StatusBar object.
+   * **************************************************/
   document.addEventListener('deviceready', onDeviceReady, true);
   function onDeviceReady () {
     StatusBar.backgroundColorByHexString('#387ef5');
   }
 })
 
-.config(function ($stateProvider, $urlRouterProvider, $ionicFilterBarConfigProvider) {
+.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider
 
   .state('app', {
     url: '/app',
-    abstract: true,
-    templateUrl: 'templates/menu.html',
-    controller: 'AppController'
+  abstract: true,
+  templateUrl: 'templates/menu.html',
+  controller: 'AppController'
   })
 
 
@@ -78,56 +78,65 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     }
   })
 
-  .state('app.route', {
-    url: '/routes/:routeId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/route.html',
-        controller: 'RouteController'
-      }
-    }
-  })
+.state('app.route', {
+  url: '/routes/:routeId',
+views: {
+  'menuContent': {
+    templateUrl: 'templates/route.html',
+controller: 'RouteController'
+  }
+}
+})
 
-  .state('app.stop', {
-    url: '/stops/:stopId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/stop.html',
-        controller: 'StopController'
-      }
-    }
-  })
+.state('app.stop', {
+  url: '/stops/:stopId',
+views: {
+  'menuContent': {
+    templateUrl: 'templates/stop.html',
+controller: 'StopController'
+  }
+}
+})
 
-  .state('app.stops', {
-    url: '/stops',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/stops.html',
-        controller: 'StopsController'
-      }
-    }
-  })
+.state('app.stops', {
+  url: '/stops',
+views: {
+  'menuContent': {
+    templateUrl: 'templates/stops.html',
+controller: 'StopsController'
+  }
+}
+})
 
-  .state('app.settings', {
-    url: '/settings',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/settings.html',
-        controller: 'SettingsController'
-      }
+.state('app.storage-settings', {
+  url: '/settings/storage',
+  views: {
+    menuContent: {
+      templateUrl: 'templates/storage-settings.html',
+      controller: 'SettingsController'
     }
-  })
+  }
+})
 
-  .state('app.storage-settings', {
-    url: '/settings/storage',
-    views: {
-      menuContent: {
-        templateUrl: 'templates/storage-settings.html',
-        controller: 'StorageSettingsController'
-      }
+.state('app.settings', {
+  url: '/settings',
+  views: {
+    'menuContent': {
+      templateUrl: 'templates/settings.html',
+      controller: 'SettingsController'
     }
-  })
+  }
+})
 
+.state('app.plan-trip', {
+  url: '/plan-trip',
+views: {
+  'menuContent': {
+    templateUrl: 'templates/plan-trip.html',
+controller: 'PlanTripController'
+  }
+}
+})
    .state('app.about', {
      url: '/about',
      views: {

@@ -31,6 +31,17 @@
           <i class="icon ion-ios-location" style="margin-right: 10px"></i>
           {{stop.Name}}
         </div>
+        </ion-item>
+      <div class="item item-divider item-positive">Your Trips</div>
+      <div ng-if="!trips.length" class="no-results">
+        You have no planned trips!
+      </div>
+      <ion-item class="item item-text-wrap" ng-repeat="trip in trips track by $index" ng-click="openTrip($index)">
+      <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeTrip($index)"></ion-option-button>
+      <div class="item-icon-left">
+              <i class="icon ion-map" style="margin-right: 10px"></i>
+              {{trip.name}}
+      </div>
       </ion-item>
       <div ng-if="messages.length > 0">
         <div class="item item-divider item-assertive" style="text-align:center">Active Alerts</div>

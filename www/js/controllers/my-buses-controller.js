@@ -1,10 +1,13 @@
-angular.module('pvta.controllers').controller('MyBusesController', function ($scope, Messages, FavoriteRoutes, FavoriteStops) {
+angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips) {
   var reload = function () {
     localforage.getItem('favoriteRoutes', function (err, value) {
       $scope.routes = value;
     });
     localforage.getItem('favoriteStops', function (err, value) {
       $scope.stops = value;
+    });
+    Trips.getAll(function (savedTrips) {
+      $scope.trips = savedTrips;
     });
   };
 
@@ -29,4 +32,16 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     FavoriteStops.remove(stop);
     $scope.stops.splice(currentIndex, 1);
   };
+
+  $scope.removeTrip = function (index) {
+    Trips.remove(index);
+    $scope.trips.splice(index, 1);
+  };
+
+  $scope.openTrip = function (index) {
+    Trips.push(index);
+    $location.path('app/plan-trip');
+  };
+
+
 });
