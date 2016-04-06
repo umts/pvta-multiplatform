@@ -176,7 +176,6 @@ $scope.route = function () {
   $scope.route.departureTime = null;
   $scope.route.origin = null;
   $scope.route.destination = null;
-  console.log($scope.params);
 
   if (!$scope.params.origin.id || !$scope.params.destination.id) {
     return;
