@@ -44,8 +44,8 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
           return stop.StopId;
         });
         StopsForage.save(stops);
-        $ionicLoading.hide();
         prepareStops(stops);
+        $ionicLoading.hide();
       });
     });
 
