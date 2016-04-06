@@ -176,6 +176,7 @@ $scope.route = function () {
   $scope.route.departureTime = null;
   $scope.route.origin = null;
   $scope.route.destination = null;
+  console.log($scope.params);
 
   if (!$scope.params.origin.id || !$scope.params.destination.id) {
     return;
@@ -183,12 +184,15 @@ $scope.route = function () {
   transitOptions = {
     modes: [google.maps.TransitMode.BUS]
   };
-  if ($scope.params.time.type === 'departure') {
-    transitOptions['departureTime'] = $scope.params.time.datetime;
+  if (!$scope.params.time.asap) {
+    if ($scope.params.time.type === 'departure') {
+      transitOptions['departureTime'] = $scope.params.time.datetime;
+    }
+    else {
+      transitOptions['arrivalTime'] = $scope.params.time.datetime;
+    }
   }
-  else {
-    transitOptions['arrivalTime'] = $scope.params.time.datetime;
-  }
+  else transitOptions = {};
   $scope.directionsService.route({
     origin: {'placeId': $scope.params.origin.id},
     destination: {'placeId': $scope.params.destination.id},
