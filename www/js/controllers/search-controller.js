@@ -31,17 +31,17 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
     $cordovaGeolocation.getCurrentPosition({timeout: 3000}).then(function (position) {
       StopsForage.get(position.coords.latitude, position.coords.longitude).then(function (stops) {
         StopsForage.save(stops);
-        stops = _.uniq(stops, false, function(stop) {
-          return stop.StopId
+        stops = _.uniq(stops, false, function (stop) {
+          return stop.StopId;
         });
         $ionicLoading.hide();
         prepareStops(stops);
       });
     }, function (err) {
-      console.log("error finding position: "+JSON.stringify(err));
+      console.log("error finding position: " + JSON.stringify(err));
       StopsForage.get().then(function (stops) {
-        stops = _.uniq(stops, false, function(stop) {
-          return stop.StopId
+        stops = _.uniq(stops, false, function (stop) {
+          return stop.StopId;
         });
         StopsForage.save(stops);
         $ionicLoading.hide();
