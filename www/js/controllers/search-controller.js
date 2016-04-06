@@ -38,7 +38,7 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
         prepareStops(stops);
       });
     }, function (err) {
-      console.log("error finding position: " + JSON.stringify(err));
+      console.log('error finding position: ' + JSON.stringify(err));
       StopsForage.get().then(function (stops) {
         stops = _.uniq(stops, false, function (stop) {
           return stop.StopId;
