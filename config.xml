@@ -7,7 +7,7 @@
   <author email="transit-it@umass.edu" href="http://umass.edu/bus">
       UMass Transit
     </author>
-  <content src="http://172.30.236.74:8100" original-src="index.html"/>
+  <content src="index.html"/>
   <access origin="*"/>
   <access origin="mailto:*" launch-external="yes"/>
   <preference name="webviewbounce" value="false"/>
