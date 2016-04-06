@@ -427,7 +427,7 @@ angular.module('pvta.services', ['ngResource'])
       list: stops,
       time: moment()
     };
-    localforage.setItem('stops', toForage, function(err, val){if (err)console.log("localforage save stops error: "+err); else console.log('done')});
+    localforage.setItem('stops', toForage, function(err, val){if (err)console.log("localforage stops saving error: "+err); else console.log('done')});
   }
   return {
     get: getStopList,
