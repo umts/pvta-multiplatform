@@ -389,7 +389,7 @@ angular.module('pvta.services', ['ngResource'])
       list: routes,
       time: moment()
     }
-    localforage.setItem('routes', toForage, function(err, val){if (err) console.log(err)});
+    localforage.setItem('routes', toForage, function(err, val){if (err) console.log("localforage routes saving error: "+err)});
   }
   return {
     get: getRouteList,
@@ -427,7 +427,7 @@ angular.module('pvta.services', ['ngResource'])
       list: stops,
       time: moment()
     };
-    localforage.setItem('stops', toForage, function(err, val){if (err)console.log(err); else console.log('done')});
+    localforage.setItem('stops', toForage, function(err, val){if (err)console.log("localforage save stops error: "+err); else console.log('done')});
   }
   return {
     get: getStopList,
