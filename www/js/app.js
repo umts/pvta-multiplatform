@@ -6,7 +6,7 @@
 // 'pvta.controllers' is found in controllers.js
 angular.module('pvta.controllers', ['pvta.services']);
 
-angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore'])
+angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore', 'ion-datetime-picker'])
 
 .run(function ($ionicPlatform) {
   $ionicPlatform.ready(function () {
@@ -65,7 +65,7 @@ controller: 'SearchController'
   // squash: true means that
   // :route is an optional param
     route: {squash: true}
-  }
+  },
 views: {
   'menuContent': {
     templateUrl: 'templates/vehicle.html',
@@ -132,16 +132,6 @@ views: {
 controller: 'MapController'
   }
 }
-})
-
-.state('app.storage-settings', {
-  url: '/settings/storage',
-  views: {
-    menuContent: {
-      templateUrl: 'templates/storage-settings.html',
-      controller: 'StorageSettingsController'
-                 }
-  }
 })
 
 .state('app.plan-trip', {

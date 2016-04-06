@@ -1,10 +1,43 @@
-angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $cordovaGeolocation, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips) {
+angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $interval, $cordovaGeolocation, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips) {
 
+  dateOptions = {
+    date: new Date(),
+    mode: 'time',
+    minDate: new Date() - 10000,
+    allowOldDates: false,
+    allowFutureDates: true,
+    doneButtonLabel: 'DONE',
+    doneButtonColor: '#F2F3F4',
+    cancelButtonLabel: 'CANCEL',
+    cancelButtonColor: '#000000'
+  };
+
+  
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
   swBound = new google.maps.LatLng(41.93335, -72.85809);
   neBound = new google.maps.LatLng(42.51138, -72.20302);
 
   $scope.bounds = new google.maps.LatLngBounds(swBound, neBound);
+  startTimer = function() {
+    timer = $interval(function() {
+        $scope.params.time.datetime = Date.now();
+    }, 1500);
+  }
+
+$scope.updateASAP = function() {
+    if ($scope.params.time.asap) {
+      $scope.params.time.type = 'departure';
+      startTimer();
+    }
+    else {
+      $interval.cancel(timer);
+    }
+  }
+
+$scope.notASAP = function() {
+  $scope.params.time.asap = false;
+  $interval.cancel(timer);
+}
 
   var reload = function () {
     currentDate = new Date();
@@ -43,13 +76,19 @@ else {
     });
   });
 }
+
+$scope.updateASAP();
 constructMap(defaultMapCenter);
 };
 
-$scope.$on('$ionicView.enter', function () {
-  reload();
-});
+reload();
 
+  
+  $scope.$on('$ionicView.leave', function() {
+    $interval.cancel(timer);
+  });
+
+  
 var invalidLocationPopup = function () {
   $ionicPopup.alert({
     title: 'Invalid Location',
@@ -277,6 +316,7 @@ $scope.disableTap = function () {
   //         // leave input field if google-address-entry is selected
   angular.element(container).on('click', function () {
     document.getElementById('origin-input').blur();
+    document.getElementById('destination-input').blur();
   });
 };
 

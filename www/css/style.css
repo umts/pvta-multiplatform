@@ -17,8 +17,11 @@
 .input-div {
 background-color: #387ef5;
 color: white;
-text-align: center;
 padding: 12px;
+}
+
+.centered {
+  text-align: center;
 }
 
 .item-select {

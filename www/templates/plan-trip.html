@@ -2,33 +2,39 @@
 <ion-content>
 <div id="directions-map"></div>
 <div class="input-div">
-  <div style="margin-bottom: 20px">
+  <div class="centered" style="margin-bottom: 20px">
     <label ng-model="params.name">
       <b>Trip:</b>
       {{params.name}}
     </label>
   </div>
-  <div style="margin-bottom: 20px">
+  <div class="centered" style="margin-bottom: 20px">
     <b>Origin</b>
     <input id="origin-input" class="user-input location-typeahead" type="text" placeholder="Enter an origin location" ng-model="params.origin.name" ng-focus="disableTap()" />
   </div>
-  <div style="margin-bottom: 20px">
+  <div class="centered" style="margin-bottom: 20px">
     <b>Destination</b>
     <input id="destination-input" class="user-input location-typeahead" type="text" placeholder="Enter a destination location" ng-model="params.destination.name" ng-focus="disableTap()" />
   </div>
-  <div style="margin-bottom: 100px">
-    <ion-toggle class="user-input trip-time" ng-model="params.time.asap" id="time-asap">ASAP</ion-toggle>
-    <label class="item item-input item-select trip-time" ng-if="!params.time.asap" style="width: 55%">
-      <select ng-model="params.time.type">
-        <option value="departure">Departure</option>
-        <option value="arrival">Arrival</option>
-      </select> 
+  <div> 
+    <ion-toggle ng-model="params.time.asap" ng-click="updateASAP()" id="time-asap">ASAP</ion-toggle>
+    <label>
+      If not ASAP, specify arrival or departure time below.
     </label>
   </div>
-  <div ng-if="!params.time.asap" style="margin-bottom: 200px">
-    <input class="trip-time user-input" type="datetime-local" ng-model="params.time.datetime" id="trip-time" class="user-input">
+  
+</div>
+  <div class="list" style="margin: 0">
+    <div ion-datetime-picker class="item" ng-model="params.time.datetime" id="trip-time" ng-change="notASAP()"><b>{{params.time.datetime | date: "yyyy-MM-dd h:mm:ss a"}}</b></div<>
+    </div>
+    <div class="item item-divider">
+      Time of:
+    </div>
+    <ion-radio class="item" ng-model="params.time.type" ng-value="'departure'">Departure</ion-radio>
+    <ion-radio class="item" ng-model="params.time.type" ng-value="'arrival'" ng-click="notASAP()">Arrival</ion-radio>
   </div>
-  <div>
+    
+  <div class="input-div centered">
     <button ng-click="route()" id="route-button" class="user-input">Route</button>
     <button ng-click="saveTrip()" id="save-button" class="user-input">Save Trip</button>
     <button ng-click="newTrip()" id="save-button" class="user-input">New Trip</button>
