@@ -1,6 +1,6 @@
 angular.module('pvta.factories')
 
-.factory('Avail', function(){
+.factory('Avail', function () {
   return 'http://bustracker.pvta.com/infopoint/rest';
 })
 
@@ -16,20 +16,20 @@ angular.module('pvta.factories')
   return $resource(Avail + '/routes/getvisibleroutes');
 })
 
-.factory('NearestStops', function($resource, Avail){
-  return $resource(Avail + '/Stops/Nearest?latitude=:latitude&longitude=:longitude', {latitude: "@latitude", longitude: "@longitude"})
+.factory('NearestStops', function ($resource, Avail) {
+  return $resource(Avail + '/Stops/Nearest?latitude=:latitude&longitude=:longitude', { latitude: '@latitude', longitude: '@longitude' });
 })
 
 .factory('Stop', function ($resource, Avail) {
   return $resource(Avail + '/stops/get/:stopId');
 })
 
-.factory('Stops', function ($resource, Avail){
+.factory('Stops', function ($resource, Avail) {
   return $resource(Avail + '/stops/getallstops');
 })
 
-.factory('RouteVehicles', function ($resource, Avail){
-  return $resource(Avail + '/vehicles/getallvehiclesforroute?routeid=:id')
+.factory('RouteVehicles', function ($resource, Avail) {
+  return $resource(Avail + '/vehicles/getallvehiclesforroute?routeid=:id');
 })
 
 .factory('StopDeparture', function ($resource, Avail) {
@@ -40,6 +40,6 @@ angular.module('pvta.factories')
   return $resource(Avail + '/publicmessages/getcurrentmessages');
 })
 
-.factory('SimpleRoute', function ($resource, Avail){
+.factory('SimpleRoute', function ($resource, Avail) {
   return $resource(Avail + '/routes/get/:routeId');
 })

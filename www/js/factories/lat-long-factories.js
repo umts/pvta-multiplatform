@@ -1,14 +1,14 @@
 angular.module('pvta.factories')
 
-.factory('LatLong', function(){
+.factory('LatLong', function () {
   var latlong = [];
   return {
-    push: function(lat, long){
-            var p = {lat, long};
+    push: function (lat, long) {
+            var p = {lat: lat, long: long};
             latlong.push(p);
           },
-    getAll: function(){
-              if(latlong.length > 0){
+    getAll: function () {
+              if (latlong.length > 0) {
                 var toReturn = latlong;
                 latlong = [];
                 return toReturn;
@@ -18,4 +18,4 @@ angular.module('pvta.factories')
               }
             }
   };
-})
+});

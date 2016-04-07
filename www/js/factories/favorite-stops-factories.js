@@ -1,11 +1,11 @@
 angular.module('pvta.factories')
 
-.factory('FavoriteStops', function(){
+.factory('FavoriteStops', function () {
   var stops = [];
-  var push = function(stop){
-    localforage.getItem('favoriteStops', function(err, stops){
+  var push = function (stop) {
+    localforage.getItem('favoriteStops', function (err, stops) {
       var newStop = {StopId: stop.StopId, Name: stop.Name};
-      if(stops) {
+      if (stops) {
         stops.push(newStop);
         localforage.setItem('favoriteStops', stops);
       }
@@ -16,28 +16,33 @@ angular.module('pvta.factories')
     });
   };
 
-  var getAll = function(){
-    var ret = [];
-    localforage.getItem('favoriteStops', function(err, value){
+  var getAll = function () {
+    localforage.getItem('favoriteStops', function (err) {
+      if (err) {
+        console.log('Error getting all favorite stops: ' + err);
+      }
     });
   };
 
-  var remove = function(stop){
-    localforage.getItem('favoriteStops', function(err, stops){
-      for(var i = 0; i < stops.length; i++){
-        if(stops[i].StopId === stop.StopId) {
+  var remove = function (stop) {
+    localforage.getItem('favoriteStops', function (err, stops) {
+      for (var i = 0; i < stops.length; i++) {
+        if (stops[i].StopId === stop.StopId) {
           stops.splice(i, 1);
         }
       }
-      localforage.setItem('favoriteStops', stops, function(err, newStops){
+      localforage.setItem('favoriteStops', stops, function (err) {
+        if (err) {
+          console.log('Error removing favorite stop: ' + err);
+        }
       });
     });
   };
 
-  function contains(stop, cb){
-    localforage.getItem('favoriteStops', function(err, stops){
-      if(stops){
-        var r = _.where(stops, {StopId: stop.StopId});
+  function contains (stop, cb) {
+    localforage.getItem('favoriteStops', function () {
+      if (stops) {
+        var r = _.where(stops, { StopId: stop.StopId });
         if (r.length > 0) {
           cb(true);
         }
@@ -50,10 +55,10 @@ angular.module('pvta.factories')
       }
     });
   }
-  return{
+  return {
     push: push,
-      getAll: getAll,
-      remove: remove,
-      contains: contains
+    getAll: getAll,
+    remove: remove,
+    contains: contains
   };
-})
+});

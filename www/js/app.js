@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'pvta.controllers' is found in controllers.js
 angular.module('pvta.controllers', ['pvta.factories']);
-angular.module('pvta.factories', ['ngResource'])
+angular.module('pvta.factories', ['ngResource']);
 angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore', 'ion-datetime-picker'])
 
 .run(function ($ionicPlatform) {
@@ -34,9 +34,9 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
 
   .state('app', {
     url: '/app',
-  abstract: true,
-  templateUrl: 'templates/menu.html',
-  controller: 'AppController'
+    abstract: true,
+    templateUrl: 'templates/menu.html',
+    controller: 'AppController'
   })
 
 
@@ -80,32 +80,32 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
 
 .state('app.route', {
   url: '/routes/:routeId',
-views: {
-  'menuContent': {
-    templateUrl: 'templates/route.html',
-controller: 'RouteController'
+  views: {
+    'menuContent': {
+      templateUrl: 'templates/route.html',
+      controller: 'RouteController'
+    }
   }
-}
 })
 
 .state('app.stop', {
   url: '/stops/:stopId',
-views: {
-  'menuContent': {
-    templateUrl: 'templates/stop.html',
-controller: 'StopController'
+  views: {
+    'menuContent': {
+      templateUrl: 'templates/stop.html',
+      controller: 'StopController'
+    }
   }
-}
 })
 
 .state('app.stops', {
   url: '/stops',
-views: {
-  'menuContent': {
-    templateUrl: 'templates/stops.html',
-controller: 'StopsController'
+  views: {
+    'menuContent': {
+      templateUrl: 'templates/stops.html',
+      controller: 'StopsController'
+    }
   }
-}
 })
 
 .state('app.storage-settings', {

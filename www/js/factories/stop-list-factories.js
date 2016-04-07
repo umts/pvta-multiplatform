@@ -1,29 +1,34 @@
 angular.module('pvta.factories')
 
-.factory('StopList', function(){
+.factory('StopList', function () {
   var stopsList = [];
 
-  var pushEntireList = function(list){
+  var pushEntireList = function (list) {
     stopsList = stopsList.concat(_.uniq(list, true, 'Name'));
     return stopsList;
   };
 
-  var getEntireList = function(){
-    if(stopsList !== undefined){
+  var getEntireList = function () {
+    if ( stopsList !== undefined) {
       return stopsList;
     }
-    else return 0;
+    else {
+      return 0;
+    }
   };
 
-  var isEmpty = function(){
-    if(stopsList.length === 0) return true;
-    else return false
+  var isEmpty = function () {
+    if (stopsList.length === 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
   };
 
   return {
     pushEntireList: pushEntireList,
-      getEntireList: getEntireList,
-      isEmpty: isEmpty,
+    getEntireList: getEntireList,
+    isEmpty: isEmpty,
   };
-
-})
+});

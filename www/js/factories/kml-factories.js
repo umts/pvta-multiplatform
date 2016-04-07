@@ -1,15 +1,16 @@
 angular.module('pvta.factories')
 
-.factory('KML', function(){
+.factory('KML', function () {
   var kml = [];
-  function push(shortName){
+  function push (shortName) {
     kml.push(shortName);
-  };
-  function pop(){
-    if(kml.length == 1){
+  }
+
+  function pop () {
+    if (kml.length === 1) {
       return kml.pop();
     }
-    else{
+    else {
       // Empty the array,
       // because anything else
       // will produce undesired
@@ -18,8 +19,9 @@ angular.module('pvta.factories')
       return null;
     }
   }
+
   return {
     push: push,
-pop: pop
+    pop: pop
   };
-})
+});
