@@ -1,4 +1,4 @@
-angular.module('pvta.services')
+angular.module('pvta.factories')
 
 .factory('KML', function(){
   var kml = [];

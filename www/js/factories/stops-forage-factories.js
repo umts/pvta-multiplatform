@@ -1,4 +1,4 @@
-angular.module('pvta.services')
+angular.module('pvta.factories')
 
 .factory('StopsForage', function(StopList, Recent, Stops, NearestStops, $q){
   function getStopList(lat, long){

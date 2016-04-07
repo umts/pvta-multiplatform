@@ -1,4 +1,4 @@
-angular.module('pvta.services')
+angular.module('pvta.factories')
 
 .factory('Avail', function(){
   return 'http://bustracker.pvta.com/infopoint/rest';

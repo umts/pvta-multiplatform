@@ -1,4 +1,4 @@
-angular.module('pvta.services')
+angular.module('pvta.factories')
 
 .factory('RouteForage', function(RouteList, moment, Recent, Routes, $q){
   function getRouteList(){

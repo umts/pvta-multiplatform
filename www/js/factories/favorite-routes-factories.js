@@ -1,4 +1,4 @@
-angular.module('pvta.services')
+angular.module('pvta.factories')
 
 .factory('FavoriteRoutes', function(){
   var routes = [];
