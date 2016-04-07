@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'pvta.controllers' is found in controllers.js
 angular.module('pvta.controllers', ['pvta.services']);
-
+angular.module('pvta.services', ['ngResource'])
 angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore', 'ion-datetime-picker'])
 
 .run(function ($ionicPlatform) {
