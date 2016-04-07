@@ -113,7 +113,7 @@ controller: 'StopsController'
   views: {
     menuContent: {
       templateUrl: 'templates/storage-settings.html',
-      controller: 'SettingsController'
+      controller: 'StorageSettingsController'
     }
   }
 })
