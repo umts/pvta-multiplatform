@@ -130,12 +130,12 @@ controller: 'StopsController'
 
 .state('app.plan-trip', {
   url: '/plan-trip',
-views: {
-  'menuContent': {
-    templateUrl: 'templates/plan-trip.html',
-controller: 'PlanTripController'
+  views: {
+    'menuContent': {
+      templateUrl: 'templates/plan-trip.html',
+      controller: 'PlanTripController'
+    }
   }
-}
 })
    .state('app.about', {
      url: '/about',
