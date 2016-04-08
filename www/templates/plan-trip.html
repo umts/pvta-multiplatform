@@ -51,7 +51,7 @@
     <b>Arrival Time:</b> {{route.arrivalTime}}
   </div>
   <ion-list>
-  <ion-item ng-repeat="step in route.steps" href={{route.stepLinks[$index]}}>
+  <ion-item class="item-text-wrap" ng-repeat="step in route.steps" href={{route.stepLinks[$index]}}>
   <p>{{step}}</p>
   </ion-item>
   </ion-list>

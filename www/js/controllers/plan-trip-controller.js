@@ -219,6 +219,7 @@ $scope.route = function () {
 };
 
 function createStepList (response) {
+  console.log(response);
   for (var i = 0; i < response.routes[0].legs[0].steps.length; i++) {
     var step = response.routes[0].legs[0].steps[i];
 
@@ -235,6 +236,10 @@ function createStepList (response) {
       $scope.route.steps.push(departInstruction);
       $scope.route.steps.push(arriveInstruction);
       if (step['transit']['line']['agencies'][0]['name'] === 'PVTA') {
+        if($scope.route.stepLinks[$scope.route.stepLinks.length-1] === ''){//This check is made to catch walking directions, and link them to their respective stop
+          $scope.route.stepLinks.pop();
+          linkToStop(step['transit']['departure_stop']['name']);
+        }
         linkToStop(step['transit']['departure_stop']['name']);
         linkToStop(step['transit']['arrival_stop']['name']);
       }
