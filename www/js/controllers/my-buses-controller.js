@@ -11,7 +11,7 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     // Resolve the promise, which will contain
     // a list of all alerts
     alertsPromise.then(function (alerts) {
-      _.each(alert, function (alert) {
+      _.each(alerts, function (alert) {
         /* If the Routes property of an
          * alert contains any of RouteIDs
          *  in question (aka the list of
@@ -62,9 +62,7 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     localforage.clear();
     $scope.routes = [];
   };
-  function downloadAlerts () {
-    $scope.messages = Messages.query().$promise;
-  }
+
   $scope.removeRoute = function (route, currentIndex) {
     FavoriteRoutes.remove(route);
     $scope.routes.splice(currentIndex, 1);
