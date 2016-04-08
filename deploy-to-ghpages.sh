@@ -9,6 +9,7 @@ cd pvta-multiplatform
 echo Type the branch you want to deploy to gh-pages and press RETURN.
 read branch
 git checkout -b gh-pages
+git pull origin gh-pages
 git merge $branch
 mv www/* .
 rm -rf www
@@ -24,7 +25,7 @@ echo Done committing.
 echo Ready to push? Caution: your changes will be live on the internet! [y/n]
 read confirm
 if [ "$confirm" = "y" ]; then
-  git push origin gh-pages
+  git push -f origin gh-pages
   echo Done pushing.
 else
   echo Oh well. Run this script again later when ready.
