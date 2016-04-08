@@ -18,4 +18,7 @@ if [ -z "$personalized" ]; then
   $commit = "$commit: $personalized"
 fi
 git commit -m "$commit"
+cd ../../
+rm -rf multiplatform-deploy-tmp
+cd pvta-multiplatform
 echo Done
