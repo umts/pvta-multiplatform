@@ -9,7 +9,8 @@ echo Type the branch you want to deploy to gh-pages and press RETURN.
 read branch
 git checkout $branch
 git branch -D gh-pages
-git checkout -b gh-pages
+git checkout -b gh-pages]
+git pull origin gh-pages
 mv www/* .
 rm -rf www
 git add -A
