@@ -34,9 +34,9 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
 
   .state('app', {
     url: '/app',
-  abstract: true,
-  templateUrl: 'templates/menu.html',
-  controller: 'AppController'
+    abstract: true,
+    templateUrl: 'templates/menu.html',
+    controller: 'AppController'
   })
 
 
@@ -80,30 +80,30 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
 
 .state('app.route', {
   url: '/routes/:routeId',
-views: {
+  views: {
   'menuContent': {
     templateUrl: 'templates/route.html',
-controller: 'RouteController'
+    controller: 'RouteController'
   }
 }
 })
 
 .state('app.stop', {
   url: '/stops/:stopId',
-views: {
+  views: {
   'menuContent': {
     templateUrl: 'templates/stop.html',
-controller: 'StopController'
+    controller: 'StopController'
   }
 }
 })
 
 .state('app.stops', {
   url: '/stops',
-views: {
+  views: {
   'menuContent': {
     templateUrl: 'templates/stops.html',
-controller: 'StopsController'
+    controller: 'StopsController'
   }
 }
 })

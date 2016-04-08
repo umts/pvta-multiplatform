@@ -6,12 +6,12 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
    * for gettings alerts from avail, only
    * display alerts for these RouteIds.
    */
-  function filterAlerts(routes, alertsPromise) {
+  function filterAlerts (routes, alertsPromise) {
     routes = _.pluck(routes, 'RouteId');
     // Resolve the promise, which will contain
     // a list of all alerts
-    alertsPromise.then(function(alerts) {
-      _.each(alert, function(alert) {
+    alertsPromise.then(function (alerts) {
+      _.each(alert, function (alert) {
         /* If the Routes property of an
          * alert contains any of RouteIDs
          *  in question (aka the list of
@@ -31,8 +31,8 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
          * routes array, this alert will
          * appear on the page twice.
          */
-        _.each(alert.Routes, function(routeId) {
-          if(_.contains(routes, routeId)) {
+        _.each(alert.Routes, function (routeId) {
+          if (_.contains(routes, routeId)) {
             $scope.messages.push(message);
           }
         });
@@ -62,8 +62,8 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     localforage.clear();
     $scope.routes = [];
   };
-  function downloadAlerts() {
-  $scope.messages = Messages.query().$promise;
+  function downloadAlerts () {
+    $scope.messages = Messages.query().$promise;
   }
   $scope.removeRoute = function (route, currentIndex) {
     FavoriteRoutes.remove(route);
