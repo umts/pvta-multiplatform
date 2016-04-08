@@ -11,7 +11,7 @@ git checkout -b gh-pages
 mv www/* .
 rm -rf www
 git add -A
-commit = "Deploying $branch to gh-pages"
+commit="Deploying $branch to gh-pages"
 echo If you would like to include a commit message, add one and press RETURN
 read personalized
 if [ -z "$personalized" ]; then
