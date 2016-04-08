@@ -347,13 +347,13 @@ angular.module('pvta.services', ['ngResource'])
     },
     getAll: function () {
       if (latlong.length > 0) {
-    var toReturn = latlong;
-    latlong = [];
-    return toReturn;
-  }
+        var toReturn = latlong;
+        latlong = [];
+        return toReturn;
+      }
       else {
-    return null;
-  }
+        return null;
+      }
     }
   };
 })
