@@ -7,6 +7,7 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
    * display alerts for these RouteIds.
    */
   function filterAlerts (routes, alertsPromise) {
+    $scope.messages = [];
     routes = _.pluck(routes, 'RouteId');
     // Resolve the promise, which will contain
     // a list of all alerts
@@ -33,7 +34,7 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
          */
         _.each(alert.Routes, function (routeId) {
           if (_.contains(routes, routeId)) {
-            $scope.messages.push(message);
+            $scope.messages.push(alert);
           }
         });
       });
@@ -52,10 +53,6 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
       $scope.trips = savedTrips;
     });
   };
-
-  $scope.$on('$ionicView.enter', function () {
-    reload();
-  });
 
   $scope.stops = [];
   $scope.removeAll = function () {
@@ -82,6 +79,7 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     Trips.push(index);
     $location.path('app/plan-trip');
   };
-
-
+  $scope.$on('$ionicView.enter', function() {
+    reload();
+  });
 });
