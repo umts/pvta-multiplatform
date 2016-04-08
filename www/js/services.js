@@ -342,7 +342,7 @@ pop: pop
   var latlong = [];
   return {
     push: function(lat, long){
-            var p = {lat, long};
+            var p = {lat: lat, long: long};
             latlong.push(p);
           },
 getAll: function(){
