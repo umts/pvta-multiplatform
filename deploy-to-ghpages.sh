@@ -1,10 +1,11 @@
 #!/bin/bash
 cd ../
 mkdir multiplatform-deploy-tmp
-echo Making a copy of pvta-multiplatform to be safe
-cp -r pvta-multiplatform multiplatform-deploy-tmp
-echo Done copying!
-cd multiplatform-deploy-tmp/pvta-multiplatform
+echo Downloading a copy of pvta-multiplatform to be safe
+cd multiplatform-deploy-tmp
+git clone https://github.com/umts/pvta-multiplatform.git
+echo Done downloading!
+cd pvta-multiplatform
 echo Type the branch you want to deploy to gh-pages and press RETURN.
 read branch
 git checkout $branch
