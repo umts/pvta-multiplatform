@@ -1,24 +1,22 @@
 angular.module('pvta.factories')
 
 .factory('FavoriteRoutes', function () {
-  var routes = [];
   var push = function (route) {
-    localforage.getItem('favoriteRoutes', function (err, routes) {
+    localforage.getItem('favoriteRoutes', function (err, favoriteRoutes) {
       var newRoute = { RouteId: route.RouteId,
                        LongName: route.LongName,
                        ShortName: route.ShortName,
                        Color: route.Color
       };
 
-      if (routes) {
-        routes.push(newRoute);
-        localforage.setItem('favoriteRoutes', routes);
-      }
-      else {
-        var favoriteRoutes = [newRoute];
+      if (favoriteRoutes) {
+        favoriteRoutes.push(newRoute);
         localforage.setItem('favoriteRoutes', favoriteRoutes);
       }
-
+      else {
+        var newFavoriteRoute = [newRoute];
+        localforage.setItem('favoriteRoutes', newFavoriteRoute);
+      }
     });
   };
 
@@ -26,20 +24,19 @@ angular.module('pvta.factories')
     return localforage.getItem('favoriteRoutes');
   };
 
-  var remove = function (route) {
-    localforage.getItem('favoriteRoutes', function (err, routes) {
-      for (var i = 0; i < routes.length; i++) {
-        if (routes[i].RouteId === route.RouteId) {
-          routes.splice(i, 1);
+  var remove = function (favoriteRoute) {
+    localforage.getItem('favoriteRoutes', function (err, favoriteRoutes) {
+      for (var i = 0; i < favoriteRoutes.length; i++) {
+        if (favoriteRoutes[i].RouteId === favoriteRoute.RouteId) {
+          favoriteRoutes.splice(i, 1);
         }
       }
-      localforage.setItem('favoriteRoutes', routes, function (err) {
+      localforage.setItem('favoriteRoutes', favoriteRoutes, function (err) {
         if (err) {
           console.log('Error getting all favorite stops: ' + err);
         }
       });
     });
-    removeOneRoute(route);
   };
 
   /* Checks to see if a route is included
