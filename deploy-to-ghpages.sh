@@ -23,7 +23,7 @@ git commit -m "$commit"
 echo Done committing.
 echo Ready to push? Caution: your changes will be live on the internet! [y/n]
 read confirm
-if ["$confirm"="y"]; then
+if ["$confirm" = "y"]; then
   git push origin gh-pages
   echo Done pushing.
 else
