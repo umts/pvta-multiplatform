@@ -79,7 +79,7 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     Trips.push(index);
     $location.path('app/plan-trip');
   };
-  $scope.$on('$ionicView.enter', function() {
+  $scope.$on('$ionicView.enter', function () {
     reload();
   });
 });

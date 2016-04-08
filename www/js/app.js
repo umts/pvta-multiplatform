@@ -81,31 +81,31 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
 .state('app.route', {
   url: '/routes/:routeId',
   views: {
-  'menuContent': {
+    'menuContent': {
     templateUrl: 'templates/route.html',
     controller: 'RouteController'
   }
-}
+  }
 })
 
 .state('app.stop', {
   url: '/stops/:stopId',
   views: {
-  'menuContent': {
+    'menuContent': {
     templateUrl: 'templates/stop.html',
     controller: 'StopController'
   }
-}
+  }
 })
 
 .state('app.stops', {
   url: '/stops',
   views: {
-  'menuContent': {
+    'menuContent': {
     templateUrl: 'templates/stops.html',
     controller: 'StopsController'
   }
-}
+  }
 })
 
 .state('app.storage-settings', {

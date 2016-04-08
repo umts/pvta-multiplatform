@@ -346,15 +346,15 @@ angular.module('pvta.services', ['ngResource'])
       latlong.push(p);
     },
     getAll: function () {
-  if (latlong.length > 0) {
-            var toReturn = latlong;
-            latlong = [];
-            return toReturn;
-          }
-  else {
-            return null;
-          }
-}
+      if (latlong.length > 0) {
+    var toReturn = latlong;
+    latlong = [];
+    return toReturn;
+  }
+      else {
+    return null;
+  }
+    }
   };
 })
 
@@ -466,7 +466,7 @@ angular.module('pvta.services', ['ngResource'])
       list: routes,
       time: moment()
     };
-    localforage.setItem('routes', toForage, function (err, val) {if (err) console.log("localforage routes saving error: " + err);});
+    localforage.setItem('routes', toForage, function (err, val) {if (err) console.log('localforage routes saving error: ' + err);});
   }
   return {
     get: getRouteList,
@@ -504,7 +504,7 @@ angular.module('pvta.services', ['ngResource'])
       list: stops,
       time: moment()
     };
-    localforage.setItem('stops', toForage, function (err, val) {if (err)console.log("localforage stops saving error: " + err); else console.log('done');});
+    localforage.setItem('stops', toForage, function (err, val) {if (err)console.log('localforage stops saving error: ' + err); else console.log('done');});
   }
   function uniq (stops) {
     return _.uniq(stops, false, function (stop) {

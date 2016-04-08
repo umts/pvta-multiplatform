@@ -25,29 +25,29 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   };
 
   $scope.updateASAP = function () {
-  if ($scope.params.time.asap) {
-      $scope.params.time.type = 'departure';
-      startTimer();
-    }
-  else {
-      $interval.cancel(timer);
-    }
-};
+    if ($scope.params.time.asap) {
+    $scope.params.time.type = 'departure';
+    startTimer();
+  }
+    else {
+    $interval.cancel(timer);
+  }
+  };
 
   $scope.notASAP = function () {
-  $scope.params.time.asap = false;
-  $interval.cancel(timer);
-};
+    $scope.params.time.asap = false;
+    $interval.cancel(timer);
+  };
 
   var reload = function () {
     currentDate = new Date();
     $scope.params = {
       name: 'New Trip',
       time: {
-  datetime: currentDate,
-  type: 'departure',
-  asap: true
-},
+        datetime: currentDate,
+        type: 'departure',
+        asap: true
+      },
       origin: {},
       destination: {}
     };
@@ -55,12 +55,12 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     var options = {timeout: 5000, enableHighAccuracy: true};
 
     if (loadedTrip !== null) {
-  $scope.loaded = true;
-  $scope.params = loadedTrip;
-}
+      $scope.loaded = true;
+      $scope.params = loadedTrip;
+    }
     else {
-  $scope.loaded = false;
-  $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
+      $scope.loaded = false;
+      $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
     new google.maps.Geocoder().geocode({
       'latLng': new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
     }, function (results, status) {
@@ -75,7 +75,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       }
     });
   });
-}
+    }
 
     $scope.updateASAP();
     constructMap(defaultMapCenter);
@@ -90,37 +90,37 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
 
   var invalidLocationPopup = function () {
-  $ionicPopup.alert({
+    $ionicPopup.alert({
     title: 'Invalid Location',
     template: 'PVTA does not service this location.'
   });
-};
+  };
 
   function constructMap (latLng) {
-  var mapOptions = {
+    var mapOptions = {
     center: latLng,
     zoom: 15,
     mapTypeControl: false,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
-  $scope.map = new google.maps.Map(document.getElementById('directions-map'), mapOptions);
+    $scope.map = new google.maps.Map(document.getElementById('directions-map'), mapOptions);
 
 
-  $scope.directionsService = new google.maps.DirectionsService;
-  $scope.directionsDisplay = new google.maps.DirectionsRenderer;
+    $scope.directionsService = new google.maps.DirectionsService;
+    $scope.directionsDisplay = new google.maps.DirectionsRenderer;
 
-  $scope.directionsDisplay.setMap($scope.map);
+    $scope.directionsDisplay.setMap($scope.map);
 
-  var originInput = document.getElementById('origin-input');
-  var destinationInput = document.getElementById('destination-input');
+    var originInput = document.getElementById('origin-input');
+    var destinationInput = document.getElementById('destination-input');
 
-  var originAutocomplete = new google.maps.places.Autocomplete(originInput);
-  var destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput);
-  originAutocomplete.setBounds($scope.bounds);
-  destinationAutocomplete.setBounds($scope.bounds);
+    var originAutocomplete = new google.maps.places.Autocomplete(originInput);
+    var destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput);
+    originAutocomplete.setBounds($scope.bounds);
+    destinationAutocomplete.setBounds($scope.bounds);
 
-  originAutocomplete.addListener('place_changed', function () {
+    originAutocomplete.addListener('place_changed', function () {
     var place = originAutocomplete.getPlace();
     if (!place.geometry) {
       console.log('Place has no geometry.');
@@ -138,7 +138,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
   });
 
-  destinationAutocomplete.addListener('place_changed', function () {
+    destinationAutocomplete.addListener('place_changed', function () {
     var place = destinationAutocomplete.getPlace();
     if (!place.geometry) {
       console.log('Place has no geometry.');
@@ -156,34 +156,34 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       invalidLocationPopup();
     }
   });
-}
+  }
 
 
   function expandViewportToFitPlace (map, place) {
-  if (place.geometry.viewpoint) {
+    if (place.geometry.viewpoint) {
     map.fitBounds(place.geometry.viewpoint);
   } else {
     map.setCenter(place.geometry.location);
     map.setZoom(17);
   }
-}
+  }
 
 
   $scope.route = function () {
-  $scope.route.steps = [];
-  $scope.route.stepLinks = [];
-  $scope.route.arrivalTime = null;
-  $scope.route.departureTime = null;
-  $scope.route.origin = null;
-  $scope.route.destination = null;
+    $scope.route.steps = [];
+    $scope.route.stepLinks = [];
+    $scope.route.arrivalTime = null;
+    $scope.route.departureTime = null;
+    $scope.route.origin = null;
+    $scope.route.destination = null;
 
-  if (!$scope.params.origin.id || !$scope.params.destination.id) {
+    if (!$scope.params.origin.id || !$scope.params.destination.id) {
     return;
   }
-  transitOptions = {
+    transitOptions = {
     modes: [google.maps.TransitMode.BUS]
   };
-  if (!$scope.params.time.asap) {
+    if (!$scope.params.time.asap) {
     if ($scope.params.time.type === 'departure') {
       transitOptions['departureTime'] = $scope.params.time.datetime;
     }
@@ -191,8 +191,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       transitOptions['arrivalTime'] = $scope.params.time.datetime;
     }
   }
-  else transitOptions = {};
-  $scope.directionsService.route({
+    else transitOptions = {};
+    $scope.directionsService.route({
     origin: {'placeId': $scope.params.origin.id},
     destination: {'placeId': $scope.params.destination.id},
     travelMode: google.maps.TravelMode.TRANSIT,
@@ -216,10 +216,10 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       });
     }
   });
-};
+  };
 
   function createStepList (response) {
-  for (var i = 0; i < response.routes[0].legs[0].steps.length; i++) {
+    for (var i = 0; i < response.routes[0].legs[0].steps.length; i++) {
     var step = response.routes[0].legs[0].steps[i];
 
     if (step['travel_mode'] === 'TRANSIT') {
@@ -249,28 +249,28 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       $scope.route.stepLinks.push('');
     }
   }
-}
+  }
 
   function linkToStop (stop) {
-  stop = stop.split(' ');
-  stop = stop[stop.length - 1];
-  stop = stop.substring(1, stop.length - 1);
-  $scope.route.stepLinks.push('#/app/stops/' + stop);
+    stop = stop.split(' ');
+    stop = stop[stop.length - 1];
+    stop = stop.substring(1, stop.length - 1);
+    $scope.route.stepLinks.push('#/app/stops/' + stop);
 
-}
+  }
 
   var saveSuccessful = function () {$ionicPopup.alert({
-  title: 'Save Successful!',
-  template: 'This trip can be accessed from My Buses.'
-});
-};
+    title: 'Save Successful!',
+    template: 'This trip can be accessed from My Buses.'
+  });
+  };
 
   $scope.saveTrip = function () {
-  var prevName = $scope.params.name;
-  if (!$scope.loaded) {
+    var prevName = $scope.params.name;
+    if (!$scope.loaded) {
     $scope.params.name = '';//Clears the name instead of 'New Trip'
   }
-  $ionicPopup.show({
+    $ionicPopup.show({
     template: '<input type="text" ng-model="params.name">',
     title: 'Trip Name',
     subTitle: 'Give this trip a name.',
@@ -293,15 +293,15 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       saveSuccessful();}
     }]
   });
-};
+  };
 
   $scope.scrollTo = function (anchor) {
-  $location.hash(anchor);
-  $ionicScrollDelegate.anchorScroll(true);
-};
+    $location.hash(anchor);
+    $ionicScrollDelegate.anchorScroll(true);
+  };
 
   $scope.newTrip = function () {
-  $ionicPopup.confirm({
+    $ionicPopup.confirm({
     title: 'New Trip',
     template: '<div style=\'text-align:center\'>Close current trip?</div>'
   }).then(function (res) {
@@ -310,17 +310,17 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       reload();
     }
   });
-};
+  };
 
   $scope.disableTap = function () {
-  container = document.getElementsByClassName('pac-container');
+    container = document.getElementsByClassName('pac-container');
   // disable ionic data tab
-  angular.element(container).attr('data-tap-disabled', 'true');
+    angular.element(container).attr('data-tap-disabled', 'true');
   //         // leave input field if google-address-entry is selected
-  angular.element(container).on('click', function () {
+    angular.element(container).on('click', function () {
     document.getElementById('origin-input').blur();
     document.getElementById('destination-input').blur();
   });
-};
+  };
 
 });
