@@ -1,9 +1,11 @@
 <ion-view view-title="My Buses">
   <ion-content>
-    <div class="item item-divider item-positive" style="text-align:center">Your Routes</div>
+    <div class="item item-divider item-positive item-text-wrap" style="text-align:center">Your Routes</div>
     <ion-list class="list" show-delete="false" can-swipe="true">
-      <ion-item ng-if="!routes.length" href="#/app/routes">
-        You have no favorite routes! Tap here to go find some.
+      <ion-item ng-if="!routes.length" href="#/app/routes" class="item-text-wrap">
+        <center>
+          You have no favorite routes! Tap here to go find some.
+        </center>
       </ion-item>
       <ion-item class="item" ng-repeat="route in routes" href="#/app/routes/{{route.RouteId}}">
         <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeRoute(route, $index)"></ion-option-button>
@@ -22,8 +24,10 @@
         </div>
       </ion-item>
       <div class="item item-divider item-positive" style="text-align:center">Your Stops</div>
-      <ion-item ng-if="!stops.length" href="#/app/stops">
-        You have no favorite stops! Tap here to go find some.
+      <ion-item ng-if="!stops.length" href="#/app/stops" class="item-text-wrap">
+        <center>
+          You have no favorite stops! Tap here to go find some.
+        </center>
       </ion-item>
       <ion-item class="item item-text-wrap" ng-repeat="stop in stops" href="#/app/stops/{{stop.StopId}}">
         <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeStop(stop, $index)"></ion-option-button>
@@ -33,8 +37,10 @@
         </div>
         </ion-item>
       <div class="item item-divider item-positive">Your Trips</div>
-      <ion-item ng-if="!stops.length" href="#/app/plan-trip">
-        You have no trips! Tap here to go make some.
+      <ion-item ng-if="!trips.length" class="no-results item-text-wrap">
+        <center>
+          You have no planned trips!
+        </center>
       </ion-item>
       <ion-item class="item item-text-wrap" ng-repeat="trip in trips track by $index" ng-click="openTrip($index)">
       <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeTrip($index)"></ion-option-button>
