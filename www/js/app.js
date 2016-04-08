@@ -113,7 +113,7 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
   views: {
     menuContent: {
       templateUrl: 'templates/storage-settings.html',
-      controller: 'SettingsController'
+      controller: 'StorageSettingsController'
     }
   }
 })
