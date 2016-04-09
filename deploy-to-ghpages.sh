@@ -8,8 +8,7 @@ echo Done downloading!
 cd pvta-multiplatform
 echo Type the branch you want to deploy to gh-pages and press RETURN.
 read branch
-git checkout -b gh-pages
-git pull origin gh-pages
+git checkout gh-pages
 git merge $branch
 mv www/* .
 rm -rf www
