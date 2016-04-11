@@ -31,20 +31,19 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
 
 .config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider
-
+  // Successively define every state by chaining
+  // .state() functions on top of each other
   .state('app', {
     url: '/app',
-  abstract: true,
-  templateUrl: 'templates/menu.html',
-  controller: 'AppController'
+    abstract: true,
+    templateUrl: 'pages/app/menu.html',
+    controller: 'AppController'
   })
-
-
   .state('app.my-buses', {
     url: '/my-buses',
     views: {
       'menuContent': {
-        templateUrl: 'templates/mybuses.html',
+        templateUrl: 'pages/my-buses/mybuses.html',
         controller: 'MyBusesController'
       }
     }
@@ -53,125 +52,115 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     url: '/search',
     views: {
       'menuContent': {
-        templateUrl: 'templates/search.html',
+        templateUrl: 'pages/search/search.html',
         controller: 'SearchController'
       }
     }
   })
-    .state('app.vehicle', {
-      url: '/vehicles/:vehicleId/:routeId',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/vehicle.html',
-          controller: 'VehicleController'
-        }
+  .state('app.vehicle', {
+    url: '/vehicles/:vehicleId/:routeId',
+    views: {
+      'menuContent': {
+        templateUrl: 'pages/vehicle/vehicle.html',
+        controller: 'VehicleController'
       }
-    })
-
+    }
+  })
   .state('app.routes', {
     url: '/routes',
     views: {
       'menuContent': {
-        templateUrl: 'templates/routes.html',
+        templateUrl: 'pages/routes/routes.html',
         controller: 'RoutesController'
       }
     }
   })
-
-.state('app.route', {
-  url: '/routes/:routeId',
-views: {
-  'menuContent': {
-    templateUrl: 'templates/route.html',
-controller: 'RouteController'
-  }
-}
-})
-
-.state('app.stop', {
-  url: '/stops/:stopId',
-views: {
-  'menuContent': {
-    templateUrl: 'templates/stop.html',
-controller: 'StopController'
-  }
-}
-})
-
-.state('app.stops', {
-  url: '/stops',
-views: {
-  'menuContent': {
-    templateUrl: 'templates/stops.html',
-controller: 'StopsController'
-  }
-}
-})
-
-.state('app.storage-settings', {
-  url: '/settings/storage',
-  views: {
-    menuContent: {
-      templateUrl: 'templates/storage-settings.html',
-      controller: 'StorageSettingsController'
+  .state('app.route', {
+    url: '/routes/:routeId',
+    views: {
+      'menuContent': {
+        templateUrl: 'pages/route/route.html',
+        controller: 'RouteController'
+      }
     }
-  }
-})
-
-.state('app.settings', {
-  url: '/settings',
-  views: {
-    'menuContent': {
-      templateUrl: 'templates/settings.html',
-      controller: 'SettingsController'
+  })
+  .state('app.stop', {
+    url: '/stops/:stopId',
+    views: {
+      'menuContent': {
+        templateUrl: 'pages/stop/stop.html',
+        controller: 'StopController'
+      }
     }
-  }
-})
-
-.state('app.plan-trip', {
-  url: '/plan-trip',
-  views: {
-    'menuContent': {
-      templateUrl: 'templates/plan-trip.html',
-      controller: 'PlanTripController'
+  })
+  .state('app.stops', {
+    url: '/stops',
+    views: {
+      'menuContent': {
+        templateUrl: 'pages/stops/stops.html',
+        controller: 'StopsController'
+      }
     }
-  }
-})
+  })
+  .state('app.storage-settings', {
+    url: '/settings/storage',
+    views: {
+      menuContent: {
+        templateUrl: 'pages/storage-settings/storage-settings.html',
+        controller: 'StorageSettingsController'
+      }
+    }
+  })
+  .state('app.settings', {
+    url: '/settings',
+    views: {
+      'menuContent': {
+        templateUrl: 'pages/settings/settings.html',
+        controller: 'SettingsController'
+      }
+    }
+  })
+  .state('app.plan-trip', {
+    url: '/plan-trip',
+    views: {
+      'menuContent': {
+        templateUrl: 'pages/plan-trip/plan-trip.html',
+        controller: 'PlanTripController'
+      }
+    }
+  })
    .state('app.about', {
      url: '/about',
      views: {
        'menuContent': {
-         templateUrl: 'templates/about.html',
+         templateUrl: 'pages/about/about.html',
          controller: 'AboutController'
        }
      }
    })
-
   .state('app.route-map', {
     url: '/map/route/:routeId',
     views: {
       'menuContent': {
-        templateUrl: 'templates/map.html',
+        templateUrl: 'pages/route-map/map.html',
         controller: 'RouteMapController'
       }
     }
   })
-
   .state('app.stop-map', {
     url: '/map/stop',
     views: {
       'menuContent': {
-        templateUrl: 'templates/stop-map.html',
+        templateUrl: 'pages/stop-map/stop-map.html',
         controller: 'StopMapController'
       }
     }
   })
-
   .state('app.vehicle-map', {
     url: '/map/vehicle/:vehicleId',
     views: {
       'menuContent': {
-        templateUrl: 'templates/map.html',
+        templateUrl: 'pages/vehicle-map/map.html',
         controller: 'VehicleMapController'
       }
     }

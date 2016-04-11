@@ -9,9 +9,7 @@ angular.module('pvta.controllers').controller('VehicleController', function ($sc
 
   $scope.setCoordinates = function () {
     KML.push($scope.route.RouteTraceFilename);
-    var id = $stateParams.vehicleId;
-    console.log(id);
-    $state.go('app.vehicle-map', {vehicleId: id});
+    $state.go('app.vehicle-map', {vehicleId: $stateParams.vehicleId});
   };
 
   $scope.refresh = function () {
