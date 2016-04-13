@@ -8,13 +8,13 @@
     },
     "installed_plugins": {
         "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.ionicframework.conference849931"
+            "PACKAGE_NAME": "com.umts.pvta-multiplaform"
         },
         "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "com.ionicframework.conference849931"
+            "PACKAGE_NAME": "com.umts.pvta-multiplaform"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.ionicframework.conference849931"
+            "PACKAGE_NAME": "com.umts.pvta-multiplaform"
         }
     },
     "dependent_plugins": {}
