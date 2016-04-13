@@ -1,4 +1,31 @@
 #!/bin/bash
+
+function doEverythingElse() {
+  commit="Deploying master to gh-pages by $USER"
+  echo If you would like to include a commit message, add one and press RETURN.
+  read personalized
+  if [ -z "$personalized" ]; then
+    $commit = "$commit: $personalized"
+  fi
+  git commit -m "$commit"
+  echo Done committing.
+
+  echo Ready to push? Caution: your changes will be live on the internet! [y/n]
+  read confirm
+  if [ "$confirm" = "y" ]; then
+    git push origin gh-pages
+    echo Done pushing.
+  else
+    echo Oh well. Run this script again later when ready.
+  fi
+  cd ../../
+  echo --------------------
+  echo Deleting the temporary repo copy.
+  rm -rf multiplatform-deploy-tmp
+  echo Done deleting.
+  cd pvta-multiplatform
+}
+
 cd ../
 mkdir multiplatform-deploy-tmp
 echo Downloading a copy of pvta-multiplatform to be safe
@@ -6,32 +33,28 @@ cd multiplatform-deploy-tmp
 git clone https://github.com/umts/pvta-multiplatform.git
 echo Done downloading!
 cd pvta-multiplatform
-echo Type the branch you want to deploy to gh-pages and press RETURN.
-read branch
+echo Preparing to deploy master to gh-pages.
 git checkout gh-pages
-git merge $branch
+git merge master
 mv www/* .
 rm -rf www
+bower install
+mv www/bower_components .
+rm -rf www
 git add -A
-commit="Deploying $branch to gh-pages"
-echo If you would like to include a commit message, add one and press RETURN.
-read personalized
-if [ -z "$personalized" ]; then
-  $commit = "$commit: $personalized"
-fi
-git commit -m "$commit"
-echo Done committing.
-echo Ready to push? Caution: your changes will be live on the internet! [y/n]
-read confirm
-if [ "$confirm" = "y" ]; then
-  git push -f origin gh-pages
-  echo Done pushing.
+echo "-------------------------------------------------------------------------------------------------------"
+echo Before we commit and push, open a new tab in your terminal.
+echo ""
+echo Navigate to ../multiplatform-deploy-tmp/pvta-multiplatform
+echo
+echo Open index.html and ensure that the HEAD tag contains a google analytics script
+echo AND the import statements include a Google API key
+echo of value AIzaSyDPsmX2FrR5zk5WLLSqoo1TawQpr0hSyDs.
+echo
+echo If not, make those changes.  Is it all good? [y/n]
+read readyToCommit
+if [ "$readyToCommit" = "y" ]; then
+  doEverythingElse
 else
   echo Oh well. Run this script again later when ready.
 fi
-cd ../../
-echo --------------------
-echo Deleting the temporary repo copy.
-rm -rf multiplatform-deploy-tmp
-echo Done deleting.
-cd pvta-multiplatform
