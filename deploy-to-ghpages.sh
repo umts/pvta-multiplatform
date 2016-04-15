@@ -30,7 +30,13 @@ cd ../
 mkdir multiplatform-deploy-tmp
 echo Downloading a copy of pvta-multiplatform to be safe
 cd multiplatform-deploy-tmp
-git clone https://github.com/umts/pvta-multiplatform.git
+echo Do you use https or ssh [1 or 2]?
+read cloneMethod
+if [ "$cloneMethod" = "1" ]; then
+  git clone https://github.com/umts/pvta-multiplatform.git
+else
+  git clone git@github.com:umts/pvta-multiplatform.git
+fi
 echo Done downloading!
 cd pvta-multiplatform
 echo Preparing to deploy master to gh-pages.
