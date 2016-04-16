@@ -32,11 +32,16 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
          * routes array, this alert will
          * appear on the page twice.
          */
-        _.each(alert.Routes, function (routeId) {
-          if (_.contains(routes, routeId)) {
-            $scope.messages.push(alert);
-          }
-        });
+         if(alert.Routes.length == 0){
+           $scope.messages.push(alert);
+         }
+         else{
+           _.each(alert.Routes, function (routeId) {
+             if (_.contains(routes, routeId)) {
+               $scope.messages.push(alert);
+             }
+           });
+         };
       });
     });
   }
