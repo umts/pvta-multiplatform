@@ -42,13 +42,13 @@ function isFixed(file) {
 
 gulp.task('lint-n-fix', function() {
 
-	return gulp.src('www/js/**/*.js')
+	return gulp.src('www/pages/**/*.js')
 		.pipe(eslint({
 			fix: true
 		}))
 		.pipe(eslint.format())
 		// if fixed, write the file to dest
-		.pipe(gulpIf(isFixed, gulp.dest('www/js')));
+		.pipe(gulpIf(isFixed, gulp.dest('www/pages')));
 });
 
 gulp.task('lint-watch', function() {
@@ -57,7 +57,7 @@ gulp.task('lint-watch', function() {
 	// format results with each file, since this stream won't end.
 	lintAndPrint.pipe(eslint.formatEach());
 
-	return gulp.watch('www/js/**/*.js', function(event) {
+	return gulp.watch('www/pages/**/*.js', function(event) {
 		if (event.type !== 'deleted') {
 			gulp.src(event.path)
 				.pipe(lintAndPrint, {end: false});
@@ -69,7 +69,7 @@ gulp.task('lint-watch', function() {
 
 gulp.task('cached-lint', function() {
 	// Read all js files within test/fixtures
-	return gulp.src('www/js/**/*.js')
+	return gulp.src('www/pages/**/*.js')
 		.pipe(cache('eslint'))
 		// Only uncached and changed files past this point
 		.pipe(eslint())
@@ -85,7 +85,7 @@ gulp.task('cached-lint', function() {
 // Run the "cached-lint" task initially...
 gulp.task('cached-lint-watch', ['cached-lint'], function() {
 	// ...and whenever a watched file changes
-	return gulp.watch('www/js/**/*.js', ['cached-lint'], function(event) {
+	return gulp.watch('www/pages/**/*.js', ['cached-lint'], function(event) {
 		if (event.type === 'deleted' && cache.caches.eslint) {
 			// remove deleted files from cache
 			delete cache.caches.eslint[event.path];
