@@ -62,9 +62,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       $scope.loaded = false;
       $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
         new google.maps.Geocoder().geocode({
-      'latLng': new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-    }, function (results, status) {
-      if (status === google.maps.GeocoderStatus.OK) {
+          'latLng': new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+        }, function (results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
         if (results[1]) {
           $scope.params.origin = {
             name: results[1].formatted_address,
@@ -73,7 +73,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
           $scope.$apply();
         }
       }
-    });
+        });
       });
     }
 
@@ -123,38 +123,38 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     originAutocomplete.addListener('place_changed', function () {
       var place = originAutocomplete.getPlace();
       if (!place.geometry) {
-      console.log('Place has no geometry.');
-      return;
-    }
+        console.log('Place has no geometry.');
+        return;
+      }
       if ($scope.bounds.contains(place.geometry.location)) {
-      expandViewportToFitPlace($scope.map, place);
-      $scope.params.origin.id = place.place_id;
-      $scope.params.origin.name = place.name;
-      $scope.$apply();
-    } else {
-      $scope.params.origin.id = null;
-      originInput.value = $scope.params.origin.name;
-      invalidLocationPopup();
-    }
+        expandViewportToFitPlace($scope.map, place);
+        $scope.params.origin.id = place.place_id;
+        $scope.params.origin.name = place.name;
+        $scope.$apply();
+      } else {
+        $scope.params.origin.id = null;
+        originInput.value = $scope.params.origin.name;
+        invalidLocationPopup();
+      }
     });
 
     destinationAutocomplete.addListener('place_changed', function () {
       var place = destinationAutocomplete.getPlace();
       if (!place.geometry) {
-      console.log('Place has no geometry.');
-      return;
-    }
+        console.log('Place has no geometry.');
+        return;
+      }
       if ($scope.bounds.contains(place.geometry.location)) {
-      expandViewportToFitPlace($scope.map, place);
-      $scope.params.destination.id = place.place_id;
-      $scope.params.destination.name = place.name;
-      $scope.$apply();
-    }
+        expandViewportToFitPlace($scope.map, place);
+        $scope.params.destination.id = place.place_id;
+        $scope.params.destination.name = place.name;
+        $scope.$apply();
+      }
       else {
-      $scope.params.destination.id = null;
-      destinationInput.value = $scope.params.destination.name;
-      invalidLocationPopup();
-    }
+        $scope.params.destination.id = null;
+        destinationInput.value = $scope.params.destination.name;
+        invalidLocationPopup();
+      }
     });
   }
 
@@ -185,11 +185,11 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     };
     if (!$scope.params.time.asap) {
       if ($scope.params.time.type === 'departure') {
-      transitOptions['departureTime'] = $scope.params.time.datetime;
-    }
+        transitOptions['departureTime'] = $scope.params.time.datetime;
+      }
       else {
-      transitOptions['arrivalTime'] = $scope.params.time.datetime;
-    }
+        transitOptions['arrivalTime'] = $scope.params.time.datetime;
+      }
     }
     else transitOptions = {};
     $scope.directionsService.route({
@@ -199,22 +199,22 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       transitOptions: transitOptions
     }, function (response, status) {
       if (status === google.maps.DirectionsStatus.OK) {
-      $scope.directionsDisplay.setDirections(response);
-      route = response.routes[0].legs[0];
-      createStepList(response);
-      $scope.route.arrivalTime = route['arrival_time']['text'];
-      $scope.route.departureTime = route['departure_time']['text'];
-      $scope.route.origin = route['start_address'];
-      $scope.route.destination = route['end_address'];
-      $scope.$apply();
-      $scope.scrollTo('route');
-    }
+        $scope.directionsDisplay.setDirections(response);
+        route = response.routes[0].legs[0];
+        createStepList(response);
+        $scope.route.arrivalTime = route['arrival_time']['text'];
+        $scope.route.departureTime = route['departure_time']['text'];
+        $scope.route.origin = route['start_address'];
+        $scope.route.destination = route['end_address'];
+        $scope.$apply();
+        $scope.scrollTo('route');
+      }
       else {
-      $ionicPopup.alert({
+        $ionicPopup.alert({
         title: 'Request Failed',
         template: 'Directions request failed due to ' + status
       });
-    }
+      }
     });
   };
 
@@ -223,31 +223,31 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       var step = response.routes[0].legs[0].steps[i];
 
       if (step['travel_mode'] === 'TRANSIT') {
-      var lineName;
-      if (step['transit']['line']['short_name']) {
+        var lineName;
+        if (step['transit']['line']['short_name']) {
         lineName = step['transit']['line']['short_name'];
       }
-      else {
+        else {
         lineName = step['transit']['line']['name'];
       }
-      var departInstruction = 'Take ' + step['transit']['line']['vehicle']['name'] + ' ' + lineName + ' at ' + step['transit']['departure_time']['text'] + '. ' + step['instructions'];
-      var arriveInstruction = 'Arrive at ' + step['transit']['arrival_stop']['name'] + ' ' + step['transit']['arrival_time']['text'];
-      $scope.route.steps.push(departInstruction);
-      $scope.route.steps.push(arriveInstruction);
-      if (step['transit']['line']['agencies'][0]['name'] === 'PVTA') {
+        var departInstruction = 'Take ' + step['transit']['line']['vehicle']['name'] + ' ' + lineName + ' at ' + step['transit']['departure_time']['text'] + '. ' + step['instructions'];
+        var arriveInstruction = 'Arrive at ' + step['transit']['arrival_stop']['name'] + ' ' + step['transit']['arrival_time']['text'];
+        $scope.route.steps.push(departInstruction);
+        $scope.route.steps.push(arriveInstruction);
+        if (step['transit']['line']['agencies'][0]['name'] === 'PVTA') {
         linkToStop(step['transit']['departure_stop']['name']);
         linkToStop(step['transit']['arrival_stop']['name']);
       }
-      else {
+        else {
         $scope.route.stepLinks.concat(['', '']);
       }
 
 
-    }
+      }
       else {
-      $scope.route.steps.push(step['instructions']);
-      $scope.route.stepLinks.push('');
-    }
+        $scope.route.steps.push(step['instructions']);
+        $scope.route.stepLinks.push('');
+      }
     }
   }
 
@@ -305,11 +305,11 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       title: 'New Trip',
       template: '<div style=\'text-align:center\'>Close current trip?</div>'
     }).then(function (res) {
-    if (res) {
+      if (res) {
       $scope.loaded = false;
       reload();
     }
-  });
+    });
   };
 
   $scope.disableTap = function () {
