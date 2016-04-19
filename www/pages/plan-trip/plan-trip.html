@@ -16,13 +16,13 @@
     <b>Destination</b>
     <input id="destination-input" class="user-input location-typeahead" type="text" placeholder="Enter a destination location" ng-model="params.destination.name" ng-focus="disableTap()" />
   </div>
-  <div> 
+  <div>
     <ion-toggle ng-model="params.time.asap" ng-click="updateASAP()" id="time-asap">ASAP</ion-toggle>
     <label>
       If not ASAP, specify arrival or departure time below.
     </label>
   </div>
-  
+
 </div>
   <div class="list" style="margin: 0">
     <div ion-datetime-picker class="item" ng-model="params.time.datetime" id="trip-time" ng-change="notASAP()"><b>{{params.time.datetime | date: "yyyy-MM-dd h:mm:ss a"}}</b></div<>
@@ -33,7 +33,7 @@
     <ion-radio class="item" ng-model="params.time.type" ng-value="'departure'">Departure</ion-radio>
     <ion-radio class="item" ng-model="params.time.type" ng-value="'arrival'" ng-click="notASAP()">Arrival</ion-radio>
   </div>
-    
+
   <div class="input-div centered">
     <button ng-click="route()" id="route-button" class="user-input">Route</button>
     <button ng-click="saveTrip()" id="save-button" class="user-input">Save Trip</button>
@@ -51,7 +51,7 @@
     <b>Arrival Time:</b> {{route.arrivalTime}}
   </div>
   <ion-list>
-  <ion-item ng-repeat="step in route.steps" href={{route.stepLinks[$index]}}>
+  <ion-item class="item item-text-wrap" ng-repeat="step in route.steps" href={{route.stepLinks[$index]}}>
   <p>{{step}}</p>
   </ion-item>
   </ion-list>
