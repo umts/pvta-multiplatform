@@ -45,7 +45,7 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsDisplay.setMap($scope.map);
     directionsDisplay.setPanel(document.getElementById('directions'));
-    $scope.stop = Stop.get({stopId: $stateParams.stopId}, function(){
+    $scope.stop = Stop.get({stopId: $stateParams.stopId}, function () {
       calculateDirections();
     });
   });
