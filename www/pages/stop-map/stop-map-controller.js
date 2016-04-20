@@ -2,7 +2,6 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
   var bounds = new google.maps.LatLngBounds();
   var directionsDisplay;
   var directionsService = new google.maps.DirectionsService();
-  var stop;
 
   var mapOptions = {
     //sets the center to Haigis Mall
@@ -17,7 +16,7 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
   Map.init($scope.map, bounds);
 
   function placeStop () {
-    var loc = new google.maps.LatLng(stop.Latitude, stop.Longitude);
+    var loc = new google.maps.LatLng($scope.stop.Latitude, $scope.stop.Longitude);
     Map.addMapListener(Map.placeDesiredMarker(loc), 'Here is your stop!');
     return loc;
   }
@@ -46,7 +45,7 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsDisplay.setMap($scope.map);
     directionsDisplay.setPanel(document.getElementById('directions'));
-    stop = Stop.get({stopId: $stateParams.stopId}, function(){
+    $scope.stop = Stop.get({stopId: $stateParams.stopId}, function(){
       calculateDirections();
     });
   });
