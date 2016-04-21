@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('VehicleController', function ($scope, $state, $stateParams, $location, Vehicle, LatLong, Route, KML) {
+angular.module('pvta.controllers').controller('VehicleController', function ($scope, $state, $stateParams, $location, Vehicle, Route, KML) {
   var getVehicle = function () {
     $scope.vehicle = Vehicle.get({vehicleId: $stateParams.vehicleId});
   };

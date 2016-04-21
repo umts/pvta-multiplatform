@@ -65,14 +65,14 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
           'latLng': new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         }, function (results, status) {
           if (status === google.maps.GeocoderStatus.OK) {
-        if (results[1]) {
+            if (results[1]) {
           $scope.params.origin = {
             name: results[1].formatted_address,
             id: results[1].place_id
           };
           $scope.$apply();
         }
-      }
+          }
         });
       });
     }
@@ -211,9 +211,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       }
       else {
         $ionicPopup.alert({
-        title: 'Request Failed',
-        template: 'Directions request failed due to ' + status
-      });
+          title: 'Request Failed',
+          template: 'Directions request failed due to ' + status
+        });
       }
     });
   };
@@ -225,22 +225,22 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       if (step['travel_mode'] === 'TRANSIT') {
         var lineName;
         if (step['transit']['line']['short_name']) {
-        lineName = step['transit']['line']['short_name'];
-      }
+          lineName = step['transit']['line']['short_name'];
+        }
         else {
-        lineName = step['transit']['line']['name'];
-      }
+          lineName = step['transit']['line']['name'];
+        }
         var departInstruction = 'Take ' + step['transit']['line']['vehicle']['name'] + ' ' + lineName + ' at ' + step['transit']['departure_time']['text'] + '. ' + step['instructions'];
         var arriveInstruction = 'Arrive at ' + step['transit']['arrival_stop']['name'] + ' ' + step['transit']['arrival_time']['text'];
         $scope.route.steps.push(departInstruction);
         $scope.route.steps.push(arriveInstruction);
         if (step['transit']['line']['agencies'][0]['name'] === 'PVTA') {
-        linkToStop(step['transit']['departure_stop']['name']);
-        linkToStop(step['transit']['arrival_stop']['name']);
-      }
+          linkToStop(step['transit']['departure_stop']['name']);
+          linkToStop(step['transit']['arrival_stop']['name']);
+        }
         else {
-        $scope.route.stepLinks.concat(['', '']);
-      }
+          $scope.route.stepLinks.concat(['', '']);
+        }
 
 
       }
@@ -306,9 +306,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       template: '<div style=\'text-align:center\'>Close current trip?</div>'
     }).then(function (res) {
       if (res) {
-      $scope.loaded = false;
-      reload();
-    }
+        $scope.loaded = false;
+        reload();
+      }
     });
   };
 
