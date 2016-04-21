@@ -4,9 +4,7 @@ function doEverythingElse() {
   commit="Deploying master to gh-pages by $USER"
   echo If you would like to include a commit message, add one and press RETURN.
   read personalized
-  if [ -z "$personalized" ]; then
-    $commit = "$commit: $personalized"
-  fi
+  commit = "${commit}: $personalized"
   git commit -m "$commit"
   echo Done committing.
 
@@ -26,7 +24,7 @@ function doEverythingElse() {
   cd pvta-multiplatform
 }
 
-cd ../
+cd $1
 mkdir multiplatform-deploy-tmp
 echo Downloading a copy of pvta-multiplatform to be safe
 cd multiplatform-deploy-tmp
@@ -41,7 +39,7 @@ echo Done downloading!
 cd pvta-multiplatform
 echo Preparing to deploy master to gh-pages.
 git checkout gh-pages
-git merge master
+git pull origin master
 mv www/* .
 rm -rf www
 bower install
@@ -51,11 +49,10 @@ git add -A
 echo "-------------------------------------------------------------------------------------------------------"
 echo Before we commit and push, open a new tab in your terminal.
 echo ""
-echo Navigate to ../multiplatform-deploy-tmp/pvta-multiplatform
+echo Navigate to $0/multiplatform-deploy-tmp/pvta-multiplatform
 echo
 echo Open index.html and ensure that the HEAD tag contains a google analytics script
-echo AND the import statements include a Google API key
-echo of value AIzaSyDPsmX2FrR5zk5WLLSqoo1TawQpr0hSyDs.
+echo AND the import statements include a Google API key.
 echo
 echo If not, make those changes.  Is it all good? [y/n]
 read readyToCommit
