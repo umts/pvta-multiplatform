@@ -25,7 +25,7 @@ describe('KMLFactories', function () {
     });
   });
   describe('KML.pop()', function () {
-    beforeEach(function() {
+    beforeEach(function () {
       KML.push('30');
     });
     it('returns null when the holding array has more than one entry', function () {
@@ -33,7 +33,7 @@ describe('KMLFactories', function () {
       var kml = KML.pop();
       expect(kml).toEqual(null);
     });
-    it('removes the 0th index of the array when called', function() {
+    it('removes the 0th index of the array when called', function () {
       var oneLess = KML.pop();
       expect(oneLess).toEqual('30');
     });
