@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 my_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $my_dir
 if [[ ! "$(git status -sb | head -1 )" == "## master"* ]]
@@ -23,5 +23,5 @@ rm -rf www
 git checkout master scss
 git add -A
 git commit -m "Deploy to gh-pages"
-git push origin gh-pages
+git push -f origin gh-pages
 git checkout master
