@@ -18,11 +18,8 @@
         {{stop.name}}
       </ion-item>
     </ion-list>
-    <div ng-if="!displayItems.length">
-      <center ng-if="!filterText.length">Enter a search query to find stops, routes, and buses.</center>
-      <div class="bar bar-assertive title" ng-if="filterText.length > 0">
+    <div ng-if="!routesDisp.length || !stopsDisp.length" class="bar bar-assertive title">
         <h1 class="title">No results found.</h1>
-      </div>
     </div>
   </ion-content>
 </ion-view>

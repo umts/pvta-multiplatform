@@ -1,5 +1,6 @@
 angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, NearestStops, Avail, Recent, RouteForage, StopsForage, $ionicLoading) {
   var filterBarInstance;
+  var currentDisplay = 0;
   function getItems () {
     $scope.routes = [];
     RouteForage.get().then(function (routes) {
@@ -57,6 +58,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     }
   }
   function displayRoutes () {
+    currentDisplay = 0;
     console.log('routes');
     console.log(JSON.stringify($scope.routes));
     $scope.stopsDisp = null;
@@ -64,15 +66,23 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     $scope.$apply();
   }
   function displayStops () {
+    currentDisplay = 1;
     $scope.routesDisp = null;
     $scope.stopsDisp = $scope.stops;
     $scope.$apply();
   }
   $scope.showFilterBar = function () {
+    var itms
+    if (currentDisplay === 0)
+    itms = $scope.routesDisp;
+    else itms = $scope.stopsDisp;
     filterBarInstance = $ionicFilterBar.show({
-      items: $scope.routesDisp,
+      items: itms,
       update: function (filteredItems, filterText) {
+        if (currentDisplay === 0)
         $scope.routesDisp = filteredItems;
+        else
+        $scope.stopsDisp = filteredItems;
       }
     });
   };
