@@ -1,13 +1,12 @@
-angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, NearestStops, Avail, Recent, RouteForage, StopsForage, $ionicLoading) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, NearestStops, Avail, Recent, RouteForage, StopsForage, $ionicLoading, $stateParams) {
   var filterBarInstance;
-  var currentDisplay = 0;
+  var currentDisplay = parseInt($stateParams.segment);
   function getItems () {
     $scope.routes = [];
     RouteForage.get().then(function (routes) {
       RouteForage.save(routes);
       $scope.routes = stripDetails(routes);
       $ionicLoading.hide();
-      $scope.display(0);
     });
     function stripDetails (routeList) {
       return _.map(routeList, function (route) {
@@ -29,6 +28,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         StopsForage.save(stops);
         prepareStops(stops);
         $ionicLoading.hide();
+
       });
     });
     $scope.stops = [];
@@ -42,7 +42,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     }
   }
   getItems();
-  $scope.disp = [];
   $scope.display = function (index) {
     console.log(index);
     switch (index) {
@@ -52,18 +51,15 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       case 1:
         displayStops();
         break;
-      default:
-      console.log(index);
-      break;
-    }
+    };
   }
+  $scope.routesDisp = [];
+  $scope.stopsDisp = [];
   function displayRoutes () {
     currentDisplay = 0;
-    console.log('routes');
-    console.log(JSON.stringify($scope.routes));
     $scope.stopsDisp = null;
     $scope.routesDisp = $scope.routes;
-    $scope.$apply();
+  //  $scope.$apply();
   }
   function displayStops () {
     currentDisplay = 1;
@@ -86,6 +82,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       }
     });
   };
+  $scope.display(currentDisplay);
   // $scope.showFilterBar = function () {
   //   itm = $scope.routesDisp
   //   filterBarInstance = $ionicFilterBar.show({

@@ -49,7 +49,7 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     }
   })
   .state('app.routes-and-stops', {
-    url: '/routes-and-stops',
+    url: '/routes-and-stops/:segment',
     views: {
       'menuContent': {
         templateUrl: 'pages/routes-and-stops/routes-and-stops.html',

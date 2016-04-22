@@ -5,7 +5,7 @@
   <ion-content direction="y" scrollbar-y="false">
     <ion-list>
       <ti-segmented-control on-select="display($index)" style="width: 100%;">
-        <ti-segmented-control-button class="button-positive" title="'Routes'" selected></ti-segmented-control-button>
+        <ti-segmented-control-button class="button-positive" title="'Routes'"></ti-segmented-control-button>
         <ti-segmented-control-button class="button-positive" title="'Stops'"></ti-segmented-control-button>
       </ti-segmented-control>
       <ion-item class="item" ng-repeat="route in routesDisp" href="#app/routes/{{route.RouteId}}">
