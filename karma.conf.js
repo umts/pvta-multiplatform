@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Thu Apr 21 2016 22:40:13 GMT-0400 (EDT)
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -15,35 +15,28 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-    //Angular source
-    'www/bower_components/ionic/js/ionic.bundle.js',
-    'www/bower_components/angular-mocks/angular-mocks.js',
-    'www/bower_components/ionic/js/angular-ui/angular-ui-router.js',
-    'www/bower_components/ngCordova/dist/ng-cordova.js',
-    'www/bower_components/angular-resource/angular-resource.js',
-    'www/bower_components/angular-moment/angular-moment.js',
-    'www/bower_components/ionic-filter-bar/dist/ionic.filter.bar.js',
-    'www/bower_components/underscore/underscore-min.js',
-    'www/bower_components/angular-underscore-module/angular-underscore-module.js',
-    'www/bower_components/ion-datetime-picker/release/ion-datetime-picker.min.js',
-
-    // app code
-    'www/app.js',
-    'www/factories/*.js',
-    'www/pages/**/*.js',
-
-
-
-
-    // test code
-    'test/**/*.js'
+      //Angular source
+      'www/bower_components/ionic/js/ionic.bundle.js',
+      'www/bower_components/angular-mocks/angular-mocks.js',
+      'www/bower_components/ionic/js/angular-ui/angular-ui-router.js',
+      'www/bower_components/ngCordova/dist/ng-cordova.js',
+      'www/bower_components/angular-resource/angular-resource.js',
+      'www/bower_components/angular-moment/angular-moment.js',
+      'www/bower_components/ionic-filter-bar/dist/ionic.filter.bar.js',
+      'www/bower_components/underscore/underscore-min.js',
+      'www/bower_components/angular-underscore-module/angular-underscore-module.js',
+      'www/bower_components/ion-datetime-picker/release/ion-datetime-picker.min.js',
+      // app code
+      'www/app.js',
+      'www/factories/*.js',
+      'www/pages/**/*.js',
+      // test code
+      'test/**/*.js'
     ],
-
 
     // list of files to exclude
     exclude: [
     ],
-
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
@@ -86,5 +79,5 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
+  });
 }
