@@ -7,7 +7,7 @@ then
   exit 1
 fi
 #Are there uncommited changes to the branch?
-if [[ -z $(git status -s) ]]
+if [[ -n "$(git status -s)" ]]
 then
   echo "There are un-commited changes to master"
   exit 1
