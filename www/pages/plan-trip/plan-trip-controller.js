@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips) {
+angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips, GoogleDirections) {
 
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
   swBound = new google.maps.LatLng(41.93335, -72.85809);
@@ -6,24 +6,21 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
   $scope.bounds = new google.maps.LatLngBounds(swBound, neBound);
   startTimer = function () {
-    timer = $interval(function () {
+    $scope.timer = $interval(function () {
       $scope.params.time.datetime = Date.now();
     }, 1000);
   };
 
-  $scope.updateASAP = function () {
+  $scope.updateASAP = function (asap) {
+    if (asap !== undefined)
+      $scope.params.time.asap = asap;
     if ($scope.params.time.asap) {
       $scope.params.time.type = 'departure';
       startTimer();
     }
-    else if (timer){
-      $interval.cancel(timer);
+    else if ($scope.timer !== undefined){
+      $interval.cancel($scope.timer);
     }
-  };
-
-  $scope.notASAP = function () {
-    $scope.params.time.asap = false;
-    $interval.cancel(timer);
   };
 
   $scope.updateOrigin = function() {
@@ -64,6 +61,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   };
 
   var reload = function () {
+    constructMap(defaultMapCenter);
     currentDate = new Date();
     $scope.params = {
       name: 'New Trip',
@@ -83,10 +81,10 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       loadedTrip = null;
       if ($scope.params.destination_only) {
         loadLocation().then(function() {
-          $scope.route();
+          $scope.getRoute();
         });
       }
-      else $scope.route();
+      else $scope.getRoute();
     }
     else {
       $scope.loaded = false;
@@ -94,12 +92,10 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
 
     $scope.updateASAP();
-    constructMap(defaultMapCenter);
   };
 
   $scope.$on('$ionicView.enter', function() {
     loadedTrip = Trips.pop();
-    console.log(loadedTrip);
     if (loadedTrip !== null || !$scope.params)//reload if either a trip is being loaded or if this page has not yet been loaded
       reload();
   });
@@ -190,96 +186,42 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   }
 
 
-  $scope.route = function () {
-    $scope.route.steps = [];
-    $scope.route.stepLinks = [];
-    $scope.route.arrivalTime = null;
-    $scope.route.departureTime = null;
-    $scope.route.origin = null;
-    $scope.route.destination = null;
-
+  $scope.getRoute = function () {
+    $scope.route = {
+      directions: {},
+      arrivalTime: null,
+      departureTime: null,
+      origin: null,
+      destination: null
+    }
     if (!$scope.params.origin.id || !$scope.params.destination.id) {
       return;
     }
-    transitOptions = {
-      modes: [google.maps.TransitMode.BUS]
-    };
-    if (!$scope.params.time.asap) {
-      if ($scope.params.time.type === 'departure') {
-        transitOptions['departureTime'] = $scope.params.time.datetime;
-      }
-      else {
-        transitOptions['arrivalTime'] = $scope.params.time.datetime;
-      }
+    if ($scope.params.time.datetime < Date.now()){
+      $scope.updateASAP(true);
     }
-    else transitOptions = {};
     $ionicLoading.show({
       template: 'Routing..'
     });
-    $scope.directionsService.route({
-      origin: {'placeId': $scope.params.origin.id},
-      destination: {'placeId': $scope.params.destination.id},
-      travelMode: google.maps.TravelMode.TRANSIT,
-      transitOptions: transitOptions
-    }, function (response, status) {
+    GoogleDirections.route($scope.params, $scope.directionsDisplay, function(data) { 
       $ionicLoading.hide();
-      if (status === google.maps.DirectionsStatus.OK) {
-        $scope.directionsDisplay.setDirections(response);
-        route = response.routes[0].legs[0];
-        createStepList(response);
-        $scope.route.arrivalTime = route['arrival_time']['text'];
-        $scope.route.departureTime = route['departure_time']['text'];
-        $scope.route.origin = route['start_address'];
-        $scope.route.destination = route['end_address'];
-        $scope.$apply();
-        $scope.scrollTo('route');
-      }
-      else {
-        $ionicPopup.alert({
-          title: 'Request Failed',
-          template: 'Directions request failed due to ' + status
+      $scope.route = data; 
+      if ($scope.route.status === google.maps.DirectionsStatus.OK) {
+        GoogleDirections.generateDirections(function(data) { 
+          $scope.route.directions = data;
+          $scope.$apply();
+          $scope.scrollTo('route');
         });
       }
+      else
+       $ionicPopup.alert({
+        title: 'Request Failed',
+        template: 'Directions request failed due to ' + status
+      });
+    }, function(err){
+      console.log("no dude");
     });
   };
-
-
-  function createStepList (response) {
-    for (var i = 0; i < response.routes[0].legs[0].steps.length; i++) {
-      var step = response.routes[0].legs[0].steps[i];
-
-      if (step['travel_mode'] === 'TRANSIT') {
-        var lineName;
-        if (step['transit']['line']['short_name']) {
-          lineName = step['transit']['line']['short_name'];
-        }
-        else {
-          lineName = step['transit']['line']['name'];
-        }
-        var departInstruction = 'Take ' + step['transit']['line']['vehicle']['name'] + ' ' + lineName + ' at ' + step['transit']['departure_time']['text'] + '. ' + step['instructions'];
-        var arriveInstruction = 'Arrive at ' + step['transit']['arrival_stop']['name'] + ' ' + step['transit']['arrival_time']['text'];
-        $scope.route.steps.push(departInstruction);
-        $scope.route.steps.push(arriveInstruction);
-        if (step['transit']['line']['agencies'][0]['name'] === 'PVTA') {
-          if($scope.route.stepLinks[$scope.route.stepLinks.length-1] === ''){//This check is made to catch walking directions, and link them to their respective stop
-            $scope.route.stepLinks.pop();
-            linkToStop(step['transit']['departure_stop']['name']);
-          }
-          linkToStop(step['transit']['departure_stop']['name']);
-          linkToStop(step['transit']['arrival_stop']['name']);
-        }
-        else {
-          $scope.route.stepLinks.concat(['', '']);
-        }
-
-
-      }
-      else {
-        $scope.route.steps.push(step['instructions']);
-        $scope.route.stepLinks.push('');
-      }
-    }
-  }
 
   function linkToStop (stop) {
     stop = stop.split(' ');
