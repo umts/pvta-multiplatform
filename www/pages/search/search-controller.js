@@ -55,6 +55,12 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
     }
   }
   getItems();
+  function $scope.display (index) {
+    switch (index) {
+        case 2:
+          $scope.all = $scope.stops
+    }
+  }
   $scope.showFilterBar = function () {
     filterBarInstance = $ionicFilterBar.show({
       items: $scope.all,

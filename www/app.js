@@ -6,7 +6,7 @@
 // 'pvta.controllers' is found in controllers.js
 angular.module('pvta.controllers', ['pvta.factories']);
 angular.module('pvta.factories', ['ngResource']);
-angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore', 'ion-datetime-picker'])
+angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore', 'ion-datetime-picker', 'ti-segmented-control'])
 
 .run(function ($ionicPlatform) {
   $ionicPlatform.ready(function () {

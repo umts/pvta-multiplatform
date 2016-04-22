@@ -4,7 +4,11 @@
   </ion-nav-buttons>
   <ion-content direction="y" scrollbar-y="false">
     <ion-list>
-      
+      <ti-segmented-control on-select="display($index)" style="width: 100%;">
+        <ti-segmented-control-button class="button-positive" title="'All'" selected></ti-segmented-control-button>
+        <ti-segmented-control-button class="button-positive" title="'Routes'"></ti-segmented-control-button>
+        <ti-segmented-control-button class="button-positive" title="'Stops'"></ti-segmented-control-button>
+      </ti-segmented-control>
       <ion-item collection-repeat="item in displayItems" item-height= "50" href="#app/{{item.type}}s/{{item.id}}">
         <p>{{item.name}}</p>
       </ion-item>
