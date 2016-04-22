@@ -13,12 +13,12 @@
         <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.ShortName}}</span>
         <p>{{route.LongName}}</p>
       </ion-item>
-      <ion-item collection-repeat="stop in stopsDisp" href="#/app/stops/{{stop.StopId}}">
+      <ion-item collection-repeat="stop in stopsDisp" href="#/app/stops/{{stop.id}}">
         <i class="icon ion-ios-location" style="margin-right: 10px"></i>
         {{stop.name}}
       </ion-item>
     </ion-list>
-    <div ng-if="!routesDisp.length || !stopsDisp.length" class="bar bar-assertive title">
+    <div ng-if="!routesDisp.length && !stopsDisp.length" class="bar bar-assertive title">
         <h1 class="title">No results found.</h1>
     </div>
   </ion-content>
