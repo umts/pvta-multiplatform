@@ -1,5 +1,7 @@
+#!/bin/sh
 my_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $my_dir
+git checkout master
 git branch -D gh-pages
 git checkout -B gh-pages
 npm install
@@ -10,5 +12,6 @@ mv www/* ./
 rm -rf www
 git checkout master scss
 git add -A
-now="$(date)"
-git commit -m "Deploy by $(whoami): ${now}"
+git commit -m "Deploy to gh-pages"
+git push origin gh-pages
+git checkout master
