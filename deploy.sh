@@ -1,7 +1,17 @@
 #!/bin/sh
 my_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $my_dir
-git checkout master
+if [[ ! "$( cd $REPO && git status -sb | head -1 )" == "## master"* ]]
+then
+  echo "Not currently on master branch"
+  exit 1
+fi
+#Are there uncommited changes to the branch?
+if [[ -z $(git status -s) ]]
+then
+  echo "There are un-commited changes to master"
+  exit 1
+fi
 git branch -D gh-pages
 git checkout -B gh-pages
 npm install
