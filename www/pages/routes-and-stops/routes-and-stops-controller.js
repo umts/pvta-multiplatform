@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('SearchController', function ($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, NearestStops, Avail, Recent, RouteForage, StopsForage, $ionicLoading) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, NearestStops, Avail, Recent, RouteForage, StopsForage, $ionicLoading) {
   var filterBarInstance;
   function getItems () {
     $scope.routes = [];
@@ -6,6 +6,7 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
       RouteForage.save(routes);
       $scope.routes = stripDetails(routes);
       $ionicLoading.hide();
+      $scope.display(0);
     });
     function stripDetails (routeList) {
       return _.map(routeList, function (route) {
@@ -42,6 +43,7 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
   getItems();
   $scope.disp = [];
   $scope.display = function (index) {
+    console.log(index);
     switch (index) {
       case 0:
         displayRoutes();

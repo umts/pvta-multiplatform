@@ -48,12 +48,12 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
       }
     }
   })
-  .state('app.search', {
-    url: '/search',
+  .state('app.routes-and-stops', {
+    url: '/routes-and-stops',
     views: {
       'menuContent': {
-        templateUrl: 'pages/search/search.html',
-        controller: 'SearchController'
+        templateUrl: 'pages/routes-and-stops/routes-and-stops.html',
+        controller: 'RoutesAndStopsController'
       }
     }
   })
