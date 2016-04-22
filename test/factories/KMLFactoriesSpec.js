@@ -1,14 +1,22 @@
 describe('KMLFactories', function () {
   var KML;
   beforeEach(function () {
+    // Instantiate the pvta module,
+    // which is the base module that
+    // everything else branches from.
     module('pvta');
+    // Explicitly inject the KML service.
     inject(function (_KML_) {
       KML = _KML_;
     });
   });
+
   it('exists', function () {
     expect(KML).toBeDefined();
   });
+
+  /* Nested `describe`s for testing individual
+   * functions. */
   describe('KML.push()', function () {
     it('adds to kml array when push is called', function () {
       KML.push('30');

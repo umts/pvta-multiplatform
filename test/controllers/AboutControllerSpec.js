@@ -1,16 +1,23 @@
 describe("AboutController", function () {
-  var $scope, ctrl;
+  // These will be instantiated in beforeEach
+  // and will be used throughout the tests.
+  var scope, ctrl;
+  // Create the base module, from which
+  // all things branch.
   beforeEach(module('pvta'));
-
+  // Explicitly inject necessary Angular modules.
   beforeEach(inject(function ($rootScope, $controller) {
-    $scope = $rootScope.$new();
-    ctrl = $controller('AboutController', {$scope: $scope});
+    // This comes for free in actual controllers,
+    // but tests must explicitly branch from the root scope.
+    scope = $rootScope.$new();
+    // Again, we must grab the controller 'ourselves.'
+    ctrl = $controller('AboutController', {$scope: scope});
   }));
 
   it("Should have a $scope variable", function() {
-    expect($scope).toBeDefined();
+    expect(scope).toBeDefined();
   });
   it("Displays the current version number", function() {
-    expect($scope.vNum).toEqual('0.6.0');
+    expect(scope.vNum).toEqual('0.6.0');
   });
 })
