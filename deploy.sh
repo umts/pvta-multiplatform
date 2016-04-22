@@ -1,7 +1,7 @@
 #!/bin/sh
 my_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $my_dir
-if [[ ! "$( cd $REPO && git status -sb | head -1 )" == "## master"* ]]
+if [[ ! "$(git status -sb | head -1 )" == "## master"* ]]
 then
   echo "Not currently on master branch"
   exit 1
