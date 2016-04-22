@@ -1,8 +1,5 @@
 describe("AboutController", function () {
-  var $scope, ctrl, poo;
-  beforeEach(module('pvta.controllers'));
-  beforeEach(module('pvta.factories'));
-
+  var $scope, ctrl;
   beforeEach(module('pvta'));
 
   beforeEach(inject(function ($rootScope, $controller) {
