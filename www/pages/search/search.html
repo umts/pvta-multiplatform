@@ -5,12 +5,17 @@
   <ion-content direction="y" scrollbar-y="false">
     <ion-list>
       <ti-segmented-control on-select="display($index)" style="width: 100%;">
-        <ti-segmented-control-button class="button-positive" title="'All'" selected></ti-segmented-control-button>
-        <ti-segmented-control-button class="button-positive" title="'Routes'"></ti-segmented-control-button>
+        <ti-segmented-control-button class="button-positive" title="'Routes'" selected></ti-segmented-control-button>
         <ti-segmented-control-button class="button-positive" title="'Stops'"></ti-segmented-control-button>
       </ti-segmented-control>
-      <ion-item collection-repeat="item in displayItems" item-height= "50" href="#app/{{item.type}}s/{{item.id}}">
-        <p>{{item.name}}</p>
+      <ion-item class="item" ng-repeat="route in routesDisp" href="#app/routes/{{route.RouteId}}">
+        <i class="icon ion-android-bus"></i>
+        <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.ShortName}}</span>
+        <p>{{route.LongName}}</p>
+      </ion-item>
+      <ion-item collection-repeat="stop in stopsDisp" href="#/app/stops/{{stop.StopId}}">
+        <i class="icon ion-ios-location" style="margin-right: 10px"></i>
+        {{stop.name}}
       </ion-item>
     </ion-list>
     <div ng-if="!displayItems.length">

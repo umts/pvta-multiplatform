@@ -1,32 +1,17 @@
 angular.module('pvta.controllers').controller('SearchController', function ($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, NearestStops, Avail, Recent, RouteForage, StopsForage, $ionicLoading) {
   var filterBarInstance;
   function getItems () {
-    $scope.all = [];
-    var prepareRoutes = function (routes) {
-      for (var i = 0; i < routes.length; i++) {
-        $scope.all.push({name: 'Route ' + routes[i].ShortName + ': ' + routes[i].LongName,
-                          type: 'route',
-                          id: routes[i].RouteId
-                          });
-        if (!routes[i].IsVisible) {
-          routes.splice(i, 1);
-          /********************************************
-           * Because splice() removes the entry at
-           * the current index and slides all others
-           * to the left, we must ***decrement i*** so that
-           * we don't miss adding a route that ocurrs
-           * immediately AFTER a non-visible route to
-           * $scope.all.
-           ********************************************/
-          i--;
-        }
-      }
-      return routes;
-    };
+    $scope.routes = [];
     RouteForage.get().then(function (routes) {
       RouteForage.save(routes);
-      prepareRoutes(routes);
+      $scope.routes = stripDetails(routes);
+      $ionicLoading.hide();
     });
+    function stripDetails (routeList) {
+      return _.map(routeList, function (route) {
+        return _.pick(route, 'RouteId', 'ShortName', 'LongName', 'Color');
+      });
+    }
     $ionicLoading.show({});
     $cordovaGeolocation.getCurrentPosition({timeout: 3000}).then(function (position) {
       StopsForage.get(position.coords.latitude, position.coords.longitude).then(function (stops) {
@@ -44,10 +29,10 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
         $ionicLoading.hide();
       });
     });
-
+    $scope.stops = [];
     function prepareStops (list) {
       for (var i = 0; i < list.length; i++) {
-        $scope.all.push({name: list[i].Name,
+        $scope.stops.push({name: list[i].Name,
                         type: 'stop',
                         id: list[i].StopId
                         });
@@ -55,27 +40,56 @@ angular.module('pvta.controllers').controller('SearchController', function ($sco
     }
   }
   getItems();
-  function $scope.display (index) {
+  $scope.disp = [];
+  $scope.display = function (index) {
     switch (index) {
-        case 2:
-          $scope.all = $scope.stops
+      case 0:
+        displayRoutes();
+        break;
+      case 1:
+        displayStops();
+        break;
+      default:
+      console.log(index);
+      break;
     }
+  }
+  function displayRoutes () {
+    console.log('routes');
+    console.log(JSON.stringify($scope.routes));
+    $scope.stopsDisp = null;
+    $scope.routesDisp = $scope.routes;
+    $scope.$apply();
+  }
+  function displayStops () {
+    $scope.routesDisp = null;
+    $scope.stopsDisp = $scope.stops;
+    $scope.$apply();
   }
   $scope.showFilterBar = function () {
     filterBarInstance = $ionicFilterBar.show({
-      items: $scope.all,
+      items: $scope.routesDisp,
       update: function (filteredItems, filterText) {
-        if (filterText !== '' && filterText !== null) {
-          $scope.displayItems = filteredItems;
-          $scope.filterText = filterText;
-        }
-        else {
-          $scope.displayItems = [];
-        }
-      },
-      cancel: function () {
-        $scope.displayItems = [];
+        $scope.routesDisp = filteredItems;
       }
     });
   };
+  // $scope.showFilterBar = function () {
+  //   itm = $scope.routesDisp
+  //   filterBarInstance = $ionicFilterBar.show({
+  //     items: $scope.route,
+  //     update: function (filteredItems, filterText) {
+  //       if (filterText !== '' && filterText !== null) {
+  //         itm = filteredItems;
+  //         $scope.filterText = filterText;
+  //       }
+  //       else {
+  //         itm = [];
+  //       }
+  //     },
+  //     cancel: function () {
+  //       itm = [];
+  //     }
+  //   });
+  // };
 });
