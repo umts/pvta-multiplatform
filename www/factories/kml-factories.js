@@ -22,6 +22,7 @@ angular.module('pvta.factories')
 
   return {
     push: push,
-    pop: pop
+    pop: pop,
+    kml: kml
   };
 });
