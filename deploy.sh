@@ -11,4 +11,4 @@ rm -rf www
 git checkout master scss
 git add -A
 now="$(date)"
-git commit -m "Deploy: ${now}"
+git commit -m "Deploy by $(whoami): ${now}"
