@@ -40,10 +40,10 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
 
         else {
           _.each(alert.Routes, function (routeId) {
-             if (_.contains(routes, routeId)) {
-               $scope.messages.push(alert);
-             }
-           });
+            if (_.contains(routes, routeId)) {
+              $scope.messages.push(alert);
+            }
+          });
         }
       });
     });

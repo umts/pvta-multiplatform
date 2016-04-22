@@ -66,12 +66,12 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         }, function (results, status) {
           if (status === google.maps.GeocoderStatus.OK) {
             if (results[1]) {
-          $scope.params.origin = {
-            name: results[1].formatted_address,
-            id: results[1].place_id
-          };
-          $scope.$apply();
-        }
+              $scope.params.origin = {
+                name: results[1].formatted_address,
+                id: results[1].place_id
+              };
+              $scope.$apply();
+            }
           }
         });
       });

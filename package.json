@@ -16,6 +16,10 @@
     "gulp-rename": "^1.2.0",
     "gulp-sass": "^2.0.4",
     "gulp-util": "^2.2.14",
+    "jasmine": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^0.2.3",
+    "karma-jasmine": "^0.3.8",
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
