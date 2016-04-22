@@ -1,5 +1,5 @@
 describe('AboutController', function () {
-  // These will be instantiated in beforeEach
+  // This will be instantiated in beforeEach
   // and will be used throughout the tests.
   var scope;
   // Create the base module, from which
