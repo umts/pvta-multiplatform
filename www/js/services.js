@@ -558,6 +558,8 @@ angular.module('pvta.services', ['ngResource'])
 
   }
 
+  //Use as a callback method to retrieve a hash of directions and their respective
+  //links (links go to a Stop page). To be called after a successful route()
   function generateDirections(callback) {
     directions = {};
     for (var i=0; i < steps.length; i++) {
