@@ -5,7 +5,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   var currentDisplay = parseInt($stateParams.segment);
   $ionicLoading.show({});
   // One variable for everything
-  $scope.all = []
+  $scope.all = [];
   /*
    * Get all the routes and stops
    */
@@ -83,8 +83,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       case 3:
         displayAll();
         break;
-    };
-  }
+    }
+  };
   // Two variables for the lists.
   $scope.routesDisp = [];
   $scope.stopsDisp = [];
@@ -127,7 +127,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     // If routes are displayed, imts is routes.
     // Else, it's stops.
     if (currentDisplay === 0)
-    itms = $scope.routesDisp;
+      itms = $scope.routesDisp;
     else itms = $scope.stopsDisp;
     filterBarInstance = $ionicFilterBar.show({
       // tell $ionicFilterBar to search over itms.
@@ -137,7 +137,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         // if routes are currently being displayed, update
         // their list with our results here.
         if (currentDisplay === 0)
-        $scope.routesDisp = filteredItems;
+          $scope.routesDisp = filteredItems;
         else
         // otherwise, update the stops list.
         $scope.stopsDisp = filteredItems;
