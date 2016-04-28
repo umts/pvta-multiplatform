@@ -66,53 +66,39 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       $scope.all.push($scope.stops);
     }
   }
-  /* Decides which list to display.
-   * Takes an index (0 or 1) and calls
-   * the proper function that will
-   * throw a list onto the screen.
-   */
-  $scope.display = function (index) {
-    switch (index) {
-      case 0:
-        displayRoutes();
-        break;
-      case 1:
-        displayStops();
-        break;
-      case 3:
-        displayAll();
-        break;
-    }
-  };
   // Two variables for the lists.
   $scope.routesDisp = [];
   $scope.stopsDisp = [];
 
+  /* Decides which list to display.
+   * Takes an index (0 or 1) and assigns
+   * the appropriate variables.
+   */
+  $scope.display = function (index) {
+    /* Set the controller-wide
+     * variable to indicate
+     * which type of data is being displayed.
+     * This is useful when searching.
+     */
+    currentDisplay = index;
+    /* Fill the $scope variable for
+     * the proper list and clear out
+     * the ones for the other list.
+     */
+    switch (index) {
+      case 0:
 
-  /* Fill the $scope variable for
-   * the route list and clear out
-   * the ones for the stop list.
-   * Finally, hide the loader to coax
-   * a redraw.
-   */
-  function displayRoutes () {
-    // Set the controller-wide
-    // variable to indicate
-    // that routes are being displayed.
-    // This is useful when searching.
-    currentDisplay = 0;
-    $scope.stopsDisp = null;
-    $scope.routesDisp = $scope.routes;
-    $ionicLoading.hide();
-  }
-  /* See displayRoutes()
-   */
-  function displayStops () {
-    currentDisplay = 1;
-    $scope.routesDisp = null;
-    $scope.stopsDisp = $scope.stops;
-    $ionicLoading.hide();
-  }
+        $scope.stopsDisp = null;
+        $scope.routesDisp = $scope.routes;
+        break;
+      case 1:
+        $scope.routesDisp = null;
+        $scope.stopsDisp = $scope.stops;
+        break;
+    }
+    // Finally, hide the loader to coax a redraw.
+    $ionicLoading.hide()
+  };
 
   /* When the search button is clicked onscreen,
    * this function is called. The library, in the background,
