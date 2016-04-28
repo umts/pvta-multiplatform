@@ -14,6 +14,7 @@
     "angular-underscore-module": "~1.0.3",
     "angular-resource": "~1.5.0",
     "ion-datetime-picker": "^0.1.2",
+    "ti-segmented-control": "^0.0.2",
     "angular-mocks": "1.4.3"
   }
 }
