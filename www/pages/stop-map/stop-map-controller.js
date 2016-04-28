@@ -1,4 +1,6 @@
 angular.module('pvta.controllers').controller('StopMapController', function ($scope, $ionicLoading, $stateParams, Stop, Map) {
+  ga('set', 'page', '/stop-map.html');
+  ga('send', 'pageview');
   var bounds = new google.maps.LatLngBounds();
   var directionsDisplay;
   var directionsService = new google.maps.DirectionsService();

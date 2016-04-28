@@ -1,4 +1,6 @@
 angular.module('pvta.controllers').controller('VehicleController', function ($scope, $state, $stateParams, $location, Vehicle, Route, KML) {
+  ga('set', 'page', '/vehicle.html');
+  ga('send', 'pageview');
   var getVehicle = function () {
     $scope.vehicle = Vehicle.get({vehicleId: $stateParams.vehicleId});
   };

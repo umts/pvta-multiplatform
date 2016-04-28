@@ -1,4 +1,6 @@
 angular.module('pvta.controllers').controller('StorageSettingsController', function ($scope, $ionicPopup) {
+  ga('set', 'page', '/storage-settings.html');
+  ga('send', 'pageview');
   $scope.clearAll = function () {
     var confirmPopup = showConfirmPopup('Delete All Data?', 'Are you sure?  This removes all your favorites and cannot be undone.');
     confirmPopup.then(function (res) {

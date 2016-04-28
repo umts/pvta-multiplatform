@@ -1,5 +1,6 @@
 angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $interval, $cordovaGeolocation, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips) {
-
+  ga('set', 'page', '/plan-trip.html');
+  ga('send', 'pageview');
   dateOptions = {
     date: new Date(),
     mode: 'time',

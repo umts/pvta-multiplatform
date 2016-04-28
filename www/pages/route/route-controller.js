@@ -1,5 +1,6 @@
 angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, Route, RouteVehicles, FavoriteRoutes, Messages, KML){
-
+  ga('set', 'page', '/route.html');
+  ga('send', 'pageview');
   var getVehicles = function(){
     $scope.vehicles = RouteVehicles.query({id: $stateParams.routeId});
   };
