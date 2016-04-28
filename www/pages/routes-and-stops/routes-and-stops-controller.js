@@ -1,5 +1,4 @@
 angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, NearestStops, Avail, Recent, RouteForage, StopsForage, $ionicLoading, $stateParams) {
-  var filterBarInstance;
   // We can control which list is shown via the page's URL.
   // Pull that param and same it for later.
   var currentDisplay = parseInt($stateParams.segment);
@@ -126,21 +125,27 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     // itms is the variable we'll be searching.
     // If routes are displayed, imts is routes.
     // Else, it's stops.
-    if (currentDisplay === 0)
+    if (currentDisplay === 0) {
       itms = $scope.routesDisp;
-    else itms = $scope.stopsDisp;
+    }
+    else {
+      itms = $scope.stopsDisp;
+    }
     filterBarInstance = $ionicFilterBar.show({
       // tell $ionicFilterBar to search over itms.
       items: itms,
       // Every time the input changes, update the results.
-      update: function (filteredItems, filterText) {
+      update: function (filteredItems) {
         // if routes are currently being displayed, update
         // their list with our results here.
-        if (currentDisplay === 0)
+        if (currentDisplay === 0) {
           $scope.routesDisp = filteredItems;
-        else
-        // otherwise, update the stops list.
-        $scope.stopsDisp = filteredItems;
+        }
+        else {
+          // otherwise, update the stops list.
+          $scope.stopsDisp = filteredItems;
+        }
+
       }
     });
   };
