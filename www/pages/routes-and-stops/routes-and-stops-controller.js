@@ -3,8 +3,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   // Pull that param and same it for later.
   var currentDisplay = parseInt($stateParams.segment);
   $ionicLoading.show({});
-  // One variable for everything
-  $scope.all = [];
   /*
    * Get all the routes and stops
    */
@@ -14,11 +12,10 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     RouteForage.get().then(function (routes) {
       RouteForage.save(routes);
       $scope.routes = stripDetails(routes);
-      $scope.all.push($scope.routes);
       $scope.display(currentDisplay);
     });
     /*
-    * Nested function for removing stuff we don't Nested
+    * Nested function for removing stuff we don't need
     * from each route; this makes searching easier!
     */
     function stripDetails (routeList) {
@@ -50,7 +47,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       });
     });
     $scope.stops = [];
-    /* Similar to prepareRoutes, we Only
+    /* Similar to prepareRoutes, we only
      * keep the details about each stop that are useful
      * to us for displaying them.  It makes searching easier.
      */
@@ -61,9 +58,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
                         id: list[i].StopId
                         });
       }
-      // Add the newly prepared Stops list to
-      // the list of everything.
-      $scope.all.push($scope.stops);
     }
   }
   // Two variables for the lists.
