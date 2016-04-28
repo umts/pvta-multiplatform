@@ -1,5 +1,6 @@
 angular.module('pvta.controllers').controller('SettingsController', function ($scope) {
-
+  ga('set', 'page', '/settings.html');
+  ga('send', 'pageview');
   $scope.message = '';
 
   $scope.autorefresh = 45000;

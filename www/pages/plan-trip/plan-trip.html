@@ -23,7 +23,7 @@
       If not ASAP, specify arrival or departure time below.
     </label>
   </div>
-  
+
 </div>
   <div class="list" style="margin: 0">
     <div ion-datetime-picker class="item" ng-model="params.time.datetime" id="trip-time" ng-click="updateASAP(false)"><b>{{params.time.datetime | date: "yyyy-MM-dd h:mm:ss a"}}</b></div<>
@@ -34,7 +34,6 @@
     <ion-radio class="item" ng-model="params.time.type" ng-value="'departure'">Departure</ion-radio>
     <ion-radio class="item" ng-model="params.time.type" ng-value="'arrival'" ng-click="updateASAP(false)">Arrival</ion-radio>
   </div>
-    
   <div class="input-div center-div">
     <button ng-click="getRoute()" id="route-button" class="user-input trip-button">Route</button>
     <button ng-click="saveTrip()"  class="user-input trip-button" ng-if="!params.destination_only">Save Trip</button>

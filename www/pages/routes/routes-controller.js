@@ -1,4 +1,6 @@
 angular.module('pvta.controllers').controller('RoutesController', function ($scope, $resource, Routes, RouteList, $ionicFilterBar, RouteForage, $ionicLoading) {
+  ga('set', 'page', '/routes.html');
+  ga('send', 'pageview');
   var filterBarInstance;
   $ionicLoading.show({});
   RouteForage.get().then(function (routes) {

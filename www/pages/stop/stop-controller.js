@@ -1,5 +1,6 @@
-angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $resource, $location, $interval, Stop, StopDeparture, moment, LatLong, FavoriteStops, SimpleRoute) {
-
+angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $resource, $location, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute) {
+  ga('set', 'page', '/stop.html');
+  ga('send', 'pageview');
   // For a given RouteId, downloads the simplest
   // version of the details for that route from
   // Avail.  Adds it to a $scope-wide list.
@@ -172,10 +173,9 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   // Push the coordinates of the stop to
   // the service and redirect to the
   // StopMapController.
-  $scope.setCoordinates = function (lat, long) {
-    LatLong.push(lat, long);
+  $scope.setCoordinates = function () {
     $interval.cancel(timer);
-    $location.path('/app/map/stop');
+    $state.go('app.stop-map', {stopId: $stateParams.stopId});
   };
 
   // Update whether this Stop is favorited.

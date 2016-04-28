@@ -1,4 +1,6 @@
 angular.module('pvta.controllers').controller('SearchController', function ($scope, $ionicFilterBar, $resource, $cordovaGeolocation, RouteList, NearestStops, Avail, Recent, RouteForage, StopsForage, $ionicLoading) {
+  ga('set', 'page', '/search.html');
+  ga('send', 'pageview');
   var filterBarInstance;
   function getItems () {
     $scope.all = [];

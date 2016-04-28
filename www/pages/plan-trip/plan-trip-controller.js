@@ -1,5 +1,6 @@
-angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips, GoogleDirections) {
-
+angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips) {
+  ga('set', 'page', '/plan-trip.html');
+  ga('send', 'pageview');
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
   swBound = new google.maps.LatLng(41.93335, -72.85809);
   neBound = new google.maps.LatLng(42.51138, -72.20302);
@@ -212,16 +213,15 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     if ($scope.params.time.datetime < Date.now()){//directions will fail if given a previous time
       $scope.updateASAP(true);
     }
-
     $ionicLoading.show({
       template: 'Routing..'
     });
 
-    GoogleDirections.route($scope.params, $scope.directionsDisplay, function(data) { 
+    Trips.route($scope.params, $scope.directionsDisplay, function(data) { 
       $ionicLoading.hide();
       $scope.route = data; 
       if ($scope.route.status === google.maps.DirectionsStatus.OK) {
-        GoogleDirections.generateDirections(function(data) { 
+        Trips.generateDirections(function(data) { 
           $scope.route.directions = data;
           $scope.$apply();
           $scope.scrollTo('route');

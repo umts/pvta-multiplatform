@@ -1,4 +1,6 @@
 angular.module('pvta.controllers').controller('RouteMapController', function ($scope, $stateParams, $ionicLoading, Map, KML, Route) {
+  ga('set', 'page', '/route-map.html');
+  ga('send', 'pageview');
   var bounds = new google.maps.LatLngBounds();
 
   var mapOptions = {

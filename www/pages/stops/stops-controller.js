@@ -1,4 +1,6 @@
 angular.module('pvta.controllers').controller('StopsController', function ($scope, $resource, Stops, NearestStops, $ionicFilterBar, $cordovaGeolocation, StopsForage, $ionicLoading) {
+  ga('set', 'page', '/stops.html');
+  ga('send', 'pageview');
   $scope.stops = [];
   $ionicLoading.show({});
   $cordovaGeolocation.getCurrentPosition({timeout: 3000}).then(function (position) {

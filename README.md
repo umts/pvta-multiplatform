@@ -30,7 +30,7 @@ To begin developing, follow these steps:
 
 ## Developing
 
-The javascript is contained in `www/js`.Start editing away!
+The javascript and corresponding HTML is contained in `www/pages`.Start editing away!
 
 2. Viewing the results of your changes is easy:
    Just run `ionic serve -c` from the root project directory.
