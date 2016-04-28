@@ -87,7 +87,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
      */
     switch (index) {
       case 0:
-
         $scope.stopsDisp = null;
         $scope.routesDisp = $scope.routes;
         break;
@@ -97,7 +96,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         break;
     }
     // Finally, hide the loader to coax a redraw.
-    $ionicLoading.hide()
+    $ionicLoading.hide();
   };
 
   /* When the search button is clicked onscreen,
