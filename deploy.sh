@@ -20,7 +20,6 @@ bower install
 shopt -s dotglob && git rm -rf --ignore-unmatch *
 git checkout master www/
 mv www/* ./
-read k
 rm -rf www
 git checkout master scss
 git add -A
