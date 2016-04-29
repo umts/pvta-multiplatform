@@ -34,7 +34,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       StopsForage.get(position.coords.latitude, position.coords.longitude).then(function (stops) {
         StopsForage.save(stops);
         stops = StopsForage.uniq(stops);
-        prepareStops(stops);
+        $scope.stops = prepareStops(stops);
       });
     }, function (err) {
       // If location services fail us, just
@@ -43,21 +43,17 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       StopsForage.get().then(function (stops) {
         stops = StopsForage.uniq(stops);
         StopsForage.save(stops);
-        prepareStops(stops);
+        $scope.stops = prepareStops(stops);
       });
     });
-    $scope.stops = [];
     /* Similar to prepareRoutes, we only
      * keep the details about each stop that are useful
      * to us for displaying them.  It makes searching easier.
      */
     function prepareStops (list) {
-      for (var i = 0; i < list.length; i++) {
-        $scope.stops.push({name: list[i].Name,
-                        type: 'stop',
-                        id: list[i].StopId
-                        });
-      }
+      return _.map(list, function (stop) {
+        return _.pick(stop, 'StopId', 'Name');
+      });
     }
   }
   // Two variables for the lists.
