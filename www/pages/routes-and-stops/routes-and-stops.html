@@ -13,9 +13,9 @@
         <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.ShortName}}</span>
         <p>{{route.LongName}}</p>
       </ion-item>
-      <ion-item collection-repeat="stop in stopsDisp" href="#/app/stops/{{stop.id}}">
+      <ion-item collection-repeat="stop in stopsDisp" href="#/app/stops/{{stop.StopId}}">
         <i class="icon ion-ios-location" style="margin-right: 10px"></i>
-        {{stop.name}}
+        {{stop.Name}}
       </ion-item>
     </ion-list>
     <div ng-if="!routesDisp.length && !stopsDisp.length" class="bar bar-assertive title">
