@@ -23,7 +23,9 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   // Used to allow the 'heart' in the view
   // to draw itself accordingly.
   var getHeart = function () {
-    FavoriteStops.contains($scope.stop, function (bool) {
+    console.log('get heart');
+    FavoriteStops.contains($scope.stop.StopId, function (bool) {
+      console.log(bool);
       $scope.liked = bool;
     });
   };
@@ -143,6 +145,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
    * localforage throws an error, set to 30s.
    ********************************************/
   $scope.$on('$ionicView.enter', function () {
+    getHeart();
     localforage.getItem('autoRefresh', function (err, value) {
       if (value) {
         if (value <= 1000) {
@@ -180,7 +183,8 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
 
   // Update whether this Stop is favorited.
   $scope.toggleHeart = function () {
-    FavoriteStops.contains($scope.stop, function (bool) {
+    console.log($scope.stop.StopId);
+    FavoriteStops.contains($scope.stop.StopId, function (bool) {
       if (bool) {
         FavoriteStops.remove($scope.stop);
       }

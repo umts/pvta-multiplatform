@@ -39,10 +39,10 @@ angular.module('pvta.factories')
     });
   };
 
-  function contains (stop, cb) {
-    localforage.getItem('favoriteStops', function () {
+  function contains (stopId, cb) {
+    localforage.getItem('favoriteStops', function (err, stops) {
       if (stops) {
-        var r = _.where(stops, { StopId: stop.StopId });
+        var r = _.where(stops, { StopId: stopId });
         if (r.length > 0) {
           cb(true);
         }
