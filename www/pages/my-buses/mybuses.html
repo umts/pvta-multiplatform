@@ -4,48 +4,40 @@
       This is a beta. Send feedback by emailing
       <a href = "mailto: transit-programmers@umass.edu">programmers@admin.umass.edu</a> or by visiting us!
     </div>
-    <div class="item item-divider item-positive item-text-wrap" style="text-align:center">Your Routes</div>
+    <div class="item item-divider item-positive item-text-wrap">Your Routes</div>
     <ion-list class="list" show-delete="false" can-swipe="true">
-      <ion-item ng-if="!routes.length" href="#/app/routes-and-stops/0" class="item-text-wrap">
-        <center>
-          You have no favorite routes! Tap here to go find some.
-        </center>
-      </ion-item>
       <ion-item class="item" ng-repeat="route in routes" href="#/app/routes/{{route.RouteId}}">
         <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeRoute(route, $index)"></ion-option-button>
-          <div class=" item-icon-left">
-            <div class="row">
-            <div class="col-5">
-              <i class="icon ion-android-bus" style="margin-right: 10px"></i>
-            </div>
-            <div class="col-25 item-text-wrap" style="text-align: center; color: #{{route.Color}}; font-size: 150%; font-weight: bold;">
-              {{route.ShortName}}
-            </div>
-            <div class="col" style="text-align:right;">
-              <span class="item-text-wrap">{{route.LongName}}</span>
-            </div>
-          </div>
+        <div class="row">
+          <span class="col-5 item-text-wrap" style="color: #{{route.Color}}; font-size: 150%; font-weight: bold;">
+            {{route.ShortName}}
+          </span>
+          <span class="col item-text-wrap" style="padding-left: 20px;">
+            {{route.LongName}}
+          </span>
         </div>
       </ion-item>
-      <div class="item item-divider item-positive" style="text-align:center">Your Stops</div>
-      <ion-item ng-if="!stops.length" href="#/app/routes-and-stops/1" class="item-text-wrap">
-        <center>
-          You have no favorite stops! Tap here to go find some.
-        </center>
-      </ion-item>
+      <a class="item item-icon-left item-text-wrap" href="#/app/routes-and-stops/0">
+        <i class="icon ion-ios-plus-outline"></i>
+        Add route
+      </a>
+      <div class="item item-divider item-positive">Your Stops</div>
       <ion-item class="item item-text-wrap" ng-repeat="stop in stops" href="#/app/stops/{{stop.StopId}}">
         <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeStop(stop, $index)"></ion-option-button>
         <div class="item-icon-left">
           <i class="icon ion-ios-location" style="margin-right: 10px"></i>
           {{stop.Name}}
         </div>
-        </ion-item>
-      <div class="item item-divider item-positive">Your Trips</div>
-      <ion-item ng-if="!trips.length" class="no-results item-text-wrap">
-        <center>
-          You have no planned trips!
-        </center>
       </ion-item>
+      <a class="item item-icon-left item-text-wrap" href="#/app/routes-and-stops/1">
+        <i class="icon ion-ios-plus-outline"></i>
+        Add stop
+      </a>
+      <div class="item item-divider item-positive">Your Trips</div>
+      <a class="item item-icon-left item-text-wrap" href="#/app/plan-trip">
+        <i class="icon ion-ios-plus-outline"></i>
+        Add trip
+      </a>
       <ion-item class="item item-text-wrap" ng-repeat="trip in trips track by $index" ng-click="openTrip($index)">
       <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeTrip($index)"></ion-option-button>
       <div class="item-icon-left">
@@ -54,7 +46,7 @@
       </div>
       </ion-item>
       <div ng-if="messages.length > 0">
-        <div class="item item-divider item-assertive" style="text-align:center">Active Alerts For Your Routes</div>
+        <div class="item item-divider item-assertive">Active Alerts For Your Routes</div>
         <ion-item class="item" ng-repeat="message in messages">
           <div class="item-icon-left item-text-wrap">
             <i class="icon ion-android-alert" style="margin-right: 10px"></i>
