@@ -6,7 +6,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   neBound = new google.maps.LatLng(42.51138, -72.20302);
 
   $scope.bounds = new google.maps.LatLngBounds(swBound, neBound);
-  
+
   //timer which is set to run if the user specifies ASAP
   startTimer = function () {
     timer = $interval(function () {
@@ -29,17 +29,17 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
   };
 
-  $scope.updateOrigin = function() {
+  $scope.updateOrigin = function () {
     if ($scope.params.destination_only) {
       loadLocation();
     } else {
       $scope.params.origin.name = '';
       $scope.params.origin.id = '';
     }
-  }
- 
- //Loads the user's location and updates the origin 
-  var loadLocation = function() {
+  };
+
+ //Loads the user's location and updates the origin
+  var loadLocation = function () {
     var deferred = $q.defer();
     var options = {timeout: 5000, enableHighAccuracy: true};
     $ionicLoading.show({
@@ -54,21 +54,21 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
           if (results[1]) {
             $scope.params.origin = {
               name: results[1].formatted_address,
-          id: results[1].place_id
+              id: results[1].place_id
             };
             deferred.resolve();
             $scope.$apply();
           }
         }
       });
-    }, function(err) {
+    }, function (err) {
       $ionicLoading.hide();
     });
     return deferred.promise;
   };
 
   //Called when this page is opened, and either a loaded trip has been queued
-  //or there are no current existing parameters. Also called as a result of the 
+  //or there are no current existing parameters. Also called as a result of the
   //newTrip method. Constructs the map, and then sets $scope.params as either default
   //or loaded parameters
   var reload = function () {
@@ -83,7 +83,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       },
       origin: {},
       destination: {},
-      destination_only: true 
+      destination_only: true
     };
 
     if (loadedTrip !== null) {
@@ -91,7 +91,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       $scope.params = loadedTrip;
       loadedTrip = null;
       if ($scope.params.destination_only) {
-        loadLocation().then(function() {
+        loadLocation().then(function () {
           $scope.getRoute();
         });
       }
@@ -105,7 +105,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     $scope.updateASAP();
   };
 
-  $scope.$on('$ionicView.enter', function() {
+  $scope.$on('$ionicView.enter', function () {
     loadedTrip = Trips.pop();
     startTimer();
     if (loadedTrip !== null || !$scope.params)//reload if either a trip is being loaded or if this page has not yet been loaded
@@ -208,20 +208,20 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       departureTime: null,
       origin: null,
       destination: null
-    }
+    };
 
-    if ($scope.params.time.datetime < Date.now()){//directions will fail if given a previous time
+    if ($scope.params.time.datetime < Date.now()) {//directions will fail if given a previous time
       $scope.updateASAP(true);
     }
     $ionicLoading.show({
       template: 'Routing..'
     });
 
-    Trips.route($scope.params, $scope.directionsDisplay, function(data) { 
+    Trips.route($scope.params, $scope.directionsDisplay, function (data) {
       $ionicLoading.hide();
-      $scope.route = data; 
+      $scope.route = data;
       if ($scope.route.status === google.maps.DirectionsStatus.OK) {
-        Trips.generateDirections(function(data) { 
+        Trips.generateDirections(function (data) {
           $scope.route.directions = data;
           $scope.$apply();
           $scope.scrollTo('route');
@@ -229,12 +229,12 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       }
       else
        $ionicPopup.alert({
-        title: 'Request Failed',
-        template: 'Directions request failed due to ' + $scope.route.status
-      });
-    }, function(err){
+         title: 'Request Failed',
+         template: 'Directions request failed due to ' + $scope.route.status
+       });
+    }, function (err) {
       $ionicLoading.hide();
-      console.log("Error routing: " + err);
+      console.log('Error routing: ' + err);
     });
   };
 
@@ -242,7 +242,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     $ionicPopup.alert({
       title: 'Save Successful!',
       template: 'This trip can be accessed from My Buses.'
-  });
+    });
   };
 
   $scope.saveTrip = function () {
@@ -258,8 +258,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       buttons: [
     {text: 'Cancel',
       onTap: function () {
-               $scope.params.name = prevName;
-             }},
+        $scope.params.name = prevName;
+      }},
       {text: '<b>OK</b>',
         type: 'button-positive',
       onTap: function () {
@@ -269,8 +269,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         else {
           Trips.add($scope.params);
         }
-    $scope.loaded = true;//the current trip is now considered loaded onto the page
-    saveSuccessful();}
+        $scope.loaded = true;//the current trip is now considered loaded onto the page
+        saveSuccessful();}
       }]
     });
   };
