@@ -42,8 +42,8 @@ angular.module('pvta.factories')
   function contains (stopId, cb) {
     localforage.getItem('favoriteStops', function (err, stops) {
       if (stops) {
-        var r = _.where(stops, { StopId: stopId });
-        if (r.length > 0) {
+        var filteredStops = _.where(stops, { StopId: stopId });
+        if (filteredStops.length > 0) {
           cb(true);
         }
         else {
