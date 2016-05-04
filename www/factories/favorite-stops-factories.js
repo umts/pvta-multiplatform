@@ -1,7 +1,5 @@
 angular.module('pvta.factories')
-
 .factory('FavoriteStops', function () {
-  var stops = [];
   var push = function (stop) {
     localforage.getItem('favoriteStops', function (err, stops) {
       var newStop = {StopId: stop.StopId, Name: stop.Name};
