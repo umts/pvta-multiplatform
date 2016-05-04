@@ -1,5 +1,4 @@
 angular.module('pvta.factories')
-
 .factory('FavoriteStops', function () {
   var stops = [];
   var push = function (stop) {
@@ -39,11 +38,11 @@ angular.module('pvta.factories')
     });
   };
 
-  function contains (stop, cb) {
-    localforage.getItem('favoriteStops', function () {
+  function contains (stopId, cb) {
+    localforage.getItem('favoriteStops', function (err, stops) {
       if (stops) {
-        var r = _.where(stops, { StopId: stop.StopId });
-        if (r.length > 0) {
+        var filteredStops = _.where(stops, { StopId: stopId });
+        if (filteredStops.length > 0) {
           cb(true);
         }
         else {

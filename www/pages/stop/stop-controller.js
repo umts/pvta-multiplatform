@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $resource, $location, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute) {
+angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $resource, $location, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading) {
   ga('set', 'page', '/stop.html');
   ga('send', 'pageview');
   // For a given RouteId, downloads the simplest
@@ -23,7 +23,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   // Used to allow the 'heart' in the view
   // to draw itself accordingly.
   var getHeart = function () {
-    FavoriteStops.contains($scope.stop, function (bool) {
+    FavoriteStops.contains($scope.stop.StopId, function (bool) {
       $scope.liked = bool;
     });
   };
@@ -143,6 +143,8 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
    * localforage throws an error, set to 30s.
    ********************************************/
   $scope.$on('$ionicView.enter', function () {
+    $ionicLoading.show({});
+    getHeart();
     localforage.getItem('autoRefresh', function (err, value) {
       if (value) {
         if (value <= 1000) {
@@ -152,11 +154,13 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         timer = $interval(function () {
           $scope.getDepartures();
         }, value);
+        $ionicLoading.hide();
       }
       else {
         timer = $interval(function () {
           $scope.getDepartures();
         }, 30000);
+        $ionicLoading.hide();
         console.log(err);
       }
     });
@@ -180,8 +184,8 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
 
   // Update whether this Stop is favorited.
   $scope.toggleHeart = function () {
-    FavoriteStops.contains($scope.stop, function (bool) {
-      if (bool) {
+    FavoriteStops.contains($scope.stop.StopId, function (bool) {
+      if (bool === true) {
         FavoriteStops.remove($scope.stop);
       }
       else {
