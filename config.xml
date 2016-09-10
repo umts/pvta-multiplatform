@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.umts.pvta-multiplaform" version="0.6.3-beta.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.umts.multiplaform" version="0.6.3-beta.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>PVTA</name>
   <description>
         The best way to find your buses on the go.
@@ -10,6 +10,8 @@
   <content src="index.html"/>
   <access origin="*"/>
   <access origin="mailto:*" launch-external="yes"/>
+  <!-- Allow mailto links to open default Email app -->
+  <allow-intent href="mailto:*" />
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
