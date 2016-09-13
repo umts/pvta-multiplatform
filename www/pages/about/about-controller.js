@@ -4,11 +4,12 @@ angular.module('pvta.controllers').controller('AboutController', function ($scop
   $scope.vNum = Info.versionNum;
   $scope.vName = Info.versionName;
   /*
-    Uses the cordova InAppBrowser plugin to open a given
-    URL in the device's default browser.
+    Opens a given URL in the browser.
   */
   $scope.openLink = function(url) {
-    if (window.cordova) {
+    // If we're on a device, we have to use cordova
+    // to open the default browser
+    if ($window.cordova) {
       // We have to make sure that cordova is properly loaded before
       // using one of its plugins.
       document.addEventListener("deviceready", onDeviceReady, false);
@@ -18,6 +19,8 @@ angular.module('pvta.controllers').controller('AboutController', function ($scop
         cordova.InAppBrowser.open(url, '_system');
       }
     }
+    // If we're running as a web-app in a standard browser,
+    // we can just open the link in a new tab.
     else {
       $window.open(url);
     }
