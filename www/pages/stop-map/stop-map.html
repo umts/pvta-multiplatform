@@ -1,6 +1,16 @@
 <ion-view view-title="Map">
   <ion-content>
-    <div id="stop-map"></div>
+    <div ng-if="noLocation">
+      <ion-item class="item item-assertive" style="text-align:center">
+        Unable to retrieve current location.
+      </ion-item>
+    </div>
+    <div ng-attr-id="{{ displayDirections? 'stop-map' : 'map' }}"></div>
     <div id="directions"></div>
   </ion-content>
+  <ion-footer-bar class="bar-positive">
+      <button class="button icon-center ion-ios-location title" ng-click="calculateDirections()">
+        Get Directions to {{stop.Name}}
+      </button>
+  </ion-footer-bar>
 </ion-view>

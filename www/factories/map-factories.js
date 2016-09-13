@@ -27,7 +27,9 @@ angular.module('pvta.factories')
       if (cb) {
         cb(currentLocation);
       }
-    }, function () {});
+    }, function () {
+      cb(false);
+    });
     return currentLocation;
   }
 
