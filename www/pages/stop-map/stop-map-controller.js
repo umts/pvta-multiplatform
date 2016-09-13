@@ -35,7 +35,7 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
         title: 'Unable to Map Stop',
         template: 'A network error occurred. Please make sure your device has an internet connection.'
       });
-      popup.then(function(res) {
+      popup.then(function () {
         $ionicHistory.goBack();
       });
     }
@@ -46,14 +46,14 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
    * to the stop in question and displays them on the UI.
   */
   $scope.calculateDirections = function () {
-    $ionicLoading.show({duration: 5000})
+    $ionicLoading.show({duration: 5000});
     // A callback that we pass to the plotCurrentLocation
     // function below.  Handles actually getting
     // and displaying directions once we have a location.
     var cb = function (position) {
       // If we weren't able to get a location for any reason,
       // we should encounter a falsy.
-      if (position == false) {
+      if (!position) {
         console.log('unable to get current location');
         $scope.noLocation = true;
         $scope.displayDirections = false;
@@ -90,7 +90,7 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
     // the other when not.
     // Check which id the map has, pluck it from the HTML, and bind it
     // to a variable.
-    $scope.map = new google.maps.Map(document.getElementById($scope.displayDirections? 'stop-map' : 'map'), mapOptions);
+    $scope.map = new google.maps.Map(document.getElementById($scope.displayDirections ? 'stop-map' : 'map'), mapOptions);
     Map.init($scope.map, bounds);
     // Be ready to display directions if the user requests them.
     directionsDisplay = new google.maps.DirectionsRenderer();
@@ -98,8 +98,7 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
     // Download the stop details and plot it on the map.
     $scope.stop = Stop.get({stopId: $stateParams.stopId}, function () {
       placeStop();
-      $ionicLoading.hide()
+      $ionicLoading.hide();
     });
   });
-
 });
