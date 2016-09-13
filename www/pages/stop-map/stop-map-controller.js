@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('StopMapController', function ($scope, $ionicLoading, $stateParams, Stop, Map) {
+angular.module('pvta.controllers').controller('StopMapController', function ($scope, $ionicLoading, $stateParams, $ionicPopup, Stop, Map) {
   ga('set', 'page', '/stop-map.html');
   ga('send', 'pageview');
   var bounds = new google.maps.LatLngBounds();
@@ -22,7 +22,7 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
   * function will succeed.
   */
   function placeStop () {
-    if ($scope.stop.Latitude && $scope.stop.Longitude) {
+    if ($scope.stop && $scope.stop.Latitude && $scope.stop.Longitude) {
       var loc = new google.maps.LatLng($scope.stop.Latitude, $scope.stop.Longitude);
       Map.addMapListener(Map.placeDesiredMarker(loc), $scope.stop.Name + ' (' + $scope.stop.StopId + ')');
       return loc;
@@ -30,7 +30,7 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
     else {
       $ionicPopup.alert({
         title: 'Unable to Map Stop',
-        template: 'An error occurred. Please make sure your device has an internet connection.'
+        template: 'A network error occurred. Please make sure your device has an internet connection.'
       });
     }
   }
