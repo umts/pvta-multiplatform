@@ -41,14 +41,25 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
     }
   }
 
+  /***
+   * Gets directions from the user's current location
+   * to the stop in question and displays them on the UI.
+  */
   $scope.calculateDirections = function () {
     $ionicLoading.show({duration: 5000})
+    // A callback that we pass to the plotCurrentLocation
+    // function below.  Handles actually getting
+    // and displaying directions once we have a location.
     var cb = function (position) {
-      if (position === false) {
+      // If we weren't able to get a location for any reason,
+      // we should encounter a falsy.
+      if (position == false) {
         console.log('unable to get current location');
         $scope.noLocation = true;
         $scope.displayDirections = false;
       }
+      // If we have a location, download and display directions
+      // from here to the stop.
       else {
         $scope.noLocation = false;
         $scope.displayDirections = true;
@@ -68,6 +79,8 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
       }
       $ionicLoading.hide();
     };
+    // Get the current location. Once we have (or definitively don't have)
+    // a location, the callback passed as a param will be called.
     Map.plotCurrentLocation(cb);
   };
 
