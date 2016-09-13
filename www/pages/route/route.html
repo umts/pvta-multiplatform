@@ -64,8 +64,8 @@
           </div>
         </ion-item>
         <ion-scroll zooming="false" direction="y" style="width:100%; height: 200px;" ng-show="isGroupShown(stops)">
-          <ion-item ng-repeat="item in stops | orderBy: '+Name'" href="#/app/stops/{{item.StopId}}">
-            {{item.Name}}
+          <ion-item ng-repeat="stop in stops | orderBy: '+Name'" href="#/app/stops/{{stop.StopId}}">
+            {{stop.Name}} ({{stop.StopId}})
           </ion-item>
         </ion-scroll>
       </ion-list>
