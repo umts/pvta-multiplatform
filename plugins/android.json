@@ -8,16 +8,16 @@
     },
     "installed_plugins": {
         "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.umts.multiplaform"
+            "PACKAGE_NAME": "com.umts.pvta-multiplaform"
         },
         "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "com.umts.multiplaform"
+            "PACKAGE_NAME": "com.umts.pvta-multiplaform"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.umts.multiplaform"
+            "PACKAGE_NAME": "com.umts.pvta-multiplaform"
         },
         "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.umts.multiplaform"
+            "PACKAGE_NAME": "com.umts.pvta-multiplaform"
         }
     },
     "dependent_plugins": {}
