@@ -6,7 +6,7 @@ angular.module('pvta.controllers').controller('AboutController', function ($scop
   /*
     Opens a given URL in the browser.
   */
-  $scope.openLink = function(url) {
+  $scope.openLink = function (url) {
     console.log('Opening ' + url + ' in the browser');
     // If we're on a device, we have to use cordova
     // to open the default browser
