@@ -9,6 +9,8 @@
     </author>
   <content src="index.html"/>
   <access origin="*"/>
+  <!-- mailto appears twice: once for standard browsers, and
+  a special one for Android redirection-->
   <access origin="mailto:*" launch-external="yes"/>
   <allow-intent href="mailto:*"/>
   <preference name="webviewbounce" value="false"/>
