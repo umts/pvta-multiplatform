@@ -43,7 +43,6 @@ margin:5px;
   width:25%;
 }
 
-/* Empty. Add your own CSS if you like */
 #stop-map {
   height: 50%;
 }
@@ -57,4 +56,11 @@ margin:5px;
   float: top;
   overflow: auto;
   width: 100%;
+}
+
+.disclaimer {
+  color: grey;
+  font-size: small;
+  font-style: italic;
+  text-align: center;
 }
