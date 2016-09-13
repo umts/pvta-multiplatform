@@ -2,7 +2,7 @@ angular.module('pvta')
 
 .factory('Info', function () {
   return {
-    versionNum: '0.6.3',
-    versionName: 'Beta 3'
+    versionNum: '0.7.0',
+    versionName: 'Beta 4'
   };
 });
