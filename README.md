@@ -42,7 +42,9 @@ The javascript and corresponding HTML is contained in `www/pages`.Start editing 
 1. The project has been configured to be an Android and iOS project.  If you want to build a
    copy for an emulator on your machine, or you'd like to run it on your phone, do the following:
 
-   a. `ionic build` generates necessary files.
+   a. Run `ionic state reset`, which will use your ionic.config.json and package.json to install the proper plugins and dependencies.
+
+   b. `ionic build [ios OR android]` generates necessary files to run on a device.
    
       You must have
       
@@ -51,18 +53,13 @@ The javascript and corresponding HTML is contained in `www/pages`.Start editing 
       
       **ios**: OS X, Xcode, and Xcode command line tools installed.
    
-   b. `ionic emulate {platform}` where `platform` is `android` or `ios` will open an emulator and run the app.
+   c. `ionic emulate {platform}` where `platform` is `android` or `ios` will open an emulator and run the app.
    
    Installing it on your phone can be tricky.  Consult [Ionic's page](http://ionicframework.com/docs/guide/testing.html) for basic info.  Recommend online tutorials.  **To use a stable, approved version of pvta-multiplatform on your phone, see [releases](https://github.com/umts/pvta-multiplatform/releases).**
    
 ## Research/Learning:
 
 ### Angular
-
-Angular's APIs are pretty darn good.
-
-Angular has a roller-coaster-ey learning curve. Fair warning.
-wrong.  **Only look at Angular 1 stuff, as Angular 2 is almost out and is wildly different.**
 
 [Angular APIDocs Root Page](https://docs.angularjs.org/api)
 
@@ -73,7 +70,7 @@ Ionic is what makes our app pretty and is built *on top of* Cordova and Angular.
 The Ionic team made it easy to do things with the `ionic {command}` syntax instead of switching between
 Cordova and Angular calls.
 
-The Ionic API is fine, but kind of sparse.  Their forums are AWFUL. 
+The Ionic API is fine, but kind of sparse.  Their forums are mediocre. 
 Recommend random tutorials as a second resource if the API isn't sufficient (in many cases it IS).
 
 [IonicDocs Root](http://ionicframework.com/docs/)
@@ -84,9 +81,6 @@ Cordova provides plugins that bridge the gap between Web app and native app. Sin
 common cordova commands, searching out Cordova features is currently on a need-to-know basis.  (Read: use Google)
 
 Their API is thorough but quirky.  When seeking out Cordova documentation, remember that the Ionic team has written an Angular wrapper called [ng-cordova](http://ngcordova.com), which is what we actually use.
-
-[CordovaDocs](https://cordova.apache.org/docs/en/5.0.0/) (loves to say it's outdated, but the updated version
-doesn't cover everything and has too many 404s)
 
 ## Standard error help:
 
