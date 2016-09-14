@@ -23,8 +23,4 @@ angular.module('pvta.controllers').controller('AboutController', function ($scop
       $window.open(url);
     }
   };
-
-  $scope.log = function(){
-    console.log("page rendered");
-  };
 });
