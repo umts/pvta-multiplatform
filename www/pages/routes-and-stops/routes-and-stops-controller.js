@@ -35,6 +35,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         StopsForage.save(stops);
         stops = StopsForage.uniq(stops);
         $scope.stops = prepareStops(stops);
+        $scope.display($scope.currentDisplay);
       });
     }, function (err) {
       // If location services fail us, just
@@ -44,6 +45,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         stops = StopsForage.uniq(stops);
         StopsForage.save(stops);
         $scope.stops = prepareStops(stops);
+        $scope.display($scope.currentDisplay);
       });
     });
     /* Similar to prepareRoutes, we only
@@ -125,5 +127,4 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     });
   };
   getItems();
-  $scope.display($scope.currentDisplay);
 });
