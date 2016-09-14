@@ -151,7 +151,7 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     url: '/about/privacy-policy',
     views: {
       'menuContent': {
-        template: 'pages/privacy-policy/privacy-policy.html',
+        templateUrl: 'pages/privacy-policy/privacy-policy.html',
         controller: 'PrivacyPolicyController'
       }
     }
