@@ -1,7 +1,7 @@
 angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams) {
   // We can control which list is shown via the page's URL.
   // Pull that param and same it for later.
-  var currentDisplay = parseInt($stateParams.segment);
+  $scope.currentDisplay = parseInt($stateParams.segment);
   $ionicLoading.show({});
   /*
    * Get all the routes and stops
@@ -12,7 +12,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     RouteForage.get().then(function (routes) {
       RouteForage.save(routes);
       $scope.routes = stripDetails(routes);
-      $scope.display(currentDisplay);
+      $scope.display($scope.currentDisplay);
     });
     /*
     * Nested function for removing stuff we don't need
@@ -70,7 +70,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
      * which type of data is being displayed.
      * This is useful when searching.
      */
-    currentDisplay = index;
+    $scope.currentDisplay = index;
     /* Fill the $scope variable for
      * the proper list and clear out
      * the ones for the other list.
@@ -100,7 +100,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     // itms is the variable we'll be searching.
     // If routes are displayed, imts is routes.
     // Else, it's stops.
-    if (currentDisplay === 0) {
+    if ($scope.currentDisplay === 0) {
       itms = $scope.routesDisp;
     }
     else {
@@ -113,7 +113,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       update: function (filteredItems) {
         // if routes are currently being displayed, update
         // their list with our results here.
-        if (currentDisplay === 0) {
+        if ($scope.currentDisplay === 0) {
           $scope.routesDisp = filteredItems;
         }
         else {
@@ -125,4 +125,5 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     });
   };
   getItems();
+  $scope.display($scope.currentDisplay);
 });
