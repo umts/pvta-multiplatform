@@ -1,5 +1,6 @@
 angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips) {
-
+  ga('set', 'page', '/my-buses.html');
+  ga('send', 'pageview');
   $scope.messages = [];
 
   /* Given a list of routes and a $promise
