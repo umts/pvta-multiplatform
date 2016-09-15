@@ -9,17 +9,17 @@
     </div>
   </div>
   <ion-content class="has-subheader" direction="y" scrollbar-y="false">
-
-
     <ion-list>
-      <ion-item ng-show="currentDisplay === 0" class="item" ng-repeat="route in routesDisp" href="#app/routes/{{route.RouteId}}">
+      <ion-item ng-show="currentDisplay === 0" class="item item-icon-left item-icon-right" ng-repeat="route in routesDisp" href="#app/routes/{{route.RouteId}}">
         <i class="icon ion-android-bus"></i>
         <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.ShortName}}</span>
         <p>{{route.LongName}}</p>
+        <i ng-show="_.contains(_.pluck(favoriteRoutes, 'RouteId'), route.RouteId)" class="icon ion-ios-heart"></i>
       </ion-item>
-      <ion-item ng-show="currentDisplay === 1" ng-repeat="stop in stopsDisp | limitTo: 200" href="#/app/stops/{{stop.StopId}}">
+      <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | limitTo: 200" href="#/app/stops/{{stop.StopId}}">
         <i class="icon ion-ios-location" style="margin-right: 10px"></i>
         {{stop.Name}} ({{stop.StopId}})
+        <i ng-show="_.contains(_.pluck(favoriteStops, 'StopId'), stop.StopId)" class="icon ion-ios-heart"></i>
       </ion-item>
       <div ng-if="currentDisplay === 1 && stopsDisp.length >= 100" class="item item-divider item-positive item-text-wrap">Too many stops to show. Please search above for your stop by name or ID.</div>
     </ion-list>
