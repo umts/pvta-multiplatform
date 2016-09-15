@@ -18,7 +18,7 @@ git checkout -B gh-pages
 npm install
 rm .bowerrc
 touch .bowerrc
-echo {"directory": "bower_components"} >> .bowerrc
+echo {\"directory\": \"bower_components\"} >> .bowerrc
 bower install
 read
 shopt -s dotglob && git rm -rf --ignore-unmatch *
