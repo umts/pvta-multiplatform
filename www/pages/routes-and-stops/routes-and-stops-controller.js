@@ -3,16 +3,17 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   // Pull that param and same it for later.
   $scope.currentDisplay = parseInt($stateParams.segment);
   $ionicLoading.show({});
+  $scope._ = _;
   /*
    * Get all the routes and stops
    */
-  function getItems () {
+  function getRoutesAndStops () {
     $scope.routes = [];
     // RouteForage returns a promise, resolve it.
     RouteForage.get().then(function (routes) {
       RouteForage.save(routes);
       $scope.routes = stripDetails(routes);
-      $scope.display($scope.currentDisplay);
+      redraw();
     });
     /*
     * Nested function for removing stuff we don't need
@@ -35,7 +36,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         StopsForage.save(stops);
         stops = StopsForage.uniq(stops);
         $scope.stops = prepareStops(stops);
-        $scope.display($scope.currentDisplay);
+        redraw();
       });
     }, function (err) {
       // If location services fail us, just
@@ -45,7 +46,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         stops = StopsForage.uniq(stops);
         StopsForage.save(stops);
         $scope.stops = prepareStops(stops);
-        $scope.display($scope.currentDisplay);
+        redraw();
       });
     });
     /* Similar to prepareRoutes, we only
@@ -126,5 +127,23 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       }
     });
   };
-  getItems();
+  function getFavorites() {
+    localforage.getItem('favoriteRoutes', function (err, value) {
+      $scope.favoriteRoutes = value;
+      redraw();
+    });
+    localforage.getItem('favoriteStops', function (err, value) {
+      $scope.favoriteStops = value;
+      redraw();
+    });
+  }
+
+  function redraw() {
+    $scope.display($scope.currentDisplay);
+  }
+
+  $scope.$on('$ionicView.enter', function () {
+    getRoutesAndStops();
+    getFavorites();
+  });
 });
