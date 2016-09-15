@@ -127,7 +127,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       }
     });
   };
-  function getFavorites() {
+  function getFavorites () {
     localforage.getItem('favoriteRoutes', function (err, value) {
       $scope.favoriteRoutes = value;
       redraw();
@@ -138,7 +138,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     });
   }
 
-  function redraw() {
+  function redraw () {
     $scope.display($scope.currentDisplay);
   }
 
