@@ -105,7 +105,7 @@ angular.module('pvta.factories')
   //Use as a callback method to retrieve a hash of directions and their respective
   //links (links go to a Stop page). To be called after a successful route()
   function generateDirections(callback) {
-    directions = {};
+    directions = [];
     for (var i=0; i < steps.length; i++) {
       step = steps[i];
       if (step['travel_mode'] === 'TRANSIT') {
@@ -118,28 +118,14 @@ angular.module('pvta.factories')
         }
         var departInstruction = 'Take ' + step['transit']['line']['vehicle']['name'] + ' ' + lineName + ' at ' + step['transit']['departure_time']['text'] + '. ' + step['instructions'];
         var arriveInstruction = 'Arrive at ' + step['transit']['arrival_stop']['name'] + ' ' + step['transit']['arrival_time']['text'];
-        
-        if (step['transit']['line']['agencies'][0]['name'] === 'PVTA') {
-          directions[departInstruction] = linkToStop(step['transit']['departure_stop']['name']);
-          directions[arriveInstruction] = linkToStop(step['transit']['arrival_stop']['name']);
-        }
-        else {
-          directions[departInstrunction] = '';
-          directions[arriveInstruction] = '';
-        }
+        directions.push(departInstruction);
+        directions.push(arriveInstruction);
       }
       else {
-        directions[step['instructions']] = '';
+        directions.push(step['instructions']);
       }
     }
     callback(directions);
-  }
-
-  function linkToStop(stopString) {
-    stop = stopString.split(' ');
-    stop = stop[stop.length - 1];
-    stop = stop.substring(1, stop.length - 1);
-    return '#/app/stops/' + stop;
   }
 
   return {
