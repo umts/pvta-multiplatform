@@ -20,6 +20,7 @@ rm .bowerrc
 touch .bowerrc
 echo {"directory": "bower_components"} >> .bowerrc
 bower install
+read
 shopt -s dotglob && git rm -rf --ignore-unmatch *
 git checkout master www/
 mv www/* ./
