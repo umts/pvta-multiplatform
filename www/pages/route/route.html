@@ -8,15 +8,12 @@
       <div class="item-text-wrap">
         <h2 class="item" style="text-align: center; font-size: 150%">{{route.LongName}}</h2>
       </div>
-      <div class="bar bar-positive">
-        <h1 class="title">Buses currently on the {{route.ShortName}}:</h1>
+      <div ng-class="vehicles.length > 0 ? 'bar bar-positive' : 'bar bar-assertive'">
+        <h1 class="title" ng-if="vehicles.length > 0">Buses currently on the {{route.ShortName}}:</h1>
+        <h1 class="title" ng-if="vehicles.length === 0"> There are no buses currently on the {{route.ShortName}}.</h1>
       </div>
       <div style="padding-top: 40px;">
         <ion-list>
-          <div ng-if="vehicles.length === 0" style="text-align:center;">
-            None
-            <i class="icon ion-thumbsdown"></i>
-          </div>
           <ion-item class="item" ng-repeat="vehicle in vehicles" href="#/app/vehicles/{{vehicle.VehicleId}}/{{route.RouteId}}">
             <div class="row item-text-wrap" style="font-weight: bold;">
                 <div class="col" ng-if="vehicle.DisplayStatus==='On Time'" style="color: green; text-align: center;">
