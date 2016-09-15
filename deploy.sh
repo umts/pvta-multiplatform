@@ -16,6 +16,9 @@ fi
 git branch -D gh-pages
 git checkout -B gh-pages
 npm install
+rm .bowerrc
+touch .bowerrc
+echo {"directory": "bower_components"} >> .bowerrc
 bower install
 shopt -s dotglob && git rm -rf --ignore-unmatch *
 git checkout master www/
