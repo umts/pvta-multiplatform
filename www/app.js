@@ -146,6 +146,15 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
         controller: 'VehicleMapController'
       }
     }
+  })
+  .state('app.privacy-policy', {
+    url: '/about/privacy-policy',
+    views: {
+      'menuContent': {
+        templateUrl: 'pages/privacy-policy/privacy-policy.html',
+        controller: 'PrivacyPolicyController'
+      }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/my-buses');
