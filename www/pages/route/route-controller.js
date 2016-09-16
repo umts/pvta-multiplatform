@@ -1,6 +1,7 @@
-angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, Route, RouteVehicles, FavoriteRoutes, Messages, KML){
+angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, KML){
   ga('set', 'page', '/route.html');
   ga('send', 'pageview');
+  $ionicLoading.show();
   var getVehicles = function(){
     $scope.vehicles = RouteVehicles.query({id: $stateParams.routeId});
   };
@@ -8,6 +9,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   var route = Route.get({routeId: $stateParams.routeId}, function() {
     route.$save();
     getHeart();
+    $ionicLoading.hide();
     $scope.stops = route.Stops;
     $scope.vehicles = route.Vehicles;
 
