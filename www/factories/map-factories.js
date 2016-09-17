@@ -14,8 +14,6 @@ angular.module('pvta.factories')
       animation: google.maps.Animation.DROP,
       position: location
     });
-    bounds.extend(location);
-    map.fitBounds(bounds);
     return neededMarker;
   }
 
