@@ -1,6 +1,7 @@
 <ion-view view-title="Routes and Stops">
   <ion-nav-buttons side="secondary">
     <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()"></button>
+    <button class="button button-icon icon ion-levels" ng-click="showFilters()"></button>
   </ion-nav-buttons>
   <div class="bar bar-subheader">
     <div class="button-bar">
@@ -9,8 +10,14 @@
     </div>
   </div>
   <ion-content class="has-subheader" direction="y" scrollbar-y="false">
+    <div class="button-bar animate-if" ng-if="show">
+      <p>Order by</p>
+      <button ng-class="currentDisplay === 0 ? 'button button-positive' : 'button  button-outline button-positive'" ng-click="orderby(0)">Favorites</button>
+      <button ng-class="currentDisplay === 0 ? 'button button-positive' : 'button  button-outline button-positive'" ng-click="orderby(1)">Alphabetical</button>
+      <button ng-class="currentDisplay === 0 ? 'button button-positive' : 'button  button-outline button-positive'" ng-click="orderby(2)">Distance From Me</button>
+    </div>
     <ion-list>
-      <ion-item ng-show="currentDisplay === 0" class="item item-icon-left item-icon-right" ng-repeat="route in routesDisp" href="#app/routes/{{route.RouteId}}">
+      <ion-/item ng-show="currentDisplay === 0" class="item item-icon-left item-icon-right" ng-repeat="route in routesDisp" href="#app/routes/{{route.RouteId}}">
         <i class="icon ion-android-bus"></i>
         <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.ShortName}}</span>
         <p>{{route.LongName}}</p>

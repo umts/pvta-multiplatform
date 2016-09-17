@@ -140,6 +140,16 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     });
   }
 
+  $scope.showFilters = function() {
+    $scope.show ? $scope.show = false : $scope.show = true;
+  }
+
+  $scope.orderBy = function(val) {
+    if ($scope.currentDisplay === 0) {
+      if
+    }
+  }
+
   function redraw () {
     $scope.display($scope.currentDisplay);
   }
