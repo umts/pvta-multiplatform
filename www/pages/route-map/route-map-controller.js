@@ -40,12 +40,11 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
     $ionicLoading.show({});
     var fileName = KML.pop();
     if (fileName) {
-      //Map.addKML(fileName);
+      Map.addKML(fileName);
     }
     Map.plotCurrentLocation();
     $scope.route = Route.get({routeId: $stateParams.routeId}, function () {
       $scope.stops = $scope.route.Stops;
-      Map.addKML($scope.route.RouteTraceFilename);
       $scope.vehicles = $scope.route.Vehicles;
       placeVehicles();
       $ionicLoading.hide();
