@@ -62,7 +62,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       });
     }, function (err) {
       // When getting location fails, this callback fires
-      $scope.noLocation = true
+      $scope.noLocation = true;
       /* When getting location fails immediately, $ionicLoading.hide()
        * is never called (or the page refuses to redraw), so
        * we add a 1 second delay as a workaround.
@@ -70,7 +70,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
        * We also set the checkbox state after the delay, but solely
        * for user feedback (it otherwise would never change when clicked on)
        */
-      $timeout(function() {
+      $timeout(function () {
         $ionicLoading.hide();
         $scope.params.destinationOnly = false;
       }, 1000);
