@@ -45,6 +45,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     $ionicLoading.show();
 
     $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
+      $ionicLoading.hide();
       $scope.noLocation = false;
       new google.maps.Geocoder().geocode({
         'latLng': new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
