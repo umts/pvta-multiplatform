@@ -1,7 +1,6 @@
 angular.module('pvta.controllers').controller('RouteMapController', function ($scope, $stateParams, $ionicLoading, Map, Route) {
   ga('set', 'page', '/route-map.html');
   ga('send', 'pageview');
-  var bounds = new google.maps.LatLngBounds();
 
   var mapOptions = {
     center: new google.maps.LatLng(42.386270, -72.525844),
@@ -10,7 +9,7 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
   };
 
   $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-  Map.init($scope.map, bounds);
+  Map.init($scope.map);
 
   function placeVehicles () {
   //places every vehicle on said route on the map

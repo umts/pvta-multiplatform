@@ -3,7 +3,6 @@ angular.module('pvta.factories')
 .factory('Map', function ($cordovaGeolocation) {
 
   var map;
-  var bounds;
   var currentLocation;
   var options = { timeout: 5000, enableHighAccuracy: true };
 
@@ -14,8 +13,7 @@ angular.module('pvta.factories')
       animation: google.maps.Animation.DROP,
       position: location
     });
-    bounds.extend(location);
-    map.fitBounds(bounds);
+    map.panTo(location);
     return neededMarker;
   }
 
@@ -28,7 +26,9 @@ angular.module('pvta.factories')
         cb(currentLocation);
       }
     }, function () {
-      cb(false);
+      if (cb) {
+        cb(false);
+      }
     });
     return currentLocation;
   }
@@ -65,9 +65,8 @@ angular.module('pvta.factories')
 
   return {
     placeDesiredMarker: placeDesiredMarker,
-    init: function (incomingMap, incomingBounds) {
+    init: function (incomingMap) {
       map = incomingMap;
-      bounds = incomingBounds;
     },
     plotCurrentLocation: plotCurrentLocation,
     addMapListener: addMapListener,

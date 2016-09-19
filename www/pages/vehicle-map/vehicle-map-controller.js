@@ -1,8 +1,7 @@
 angular.module('pvta.controllers').controller('VehicleMapController', function ($scope, $stateParams, Map, Vehicle) {
   ga('set', 'page', '/vehicle-map.html');
   ga('send', 'pageview');
-  var bounds = new google.maps.LatLngBounds();
-
+  var vehicle;
   var mapOptions = {
     center: new google.maps.LatLng(42.386270, -72.525844),
     zoom: 15,
@@ -10,7 +9,7 @@ angular.module('pvta.controllers').controller('VehicleMapController', function (
   };
 
   $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-  Map.init($scope.map, bounds);
+  Map.init($scope.map);
 
 
   function placeVehicle (vehicle) {
