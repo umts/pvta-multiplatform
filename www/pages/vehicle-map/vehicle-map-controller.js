@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('VehicleMapController', function ($scope, $stateParams, Map, Vehicle, SimpleRoute) {
+angular.module('pvta.controllers').controller('VehicleMapController', function ($scope, $stateParams, Map, Vehicle) {
   ga('set', 'page', '/vehicle-map.html');
   ga('send', 'pageview');
   var bounds = new google.maps.LatLngBounds();
