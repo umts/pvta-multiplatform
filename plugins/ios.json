@@ -7,10 +7,22 @@
         "files": {}
     },
     "installed_plugins": {
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.umts.pvta-multiplaform"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.umts.pvta-multiplaform"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.umts.pvta-multiplaform"
+        },
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.umts.pvta-multiplaform"
         },
         "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.umts.pvta-multiplaform"
+        },
+        "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.umts.pvta-multiplaform"
         },
         "cordova-plugin-whitelist": {
@@ -20,5 +32,9 @@
             "PACKAGE_NAME": "com.umts.pvta-multiplaform"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.umts.pvta-multiplaform"
+        }
+    }
 }
