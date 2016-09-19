@@ -5,7 +5,11 @@
       <div class="item">
         <h3>Bus {{vehicle.Name}}</h3>
         <h3>Unit: {{vehicle.BlockFareboxId}}</h3>
-        <button class="button button-positive" ng-click="setCoordinates()">Find on map</button>
+        <button
+          class="button button-positive" 
+          ui-sref="app.vehicle-map({routeTraceFilename: route.RouteTraceFilename, vehicleId: vehicle.VehicleId})">
+          Find on map
+        </button>
       </div>
       <div class="item item-body">
         <p>Last Stop: <b>{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</b></p>

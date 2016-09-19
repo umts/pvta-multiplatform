@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteMapController', function ($scope, $stateParams, $ionicLoading, Map, KML, Route) {
+angular.module('pvta.controllers').controller('RouteMapController', function ($scope, $stateParams, $ionicLoading, Map, Route) {
   ga('set', 'page', '/route-map.html');
   ga('send', 'pageview');
   var bounds = new google.maps.LatLngBounds();
@@ -38,14 +38,11 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
 
   $scope.$on('$ionicView.enter', function () {
     $ionicLoading.show({});
-    var fileName = KML.pop();
-    if (fileName) {
-      Map.addKML(fileName);
-    }
     Map.plotCurrentLocation();
     $scope.route = Route.get({routeId: $stateParams.routeId}, function () {
       $scope.stops = $scope.route.Stops;
       $scope.vehicles = $scope.route.Vehicles;
+      Map.addKML($scope.route.RouteTraceFilename);
       placeVehicles();
       $ionicLoading.hide();
     });

@@ -1,8 +1,7 @@
-angular.module('pvta.controllers').controller('VehicleMapController', function ($scope, $stateParams, Map, Vehicle, SimpleRoute, KML) {
+angular.module('pvta.controllers').controller('VehicleMapController', function ($scope, $stateParams, Map, Vehicle) {
   ga('set', 'page', '/vehicle-map.html');
   ga('send', 'pageview');
   var bounds = new google.maps.LatLngBounds();
-  var vehicle;
 
   var mapOptions = {
     center: new google.maps.LatLng(42.386270, -72.525844),
@@ -14,7 +13,7 @@ angular.module('pvta.controllers').controller('VehicleMapController', function (
   Map.init($scope.map, bounds);
 
 
-  function placeVehicle () {
+  function placeVehicle (vehicle) {
     var loc = new google.maps.LatLng(vehicle.Latitude, vehicle.Longitude);
     //This content has been removed for the Beta 3 release. It will be finished for Beta 4
 
@@ -26,11 +25,9 @@ angular.module('pvta.controllers').controller('VehicleMapController', function (
 
   $scope.$on('$ionicView.enter', function () {
     Map.plotCurrentLocation();
-    var fileName = KML.pop();
-    if (fileName)
-      Map.addKML(fileName);
     vehicle = Vehicle.get({vehicleId: $stateParams.vehicleId}, function () {
-      placeVehicle();
+      placeVehicle(vehicle);
+      Map.addKML($stateParams.routeTraceFilename);
     });
   });
 
