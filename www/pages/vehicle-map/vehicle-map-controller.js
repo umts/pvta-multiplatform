@@ -1,7 +1,6 @@
 angular.module('pvta.controllers').controller('VehicleMapController', function ($scope, $stateParams, Map, Vehicle, SimpleRoute, KML) {
   ga('set', 'page', '/vehicle-map.html');
   ga('send', 'pageview');
-  var bounds = new google.maps.LatLngBounds();
   var vehicle;
 
   var mapOptions = {
@@ -11,7 +10,7 @@ angular.module('pvta.controllers').controller('VehicleMapController', function (
   };
 
   $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-  Map.init($scope.map, bounds);
+  Map.init($scope.map);
 
 
   function placeVehicle () {
@@ -27,8 +26,9 @@ angular.module('pvta.controllers').controller('VehicleMapController', function (
   $scope.$on('$ionicView.enter', function () {
     Map.plotCurrentLocation();
     var fileName = KML.pop();
-    if (fileName)
+    if (fileName) {
       Map.addKML(fileName);
+    }
     vehicle = Vehicle.get({vehicleId: $stateParams.vehicleId}, function () {
       placeVehicle();
     });

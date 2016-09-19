@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips) {
+angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips, $timeout) {
   ga('set', 'page', '/plan-trip.html');
   ga('send', 'pageview');
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
@@ -30,7 +30,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   };
 
   $scope.updateOrigin = function () {
-    if ($scope.params.destination_only) {
+    if ($scope.params.destinationOnly) {
       loadLocation();
     } else {
       $scope.params.origin.name = '';
@@ -42,11 +42,10 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   var loadLocation = function () {
     var deferred = $q.defer();
     var options = {timeout: 5000, enableHighAccuracy: true};
-    $ionicLoading.show({
-      template: 'Getting location...'
-    });
+    $ionicLoading.show();
+
     $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
-      $ionicLoading.hide();
+      $scope.noLocation = false;
       new google.maps.Geocoder().geocode({
         'latLng': new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
       }, function (results, status) {
@@ -62,8 +61,15 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         }
       });
     }, function (err) {
-      $ionicLoading.hide();
+      // When getting location fails immediately,
+      $scope.noLocation = true
+      $timeout(function() {
+        $scope.params.destinationOnly = false;
+        $ionicLoading.hide();
+      }, 1000);
+      console.log('unable to get location ' + err);
     });
+
     return deferred.promise;
   };
 
@@ -83,14 +89,14 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       },
       origin: {},
       destination: {},
-      destination_only: true
+      destinationOnly: true
     };
 
     if (loadedTrip !== null) {
       $scope.loaded = true;
       $scope.params = loadedTrip;
       loadedTrip = null;
-      if ($scope.params.destination_only) {
+      if ($scope.params.destinationOnly) {
         loadLocation().then(function () {
           $scope.getRoute();
         });
@@ -148,7 +154,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     destinationAutocomplete.setBounds($scope.bounds);
 
     originAutocomplete.addListener('place_changed', function () {
-      $scope.params.destination_only = false;
+      $scope.params.destinationOnly = false;
       var place = originAutocomplete.getPlace();
       if (!place.geometry) {
         console.log('Place has no geometry.');
