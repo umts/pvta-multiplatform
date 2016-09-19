@@ -31,10 +31,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     });
   });
   $scope.route = route;
-
-
   $scope.stops = [];
-  var j = $scope.size;
 
   $scope.toggleGroup = function(group) {
     if ($scope.isGroupShown(group)) {
