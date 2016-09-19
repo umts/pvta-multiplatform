@@ -57,8 +57,8 @@
     <b>Arrival Time:</b> {{route.arrivalTime}}
   </div>
   <ion-list>
-  <ion-item class="item-text-wrap" ng-repeat="(key, value) in route.directions" href={{value}}>
-  <p>{{key}}</p>
+  <ion-item class="item-text-wrap" ng-repeat="direction in route.directions" >
+  <p><b>{{direction}}</b></p>
   </ion-item>
   </ion-list>
 </div>

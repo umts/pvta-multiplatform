@@ -216,7 +216,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
 
     $scope.route = {
-      directions: {},
+      directions: [],
       arrivalTime: null,
       departureTime: null,
       origin: null,

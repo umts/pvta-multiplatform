@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, KML){
+angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages){
   ga('set', 'page', '/route.html');
   ga('send', 'pageview');
   $ionicLoading.show();
@@ -59,11 +59,6 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   $scope.refresh = function(){
     getVehicles();
     $scope.$broadcast('scroll.refreshComplete');
-  };
-
-  $scope.setKML = function(){
-   KML.push(route.RouteTraceFilename);
-   $state.go('app.route-map', {routeId: $stateParams.routeId});
   };
 
   $scope.$on('$ionicView.enter', function(){
