@@ -16,7 +16,6 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   var route = Route.get({routeId: $stateParams.routeId}, function() {
     route.$save();
     getHeart();
-    $ionicLoading.hide();
     $scope.stops = route.Stops;
     $scope.vehicles = route.Vehicles;
 
@@ -27,6 +26,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
         if(message.Routes.indexOf($scope.route.RouteId) === -1) { continue; }
         filteredMessages.push(message);
       }
+      $ionicLoading.hide();
       $scope.messages = filteredMessages;
     });
   });
