@@ -1,7 +1,7 @@
 angular.module('pvta.factories')
 
 .factory('Avail', function () {
-  return 'http://bustracker.pvta.com/infopoint/rest';
+  return 'https://bustracker.pvta.com/infopoint/rest';
 })
 
 .factory('Vehicle', function ($resource, Avail) {
