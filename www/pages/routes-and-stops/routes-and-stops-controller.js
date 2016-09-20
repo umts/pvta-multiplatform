@@ -31,7 +31,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
      * Otherwise, just get a list of stops.  Avail's purview
      * regarding order.
      */
-    $cordovaGeolocation.getCurrentPosition({timeout: 3000}).then(function (position) {
+    $cordovaGeolocation.getCurrentPosition({timeout: 5000, enableHighAccuracy: true}).then(function (position) {
       // Remember, StopsForage returns a Promise.
       // Must resolve it.
       StopsForage.get(position.coords.latitude, position.coords.longitude).then(function (stops) {

@@ -75,7 +75,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         $ionicLoading.hide();
         $scope.params.destinationOnly = false;
       }, 1000);
-      console.log('unable to get location ' + err);
+      console.log('unable to get location ' + err.message);
     });
 
     return deferred.promise;
