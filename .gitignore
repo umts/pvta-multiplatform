@@ -1,4 +1,12 @@
-plugins
+cordova-plugin-compat
+cordova-plugin-console
+cordova-plugin-device
+cordova-plugin-inappbrowser
+# geolocation would go here
+cordova-plugin-splashscreen
+cordova-plugin-statusbar
+cordova-plugin-whitelist
+# keyboard would go here
 
 platforms/android/*
 
