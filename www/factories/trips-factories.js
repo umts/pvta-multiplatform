@@ -92,8 +92,12 @@ angular.module('pvta.factories')
         directionsDisplay.setDirections(response);
         leg = response.routes[0].legs[0];
         steps = leg.steps;
-        route.arrivalTime = leg['arrival_time']['text'];
-        route.departureTime = leg['departure_time']['text'];
+        if (leg['arrival_time']) {
+          route.arrivalTime = leg['arrival_time']['text'];
+        }
+        if (leg['departure_time']) {
+          route.departureTime = leg['departure_time']['text'];
+        }
         route.origin = leg['start_address'];
         route.destination = leg['end_address'];
       } else console.log(status);
