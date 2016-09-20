@@ -31,7 +31,7 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
       + $scope.route.ShortName + ': ' + vehicle.Destination + '</h3>' + message + '<h4>Last Stop: ' + vehicle.LastStop + '</h4></div>';
 
       //add a listener for that vehicle with that content as part of the infobubble
-      Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), content);
+      Map.addMapListener(Map.placeDesiredMarker(loc, 'https://www.google.com/mapfiles/kml/paddle/go.png'), content);
     });
   }
 

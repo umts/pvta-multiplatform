@@ -19,7 +19,7 @@ angular.module('pvta.controllers').controller('VehicleMapController', function (
     var content = '<h4 style=\'color: #387ef5\'>Here is your bus!</h4>';
 
     //add a listener for that vehicle with that content as part of the infobubble
-    Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), content);
+    Map.addMapListener(Map.placeDesiredMarker(loc, 'https://www.google.com/mapfiles/kml/paddle/go.png'), content);
   }
 
   $scope.$on('$ionicView.enter', function () {
