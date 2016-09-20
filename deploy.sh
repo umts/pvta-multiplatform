@@ -22,6 +22,7 @@ rm .bowerrc
 touch .bowerrc
 echo {\"directory\": \"bower_components\"} >> .bowerrc
 bower install
+ionic state reset
 shopt -s dotglob && git rm -rf --ignore-unmatch *
 git checkout master www/
 mv www/* ./
