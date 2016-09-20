@@ -22,12 +22,12 @@ rm .bowerrc
 touch .bowerrc
 echo {\"directory\": \"bower_components\"} >> .bowerrc
 bower install
-ionic state reset
 shopt -s dotglob && git rm -rf --ignore-unmatch *
 git checkout master www/
 mv www/* ./
 rm -rf www
 git checkout master scss
+ionic state reset
 git add -A
 git commit -m "Deploy to gh-pages"
 git push -f origin gh-pages
