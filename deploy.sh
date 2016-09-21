@@ -13,6 +13,13 @@ then
   echo "There are un-commited changes to master"
   exit 1
 fi
+echo "Have you uncommented the Analytics sections in index.html?\ny or n"
+read answer
+if [[ ! $answer -eq "y" ]]
+then
+  echo "Uncomment the Analytics sections in index.html and try again."
+  exit 1
+fi
 git tag Deploy$(date +"%D")
 git push --tags
 git branch -D gh-pages
