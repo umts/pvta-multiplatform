@@ -58,15 +58,6 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
       }
     }
   })
-  .state('app.vehicle', {
-    url: '/vehicles/:vehicleId/:routeId',
-    views: {
-      'menuContent': {
-        templateUrl: 'pages/vehicle/vehicle.html',
-        controller: 'VehicleController'
-      }
-    }
-  })
   .state('app.route', {
     url: '/routes/:routeId',
     views: {

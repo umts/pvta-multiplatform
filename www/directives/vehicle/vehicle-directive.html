@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row item">
   <!-- <div class="col col-20"> To:</div> -->
   <div class="col col-50 item-text-wrap" style="color: #{{route.Color}}; text-align:left">
       <b>To {{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b>
@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<div class="row item-text-wrap" style="text-align:left;">
+<div class="row item-text-wrap" style="text-align:left; padding-top: 10px">
 
   <div class="col">
     <span class="icon-left energized" ng-if="vehicle.DisplayStatus==='On Time'" style="color: green;">
@@ -32,7 +32,7 @@
    {{vehicle.OnBoard}} {{vehicle.OnBoard === 1 ? 'rider' : 'riders'}}
  </span>
  <div class="col item-text-wrap" style="text-align:right;">
-   <div class="icon-left positive" ui-sref="app.vehicle-map({routeTraceFilename: route.RouteTraceFilename, vehicleId: vehicle.VehicleId})">
+   <div class="button button-outline button-small button-positive button-icon-left" ui-sref="app.vehicle-map({routeTraceFilename: route.RouteTraceFilename, vehicleId: vehicle.VehicleId})">
      <i class="ion-navigate"></i>
      Map
    </div>
