@@ -15,6 +15,8 @@ then
 fi
 echo "Have you uncommented the Analytics sections in index.html? y or n"
 read answer
+echo $answer
+read
 if [[ $answer -ne "y" ]]
 then
   echo "Uncomment the Analytics sections in index.html and try again."
