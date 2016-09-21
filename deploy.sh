@@ -13,7 +13,7 @@ then
   echo "There are un-commited changes to master"
   exit 1
 fi
-echo "Have you uncommented the Analytics sections in index.html?\ny or n"
+echo "Have you uncommented the Analytics sections in index.html? y or n"
 read answer
 if [[ ! $answer -eq "y" ]]
 then
