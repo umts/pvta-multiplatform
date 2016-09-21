@@ -1,0 +1,42 @@
+<div class="row item" style="color: #{{route.Color}}; text-align:center">
+  <span class="col col-25  item-text-wrap" style="font-size: 150%; font-weight: bold;">
+    {{route.ShortName}}
+  </span>
+  <div class="col col-50 item-text-wrap">
+      <b>{{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b>
+  </div>
+  <div class="col item-text-wrap">
+    <div class="icon-left positive" ui-sref="app.vehicle-map({routeTraceFilename: route.RouteTraceFilename, vehicleId: vehicle.VehicleId})">
+      <i class="ion-navigate"></i>
+      Map
+    </div>
+
+
+  </div>
+</div>
+
+<div class="row item-text-wrap" style="text-align:center;">
+  <span class="col col-25 icon-left positive">
+   <i class="icon ion-android-people"></i>
+   <b>{{vehicle.OnBoard}} riders</b>
+ </span>
+  <div class="col col-50" style="text-align: center;">
+    <p>Last Stop:</p>
+    <b>{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</b>
+
+  </div>
+  <div class="col col-25">
+    <span class="icon-left energized" ng-if="vehicle.DisplayStatus==='On Time'" style="color: green; font-weight: bold;">
+      <i class="icon ion-ios-time-outline"></i>
+      {{vehicle.DisplayStatus}}
+    </span>
+    <span class="icon-left assertive" ng-if="vehicle.DisplayStatus === 'Late'" style="font-weight: bold; color: red">
+      <i class="icon ion-ios-time-outline"></i>
+      {{vehicle.Deviation}} minutes
+    </span>
+  </div>
+</div>
+
+<div class="row item-text-wrap">
+
+</div>

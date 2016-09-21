@@ -4,8 +4,9 @@
 // 'pvta' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'pvta.controllers' is found in controllers.js
-angular.module('pvta.controllers', ['pvta.factories']);
+angular.module('pvta.controllers', ['pvta.factories', 'pvta.directives']);
 angular.module('pvta.factories', ['ngResource']);
+angular.module('pvta.directives', []);
 angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore', 'ion-datetime-picker'])
 
 .run(function ($ionicPlatform) {

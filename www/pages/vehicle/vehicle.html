@@ -1,16 +1,7 @@
 <ion-view view-title="Bus {{vehicle.Name}}">
   <ion-content>
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
-    <div class="row item" style="text-align:center">
-      <h3 class="col col-50" >Bus {{vehicle.Name}}</h3>
-      <h3 class="col col-50">Unit: {{vehicle.BlockFareboxId}}</h3>
-    </div>
-    <div class="item item-body">
-      <p>Last Stop: <b>{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</b></p>
-      <p>Headed <b>{{vehicle.DirectionLong? vehicle.DirectionLong : "in an ungiven direction"}}</b> toward <b>{{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b></p>
-      <p> Currently on the
-      <span style="color: #{{route.Color}}; font-weight: bold;">{{route.ShortName}}</span>
-      <p><b>{{vehicle.OnBoard}}</b> {{vehicle.OnBoard != 1 ? 'passengers are' : 'passenger is'}} riding this bus.</p>
+    <vehicle data="vehicle"></vehicle>
       <p ng-if="isArticulated(vehicle.Name)"> This is a 60 foot articulated bus.</p>
     </div>
     <ion-footer-bar class="bar bar-positive">
