@@ -1,6 +1,6 @@
 {
   "name": "PVTA",
-  "version": "0.7.0-beta.4",
+  "version": "0.8.0-rc.1",
   "license": "MIT",
   "repository": "github.com/umts/pvta-multiplatform",
   "description": "The best way to find your buses on the go.",
@@ -26,6 +26,7 @@
     "cordova-plugin-device",
     "cordova-plugin-console",
     "cordova-plugin-splashscreen",
+    "cordova-plugin-geolocation",
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
     "cordova-plugin-whitelist",

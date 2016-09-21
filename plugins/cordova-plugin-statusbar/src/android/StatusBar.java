@@ -22,7 +22,7 @@ package org.apache.cordova.statusbar;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
-import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -31,6 +31,7 @@ import org.apache.cordova.CordovaArgs;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.LOG;
 import org.apache.cordova.PluginResult;
 import org.json.JSONException;
 
@@ -46,7 +47,7 @@ public class StatusBar extends CordovaPlugin {
      */
     @Override
     public void initialize(final CordovaInterface cordova, CordovaWebView webView) {
-        Log.v(TAG, "StatusBar: initialization");
+        LOG.v(TAG, "StatusBar: initialization");
         super.initialize(cordova, webView);
 
         this.cordova.getActivity().runOnUiThread(new Runnable() {
@@ -73,9 +74,10 @@ public class StatusBar extends CordovaPlugin {
      */
     @Override
     public boolean execute(final String action, final CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
-        Log.v(TAG, "Executing action: " + action);
+        LOG.v(TAG, "Executing action: " + action);
         final Activity activity = this.cordova.getActivity();
         final Window window = activity.getWindow();
+
         if ("_ready".equals(action)) {
             boolean statusBarVisible = (window.getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == 0;
             callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, statusBarVisible));
@@ -86,6 +88,18 @@ public class StatusBar extends CordovaPlugin {
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    // SYSTEM_UI_FLAG_FULLSCREEN is available since JellyBean, but we
+                    // use KitKat here to be aligned with "Fullscreen"  preference
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        int uiOptions = window.getDecorView().getSystemUiVisibility();
+                        uiOptions &= ~View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+                        uiOptions &= ~View.SYSTEM_UI_FLAG_FULLSCREEN;
+
+                        window.getDecorView().setSystemUiVisibility(uiOptions);
+                    }
+
+                    // CB-11197 We still need to update LayoutParams to force status bar
+                    // to be hidden when entering e.g. text fields
                     window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 }
             });
@@ -96,6 +110,18 @@ public class StatusBar extends CordovaPlugin {
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    // SYSTEM_UI_FLAG_FULLSCREEN is available since JellyBean, but we
+                    // use KitKat here to be aligned with "Fullscreen"  preference
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        int uiOptions = window.getDecorView().getSystemUiVisibility()
+                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+
+                        window.getDecorView().setSystemUiVisibility(uiOptions);
+                    }
+
+                    // CB-11197 We still need to update LayoutParams to force status bar
+                    // to be hidden when entering e.g. text fields
                     window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 }
             });
@@ -109,7 +135,7 @@ public class StatusBar extends CordovaPlugin {
                     try {
                         setStatusBarBackgroundColor(args.getString(0));
                     } catch (JSONException ignore) {
-                        Log.e(TAG, "Invalid hexString argument, use f.i. '#777777'");
+                        LOG.e(TAG, "Invalid hexString argument, use f.i. '#777777'");
                     }
                 }
             });
@@ -130,10 +156,10 @@ public class StatusBar extends CordovaPlugin {
                     // Using reflection makes sure any 5.0+ device will work without having to compile with SDK level 21
                     window.getClass().getDeclaredMethod("setStatusBarColor", int.class).invoke(window, Color.parseColor(colorPref));
                 } catch (IllegalArgumentException ignore) {
-                    Log.e(TAG, "Invalid hexString argument, use f.i. '#999999'");
+                    LOG.e(TAG, "Invalid hexString argument, use f.i. '#999999'");
                 } catch (Exception ignore) {
                     // this should not happen, only in case Android removes this method in a version > 21
-                    Log.w(TAG, "Method window.setStatusBarColor not found for SDK level " + Build.VERSION.SDK_INT);
+                    LOG.w(TAG, "Method window.setStatusBarColor not found for SDK level " + Build.VERSION.SDK_INT);
                 }
             }
         }

@@ -13,6 +13,8 @@ then
   echo "There are un-commited changes to master"
   exit 1
 fi
+git tag Deploy$(date +"%D")
+git push --tags
 git branch -D gh-pages
 git checkout -B gh-pages
 npm install
@@ -25,6 +27,7 @@ git checkout master www/
 mv www/* ./
 rm -rf www
 git checkout master scss
+git checkout master plugins
 git add -A
 git commit -m "Deploy to gh-pages"
 git push -f origin gh-pages

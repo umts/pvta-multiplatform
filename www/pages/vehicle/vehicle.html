@@ -14,9 +14,11 @@
       <p ng-if="isArticulated(vehicle.Name)"> This is a 60 foot articulated bus.</p>
     </div>
     <ion-footer-bar class="bar bar-positive">
-      <button class="button button-positive ion-ios-location title" ng-click="setCoordinates()">
-        Find on Map
-      </div>
+      <button
+        class="button button-positive"
+        ui-sref="app.vehicle-map({routeTraceFilename: route.RouteTraceFilename, vehicleId: vehicle.VehicleId})">
+        Find on map
+      </button>
     </ion-footer-bar>
   </ion-content>
 </ion-view>

@@ -1,5 +1,3 @@
-plugins
-
 platforms/android/*
 
 platforms/ios/*

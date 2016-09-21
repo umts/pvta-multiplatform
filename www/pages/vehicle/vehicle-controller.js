@@ -1,18 +1,10 @@
-angular.module('pvta.controllers').controller('VehicleController', function ($scope, $state, $stateParams, $location, Vehicle, Route, KML) {
+angular.module('pvta.controllers').controller('VehicleController', function ($scope, $state, $stateParams, $location, Vehicle, Route) {
   ga('set', 'page', '/vehicle.html');
   ga('send', 'pageview');
-  var getVehicle = function () {
-    $scope.vehicle = Vehicle.get({vehicleId: $stateParams.vehicleId});
-  };
 
+  // Download the vehicle and route
+  $scope.vehicle = Vehicle.get({vehicleId: $stateParams.vehicleId});
   $scope.route = Route.get({routeId: $stateParams.routeId});
-
-  getVehicle();
-
-  $scope.setCoordinates = function () {
-    KML.push($scope.route.RouteTraceFilename);
-    $state.go('app.vehicle-map', {vehicleId: $stateParams.vehicleId});
-  };
 
   $scope.refresh = function () {
     getVehicle();
@@ -32,5 +24,4 @@ angular.module('pvta.controllers').controller('VehicleController', function ($sc
     // There are no SatCo articulated buses a/o 2016.
     else return false;
   }
-
 });
