@@ -20,6 +20,13 @@ then
   echo "Uncomment the Analytics sections in index.html and try again."
   exit 1
 fi
+echo "Have you also switched the API keys (see index.html)? y or n"
+read answer
+if [ "$answer" != "y" ]
+then
+  echo "Go to index.html and follow the instructions to enable the deployment key."
+  exit 1
+fi
 git tag Deploy$(date +"%D")
 git push --tags
 git branch -D gh-pages
