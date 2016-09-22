@@ -14,12 +14,12 @@
         <i class="icon ion-android-bus"></i>
         <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.ShortName}}</span>
         <p>{{route.LongName}}</p>
-        <i ng-show="_.contains(_.pluck(favoriteRoutes, 'RouteId'), route.RouteId)" class="icon ion-ios-heart"></i>
+        <button id="like" ng-class="{'button button-icon icon ion-ios-heart': _.contains(_.pluck(favoriteRoutes, 'RouteId'), route.RouteId),'button button-icon icon ion-ios-heart-outline': !_.contains(_.pluck(favoriteRoutes, 'RouteId'), route.RouteId)}" ng-click="toggleRouteHeart(route)"></button>
       </ion-item>
       <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | limitTo: 200" href="#/app/stops/{{stop.StopId}}">
         <i class="icon ion-ios-location" style="margin-right: 10px"></i>
         {{stop.Name}} ({{stop.StopId}})
-        <button id="like" ng-class="{'button button-icon icon ion-ios-heart': _.contains(_.pluck(favoriteStops, 'StopId'), stop.StopId),'button button-icon icon ion-ios-heart-outline': !_.contains(_.pluck(favoriteStops, 'StopId'), stop.StopId)}" ng-click="toggleHeart(stop)"></button>
+        <button id="like" ng-class="{'button button-icon icon ion-ios-heart': _.contains(_.pluck(favoriteStops, 'StopId'), stop.StopId),'button button-icon icon ion-ios-heart-outline': !_.contains(_.pluck(favoriteStops, 'StopId'), stop.StopId)}" ng-click="toggleStopHeart(stop)"></button>
       </ion-item>
       <div ng-if="currentDisplay === 1 && stopsDisp.length >= 100" class="item item-divider item-positive item-text-wrap">Too many stops to show. Please search above for your stop by name or ID.</div>
     </ion-list>

@@ -140,13 +140,24 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     });
   }
 
-  $scope.toggleHeart = function (stop) {
+  $scope.toggleStopHeart = function (stop) {
     FavoriteStops.contains(stop.StopId, function (bool) {
       if (bool) {
         FavoriteStops.remove(stop);
       }
       else {
         FavoriteStops.push(stop);
+      }
+    });
+  };
+
+  $scope.toggleRouteHeart = function(route){
+    FavoriteRoutes.contains(route, function(bool){
+      if(bool) {
+        FavoriteRoutes.remove(route);
+      }
+      else {
+        FavoriteRoutes.push(route);
       }
     });
   };
