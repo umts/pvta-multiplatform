@@ -16,7 +16,7 @@
 
 <div class="row item-text-wrap" style="text-align:left; padding-top: 10px">
 
-  <div class="col">
+  <div class="col" style="padding-top: 10px">
     <span class="icon-left energized" ng-if="vehicle.DisplayStatus==='On Time'" style="color: green;">
       <i class="icon ion-ios-time-outline"></i>
       {{vehicle.DisplayStatus}}
@@ -27,10 +27,10 @@
     </span>
   </div>
 
-  <span class="col icon-left positive" style="text-align:center;">
+  <div class="col icon-left positive" style="text-align:center; padding-top: 10px"">
    <i class="icon ion-android-people"></i>
    {{vehicle.OnBoard}} {{vehicle.OnBoard === 1 ? 'rider' : 'riders'}}
- </span>
+ </div>
  <div class="col item-text-wrap" style="text-align:right;">
    <div class="button button-outline button-small button-positive button-icon-left" ui-sref="app.vehicle-map({routeTraceFilename: route.RouteTraceFilename, vehicleId: vehicle.VehicleId})">
      <i class="ion-navigate"></i>

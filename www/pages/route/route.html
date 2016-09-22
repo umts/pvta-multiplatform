@@ -6,29 +6,27 @@
   <ion-content style="margin-bottom: 2%">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
 
-    <p class="row item" style="text-align: center; font-size: 150%">
-
+    <div class="row item" style="text-align: center; font-size: 150%">
       <span class="col col-25 item-text-wrap" style="font-size: 150%; font-weight: bold; color:#{{route.Color}}">
         {{route.ShortName}}
-
       </span>
-      <span class="col col-75 item-text-wrap" style="text-align: center;">{{route.LongName}}</span> 
-    </p>
-      <div ng-if="vehicles.length === 0" class="bar bar-assertive" style="padding-bottom: 40px">
-        <h1 class="title"> There are no buses currently on the {{route.ShortName}}.</h1>
-      </div>
-      <div >
-        <ion-list>
-          <ion-item class="card" ng-repeat="vehicle in vehicles | orderBy:'vehicle.VehicleId'">
-            <vehicle data="vehicle" route="route"></vehicle>
-          </ion-item>
-       </ion-list>
-     </div>
-     <!-- Container div for the alerts -->
-     <div class="bar bar-assertive" ng-if="messages.length > 0">
-       <h1 class="title">Alerts for the {{route.ShortName}}</h1>
+      <span class="col col-75 item-text-wrap" style="text-align: center;">{{route.LongName}}</span>
     </div>
-    <div ng-if="messages.length > 0" style="padding-top:40px;">
+    <div ng-if="vehicles.length === 0" class="item item-divider item-assertive center">
+      There are no buses currently on the {{route.ShortName}}.
+    </div>
+    <div ng-if="vehicles.length != 0">
+      <ion-list>
+        <ion-item class="card" ng-repeat="vehicle in vehicles | orderBy:'Destination'">
+          <vehicle data="vehicle" route="route"></vehicle>
+        </ion-item>
+     </ion-list>
+   </div>
+     <!-- Container div for the alerts -->
+     <div class="item item-divider item-positive center" ng-if="messages.length > 0">
+       Alerts for the {{route.ShortName}}
+    </div>
+    <div ng-if="messages.length > 0">
       <ion-list>
         <ion-item class=item ng-repeat="item in messages">
           <div class="row item-text-wrap">

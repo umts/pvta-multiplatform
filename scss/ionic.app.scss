@@ -14,7 +14,7 @@ $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
-
+$orange:                          #fe4902 !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../bower_components/ionic/fonts" !default;
 
@@ -22,6 +22,8 @@ $ionicons-font-path: "../bower_components/ionic/fonts" !default;
 @import
   "www/bower_components/ionic/scss/ionic",
   "www/bower_components/ionic-filter-bar/scss/ionic.filter.bar.scss";
+
+
 
 .scroll {
     height: 100%;

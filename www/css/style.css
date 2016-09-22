@@ -17,6 +17,10 @@
   margin-bottom: 10px;
 }
 
+.center {
+  text-align: center;
+}
+
 .input-div {
 background-color: #387ef5;
 color: white;
