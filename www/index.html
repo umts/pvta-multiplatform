@@ -7,9 +7,20 @@
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-      ga('create', 'UA-76375148-1', 'auto');
+      // UNCOMMENT BEFORE DEPLOYING - ANALYTICS
+      // ga('create', 'UA-76375148-1', 'auto');
     </script>
-    <meta name="google-site-verification" content="fl6hMTOUVgBkFwN8ivRVWGS5p-vPqF2qluCwanrhKDQ" />
+
+    <!-- UNCOMMENT BEFORE DEPLOYING - ANALYTICS -->
+    <!-- <meta name="google-site-verification" content="fl6hMTOUVgBkFwN8ivRVWGS5p-vPqF2qluCwanrhKDQ" /> -->
+
+    <!-- UNCOMMENT WHEN DEPLOYING - PRODUCTION MAPS API KEY
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPsmX2FrR5zk5WLLSqoo1TawQpr0hSyDs&libraries=places,geometry"></script> -->
+
+    <!-- COMMENT WHEN DEPLOYING - DEV MAPS API KEY -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuFkJ-z0W35mRxANKMAVMSLhI3kryvJ3Y&libraries=places,geometry"></script>
+
+    <!-- No more google urls after this point -->
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 
@@ -50,8 +61,9 @@
 
     <!-- app's entry point and Google APIs -->
     <script src="app.js"></script>
-    <!-- Dev API key stays on master, betasrv key gets swapped in when pushing to gh-pages -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPsmX2FrR5zk5WLLSqoo1TawQpr0hSyDs&libraries=places,geometry"></script>
+
+
+
     <!--Controllers-->
     <script src="pages/app/app-controller.js"></script>
     <script src="pages/routes-and-stops/routes-and-stops-controller.js"></script>
