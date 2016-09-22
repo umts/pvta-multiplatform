@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, FavoriteStops, FavoriteRoutes) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
   // We can control which list is shown via the page's URL.
@@ -139,6 +139,17 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       redraw();
     });
   }
+
+  $scope.toggleHeart = function (stop) {
+    FavoriteStops.contains(stop.StopId, function (bool) {
+      if (bool) {
+        FavoriteStops.remove(stop);
+      }
+      else {
+        FavoriteStops.push(stop);
+      }
+    });
+  };
 
   function redraw () {
     $scope.display($scope.currentDisplay);
