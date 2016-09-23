@@ -9957,6 +9957,12 @@ a.button {
 .filter-bar-hide {
   display: none; }
 
+.green {
+  color: green; }
+
+.padding-top-10 {
+  padding-top: 10px; }
+
 .scroll {
   height: 100%; }
 

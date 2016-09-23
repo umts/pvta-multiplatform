@@ -1,37 +1,35 @@
+<!-- The first row - destination and last stop -->
 <div class="row item">
-  <!-- <div class="col col-20"> To:</div> -->
-  <div class="col col-50 item-text-wrap" style="color: #{{route.Color}}; text-align:left">
+  <!-- Destination -->
+  <div class="col col-50 item-text-wrap" style="color: #{{route.Color}}; text-align:left;">
       <b>To {{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b>
   </div>
-<!-- </div> -->
-<!-- <div class="row item"> -->
-  <!-- <div class="col col-20">Last stop: </div> -->
+  <!-- Last stop -->
   <div class="col col-50 item-text-wrap" style="text-align: right;">
     <i class="icon ion-ios-location"></i>
-
      {{vehicle.LastStop? vehicle.LastStop : "none specified"}}
-
   </div>
 </div>
-
-<div class="row item-text-wrap" style="text-align:left; padding-top: 10px">
-
-  <div class="col" style="padding-top: 10px">
-    <span class="icon-left energized" ng-if="vehicle.DisplayStatus==='On Time'" style="color: green;">
+<!-- The second row - status, pax, and map -->
+<div class="row item-text-wrap text-left" style="padding-top: 10px">
+  <!-- Vehicle Status -->
+  <div class="col padding-top-10">
+    <span class="icon-left green" ng-if="vehicle.DisplayStatus==='On Time'">
       <i class="icon ion-ios-time-outline"></i>
       {{vehicle.DisplayStatus}}
     </span>
-    <span class="icon-left assertive" ng-if="vehicle.DisplayStatus === 'Late'" style="color: red">
+    <span class="icon-left assertive" ng-if="vehicle.DisplayStatus === 'Late'">
       <i class="icon ion-ios-time-outline"></i>
       {{vehicle.Deviation}} minutes late
     </span>
   </div>
-
-  <div class="col icon-left positive" style="text-align:center; padding-top: 10px"">
+  <!-- Number of riders -->
+  <div class="col icon-left positive center padding-top-10">
    <i class="icon ion-android-people"></i>
    {{vehicle.OnBoard}} {{vehicle.OnBoard === 1 ? 'rider' : 'riders'}}
  </div>
- <div class="col item-text-wrap" style="text-align:right;">
+ <!-- Map button -->
+ <div class="col item-text-wrap text-right">
    <div class="button button-outline button-small button-positive button-icon-left" ui-sref="app.vehicle-map({routeTraceFilename: route.RouteTraceFilename, vehicleId: vehicle.VehicleId})">
      <i class="ion-navigate"></i>
      Map
