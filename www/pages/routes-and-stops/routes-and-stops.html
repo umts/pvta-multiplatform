@@ -10,14 +10,14 @@
     </div>
   </div>
   <ion-content class="has-subheader" direction="y" scrollbar-y="false">
-    <div class="button-bar animate-if" ng-if="show">
-      <p>Order by</p>
-      <button ng-class="currentDisplay === 0 ? 'button button-positive' : 'button  button-outline button-positive'" ng-click="orderby(0)">Favorites</button>
-      <button ng-class="currentDisplay === 0 ? 'button button-positive' : 'button  button-outline button-positive'" ng-click="orderby(1)">Alphabetical</button>
-      <button ng-class="currentDisplay === 0 ? 'button button-positive' : 'button  button-outline button-positive'" ng-click="orderby(2)">Distance From Me</button>
+    <div class="button-bar animate-if" ng-if="true"> <!-- should be "show" in the if -->
+      <p>Order by {{orderBy}}</p>
+      <button ng-class="order === 0 ? 'button button-positive' : 'button  button-outline button-positive'" ng-click="orderBy(0)">Favorites</button>
+      <button ng-class="order === 1 ? 'button button-positive' : 'button  button-outline button-positive'" ng-click="orderBy(1)">Alphabetical</button>
+      <button ng-show="currentDisplay === 1" ng-class="order === 2 ? 'button button-positive' : 'button  button-outline button-positive'" ng-click="orderBy(2)">Distance From Me</button>
     </div>
     <ion-list>
-      <ion-/item ng-show="currentDisplay === 0" class="item item-icon-left item-icon-right" ng-repeat="route in routesDisp" href="#app/routes/{{route.RouteId}}">
+      <ion-item ng-show="currentDisplay === 0" class="item item-icon-left item-icon-right" ng-repeat="route in routesDisp" href="#app/routes/{{route.RouteId}}">
         <i class="icon ion-android-bus"></i>
         <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.ShortName}}</span>
         <p>{{route.LongName}}</p>

@@ -144,9 +144,44 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     $scope.show ? $scope.show = false : $scope.show = true;
   }
 
+  /** Determines how to order the list currently being displayed.
+   * Expects 1 int input representing what type of ordering
+   * the user wants.
+   * Uses the currentDisplay variable to decide whether we're
+   * ordering Routes or Stops.
+   */
+   $scope.order = 0;
   $scope.orderBy = function(val) {
+    $scope.order = val;
+    // If we're ordering Routes
     if ($scope.currentDisplay === 0) {
-      if
+      // We're ordering by favorites
+      if (val === 0) {
+        // order by favorites
+      }
+      // we're ordering alphabetically
+      else if (val === 1) {
+        // order alphabetically
+      }
+      // Routes only support two ordering types.
+      // If somehow we're requested to order
+      // the list some other way, don't!
+    }
+    // If we're ordering Stops
+    else if ($scope.currentDisplay === 1) {
+      // We're ordering by favorites
+      if (val === 0) {
+        // order by favorites
+      }
+      // we're ordering alphabetically
+      else if (val === 1) {
+        // order alphabetically
+      }
+      // Stops support being ordered by location.
+      // Pass this off to a helper function.
+      else if (val === 2) {
+        // order by distance
+      }
     }
   }
 
