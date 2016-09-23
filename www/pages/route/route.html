@@ -12,7 +12,7 @@
       </span>
       <span class="col col-75 item-text-wrap" style="text-align: center;">{{route.LongName}}</span>
     </div>
-    <div ng-if="vehicles.length === 0" class="item item-divider item-assertive center">
+    <div ng-if="vehicles.length === 0" class="item item-divider item-energized center" style="margin-bottom:1%">
       There are no buses currently on the {{route.ShortName}}.
     </div>
     <div ng-if="vehicles.length != 0">
@@ -23,7 +23,7 @@
      </ion-list>
    </div>
      <!-- Container div for the alerts -->
-     <div class="item item-divider item-positive center" ng-if="messages.length > 0">
+     <div class="item item-divider item-assertive center" ng-if="messages.length > 0">
        Alerts for the {{route.ShortName}}
     </div>
     <div ng-if="messages.length > 0">
