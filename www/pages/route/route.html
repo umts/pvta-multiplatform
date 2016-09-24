@@ -5,44 +5,28 @@
   </ion-nav-buttons>
   <ion-content style="margin-bottom: 2%">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
-      <div class="item-text-wrap">
-        <h2 class="item" style="text-align: center; font-size: 150%">{{route.LongName}}</h2>
-      </div>
-      <div ng-class="vehicles.length > 0 ? 'bar bar-positive' : 'bar bar-assertive'">
-        <h1 class="title" ng-if="vehicles.length > 0">Buses currently on the {{route.ShortName}}:</h1>
-        <h1 class="title" ng-if="vehicles.length === 0"> There are no buses currently on the {{route.ShortName}}.</h1>
-      </div>
-      <div style="padding-top: 40px;">
-        <ion-list>
-          <ion-item class="item" ng-repeat="vehicle in vehicles" href="#/app/vehicles/{{vehicle.VehicleId}}/{{route.RouteId}}">
-            <div class="row item-text-wrap" style="font-weight: bold;">
-                <div class="col" ng-if="vehicle.DisplayStatus==='On Time'" style="color: green; text-align: center;">
-                  {{vehicle.DisplayStatus}}
-                </div>
-            </div>
-            <div class="row item-text-wrap" ng-if="vehicle.DisplayStatus === 'Late'">
-              <div class="col" style="text-align: center; color: red">
-                Late by {{vehicle.Deviation}} minutes
-              </div>
-            </div>
-            <div class="row">
-              <div class="col item-text-wrap" style="text-align: center;">
-                Headed toward <b>{{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b>
-              </div >
-            </div>
-            <div class="row item-text-wrap">
-              <div class="col" style="text-align: center;">
-                Last Stop: <b>{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</b>
-              </div>
-            </div>
-          </ion-item>
-       </ion-list>
-     </div>
-     <!-- Container div for the alerts -->
-     <div class="bar bar-assertive" ng-if="messages.length > 0">
-      <h1 class="title">Alerts for the {{route.ShortName}}</h1>
+
+    <div class="row item" style="text-align: center; font-size: 150%">
+      <span class="col col-25 item-text-wrap" style="font-size: 150%; font-weight: bold; color:#{{route.Color}}">
+        {{route.ShortName}}
+      </span>
+      <span class="col col-75 item-text-wrap center">{{route.LongName}}</span>
     </div>
-    <div style="padding-top:40px;">
+    <div ng-if="vehicles.length === 0" class="item item-divider item-energized center" style="margin-bottom:1%">
+      There are no buses currently on the {{route.ShortName}}.
+    </div>
+    <div ng-if="vehicles.length != 0">
+      <ion-list>
+        <ion-item class="card" ng-repeat="vehicle in vehicles | orderBy:'Destination'">
+          <vehicle data="vehicle" route="route"></vehicle>
+        </ion-item>
+     </ion-list>
+   </div>
+     <!-- Container div for the alerts -->
+     <div class="item item-divider item-assertive center" ng-if="messages.length > 0">
+       Alerts for the {{route.ShortName}}
+    </div>
+    <div ng-if="messages.length > 0">
       <ion-list>
         <ion-item class=item ng-repeat="item in messages">
           <div class="row item-text-wrap">
@@ -52,7 +36,7 @@
       </ion-list>
     </div>
 
-     <div class="list card" style="margin-bottom: 205px;">
+     <div class="list card">
       <ion-list>
         <ion-item class="item" ng-click="toggleGroup(stops)" ng-class="{active: isGroupShown(stops)}">
           <div style="text-align:center;">
