@@ -11,7 +11,7 @@ angular.module('pvta.factories')
     // sort routes by their number
     var routeNumber = /\d{1,2}/;
     routesList = _.sortBy(routesList, function (route) {
-      matches = route.RouteAbbreviation.match(routeNumber);
+      matches = route.ShortName.match(routeNumber);
       return Number(_.first(matches));
     });
     return routesList;
