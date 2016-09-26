@@ -6,12 +6,12 @@ angular.module('pvta.factories')
   var pushEntireList = function (list) {
     // only store the route attributes we need
     routesList = _.map(list, function (route) {
-      return _.pick(route, 'ShortName', 'LongName', 'Color', 'RouteId');
+      return _.pick(route, 'RouteAbbreviation', 'LongName', 'ShortName', 'Color', 'RouteId');
     });
     // sort routes by their number
     var routeNumber = /\d{1,2}/;
     routesList = _.sortBy(routesList, function (route) {
-      matches = route.ShortName.match(routeNumber);
+      matches = route.RouteAbbreviation.match(routeNumber);
       return Number(_.first(matches));
     });
     return routesList;
