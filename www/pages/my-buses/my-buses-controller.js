@@ -13,6 +13,7 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     // Resolve the promise, which will contain
     // a list of all alerts
     alertsPromise.then(function (alerts) {
+      var messages = [];
       _.each(alerts, function (alert) {
         /* If the Routes property of an
          * alert contains any of RouteIDs
@@ -36,16 +37,21 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
 
          //Also if there are no routes for that alert , show it by default
         if (alert.Routes.length == 0) {
-          $scope.messages.push(alert);
+          messages.push(alert);
         }
 
         else {
           _.each(alert.Routes, function (routeId) {
             if (_.contains(routes, routeId)) {
-              $scope.messages.push(alert);
+              messages.push(alert);
             }
           });
         }
+      });
+      // Finally, remove any duplicates.  Use the ID of the alert to
+      // determine whether we've encountered a duplicate.
+      $scope.messages = _.uniq(messages, function (message) {
+        return message.MessageId;
       });
     });
   }
