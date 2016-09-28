@@ -1,5 +1,6 @@
 <ion-view view-title="Contact">
   <ion-content>
+    <div class="list">
     <div class="list card item-text-wrap">
       <div class="item item-divider">
         PVTA
@@ -18,6 +19,8 @@
                 <i class="icon ion-ios-world-outline"></i>
         </a>
       </div>
+    </div>
+    <div class="list card item-text-wrap">
       <div class="item item-divider">
         Lost and Found / Regional Bus Information
       </div>
@@ -49,23 +52,54 @@
           <i class="icon ion-android-call"></i>
         </a>
       </div>
+    </div>
+    <div class="list card item-text-wrap">
+      <div class="item item-divider">
+        Social Media
+      </div>
+      <div class="item item-button-right">
+        PVTA Facebook
+        <a class="button button-positive" href="#"
+          ng-click="openLink('https://www.facebook.com/Pioneer-Valley-Transit-Authority-169604739716541')">
+                <i class="icon ion-social-facebook"></i>
+        </a>
+      </div>
+      <div class="item item-button-right">
+        PVTA Twitter
+        <a class="button button-positive" href="#"
+          ng-click="openLink('https://twitter.com/pvta')">
+                <i class="icon ion-social-twitter"></i>
+        </a>
+      </div>
+      <div class="item item-button-right">
+        UMass Transit Facebook
+        <a class="button button-positive" href="#"
+          ng-click="openLink('https://www.facebook.com/UMassTransit')">
+                <i class="icon ion-social-facebook"></i>
+        </a>
+      </div>
+
+      <div class="item item-button-right">
+        UMass Transit Twitter
+        <a class="button button-positive" href="#"
+          ng-click="openLink('https://twitter.com/umasstransit')">
+                <i class="icon ion-social-twitter"></i>
+        </a>
+      </div>
+    </div>
+    <div class="list card item-text-wrap">
       <div class="item item-divider">
         Paratransit Van Requests
       </div>
       <div class="item item-button-right">
-        PVTA Paratransit Van Requests (All Areas):
+        PVTA Paratransit Van Requests:
         <span class="item-note">413-732-6248, ext. 214</span>
         <a class="button button-positive" href="tel:413-732-6248">
           <i class="icon ion-android-call"></i>
         </a>
       </div>
-      <div class="item item-button-right">
-        UMass SpecTrans Requests (UMass Community Members Only):
-        <span class="item-note">(413) 545-2086</span>
-        <a class="button button-positive" href="tel:(413) 545-2086">
-          <i class="icon ion-android-call"></i>
-        </a>
-      </div>
+
     </div>
+</div>
   </ion-content>
 </ion-view>
