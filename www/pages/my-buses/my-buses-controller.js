@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips) {
+angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips, $ionicPopup) {
   ga('set', 'page', '/my-buses.html');
   ga('send', 'pageview');
   $scope.messages = [];
@@ -96,5 +96,20 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
   };
   $scope.$on('$ionicView.enter', function () {
     reload();
+    showPopup();
   });
+
+  function showPopup () {
+    // An alert dialog
+    localforage.getItem('returningUser', function (err, returningUser) {
+      if (!returningUser) {
+        // Show a helpful popup
+        var alertPopup = $ionicPopup.alert({
+          title: 'Welcome to PVTrAck!',
+          template: 'This is the My Buses page, where your favorite routes and stops live for easy access.<br>Head to Routes and Stops to see where your bus is right now, or visit Plan Trip for schedules.'
+        });
+        localforage.setItem('returningUser', true);
+      }
+    });
+  }
 });
