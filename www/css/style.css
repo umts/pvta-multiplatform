@@ -68,11 +68,15 @@ margin:5px;
   font-style: italic;
   text-align: center;
 }
+
 .ion-social-facebook {
   margin-left: 30%;
 }
 
 .button {
   width:2.5em;
+}
 
+.departure-padding {
+  margin-bottom: 10px;
 }
