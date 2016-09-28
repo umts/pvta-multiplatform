@@ -43,13 +43,19 @@
           </div>
           <div class="row item-text-wrap">
             <div class="col">
+              <center class="departure-padding">
+                {{departure.Times.sExact}}
+              </center>
               <center>
-                {{departure.Times.sExact}} ({{departure.Times.sRelative}})
+                ({{departure.Times.sRelative}})
               </center>
             </div>
             <div class="col">
+              <center class="departure-padding">
+                {{departure.Times.eExact}}
+              </center>
               <center>
-                {{departure.Times.eExact}} ({{departure.Times.eRelative}})
+                ({{departure.Times.eRelative}})
               </center>
             </div>
           </div>
