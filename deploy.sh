@@ -42,6 +42,7 @@ mv www/* ./
 rm -rf www
 git checkout master scss
 git checkout master plugins
+echo "m.pvta.com" > CNAME
 git add -A
 git commit -m "Deploy to gh-pages"
 git push -f origin gh-pages
