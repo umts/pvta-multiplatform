@@ -80,3 +80,7 @@ margin:5px;
 .departure-padding {
   margin-bottom: 10px;
 }
+
+.text-left {
+  text-align: left;
+}

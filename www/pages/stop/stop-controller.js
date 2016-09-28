@@ -124,6 +124,27 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * route that has upcoming departures at this stop.
          */
         getRoutes(_.pluck($scope.departuresByRoute, 'RouteId'));
+
+        /* Step 5:
+         * Sort the departures
+         * for each route.
+         */
+         $scope.firstDepartures = [];
+      //  console.log(JSON.stringify($scope.departuresByRoute));
+        _.each($scope.departuresByRoute, function (object) {
+        //  console.log(JSON.stringify(object))
+          var sorted = _.sortBy(object.Departures, 'EDT');
+          var thing = {
+            RouteId: object.RouteId,
+            Departures: sorted
+          };
+          console.log(JSON.stringify(thing));
+          $scope.firstDepartures.push(thing);
+        });
+        $scope.departuresByRoute = $scope.firstDepartures;
+        //DONE SORTING DEPARTURES
+        //TODO GRAB THE FIRST DEPARTURE FOR EACH ROUTE AND PREP IT FOR DISPLAY
+
       } // end highest if
     });
   }; // end getDepartures
