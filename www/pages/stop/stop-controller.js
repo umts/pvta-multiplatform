@@ -138,13 +138,20 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
             RouteId: object.RouteId,
             Departures: sorted
           };
-          console.log(JSON.stringify(thing));
+
           $scope.firstDepartures.push(thing);
         });
         $scope.departuresByRoute = $scope.firstDepartures;
         //DONE SORTING DEPARTURES
         //TODO GRAB THE FIRST DEPARTURE FOR EACH ROUTE AND PREP IT FOR DISPLAY
-
+        // _.each($scope.departuresByRoute, function (routeWithDepartures) {
+        //   var p = {
+        //     RouteId: routeWithDepartures.RouteId,
+        //     Departure: routeWithDepartures.Departures.splice(0, 1)
+        //   }
+        //   $scope.firstDepartures.push(p);
+        // });
+        // console.log(JSON.stringify($scope.departuresByRoute));
       } // end highest if
     });
   }; // end getDepartures

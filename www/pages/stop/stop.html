@@ -18,8 +18,39 @@
             {{routeList[routeDepartures.RouteId].ShortName}}
           </span>
           <span class="col">
-            
+            <center>
+              {{routeDepartures.Departures[0].Trip.InternetServiceDesc}}
+            </center>
           </span>
+          <div class="col">
+            <center>
+              <b>Scheduled</b>
+            </center>
+          </div>
+          <div class="col">
+            <center>
+              <b>Estimated</b>
+            </center>
+          </div>
+        </div>
+        <div class="row item-text-wrap">
+          <div class="col">
+            <center class="departure-padding">
+              {{routeDepartures.Departures[0].Times.sExact}}
+            </center>
+            <center>
+              ({{routeDepartures.Departures[0].Times.sRelative}})
+            </center>
+          </div>
+          <div class="col">
+            <center class="departure-padding">
+              {{routeDepartures.Departures[0].Times.eExact}}
+            </center>
+            <center>
+              ({{routeDepartures.Departures[0].Times.eRelative}})
+            </center>
+          </div>
+        </div>
           <span class="col">
             <i class="icon" ng-class="isGroupShown({{routeDepartures.RouteId}}) ? 'ion-ios-arrow-down' : 'ion-ios-arrow-up'" style="margin-right: 10px;"></i>
           </span>
@@ -28,7 +59,7 @@
       </ion-item>
       <!-- When a route has been expanded, show its departures -->
       <ion-item class="item-accordion"
-                      ng-repeat="departure in routeDepartures.Departures"
+                      ng-repeat="departure in routeDepartures.Departures.slice(1)"
                       ng-show="isGroupShown({{routeDepartures.RouteId}})" href="#/app/routes/{{routeDepartures.RouteId}}">
           <div class="item-text-wrap" style="font-weight:bold;">
             <center>
