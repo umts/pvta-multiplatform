@@ -31,6 +31,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   $scope.getDepartures = function () {
     $scope.departuresByRoute = [];
     var routes = [];
+    $ionicLoading.show();
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function () {
       if (deps) {
         // Avail returns a one element array that contains
@@ -119,8 +120,6 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
             $scope.departuresByRoute.push(newDirsWithTimes);
           }
         });
-
-
         /* Step 4:
          * Download some details (name, color, etc) for each
          * route that has upcoming departures at this stop.
@@ -155,6 +154,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         // });
         // console.log(JSON.stringify($scope.departuresByRoute));
       } // end highest if
+      $ionicLoading.hide();
     });
   }; // end getDepartures
 

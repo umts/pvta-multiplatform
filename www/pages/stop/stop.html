@@ -1,5 +1,5 @@
 <ion-view>
-  <ion-nav-title>Departures: {{stop.Name}} ({{stop.StopId}})</ion-nav-title>
+  <ion-nav-title>{{stop.Name}} ({{stop.StopId}})</ion-nav-title>
   <ion-nav-buttons side="secondary">
     <button id="like"  ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}" ng-click="liked= !liked; toggleHeart(liked)"></button>
   </ion-nav-buttons>
@@ -22,7 +22,7 @@
           </span>
           <span class="col-33" style="color:white;">
             <center class="text-right">
-              {{routeDepartures.Departures[0].Times.eExact}}
+              Est: {{routeDepartures.Departures[0].Times.eExact}}
             </center>
             <center class="text-right">
               ({{routeDepartures.Departures[0].Times.eRelativeNoPrefix}})
