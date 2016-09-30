@@ -108,7 +108,9 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
               var times = {sExact: moment(departure.SDT).format('LT'),
                            eExact: moment(departure.EDT).format('LT'),
                            sRelative: moment(departure.SDT).fromNow(),
-                           eRelative: moment(departure.EDT).fromNow()};
+                           eRelative: moment(departure.EDT).fromNow(),
+                           eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
+                         };
               departure.Times = times;
               newDirsWithTimes.Departures.push(departure);
             }

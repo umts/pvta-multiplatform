@@ -12,49 +12,25 @@
       </center>
     </div>
     <ion-list ng-repeat="routeDepartures in departuresByRoute">
-      <ion-item ng-click="toggleGroup({{routeDepartures.RouteId}})" ng-class="{active: isGroupShown({{routeDepartures.RouteId}})}">
-        <div class="row" style="font-weight: bold;font-size: 175%; color: #{{routeList[routeDepartures.RouteId].Color}};">
-          <span class="col">
+      <ion-item ng-click="toggleGroup({{routeDepartures.RouteId}})" ng-class="{active: isGroupShown({{routeDepartures.RouteId}})}" style=" background-color: #{{routeList[routeDepartures.RouteId].Color}};">
+        <div class="row item-text-wrap" >
+          <span class="col" style="font-weight: bold;font-size: 175%; color:white;">
             {{routeList[routeDepartures.RouteId].ShortName}}
           </span>
-          <span class="col">
-            <center>
-              {{routeDepartures.Departures[0].Trip.InternetServiceDesc}}
-            </center>
+          <span class="col-50" style="text-align:right; color:white">
+            {{routeDepartures.Departures[0].Trip.InternetServiceDesc}}
           </span>
-          <div class="col">
-            <center>
-              <b>Scheduled</b>
-            </center>
-          </div>
-          <div class="col">
-            <center>
-              <b>Estimated</b>
-            </center>
-          </div>
-        </div>
-        <div class="row item-text-wrap">
-          <div class="col">
-            <center class="departure-padding">
-              {{routeDepartures.Departures[0].Times.sExact}}
-            </center>
-            <center>
-              ({{routeDepartures.Departures[0].Times.sRelative}})
-            </center>
-          </div>
-          <div class="col">
-            <center class="departure-padding">
+          <span class="col-33" style="color:white;">
+            <center class="text-right">
               {{routeDepartures.Departures[0].Times.eExact}}
             </center>
-            <center>
-              ({{routeDepartures.Departures[0].Times.eRelative}})
+            <center class="text-right">
+              ({{routeDepartures.Departures[0].Times.eRelativeNoPrefix}})
             </center>
-          </div>
-        </div>
-          <span class="col">
-            <i class="icon" ng-class="isGroupShown({{routeDepartures.RouteId}}) ? 'ion-ios-arrow-down' : 'ion-ios-arrow-up'" style="margin-right: 10px;"></i>
           </span>
-
+          <span class="col-10" style="color: white;">
+            <i class="icon" ng-class="isGroupShown({{routeDepartures.RouteId}}) ? 'ion-ios-arrow-down' : 'ion-ios-arrow-up'" style="margin-right: 10px; float:right;"></i>
+          </span>
         </div>
       </ion-item>
       <!-- When a route has been expanded, show its departures -->
