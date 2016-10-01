@@ -100,12 +100,13 @@ margin:5px;
 .departures-foldout {
   text-align:center;
 }
-.departures-foldout..ng-hide-add, .animate-show.ng-hide-remove  {
-  transition:0.5s linear all;
+.departures-foldout.ng-hide-add, .departures-foldout.ng-hide-remove  {
+  transition:0.5s ease-in-out all;
   opacity:0;
 }
 
 .departures-foldout.ng-hide {
+  transition:0.5s ease-in-out all;
   line-height: 0;
   opacity: 0;
   padding: 0 10px;
