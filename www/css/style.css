@@ -84,3 +84,29 @@ margin:5px;
 .text-left {
   text-align: left;
 }
+.no-more-departures {
+  text-align:center;
+}
+
+.no-more-departures.ng-enter {
+  transition:0.5s linear all;
+  opacity:0;
+}
+
+.no-more-departures.ng-enter.ng-enter-active {
+  opacity:1;
+}
+
+.departures-foldout {
+  text-align:center;
+}
+.departures-foldout..ng-hide-add, .animate-show.ng-hide-remove  {
+  transition:0.5s linear all;
+  opacity:0;
+}
+
+.departures-foldout.ng-hide {
+  line-height: 0;
+  opacity: 0;
+  padding: 0 10px;
+}

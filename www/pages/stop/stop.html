@@ -11,7 +11,6 @@
         Tap a route to view more departures
       </center>
     </div>
-    {{onlyOneDeparture}}
     <ion-list ng-repeat="routeDepartures in departuresByRoute">
       <ion-item ng-click="toggleGroup({{routeDepartures.RouteId}}, {{routeDepartures.Departures.length}})" ng-class="{active: isGroupShown({{routeDepartures.RouteId}})}" style="background-color: #{{routeList[routeDepartures.RouteId].Color}};">
         <div class="row item-text-wrap" style="color:white;">
@@ -34,11 +33,11 @@
           </span>
         </div>
       </ion-item>
-      <div class="item item-divider"  style="color: white; text-align:center;background-color: #{{routeList[routeDepartures.RouteId].Color}};" ng-if="_.contains(onlyOneDeparture, RouteId)">
+      <div class="item item-divider no-more-departures"  style="color: white; background-color: #{{routeList[routeDepartures.RouteId].Color}};" ng-if="onlyOneDeparture.indexOf(routeDepartures.RouteId) !== -1">
         <span>No other upcoming departures</span>
       </div>
       <!-- When a route has been expanded, show its departures -->
-      <ion-item class="item-accordion"
+      <ion-item class="item-accordion departures-foldout"
                       ng-repeat="departure in routeDepartures.Departures.slice(1)"
                       ng-show="isGroupShown({{routeDepartures.RouteId}})" href="#/app/routes/{{routeDepartures.RouteId}}">
           <div class="item-text-wrap" style="font-weight:bold;">
