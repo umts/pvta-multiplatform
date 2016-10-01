@@ -1,6 +1,7 @@
 angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $resource, $location, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading) {
   ga('set', 'page', '/stop.html');
   ga('send', 'pageview');
+  $scope.onlyOneDeparture = [];
   // For a given RouteId, downloads the simplest
   // version of the details for that route from
   // Avail.  Adds it to a $scope-wide list.
@@ -237,11 +238,14 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
 
   // **Sets** whether a route's
   // departures have been expanded on the page
-  $scope.toggleGroup = function (group) {
-    if ($scope.isGroupShown(group)) {
+  $scope.toggleGroup = function (routeId, numberOfDepartures) {
+    if (numberOfDepartures === 1 && !_.contains($scope.onlyOneDeparture, routeId)) {
+      $scope.onlyOneDeparture.push(routeId)
+    }
+    if ($scope.isGroupShown(routeId)) {
       $scope.shownGroup = null;
     } else {
-      $scope.shownGroup = group;
+      $scope.shownGroup = routeId;
     }
   };
   // **Checks** whether a route's departures
