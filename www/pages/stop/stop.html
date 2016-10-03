@@ -28,9 +28,6 @@
               ({{routeDepartures.Departures[0].Times.eRelativeNoPrefix}})
             </p>
           </div>
-          <!-- <span class="col-10">
-            <i class="icon" ng-if="routeDepartures.Departures.length > 1" ng-class="isGroupShown({{routeDepartures.RouteId}}) ? 'ion-ios-arrow-down' : 'ion-ios-arrow-up'" style="margin-right: 10px; float:right;"></i>
-          </span> -->
         </div>
       </ion-item>
       <div class="item item-divider no-more-departures"  style="color: white; background-color: #{{routeList[routeDepartures.RouteId].Color}};" ng-if="onlyOneDeparture.indexOf(routeDepartures.RouteId) !== -1">

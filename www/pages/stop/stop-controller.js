@@ -131,33 +131,20 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * Sort the departures
          * for each route.
          */
-         $scope.firstDepartures = [];
-      //  console.log(JSON.stringify($scope.departuresByRoute));
-        _.each($scope.departuresByRoute, function (object) {
-        //  console.log(JSON.stringify(object))
-          var sorted = _.sortBy(object.Departures, 'EDT');
-          var thing = {
-            RouteId: object.RouteId,
-            Departures: sorted
+         var allSortedDepartures = [];
+        _.each($scope.departuresByRoute, function (routeDepartures) {
+          var sortedDepartures = _.sortBy(routeDepartures.Departures, 'EDT');
+          var routeWithSortedDepartures = {
+            RouteId: routeDepartures.RouteId,
+            Departures: sortedDepartures
           };
-
-          $scope.firstDepartures.push(thing);
+          allSortedDepartures.push(routeWithSortedDepartures);
         });
-        $scope.departuresByRoute = $scope.firstDepartures;
-        //DONE SORTING DEPARTURES
-        //TODO GRAB THE FIRST DEPARTURE FOR EACH ROUTE AND PREP IT FOR DISPLAY
-        // _.each($scope.departuresByRoute, function (routeWithDepartures) {
-        //   var p = {
-        //     RouteId: routeWithDepartures.RouteId,
-        //     Departure: routeWithDepartures.Departures.splice(0, 1)
-        //   }
-        //   $scope.firstDepartures.push(p);
-        // });
-        // console.log(JSON.stringify($scope.departuresByRoute));
-      } // end highest if
+        $scope.departuresByRoute = allSortedDepartures;
+      }
       $ionicLoading.hide();
     });
-  }; // end getDepartures
+  };
 
   var stop = Stop.get({stopId: $stateParams.stopId}, function () {
     stop.$save;
