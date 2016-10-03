@@ -73,9 +73,18 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
   }
 
   var reload = function () {
-    localforage.getItem('favoriteRoutes', function (err, value) {
-      $scope.routes = value;
-      filterAlerts($scope.routes, Messages.query().$promise);
+    localforage.getItem('updatedRoutes', function(err, updated) {
+      if (!updated) {
+        localforage.removeItem('routes');
+        localforage.removeItem('favoriteRoutes');
+        localforage.setItem('updatedRoutes', true);
+        $scope.routes = [];
+      } else {
+        localforage.getItem('favoriteRoutes', function (err, value) {
+          $scope.routes = value;
+          filterAlerts($scope.routes, Messages.query().$promise);
+        });
+      }
     });
     localforage.getItem('favoriteStops', function (err, value) {
       $scope.stops = value;
