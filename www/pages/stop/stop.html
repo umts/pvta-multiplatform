@@ -14,30 +14,30 @@
     <ion-list ng-repeat="routeDepartures in departuresByRoute">
       <ion-item ng-click="toggleGroup({{routeDepartures.RouteId}}, {{routeDepartures.Departures.length}})" ng-class="{active: isGroupShown({{routeDepartures.RouteId}})}" style="background-color: #{{routeList[routeDepartures.RouteId].Color}};">
         <div class="row item-text-wrap" style="color:white;">
-          <span class="col" style="font-weight: bold;font-size: 175%; color:white;">
+          <div class="col" style="font-size: 175%; color:white;">
             {{routeList[routeDepartures.RouteId].RouteAbbreviation}}
-          </span>
-          <span class="col-50" style="text-align:right;">
+          </div>
+          <div class="col-50">
             {{routeDepartures.Departures[0].Trip.InternetServiceDesc}}
-          </span>
-          <span class="col-25">
-            <center class="text-right">
-              Est: {{routeDepartures.Departures[0].Times.eExact}}
-            </center>
-            <center class="text-right">
+          </div>
+          <div class="col-33 text-right">
+            <span>
+              {{routeDepartures.Departures[0].Times.eExact}}
+            </span>
+            <p style="color:white">
               ({{routeDepartures.Departures[0].Times.eRelativeNoPrefix}})
-            </center>
-          </span>
-          <span class="col-10">
+            </p>
+          </div>
+          <!-- <span class="col-10">
             <i class="icon" ng-if="routeDepartures.Departures.length > 1" ng-class="isGroupShown({{routeDepartures.RouteId}}) ? 'ion-ios-arrow-down' : 'ion-ios-arrow-up'" style="margin-right: 10px; float:right;"></i>
-          </span>
+          </span> -->
         </div>
       </ion-item>
       <div class="item item-divider no-more-departures"  style="color: white; background-color: #{{routeList[routeDepartures.RouteId].Color}};" ng-if="onlyOneDeparture.indexOf(routeDepartures.RouteId) !== -1">
         <span>No other upcoming departures</span>
       </div>
       <!-- When a route has been expanded, show its departures -->
-      <ion-item class="item-accordion departures-foldout"
+      <ion-item class="item-accordion"
                       ng-repeat="departure in routeDepartures.Departures.slice(1)"
                       ng-show="isGroupShown({{routeDepartures.RouteId}})" href="#/app/routes/{{routeDepartures.RouteId}}">
           <div class="item-text-wrap" style="font-weight:bold;">
@@ -81,7 +81,7 @@
       <ion-item class="item item-assertive" style="text-align:center">{{stop.Name}} has no departures for at least the next 3 hours.</ion-item>
     </div>
     <div>
-      <p class="disclaimer">Disclaimer: Real-time data is an estimate and may be incorrect or unavailable.<br>
+      <p class="disclaimer"><b>Disclaimer:</b><br> Real-time data is an estimate and may be incorrect or unavailable.<br>
       Please continue to reference official schedules as necessary.</p>
     </div>
   </ion-content>

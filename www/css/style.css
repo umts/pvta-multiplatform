@@ -66,7 +66,7 @@ margin:5px;
   color: grey;
   font-size: small;
   font-style: italic;
-  text-align: center;
+  text-align: left;
 }
 
 .ion-social-facebook {
@@ -95,19 +95,4 @@ margin:5px;
 
 .no-more-departures.ng-enter.ng-enter-active {
   opacity:1;
-}
-
-.departures-foldout {
-  text-align:center;
-}
-.departures-foldout.ng-hide-add, .departures-foldout.ng-hide-remove  {
-  transition:0.5s ease-in-out all;
-  opacity:0;
-}
-
-.departures-foldout.ng-hide {
-  transition:0.5s ease-in-out all;
-  line-height: 0;
-  opacity: 0;
-  padding: 0 10px;
 }
