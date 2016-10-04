@@ -133,13 +133,17 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          */
          var allSortedDepartures = [];
         _.each($scope.departuresByRoute, function (routeDepartures) {
-          var sortedDepartures = _.sortBy(routeDepartures.Departures, 'EDT');
-          var routeWithSortedDepartures = {
-            RouteId: routeDepartures.RouteId,
-            Departures: sortedDepartures
-          };
-          allSortedDepartures.push(routeWithSortedDepartures);
+          // The routeDepartures object looks like
+          // {RouteId, Departures}, where Departures is
+          // an array of objects with numerous properties.
+          // First, sort the array by Estimated Departure Time.
+          routeDepartures.Departures = _.sortBy(routeDepartures.Departures, 'EDT');
+          // Add the now sorted routeDepartures object to our
+          // auxiliary array.
+          allSortedDepartures.push(routeDepartures);
         });
+        // Once we've sorted the departures for each route,
+        // reassign our global object.
         $scope.departuresByRoute = allSortedDepartures;
       }
       $ionicLoading.hide();
