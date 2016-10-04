@@ -15,7 +15,7 @@
       <ion-item ng-click="toggleGroup({{routeDepartures.RouteId}})" ng-class="{active: isGroupShown({{routeDepartures.RouteId}})}">
         <div style="font-weight: bold;font-size: 175%; color: #{{routeList[routeDepartures.RouteId].Color}};">
           <center>
-            {{routeList[routeDepartures.RouteId].ShortName}}
+            {{routeList[routeDepartures.RouteId].RouteAbbreviation}}
                 <i class="icon" style="padding-left: 3%;" ng-class="isGroupShown({{routeDepartures.RouteId}}) ? 'ion-ios-arrow-down' : 'ion-ios-arrow-up'" style="margin-right: 10px;"></i>
           </center>
         </div>

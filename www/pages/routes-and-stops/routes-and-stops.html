@@ -12,7 +12,7 @@
     <ion-list>
       <ion-item ng-show="currentDisplay === 0" class="item item-icon-left item-icon-right" ng-repeat="route in routesDisp" href="#app/routes/{{route.RouteId}}">
         <i class="icon ion-android-bus"></i>
-        <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.ShortName}}</span>
+        <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.RouteAbbreviation}}</span>
         <p>{{route.LongName}}</p>
         <i ng-show="_.contains(_.pluck(favoriteRoutes, 'RouteId'), route.RouteId)" class="icon ion-ios-heart"></i>
       </ion-item>
