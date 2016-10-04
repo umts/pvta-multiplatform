@@ -73,7 +73,7 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
   }
 
   var reload = function () {
-    localforage.getItem('updatedRoutes', function(err, updated) {
+    localforage.getItem('updatedRoutes', function (err, updated) {
       if (!updated) {
         localforage.removeItem('routes');
         localforage.removeItem('favoriteRoutes');
