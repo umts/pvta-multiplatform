@@ -12,7 +12,7 @@
       Tap a route to view more departures
     </div>
     <ion-list ng-repeat="routeDepartures in departuresByRoute">
-      <ion-item ng-click="toggleGroup({{routeDepartures.RouteId}})"
+      <ion-item ng-click="toggleRouteDropdown({{routeDepartures.RouteId}})"
                       ng-class="{active: isGroupShown({{routeDepartures.RouteId}})}"
                       style="background-color: #{{routeList[routeDepartures.RouteId].Color}};">
         <div class="row item-text-wrap white">
