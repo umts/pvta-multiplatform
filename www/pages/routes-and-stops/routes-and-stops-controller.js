@@ -23,7 +23,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     */
     function stripDetails (routeList) {
       return _.map(routeList, function (route) {
-        return _.pick(route, 'RouteId', 'ShortName', 'LongName', 'Color');
+        return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color');
       });
     }
     /* Grab the current position.
