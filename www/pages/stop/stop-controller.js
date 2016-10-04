@@ -230,14 +230,14 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   // departures have been expanded on the page
   $scope.toggleRouteDropdown = function (routeId) {
     if ($scope.isRouteDropdownShown(routeId)) {
-      $scope.shownGroup = null;
+      $scope.shownRoute = null;
     } else {
-      $scope.shownGroup = routeId;
+      $scope.shownRoute = routeId;
     }
   };
   // **Checks** whether a route's departures
   // have been expanded on the page
-  $scope.isRouteDropdownShown = function (group) {
-    return $scope.shownGroup === group;
+  $scope.isRouteDropdownShown = function (routeId) {
+    return $scope.shownRoute === routeId;
   };
 });

@@ -13,7 +13,7 @@
     </div>
     <ion-list ng-repeat="routeDepartures in departuresByRoute">
       <ion-item ng-click="toggleRouteDropdown({{routeDepartures.RouteId}})"
-                      ng-class="{active: isGroupShown({{routeDepartures.RouteId}})}"
+                      ng-class="{active: isRouteDropdownShown({{routeDepartures.RouteId}})}"
                       style="background-color: #{{routeList[routeDepartures.RouteId].Color}};">
         <div class="row item-text-wrap white">
           <div class="col route-shortname">
@@ -35,7 +35,7 @@
       <!-- When a route has been expanded, show its departures -->
       <ion-item class="item-accordion"
                       ng-repeat="departure in routeDepartures.Departures"
-                      ng-show="isGroupShown({{routeDepartures.RouteId}})"
+                      ng-show="isRouteDropdownShown({{routeDepartures.RouteId}})"
                       href="#/app/routes/{{routeDepartures.RouteId}}">
           <div class="item-text-wrap bold center">
             {{departure.Trip.InternetServiceDesc}}
