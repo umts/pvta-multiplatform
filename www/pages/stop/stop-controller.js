@@ -131,7 +131,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * Sort the departures
          * for each route.
          */
-         var allSortedDepartures = [];
+        var allSortedDepartures = [];
         _.each($scope.departuresByRoute, function (routeDepartures) {
           // The routeDepartures object looks like
           // {RouteId, Departures}, where Departures is
@@ -231,7 +231,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   // departures have been expanded on the page
   $scope.toggleGroup = function (routeId, numberOfDepartures) {
     if (numberOfDepartures === 1 && !_.contains($scope.onlyOneDeparture, routeId)) {
-      $scope.onlyOneDeparture.push(routeId)
+      $scope.onlyOneDeparture.push(routeId);
     }
     if ($scope.isGroupShown(routeId)) {
       $scope.shownGroup = null;
