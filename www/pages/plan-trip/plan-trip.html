@@ -5,6 +5,21 @@
       Unable to retrieve current location.
     </ion-item>
   </div>
+  <i ng-class="params.destinationOnly ? 'ion-pinpoint positive' : 'ion-pinpoint'"
+     style="margin-right: 5%"
+     ng-click="params.destinationOnly = !params.destinationOnly; updateOrigin();">
+   </i>
+  <div class="list">
+    <label class="item item-input">
+      <span class="input-label">Origin</span>
+      <input id="origin-input" class="user-input location-typeahead" type="text" placeholder="Enter an origin location" ng-model="params.origin.name" ng-focus="disableTap()" />
+    </label>
+
+    <label class="item item-input">
+      <span class="input-label">Destination</span>
+      <input id="destination-input" class="user-input location-typeahead" type="text" placeholder="Enter a destination location" ng-model="params.destination.name" ng-focus="disableTap()" />
+    </label>
+  </div>
 <div id="directions-map"></div>
 <div class="input-div">
   <div class="center-div">
@@ -12,15 +27,6 @@
       <b>Trip:</b>
       {{params.name}}
     </label>
-  </div>
-  <ion-checkbox ng-model="params.destinationOnly" ng-change="updateOrigin()" class="input-div">Use Current Location</ion-checkbox>
-  <div class="center-div">
-    <b>Origin</b>
-    <input id="origin-input" class="user-input location-typeahead" type="text" placeholder="Enter an origin location" ng-model="params.origin.name" ng-focus="disableTap()" />
-  </div>
-  <div class="center-div">
-    <b>Destination</b>
-    <input id="destination-input" class="user-input location-typeahead" type="text" placeholder="Enter a destination location" ng-model="params.destination.name" ng-focus="disableTap()" />
   </div>
   <div>
     <ion-checkbox ng-model="params.time.asap" ng-change="updateASAP()" class="input-div">ASAP</ion-checkbox>

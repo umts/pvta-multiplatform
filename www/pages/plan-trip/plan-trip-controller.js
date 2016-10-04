@@ -30,6 +30,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   };
 
   $scope.updateOrigin = function () {
+    console.log('blerp');
     if ($scope.params.destinationOnly) {
       loadLocation();
     } else {
