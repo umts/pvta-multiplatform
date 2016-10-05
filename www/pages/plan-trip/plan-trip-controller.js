@@ -63,7 +63,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       });
     }, function (err) {
       // Tell Google Analytics that a user doesn't have location
-      ga('send', 'exception', 'location failed on Plan Trip; error: '+ err, false);
+      ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failed on Plan Trip; error: '+ err);
       // When getting location fails, this callback fires
       $scope.noLocation = true;
       /* When getting location fails immediately, $ionicLoading.hide()
