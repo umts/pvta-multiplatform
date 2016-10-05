@@ -42,7 +42,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
  //Loads the user's location and updates the origin
   var loadLocation = function () {
     var deferred = $q.defer();
-    var options = {timeout: 5000, enableHighAccuracy: true};
+    var options = {timeout: 500, enableHighAccuracy: true};
     $ionicLoading.show();
 
     $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
@@ -240,14 +240,27 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
           $scope.route.directions = data;
           $scope.$apply();
           $scope.scrollTo('route');
+          // Force a map redraw because it was hidden before.
+          // There's an angular bug with ng-show that will cause
+          // the map to draw only grey after being hidden
+          // unless we force a redraw.
+          google.maps.event.trigger($scope.map,'resize');
         });
       }
-      else
-       $ionicPopup.alert({
-         title: 'Request Failed',
-         template: 'Directions request failed due to ' + $scope.route.status
-       });
+      else {
+        $ionicPopup.alert(
+          {
+            title: 'Unable to Find a Trip',
+            template: 'There are no scheduled buses at the time you requested that work for your trip.\nThis failure has a status code of: ' + $scope.route.status
+          }
+        );
+        // In cases of error, we set the route object that
+        // otherwise contained all our data to undefined, because, well,
+        // the data was bad.
+        $scope.route = undefined;
+      }
     }, function (err) {
+      $scope.route = undefined;
       $ionicLoading.hide();
       console.log('Error routing: ' + err);
     });
