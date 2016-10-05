@@ -10,6 +10,9 @@
         "cordova-plugin-console": {
             "PACKAGE_NAME": "com.umts.pvtamultiplaform"
         },
+        "cordova-plugin-datepicker": {
+            "PACKAGE_NAME": "com.umts.pvtamultiplaform"
+        },
         "cordova-plugin-device": {
             "PACKAGE_NAME": "com.umts.pvtamultiplaform"
         },

@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips, $timeout) {
+angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips, $timeout, $cordovaDatePicker) {
   ga('set', 'page', '/plan-trip.html');
   ga('send', 'pageview');
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
@@ -335,4 +335,21 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     });
   };
 
+  $scope.showDatepicker = function () {
+    console.log('datepicker yo')
+    var options = {
+        date: new Date(),
+        mode: 'date', // or 'time'
+        minDate: new Date() - 10000,
+        allowOldDates: true,
+        allowFutureDates: false,
+        doneButtonLabel: 'DONE',
+        doneButtonColor: '#F2F3F4',
+        cancelButtonLabel: 'CANCEL',
+        cancelButtonColor: '#000000'
+      };
+    $cordovaDatePicker.show(options).then(function(date){
+        alert(date);
+    });
+  }
 });
