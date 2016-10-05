@@ -46,16 +46,20 @@
 
 </div>
   <div class="list" style="margin: 0">
-    <ion-item ng-click="showDatepicker()">
-      tits
-    </ion-item>
     <i ion-datetime-picker class="item icon ion-ios-time positive" am-pm="true" ng-model="params.time.datetime" id="trip-time" ng-click="updateASAP(false)"></i>
     </div>
-    <div class="item item-divider">
-      Time of:
-    </div>
-    <ion-radio class="item" ng-model="params.time.type" ng-value="'departure'">Departure</ion-radio>
-    <ion-radio class="item" ng-model="params.time.type" ng-value="'arrival'" ng-click="updateASAP(false)">Arrival</ion-radio>
+    <label class="item item-input item-select">
+      <div class="input-label">
+        Time Of {{params.time.type}}
+      </div>
+      <select ng-model="$parent.params.time.type" ng-change="$parent.updateASAP(false)">
+        <option>departure</option>
+        <option>arrival</option>
+
+      </select>
+  </label>
+    <!-- <ion-radio class="item" ng-model="params.time.type" ng-value="'departure'">Departure</ion-radio>
+    <ion-radio class="item"  ng-value="'arrival'" >Arrival</ion-radio> -->
   </div>
 </div>
 <div id="route" ng-if="route.origin != null">

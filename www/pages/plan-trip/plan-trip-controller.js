@@ -104,13 +104,20 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     if (loadedTrip !== null) {
       $scope.loaded = true;
       $scope.params = loadedTrip;
+      $scope.params.time = loadedTrip.time;
+      console.log(JSON.stringify(loadedTrip.time));
+      console.log(JSON.stringify($scope.params.time));
       loadedTrip = null;
       if ($scope.params.destinationOnly) {
         loadLocation().then(function () {
           $scope.getRoute();
         });
       }
-      else $scope.getRoute();
+      else {
+        console.log(JSON.stringify($scope.params.time));
+        $scope.getRoute();
+        console.log(JSON.stringify($scope.params.time));
+      }
     }
     else {
       $scope.loaded = false;
@@ -122,6 +129,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
   $scope.$on('$ionicView.enter', function () {
     loadedTrip = Trips.pop();
+    console.log(JSON.stringify(loadedTrip))
     startTimer();
     if (loadedTrip !== null || !$scope.params)//reload if either a trip is being loaded or if this page has not yet been loaded
       reload();
@@ -224,15 +232,16 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       origin: null,
       destination: null
     };
-
+    console.log(JSON.stringify($scope.params.time));
     if ($scope.params.time.datetime < Date.now()) {//directions will fail if given a previous time
       $scope.updateASAP(true);
     }
     $ionicLoading.show({
       template: 'Routing..'
     });
-
+    console.log(JSON.stringify($scope.params.time));
     Trips.route($scope.params, $scope.directionsDisplay, function (data) {
+      console.log(JSON.stringify($scope.params.time));
       $ionicLoading.hide();
       $scope.route = data;
       if ($scope.route.status === google.maps.DirectionsStatus.OK) {
@@ -240,6 +249,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
           $scope.route.directions = data;
           $scope.$apply();
           $scope.scrollTo('route');
+          console.log(JSON.stringify($scope.params.time));
           // Force a map redraw because it was hidden before.
           // There's an angular bug with ng-show that will cause
           // the map to draw only grey after being hidden
@@ -334,22 +344,4 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       document.getElementById('destination-input').blur();
     });
   };
-
-  $scope.showDatepicker = function () {
-    console.log('datepicker yo')
-    var options = {
-        date: new Date(),
-        mode: 'date', // or 'time'
-        minDate: new Date() - 10000,
-        allowOldDates: true,
-        allowFutureDates: false,
-        doneButtonLabel: 'DONE',
-        doneButtonColor: '#F2F3F4',
-        cancelButtonLabel: 'CANCEL',
-        cancelButtonColor: '#000000'
-      };
-    $cordovaDatePicker.show(options).then(function(date){
-        alert(date);
-    });
-  }
 });
