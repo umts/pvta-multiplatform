@@ -57,6 +57,8 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
         console.log('unable to get current location');
         $scope.noLocation = true;
         $scope.displayDirections = false;
+        // Tell Google Analytics that a user doesn't have location
+        ga('send', 'exception', 'location failure passed to Stop Map after failing on Map Factory', false);
       }
       // If we have a location, download and display directions
       // from here to the stop.

@@ -25,7 +25,9 @@ angular.module('pvta.factories')
       if (cb) {
         cb(currentLocation);
       }
-    }, function () {
+    }, function (err) {
+      // Tell Google Analytics that a user doesn't have location
+      ga('send', 'exception', 'location failed in the Map Factory; error: '+ err, false);
       if (cb) {
         cb(false);
       }

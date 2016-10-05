@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $resource, $location, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading) {
+angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading) {
   ga('set', 'page', '/stop.html');
   ga('send', 'pageview');
   // For a given RouteId, downloads the simplest
