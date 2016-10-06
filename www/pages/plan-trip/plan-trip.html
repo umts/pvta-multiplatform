@@ -1,82 +1,81 @@
-<ion-view view-title="Schedule">
-<ion-content>
-  <div ng-if="noLocation">
-    <ion-item class="item item-assertive" style="text-align:center">
-      Unable to retrieve current location.
-    </ion-item>
-  </div>
-  <div class="list">
-    <div class="item item-input-inset">
-      <label class="item-input-wrapper">
-        <span class="input-label">Origin</span>
-        <input id="origin-input" class="user-input location-typeahead" type="text" placeholder="Enter an origin location" ng-model="params.origin.name" ng-focus="disableTap()" />
-      </label>
-      <i ng-class="params.destinationOnly ? 'ion-pinpoint positive' : 'ion-pinpoint'"
-         style="font-size: 120%; margin-left: 1%"
-         ng-click="params.destinationOnly = !params.destinationOnly; updateOrigin();">
-     </i>
-   </div>
-   <div class="item item-input-inset">
-    <label class="item-input-wrapper">
-      <span class="input-label">Destination</span>
-      <input id="destination-input" class="user-input location-typeahead" type="text" placeholder="Enter a destination location" ng-model="params.destination.name" ng-focus="disableTap()" />
-    </label>
-  </div>
-  </div>
-  <div class="input-div center-div">
-    <button ng-click="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
-    <button ng-click="saveTrip()"  class="user-input trip-button" ng-if="!params.destinationOnly">Save Trip</button>
-    <button ng-click="saveTrip()" class="user-input trip-button" ng-if="params.destinationOnly">Save Destination</button>
-    <button ng-click="newTrip()" class="user-input trip-button">New Trip</button>
-  </div>
-<div id="directions-map" ng-show="route !== undefined"></div>
-<div class="input-div">
-  <div class="center-div">
-    <label ng-model="params.name">
-      <b>Trip:</b>
-      {{params.name}}
-    </label>
-  </div>
-  <div>
-    <ion-checkbox ng-model="params.time.asap" ng-change="updateASAP()" class="input-div">Now</ion-checkbox>
-    <label>
-      If not ASAP, specify arrival or departure time below.
-    </label>
-  </div>
-
-</div>
-  <div class="list" style="margin: 0">
-    <i ion-datetime-picker class="item icon ion-ios-time positive" am-pm="true" ng-model="params.time.datetime" id="trip-time" ng-click="updateASAP(false)"></i>
+<ion-view view-title="{{params.name === 'New Trip' ? 'Schedule' : params.name}}">
+  <ion-nav-buttons side="secondary">
+    <button class="button icon ion-compose" ng-click="newTrip()"></button>
+    <button class="button icon ion-ios-heart-outline" ng-click="newTrip()"></button>
+  </ion-nav-buttons>
+  <ion-content>
+    <div ng-if="noLocation">
+      <ion-item class="item item-assertive" style="text-align:center">
+        Unable to retrieve current location.
+      </ion-item>
     </div>
-    <label class="item item-input item-select">
-      <div class="input-label">
-        Time Of {{params.time.type}}
+    <div class="list">
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <span class="input-label">Origin</span>
+          <input id="origin-input" class="user-input location-typeahead" type="text" placeholder="Enter an origin location" ng-model="params.origin.name" ng-focus="disableTap()" />
+        </label>
+        <i ng-class="params.destinationOnly ? 'ion-pinpoint positive' : 'ion-pinpoint'"
+          style="font-size: 120%; margin-left: 1%"
+          ng-click="params.destinationOnly = !params.destinationOnly; updateOrigin();">
+        </i>
       </div>
-      <select ng-model="$parent.params.time.type" ng-change="$parent.updateASAP(false)">
-        <option>departure</option>
-        <option>arrival</option>
-
-      </select>
-  </label>
-    <!-- <ion-radio class="item" ng-model="params.time.type" ng-value="'departure'">Departure</ion-radio>
-    <ion-radio class="item"  ng-value="'arrival'" >Arrival</ion-radio> -->
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <span class="input-label">Destination</span>
+          <input id="destination-input" class="user-input location-typeahead" type="text" placeholder="Enter a destination location" ng-model="params.destination.name" ng-focus="disableTap()" />
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <i ion-datetime-picker class="item icon ion-ios-time positive" am-pm="true" ng-model="params.time.datetime" id="trip-time" ng-click="updateASAP(false)">{{params.time.datetime | date:"EEE, M/d 'at' h:m:ss a"}}</i>
+        <ion-checkbox ng-model="params.time.asap" ng-change="updateASAP()">Now</ion-checkbox>
+      </div>
+      <div class="col">
+        <label class="item item-input item-select">
+          <div class="input-label">
+            lfper
+          </div>
+          <select ng-model="$parent.params.time.type" ng-change="$parent.updateASAP(false)">
+            <option>Departure</option>
+            <option>Arrival</option>
+          </select>
+        </label>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            lfper
+          </div>
+          <select ng-model="$parent.nowOrDateTime">
+            <option selected>Now</option>
+            <option ion-datetime-picker ng-model="$parent.poopt" am-pm="true">{{params.time.datetime | date:"EEE, M/d 'at' h:m:ss a"}}</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div class="input-div center-div">
+      <button ng-click="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
+      <button ng-click="saveTrip()"  class="user-input trip-button" ng-if="!params.destinationOnly">Save Trip</button>
+      <button ng-click="saveTrip()" class="user-input trip-button" ng-if="params.destinationOnly">Save Destination</button>
+    </div>
+  <div id="directions-map" ng-show="route !== undefined"></div>
+  <div class="input-div">
   </div>
-</div>
-<div id="route" ng-if="route.origin != null">
-  <div style="margin: 30px">
-    <b>Origin:</b> {{route.origin}}
-    <br>
-    <b>Destination:</b> {{route.destination}}
-    <br>
-    <b>Departure Time:</b> {{route.departureTime}}
-    <br>
-    <b>Arrival Time:</b> {{route.arrivalTime}}
+  <div id="route" ng-if="route.origin != null">
+    <div style="margin: 30px">
+      <b>Origin:</b> {{route.origin}}
+      <br>
+      <b>Destination:</b> {{route.destination}}
+      <br>
+      <b>Departure Time:</b> {{route.departureTime}}
+      <br>
+      <b>Arrival Time:</b> {{route.arrivalTime}}
+    </div>
+    <ion-list>
+    <ion-item class="item-text-wrap" ng-repeat="direction in route.directions" >
+    <p><b>{{direction}}</b></p>
+    </ion-item>
+    </ion-list>
   </div>
-  <ion-list>
-  <ion-item class="item-text-wrap" ng-repeat="direction in route.directions" >
-  <p><b>{{direction}}</b></p>
-  </ion-item>
-  </ion-list>
-</div>
-</ion-content>
+  </ion-content>
 </ion-view>

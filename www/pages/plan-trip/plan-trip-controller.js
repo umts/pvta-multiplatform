@@ -21,7 +21,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     if (asap !== undefined)
       $scope.params.time.asap = asap;
     if ($scope.params.time.asap) {
-      $scope.params.time.type = 'departure';
+      $scope.params.time.type = 'Departure';
       $scope.timerPaused = false;
     }
     else {
