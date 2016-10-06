@@ -7,7 +7,7 @@
 angular.module('pvta.controllers', ['pvta.factories', 'pvta.directives']);
 angular.module('pvta.factories', ['ngResource']);
 angular.module('pvta.directives', []);
-angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore', 'ion-datetime-picker'])
+angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore', 'ion-datetime-picker', 'ionic-datepicker'])
 
 .run(function ($ionicPlatform) {
   $ionicPlatform.ready(function () {

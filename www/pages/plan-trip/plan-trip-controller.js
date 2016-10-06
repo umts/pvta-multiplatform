@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips, $timeout, $cordovaDatePicker) {
+angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips, $timeout, $cordovaDatePicker, ionicDatePicker) {
   ga('set', 'page', '/plan-trip.html');
   ga('send', 'pageview');
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
@@ -18,8 +18,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
   //takes in a value for ASAP, and updates the page accordingly
   $scope.updateASAP = function (asap) {
-    if (asap !== undefined)
+    if (asap !== undefined) {
       $scope.params.time.asap = asap;
+    }
     if ($scope.params.time.asap) {
       $scope.params.time.type = 'Departure';
       $scope.timerPaused = false;
@@ -335,6 +336,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
   // This method allows for location selection on google typeahead on mobile devices
   $scope.disableTap = function () {
+    console.log('dflkdjflsdfjkfsdf');
     container = document.getElementsByClassName('pac-container');
     // disable ionic data tab
     angular.element(container).attr('data-tap-disabled', 'true');
@@ -343,5 +345,41 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       document.getElementById('origin-input').blur();
       document.getElementById('destination-input').blur();
     });
+  };
+
+  function pickATime (date) {
+    console.log('Return value from the datepicker popup is : ' + date, new Date(date));
+  }
+
+  var datePickerConfig = {
+    callback: pickATime,
+    from: new Date(), //Optional
+    setLabel: 'OK',
+    closeLabel: 'Cancel'
+  };
+
+  $scope.asapOptions = [
+    {
+      title: 'Now',
+      isASAP: true
+    },
+    {
+      title: 'Pick a day/time',
+      isASAP: false
+    }
+  ];
+
+  $scope.openDatePicker = function(turnOffAsap){
+    console.log($scope.params.time.asap);
+    if (turnOffAsap) {
+      $scope.params.time.asap = false;
+    }
+    if ($scope.params.time.asap === false) {
+      console.log('datepicker');
+      ionicDatePicker.openDatePicker(datePickerConfig);
+    }
+    else {
+      $scope.updateASAP();
+    }
   };
 });
