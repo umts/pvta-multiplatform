@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips, $timeout, $cordovaDatePicker, ionicDatePicker) {
+angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips, $timeout, $cordovaDatePicker, ionicDatePicker, ionicTimePicker) {
   ga('set', 'page', '/plan-trip.html');
   ga('send', 'pageview');
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
@@ -347,8 +347,26 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     });
   };
 
+  function timeChosen (time) {
+    if (typeof (time) === 'undefined') {
+      console.log('Time not selected');
+    } else {
+      var selectedTime = new Date(time * 1000);
+      console.log('Selected epoch is : '+ time +', and the time is: ' + selectedTime.getUTCHours() + 'H :' + selectedTime.getUTCMinutes() + 'M');
+    }
+  }
+
   function pickATime (date) {
     console.log('Return value from the datepicker popup is : ' + date, new Date(date));
+    var timePickerConfig = {
+    callback: timeChosen,
+    inputTime: 50400,   //Optional
+    format: 12,         //Optional
+    step: 15,           //Optional
+    setLabel: 'Set2'    //Optional
+  };
+
+  ionicTimePicker.openTimePicker(timePickerConfig);
   }
 
   var datePickerConfig = {

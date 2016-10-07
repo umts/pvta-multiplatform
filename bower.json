@@ -15,6 +15,7 @@
     "angular-resource": "~1.5.8",
     "ion-datetime-picker": "^0.3.1",
     "angular-mocks": "1.4.3",
-    "ionic-datepicker": "^1.2.1"
+    "ionic-datepicker": "^1.2.1",
+    "ionic-timepicker": "^0.6.0"
   }
 }
