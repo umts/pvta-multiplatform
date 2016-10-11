@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips, $timeout, $cordovaDatePicker, ionicDatePicker, ionicTimePicker) {
+angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips, $timeout, $cordovaDatePicker, ionicDatePicker, ionicTimePicker, moment) {
   ga('set', 'page', '/plan-trip.html');
   ga('send', 'pageview');
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
@@ -6,6 +6,11 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   neBound = new google.maps.LatLng(42.51138, -72.20302);
 
   $scope.bounds = new google.maps.LatLngBounds(swBound, neBound);
+  $scope.dateTime = {
+    datetime: moment(),
+    time: moment().format('h:mm a'),
+    date: moment().format('MMM D')
+  }
 
   //timer which is set to run if the user specifies ASAP
   startTimer = function () {
@@ -356,7 +361,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
   }
 
-  function pickATime (date) {
+  $scope.openTimePicker = function (date) {
     console.log('Return value from the datepicker popup is : ' + date, new Date(date));
     var timePickerConfig = {
     callback: timeChosen,
@@ -365,24 +370,27 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     step: 15,           //Optional
     setLabel: 'Set2'    //Optional
   };
-
   ionicTimePicker.openTimePicker(timePickerConfig);
   }
 
   var datePickerConfig = {
-    callback: pickATime,
+    callback: $scope.openTimePicker,
     from: new Date(), //Optional
     setLabel: 'OK',
     closeLabel: 'Cancel'
   };
 
-  $scope.asapOptions = [
+  $scope.timeOptions = [
     {
-      title: 'Now',
+      title: 'Leave Now',
       isASAP: true
     },
     {
-      title: 'Pick a day/time',
+      title: 'Depart At',
+      isASAP: false
+    },
+    {
+      title: 'Arrive At',
       isASAP: false
     }
   ];
@@ -394,11 +402,11 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
     if ($scope.params.time.asap === false) {
       console.log('datepicker');
-      ionicDatePicker.openDatePicker(datePickerConfig);
     }
     else {
       $scope.updateASAP();
     }
+    ionicDatePicker.openDatePicker(datePickerConfig);
   };
 
   $scope.toggleArrivalOrDeparture  = function () {
