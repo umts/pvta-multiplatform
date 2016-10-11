@@ -29,27 +29,26 @@
     </div>
     <div class="row">
       <div class="col">
-        <label class="item item-input item-select">
-          <div class="input-label">
-            Time of
-          </div>
+        <!-- <button class="button button-outline button-calm" ng-click="params.time.type === 'Departure'? params.time.type=''> -->
+        <label class="item item-select">
           <select ng-model="$parent.params.time.type" ng-change="$parent.updateASAP(false)">
-            <option>Departure</option>
-            <option>Arrival</option>
+            <option>departure</option>
+            <option>arrival</option>
           </select>
         </label>
+      </div>
+      <div class="col">
         <!-- <ion-checkbox ng-model="params.time.asap" ng-change="updateASAP()">Now</ion-checkbox> -->
-        <label class="item item-input item-select">
-          <div class="input-label">
+        <label class="item item-select">
+          <!-- <div class="input-label">
             When to go:
-          </div>
+          </div> -->
           <select ng-model="$parent.params.time.asap" ng-options="option.isASAP as option.title for option in asapOptions" ng-change="openDatePicker()"></select>
             <!-- <option ng-value="true" selected>Now</option>
             <option ng-value="false">DateTime</option> -->
         </label>
-
       </div>
-      <button class="button button-positive icon ion-calendar" ng-click="openDatePicker(true)"></button>
+      <button class="button button-positive icon ion-calendar" ng-hide="params.time.asap === true"ng-click="openDatePicker(true)"></button>
     </div>
     <div class="input-div center-div">
       <button ng-click="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
@@ -73,6 +72,12 @@
     <p><b>{{direction}}</b></p>
     </ion-item>
     </ion-list>
+    <div class="item item-divider item-positive">Not the trip you want?
+      <button class="button button-outline button-light icon-left" ng-click="openDatePicker(true)">
+        <i class="ion-calendar"></i>
+        Pick another time.
+      </button>
+    </div>
   </div>
   </ion-content>
 </ion-view>

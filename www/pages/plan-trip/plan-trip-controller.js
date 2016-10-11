@@ -22,7 +22,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       $scope.params.time.asap = asap;
     }
     if ($scope.params.time.asap) {
-      $scope.params.time.type = 'Departure';
+      $scope.params.time.type = 'departure';
       $scope.timerPaused = false;
     }
     else {
