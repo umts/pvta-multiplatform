@@ -400,4 +400,16 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       $scope.updateASAP();
     }
   };
+
+  $scope.toggleArrivalOrDeparture  = function () {
+    if ($scope.params.time.type === 'departure') {
+      $scope.params.time.type = 'arrival';
+    }
+    else if ($scope.params.time.type === 'arrival') {
+      $scope.params.time.type = 'departure';
+    }
+    else {
+      console.error('Attempted to toggle $scope.params.time.type, but it was previously set to an improper value of ' + $scope.params.time.type);
+    }
+  }
 });

@@ -63,7 +63,7 @@ angular.module('pvta.factories')
       }
     });
   };
-  
+
   function route(params, directionsDisplay, callback) {//params.origin.id and params.destination.id required
                           // directionDisplay is google.maps.DirectionsRenderer
                           //optional: params.datetime.time
@@ -77,8 +77,11 @@ angular.module('pvta.factories')
       if (params.time.type === 'departure') {
         transitOptions['departureTime'] = params.time.datetime;
       }
-      else {
+      else if (params.time.type === 'arrival') {
         transitOptions['arrivalTime'] = params.time.datetime;
+      }
+      else {
+        console.error("Determining route for Plan Trip failed due to unexpected input. Expected 'arrival' or 'departure', received" + params.time.type);
       }
     }
     directionsService.route({
