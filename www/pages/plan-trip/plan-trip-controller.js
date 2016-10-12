@@ -18,7 +18,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   };
 
   $scope.updateOrigin = function () {
-    console.log('blerp');
     if ($scope.params.destinationOnly) {
       loadLocation();
     } else {
@@ -30,7 +29,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
  //Loads the user's location and updates the origin
   var loadLocation = function () {
     var deferred = $q.defer();
-    var options = {timeout: 500, enableHighAccuracy: true};
+    var options = {timeout: 5000, enableHighAccuracy: true};
     $ionicLoading.show();
 
     $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
@@ -93,8 +92,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       $scope.loaded = true;
       $scope.params = loadedTrip;
       $scope.params.time = loadedTrip.time;
-      console.log(JSON.stringify(loadedTrip.time));
-      console.log(JSON.stringify($scope.params.time));
       loadedTrip = null;
       if ($scope.params.destinationOnly) {
         loadLocation().then(function () {
@@ -102,9 +99,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         });
       }
       else {
-        console.log(JSON.stringify($scope.params.time));
         $scope.getRoute();
-        console.log(JSON.stringify($scope.params.time));
       }
     }
     else {
@@ -118,7 +113,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   $scope.$on('$ionicView.enter', function () {
     loadedTrip = Trips.pop();
     $scope.selectId = $scope.timeOptions[0];
-    console.log(JSON.stringify(loadedTrip));
     if (loadedTrip !== null || !$scope.params)//reload if either a trip is being loaded or if this page has not yet been loaded
       reload();
   });
@@ -204,7 +198,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
 
   $scope.getRoute = function () {
-    console.log($scope.params.time.type);
     if (!$scope.params.origin.id || !$scope.params.destination.id) {
       return;
     }
@@ -223,9 +216,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     $ionicLoading.show({
       template: 'Routing..'
     });
-    console.log(JSON.stringify($scope.params.time));
     Trips.route($scope.params, $scope.directionsDisplay, function (data) {
-      console.log(JSON.stringify($scope.params.time));
       $ionicLoading.hide();
       $scope.route = data;
       if ($scope.route.status === google.maps.DirectionsStatus.OK) {
@@ -233,7 +224,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
           $scope.route.directions = data;
           $scope.$apply();
           $scope.scrollTo('route');
-          console.log(JSON.stringify($scope.params.time));
           // Force a map redraw because it was hidden before.
           // There's an angular bug with ng-show that will cause
           // the map to draw only grey after being hidden
@@ -319,7 +309,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
   // This method allows for location selection on google typeahead on mobile devices
   $scope.disableTap = function () {
-    console.log('dflkdjflsdfjkfsdf');
     container = document.getElementsByClassName('pac-container');
     // disable ionic data tab
     angular.element(container).attr('data-tap-disabled', 'true');
