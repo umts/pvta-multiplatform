@@ -51,7 +51,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       });
     }, function (err) {
       // Tell Google Analytics that a user doesn't have location
-      ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failed on Plan Trip; error: '+ err.msg);
+      ga('send', 'event', 'LocationFailure', 'PlanTripConsoller.$cordovaGeolocation.getCurrentPosition', 'location failed on Plan Trip; error: '+ err.msg);
       // When getting location fails, this callback fires
       $scope.noLocation = true;
       /* When getting location fails immediately, $ionicLoading.hide()
@@ -103,6 +103,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       else {
         $scope.getRoute();
       }
+      ga('send', 'event', 'TripLoaded', 'PlanTripController.reload()', 'User has navigated to Plan Trip using a saved Trip.');
     }
     else {
       $scope.loaded = false;
@@ -120,6 +121,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   });
 
   var invalidLocationPopup = function () {
+    ga('send', 'event', 'InvalidLocation', 'PlanTripController.invalidLocationPopup()', 'Attempted to plan trip to/from location PVTA does not service');
     $ionicPopup.alert({
       title: 'Invalid Location',
       template: 'PVTA does not service this location.'
@@ -153,7 +155,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       $scope.params.destinationOnly = false;
       var place = originAutocomplete.getPlace();
       if (!place.geometry) {
-        console.log('Place has no geometry.');
+        console.error('Place has no geometry.');
         return;
       }
       if ($scope.bounds.contains(place.geometry.location)) {
@@ -171,7 +173,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     destinationAutocomplete.addListener('place_changed', function () {
       var place = destinationAutocomplete.getPlace();
       if (!place.geometry) {
-        console.log('Place has no geometry.');
+        console.error('Place has no geometry.');
         return;
       }
       if ($scope.bounds.contains(place.geometry.location)) {
@@ -231,6 +233,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
           // the map to draw only grey after being hidden
           // unless we force a redraw.
           google.maps.event.trigger($scope.map, 'resize');
+          ga('send', 'event', 'TripStepsRetrieved', 'PlanTripController.getRoute()', 'Received steps for a planned trip!');
         });
       }
       else {
@@ -240,6 +243,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
             template: 'There are no scheduled buses at the time you requested that work for your trip.\nThis failure has a status code of: ' + $scope.route.status
           }
         );
+        ga('send', 'event', 'TripStepsRetrievalFailure', 'PlanTripController.$scope.getRoute()', 'Unable to get a route; error: ' + $scope.route.status);
         // In cases of error, we set the route object that
         // otherwise contained all our data to undefined, because, well,
         // the data was bad.
@@ -249,6 +253,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       $scope.route = undefined;
       $ionicLoading.hide();
       console.log('Error routing: ' + err);
+      ga('send', 'event', 'TripStepsRoutingFailure', 'PlanTripController.$scope.getRoute()', 'Trip Factory unable to get a route due to some error: ' + err);
     });
   };
 
@@ -257,6 +262,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       title: 'Save Successful!',
       template: 'This trip can be accessed from My Buses.'
     });
+    ga('send', 'event', 'TripSaveSuccessful', 'PlanTripController.saveSuccessful()', 'Saved a trip to favorites!');
   };
 
   $scope.saveTrip = function () {
@@ -323,18 +329,29 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
   function onTimeChosen (time) {
     if (typeof (time) === 'undefined') {
-      console.log('Time not selected');
+      var error = 'Received undefined time from timepicker.';
+      console.error(error);
+      ga('send', 'event', 'TimePickerReturnedBadValue', 'PlanTripController.onTimeChosen()', 'Received undefined time from timepicker.');
     } else {
       var selectedTime = new Date(time * 1000);
       $scope.params.time.datetime.setHours(selectedTime.getUTCHours());
       $scope.params.time.datetime.setMinutes(selectedTime.getUTCMinutes());
+      ga('send', 'event', 'TripTimeChosen', 'PlanTripController.onTimeChosen()', 'Custom time for trip was set!');
     }
   }
   function onDateChosen (date) {
-    date = new Date(date);
-    $scope.params.time.datetime.setDate(date.getDate());
-    $scope.params.time.datetime.setMonth(date.getMonth());
-    $scope.params.time.datetime.setFullYear(date.getFullYear());
+    if (date) {
+      date = new Date(date);
+      $scope.params.time.datetime.setDate(date.getDate());
+      $scope.params.time.datetime.setMonth(date.getMonth());
+      $scope.params.time.datetime.setFullYear(date.getFullYear());
+      ga('send', 'event', 'TripDateChosen', 'PlanTripController.onDateChosen()', 'Custom date for trip was set!');
+    }
+    else {
+      var error = 'Received undefined date from datepicker.';
+      console.error(error)
+      ga('send', 'event', 'DatePickerReturnedBadValue', 'PlanTripController.onDateChosen()', error);
+    }
   }
 
   $scope.openTimePicker = function () {
@@ -395,7 +412,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       $scope.params.time.type = 'departure';
     }
     else {
-      console.error('Attempted to toggle $scope.params.time.type, but it was previously set to an improper value of ' + $scope.params.time.type);
+      var error = 'Attempted to toggle $scope.params.time.type, but it was previously set to an improper value of ' + $scope.params.time.type;
+      console.error(error);
+      ga('send', 'event', 'UnexpectedPreviousValue', 'PlanTripController.toggleArrivalOrDeparture()', error);
     }
   };
 });
