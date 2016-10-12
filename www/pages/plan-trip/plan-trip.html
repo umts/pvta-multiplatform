@@ -28,42 +28,20 @@
       </div>
     </div>
     <div class="row">
-      <div class="col">
-        <button ng-class="{'button button-outline button-calm icon-right ion-android-arrow-forward': params.time.type==='departure', 'button button-outline button-calm icon-right ion-android-arrow-down': params.time.type==='arrival'}" ng-click="toggleArrivalOrDeparture()">
-          {{params.time.type==='departure' ? 'Depart' : 'Arrive'}}
-        </button>
-        <!-- <label class="item item-select">
-          <select ng-model="$parent.params.time.type" ng-change="$parent.updateASAP(false)">
-            <option>departure</option>
-            <option>arrival</option>
-          </select>
-        </label> -->
+      <div class="col col-25">
+        <div class="item item-select">
+          <select ng-model="$parent.params.time.asap" ng-options="option.isASAP as option.title for option in timeOptions"></select>
+        </div>
       </div>
       <div class="col">
-        <!-- <ion-checkbox ng-model="params.time.asap" ng-change="updateASAP()">Now</ion-checkbox> -->
-        <!-- <toggle ng-model="params.time.asap">ASAP</toggle> -->
-        <!-- <label class="toggle toggle-positive">
-          <input type="checkbox" ng-model="params.time.asap">
-          <div class="track">
-            <div class="handle"></div>
-          </div>
-        </label> -->
-        <!-- <button class="button button-positive icon ion-calendar" ng-disabled="params.time.asap === true"ng-click="openDatePicker(true)"></button> -->
-        <label class="item item-select">
-        <div class="input-label">
-            When to go:
-          </div>
-          <select ng-model="$parent.params.time.asap" ng-options="option.isASAP as option.title for option in timeOptions" ng-change="openDatePicker()"></select>
-            <!-- <option ng-value="true" selected>Now</option>
-            <option ng-value="false">DateTime</option> -->
-        </label>
+        <div ng-show="params.time.asap === false">
+          <button class="button" ng-click="openDatePicker()">{{params.time.datetime | date: "MMM d"}}</button>
+          <button class="button" ng-click="openTimePicker()">{{params.time.datetime | date: "h:mm a"}}</button>
+        </div>
+        {{dateTime.datetime | date: "yyyy-MM-dd h:mm:ss a"}}
       </div>
-      <!-- <button class="button button-positive icon ion-calendar" ng-hide="params.time.asap === true"ng-click="openDatePicker(true)"></button> -->
     </div>
-    <div ng-show="params.time.asap === false">
-      <button class="button" ng-click="openDatePicker()">{{dateTime.date}}</button>
-      <button class="button" ng-click="openTimePicker()">{{dateTime.time}}</button>
-    </div>
+
     <div class="input-div center-div">
       <button ng-click="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
       <button ng-click="saveTrip()" class="user-input trip-button" ng-if="params.destinationOnly">Save Destination</button>

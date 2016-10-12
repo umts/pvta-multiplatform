@@ -7,19 +7,10 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
   $scope.bounds = new google.maps.LatLngBounds(swBound, neBound);
   $scope.dateTime = {
-    datetime: moment(),
+    datetime: new Date(),
     time: moment().format('h:mm a'),
     date: moment().format('MMM D')
   }
-
-  //timer which is set to run if the user specifies ASAP
-  startTimer = function () {
-    timer = $interval(function () {
-      if (!$scope.timerPaused) {
-        $scope.params.time.datetime = Date.now();
-      }
-    }, 1000);
-  };
 
   //takes in a value for ASAP, and updates the page accordingly
   $scope.updateASAP = function (asap) {
@@ -28,10 +19,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
     if ($scope.params.time.asap) {
       $scope.params.time.type = 'departure';
-      $scope.timerPaused = false;
-    }
-    else {
-      $scope.timerPaused = true;
     }
   };
 
@@ -136,15 +123,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   $scope.$on('$ionicView.enter', function () {
     loadedTrip = Trips.pop();
     console.log(JSON.stringify(loadedTrip))
-    startTimer();
     if (loadedTrip !== null || !$scope.params)//reload if either a trip is being loaded or if this page has not yet been loaded
       reload();
   });
-
-  $scope.$on('$ionicView.leave', function () {
-    $interval.cancel(timer);
-  });
-
 
   var invalidLocationPopup = function () {
     $ionicPopup.alert({
@@ -352,32 +333,50 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     });
   };
 
-  function timeChosen (time) {
+  function onTimeChosen (time) {
     if (typeof (time) === 'undefined') {
       console.log('Time not selected');
     } else {
       var selectedTime = new Date(time * 1000);
       console.log('Selected epoch is : '+ time +', and the time is: ' + selectedTime.getUTCHours() + 'H :' + selectedTime.getUTCMinutes() + 'M');
+      // $scope.dateTime.time = moment().hour(selectedTime.getUTCHours()).minute(selectedTime.getUTCMinutes()).format('h:mm a');
+      // $scope.dateTime.datetime.setHours(selectedTime.getUTCHours());
+      // $scope.dateTime.datetime.setMinutes(selectedTime.getUTCMinutes());
+      // $scope.params.time.datetime = $scope.dateTime.datetime;
+      $scope.params.time.datetime.setHours(selectedTime.getUTCHours());
+      $scope.params.time.datetime.setMinutes(selectedTime.getUTCMinutes());
     }
+  }
+  function onDateChosen(date) {
+    console.log('Return value from the datepicker popup is : ' + date, new Date(date));
+    date = new Date(date);
+    // $scope.dateTime.date = moment(date).format('MMM Do');
+    // $scope.dateTime.datetime.setDate(date.getDate());
+    // $scope.dateTime.datetime.setMonth(date.getMonth());
+    // $scope.dateTime.datetime.setFullYear(date.getFullYear());
+    // $scope.params.time.datetime = $scope.dateTime.datetime;
+    $scope.params.time.datetime.setDate(date.getDate());
+    $scope.params.time.datetime.setMonth(date.getMonth());
+    $scope.params.time.datetime.setFullYear(date.getFullYear());
   }
 
   $scope.openTimePicker = function (date) {
-    console.log('Return value from the datepicker popup is : ' + date, new Date(date));
     var timePickerConfig = {
-    callback: timeChosen,
-    inputTime: 50400,   //Optional
+    callback: onTimeChosen,
     format: 12,         //Optional
-    step: 15,           //Optional
-    setLabel: 'Set2'    //Optional
+    step: 1,           //Optional
   };
   ionicTimePicker.openTimePicker(timePickerConfig);
   }
 
   var datePickerConfig = {
-    callback: $scope.openTimePicker,
+    callback: onDateChosen,
     from: new Date(), //Optional
     setLabel: 'OK',
-    closeLabel: 'Cancel'
+    closeLabel: 'Cancel',
+    mondayFirst: false,
+    showTodayButton: true,
+    closeOnSelect: true
   };
 
   $scope.timeOptions = [
@@ -395,17 +394,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
   ];
 
-  $scope.openDatePicker = function(turnOffAsap){
-    console.log($scope.params.time.asap);
-    if (turnOffAsap) {
-      $scope.params.time.asap = false;
-    }
-    if ($scope.params.time.asap === false) {
-      console.log('datepicker');
-    }
-    else {
-      $scope.updateASAP();
-    }
+  $scope.openDatePicker = function(){
     ionicDatePicker.openDatePicker(datePickerConfig);
   };
 
