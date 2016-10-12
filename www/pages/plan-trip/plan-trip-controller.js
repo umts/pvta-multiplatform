@@ -6,18 +6,13 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   neBound = new google.maps.LatLng(42.51138, -72.20302);
 
   $scope.bounds = new google.maps.LatLngBounds(swBound, neBound);
-  $scope.dateTime = {
-    datetime: new Date(),
-    time: moment().format('h:mm a'),
-    date: moment().format('MMM D')
-  }
-
+  $scope.selectId;
   //takes in a value for ASAP, and updates the page accordingly
   $scope.updateASAP = function (asap) {
     if (asap !== undefined) {
       $scope.params.time.asap = asap;
     }
-    if ($scope.params.time.asap) {
+    if ($scope.params.time.asap === true) {
       $scope.params.time.type = 'departure';
     }
   };
@@ -122,6 +117,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
   $scope.$on('$ionicView.enter', function () {
     loadedTrip = Trips.pop();
+    $scope.selectId = $scope.timeOptions[0]
     console.log(JSON.stringify(loadedTrip))
     if (loadedTrip !== null || !$scope.params)//reload if either a trip is being loaded or if this page has not yet been loaded
       reload();
@@ -208,6 +204,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
 
   $scope.getRoute = function () {
+    console.log($scope.params.time.type);
     if (!$scope.params.origin.id || !$scope.params.destination.id) {
       return;
     }
@@ -339,10 +336,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     } else {
       var selectedTime = new Date(time * 1000);
       console.log('Selected epoch is : '+ time +', and the time is: ' + selectedTime.getUTCHours() + 'H :' + selectedTime.getUTCMinutes() + 'M');
-      // $scope.dateTime.time = moment().hour(selectedTime.getUTCHours()).minute(selectedTime.getUTCMinutes()).format('h:mm a');
-      // $scope.dateTime.datetime.setHours(selectedTime.getUTCHours());
-      // $scope.dateTime.datetime.setMinutes(selectedTime.getUTCMinutes());
-      // $scope.params.time.datetime = $scope.dateTime.datetime;
       $scope.params.time.datetime.setHours(selectedTime.getUTCHours());
       $scope.params.time.datetime.setMinutes(selectedTime.getUTCMinutes());
     }
@@ -350,11 +343,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   function onDateChosen(date) {
     console.log('Return value from the datepicker popup is : ' + date, new Date(date));
     date = new Date(date);
-    // $scope.dateTime.date = moment(date).format('MMM Do');
-    // $scope.dateTime.datetime.setDate(date.getDate());
-    // $scope.dateTime.datetime.setMonth(date.getMonth());
-    // $scope.dateTime.datetime.setFullYear(date.getFullYear());
-    // $scope.params.time.datetime = $scope.dateTime.datetime;
     $scope.params.time.datetime.setDate(date.getDate());
     $scope.params.time.datetime.setMonth(date.getMonth());
     $scope.params.time.datetime.setFullYear(date.getFullYear());
@@ -379,18 +367,30 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     closeOnSelect: true
   };
 
+  $scope.setTimeOption = function () {
+    var selectedOption = $scope.selectId;
+    $scope.params.time.asap = selectedOption.isASAP;
+    $scope.params.time.type = selectedOption.type;
+  }
+
   $scope.timeOptions = [
     {
       title: 'Leave Now',
-      isASAP: true
+      type: 'departure',
+      isASAP: true,
+      id: 0
     },
     {
       title: 'Depart At',
-      isASAP: false
+      type: 'departure',
+      isASAP: false,
+      id: 1
     },
     {
       title: 'Arrive At',
-      isASAP: false
+      type: 'arrival',
+      isASAP: false,
+      id: 2
     }
   ];
 

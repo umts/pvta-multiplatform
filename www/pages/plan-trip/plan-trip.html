@@ -12,8 +12,7 @@
     <div class="list">
       <div class="item item-input-inset">
         <label class="item-input-wrapper">
-          <span class="input-label">Origin</span>
-          <input id="origin-input" class="user-input location-typeahead" type="text" placeholder="Enter an origin location" ng-model="params.origin.name" ng-focus="disableTap()" />
+          <input id="origin-input" class="user-input location-typeahead" type="text" placeholder="Enter a starting location" ng-model="params.origin.name" ng-focus="disableTap()" />
         </label>
         <i ng-class="params.destinationOnly ? 'ion-pinpoint positive' : 'ion-pinpoint'"
           style="font-size: 120%; margin-left: 1%"
@@ -22,15 +21,14 @@
       </div>
       <div class="item item-input-inset">
         <label class="item-input-wrapper">
-          <span class="input-label">Destination</span>
-          <input id="destination-input" class="user-input location-typeahead" type="text" placeholder="Enter a destination location" ng-model="params.destination.name" ng-focus="disableTap()" />
+          <input id="destination-input" class="user-input location-typeahead" type="text" placeholder="Enter a destination" ng-model="params.destination.name" ng-focus="disableTap()" />
         </label>
       </div>
     </div>
     <div class="row">
-      <div class="col col-25">
+      <div class="col">
         <div class="item item-select">
-          <select ng-model="$parent.params.time.asap" ng-options="option.isASAP as option.title for option in timeOptions"></select>
+          <select ng-model="$parent.selectId" ng-change="setTimeOption()" ng-options="option as option.title for option in timeOptions"></select>
         </div>
       </div>
       <div class="col">
