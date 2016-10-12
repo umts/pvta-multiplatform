@@ -375,19 +375,19 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
   $scope.timeOptions = [
     {
-      title: 'Leave Now',
+      title: 'Leaving Now',
       type: 'departure',
       isASAP: true,
       id: 0
     },
     {
-      title: 'Depart At',
+      title: 'Departing At...',
       type: 'departure',
       isASAP: false,
       id: 1
     },
     {
-      title: 'Arrive At',
+      title: 'Arriving At...',
       type: 'arrival',
       isASAP: false,
       id: 2

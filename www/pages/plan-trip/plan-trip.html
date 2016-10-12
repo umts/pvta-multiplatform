@@ -24,19 +24,15 @@
           <input id="destination-input" class="user-input location-typeahead" type="text" placeholder="Enter a destination" ng-model="params.destination.name" ng-focus="disableTap()" />
         </label>
       </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <div class="item item-select">
-          <select ng-model="$parent.selectId" ng-change="setTimeOption()" ng-options="option as option.title for option in timeOptions"></select>
+      <div class="item item-input item-select">
+        <div class="input-label">
+          Search for buses:
         </div>
+        <select ng-model="$parent.selectId" ng-change="setTimeOption()" ng-options="option as option.title for option in timeOptions"></select>
       </div>
-      <div class="col">
-        <div ng-show="params.time.asap === false">
-          <button class="button" ng-click="openDatePicker()">{{params.time.datetime | date: "MMM d"}}</button>
-          <button class="button" ng-click="openTimePicker()">{{params.time.datetime | date: "h:mm a"}}</button>
-        </div>
-        {{dateTime.datetime | date: "yyyy-MM-dd h:mm:ss a"}}
+      <div class="button-bar" ng-show="params.time.asap === false">
+        <button class="button icon-left ion-android-calendar" ng-click="openDatePicker()">{{params.time.datetime | date: "MMM d"}}</button>
+        <button class="button icon-left ion-ios-time-outline" ng-click="openTimePicker()">{{params.time.datetime | date: "h:mm a"}}</button>
       </div>
     </div>
 
