@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $interval, $cordovaGeolocation, $ionicLoading, $cordovaDatePicker, $ionicPopup, $ionicScrollDelegate, Trips, $timeout, $cordovaDatePicker, ionicDatePicker, ionicTimePicker, moment) {
+angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $cordovaGeolocation, $ionicLoading, $ionicPopup, $ionicScrollDelegate, Trips, $timeout, ionicDatePicker, ionicTimePicker) {
   ga('set', 'page', '/plan-trip.html');
   ga('send', 'pageview');
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
@@ -117,8 +117,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
   $scope.$on('$ionicView.enter', function () {
     loadedTrip = Trips.pop();
-    $scope.selectId = $scope.timeOptions[0]
-    console.log(JSON.stringify(loadedTrip))
+    $scope.selectId = $scope.timeOptions[0];
+    console.log(JSON.stringify(loadedTrip));
     if (loadedTrip !== null || !$scope.params)//reload if either a trip is being loaded or if this page has not yet been loaded
       reload();
   });
@@ -238,7 +238,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
           // There's an angular bug with ng-show that will cause
           // the map to draw only grey after being hidden
           // unless we force a redraw.
-          google.maps.event.trigger($scope.map,'resize');
+          google.maps.event.trigger($scope.map, 'resize');
         });
       }
       else {
@@ -335,27 +335,25 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       console.log('Time not selected');
     } else {
       var selectedTime = new Date(time * 1000);
-      console.log('Selected epoch is : '+ time +', and the time is: ' + selectedTime.getUTCHours() + 'H :' + selectedTime.getUTCMinutes() + 'M');
       $scope.params.time.datetime.setHours(selectedTime.getUTCHours());
       $scope.params.time.datetime.setMinutes(selectedTime.getUTCMinutes());
     }
   }
-  function onDateChosen(date) {
-    console.log('Return value from the datepicker popup is : ' + date, new Date(date));
+  function onDateChosen (date) {
     date = new Date(date);
     $scope.params.time.datetime.setDate(date.getDate());
     $scope.params.time.datetime.setMonth(date.getMonth());
     $scope.params.time.datetime.setFullYear(date.getFullYear());
   }
 
-  $scope.openTimePicker = function (date) {
+  $scope.openTimePicker = function () {
     var timePickerConfig = {
-    callback: onTimeChosen,
-    format: 12,         //Optional
-    step: 1,           //Optional
+      callback: onTimeChosen,
+      format: 12,         //Optional
+      step: 1,           //Optional
+    };
+    ionicTimePicker.openTimePicker(timePickerConfig);
   };
-  ionicTimePicker.openTimePicker(timePickerConfig);
-  }
 
   var datePickerConfig = {
     callback: onDateChosen,
@@ -371,7 +369,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     var selectedOption = $scope.selectId;
     $scope.params.time.asap = selectedOption.isASAP;
     $scope.params.time.type = selectedOption.type;
-  }
+  };
 
   $scope.timeOptions = [
     {
@@ -394,7 +392,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
   ];
 
-  $scope.openDatePicker = function(){
+  $scope.openDatePicker = function () {
     ionicDatePicker.openDatePicker(datePickerConfig);
   };
 
@@ -408,5 +406,5 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     else {
       console.error('Attempted to toggle $scope.params.time.type, but it was previously set to an improper value of ' + $scope.params.time.type);
     }
-  }
+  };
 });
