@@ -41,6 +41,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         redraw();
       });
     }, function (err) {
+      // Tell Google Analytics that a user doesn't have location
+      ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failed on Routes and Stops; error: '+ err.msg);
       // If location services fail us, just
       // get a list of stops; ordering no longer matters.
       console.log('error finding position: ' + JSON.stringify(err));
