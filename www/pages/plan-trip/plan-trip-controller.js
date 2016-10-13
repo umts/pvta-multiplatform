@@ -6,7 +6,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   neBound = new google.maps.LatLng(42.51138, -72.20302);
 
   $scope.bounds = new google.maps.LatLngBounds(swBound, neBound);
-  $scope.selectId;
   //takes in a value for ASAP, and updates the page accordingly
   $scope.updateASAP = function (asap) {
     if (asap !== undefined) {
@@ -16,7 +15,13 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       $scope.params.time.type = 'departure';
     }
   };
-
+  /**
+   * Checks whether we're trying to
+   * get directions starting at the
+   * current location.  If so, get it.
+   * Otherwise, clear out the values
+   * for origin so the user knows to type something.
+  */
   $scope.updateOrigin = function () {
     if ($scope.params.destinationOnly) {
       loadLocation();
@@ -77,6 +82,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   //or loaded parameters
   var reload = function () {
     constructMap(defaultMapCenter);
+    // All dates on this page are in Unix Epoch
     currentDate = new Date();
     $scope.params = {
       name: 'New Trip',
@@ -89,7 +95,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       destination: {},
       destinationOnly: true
     };
-
+    // If we loaded a trip (user came via
+    // saved trip on My Buses), pull out
+    // its details and display them.
     if (loadedTrip !== null) {
       $scope.loaded = true;
       $scope.params = loadedTrip;
@@ -109,13 +117,13 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       $scope.loaded = false;
       loadLocation();
     }
-
     $scope.updateASAP();
   };
 
   $scope.$on('$ionicView.enter', function () {
     loadedTrip = Trips.pop();
-    $scope.selectId = $scope.timeOptions[0];
+    // 
+    $scope.selectedTimeOption = $scope.timeOptions[0];
     if (loadedTrip !== null || !$scope.params)//reload if either a trip is being loaded or if this page has not yet been loaded
       reload();
   });
@@ -374,7 +382,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   };
 
   $scope.setTimeOption = function () {
-    var selectedOption = $scope.selectId;
+    var selectedOption = $scope.selectedTimeOption;
     $scope.params.time.asap = selectedOption.isASAP;
     $scope.params.time.type = selectedOption.type;
   };
