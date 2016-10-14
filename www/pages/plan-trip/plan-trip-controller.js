@@ -122,7 +122,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
   $scope.$on('$ionicView.enter', function () {
     loadedTrip = Trips.pop();
-    // 
+    //
     $scope.selectedTimeOption = $scope.timeOptions[0];
     if (loadedTrip !== null || !$scope.params)//reload if either a trip is being loaded or if this page has not yet been loaded
       reload();
@@ -208,12 +208,15 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
   }
 
-
+  /*
+   * Uses all the trip params and
+   * requests a trip from Google.
+   */
   $scope.getRoute = function () {
+    // We need an origin and destination
     if (!$scope.params.origin.id || !$scope.params.destination.id) {
       return;
     }
-
     $scope.route = {
       directions: [],
       arrivalTime: null,
@@ -221,19 +224,26 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       origin: null,
       destination: null
     };
-    console.log(JSON.stringify($scope.params.time));
-    if ($scope.params.time.datetime < Date.now()) {//directions will fail if given a previous time
+    // Google won't return trips for times past.
+    // Instead of throwing an error, assume the user wants
+    // directions for right now.
+    if ($scope.params.time.datetime < Date.now()) {
       $scope.updateASAP(true);
     }
     $ionicLoading.show({
       template: 'Routing..'
     });
-    Trips.route($scope.params, $scope.directionsDisplay, function (data) {
+    // The Trip factory takes care of the forming/sending
+    // the request and retrieving the response for us.
+    Trips.route($scope.params, $scope.directionsDisplay, function (tripDetails) {
+      // Now, we have a crude trip object!
       $ionicLoading.hide();
-      $scope.route = data;
+      $scope.route = tripDetails;
       if ($scope.route.status === google.maps.DirectionsStatus.OK) {
-        Trips.generateDirections(function (data) {
-          $scope.route.directions = data;
+        // Trip factory will parse the trip and return a clean
+        // array of directions.
+        Trips.generateDirections(function (tripDetails) {
+          $scope.route.directions = tripDetails;
           $scope.$apply();
           $scope.scrollTo('route');
           // Force a map redraw because it was hidden before.
@@ -244,11 +254,13 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
           ga('send', 'event', 'TripStepsRetrieved', 'PlanTripController.getRoute()', 'Received steps for a planned trip!');
         });
       }
+      // If Google doesn't have directions for us,
+      // handle it gracefully.
       else {
         $ionicPopup.alert(
           {
             title: 'Unable to Find a Trip',
-            template: 'There are no scheduled buses at the time you requested that work for your trip.\nThis failure has a status code of: ' + $scope.route.status
+            template: 'There are no scheduled buses that work for your trip.\nThis failure has a status code of: ' + $scope.route.status
           }
         );
         ga('send', 'event', 'TripStepsRetrievalFailure', 'PlanTripController.$scope.getRoute()', 'Unable to get a route; error: ' + $scope.route.status);
@@ -258,6 +270,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         $scope.route = undefined;
       }
     }, function (err) {
+      // The Trip factory has returned no usable values.
       $scope.route = undefined;
       $ionicLoading.hide();
       console.log('Error routing: ' + err);
@@ -273,6 +286,10 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     ga('send', 'event', 'TripSaveSuccessful', 'PlanTripController.saveSuccessful()', 'Saved a trip to favorites!');
   };
 
+  /**
+   * Saves the current trip parameters to the db
+   * for display on My Buses
+   */
   $scope.saveTrip = function () {
     var prevName = $scope.params.name;
     if (!$scope.loaded) {
@@ -297,13 +314,17 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         else {
           Trips.add($scope.params);
         }
-        $scope.loaded = true;//the current trip is now considered loaded onto the page
+        //the current trip is now considered loaded onto the page
+        $scope.loaded = true;
         saveSuccessful();}
       }]
     });
   };
 
-  //Supply anchor the div to scroll to, used on this page to view directions
+  /*
+   * Scrolls the page to a specific subsection.
+   * @param anchor: the ID of a div we wish to scroll to
+   */
   $scope.scrollTo = function (anchor) {
     $location.hash(anchor);
     $ionicScrollDelegate.anchorScroll(true);
@@ -323,30 +344,48 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     });
   };
 
-  // This method allows for location selection on google typeahead on mobile devices
+  /* Allows for location selection on google
+   * typeahead on mobile devices
+   */
   $scope.disableTap = function () {
     container = document.getElementsByClassName('pac-container');
-    // disable ionic data tab
+    // disable ionic data tap
     angular.element(container).attr('data-tap-disabled', 'true');
-    //         // leave input field if google-address-entry is selected
+    // leave input field if google-address-entry is selected
     angular.element(container).on('click', function () {
       document.getElementById('origin-input').blur();
       document.getElementById('destination-input').blur();
     });
   };
 
+  /*
+   * Callback function for when the user uses
+   * the time picker to select a time.
+   * Sets the trip param's time property
+   * so we can request a trip at a specific time.
+   * @param: time, an int in Unix Epoch
+   */
   function onTimeChosen (time) {
     if (typeof (time) === 'undefined') {
       var error = 'Received undefined time from timepicker.';
       console.error(error);
       ga('send', 'event', 'TimePickerReturnedBadValue', 'PlanTripController.onTimeChosen()', 'Received undefined time from timepicker.');
     } else {
+      // Make the input into a Javascript date object
       var selectedTime = new Date(time * 1000);
+      // Pull the hours and minutes; we don't care about
+      // anything else
       $scope.params.time.datetime.setHours(selectedTime.getUTCHours());
       $scope.params.time.datetime.setMinutes(selectedTime.getUTCMinutes());
       ga('send', 'event', 'TripTimeChosen', 'PlanTripController.onTimeChosen()', 'Custom time for trip was set!');
     }
   }
+  /*
+   * Callback function for when user
+   * has selected a date in the datepicker.
+   * Sets the trip params date property
+   * so we can request trips on a specific date
+   */
   function onDateChosen (date) {
     if (date) {
       date = new Date(date);
@@ -362,6 +401,10 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
   }
 
+  /*
+   * Wrapper function for opening the
+   * time picker in the UI.
+   */
   $scope.openTimePicker = function () {
     var timePickerConfig = {
       callback: onTimeChosen,
@@ -371,27 +414,47 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     ionicTimePicker.openTimePicker(timePickerConfig);
   };
 
-  var datePickerConfig = {
-    callback: onDateChosen,
-    from: new Date(), //Optional
-    setLabel: 'OK',
-    closeLabel: 'Cancel',
-    mondayFirst: false,
-    showTodayButton: true,
-    closeOnSelect: true
+  /*
+   * Wrapper function to show the datepicker
+   */
+  $scope.openDatePicker = function () {
+    // Configure the datepicker before showing it
+    var datePickerConfig = {
+      callback: onDateChosen,
+      from: new Date(), //Optional
+      setLabel: 'OK',
+      closeLabel: 'Cancel',
+      mondayFirst: false,
+      showTodayButton: true,
+      closeOnSelect: true
+    };
+    ionicDatePicker.openDatePicker(datePickerConfig);
   };
 
+  /*
+   * Sets the trip params object to match
+   * the values chosen in the UI.
+   * Uses the global variable bound to a
+   * <select>.
+   */
   $scope.setTimeOption = function () {
     var selectedOption = $scope.selectedTimeOption;
     $scope.params.time.asap = selectedOption.isASAP;
     $scope.params.time.type = selectedOption.type;
   };
 
+  /*
+   * List of the different types
+   * of times that we can request trips.
+   * Each type has a name that we
+   * use in the UI and a few
+   * properties for us.
+   */
   $scope.timeOptions = [
     {
-      title: 'Leaving Now',
-      type: 'departure',
-      isASAP: true,
+      title: 'Leaving Now', // for the UI
+      type: 'departure', // whether the user wants to depart or arrive at the given time
+      isASAP: true, // whether we should ignore all other given times and request a trip leaving NOW
       id: 0
     },
     {
@@ -407,22 +470,4 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       id: 2
     }
   ];
-
-  $scope.openDatePicker = function () {
-    ionicDatePicker.openDatePicker(datePickerConfig);
-  };
-
-  $scope.toggleArrivalOrDeparture  = function () {
-    if ($scope.params.time.type === 'departure') {
-      $scope.params.time.type = 'arrival';
-    }
-    else if ($scope.params.time.type === 'arrival') {
-      $scope.params.time.type = 'departure';
-    }
-    else {
-      var error = 'Attempted to toggle $scope.params.time.type, but it was previously set to an improper value of ' + $scope.params.time.type;
-      console.error(error);
-      ga('send', 'event', 'UnexpectedPreviousValue', 'PlanTripController.toggleArrivalOrDeparture()', error);
-    }
-  };
 });
