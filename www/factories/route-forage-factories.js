@@ -5,14 +5,23 @@ angular.module('pvta.factories')
     if (RouteList.isEmpty()) {
       return localforage.getItem('routes').then(function (routes) {
         if ((routes !== null) && (routes.list.length > 0) && (Recent.recent(routes.time))) {
+          var msg = 'Loaded routes from storage.';
+          console.log(msg);
+          ga('send', 'event', 'RoutesLoaded', 'RouteForageFactory.getRouteList()', msg);
           return routes.list;
         }
         else {
+          var msg = 'No routes stored or routelist is old';
+          console.log(msg);
+          ga('send', 'event', 'RoutesNotLoaded', 'RouteForageFactory.getRouteList()', msg);
           return Routes.query().$promise;
         }
       });
     }
     else {
+      var msg = 'Route list already loaded';
+      console.log(msg);
+      ga('send', 'event', 'RoutesAlreadyLoaded', 'RouteForageFactory.getRouteList()', msg);
       return $q.when(RouteList.getEntireList());
     }
   }
@@ -27,11 +36,13 @@ angular.module('pvta.factories')
   function pushListToForage (routes) {
     var toForage = {
       list: routes,
-      time: moment()
+      time: new Date()
     };
     localforage.setItem('routes', toForage, function (err) {
       if (err) {
-        console.log('localforage routes saving error: ' + err);
+        var msg = 'Unable to save routes; Localforage error: ' + err;
+        console.error(msg);
+        ga('send', 'event', 'UnableToSaveRoutes', 'RouteForageFactory.pushListToForage()', msg);
       }
     });
   }
