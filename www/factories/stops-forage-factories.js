@@ -5,9 +5,11 @@ angular.module('pvta.factories')
     if (StopList.isEmpty()) {
       return localforage.getItem('stops').then(function (stops) {
         if ((stops !== null) && (stops.list.length > 0) && (Recent.recent(stops.time))) {
+          console.log('Loaded stops from storage')
           return stops.list;
         }
         else {
+          console.log('No stops stored or stoplist is old')
           if (lat && long) {
             return NearestStops.query({latitude: lat, longitude: long}).$promise;
           }
@@ -18,6 +20,7 @@ angular.module('pvta.factories')
       });
     }
     else {
+      console.log('Stop list already loaded')
       return $q.when(StopList.getEntireList());
     }
   }
@@ -32,7 +35,7 @@ angular.module('pvta.factories')
   function pushListToForage (stops) {
     var toForage = {
       list: stops,
-      time: moment()
+      time: new Date()
     };
     localforage.setItem('stops', toForage, function (err) {
       if (err) {

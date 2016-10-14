@@ -5,14 +5,17 @@ angular.module('pvta.factories')
     if (RouteList.isEmpty()) {
       return localforage.getItem('routes').then(function (routes) {
         if ((routes !== null) && (routes.list.length > 0) && (Recent.recent(routes.time))) {
+          console.log('Loaded routes from storage.')
           return routes.list;
         }
         else {
+          console.log('No routes stored or routelist is old')
           return Routes.query().$promise;
         }
       });
     }
     else {
+      console.log('Route list already loaded')
       return $q.when(RouteList.getEntireList());
     }
   }
@@ -27,7 +30,7 @@ angular.module('pvta.factories')
   function pushListToForage (routes) {
     var toForage = {
       list: routes,
-      time: moment()
+      time: new Date()
     };
     localforage.setItem('routes', toForage, function (err) {
       if (err) {
