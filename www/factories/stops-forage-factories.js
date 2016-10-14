@@ -6,7 +6,7 @@ angular.module('pvta.factories')
       return localforage.getItem('stops').then(function (stops) {
         if ((stops !== null) && (stops.list.length > 0) && (Recent.recent(stops.time))) {
           var msg = 'Loaded stops from storage';
-          console.log('msg');
+          console.log(msg);
           ga('send', 'event', 'StopsLoaded', 'StopsForageFactory.getStopList()', msg);
           return stops.list;
         }
