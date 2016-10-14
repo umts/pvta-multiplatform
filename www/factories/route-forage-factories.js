@@ -44,6 +44,11 @@ angular.module('pvta.factories')
         console.error(msg);
         ga('send', 'event', 'UnableToSaveRoutes', 'RouteForageFactory.pushListToForage()', msg);
       }
+      else {
+        var msg = 'Saved routes list.';
+        console.log(msg);
+        ga('send', 'event', 'SuccessfullySavedRoutes', 'RoutesForageFactory.pushListToForage()', msg);
+      }
     });
   }
 
