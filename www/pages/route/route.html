@@ -35,22 +35,28 @@
         </ion-item>
       </ion-list>
     </div>
-
-     <div class="list card">
-      <ion-list>
-        <ion-item class="item" ng-click="toggleGroup(stops)" ng-class="{active: isGroupShown(stops)}">
-          <div style="text-align:center;">
-            <i class="icon" ng-class="isGroupShown(stops) ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'" style="margin-right: 10px;"></i>
-            <span>Stops on the {{route.RouteAbbreviation}}</span>
+    <ion-item class="item" ng-click="toggleGroup(stops)" ng-class="{active: isGroupShown(stops)}">
+      <div style="text-align:center;">
+        <i class="icon" ng-class="isGroupShown(stops) ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'" style="margin-right: 10px;"></i>
+        <span>Stops on the {{route.RouteAbbreviation}}</span>
+      </div>
+    </ion-item>
+    <section id="cd-timeline" class="cd-container">
+      <div ng-repeat="activity in stops | orderBy: '+SortOrder'">
+        <div class="cd-timeline-block">
+          <div class="cd-timeline-icon positive">
+            <i class="ion-image timelineIcon" ng-if="(activity.type=='picture')"></i>
+            <i class="ion-ios-videocam timelineIcon" ng-if="activity.type=='video' "></i>
+            <i class="ion-ios-timer-outline timelineIcon" ng-if="activity.IsTimePoint==true"></i>
+            <i class="ion-location timelineIcon" ng-if="activity.IsTimePoint==false"></i>
           </div>
-        </ion-item>
-        <ion-scroll zooming="false" direction="y" style="width:100%; height: 200px;" ng-show="isGroupShown(stops)">
-          <ion-item ng-repeat="stop in stops | orderBy: '+Name'" href="#/app/stops/{{stop.StopId}}">
-            {{stop.Name}} ({{stop.StopId}})
-          </ion-item>
-        </ion-scroll>
-      </ion-list>
-    </div>
+          <!-- cd-timeline-img -->
+          <div class="cd-timeline-content positive">
+            <p class="marginTop5 cd-author">{{activity.Name}}</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </ion-content>
   <ion-footer-bar class="bar-positive">
     <a class="button icon-center ion-ios-location title" href="#/app/map/route/{{route.RouteId}}">
