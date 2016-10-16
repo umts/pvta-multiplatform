@@ -1,5 +1,5 @@
 <ion-view>
-  <ion-nav-title>Route {{route.RouteAbbreviation}}</ion-nav-title>
+  <ion-nav-title>{{route ? ('Route ' + route.RouteAbbreviation) : 'Loading...'}} </ion-nav-title>
   <ion-nav-buttons side="secondary">
     <button id="like"  ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}" ng-click="liked= !liked; toggleHeart(liked)"></button>
   </ion-nav-buttons>
@@ -35,31 +35,29 @@
         </ion-item>
       </ion-list>
     </div>
-    <ion-item class="item" ng-click="toggleGroup(stops)" ng-class="{active: isGroupShown(stops)}">
+    <ion-item class="item" ng-click="toggleGroup(stops)" ng-class="{active: isGroupShown(stops)}" ng-if="route">
       <div style="text-align:center;">
         <i class="icon" ng-class="isGroupShown(stops) ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'" style="margin-right: 10px;"></i>
         <span>Stops on the {{route.RouteAbbreviation}}</span>
       </div>
     </ion-item>
     <section id="cd-timeline" class="cd-container">
-      <div ng-repeat="activity in stops | orderBy: '+SortOrder'">
+      <div ng-repeat="stop in stops | orderBy: '+SortOrder'">
         <div class="cd-timeline-block">
           <div class="cd-timeline-icon positive">
-            <i class="ion-image timelineIcon" ng-if="(activity.type=='picture')"></i>
-            <i class="ion-ios-videocam timelineIcon" ng-if="activity.type=='video' "></i>
-            <i class="ion-ios-timer-outline timelineIcon" ng-if="activity.IsTimePoint==true"></i>
-            <i class="ion-location timelineIcon" ng-if="activity.IsTimePoint==false"></i>
+            <i class="ion-ios-timer-outline timelineIcon" ng-if="stop.IsTimePoint==true"></i>
+            <i class="ion-location timelineIcon" ng-if="stop.IsTimePoint==false"></i>
           </div>
           <!-- cd-timeline-img -->
           <div class="cd-timeline-content positive">
-            <p class="marginTop5 cd-author">{{activity.Name}}</p>
+            <a class="marginTop5 cd-author" style="text-decoration: none;" href="#/app/stops/{{stop.StopId}}">{{stop.Name}} ({{stop.StopId}})</a>
           </div>
         </div>
       </div>
     </section>
   </ion-content>
   <ion-footer-bar class="bar-positive">
-    <a class="button icon-center ion-ios-location title" href="#/app/map/route/{{route.RouteId}}">
+    <a class="button icon-center ion-ios-location title" href="#/app/map/route/{{route.RouteId}}" ng-if="route">
       Map This Route
     </a>
   </ion-footer-bar>
