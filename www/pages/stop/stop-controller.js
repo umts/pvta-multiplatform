@@ -149,11 +149,10 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     });
   };
 
-  var stop = Stop.get({stopId: $stateParams.stopId}, function () {
-    stop.$save;
+  Stop.get({stopId: $stateParams.stopId}, function (stop) {
+    $scope.stop = stop;
     getHeart();
   });
-  $scope.stop = stop;
 
   // Load the departures for the first time
   $scope.getDepartures();
