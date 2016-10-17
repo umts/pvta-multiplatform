@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages){
+angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, $location, $ionicScrollDelegate){
   ga('set', 'page', '/route.html');
   ga('send', 'pageview');
 
@@ -35,8 +35,13 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   $scope.toggleGroup = function(group) {
     if ($scope.isGroupShown(group)) {
       $scope.shownGroup = null;
+      $location.hash('like');
+      $ionicScrollDelegate.anchorScroll(true);
     } else {
       $scope.shownGroup = group;
+      console.log(group);
+      $location.hash('toggle-dropdown');
+      $ionicScrollDelegate.anchorScroll(true);
     }
   };
   $scope.isGroupShown = function(group) {

@@ -35,13 +35,13 @@
         </ion-item>
       </ion-list>
     </div>
-    <ion-item class="item" ng-click="toggleGroup(stops)" ng-class="{active: isGroupShown(stops)}" ng-if="route">
+    <ion-item id="toggle-dropdown" class="item" ng-click="toggleGroup('stops')" ng-class="{active: isGroupShown('stops')}" ng-if="route">
       <div style="text-align:center;">
-        <i class="icon" ng-class="isGroupShown(stops) ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'" style="margin-right: 10px;"></i>
+        <i class="icon" ng-class="isGroupShown('stops') ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'" style="margin-right: 10px;"></i>
         <span>Stops on the {{route.RouteAbbreviation}}</span>
       </div>
     </ion-item>
-    <section id="cd-timeline" class="cd-container">
+    <section id="cd-timeline" class="cd-container" ng-show="isGroupShown('stops')">
       <div ng-repeat="stop in stops | orderBy: '+SortOrder'">
         <div class="cd-timeline-block">
           <div class="cd-timeline-icon positive">
