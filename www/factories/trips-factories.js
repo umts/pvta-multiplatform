@@ -63,11 +63,18 @@ angular.module('pvta.factories')
       }
     });
   };
-  
-  function route(params, directionsDisplay, callback) {//params.origin.id and params.destination.id required
-                          // directionDisplay is google.maps.DirectionsRenderer
-                          //optional: params.datetime.time
-                          //          params.datetime.type 'departure' or 'arrival'
+
+  /*
+   * Gets Google Trip Directions for a given set of parameters.
+   * @param params: object containing:
+            required: params.origin.id and params.destination.id
+            optional: params.datetime.time - Epoch datetime
+                      params.datetime.type - String: 'departure' or 'arrival'
+   *  ^^ see $scope.params in PlanTripController for an example
+   * @param directionsDisplay: the object that will render the returned directions
+   *          (is almost always an instance of google.maps.DirectionsRenderer)
+   */
+  function route(params, directionsDisplay, callback) {
     directionsService = new google.maps.DirectionsService;
     var route = {};
     transitOptions = {
@@ -77,8 +84,11 @@ angular.module('pvta.factories')
       if (params.time.type === 'departure') {
         transitOptions['departureTime'] = params.time.datetime;
       }
-      else {
+      else if (params.time.type === 'arrival') {
         transitOptions['arrivalTime'] = params.time.datetime;
+      }
+      else {
+        console.error("Determining route for Plan Trip failed due to unexpected input. Expected 'arrival' or 'departure', received" + params.time.type);
       }
     }
     directionsService.route({
