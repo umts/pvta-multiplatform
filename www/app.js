@@ -37,11 +37,12 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
   .state('app', {
     url: '/app',
     abstract: true,
-    templateUrl: 'pages/app/menu.html',
-    controller: 'AppController'
+    cache: false,
+    templateUrl: 'pages/app/menu.html'
   })
   .state('app.my-buses', {
     url: '/my-buses',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'pages/my-buses/mybuses.html',
