@@ -6,6 +6,7 @@ angular.module('pvta.factories')
       var newRoute = { RouteId: route.RouteId,
                        LongName: route.LongName,
                        ShortName: route.ShortName,
+                       RouteAbbreviation: route.RouteAbbreviation,
                        Color: route.Color
       };
 

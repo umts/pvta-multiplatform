@@ -17,6 +17,10 @@
   margin-bottom: 10px;
 }
 
+.center {
+  text-align: center;
+}
+
 .input-div {
 background-color: #387ef5;
 color: white;
@@ -62,5 +66,50 @@ margin:5px;
   color: grey;
   font-size: small;
   font-style: italic;
+  text-align: left;
+}
+
+.ion-social-facebook {
+  margin-left: 30%;
+}
+
+.button-contact-page {
+  width: 2.5em;
+}
+
+.departure-padding {
+  margin-bottom: 10px;
+}
+
+.text-left {
+  text-align: left;
+}
+.no-more-departures {
+  text-align: center;
+  color: white;
+}
+
+.no-more-departures.ng-enter {
+  transition: 0.5s linear all;
+  opacity: 0;
+}
+
+.no-more-departures.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.route-shortname {
+  font-size: 175%;
+}
+
+.white {
+  color: white;
+}
+
+.center {
   text-align: center;
 }

@@ -33,7 +33,7 @@
     <link href="css/style.css" rel="stylesheet">
 
     <!-- ionic/angularjs js -->
-    <script src="bower_components/ionic/js/ionic.bundle.js"></script>
+    <script src="bower_components/ionic/js/ionic.bundle.min.js"></script>
     <script src="bower_components/angular-resource/angular-resource.min.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
@@ -45,9 +45,10 @@
     <!-- angular moment -->
     <script src="bower_components/angular-moment/angular-moment.min.js"></script>
 
-    <!-- ion-datetime-picker https://github.com/katemihalikova/ion-datetime-picker -->
-    <script src="bower_components/ion-datetime-picker/release/ion-datetime-picker.min.js"></script>
-    <link href="bower_components/ion-datetime-picker/release/ion-datetime-picker.min.css" rel="stylesheet">
+    <!-- Include a date-picker plugin for Plan Trip -->
+    <script src="bower_components/ionic-datepicker/dist/ionic-datepicker.bundle.min.js"></script>
+    <!-- Include a time-picker plugin for Plan Trip -->
+    <script src="bower_components/ionic-timepicker/dist/ionic-timepicker.bundle.min.js"></script>
 
     <!-- underscore -->
     <script src="bower_components/underscore/underscore-min.js"></script>
@@ -65,9 +66,7 @@
 
 
     <!--Controllers-->
-    <script src="pages/app/app-controller.js"></script>
     <script src="pages/routes-and-stops/routes-and-stops-controller.js"></script>
-    <script src="pages/vehicle/vehicle-controller.js"></script>
     <script src="pages/route/route-controller.js"></script>
     <script src="pages/stop/stop-controller.js"></script>
     <script src="pages/route-map/route-map-controller.js"></script>
@@ -79,6 +78,7 @@
     <script src="pages/about/about-controller.js"></script>
     <script src="pages/storage-settings/storage-settings-controller.js"></script>
     <script src="pages/privacy-policy/privacy-policy-controller.js"></script>
+    <script src="pages/contact/contact-controller.js"></script>
     <!--Factories and services-->
     <script src="factories/data-factories.js"></script>
     <script src="factories/favorite-routes-factories.js"></script>
@@ -91,6 +91,8 @@
     <script src="factories/stop-list-factories.js"></script>
     <script src="factories/stops-forage-factories.js"></script>
     <script src="factories/trips-factories.js"></script>
+
+    <script src="directives/vehicle/vehicle-directive.js"></script>
 
 
 

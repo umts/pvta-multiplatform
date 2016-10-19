@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $resource, $location, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading) {
+angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading) {
   ga('set', 'page', '/stop.html');
   ga('send', 'pageview');
   // For a given RouteId, downloads the simplest
@@ -31,6 +31,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   $scope.getDepartures = function () {
     $scope.departuresByRoute = [];
     var routes = [];
+    $ionicLoading.show();
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function () {
       if (deps) {
         // Avail returns a one element array that contains
@@ -105,7 +106,12 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
           _.each(routeAndDepartures.Departures, function (departure) {
             if (!moment(departure.EDT).isAfter(Date.now())) return;
             else {
-              var times = {s: moment(departure.SDT).fromNow(), e: moment(departure.EDT).fromNow()};
+              var times = {sExact: moment(departure.SDT).format('LT'),
+                           eExact: moment(departure.EDT).format('LT'),
+                           sRelative: moment(departure.SDT).fromNow(),
+                           eRelative: moment(departure.EDT).fromNow(),
+                           eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
+                         };
               departure.Times = times;
               newDirsWithTimes.Departures.push(departure);
             }
@@ -114,16 +120,34 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
             $scope.departuresByRoute.push(newDirsWithTimes);
           }
         });
-
-
         /* Step 4:
          * Download some details (name, color, etc) for each
          * route that has upcoming departures at this stop.
          */
         getRoutes(_.pluck($scope.departuresByRoute, 'RouteId'));
-      } // end highest if
+
+        /* Step 5:
+         * Sort the departures
+         * for each route.
+         */
+        var allSortedDepartures = [];
+        _.each($scope.departuresByRoute, function (routeDepartures) {
+          // The routeDepartures object looks like
+          // {RouteId, Departures}, where Departures is
+          // an array of objects with numerous properties.
+          // First, sort the array by Estimated Departure Time.
+          routeDepartures.Departures = _.sortBy(routeDepartures.Departures, 'EDT');
+          // Add the now sorted routeDepartures object to our
+          // auxiliary array.
+          allSortedDepartures.push(routeDepartures);
+        });
+        // Once we've sorted the departures for each route,
+        // reassign our global object.
+        $scope.departuresByRoute = allSortedDepartures;
+      }
+      $ionicLoading.hide();
     });
-  }; // end getDepartures
+  };
 
   var stop = Stop.get({stopId: $stateParams.stopId}, function () {
     stop.$save;
@@ -204,16 +228,16 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
 
   // **Sets** whether a route's
   // departures have been expanded on the page
-  $scope.toggleGroup = function (group) {
-    if ($scope.isGroupShown(group)) {
-      $scope.shownGroup = null;
+  $scope.toggleRouteDropdown = function (routeId) {
+    if ($scope.isRouteDropdownShown(routeId)) {
+      $scope.shownRoute = null;
     } else {
-      $scope.shownGroup = group;
+      $scope.shownRoute = routeId;
     }
   };
   // **Checks** whether a route's departures
   // have been expanded on the page
-  $scope.isGroupShown = function (group) {
-    return $scope.shownGroup === group;
+  $scope.isRouteDropdownShown = function (routeId) {
+    return $scope.shownRoute === routeId;
   };
 });

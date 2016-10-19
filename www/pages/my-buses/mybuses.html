@@ -1,8 +1,7 @@
 <ion-view view-title="My Buses">
   <ion-content>
-    <div class = "item item-divider item-assertive item-text-wrap" style = "text-align:center;">
-      Welcome to the first 'release candidate' for pvta-multiplatform! <br>We are almost done developing the app, but issues may persist.
-      <br>If you encounter issues or have feature requests, please report them to
+    <div class = "item item-divider item-energized item-text-wrap" style = "text-align:left;">
+      <b>Welcome to PVTrAck! (Pre-Release)</b> <br> Please send feedback to
       <a style="color: white" href = "mailto: programmers@umass.edu">programmers@admin.umass.edu</a>!
     </div>
     <div class="item item-divider item-positive item-text-wrap">Your Routes</div>
@@ -11,7 +10,7 @@
         <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeRoute(route, $index)"></ion-option-button>
         <div class="row">
           <span class="col-5 item-text-wrap" style="color: #{{route.Color}}; font-size: 150%; font-weight: bold;">
-            {{route.ShortName}}
+            {{route.RouteAbbreviation}}
           </span>
           <span class="col item-text-wrap" style="padding-left: 20px;">
             {{route.LongName}}

@@ -1,7 +1,8 @@
-angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips) {
+angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips, $ionicPopup, Info) {
   ga('set', 'page', '/my-buses.html');
   ga('send', 'pageview');
   $scope.messages = [];
+
 
   /* Given a list of routes and a $promise
    * for gettings alerts from avail, only
@@ -13,6 +14,7 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     // Resolve the promise, which will contain
     // a list of all alerts
     alertsPromise.then(function (alerts) {
+      var messages = [];
       _.each(alerts, function (alert) {
         /* If the Routes property of an
          * alert contains any of RouteIDs
@@ -36,24 +38,38 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
 
          //Also if there are no routes for that alert , show it by default
         if (alert.Routes.length == 0) {
-          $scope.messages.push(alert);
+          messages.push(alert);
         }
 
         else {
           _.each(alert.Routes, function (routeId) {
             if (_.contains(routes, routeId)) {
-              $scope.messages.push(alert);
+              messages.push(alert);
             }
           });
         }
+      });
+      // Finally, remove any duplicates.  Use the ID of the alert to
+      // determine whether we've encountered a duplicate.
+      $scope.messages = _.uniq(messages, function (message) {
+        return message.MessageId;
       });
     });
   }
 
   var reload = function () {
-    localforage.getItem('favoriteRoutes', function (err, value) {
-      $scope.routes = value;
-      filterAlerts($scope.routes, Messages.query().$promise);
+    localforage.getItem('updatedRoutes', function (err, updated) {
+      if (!updated) {
+        localforage.removeItem('routes');
+        localforage.removeItem('favoriteRoutes');
+        localforage.setItem('updatedRoutes', true);
+        $scope.routes = [];
+      } else {
+        localforage.getItem('favoriteRoutes', function (err, value) {
+          $scope.routes = value;
+          filterAlerts($scope.routes, Messages.query().$promise);
+        });
+      }
     });
     localforage.getItem('favoriteStops', function (err, value) {
       $scope.stops = value;
@@ -88,7 +104,14 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     Trips.push(index);
     $location.path('app/plan-trip');
   };
+  // Try to show the popup only when the controller is initially loaded;
+  // no need to check every time the user comes to My Buses in the same session
+  //showPopup();
+  console.log('controller instantiation');
+  Info.showPopups()
+  // Reload the list of favorites and their respective alerts
   $scope.$on('$ionicView.enter', function () {
     reload();
+    console.log('view enter');
   });
 });
