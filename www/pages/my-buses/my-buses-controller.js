@@ -1,23 +1,8 @@
-angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips, $ionicPopup) {
+angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips, $ionicPopup, Info) {
   ga('set', 'page', '/my-buses.html');
   ga('send', 'pageview');
   $scope.messages = [];
 
-  // Checks to see if this browser has used the app before.
-  // If not, it displays a popup giving some first-use help.
-  function showPopup () {
-    // An alert dialog
-    localforage.getItem('returningUser', function (err, returningUser) {
-      if (!returningUser) {
-        // Show a helpful popup
-        var alertPopup = $ionicPopup.alert({
-          title: 'Welcome to PVTrAck!',
-          template: 'This is the My Buses page, where your favorite routes and stops live for easy access.<br>Head to Routes and Stops to see where your bus is right now, or visit Plan Trip for schedules.'
-        });
-        localforage.setItem('returningUser', true);
-      }
-    });
-  }
 
   /* Given a list of routes and a $promise
    * for gettings alerts from avail, only
@@ -121,9 +106,12 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
   };
   // Try to show the popup only when the controller is initially loaded;
   // no need to check every time the user comes to My Buses in the same session
-  showPopup();
+  //showPopup();
+  console.log('controller instantiation');
+  Info.showPopups()
   // Reload the list of favorites and their respective alerts
   $scope.$on('$ionicView.enter', function () {
     reload();
+    console.log('view enter');
   });
 });
