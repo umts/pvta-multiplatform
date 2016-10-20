@@ -120,29 +120,7 @@ angular.module('pvta.factories')
   //Use as a callback method to retrieve a hash of directions and their respective
   //links (links go to a Stop page). To be called after a successful route()
   function generateDirections(callback) {
-    directions = [];
-    for (var i=0; i < steps.length; i++) {
-      step = steps[i];
-      if (step['travel_mode'] === 'TRANSIT') {
-        var lineName;
-        loc = step['transit']['arrival_stop']['location'];
-        console.log(loc.lat().toFixed(6) + ", " + loc.lng().toFixed(6));
-        if (step['transit']['line']['short_name']) {
-          lineName = step['transit']['line']['short_name'];
-        }
-        else {
-          lineName = step['transit']['line']['name'];
-        }
-        var departInstruction = 'Take ' + step['transit']['line']['vehicle']['name'] + ' ' + lineName + ' at ' + step['transit']['departure_time']['text'] + '. ' + step['instructions'];
-        var arriveInstruction = 'Arrive at ' + step['transit']['arrival_stop']['name'] + ' ' + step['transit']['arrival_time']['text'];
-        directions.push(departInstruction);
-        directions.push(arriveInstruction);
-      }
-      else {
-        directions.push(step['instructions']);
-      }
-    }
-    callback(directions);
+    callback(steps);
   }
 
   return {

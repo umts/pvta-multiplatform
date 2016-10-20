@@ -57,10 +57,23 @@
     <div ng-repeat="direction in route.directions" >
       <div class="cd-timeline-block">
         <div class="cd-timeline-icon dark">
-          <i class="ion-arrow-down-b"></i>
+          <div ng-if="direction['travel_mode'] == 'WALKING'">
+            <i class="ion-android-walk"></i>
+          </div>
+          <div ng-if="direction['travel_mode'] == 'TRANSIT'">
+            <i class="ion-android-bus"></i>
+          </div>
         </div>
         <div class="cd-timeline-content dark">
-          <p><b>{{direction}}</b></p>
+          <div ng-if="direction['travel_mode'] == 'TRANSIT'">
+            <h1>{{direction['transit']['line']['short_name']}}</h1>
+            <p class="cd-author">{{direction['transit']['departure_time']['text']}}</p>
+            <p style="display:inline"><b>{{direction['transit']['departure_stop']['name']}}</b> to <b>{{direction['transit']['arrival_stop']['name']}}</b></p>
+          </div>
+          <div ng-if="direction['travel_mode'] == 'WALKING'">
+            <p><b>{{direction['instructions']}}</b></p>
+          </div>
+          <p style="text-align:right display:inline-block">{{direction['duration']['text']}}</p>
         </div>
       </div>
     </div>
