@@ -99,6 +99,7 @@ angular.module('pvta.factories')
     }, function (response, status) {
       route.status = status;
       if (status === google.maps.DirectionsStatus.OK) {
+        console.log(response);
         directionsDisplay.setDirections(response);
         leg = response.routes[0].legs[0];
         steps = leg.steps;
@@ -124,6 +125,8 @@ angular.module('pvta.factories')
       step = steps[i];
       if (step['travel_mode'] === 'TRANSIT') {
         var lineName;
+        loc = step['transit']['arrival_stop']['location'];
+        console.log(loc.lat().toFixed(6) + ", " + loc.lng().toFixed(6));
         if (step['transit']['line']['short_name']) {
           lineName = step['transit']['line']['short_name'];
         }

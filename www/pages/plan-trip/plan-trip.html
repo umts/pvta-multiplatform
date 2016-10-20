@@ -53,11 +53,18 @@
       <br>
       <b>Arrival Time:</b> {{route.arrivalTime}}
     </div>
-    <ion-list>
-    <ion-item class="item-text-wrap" ng-repeat="direction in route.directions" >
-    <p><b>{{direction}}</b></p>
-    </ion-item>
-    </ion-list>
+    <section id="cd-timeline" class="cd-container">
+    <div ng-repeat="direction in route.directions" >
+      <div class="cd-timeline-block">
+        <div class="cd-timeline-icon dark">
+          <i class="ion-arrow-down-b"></i>
+        </div>
+        <div class="cd-timeline-content dark">
+          <p><b>{{direction}}</b></p>
+        </div>
+      </div>
+    </div>
+    </section>
     <div class="item item-divider item-positive">Not the trip you want?
       <button class="button button-outline button-light icon-left" ng-click="openDatePicker(true)">
         <i class="ion-calendar"></i>
