@@ -7,8 +7,9 @@
 angular.module('pvta.controllers', ['pvta.factories', 'pvta.directives']);
 angular.module('pvta.factories', ['ngResource']);
 angular.module('pvta.directives', []);
-angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore', 'ionic-datepicker', 'ionic-timepicker'])
 
+angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'jett.ionic.filter.bar', 'underscore', 'ionic-datepicker', 'ionic-timepicker'])
+.constant('moment', moment)
 .run(function ($ionicPlatform) {
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
