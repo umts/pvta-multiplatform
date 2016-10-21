@@ -32,21 +32,21 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   });
   $scope.stops = [];
 
-  $scope.toggleGroup = function(group) {
-    if ($scope.isGroupShown(group)) {
-      $scope.shownGroup = null;
-      $location.hash('like');
-      $ionicScrollDelegate.anchorScroll(true);
-    } else {
-      $scope.shownGroup = group;
-      console.log(group);
-      $location.hash($scope.dropdownId);
-      $ionicScrollDelegate.anchorScroll(true);
-    }
-  };
-  $scope.isGroupShown = function(group) {
-    return $scope.shownGroup === group;
-  };
+  // $scope.toggleGroup = function(group) {
+  //   if ($scope.isGroupShown(group)) {
+  //     $scope.shownGroup = null;
+  //     $location.hash('like');
+  //     $ionicScrollDelegate.anchorScroll(true);
+  //   } else {
+  //     $scope.shownGroup = group;
+  //     console.log(group);
+  //     $location.hash($scope.dropdownId);
+  //     $ionicScrollDelegate.anchorScroll(true);
+  //   }
+  // };
+  // $scope.isGroupShown = function(group) {
+  //   return $scope.shownGroup === group;
+  // };
   $scope.toggleHeart = function(liked){
     FavoriteRoutes.contains(route, function(bool){
       if(bool) {
@@ -70,6 +70,6 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
 
   $scope.$on('$ionicView.enter', function(){
     getHeart();
-    $scope.dropdownId = Math.random()
+    //$scope.dropdownId = Math.random()
   });
 });
