@@ -6,13 +6,14 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   * Called when the user performs a pull-to-refresh.  Only downloads
   * vehicle data instead of all route data.
   */
-  function getVehicles (){
+  function getVehicles () {
     $scope.vehicles = RouteVehicles.query({id: $stateParams.routeId}, function () {
     $scope.$broadcast('scroll.refreshComplete');
     });
   };
 
   $ionicLoading.show();
+  // Load the details for this route
   Route.get({routeId: $stateParams.routeId}, function(route) {
     $scope.route = route
     getHeart();
@@ -20,9 +21,9 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     $scope.vehicles = $scope.route.Vehicles;
 
     // Need route to be defined before we can filter messages
-    var messages = Messages.query(function(){
+    var messages = Messages.query(function() {
       var filteredMessages = [];
-      for(var message of messages){
+      for(var message of messages) {
         if(message.Routes.indexOf($scope.route.RouteId) === -1) { continue; }
         filteredMessages.push(message);
       }
@@ -30,9 +31,9 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
       $scope.messages = filteredMessages;
     });
   });
-  $scope.stops = [];
-  $scope.toggleHeart = function(liked){
-    FavoriteRoutes.contains($scope.route, function(bool){
+  // Toggles saving/unsaving this route to Favorites
+  $scope.toggleHeart = function(liked) {
+    FavoriteRoutes.contains($scope.route, function(bool) {
       if(bool) {
         FavoriteRoutes.remove($scope.route);
       }
@@ -41,18 +42,18 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
       }
     });
   };
-  $scope.liked = false;
-  var getHeart = function(){
-    FavoriteRoutes.contains($scope.route, function(bool){
+  
+  var getHeart = function() {
+    FavoriteRoutes.contains($scope.route, function(bool) {
       $scope.liked = bool;
     });
   };
 
-  $scope.refresh = function(){
+  $scope.refresh = function() {
     getVehicles();
   };
 
-  $scope.$on('$ionicView.enter', function(){
+  $scope.$on('$ionicView.enter', function() {
     getHeart();
   });
 });
