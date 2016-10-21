@@ -40,7 +40,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     } else {
       $scope.shownGroup = group;
       console.log(group);
-      $location.hash('toggle-dropdown');
+      $location.hash($scope.dropdownId);
       $ionicScrollDelegate.anchorScroll(true);
     }
   };
@@ -70,5 +70,6 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
 
   $scope.$on('$ionicView.enter', function(){
     getHeart();
+    $scope.dropdownId = Math.random()
   });
 });

@@ -35,7 +35,7 @@
         </ion-item>
       </ion-list>
     </div>
-    <ion-item id="toggle-dropdown" class="item" ng-click="toggleGroup('stops')" ng-class="{active: isGroupShown('stops')}" ng-if="route">
+    <ion-item id="{{dropdownId}}" class="item" ng-click="toggleGroup('stops')" ng-class="{active: isGroupShown('stops')}" ng-if="route">
       <div style="text-align:center;">
         <i class="icon" ng-class="isGroupShown('stops') ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'" style="margin-right: 10px;"></i>
         <span>Stops on the {{route.RouteAbbreviation}}</span>
