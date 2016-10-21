@@ -31,35 +31,20 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     });
   });
   $scope.stops = [];
-
-  // $scope.toggleGroup = function(group) {
-  //   if ($scope.isGroupShown(group)) {
-  //     $scope.shownGroup = null;
-  //     $location.hash('like');
-  //     $ionicScrollDelegate.anchorScroll(true);
-  //   } else {
-  //     $scope.shownGroup = group;
-  //     console.log(group);
-  //     $location.hash($scope.dropdownId);
-  //     $ionicScrollDelegate.anchorScroll(true);
-  //   }
-  // };
-  // $scope.isGroupShown = function(group) {
-  //   return $scope.shownGroup === group;
-  // };
   $scope.toggleHeart = function(liked){
-    FavoriteRoutes.contains(route, function(bool){
+    FavoriteRoutes.contains($scope.route, function(bool){
       if(bool) {
-        FavoriteRoutes.remove(route);
+        FavoriteRoutes.remove($scope.route);
       }
       else {
-        FavoriteRoutes.push(route);
+        FavoriteRoutes.push($scope.route);
       }
     });
   };
   $scope.liked = false;
   var getHeart = function(){
     FavoriteRoutes.contains($scope.route, function(bool){
+      console.log(bool);
       $scope.liked = bool;
     });
   };
@@ -70,6 +55,5 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
 
   $scope.$on('$ionicView.enter', function(){
     getHeart();
-    //$scope.dropdownId = Math.random()
   });
 });
