@@ -40,40 +40,40 @@
       <button ng-click="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
       <button ng-click="saveTrip()" class="user-input trip-button" ng-if="params.destinationOnly">Save Destination</button>
     </div>
-  <div id="directions-map" ng-show="route !== undefined"></div>
+  <div id="directions-map" ng-show="leg !== undefined"></div>
   <div class="input-div">
   </div>
-  <div id="route" ng-if="route.origin != null">
+  <div id="route" ng-if="leg !== undefined">
     <div style="margin: 30px">
-      <b>Origin:</b> {{route.origin}}
+      <b>Origin:</b> {{leg['start_address']}}
       <br>
-      <b>Destination:</b> {{route.destination}}
+      <b>Destination:</b> {{leg['end_address']}}
       <br>
-      <b>Departure Time:</b> {{route.departureTime}}
+      <b>Departure Time:</b> {{leg['departure_time']['text']}}
       <br>
-      <b>Arrival Time:</b> {{route.arrivalTime}}
+      <b>Arrival Time:</b> {{leg['arrival_time']['text']}}
     </div>
     <section id="cd-timeline" class="cd-container">
-    <div ng-repeat="direction in route.directions" >
+    <div ng-repeat="step in leg['steps']" >
       <div class="cd-timeline-block">
         <div class="cd-timeline-icon dark">
-          <div ng-if="direction['travel_mode'] == 'WALKING'">
+          <div ng-if="step['travel_mode'] == 'WALKING'">
             <i class="ion-android-walk"></i>
           </div>
-          <div ng-if="direction['travel_mode'] == 'TRANSIT'">
+          <div ng-if="step['travel_mode'] == 'TRANSIT'">
             <i class="ion-android-bus"></i>
           </div>
         </div>
         <div class="cd-timeline-content dark">
-          <div ng-if="direction['travel_mode'] == 'TRANSIT'">
-            <h1>{{direction['transit']['line']['short_name']}}</h1>
-            <p class="cd-author">{{direction['transit']['departure_time']['text']}}</p>
-            <p style="display:inline"><b>{{direction['transit']['departure_stop']['name']}}</b> to <b>{{direction['transit']['arrival_stop']['name']}}</b></p>
+          <div ng-if="step['travel_mode'] == 'TRANSIT'">
+            <h1>{{step['transit']['line']['short_name']}}</h1>
+            <p class="cd-author">{{step['transit']['departure_time']['text']}}</p>
+            <p style="display:inline"><b>{{step['transit']['departure_stop']['name']}}</b> to <b>{{step['transit']['arrival_stop']['name']}}</b></p>
           </div>
-          <div ng-if="direction['travel_mode'] == 'WALKING'">
-            <p><b>{{direction['instructions']}}</b></p>
+          <div ng-if="step['travel_mode'] == 'WALKING'">
+            <p><b>{{step['instructions']}}</b></p>
           </div>
-          <p style="text-align:right display:inline-block">{{direction['duration']['text']}}</p>
+          <p style="text-align:right display:inline-block">{{step['duration']['text']}}</p>
         </div>
       </div>
     </div>

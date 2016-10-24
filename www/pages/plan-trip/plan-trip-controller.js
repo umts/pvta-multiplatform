@@ -207,8 +207,10 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       map.setZoom(17);
     }
   }
+  
 
   /*
+   *
    * Uses all the trip params and
    * requests a trip from Google.
    */
@@ -217,66 +219,78 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     if (!$scope.params.origin.id || !$scope.params.destination.id) {
       return;
     }
-    $scope.route = {
-      directions: [],
-      arrivalTime: null,
-      departureTime: null,
-      origin: null,
-      destination: null
-    };
+
     // Google won't return trips for times past.
     // Instead of throwing an error, assume the user wants
     // directions for right now.
     if ($scope.params.time.datetime < Date.now()) {
       $scope.updateASAP(true);
     }
+
     $ionicLoading.show({
       template: 'Routing..'
     });
-    // The Trip factory takes care of the forming/sending
-    // the request and retrieving the response for us.
-    Trips.route($scope.params, $scope.directionsDisplay, function (tripDetails) {
-      // Now, we have a crude trip object!
-      $ionicLoading.hide();
-      $scope.route = tripDetails;
-      if ($scope.route.status === google.maps.DirectionsStatus.OK) {
-        // Trip factory will parse the trip and return a clean
-        // array of directions.
-        Trips.generateDirections(function (tripDetails) {
-          $scope.route.directions = tripDetails;
-          $scope.$apply();
-          $scope.scrollTo('route');
-          // Force a map redraw because it was hidden before.
-          // There's an angular bug with ng-show that will cause
-          // the map to draw only grey after being hidden
-          // unless we force a redraw.
-          google.maps.event.trigger($scope.map, 'resize');
-          ga('send', 'event', 'TripStepsRetrieved', 'PlanTripController.getRoute()', 'Received steps for a planned trip!');
-        });
+
+    transitOptions = {
+      modes: [google.maps.TransitMode.BUS]
+    };
+
+  if ($scope.params.time.asap !== true) {
+      if ($scope.params.time.type === 'departure') {
+        transitOptions['departureTime'] = $scope.params.time.datetime;
       }
-      // If Google doesn't have directions for us,
-      // handle it gracefully.
+      else if ($scope.params.time.type === 'arrival') {
+        transitOptions['arrivalTime'] = $scope.params.time.datetime;
+      }
       else {
+        console.error("Determining route for Plan Trip failed due to unexpected input. Expected 'arrival' or 'departure', received" + params.time.type);
+      }
+    }
+
+    directionsService = new google.maps.DirectionsService;
+    directionsService.route({
+      origin: {'placeId': $scope.params.origin.id},
+      destination: {'placeId': $scope.params.destination.id},
+      travelMode: google.maps.TravelMode.TRANSIT,
+      transitOptions: transitOptions
+    }, function (response, status) {
+      $ionicLoading.hide();
+
+      if (status === google.maps.DirectionsStatus.OK) {
+        console.log(response);
+        $scope.directionsDisplay.setDirections(response);
+        $scope.leg = response.routes[0].legs[0];
+        $scope.$apply();
+        $scope.scrollTo('route');
+        // Force a map redraw because it was hidden before.
+        // There's an angular bug with ng-show that will cause
+        // the map to draw only grey after being hidden
+        // unless we force a redraw.
+        google.maps.event.trigger($scope.map, 'resize');
+        ga('send', 'event', 'TripStepsRetrieved', 'PlanTripController.getRoute()', 'Received steps for a planned trip!');
+      } else  {
+        console.log(status);
         $ionicPopup.alert(
           {
             title: 'Unable to Find a Trip',
-            template: 'There are no scheduled buses that work for your trip.\nThis failure has a status code of: ' + $scope.route.status
+            template: 'There are no scheduled buses that work for your trip.\nThis failure has a status code of: ' + status
           }
         );
-        ga('send', 'event', 'TripStepsRetrievalFailure', 'PlanTripController.$scope.getRoute()', 'Unable to get a route; error: ' + $scope.route.status);
+        ga('send', 'event', 'TripStepsRetrievalFailure', 'PlanTripController.$scope.getRoute()', 'Unable to get a route; error: ' + status);
         // In cases of error, we set the route object that
         // otherwise contained all our data to undefined, because, well,
         // the data was bad.
-        $scope.route = undefined;
+        $scope.leg = undefined;
       }
-    }, function (err) {
-      // The Trip factory has returned no usable values.
-      $scope.route = undefined;
+     // callback(route);
+    }, function(err) {
+      $scope.leg = undefined;
       $ionicLoading.hide();
       console.log('Error routing: ' + err);
       ga('send', 'event', 'TripStepsRoutingFailure', 'PlanTripController.$scope.getRoute()', 'Trip Factory unable to get a route due to some error: ' + err);
     });
-  };
+};
+ // };
 
   var saveSuccessful = function () {
     $ionicPopup.alert({
