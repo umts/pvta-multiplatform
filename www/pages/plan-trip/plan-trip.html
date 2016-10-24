@@ -67,11 +67,11 @@
         <div class="cd-timeline-content dark">
           <div ng-if="step['travel_mode'] == 'TRANSIT'">
             <h1>{{step['transit']['line']['short_name']}}</h1>
-            <p class="cd-author">{{step['transit']['departure_time']['text']}}</p>
-            <p style="display:inline"><b>{{step['transit']['departure_stop']['name']}}</b> to <b>{{step['transit']['arrival_stop']['name']}}</b></p>
+            <p class="cd-author">Departs {{step['transit']['departure_time']['text']}}</p>
+            <p style="display:inline"><a ng-click="goToStop(step['transit']['departure_stop']['location'])">{{step['transit']['departure_stop']['name']}}</a> to <a ng-click="goToStop(step['transit']['arrival_stop']['location'])">{{step['transit']['arrival_stop']['name']}}</a></p>
           </div>
           <div ng-if="step['travel_mode'] == 'WALKING'">
-            <p><b>{{step['instructions']}}</b></p>
+            <p><a ng-click="goToStop(step['end_location'])">{{step['instructions']}}</a></p>
           </div>
           <p style="text-align:right display:inline-block">{{step['duration']['text']}}</p>
         </div>

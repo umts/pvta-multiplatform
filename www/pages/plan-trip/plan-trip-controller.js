@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $cordovaGeolocation, $ionicLoading, $ionicPopup, $ionicScrollDelegate, Trips, $timeout, ionicDatePicker, ionicTimePicker) {
+angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $cordovaGeolocation, $ionicLoading, $ionicPopup, $ionicScrollDelegate, NearestStop, Trips, $timeout, ionicDatePicker, ionicTimePicker) {
   ga('set', 'page', '/plan-trip.html');
   ga('send', 'pageview');
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
@@ -456,6 +456,12 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     $scope.params.time.asap = selectedOption.isASAP;
     $scope.params.time.type = selectedOption.type;
   };
+
+  $scope.goToStop = function(loc) {
+    NearestStop.get({latitude: loc.lat(), longitude: loc.lng()}).$promise.then(function(stop) {
+      $location.path('app/stops/' + stop.StopId);
+    });
+  }
 
   /*
    * List of the different types
