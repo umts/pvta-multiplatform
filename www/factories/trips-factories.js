@@ -4,7 +4,6 @@ angular.module('pvta.factories')
   var trips = [];
   var loadedTrip = null;
   var lastPoppedIndex = 0;
-  var steps = [];
 
   var getAll =  function (callback) {
     localforage.getItem('savedTrips', function (err, value) {
