@@ -22,11 +22,12 @@ angular.module('pvta.factories')
           return $cordovaGeolocation.getCurrentPosition({timeout: 5000, enableHighAccuracy: true}).then(function (position) {
             lat = position.coords.latitude;
             long = position.coords.longitude;
-              ga('send', 'event', 'LocationSuccess', '$cordovaGeolocation.getCurrentPosition', 'location acquired in StopForage!');
-              return NearestStops.query({latitude: lat, longitude: long}).$promise;
-          }, function(err) {
+            ga('send', 'event', 'LocationSuccess', '$cordovaGeolocation.getCurrentPosition', 'location acquired in StopForage!');
+            return NearestStops.query({latitude: lat, longitude: long}).$promise;
+          },
+          function (err) {
             // Tell Google Analytics that a user doesn't have location
-            ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failed on Routes and Stops; error: '+ err.msg);
+            ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failed on Routes and Stops; error: ' + err.msg);
             // If location services fail us, just
             // get a list of stops; ordering no longer matters.
             console.log('error finding position: ' + JSON.stringify(err));

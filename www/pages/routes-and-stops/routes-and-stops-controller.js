@@ -34,7 +34,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       StopsForage.save(stops);
       redraw();
     });
-    
+
     /* Similar to prepareRoutes, we only
      * keep the details about each stop that are useful
      * to us for displaying them.  It makes searching easier.
