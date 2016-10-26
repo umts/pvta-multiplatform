@@ -71,7 +71,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         break;
       case 1:
         $scope.routesDisp = null;
-        $scope.stopsDisp = $scope.stops;
+        $scope.stopsDisp = $scope.stops.slice(0, 41);
         break;
     }
     // Finally, hide the loader to coax a redraw.
@@ -93,7 +93,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       itms = $scope.routesDisp;
     }
     else {
-      itms = $scope.stopsDisp;
+      itms = $scope.stops;
     }
     filterBarInstance = $ionicFilterBar.show({
       // tell $ionicFilterBar to search over itms.
@@ -107,7 +107,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         }
         else {
           // otherwise, update the stops list.
-          $scope.stopsDisp = filteredItems;
+          $scope.stopsDisp = filteredItems.slice(0, 41);
         }
 
       }

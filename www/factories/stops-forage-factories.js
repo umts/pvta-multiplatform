@@ -1,7 +1,7 @@
 angular.module('pvta.factories')
 
 .factory('StopsForage', function (StopList, Recent, Stops, NearestStops, $q, $cordovaGeolocation) {
-  function getStopList (lat, long) {
+  function getStopList () {
     if (StopList.isEmpty()) {
       return localforage.getItem('stops').then(function (stops) {
         if ((stops !== null) && (stops.list.length > 0) && (Recent.recent(stops.time))) {
@@ -22,7 +22,9 @@ angular.module('pvta.factories')
           return $cordovaGeolocation.getCurrentPosition({timeout: 5000, enableHighAccuracy: true}).then(function (position) {
             lat = position.coords.latitude;
             long = position.coords.longitude;
-            ga('send', 'event', 'LocationSuccess', '$cordovaGeolocation.getCurrentPosition', 'location acquired in StopForage!');
+            var msg = 'Location acquired in StopForage!'
+            console.log(msg);
+            ga('send', 'event', 'LocationSuccess', '$cordovaGeolocation.getCurrentPosition', msg);
             return NearestStops.query({latitude: lat, longitude: long}).$promise;
           },
           function (err) {
