@@ -1,6 +1,6 @@
 angular.module('pvta.factories')
 
-.factory('StopsForage', function (StopList, Recent, Stops, NearestStops, $q) {
+.factory('StopsForage', function (StopList, Recent, Stops, NearestStops, $q, $cordovaGeolocation) {
   function getStopList (lat, long) {
     if (StopList.isEmpty()) {
       return localforage.getItem('stops').then(function (stops) {
@@ -14,12 +14,24 @@ angular.module('pvta.factories')
           var msg = 'No stops stored or stoplist is old';
           console.log(msg);
           ga('send', 'event', 'StopsNotLoaded', 'StopsForageFactory.getStopList()', msg);
-          if (lat && long) {
-            return NearestStops.query({latitude: lat, longitude: long}).$promise;
-          }
-          else {
+          /* Grab the current position.
+           * If we get it, get the list of stops based on that.
+           * Otherwise, just get a list of stops.  Avail's purview
+           * regarding order.
+           */
+          return $cordovaGeolocation.getCurrentPosition({timeout: 5000, enableHighAccuracy: true}).then(function (position) {
+            lat = position.coords.latitude;
+            long = position.coords.longitude;
+              ga('send', 'event', 'LocationSuccess', '$cordovaGeolocation.getCurrentPosition', 'location acquired in StopForage!');
+              return NearestStops.query({latitude: lat, longitude: long}).$promise;
+          }, function(err) {
+            // Tell Google Analytics that a user doesn't have location
+            ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failed on Routes and Stops; error: '+ err.msg);
+            // If location services fail us, just
+            // get a list of stops; ordering no longer matters.
+            console.log('error finding position: ' + JSON.stringify(err));
             return Stops.query().$promise;
-          }
+          });
         }
       });
     }
