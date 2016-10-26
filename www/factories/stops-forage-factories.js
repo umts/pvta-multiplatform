@@ -22,7 +22,7 @@ angular.module('pvta.factories')
           return $cordovaGeolocation.getCurrentPosition({timeout: 5000, enableHighAccuracy: true}).then(function (position) {
             lat = position.coords.latitude;
             long = position.coords.longitude;
-            var msg = 'Location acquired in StopForage!'
+            var msg = 'Location acquired in StopForage!';
             console.log(msg);
             ga('send', 'event', 'LocationSuccess', '$cordovaGeolocation.getCurrentPosition', msg);
             return NearestStops.query({latitude: lat, longitude: long}).$promise;
