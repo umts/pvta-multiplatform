@@ -2,17 +2,19 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   ga('set', 'page', '/plan-trip.html');
   ga('send', 'pageview');
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
+
+  // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
   swBound = new google.maps.LatLng(41.93335, -72.85809);
   neBound = new google.maps.LatLng(42.51138, -72.20302);
+  bounds = new google.maps.LatLngBounds(swBound, neBound);
 
-  $scope.bounds = new google.maps.LatLngBounds(swBound, neBound);
   //takes in a value for ASAP, and updates the page accordingly
   $scope.updateASAP = function (asap) {
     if (asap !== undefined) {
-      $scope.params.time.asap = asap;
+      $scope.request.time.asap = asap;
     }
-    if ($scope.params.time.asap === true) {
-      $scope.params.time.type = 'departure';
+    if ($scope.request.time.asap === true) {
+      $scope.request.time.type = 'departure';
     }
   };
   /**
@@ -23,11 +25,11 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
    * for origin so the user knows to type something.
   */
   $scope.updateOrigin = function () {
-    if ($scope.params.destinationOnly) {
+    if ($scope.request.destinationOnly) {
       loadLocation();
     } else {
-      $scope.params.origin.name = '';
-      $scope.params.origin.id = '';
+      $scope.request.origin.name = '';
+      $scope.request.origin.id = '';
     }
   };
 
@@ -45,7 +47,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       }, function (results, status) {
         if (status === google.maps.GeocoderStatus.OK) {
           if (results[1]) {
-            $scope.params.origin = {
+            $scope.request.origin = {
               name: results[1].formatted_address,
               id: results[1].place_id
             };
@@ -68,7 +70,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
        */
       $timeout(function () {
         $ionicLoading.hide();
-        $scope.params.destinationOnly = false;
+        $scope.request.destinationOnly = false;
       }, 1000);
       console.log('unable to get location ' + err.message);
     });
@@ -78,13 +80,13 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
   //Called when this page is opened, and either a loaded trip has been queued
   //or there are no current existing parameters. Also called as a result of the
-  //newTrip method. Constructs the map, and then sets $scope.params as either default
+  //newTrip method. Constructs the map, and then sets $scope.request as either default
   //or loaded parameters
   var reload = function () {
     constructMap(defaultMapCenter);
     // All dates on this page are in Unix Epoch
     currentDate = new Date();
-    $scope.params = {
+    $scope.request = {
       name: 'New Trip',
       time: {
         datetime: currentDate,
@@ -100,10 +102,10 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     // its details and display them.
     if (loadedTrip !== null) {
       $scope.loaded = true;
-      $scope.params = loadedTrip;
-      $scope.params.time = loadedTrip.time;
+      $scope.request = loadedTrip;
+      $scope.request.time = loadedTrip.time;
       loadedTrip = null;
-      if ($scope.params.destinationOnly) {
+      if ($scope.request.destinationOnly) {
         loadLocation().then(function () {
           $scope.getRoute();
         });
@@ -124,7 +126,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     loadedTrip = Trips.pop();
     //
     $scope.selectedTimeOption = $scope.timeOptions[0];
-    if (loadedTrip !== null || !$scope.params)//reload if either a trip is being loaded or if this page has not yet been loaded
+    if (loadedTrip !== null || !$scope.request)//reload if either a trip is being loaded or if this page has not yet been loaded
       reload();
   });
 
@@ -156,24 +158,24 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
     var originAutocomplete = new google.maps.places.Autocomplete(originInput);
     var destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput);
-    originAutocomplete.setBounds($scope.bounds);
-    destinationAutocomplete.setBounds($scope.bounds);
+    originAutocomplete.setBounds(bounds);
+    destinationAutocomplete.setBounds(bounds);
 
     originAutocomplete.addListener('place_changed', function () {
-      $scope.params.destinationOnly = false;
+      $scope.request.destinationOnly = false;
       var place = originAutocomplete.getPlace();
       if (!place.geometry) {
         console.error('Place has no geometry.');
         return;
       }
-      if ($scope.bounds.contains(place.geometry.location)) {
+      if (bounds.contains(place.geometry.location)) {
         expandViewportToFitPlace($scope.map, place);
-        $scope.params.origin.id = place.place_id;
-        $scope.params.origin.name = place.name;
+        $scope.request.origin.id = place.place_id;
+        $scope.request.origin.name = place.name;
         $scope.$apply();
       } else {
-        $scope.params.origin.id = null;
-        originInput.value = $scope.params.origin.name;
+        $scope.request.origin.id = null;
+        originInput.value = $scope.request.origin.name;
         invalidLocationPopup();
       }
     });
@@ -184,15 +186,15 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         console.error('Place has no geometry.');
         return;
       }
-      if ($scope.bounds.contains(place.geometry.location)) {
+      if (bounds.contains(place.geometry.location)) {
         expandViewportToFitPlace($scope.map, place);
-        $scope.params.destination.id = place.place_id;
-        $scope.params.destination.name = place.name;
+        $scope.request.destination.id = place.place_id;
+        $scope.request.destination.name = place.name;
         $scope.$apply();
       }
       else {
-        $scope.params.destination.id = null;
-        destinationInput.value = $scope.params.destination.name;
+        $scope.request.destination.id = null;
+        destinationInput.value = $scope.request.destination.name;
         invalidLocationPopup();
       }
     });
@@ -216,14 +218,14 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
    */
   $scope.getRoute = function () {
     // We need an origin and destination
-    if (!$scope.params.origin.id || !$scope.params.destination.id) {
+    if (!$scope.request.origin.id || !$scope.request.destination.id) {
       return;
     }
 
     // Google won't return trips for times past.
     // Instead of throwing an error, assume the user wants
     // directions for right now.
-    if ($scope.params.time.datetime < Date.now()) {
+    if ($scope.request.time.datetime < Date.now()) {
       $scope.updateASAP(true);
     }
 
@@ -235,22 +237,24 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       modes: [google.maps.TransitMode.BUS]
     };
 
-  if ($scope.params.time.asap !== true) {
-      if ($scope.params.time.type === 'departure') {
-        transitOptions['departureTime'] = $scope.params.time.datetime;
+  if ($scope.request.time.asap !== true) {
+      if ($scope.request.time.type === 'departure') {
+        transitOptions['departureTime'] = $scope.request.time.datetime;
       }
-      else if ($scope.params.time.type === 'arrival') {
-        transitOptions['arrivalTime'] = $scope.params.time.datetime;
+      else if ($scope.request.time.type === 'arrival') {
+        transitOptions['arrivalTime'] = $scope.request.time.datetime;
       }
       else {
         console.error("Determining route for Plan Trip failed due to unexpected input. Expected 'arrival' or 'departure', received" + params.time.type);
+        ga('send', 'event', 'RoutingParamsInvalid', 'PlanTripController.getRoute()', 'Received invalid time params for planning a route');
+        return;
       }
     }
 
     directionsService = new google.maps.DirectionsService;
     directionsService.route({
-      origin: {'placeId': $scope.params.origin.id},
-      destination: {'placeId': $scope.params.destination.id},
+      origin: {'placeId': $scope.request.origin.id},
+      destination: {'placeId': $scope.request.destination.id},
       travelMode: google.maps.TravelMode.TRANSIT,
       transitOptions: transitOptions
     }, function (response, status) {
@@ -259,7 +263,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       if (status === google.maps.DirectionsStatus.OK) {
         console.log(response);
         $scope.directionsDisplay.setDirections(response);
-        $scope.leg = response.routes[0].legs[0];
+        $scope.route = response.routes[0].legs[0];
         $scope.$apply();
         $scope.scrollTo('route');
         // Force a map redraw because it was hidden before.
@@ -280,17 +284,15 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         // In cases of error, we set the route object that
         // otherwise contained all our data to undefined, because, well,
         // the data was bad.
-        $scope.leg = undefined;
+        $scope.route = undefined;
       }
-     // callback(route);
     }, function(err) {
-      $scope.leg = undefined;
+      $scope.route = undefined;
       $ionicLoading.hide();
       console.log('Error routing: ' + err);
       ga('send', 'event', 'TripStepsRoutingFailure', 'PlanTripController.$scope.getRoute()', 'Trip Factory unable to get a route due to some error: ' + err);
     });
-};
- // };
+  };
 
   var saveSuccessful = function () {
     $ionicPopup.alert({
@@ -305,9 +307,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
    * for display on My Buses
    */
   $scope.saveTrip = function () {
-    var prevName = $scope.params.name;
+    var prevName = $scope.request.name;
     if (!$scope.loaded) {
-      $scope.params.name = '';//Clears the name instead of 'New Trip'
+      $scope.request.name = '';//Clears the name instead of 'New Trip'
     }
     $ionicPopup.show({
       template: '<input type="text" ng-model="params.name">',
@@ -317,16 +319,16 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       buttons: [
     {text: 'Cancel',
       onTap: function () {
-        $scope.params.name = prevName;
+        $scope.request.name = prevName;
       }},
       {text: '<b>OK</b>',
         type: 'button-positive',
       onTap: function () {
         if ($scope.loaded) {
-          Trips.set($scope.params);
+          Trips.set($scope.request);
         }
         else {
-          Trips.add($scope.params);
+          Trips.add($scope.request);
         }
         //the current trip is now considered loaded onto the page
         $scope.loaded = true;
@@ -352,7 +354,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }).then(function (res) {
       if (res) {
         $scope.loaded = false;
-        $scope.route.origin = null;
+        $scope.route = undefined;
         reload();
       }
     });
@@ -389,8 +391,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       var selectedTime = new Date(time * 1000);
       // Pull the hours and minutes; we don't care about
       // anything else
-      $scope.params.time.datetime.setHours(selectedTime.getUTCHours());
-      $scope.params.time.datetime.setMinutes(selectedTime.getUTCMinutes());
+      $scope.request.time.datetime.setHours(selectedTime.getUTCHours());
+      $scope.request.time.datetime.setMinutes(selectedTime.getUTCMinutes());
       ga('send', 'event', 'TripTimeChosen', 'PlanTripController.onTimeChosen()', 'Custom time for trip was set!');
     }
   }
@@ -403,9 +405,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   function onDateChosen (date) {
     if (date) {
       date = new Date(date);
-      $scope.params.time.datetime.setDate(date.getDate());
-      $scope.params.time.datetime.setMonth(date.getMonth());
-      $scope.params.time.datetime.setFullYear(date.getFullYear());
+      $scope.request.time.datetime.setDate(date.getDate());
+      $scope.request.time.datetime.setMonth(date.getMonth());
+      $scope.request.time.datetime.setFullYear(date.getFullYear());
       ga('send', 'event', 'TripDateChosen', 'PlanTripController.onDateChosen()', 'Custom date for trip was set!');
     }
     else {
@@ -453,12 +455,12 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
    */
   $scope.setTimeOption = function () {
     var selectedOption = $scope.selectedTimeOption;
-    $scope.params.time.asap = selectedOption.isASAP;
-    $scope.params.time.type = selectedOption.type;
+    $scope.request.time.asap = selectedOption.isASAP;
+    $scope.request.time.type = selectedOption.type;
   };
 
   $scope.goToStop = function(loc) {
-    NearestStop.get({latitude: loc.lat(), longitude: loc.lng()}).$promise.then(function(stop) {
+    NearestStop.get({latitude: loc.lat(), longitude: loc.lng()}, function(stop) {
       $location.path('app/stops/' + stop.StopId);
     });
   }

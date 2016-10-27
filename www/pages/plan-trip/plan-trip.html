@@ -1,4 +1,4 @@
-<ion-view view-title="{{params.name === 'New Trip' ? 'Schedule' : params.name}}">
+<ion-view view-title="{{request.name === 'New Trip' ? 'Schedule' : request.name}}">
   <ion-nav-buttons side="secondary">
     <button class="button icon ion-compose" ng-click="newTrip()"></button>
     <button class="button icon ion-ios-heart-outline" ng-click="saveTrip()"></button>
@@ -12,16 +12,16 @@
     <div class="list">
       <div class="item item-input-inset">
         <label class="item-input-wrapper">
-          <input id="origin-input" class="user-input location-typeahead" type="text" placeholder="Enter a starting location" ng-model="params.origin.name" ng-focus="disableTap()" />
+          <input id="origin-input" class="user-input location-typeahead" type="text" placeholder="Enter a starting location" ng-model="request.origin.name" ng-focus="disableTap()" />
         </label>
-        <i ng-class="params.destinationOnly ? 'ion-pinpoint positive' : 'ion-pinpoint'"
+        <i ng-class="request.destinationOnly ? 'ion-pinpoint positive' : 'ion-pinpoint'"
           style="font-size: 120%; margin-left: 1%"
-          ng-click="params.destinationOnly = !params.destinationOnly; updateOrigin();">
+          ng-click="request.destinationOnly = !request.destinationOnly; updateOrigin();">
         </i>
       </div>
       <div class="item item-input-inset">
         <label class="item-input-wrapper">
-          <input id="destination-input" class="user-input location-typeahead" type="text" placeholder="Enter a destination" ng-model="params.destination.name" ng-focus="disableTap()" />
+          <input id="destination-input" class="user-input location-typeahead" type="text" placeholder="Enter a destination" ng-model="request.destination.name" ng-focus="disableTap()" />
         </label>
       </div>
       <div class="item item-input item-select">
@@ -30,34 +30,34 @@
         </div>
         <select ng-model="$parent.selectedTimeOption" ng-change="setTimeOption()" ng-options="option as option.title for option in timeOptions"></select>
       </div>
-      <div class="button-bar" ng-show="params.time.asap === false">
-        <button class="button icon-left ion-android-calendar" ng-click="openDatePicker()">{{params.time.datetime | date: "MMM d"}}</button>
-        <button class="button icon-left ion-ios-time-outline" ng-click="openTimePicker()">{{params.time.datetime | date: "h:mm a"}}</button>
+      <div class="button-bar" ng-show="request.time.asap === false">
+        <button class="button icon-left ion-android-calendar" ng-click="openDatePicker()">{{request.time.datetime | date: "MMM d"}}</button>
+        <button class="button icon-left ion-ios-time-outline" ng-click="openTimePicker()">{{request.time.datetime | date: "h:mm a"}}</button>
       </div>
     </div>
 
     <div class="input-div center-div">
       <button ng-click="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
-      <button ng-click="saveTrip()" class="user-input trip-button" ng-if="params.destinationOnly">Save Destination</button>
+      <button ng-click="saveTrip()" class="user-input trip-button" ng-if="request.destinationOnly">Save Destination</button>
     </div>
-  <div id="directions-map" ng-show="leg !== undefined"></div>
+  <div id="directions-map" ng-show="route !== undefined"></div>
   <div class="input-div">
   </div>
-  <div id="route" ng-if="leg !== undefined">
+  <div id="route" ng-if="route !== undefined">
     <div class = "item item-divider item-energized item-text-wrap">
       <b>PLEASE NOTE: Trip is based on scheduled times. Check your stop's page to confirm bus departure time</b>
     </div>
     <div style="margin: 30px">
-      <b>Origin:</b> {{leg['start_address']}}
+      <b>Origin:</b> {{route['start_address']}}
       <br>
-      <b>Destination:</b> {{leg['end_address']}}
+      <b>Destination:</b> {{route['end_address']}}
       <br>
-      <b>Departure Time:</b> {{leg['departure_time']['text']}}
+      <b>Departure Time:</b> {{route['departure_time']['text']}}
       <br>
-      <b>Arrival Time:</b> {{leg['arrival_time']['text']}}
+      <b>Arrival Time:</b> {{route['arrival_time']['text']}}
     </div>
     <section id="cd-timeline" class="cd-container">
-    <div ng-repeat="step in leg['steps']" >
+    <div ng-repeat="step in route['steps']" >
       <div class="cd-timeline-block">
         <div class="cd-timeline-icon dark">
           <div ng-if="step['travel_mode'] == 'WALKING'">
