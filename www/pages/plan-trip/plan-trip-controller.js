@@ -438,7 +438,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   };
 
   $scope.goToStop = function(loc) {
+    NearestStop.get({latitude: loc.lat(), longitude: loc.lng()}, function(stop) {
       $location.path('app/stops/' + stop.StopId);
+    });
   }
 
   /*
