@@ -8,15 +8,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   neBound = new google.maps.LatLng(42.51138, -72.20302);
   bounds = new google.maps.LatLngBounds(swBound, neBound);
 
-  //takes in a value for ASAP, and updates the page accordingly
-  $scope.updateASAP = function (asap) {
-    if (asap !== undefined) {
-      $scope.request.time.asap = asap;
-    }
-    if ($scope.request.time.asap === true) {
-      $scope.request.time.type = 'departure';
-    }
-  };
   /**
    * Checks whether we're trying to
    * get directions starting at the
@@ -117,9 +108,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
     else {
       $scope.loaded = false;
+      $scope.request.time.option = $scope.timeOptions[0];
       loadLocation();
     }
-    $scope.updateASAP();
   };
 
   $scope.$on('$ionicView.enter', function () {
@@ -210,7 +201,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
   }
   
-
   /*
    *
    * Uses all the trip params and
@@ -226,7 +216,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     // Instead of throwing an error, assume the user wants
     // directions for right now.
     if ($scope.request.time.datetime < Date.now()) {
-      $scope.updateASAP(true);
+      $scope.request.time.type = $scope.timeOptions[0]; 
     }
 
     $ionicLoading.show({
@@ -237,11 +227,11 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       modes: [google.maps.TransitMode.BUS]
     };
 
-  if ($scope.request.time.asap !== true) {
-      if ($scope.request.time.type === 'departure') {
+  if ($scope.request.time.option.isASAP !== true) {
+      if ($scope.request.time.option.type === 'departure') {
         transitOptions['departureTime'] = $scope.request.time.datetime;
       }
-      else if ($scope.request.time.type === 'arrival') {
+      else if ($scope.request.time.option.type === 'arrival') {
         transitOptions['arrivalTime'] = $scope.request.time.datetime;
       }
       else {
@@ -447,22 +437,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     ionicDatePicker.openDatePicker(datePickerConfig);
   };
 
-  /*
-   * Sets the trip params object to match
-   * the values chosen in the UI.
-   * Uses the global variable bound to a
-   * <select>.
-   */
-  $scope.setTimeOption = function () {
-    var selectedOption = $scope.selectedTimeOption;
-    $scope.request.time.asap = selectedOption.isASAP;
-    $scope.request.time.type = selectedOption.type;
-  };
-
   $scope.goToStop = function(loc) {
-    NearestStop.get({latitude: loc.lat(), longitude: loc.lng()}, function(stop) {
       $location.path('app/stops/' + stop.StopId);
-    });
   }
 
   /*

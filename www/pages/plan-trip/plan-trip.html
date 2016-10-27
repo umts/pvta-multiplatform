@@ -28,9 +28,9 @@
         <div class="input-label">
           Search for buses:
         </div>
-        <select ng-model="$parent.selectedTimeOption" ng-change="setTimeOption()" ng-options="option as option.title for option in timeOptions"></select>
+        <select ng-model="request.time.option" ng-options="option as option.title for option in timeOptions"></select>
       </div>
-      <div class="button-bar" ng-show="request.time.asap === false">
+      <div class="button-bar" ng-show="request.time.option.isASAP === false">
         <button class="button icon-left ion-android-calendar" ng-click="openDatePicker()">{{request.time.datetime | date: "MMM d"}}</button>
         <button class="button icon-left ion-ios-time-outline" ng-click="openTimePicker()">{{request.time.datetime | date: "h:mm a"}}</button>
       </div>
