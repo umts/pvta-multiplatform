@@ -26,33 +26,15 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color');
       });
     }
-    /* Grab the current position.
-     * If we get it, get the list of stops based on that.
-     * Otherwise, just get a list of stops.  Avail's purview
-     * regarding order.
-     */
-    $cordovaGeolocation.getCurrentPosition({timeout: 5000, enableHighAccuracy: true}).then(function (position) {
-      // Remember, StopsForage returns a Promise.
-      // Must resolve it.
-      StopsForage.get(position.coords.latitude, position.coords.longitude).then(function (stops) {
-        StopsForage.save(stops);
-        stops = StopsForage.uniq(stops);
-        $scope.stops = prepareStops(stops);
-        redraw();
-      });
-    }, function (err) {
-      // Tell Google Analytics that a user doesn't have location
-      ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failed on Routes and Stops; error: '+ err.msg);
-      // If location services fail us, just
-      // get a list of stops; ordering no longer matters.
-      console.log('error finding position: ' + JSON.stringify(err));
-      StopsForage.get().then(function (stops) {
-        stops = StopsForage.uniq(stops);
-        StopsForage.save(stops);
-        $scope.stops = prepareStops(stops);
-        redraw();
-      });
+    // Remember, StopsForage returns a Promise.
+    // Must resolve it.
+    StopsForage.get().then(function (stops) {
+      stops = StopsForage.uniq(stops);
+      $scope.stops = prepareStops(stops);
+      StopsForage.save(stops);
+      redraw();
     });
+
     /* Similar to prepareRoutes, we only
      * keep the details about each stop that are useful
      * to us for displaying them.  It makes searching easier.
@@ -89,7 +71,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         break;
       case 1:
         $scope.routesDisp = null;
-        $scope.stopsDisp = $scope.stops;
+        $scope.stopsDisp = $scope.stops.slice(0, 41);
         break;
     }
     // Finally, hide the loader to coax a redraw.
@@ -111,7 +93,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       itms = $scope.routesDisp;
     }
     else {
-      itms = $scope.stopsDisp;
+      itms = $scope.stops;
     }
     filterBarInstance = $ionicFilterBar.show({
       // tell $ionicFilterBar to search over itms.
@@ -125,7 +107,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         }
         else {
           // otherwise, update the stops list.
-          $scope.stopsDisp = filteredItems;
+          $scope.stopsDisp = filteredItems.slice(0, 41);
         }
 
       }
@@ -145,9 +127,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   function redraw () {
     $scope.display($scope.currentDisplay);
   }
-
+  getRoutesAndStops();
   $scope.$on('$ionicView.enter', function () {
-    getRoutesAndStops();
     getFavorites();
   });
 });
