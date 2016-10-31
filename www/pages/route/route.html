@@ -1,19 +1,25 @@
 <ion-view>
-  <ion-nav-title>{{route ? ('Route ' + route.RouteAbbreviation) : 'Loading...'}} </ion-nav-title>
+  <ion-nav-title>{{route && vehicles && stops ? ('Route ' + route.RouteAbbreviation) : 'Loading...'}} </ion-nav-title>
   <ion-nav-buttons side="secondary">
-    <button id="like"  ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}" ng-click="liked= !liked; toggleHeart(liked)"></button>
-    <a class="button button-icon icon ion-map" href="#/app/map/route/{{route.RouteId}}" ng-if="route"></a>
+    <button id="like"
+        ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}"
+        ng-click="liked= !liked; toggleHeart(liked)"></button>
+    <a class="button button-icon icon ion-map"
+        href="#/app/map/route/{{route.RouteId}}" ng-if="route"></a>
   </ion-nav-buttons>
   <ion-content style="margin-bottom: 2%">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
 
-    <div class="row item" style="text-align: center; font-size: 150%">
-      <span class="col col-25 item-text-wrap" style="font-size: 150%; font-weight: bold; color:#{{route.Color}}">
+    <div class="row item center" style="font-size: 150%">
+      <span class="col col-25 item-text-wrap bold"
+          style="font-size: 150%; color: #{{route.Color}}">
         {{route.RouteAbbreviation}}
       </span>
       <span class="col col-75 item-text-wrap center">{{route.LongName}}</span>
     </div>
-    <div ng-if="vehicles.length === 0" class="item item-divider item-energized center" style="margin-bottom:1%">
+    <div ng-if="vehicles.length === 0"
+        class="item item-divider item-energized center"
+        style="margin-bottom:1%">
       There are no buses currently on the {{route.RouteAbbreviation}}.
     </div>
     <div ng-if="vehicles.length != 0">
@@ -24,7 +30,8 @@
      </ion-list>
    </div>
      <!-- Container div for the alerts -->
-     <div class="item item-divider item-assertive center" ng-if="messages.length > 0">
+     <div class="item item-divider item-assertive center"
+        ng-if="messages.length > 0">
        Alerts
     </div>
     <div ng-if="messages.length > 0">
@@ -36,24 +43,15 @@
         </ion-item>
       </ion-list>
     </div>
-    <ion-item class="item"ng-if="route">
-      <div style="text-align:center;">
+    <ion-item class="item" ng-if="route">
+      <div class="text-center">
         <span>Stops on the {{route.RouteAbbreviation}}</span>
       </div>
     </ion-item>
-    <section id="cd-timeline" class="cd-container">
-      <div ng-repeat="stop in stops | orderBy: '+SortOrder'">
-        <div class="cd-timeline-block">
-          <div class="cd-timeline-icon dark">
-            <i class="ion-ios-timer-outline timelineIcon" ng-if="stop.IsTimePoint==true"></i>
-            <i class="ion-location timelineIcon" ng-if="stop.IsTimePoint==false"></i>
-          </div>
-          <!-- cd-timeline-img -->
-          <div class="cd-timeline-content dark">
-            <a class="marginTop5 cd-author" style="text-decoration: none;" href="#/app/stops/{{stop.StopId}}">{{stop.Name}} ({{stop.StopId}})</a>
-          </div>
-        </div>
-      </div>
-    </section>
+    <ion-item class="item item-text-wrap"
+        ng-repeat="stop in stops | orderBy: '+SortOrder'"
+        href="#/app/stops/{{stop.StopId}}">
+        {{stop.Name}} ({{stop.StopId}})
+    </ion-item>
   </ion-content>
 </ion-view>
