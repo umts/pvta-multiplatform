@@ -159,7 +159,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         console.error('Place has no geometry.');
         return;
       }
-      if (bounds.contains(place.geometry.location)) {
+      if (bounds.contains (place.geometry.location)) {
         expandViewportToFitPlace($scope.map, place);
         $scope.request.origin.id = place.place_id;
         $scope.request.origin.name = place.name;
@@ -177,7 +177,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         console.error('Place has no geometry.');
         return;
       }
-      if (bounds.contains(place.geometry.location)) {
+      if (bounds.contains (place.geometry.location)) {
         expandViewportToFitPlace($scope.map, place);
         $scope.request.destination.id = place.place_id;
         $scope.request.destination.name = place.name;
@@ -200,7 +200,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       map.setZoom(17);
     }
   }
-
   /*
    *
    * Uses all the trip params and
@@ -438,7 +437,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   };
 
   $scope.goToStop = function (loc) {
-    NearestStop.get({latitude: loc.lat(), longitude: loc.lng()}, function (stop) {
+    NearestStop.get ({latitude: loc.lat(), longitude: loc.lng()}, function (stop) {
       $location.path('app/stops/' + stop.StopId);
     });
   };

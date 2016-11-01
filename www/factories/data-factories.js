@@ -16,7 +16,7 @@ angular.module('pvta.factories')
   return $resource(Avail + '/routes/getvisibleroutes');
 })
 
-.factory('NearestStop', function($resource, Avail) {
+.factory('NearestStop', function ($resource, Avail) {
   return $resource(Avail + '/Stops/NearestStop?latitude=:latitude&longitude=:longitude', { latitude: '@latitude', longitude: '@longitude' });
 })
 
