@@ -49,7 +49,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       });
     }, function (err) {
       // Tell Google Analytics that a user doesn't have location
-      ga('send', 'event', 'LocationFailure', 'PlanTripConsoller.$cordovaGeolocation.getCurrentPosition', 'location failed on Plan Trip; error: '+ err.msg);
+      ga('send', 'event', 'LocationFailure', 'PlanTripConsoller.$cordovaGeolocation.getCurrentPosition', 'location failed on Plan Trip; error: ' + err.msg);
       // When getting location fails, this callback fires
       $scope.noLocation = true;
       /* When getting location fails immediately, $ionicLoading.hide()
@@ -200,7 +200,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       map.setZoom(17);
     }
   }
-  
+
   /*
    *
    * Uses all the trip params and
@@ -216,7 +216,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     // Instead of throwing an error, assume the user wants
     // directions for right now.
     if ($scope.request.time.datetime < Date.now()) {
-      $scope.request.time.type = $scope.timeOptions[0]; 
+      $scope.request.time.type = $scope.timeOptions[0];
     }
 
     $ionicLoading.show({
@@ -227,7 +227,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       modes: [google.maps.TransitMode.BUS]
     };
 
-  if ($scope.request.time.option.isASAP !== true) {
+    if ($scope.request.time.option.isASAP !== true) {
       if ($scope.request.time.option.type === 'departure') {
         transitOptions['departureTime'] = $scope.request.time.datetime;
       }
@@ -235,7 +235,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         transitOptions['arrivalTime'] = $scope.request.time.datetime;
       }
       else {
-        console.error("Determining route for Plan Trip failed due to unexpected input. Expected 'arrival' or 'departure', received" + params.time.type);
+        console.error('Determining route for Plan Trip failed due to unexpected input. Expected \'arrival\' or \'departure\', received' + params.time.type);
         ga('send', 'event', 'RoutingParamsInvalid', 'PlanTripController.getRoute()', 'Received invalid time params for planning a route');
         return;
       }
@@ -276,7 +276,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         // the data was bad.
         $scope.route = undefined;
       }
-    }, function(err) {
+    }, function (err) {
       $scope.route = undefined;
       $ionicLoading.hide();
       console.log('Error routing: ' + err);
@@ -402,7 +402,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
     else {
       var error = 'Received undefined date from datepicker.';
-      console.error(error)
+      console.error(error);
       ga('send', 'event', 'DatePickerReturnedBadValue', 'PlanTripController.onDateChosen()', error);
     }
   }
@@ -437,11 +437,11 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     ionicDatePicker.openDatePicker(datePickerConfig);
   };
 
-  $scope.goToStop = function(loc) {
-    NearestStop.get({latitude: loc.lat(), longitude: loc.lng()}, function(stop) {
+  $scope.goToStop = function (loc) {
+    NearestStop.get({latitude: loc.lat(), longitude: loc.lng()}, function (stop) {
       $location.path('app/stops/' + stop.StopId);
     });
-  }
+  };
 
   /*
    * List of the different types

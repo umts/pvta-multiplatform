@@ -75,7 +75,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         var routeDepartures = [];
         _.each(routes, function (route) {
           //[{RouteId: 20034, Departures[...]},]
-          var entireObject = _.where(dirs, {RouteId : route});
+          var entireObject = _.where(dirs, {RouteId: route});
           // [[...], [...]]
           var justDepartures = _.pluck(entireObject, 'Departures');
           // [, , , ]

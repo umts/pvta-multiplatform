@@ -108,7 +108,7 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
   // no need to check every time the user comes to My Buses in the same session
   //showPopup();
   console.log('controller instantiation');
-  Info.showPopups()
+  Info.showPopups();
   // Reload the list of favorites and their respective alerts
   $scope.$on('$ionicView.enter', function () {
     reload();
