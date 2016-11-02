@@ -10,19 +10,20 @@
   <ion-content style="margin-bottom: 2%">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
 
-    <div class="row item center" style="font-size: 150%">
+    <div class="row item center" style="font-size: 150%"
+        ng-if="route">
       <span class="col col-25 item-text-wrap bold"
           style="font-size: 150%; color: #{{route.Color}}">
         {{route.RouteAbbreviation}}
       </span>
       <span class="col col-75 item-text-wrap center">{{route.LongName}}</span>
     </div>
-    <div ng-if="vehicles.length === 0"
+    <div ng-if="vehicles.length === 0 && route"
         class="item item-divider item-energized center"
         style="margin-bottom:1%">
       There are no buses currently on the {{route.RouteAbbreviation}}.
     </div>
-    <div ng-if="vehicles.length != 0">
+    <div ng-if="vehicles && vehicles.length != 0">
       <ion-list>
         <div ng-repeat="vehicle in vehicles | orderBy:'Destination'">
           <vehicle data="vehicle" route="route"></vehicle>
@@ -43,12 +44,13 @@
         </ion-item>
       </ion-list>
     </div>
-    <ion-item class="item" ng-if="route">
+    <ion-item class="item" ng-if="route && stops">
       <div class="text-center">
         <span>Stops on the {{route.RouteAbbreviation}}</span>
       </div>
     </ion-item>
     <ion-item class="item item-text-wrap"
+        ng-if="route && stops"
         ng-repeat="stop in stops | orderBy: '+SortOrder'"
         href="#/app/stops/{{stop.StopId}}">
         {{stop.Name}} ({{stop.StopId}})
