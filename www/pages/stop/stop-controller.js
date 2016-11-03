@@ -23,36 +23,40 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   // Used to allow the 'heart' in the view
   // to draw itself accordingly.
   var getHeart = function () {
-    FavoriteStops.contains($scope.stop.StopId, function (bool) {
+    FavoriteStops.contains($stateParams.StopId, function (bool) {
       $scope.liked = bool;
     });
   };
 
   function doThing(routeDirections) {
     $scope.poops = []
-    console.log(JSON.stringify(routeDirections[0]));
     _.each(routeDirections, function (direction) {
-      _.each(direction.Departures, function (departure) {
-        if (!moment(departure.EDT).isAfter(Date.now())) return;
-        else {
-          var times = {sExact: moment(departure.SDT).format('LT'),
-                       eExact: moment(departure.EDT).format('LT'),
-                       sRelative: moment(departure.SDT).fromNow(),
-                       eRelative: moment(departure.EDT).fromNow(),
-                       eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
-                     };
-          departure.Times = times;
-        }
-      });
-      $scope.poops.push(direction)
+      if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
+        var futureDepartures = []
+        _.each(direction.Departures, function (departure) {
+          if (!moment(departure.EDT).isAfter(Date.now())) {
+            return;
+          }
+          else {
+            var times = {sExact: moment(departure.SDT).format('LT'),
+                         eExact: moment(departure.EDT).format('LT'),
+                         sRelative: moment(departure.SDT).fromNow(),
+                         eRelative: moment(departure.EDT).fromNow(),
+                         eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
+                       };
+            departure.Times = times;
+            futureDepartures.push(departure);
+          }
+        });
+        direction.Departures = futureDepartures;
+        $scope.poops.push(direction);
+      }
     });
   }
 
   $scope.getDepartures = function () {
-    $scope.departuresByRoute = [];
-    var routes = [];
     $ionicLoading.show();
-    var deps = StopDeparture.query({stopId: $stateParams.stopId}, function () {
+    StopDeparture.query({stopId: $stateParams.stopId}, function (deps) {
       if (deps) {
         // Avail returns a one element array that contains
         // a ton of stuff. Pull this stuff out.
@@ -64,19 +68,19 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * RouteId, so thus the uniqueness requirement.
          */
         routes = _.uniq(_.pluck(directions, 'RouteId'));
-
+        getRoutes(_.pluck($scope.poops, 'RouteId'));
         /* Step 1:
          * For each RouteDirection,
          * pull out its RouteId and Departures array,
          * assuming that it HAS departures and isn't 'done.'
          */
-        var dirs = [];
-        _.each(directions, function (direction) {
-          if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
-            var newDirs = {RouteId: direction.RouteId, Departures: direction.Departures};
-            dirs.push(newDirs);
-          }
-        });
+        // var dirs = [];
+        // _.each(directions, function (direction) {
+        //   if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
+        //     var newDirs = {RouteId: direction.RouteId, Departures: direction.Departures};
+        //     dirs.push(newDirs);
+        //   }
+        // });
         /* Step 2:
          * For each RouteId, find all the departures
          * (obtained in Step 1) whose RouteDirection matches this Id.
@@ -93,19 +97,19 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * an array of routes and their corresponding
          * departures in form [{RouteId, Departures}, ...]
          */
-        var routeDepartures = [];
-        _.each(routes, function (route) {
-          //[{RouteId: 20034, Departures[...]},]
-          var entireObject = _.where(dirs, {RouteId : route});
-          // [[...], [...]]
-          var justDepartures = _.pluck(entireObject, 'Departures');
-          // [, , , ]
-          var flattenedDepartures = _.flatten(justDepartures, true);
-          if (flattenedDepartures && flattenedDepartures.length > 0) {
-            var newDir = {RouteId: route, Departures: flattenedDepartures};
-            routeDepartures.push(newDir);
-          }
-        });
+        // var routeDepartures = [];
+        // _.each(routes, function (route) {
+        //   //[{RouteId: 20034, Departures[...]},]
+        //   var entireObject = _.where(dirs, {RouteId : route});
+        //   // [[...], [...]]
+        //   var justDepartures = _.pluck(entireObject, 'Departures');
+        //   // [, , , ]
+        //   var flattenedDepartures = _.flatten(justDepartures, true);
+        //   if (flattenedDepartures && flattenedDepartures.length > 0) {
+        //     var newDir = {RouteId: route, Departures: flattenedDepartures};
+        //     routeDepartures.push(newDir);
+        //   }
+        // });
         /* Step 3:
          * We now have an array of {RouteId, Departure}
          * objects. We now get "stringified" times for each departure.
@@ -121,53 +125,55 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * Now that a route has its departures stringified, push
          * everything for that route to the final array.
          */
-        $scope.departuresByRoute = [];
-        _.each(routeDepartures, function (routeAndDepartures) {
-          var newDirsWithTimes = {RouteId: routeAndDepartures.RouteId, Departures: []};
-          _.each(routeAndDepartures.Departures, function (departure) {
-            if (!moment(departure.EDT).isAfter(Date.now())) return;
-            else {
-              var times = {sExact: moment(departure.SDT).format('LT'),
-                           eExact: moment(departure.EDT).format('LT'),
-                           sRelative: moment(departure.SDT).fromNow(),
-                           eRelative: moment(departure.EDT).fromNow(),
-                           eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
-                         };
-              departure.Times = times;
-              newDirsWithTimes.Departures.push(departure);
-            }
-          });
-          if (newDirsWithTimes.Departures.length > 0) {
-            $scope.departuresByRoute.push(newDirsWithTimes);
-          }
-        });
+        // $scope.departuresByRoute = [];
+        // _.each(routeDepartures, function (routeAndDepartures) {
+        //   var newDirsWithTimes = {RouteId: routeAndDepartures.RouteId, Departures: []};
+        //   _.each(routeAndDepartures.Departures, function (departure) {
+        //     if (!moment(departure.EDT).isAfter(Date.now())) return;
+        //     else {
+        //       var times = {sExact: moment(departure.SDT).format('LT'),
+        //                    eExact: moment(departure.EDT).format('LT'),
+        //                    sRelative: moment(departure.SDT).fromNow(),
+        //                    eRelative: moment(departure.EDT).fromNow(),
+        //                    eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
+        //                  };
+        //       departure.Times = times;
+        //       newDirsWithTimes.Departures.push(departure);
+        //     }
+        //   });
+        //   if (newDirsWithTimes.Departures.length > 0) {
+        //     $scope.departuresByRoute.push(newDirsWithTimes);
+        //   }
+        // });
         /* Step 4:
          * Download some details (name, color, etc) for each
          * route that has upcoming departures at this stop.
          */
-        getRoutes(_.pluck($scope.departuresByRoute, 'RouteId'));
+
 
         /* Step 5:
          * Sort the departures
          * for each route.
          */
-        var allSortedDepartures = [];
-        _.each($scope.departuresByRoute, function (routeDepartures) {
-          // The routeDepartures object looks like
-          // {RouteId, Departures}, where Departures is
-          // an array of objects with numerous properties.
-          // First, sort the array by Estimated Departure Time.
-          routeDepartures.Departures = _.sortBy(routeDepartures.Departures, 'EDT');
-          // Add the now sorted routeDepartures object to our
-          // auxiliary array.
-          allSortedDepartures.push(routeDepartures);
-        });
-        // Once we've sorted the departures for each route,
-        // reassign our global object.
-        $scope.departuresByRoute = allSortedDepartures;
-      }
-      $ionicLoading.hide();
-    });
+      //   var allSortedDepartures = [];
+      //   _.each($scope.departuresByRoute, function (routeDepartures) {
+      //     // The routeDepartures object looks like
+      //     // {RouteId, Departures}, where Departures is
+      //     // an array of objects with numerous properties.
+      //     // First, sort the array by Estimated Departure Time.
+      //     routeDepartures.Departures = _.sortBy(routeDepartures.Departures, 'EDT');
+      //     // Add the now sorted routeDepartures object to our
+      //     // auxiliary array.
+      //     allSortedDepartures.push(routeDepartures);
+      //   });
+      //   // Once we've sorted the departures for each route,
+      //   // reassign our global object.
+      //   $scope.departuresByRoute = allSortedDepartures;
+      // }
+      //$ionicLoading.hide();
+    //});
+  }
+})
   };
 
   Stop.get({stopId: $stateParams.stopId}, function (stop) {
@@ -195,15 +201,15 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
           value = 30000;
         }
         // Refresh departures every `value` seconds
-        timer = $interval(function () {
-          $scope.getDepartures();
-        }, value);
+        // timer = $interval(function () {
+        //   $scope.getDepartures();
+        // }, value);
         $ionicLoading.hide();
       }
       else {
-        timer = $interval(function () {
-          $scope.getDepartures();
-        }, 30000);
+        // timer = $interval(function () {
+        //   $scope.getDepartures();
+        // }, 30000);
         $ionicLoading.hide();
         console.log(err);
       }
