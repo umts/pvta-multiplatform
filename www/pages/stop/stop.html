@@ -4,6 +4,9 @@
     <button id="like" ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}"
                       ng-click="liked= !liked; toggleHeart(liked)">
     </button>
+    <button class="button button-icon icon ion-ios-settings"
+                      ng-click="chooseFilter()">
+    </button>
   </ion-nav-buttons>
   <ion-content overflow-scroll="true">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
@@ -11,7 +14,7 @@
     <div class="item item-divider item-positive center" ng-if="stop">
       Tap a route to view more departures
     </div>
-    <ion-list ng-repeat="direction in poops">
+    <ion-list ng-repeat="direction in directions">
       <ion-item ng-click="toggleRouteDropdown({{direction}})"
                       ng-class="{active: isRouteDropdownShown({{direction}})}"
                       style="background-color: #{{routeList[direction.RouteId].Color}};">
@@ -68,10 +71,7 @@
           </div>
       </ion-item>
     </ion-list>
-    <ion-list ng-repeat="direction in directions">
-      {{direction.Departures[0].Times}}
-    </ion-list>
-    <div ng-if="!departuresByRoute.length && stop">
+    <div ng-if="!directions.length && stop">
       <ion-item class="item item-assertive center">
         {{stop.Name}} has no departures for at least the next 3 hours.
       </ion-item>

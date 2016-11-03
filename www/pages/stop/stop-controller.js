@@ -1,6 +1,17 @@
-angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading) {
+angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading, $ionicPopup) {
   ga('set', 'page', '/stop.html');
   ga('send', 'pageview');
+  $scope.ROUTE_DIRECTION = 0;
+  $scope.TIME = 1;
+  $scope.sort = $scope.ROUTE_DIRECTION
+
+  /**
+   * Lets the user choose how they want departures to be sorted
+   */
+  $scope.chooseFilter = function () {
+
+  }
+
   // For a given RouteId, downloads the simplest
   // version of the details for that route from
   // Avail.  Adds it to a $scope-wide list.
@@ -29,7 +40,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   };
 
   function doThing(routeDirections) {
-    $scope.poops = []
+    $scope.directions = []
     _.each(routeDirections, function (direction) {
       if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
         var futureDepartures = []
@@ -49,7 +60,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
           }
         });
         direction.Departures = futureDepartures;
-        $scope.poops.push(direction);
+        $scope.directions.push(direction);
       }
     });
   }
@@ -68,7 +79,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * RouteId, so thus the uniqueness requirement.
          */
         routes = _.uniq(_.pluck(directions, 'RouteId'));
-        getRoutes(_.pluck($scope.poops, 'RouteId'));
+        getRoutes(_.pluck($scope.directions, 'RouteId'));
         /* Step 1:
          * For each RouteDirection,
          * pull out its RouteId and Departures array,
