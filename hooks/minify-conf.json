@@ -1,8 +1,11 @@
 {
     "foldersToProcess": [
-      "js",
       "css",
-      "img"
+      "directives",
+      "factorites",
+      "img",
+      "lib",
+      "pages"
     ],
     "jpgOptions":{
       "quality": 50
@@ -15,6 +18,6 @@
     "cssOptions": {
       "keepSpecialComments": 0
     },
-    "alwaysRun": false,
+    "alwaysRun": true,
     "showErrStack": false
 }
