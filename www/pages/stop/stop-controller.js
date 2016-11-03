@@ -28,6 +28,26 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     });
   };
 
+  function doThing(routeDirections) {
+    $scope.poops = []
+    console.log(JSON.stringify(routeDirections[0]));
+    _.each(routeDirections, function (direction) {
+      _.each(direction.Departures, function (departure) {
+        if (!moment(departure.EDT).isAfter(Date.now())) return;
+        else {
+          var times = {sExact: moment(departure.SDT).format('LT'),
+                       eExact: moment(departure.EDT).format('LT'),
+                       sRelative: moment(departure.SDT).fromNow(),
+                       eRelative: moment(departure.EDT).fromNow(),
+                       eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
+                     };
+          departure.Times = times;
+        }
+      });
+      $scope.poops.push(direction)
+    });
+  }
+
   $scope.getDepartures = function () {
     $scope.departuresByRoute = [];
     var routes = [];
@@ -37,6 +57,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         // Avail returns a one element array that contains
         // a ton of stuff. Pull this stuff out.
         var directions = deps[0].RouteDirections;
+        doThing(directions);
         /* Step 0:
          * Get a unique list of RouteIds that service this stop.
          * There can be multiple RouteDirections with the same
@@ -227,16 +248,16 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
 
   // **Sets** whether a route's
   // departures have been expanded on the page
-  $scope.toggleRouteDropdown = function (routeId) {
-    if ($scope.isRouteDropdownShown(routeId)) {
+  $scope.toggleRouteDropdown = function (routeDirection) {
+    if ($scope.isRouteDropdownShown(routeDirection)) {
       $scope.shownRoute = null;
     } else {
-      $scope.shownRoute = routeId;
+      $scope.shownRoute = routeDirection.RouteId + routeDirection.DirectionCode;
     }
   };
   // **Checks** whether a route's departures
   // have been expanded on the page
-  $scope.isRouteDropdownShown = function (routeId) {
-    return $scope.shownRoute === routeId;
+  $scope.isRouteDropdownShown = function (routeDirection) {
+    return $scope.shownRoute === (routeDirection.RouteId + routeDirection.DirectionCode);
   };
 });

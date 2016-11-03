@@ -11,32 +11,32 @@
     <div class="item item-divider item-positive center" ng-if="stop">
       Tap a route to view more departures
     </div>
-    <ion-list ng-repeat="routeDepartures in departuresByRoute">
-      <ion-item ng-click="toggleRouteDropdown({{routeDepartures.RouteId}})"
-                      ng-class="{active: isRouteDropdownShown({{routeDepartures.RouteId}})}"
-                      style="background-color: #{{routeList[routeDepartures.RouteId].Color}};">
+    <ion-list ng-repeat="direction in poops">
+      <ion-item ng-click="toggleRouteDropdown({{direction}})"
+                      ng-class="{active: isRouteDropdownShown({{direction}})}"
+                      style="background-color: #{{routeList[direction.RouteId].Color}};">
         <div class="row item-text-wrap white">
           <div class="col route-shortname">
-            {{routeList[routeDepartures.RouteId].RouteAbbreviation}}
+            {{routeList[direction.RouteId].RouteAbbreviation}}
           </div>
           <div class="col-50">
-            {{routeDepartures.Departures[0].Trip.InternetServiceDesc}}
+            {{direction.Departures[0].Trip.InternetServiceDesc}}
           </div>
           <div class="col-33 text-right">
             <span>
-              {{routeDepartures.Departures[0].Times.eExact}}
+              {{direction.Departures[0].Times.eExact}}
             </span>
             <p style="color: white">
-              ({{routeDepartures.Departures[0].Times.eRelativeNoPrefix}})
+              ({{direction.Departures[0].Times.eRelativeNoPrefix}})
             </p>
           </div>
         </div>
       </ion-item>
-      <!-- When a route has been expanded, show its departures -->
+    <!-- When a route has been expanded, show its departures -->
       <ion-item class="item-accordion"
-                      ng-repeat="departure in routeDepartures.Departures"
-                      ng-show="isRouteDropdownShown({{routeDepartures.RouteId}})"
-                      href="#/app/routes/{{routeDepartures.RouteId}}">
+                      ng-repeat="departure in direction.Departures"
+                      ng-show="isRouteDropdownShown({{direction}})"
+                      href="#/app/routes/{{direction.RouteId}}">
           <div class="item-text-wrap bold center">
             {{departure.Trip.InternetServiceDesc}}
           </div>
@@ -67,6 +67,9 @@
             </div>
           </div>
       </ion-item>
+    </ion-list>
+    <ion-list ng-repeat="direction in directions">
+      {{direction.Departures[0].Times}}
     </ion-list>
     <div ng-if="!departuresByRoute.length && stop">
       <ion-item class="item item-assertive center">
