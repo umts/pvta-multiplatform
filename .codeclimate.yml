@@ -11,13 +11,13 @@ engines:
         enabled: false
 ratings:
   paths:
-  - www/js
+  - www/pages
   - www/templates
-  - "**.css"
+  - www/css
+  - www/directives
   - "**.js"
-  - "**.html"
 exclude_paths:
-- bower_components/*
+- www/bower_components/*
 - hooks/*
 - platforms/*
 - node_modules/*

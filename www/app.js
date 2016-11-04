@@ -131,18 +131,6 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
       }
     }
   })
-  .state('app.vehicle-map', {
-    url: '/map/vehicle/:vehicleId',
-    params: {
-      routeTraceFilename: null
-    },
-    views: {
-      'menuContent': {
-        templateUrl: 'pages/vehicle-map/map.html',
-        controller: 'VehicleMapController'
-      }
-    }
-  })
   .state('app.privacy-policy', {
     url: '/about/privacy-policy',
     views: {
