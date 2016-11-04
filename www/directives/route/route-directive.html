@@ -1,0 +1,8 @@
+<div class="row-left">
+    <i class="icon ion-android-bus"></i>
+    <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">
+      {{route.RouteAbbreviation}}
+    </span>
+    <p>{{route.LongName}}</p>
+</div>
+<button id="like" ng-class="{'button button-icon icon ion-ios-heart': _.contains(_.pluck(favoriteRoutes, 'RouteId'), route.RouteId),'button button-icon icon ion-ios-heart-outline': !_.contains(_.pluck(favoriteRoutes, 'RouteId'), route.RouteId)}" ng-click="toggle(route)"></button>
