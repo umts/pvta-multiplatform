@@ -54,8 +54,8 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   }
 
   function sort(directions) {
-    $scope.directions = []
-    var timeSortingIntermediary = [];
+    $scope.departuresByDirection = []
+    $scope.departuresByTime = [];
     _.each(directions, function (direction) {
       if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
         var futureDepartures = [];
@@ -70,17 +70,16 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
             futureDepartures.push(departure);
             lightweightDirection.Times = times;
             lightweightDirection.Departures = departure;
-            timeSortingIntermediary.push(lightweightDirection);
+            $scope.departuresByTime.push(lightweightDirection);
           }
         });
         direction.Departures = futureDepartures;
-        $scope.directions.push(direction);
+        $scope.departuresByDirection.push(direction);
       }
     });
-    var sortedDeparturesByTime = _.sortBy(timeSortingIntermediary, function(direction) {
+    $scope.departuresByTime = _.sortBy($scope.departuresByTime, function(direction) {
       return direction.Departures.EDT;
     });
-    $scope.departuresByTime = sortedDeparturesByTime;
   }
 
   $scope.getDepartures = function () {
@@ -97,7 +96,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * RouteId, so thus the uniqueness requirement.
          */
         routes = _.uniq(_.pluck(directions, 'RouteId'));
-        getRoutes(_.pluck($scope.directions, 'RouteId'));
+        getRoutes(_.pluck($scope.departuresByDirection, 'RouteId'));
         /* Step 1:
          * For each RouteDirection,
          * pull out its RouteId and Departures array,
