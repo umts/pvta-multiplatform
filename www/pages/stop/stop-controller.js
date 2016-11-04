@@ -55,7 +55,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
 
   function sort(directions) {
     $scope.directions = []
-    var departuresWithDirection = [];
+    var timeSortingIntermediary = [];
     _.each(directions, function (direction) {
       if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
         var futureDepartures = [];
@@ -64,23 +64,23 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
             return;
           }
           else {
-            var newDir = {RouteId: direction.RouteId};
+            var lightweightDirection = {RouteId: direction.RouteId};
             var times = calculateTimes(departure);
             departure.Times = times;
             futureDepartures.push(departure);
-            newDir.Times = times;
-            newDir.Departures = departure;
-            departuresWithDirection.push(newDir);
+            lightweightDirection.Times = times;
+            lightweightDirection.Departures = departure;
+            timeSortingIntermediary.push(lightweightDirection);
           }
         });
         direction.Departures = futureDepartures;
         $scope.directions.push(direction);
       }
     });
-    var tits = _.sortBy(departuresWithDirection, function(direction) {
+    var sortedDeparturesByTime = _.sortBy(timeSortingIntermediary, function(direction) {
       return direction.Departures.EDT;
     });
-    $scope.tits = tits;
+    $scope.departuresByTime = sortedDeparturesByTime;
   }
 
   $scope.getDepartures = function () {

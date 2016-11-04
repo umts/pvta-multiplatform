@@ -71,7 +71,7 @@
           </div>
       </ion-item>
     </ion-list>
-    <ion-item ng-repeat="direction in tits" ng-if="stop && sort === TIME"
+    <ion-item ng-repeat="direction in departuresByTime" ng-if="stop && sort === TIME"
       style="background-color: #{{routeList[direction.RouteId].Color}};">
       <div class="row item-text-wrap white" href="#/app/routes/{{direction.RouteId}}">
         <div class="col route-shortname">
