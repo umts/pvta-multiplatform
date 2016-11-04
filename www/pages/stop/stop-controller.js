@@ -44,6 +44,15 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     });
   };
 
+  function calculateTimes (departure) {
+    return {sExact: moment(departure.SDT).format('LT'),
+              eExact: moment(departure.EDT).format('LT'),
+              sRelative: moment(departure.SDT).fromNow(),
+              eRelative: moment(departure.EDT).fromNow(),
+              eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
+            };
+  }
+
   function doThing(routeDirections) {
     $scope.directions = []
     _.each(routeDirections, function (direction) {
@@ -54,12 +63,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
             return;
           }
           else {
-            var times = {sExact: moment(departure.SDT).format('LT'),
-                         eExact: moment(departure.EDT).format('LT'),
-                         sRelative: moment(departure.SDT).fromNow(),
-                         eRelative: moment(departure.EDT).fromNow(),
-                         eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
-                       };
+            var times = calculateTimes(departure);
             departure.Times = times;
             futureDepartures.push(departure);
           }
@@ -79,12 +83,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         }
         else {
           var newDir = {RouteId: direction.RouteId};
-          var times = {sExact: moment(departure.SDT).format('LT'),
-                       eExact: moment(departure.EDT).format('LT'),
-                       sRelative: moment(departure.SDT).fromNow(),
-                       eRelative: moment(departure.EDT).fromNow(),
-                       eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
-                     };
+          var times = calculateTimes(departure);
           newDir.Times = times;
           newDir.Departures = departure;
           departuresWithDirection.push(newDir);
@@ -92,12 +91,6 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         }
       });
     });
-    console.log('------------------');
-    console.log(JSON.stringify(departuresWithDirection));
-    console.log('------------------');
-    _.each(departuresWithDirection, function (departure) {
-      console.log(departure.RouteId + ' ' + departure.Departures.Times.eExact);
-    })
     var tits = _.sortBy(departuresWithDirection, function(direction) {
       return direction.Departures.EDT;
     });
