@@ -53,52 +53,6 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
             };
   }
 
-  function doThing(routeDirections) {
-  //  $scope.directions = []
-  //  _.each(routeDirections, function (direction) {
-  //    if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
-    //    var futureDepartures = []
-    //    _.each(direction.Departures, function (departure) {
-          // if (!moment(departure.EDT).isAfter(Date.now())) {
-          //   return;
-          // }
-      //    else {
-        //    var times = calculateTimes(departure);
-        //    departure.Times = times;
-        //    futureDepartures.push(departure);
-    //      }
-        // });
-        // direction.Departures = futureDepartures;
-        // $scope.directions.push(direction);
-    //  }
-    // });
-  }
-
-  function sortByTime (directions) {
-  //  var departuresWithDirection = [];
-  //  _.each(directions, function (direction) {
-  //    _.each(direction.Departures, function (departure) {
-        // if (!moment(departure.EDT).isAfter(Date.now())) {
-        //   return;
-        // }
-        //else {
-    //      var newDir = {RouteId: direction.RouteId};
-      //    var times = calculateTimes(departure);
-          // newDir.Times = times;
-          // newDir.Departures = departure;
-          // departuresWithDirection.push(newDir);
-        //  console.log(JSON.stringify(departuresWithDirection));
-      //  }
-      // });
-    // });
-    // var tits = _.sortBy(departuresWithDirection, function(direction) {
-    //   return direction.Departures.EDT;
-    // });
-    //
-    // $scope.tits = tits;
-  //  console.log(JSON.stringify($scope.tits))
-  }
-
   function sort(directions) {
     $scope.directions = []
     var departuresWithDirection = [];
@@ -136,13 +90,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         // Avail returns a one element array that contains
         // a ton of stuff. Pull this stuff out.
         var directions = deps[0].RouteDirections;
-      //  if ($scope.sort === $scope.ROUTE_DIRECTION) {
-          doThing(directions);
-      //  }
-      //  else {
-          sortByTime(directions);
-          sort(directions)
-      //  }
+        sort(directions)
         /* Step 0:
          * Get a unique list of RouteIds that service this stop.
          * There can be multiple RouteDirections with the same
