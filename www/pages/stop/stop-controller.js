@@ -33,13 +33,15 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     _.each(routes, function (routeId) {
       $scope.getRoute(routeId);
     });
+    $ionicLoading.hide();
   };
 
   // Check whether this stop is favorited.
   // Used to allow the 'heart' in the view
   // to draw itself accordingly.
   var getHeart = function () {
-    FavoriteStops.contains($stateParams.StopId, function (bool) {
+    FavoriteStops.contains($stateParams.stopId, function (bool) {
+      console.log(bool)
       $scope.liked = bool;
     });
   };
@@ -56,27 +58,56 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   function sort(directions) {
     $scope.departuresByDirection = []
     $scope.departuresByTime = [];
+    // Avail returns an array of RouteDirections. We must deal
+    // with the Departures for each Direction.
     _.each(directions, function (direction) {
       if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
+        // Sorting Departures by Direction requires us to
+        // maintain a tmp array of valid departures for a
+        // given direction.
         var futureDepartures = [];
+        // For each Departure for a given RouteDirection...
         _.each(direction.Departures, function (departure) {
+          // A departure is invalid if it was in the past
           if (!moment(departure.EDT).isAfter(Date.now())) {
             return;
           }
+          /* Manipuate the departure object.
+           * When sorting by Direction, we only need to
+           * obtain the stringified departure times
+           * and save the departure to futureDepartures.
+
+           * When sorting by Time, pull out only the
+           * necessary details from the Departures
+           * and hold onto them.
+           */
           else {
+            // Departures by time: we can use a stripped down
+            // version of the RouteDirection, because each
+            // departure will be its own entry in the list.
             var lightweightDirection = {RouteId: direction.RouteId};
             var times = calculateTimes(departure);
             departure.Times = times;
-            futureDepartures.push(departure);
             lightweightDirection.Times = times;
+            // Departures by time: marry this departure with its RouteId;
+            // that's all it needs.
             lightweightDirection.Departures = departure;
+            // Departures by RouteDirection: this is a valid departure,
+            // so add it to the array.
+            futureDepartures.push(departure);
             $scope.departuresByTime.push(lightweightDirection);
           }
         });
+        /* Departures by RouteDirection: now that we
+         * have all the valid departures for a given direction,
+         * overwrite the RouteDirection's old departures array.
+         */
         direction.Departures = futureDepartures;
         $scope.departuresByDirection.push(direction);
       }
     });
+    // Departures by time: Sort the list of all
+    // departures by Estimated Departure Time.
     $scope.departuresByTime = _.sortBy($scope.departuresByTime, function(direction) {
       return direction.Departures.EDT;
     });
@@ -94,6 +125,9 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * Get a unique list of RouteIds that service this stop.
          * There can be multiple RouteDirections with the same
          * RouteId, so thus the uniqueness requirement.
+
+         * Afterwards, download some basic details about
+         * each route servicing this stop.
          */
         routes = _.uniq(_.pluck(directions, 'RouteId'));
         getRoutes(_.pluck($scope.departuresByDirection, 'RouteId'));
@@ -102,13 +136,6 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * pull out its RouteId and Departures array,
          * assuming that it HAS departures and isn't 'done.'
          */
-        // var dirs = [];
-        // _.each(directions, function (direction) {
-        //   if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
-        //     var newDirs = {RouteId: direction.RouteId, Departures: direction.Departures};
-        //     dirs.push(newDirs);
-        //   }
-        // });
         /* Step 2:
          * For each RouteId, find all the departures
          * (obtained in Step 1) whose RouteDirection matches this Id.
@@ -125,19 +152,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * an array of routes and their corresponding
          * departures in form [{RouteId, Departures}, ...]
          */
-        // var routeDepartures = [];
-        // _.each(routes, function (route) {
-        //   //[{RouteId: 20034, Departures[...]},]
-        //   var entireObject = _.where(dirs, {RouteId : route});
-        //   // [[...], [...]]
-        //   var justDepartures = _.pluck(entireObject, 'Departures');
-        //   // [, , , ]
-        //   var flattenedDepartures = _.flatten(justDepartures, true);
-        //   if (flattenedDepartures && flattenedDepartures.length > 0) {
-        //     var newDir = {RouteId: route, Departures: flattenedDepartures};
-        //     routeDepartures.push(newDir);
-        //   }
-        // });
+
         /* Step 3:
          * We now have an array of {RouteId, Departure}
          * objects. We now get "stringified" times for each departure.
@@ -153,60 +168,17 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * Now that a route has its departures stringified, push
          * everything for that route to the final array.
          */
-        // $scope.departuresByRoute = [];
-        // _.each(routeDepartures, function (routeAndDepartures) {
-        //   var newDirsWithTimes = {RouteId: routeAndDepartures.RouteId, Departures: []};
-        //   _.each(routeAndDepartures.Departures, function (departure) {
-        //     if (!moment(departure.EDT).isAfter(Date.now())) return;
-        //     else {
-        //       var times = {sExact: moment(departure.SDT).format('LT'),
-        //                    eExact: moment(departure.EDT).format('LT'),
-        //                    sRelative: moment(departure.SDT).fromNow(),
-        //                    eRelative: moment(departure.EDT).fromNow(),
-        //                    eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
-        //                  };
-        //       departure.Times = times;
-        //       newDirsWithTimes.Departures.push(departure);
-        //     }
-        //   });
-        //   if (newDirsWithTimes.Departures.length > 0) {
-        //     $scope.departuresByRoute.push(newDirsWithTimes);
-        //   }
-        // });
-        /* Step 4:
-         * Download some details (name, color, etc) for each
-         * route that has upcoming departures at this stop.
-         */
-
 
         /* Step 5:
          * Sort the departures
          * for each route.
          */
-      //   var allSortedDepartures = [];
-      //   _.each($scope.departuresByRoute, function (routeDepartures) {
-      //     // The routeDepartures object looks like
-      //     // {RouteId, Departures}, where Departures is
-      //     // an array of objects with numerous properties.
-      //     // First, sort the array by Estimated Departure Time.
-      //     routeDepartures.Departures = _.sortBy(routeDepartures.Departures, 'EDT');
-      //     // Add the now sorted routeDepartures object to our
-      //     // auxiliary array.
-      //     allSortedDepartures.push(routeDepartures);
-      //   });
-      //   // Once we've sorted the departures for each route,
-      //   // reassign our global object.
-      //   $scope.departuresByRoute = allSortedDepartures;
-      // }
-      //$ionicLoading.hide();
-    //});
-  }
-})
-  };
+       }
+     });
+   };
 
   Stop.get({stopId: $stateParams.stopId}, function (stop) {
     $scope.stop = stop;
-    getHeart();
   });
 
   // Load the departures for the first time
@@ -229,15 +201,14 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
           value = 30000;
         }
         // Refresh departures every `value` seconds
-        // timer = $interval(function () {
-        //   $scope.getDepartures();
-        // }, value);
-        $ionicLoading.hide();
+        timer = $interval(function () {
+          $scope.getDepartures();
+        }, value);
       }
       else {
-        // timer = $interval(function () {
-        //   $scope.getDepartures();
-        // }, 30000);
+        timer = $interval(function () {
+          $scope.getDepartures();
+        }, 30000);
         $ionicLoading.hide();
         console.log(err);
       }
@@ -252,9 +223,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     $interval.cancel(timer);
   });
 
-  // Push the coordinates of the stop to
-  // the service and redirect to the
-  // StopMapController.
+  // Redirect to the StopMapController.
   $scope.setCoordinates = function () {
     $interval.cancel(timer);
     $state.go('app.stop-map', {stopId: $stateParams.stopId});
@@ -262,11 +231,13 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
 
   // Update whether this Stop is favorited.
   $scope.toggleHeart = function () {
-    FavoriteStops.contains($scope.stop.StopId, function (bool) {
+    FavoriteStops.contains($stateParams.stopId, function (bool) {
       if (bool === true) {
+        console.log('removing stop, it was facorited')
         FavoriteStops.remove($scope.stop);
       }
       else {
+        console.log('adding stop, it wasnt favorites');
         FavoriteStops.push($scope.stop);
       }
     });

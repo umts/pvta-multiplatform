@@ -1,12 +1,12 @@
 angular.module('pvta.factories')
 .factory('FavoriteStops', function () {
-  var stops = [];
+
   var push = function (stop) {
-    localforage.getItem('favoriteStops', function (err, stops) {
+    localforage.getItem('favoriteStops', function (err, savedFavoriteStops) {
       var newStop = {StopId: stop.StopId, Name: stop.Name};
-      if (stops) {
-        stops.push(newStop);
-        localforage.setItem('favoriteStops', stops);
+      if (savedFavoriteStops) {
+        savedFavoriteStops.push(newStop);
+        localforage.setItem('favoriteStops', savedFavoriteStops);
       }
       else {
         var favoriteStops = [newStop];
@@ -41,13 +41,9 @@ angular.module('pvta.factories')
   function contains (stopId, cb) {
     localforage.getItem('favoriteStops', function (err, stops) {
       if (stops) {
-        var filteredStops = _.where(stops, { StopId: stopId });
-        if (filteredStops.length > 0) {
-          cb(true);
-        }
-        else {
-          cb(false);
-        }
+        var favStopIDs = _.pluck(stops, 'StopId');
+        var idIsInArray = _.contains(favStopIDs, parseInt(stopId));
+        cb(idIsInArray);
       }
       else {
         cb(false);

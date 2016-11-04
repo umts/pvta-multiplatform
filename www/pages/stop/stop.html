@@ -1,7 +1,7 @@
 <ion-view>
   <ion-nav-title>{{stop ? (stop.Name + ' (' + stop.StopId + ')' ) : 'Loading...'}}</ion-nav-title>
   <ion-nav-buttons side="secondary">
-    <button id="like" ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}"
+    <button id="like" ng-class="{'button button-icon icon ion-ios-heart': liked === true, 'button button-icon icon ion-ios-heart-outline': liked === false}"
                       ng-click="liked= !liked; toggleHeart(liked)">
     </button>
     <button class="button button-icon icon ion-ios-settings"
