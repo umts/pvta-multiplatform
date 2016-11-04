@@ -9,8 +9,13 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
    * Lets the user choose how they want departures to be sorted
    */
   $scope.chooseFilter = function () {
-
-  }
+    if ($scope.sort === $scope.ROUTE_DIRECTION) {
+      $scope.sort = $scope.TIME;
+    }
+    else {
+      $scope.sort = $scope.ROUTE_DIRECTION;
+    }
+  };
 
   // For a given RouteId, downloads the simplest
   // version of the details for that route from
@@ -65,6 +70,42 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     });
   }
 
+  function sortByTime (directions) {
+    var departuresWithDirection = [];
+    _.each(directions, function (direction) {
+      _.each(direction.Departures, function (departure) {
+        if (!moment(departure.EDT).isAfter(Date.now())) {
+          return;
+        }
+        else {
+          var newDir = {RouteId: direction.RouteId};
+          var times = {sExact: moment(departure.SDT).format('LT'),
+                       eExact: moment(departure.EDT).format('LT'),
+                       sRelative: moment(departure.SDT).fromNow(),
+                       eRelative: moment(departure.EDT).fromNow(),
+                       eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
+                     };
+          newDir.Times = times;
+          newDir.Departures = departure;
+          departuresWithDirection.push(newDir);
+          console.log(JSON.stringify(departuresWithDirection));
+        }
+      });
+    });
+    console.log('------------------');
+    console.log(JSON.stringify(departuresWithDirection));
+    console.log('------------------');
+    _.each(departuresWithDirection, function (departure) {
+      console.log(departure.RouteId + ' ' + departure.Departures.Times.eExact);
+    })
+    var tits = _.sortBy(departuresWithDirection, function(direction) {
+      return direction.Departures.EDT;
+    });
+
+    $scope.tits = tits;
+  //  console.log(JSON.stringify($scope.tits))
+  }
+
   $scope.getDepartures = function () {
     $ionicLoading.show();
     StopDeparture.query({stopId: $stateParams.stopId}, function (deps) {
@@ -72,7 +113,12 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         // Avail returns a one element array that contains
         // a ton of stuff. Pull this stuff out.
         var directions = deps[0].RouteDirections;
-        doThing(directions);
+      //  if ($scope.sort === $scope.ROUTE_DIRECTION) {
+          doThing(directions);
+      //  }
+      //  else {
+          sortByTime(directions);
+      //  }
         /* Step 0:
          * Get a unique list of RouteIds that service this stop.
          * There can be multiple RouteDirections with the same

@@ -11,10 +11,10 @@
   <ion-content overflow-scroll="true">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
     <!-- For every route, group it and allow it to be toggled open or closed -->
-    <div class="item item-divider item-positive center" ng-if="stop">
+    <div class="item item-divider item-positive center" ng-if="stop && sort === ROUTE_DIRECTION">
       Tap a route to view more departures
     </div>
-    <ion-list ng-repeat="direction in directions">
+    <ion-list ng-repeat="direction in directions" ng-if="stop && sort === ROUTE_DIRECTION">
       <ion-item ng-click="toggleRouteDropdown({{direction}})"
                       ng-class="{active: isRouteDropdownShown({{direction}})}"
                       style="background-color: #{{routeList[direction.RouteId].Color}};">
@@ -71,6 +71,25 @@
           </div>
       </ion-item>
     </ion-list>
+    <ion-item ng-repeat="direction in tits" ng-if="stop && sort === TIME"
+      style="background-color: #{{routeList[direction.RouteId].Color}};">
+      <div class="row item-text-wrap white" href="#/app/routes/{{direction.RouteId}}">
+        <div class="col route-shortname">
+          {{routeList[direction.RouteId].RouteAbbreviation}}
+        </div>
+        <div class="col-50">
+          {{direction.Departures.Trip.InternetServiceDesc}}
+        </div>
+        <div class="col-33 text-right">
+          <span>
+            {{direction.Departures.Times.eExact}}
+          </span>
+          <p style="color: white">
+            ({{direction.Departures.Times.eRelativeNoPrefix}})
+          </p>
+        </div>
+      </div>
+    </ion-item>
     <div ng-if="!directions.length && stop">
       <ion-item class="item item-assertive center">
         {{stop.Name}} has no departures for at least the next 3 hours.
