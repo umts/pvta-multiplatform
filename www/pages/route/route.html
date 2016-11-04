@@ -26,7 +26,7 @@
     <div ng-if="vehicles && vehicles.length != 0">
       <ion-list>
         <div ng-repeat="vehicle in vehicles | orderBy:'Destination'">
-          <vehicle data="vehicle" route="route"></vehicle>
+          <vehicle data="vehicle" apples="route"></vehicle>
         </div>
      </ion-list>
    </div>

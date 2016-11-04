@@ -152,5 +152,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   getRoutesAndStops();
   $scope.$on('$ionicView.enter', function () {
     getFavorites();
+    console.log($scope.favoriteRoutes);
   });
 });

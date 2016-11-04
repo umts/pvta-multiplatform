@@ -1,9 +1,9 @@
-angular.module('pvta.directives', []).directive('vehicle', function () {
+angular.module('pvta.directives').directive('vehicle', function () {
   return {
     scope: {
       vehicle: '=data',
-      route: '=route',
+      route: '=apples',
     },
-    templateUrl: 'directives/vehicle/vehicle-directive.html',
+    templateUrl: 'directives/vehicle/vehicle-directive.html'
   };
 });
