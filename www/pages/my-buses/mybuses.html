@@ -6,8 +6,8 @@
     </div>
     <div class="item item-divider item-positive item-text-wrap">Your Routes</div>
     <ion-list class="list" show-delete="false" can-swipe="true">
-      <ion-item class="item" ng-repeat="route in routes" href="#/app/routes/{{route.RouteId}}">
-        <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeRoute(route, $index)"></ion-option-button>
+      <ion-item class="item" ng-repeat="route in mb.routes" href="#/app/routes/{{route.RouteId}}">
+        <ion-option-button class="button-assertive icon ion-trash-a" ng-click="mb.removeRoute(route, $index)"></ion-option-button>
         <div class="row">
           <span class="col-5 item-text-wrap" style="color: #{{route.Color}}; font-size: 150%; font-weight: bold;">
             {{route.RouteAbbreviation}}
@@ -22,8 +22,8 @@
         Add route
       </a>
       <div class="item item-divider item-positive">Your Stops</div>
-      <ion-item class="item item-text-wrap" ng-repeat="stop in stops" href="#/app/stops/{{stop.StopId}}">
-        <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeStop(stop, $index)"></ion-option-button>
+      <ion-item class="item item-text-wrap" ng-repeat="stop in mb.stops" href="#/app/stops/{{stop.StopId}}">
+        <ion-option-button class="button-assertive icon ion-trash-a" ng-click="mb.removeStop(stop, $index)"></ion-option-button>
         <div class="item-icon-left">
           <i class="icon ion-ios-location" style="margin-right: 10px"></i>
           {{stop.Name}} ({{stop.StopId}})
@@ -38,16 +38,16 @@
         <i class="icon ion-ios-plus-outline"></i>
         Add trip
       </a>
-      <ion-item class="item item-text-wrap" ng-repeat="trip in trips track by $index" ng-click="openTrip($index)">
-      <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeTrip($index)"></ion-option-button>
+      <ion-item class="item item-text-wrap" ng-repeat="trip in mb.trips track by $index" ng-click="mb.openTrip($index)">
+      <ion-option-button class="button-assertive icon ion-trash-a" ng-click="mb.removeTrip($index)"></ion-option-button>
       <div class="item-icon-left">
               <i class="icon ion-map" style="margin-right: 10px"></i>
               {{trip.name}}
       </div>
       </ion-item>
-      <div ng-if="messages.length > 0">
+      <div ng-if="mb.messages.length > 0">
         <div class="item item-divider item-assertive">Active Alerts For Your Routes</div>
-        <ion-item class="item" ng-repeat="message in messages">
+        <ion-item class="item" ng-repeat="message in mb.messages">
           <div class="item-icon-left item-text-wrap">
             <i class="icon ion-android-alert" style="margin-right: 10px"></i>
             {{message.Message}}

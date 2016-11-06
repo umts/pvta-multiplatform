@@ -1,15 +1,15 @@
-angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips, $ionicPopup, Info) {
+function MyBusesController ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips, $ionicPopup, Info) {
   ga('set', 'page', '/my-buses.html');
   ga('send', 'pageview');
-  $scope.messages = [];
-
+  var self = this;
+  self.messages = [];
 
   /* Given a list of routes and a $promise
    * for gettings alerts from avail, only
    * display alerts for these RouteIds.
    */
   function filterAlerts (routes, alertsPromise) {
-    $scope.messages = [];
+    self.messages = [];
     routes = _.pluck(routes, 'RouteId');
     // Resolve the promise, which will contain
     // a list of all alerts
@@ -51,7 +51,7 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
       });
       // Finally, remove any duplicates.  Use the ID of the alert to
       // determine whether we've encountered a duplicate.
-      $scope.messages = _.uniq(messages, function (message) {
+      self.messages = _.uniq(messages, function (message) {
         return message.MessageId;
       });
     });
@@ -63,44 +63,49 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
         localforage.removeItem('routes');
         localforage.removeItem('favoriteRoutes');
         localforage.setItem('updatedRoutes', true);
-        $scope.routes = [];
+        self.routes = [];
       } else {
         localforage.getItem('favoriteRoutes', function (err, value) {
-          $scope.routes = value;
-          filterAlerts($scope.routes, Messages.query().$promise);
+          self.routes = value;
+          filterAlerts(self.routes, Messages.query().$promise);
         });
       }
     });
+    self.stops = 'tits'
     localforage.getItem('favoriteStops', function (err, value) {
-      $scope.stops = value;
+    $scope.$apply(function(){
+      self.stops = value;
+     });
+
+      console.log(JSON.stringify(self.stops))
     });
     Trips.getAll(function (savedTrips) {
-      $scope.trips = savedTrips;
+      self.trips = savedTrips;
     });
   };
 
-  $scope.stops = [];
-  $scope.removeAll = function () {
+  self.stops = [];
+  self.removeAll = function () {
     localforage.clear();
-    $scope.routes = [];
+    self.routes = [];
   };
 
-  $scope.removeRoute = function (route, currentIndex) {
+  self.removeRoute = function (route, currentIndex) {
     FavoriteRoutes.remove(route);
-    $scope.routes.splice(currentIndex, 1);
+    self.routes.splice(currentIndex, 1);
   };
 
-  $scope.removeStop = function (stop, currentIndex) {
+  self.removeStop = function (stop, currentIndex) {
     FavoriteStops.remove(stop);
-    $scope.stops.splice(currentIndex, 1);
+    self.stops.splice(currentIndex, 1);
   };
 
-  $scope.removeTrip = function (index) {
+  self.removeTrip = function (index) {
     Trips.remove(index);
-    $scope.trips.splice(index, 1);
+    self.trips.splice(index, 1);
   };
 
-  $scope.openTrip = function (index) {
+  self.openTrip = function (index) {
     Trips.push(index);
     $location.path('app/plan-trip');
   };
@@ -114,4 +119,6 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     reload();
     console.log('view enter');
   });
-});
+};
+angular.module('pvta.controllers').controller('MyBusesController', MyBusesController);
+MyBusesController.$inject = ['$scope', '$location', 'Messages', 'FavoriteRoutes', 'FavoriteStops', 'Trips', '$ionicPopup', 'Info'];
