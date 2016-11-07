@@ -1,23 +1,23 @@
 <ion-view>
-  <ion-nav-title>{{stop ? (stop.Name + ' (' + stop.StopId + ')' ) : 'Loading...'}}</ion-nav-title>
+  <ion-nav-title>{{s.stop ? (s.stop.Name + ' (' + s.stop.StopId + ')' ) : 'Loading...'}}</ion-nav-title>
   <ion-nav-buttons side="secondary">
-    <button id="like" ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}"
-                      ng-click="liked= !liked; toggleHeart(liked)">
+    <button id="like" ng-class="{'button button-icon icon ion-ios-heart': s.liked, 'button button-icon icon ion-ios-heart-outline': !s.liked}"
+                      ng-click="s.liked= !s.liked; toggleHeart(s.liked)">
     </button>
   </ion-nav-buttons>
   <ion-content overflow-scroll="true">
-    <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="s.refresh()"></ion-refresher>
     <!-- For every route, group it and allow it to be toggled open or closed -->
-    <div class="item item-divider item-positive center" ng-if="stop">
+    <div class="item item-divider item-positive center" ng-if="s.stop">
       Tap a route to view more departures
     </div>
-    <ion-list ng-repeat="routeDepartures in departuresByRoute">
-      <ion-item ng-click="toggleRouteDropdown({{routeDepartures.RouteId}})"
-                      ng-class="{active: isRouteDropdownShown({{routeDepartures.RouteId}})}"
-                      style="background-color: #{{routeList[routeDepartures.RouteId].Color}};">
+    <ion-list ng-repeat="routeDepartures in s.departuresByRoute">
+      <ion-item ng-click="s.toggleRouteDropdown({{routeDepartures.RouteId}})"
+                      ng-class="{active: s.isRouteDropdownShown({{routeDepartures.RouteId}})}"
+                      style="background-color: #{{s.routeList[routeDepartures.RouteId].Color}};">
         <div class="row item-text-wrap white">
           <div class="col route-shortname">
-            {{routeList[routeDepartures.RouteId].RouteAbbreviation}}
+            {{s.routeList[routeDepartures.RouteId].RouteAbbreviation}}
           </div>
           <div class="col-50">
             {{routeDepartures.Departures[0].Trip.InternetServiceDesc}}
@@ -35,7 +35,7 @@
       <!-- When a route has been expanded, show its departures -->
       <ion-item class="item-accordion"
                       ng-repeat="departure in routeDepartures.Departures"
-                      ng-show="isRouteDropdownShown({{routeDepartures.RouteId}})"
+                      ng-show="s.isRouteDropdownShown({{routeDepartures.RouteId}})"
                       href="#/app/routes/{{routeDepartures.RouteId}}">
           <div class="item-text-wrap bold center">
             {{departure.Trip.InternetServiceDesc}}
@@ -68,9 +68,9 @@
           </div>
       </ion-item>
     </ion-list>
-    <div ng-if="!departuresByRoute.length && stop">
+    <div ng-if="!s.departuresByRoute.length && stop">
       <ion-item class="item item-assertive center">
-        {{stop.Name}} has no departures for at least the next 3 hours.
+        {{s.stop.Name}} has no departures for at least the next 3 hours.
       </ion-item>
     </div>
     <div>
@@ -82,7 +82,7 @@
     </div>
   </ion-content>
   <ion-footer-bar class="bar-positive">
-      <button class="button icon-center ion-ios-location title" ng-click="setCoordinates()" ng-if="stop">
+      <button class="button icon-center ion-ios-location title" ng-click="s.setCoordinates()" ng-if="s.stop">
         Find on map
       </button>
   </ion-footer-bar>

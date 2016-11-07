@@ -1,13 +1,14 @@
-angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading) {
+function StopController ($scope, $stateParams, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading) {
   ga('set', 'page', '/stop.html');
   ga('send', 'pageview');
+  var self = this;
   // For a given RouteId, downloads the simplest
   // version of the details for that route from
   // Avail.  Adds it to a $scope-wide list.
   // Returns nothing.
-  $scope.getRoute = function (id) {
+  self.getRoute = function (id) {
     var x = SimpleRoute.get({routeId: id}, function () {
-      $scope.routeList[id] = (x);
+      self.routeList[id] = (x);
     });
   };
   // Calls getRoute() for each RouteId in
@@ -15,7 +16,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   // Ex input: [20030, 30031, 20035]
   var getRoutes = function (routes) {
     _.each(routes, function (routeId) {
-      $scope.getRoute(routeId);
+      self.getRoute(routeId);
     });
   };
 
@@ -23,13 +24,13 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   // Used to allow the 'heart' in the view
   // to draw itself accordingly.
   var getHeart = function () {
-    FavoriteStops.contains($scope.stop.StopId, function (bool) {
-      $scope.liked = bool;
+    FavoriteStops.contains(self.stop.StopId, function (bool) {
+      self.liked = bool;
     });
   };
 
-  $scope.getDepartures = function () {
-    $scope.departuresByRoute = [];
+  self.getDepartures = function () {
+    self.departuresByRoute = [];
     var routes = [];
     $ionicLoading.show();
     var deps = StopDeparture.query({stopId: $stateParams.stopId}, function () {
@@ -88,7 +89,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         /* Step 3:
          * We now have an array of {RouteId, Departure}
          * objects. We now get "stringified" times for each departure.
-         * We define a new object ($scope.departuresByRoute) to hold
+         * We define a new object (self.departuresByRoute) to hold
          * our final data.
          * For each route, loop through its departures.
          * For each departure:
@@ -100,7 +101,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * Now that a route has its departures stringified, push
          * everything for that route to the final array.
          */
-        $scope.departuresByRoute = [];
+        self.departuresByRoute = [];
         _.each(routeDepartures, function (routeAndDepartures) {
           var newDirsWithTimes = {RouteId: routeAndDepartures.RouteId, Departures: []};
           _.each(routeAndDepartures.Departures, function (departure) {
@@ -117,21 +118,21 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
             }
           });
           if (newDirsWithTimes.Departures.length > 0) {
-            $scope.departuresByRoute.push(newDirsWithTimes);
+            self.departuresByRoute.push(newDirsWithTimes);
           }
         });
         /* Step 4:
          * Download some details (name, color, etc) for each
          * route that has upcoming departures at this stop.
          */
-        getRoutes(_.pluck($scope.departuresByRoute, 'RouteId'));
+        getRoutes(_.pluck(self.departuresByRoute, 'RouteId'));
 
         /* Step 5:
          * Sort the departures
          * for each route.
          */
         var allSortedDepartures = [];
-        _.each($scope.departuresByRoute, function (routeDepartures) {
+        _.each(self.departuresByRoute, function (routeDepartures) {
           // The routeDepartures object looks like
           // {RouteId, Departures}, where Departures is
           // an array of objects with numerous properties.
@@ -143,19 +144,19 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         });
         // Once we've sorted the departures for each route,
         // reassign our global object.
-        $scope.departuresByRoute = allSortedDepartures;
+        self.departuresByRoute = allSortedDepartures;
       }
       $ionicLoading.hide();
     });
   };
 
   Stop.get({stopId: $stateParams.stopId}, function (stop) {
-    $scope.stop = stop;
+    self.stop = stop;
     getHeart();
   });
 
   // Load the departures for the first time
-  $scope.getDepartures();
+  self.getDepartures();
   var timer;
   /********************************************
    * Every time we enter a Stop page,
@@ -175,13 +176,13 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         }
         // Refresh departures every `value` seconds
         timer = $interval(function () {
-          $scope.getDepartures();
+          self.getDepartures();
         }, value);
         $ionicLoading.hide();
       }
       else {
         timer = $interval(function () {
-          $scope.getDepartures();
+          self.getDepartures();
         }, 30000);
         $ionicLoading.hide();
         console.log(err);
@@ -200,43 +201,45 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   // Push the coordinates of the stop to
   // the service and redirect to the
   // StopMapController.
-  $scope.setCoordinates = function () {
+  self.setCoordinates = function () {
     $interval.cancel(timer);
     $state.go('app.stop-map', {stopId: $stateParams.stopId});
   };
 
   // Update whether this Stop is favorited.
-  $scope.toggleHeart = function () {
-    FavoriteStops.contains($scope.stop.StopId, function (bool) {
+  self.toggleHeart = function () {
+    FavoriteStops.contains(self.stop.StopId, function (bool) {
       if (bool === true) {
-        FavoriteStops.remove($scope.stop);
+        FavoriteStops.remove(self.stop);
       }
       else {
-        FavoriteStops.push($scope.stop);
+        FavoriteStops.push(self.stop);
       }
     });
   };
 
-  $scope.routeList = {};
+  self.routeList = {};
   // Executed when the "pull to refresh" directive
   // in the view is activated
-  $scope.refresh = function () {
-    $scope.getDepartures();
+  self.refresh = function () {
+    self.getDepartures();
     $scope.$broadcast('scroll.refreshComplete');
   };
 
   // **Sets** whether a route's
   // departures have been expanded on the page
-  $scope.toggleRouteDropdown = function (routeId) {
-    if ($scope.isRouteDropdownShown(routeId)) {
-      $scope.shownRoute = null;
+  self.toggleRouteDropdown = function (routeId) {
+    if (self.isRouteDropdownShown(routeId)) {
+      self.shownRoute = null;
     } else {
-      $scope.shownRoute = routeId;
+      self.shownRoute = routeId;
     }
   };
   // **Checks** whether a route's departures
   // have been expanded on the page
-  $scope.isRouteDropdownShown = function (routeId) {
-    return $scope.shownRoute === routeId;
+  self.isRouteDropdownShown = function (routeId) {
+    return self.shownRoute === routeId;
   };
-});
+}
+angular.module('pvta.controllers').controller('StopController', StopController);
+StopController.$inject = ['$scope', '$stateParams', '$interval', '$state', 'Stop', 'StopDeparture', 'moment', 'FavoriteStops', 'SimpleRoute', '$ionicLoading'];

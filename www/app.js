@@ -73,7 +73,7 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     views: {
       'menuContent': {
         templateUrl: 'pages/stop/stop.html',
-        controller: 'StopController'
+        controller: 'StopController as s'
       }
     }
   })
