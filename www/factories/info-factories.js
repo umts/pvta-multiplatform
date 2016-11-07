@@ -72,7 +72,7 @@ angular.module('pvta')
 
 
   return {
-    versionNum: '0.8.2',
+    versionNum: '0.8.3',
     versionName: 'Release Candidate 1',
     showPopups: showPopups
   };
