@@ -1,13 +1,13 @@
-angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, $location, $ionicScrollDelegate){
+function RouteController ($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, $location, $ionicScrollDelegate){
   ga('set', 'page', '/route.html');
   ga('send', 'pageview');
-
+  var self = this;
   /*
   * Called when the user performs a pull-to-refresh.  Only downloads
   * vehicle data instead of all route data.
   */
   function getVehicles () {
-    $scope.vehicles = RouteVehicles.query({id: $stateParams.routeId}, function () {
+    self.vehicles = RouteVehicles.query({id: $stateParams.routeId}, function () {
     $scope.$broadcast('scroll.refreshComplete');
     });
   };
@@ -18,10 +18,10 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
    * including the stops and vehicles on it.
    */
   Route.get({routeId: $stateParams.routeId}, function(route) {
-    $scope.route = route
+    self.route = route
     getHeart();
-    $scope.stops = $scope.route.Stops;
-    $scope.vehicles = $scope.route.Vehicles;
+    self.stops = self.route.Stops;
+    self.vehicles = self.route.Vehicles;
     $ionicLoading.hide();
   });
   /**
@@ -35,32 +35,34 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
         filteredMessages.push(message);
       }
     }
-    $scope.messages = filteredMessages;
+    self.messages = filteredMessages;
   });
 
   // Toggles saving/unsaving this route to Favorites
-  $scope.toggleHeart = function(liked) {
-    FavoriteRoutes.contains($scope.route, function (bool) {
+  self.toggleHeart = function(liked) {
+    FavoriteRoutes.contains(self.route, function (bool) {
       if (bool) {
-        FavoriteRoutes.remove($scope.route);
+        FavoriteRoutes.remove(self.route);
       }
       else {
-        FavoriteRoutes.push($scope.route);
+        FavoriteRoutes.push(self.route);
       }
     });
   };
 
   var getHeart = function () {
-    FavoriteRoutes.contains($scope.route, function (bool) {
-      $scope.liked = bool;
+    FavoriteRoutes.contains(self.route, function (bool) {
+      self.liked = bool;
     });
   };
 
-  $scope.refresh = function () {
+  self.refresh = function () {
     getVehicles();
   };
 
   $scope.$on('$ionicView.enter', function () {
     getHeart();
   });
-});
+}
+angular.module('pvta.controllers').controller('RouteController', RouteController);
+RouteController.$inject = ['$scope', '$state', '$stateParams', '$ionicLoading', 'Route', 'RouteVehicles', 'FavoriteRoutes', 'Messages', "$location", '$ionicScrollDelegate'];

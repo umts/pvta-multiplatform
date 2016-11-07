@@ -64,7 +64,7 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     views: {
       'menuContent': {
         templateUrl: 'pages/route/route.html',
-        controller: 'RouteController'
+        controller: 'RouteController as r'
       }
     }
   })

@@ -1,57 +1,57 @@
 <ion-view>
-  <ion-nav-title>{{route && vehicles && stops ? ('Route ' + route.RouteAbbreviation) : 'Loading...'}} </ion-nav-title>
+  <ion-nav-title>{{r.route && r.vehicles && r.stops ? ('Route ' + r.route.RouteAbbreviation) : 'Loading...'}} </ion-nav-title>
   <ion-nav-buttons side="secondary">
     <button id="like"
-        ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}"
-        ng-click="liked= !liked; toggleHeart(liked)"></button>
+        ng-class="{'button button-icon icon ion-ios-heart': r.liked, 'button button-icon icon ion-ios-heart-outline': !r.liked}"
+        ng-click="r.liked= !r.liked; r.toggleHeart(r.liked)"></button>
     <a class="button button-icon icon ion-map"
-        href="#/app/map/route/{{route.RouteId}}" ng-if="route"></a>
+        href="#/app/map/route/{{r.route.RouteId}}" ng-if="r.route"></a>
   </ion-nav-buttons>
   <ion-content style="margin-bottom: 2%">
-    <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="r.refresh()"></ion-refresher>
 
     <div class="row item center" style="font-size: 150%"
-        ng-if="route">
+        ng-if="r.route">
       <span class="col col-25 item-text-wrap bold"
-          style="font-size: 150%; color: #{{route.Color}}">
-        {{route.RouteAbbreviation}}
+          style="font-size: 150%; color: #{{r.route.Color}}">
+        {{r.route.RouteAbbreviation}}
       </span>
-      <span class="col col-75 item-text-wrap center">{{route.LongName}}</span>
+      <span class="col col-75 item-text-wrap center">{{r.route.LongName}}</span>
     </div>
-    <div ng-if="vehicles.length === 0 && route"
+    <div ng-if="r.vehicles.length === 0 && r.route"
         class="item item-divider item-energized center"
         style="margin-bottom:1%">
-      There are no buses currently on the {{route.RouteAbbreviation}}.
+      There are no buses currently on the {{r.route.RouteAbbreviation}}.
     </div>
-    <div ng-if="vehicles && vehicles.length != 0">
+    <div ng-if="r.vehicles && r.vehicles.length != 0">
       <ion-list>
-        <div ng-repeat="vehicle in vehicles | orderBy:'Destination'">
-          <vehicle data="vehicle" route="route"></vehicle>
+        <div ng-repeat="vehicle in r.vehicles | orderBy:'Destination'">
+          <vehicle data="vehicle" route="r.route"></vehicle>
         </div>
      </ion-list>
    </div>
      <!-- Container div for the alerts -->
      <div class="item item-divider item-assertive center"
-        ng-if="messages.length > 0">
+        ng-if="r.messages.length > 0">
        Alerts
     </div>
-    <div ng-if="messages.length > 0">
+    <div ng-if="r.messages.length > 0">
       <ion-list>
-        <ion-item class=item ng-repeat="item in messages">
+        <ion-item class=item ng-repeat="item in r.messages">
           <div class="row item-text-wrap">
             {{item.Message}}
           </div>
         </ion-item>
       </ion-list>
     </div>
-    <ion-item class="item" ng-if="route && stops">
+    <ion-item class="item" ng-if="r.route && r.stops">
       <div class="text-center">
-        <span>Stops on the {{route.RouteAbbreviation}}</span>
+        <span>Stops on the {{r.route.RouteAbbreviation}}</span>
       </div>
     </ion-item>
     <ion-item class="item item-text-wrap"
-        ng-if="route && stops"
-        ng-repeat="stop in stops | orderBy: '+SortOrder'"
+        ng-if="r.route && r.stops"
+        ng-repeat="stop in r.stops | orderBy: '+SortOrder'"
         href="#/app/stops/{{stop.StopId}}">
         {{stop.Name}} ({{stop.StopId}})
     </ion-item>
