@@ -55,7 +55,7 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     views: {
       'menuContent': {
         templateUrl: 'pages/routes-and-stops/routes-and-stops.html',
-        controller: 'RoutesAndStopsController'
+        controller: 'RoutesAndStopsController as rs'
       }
     }
   })

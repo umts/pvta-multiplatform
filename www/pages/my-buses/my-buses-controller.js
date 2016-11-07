@@ -119,6 +119,6 @@ function MyBusesController ($scope, $location, Messages, FavoriteRoutes, Favorit
     reload();
     console.log('view enter');
   });
-};
+}
 angular.module('pvta.controllers').controller('MyBusesController', MyBusesController);
 MyBusesController.$inject = ['$scope', '$location', 'Messages', 'FavoriteRoutes', 'FavoriteStops', 'Trips', '$ionicPopup', 'Info'];
