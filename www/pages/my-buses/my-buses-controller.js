@@ -102,6 +102,6 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
   // Reload the list of favorites and their respective alerts
   $scope.$on('$ionicView.enter', function () {
     reload();
-    console.log('view enter');
+    Info.performMigrations();
   });
 });
