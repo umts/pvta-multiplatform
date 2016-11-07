@@ -35,6 +35,22 @@ angular.module('pvta')
     });
   }
   /**
+   * Used when localforage data changes/updates, when deployed,
+   * would otherwise screw up the experience from
+   * a user's perspective.
+   */
+  function performSchemaUpdate () {
+    localforage.getItem('schema-11-7-2016_longname_and_stopname_cutoff_fix', function (err, schemaUpdateExists) {
+      if (!schemaUpdateExists) {
+        localforage.clear();
+        localforage.setItem('schema-11-7-2016_longname_and_stopname_cutoff_fix', true);
+      } else {
+
+      }
+    });
+  }
+
+  /**
    * If the user hasn't used the app since plan-trip received
    * an overhaul, inform them about it!
    */

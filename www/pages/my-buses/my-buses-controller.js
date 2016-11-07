@@ -58,18 +58,9 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
   }
 
   var reload = function () {
-    localforage.getItem('updatedRoutes', function (err, updated) {
-      if (!updated) {
-        localforage.removeItem('routes');
-        localforage.removeItem('favoriteRoutes');
-        localforage.setItem('updatedRoutes', true);
-        $scope.routes = [];
-      } else {
-        localforage.getItem('favoriteRoutes', function (err, value) {
-          $scope.routes = value;
-          filterAlerts($scope.routes, Messages.query().$promise);
-        });
-      }
+    localforage.getItem('favoriteRoutes', function (err, value) {
+      $scope.routes = value;
+      filterAlerts($scope.routes, Messages.query().$promise);
     });
     localforage.getItem('favoriteStops', function (err, value) {
       $scope.stops = value;
@@ -107,7 +98,6 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
   // Try to show the popup only when the controller is initially loaded;
   // no need to check every time the user comes to My Buses in the same session
   //showPopup();
-  console.log('controller instantiation');
   Info.showPopups()
   // Reload the list of favorites and their respective alerts
   $scope.$on('$ionicView.enter', function () {

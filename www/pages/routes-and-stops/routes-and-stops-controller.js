@@ -23,7 +23,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     */
     function stripDetails (routeList) {
       return _.map(routeList, function (route) {
-        return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color');
+        return _.pick(route, 'RouteId', 'RouteAbbreviation', 'GoogleDescription', 'ShortName', 'Color');
       });
     }
     // Remember, StopsForage returns a Promise.
@@ -41,7 +41,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
      */
     function prepareStops (list) {
       return _.map(list, function (stop) {
-        return _.pick(stop, 'StopId', 'Name');
+        return _.pick(stop, 'StopId', 'Description');
       });
     }
   }
