@@ -35,16 +35,19 @@ angular.module('pvta')
     });
   }
   /**
-   * Used when localforage data changes/updates, when deployed,
-   * would otherwise screw up the experience from
-   * a user's perspective.
    * This function essentially checks for "pending migrations"
    * to our localforage schema, and runs them if necessary.
+   * You should add to it whenever a localforage data change/update
+   * would result in any negative impact on users.
+   *
+   * Your migration's goal is to make the schema update as
+   * painless as possible for our users.
    */
-  function performMigrations () {
-    // A migration check.  This will run every time the app is opened.
-    // First, check and see if localforage has the migration
-    // key already saved.
+  function performMigrations() {
+    /* Each migration has a 'key,' and we must first check to see
+     * if that key has already been saved for the current user.
+     * If it exists, the user has already run the migration.
+     */
     localforage.getItem('schema-11-7-2016_longname_and_stopname_cutoff_fix', function (err, schemaUpdateExists) {
       // If the key isn't found, that means we need to run the migration.
       if (!schemaUpdateExists) {
