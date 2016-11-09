@@ -4,19 +4,20 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   $scope.ROUTE_DIRECTION = '0';
   $scope.TIME = '1';
   $scope.filterOptions = ['Route', 'Time'];
-  $scope.sort = $scope.ROUTE_DIRECTION;
+  $scope.order = $scope.ROUTE_DIRECTION;
 
   /**
-   * Lets the user choose how they want departures to be sorted
+   * Reports when the user changes the sorting.
    */
-  $scope.chooseFilter = function () {
-    if ($scope.sort === $scope.ROUTE_DIRECTION) {
-      $scope.sort = $scope.TIME;
-      ga('send', 'event', 'StopDeparturesSortingChanged', 'StopController.chooseFilter()', 'Departures order changed: by time.');
+  $scope.sendOrderingAnalytics = function () {
+    var eventName = 'StopDeparturesSortingChanged';
+    var funcName = 'StopController.chooseFilter()';
+    var desc = 'Departures order changed: by ';
+    if ($scope.order === $scope.ROUTE_DIRECTION) {
+      ga('send', 'event', eventName, funcName, desc + 'time');
     }
     else {
-      $scope.sort = $scope.ROUTE_DIRECTION;
-      ga('send', 'event', 'StopDeparturesSortingChanged', 'StopController.chooseFilter()', 'Departures order changed: by route.');
+      ga('send', 'event', eventName, funcName, desc + 'route');
     }
   };
 
@@ -125,7 +126,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         // a ton of stuff. Pull this stuff out.
         var directions = deps[0].RouteDirections;
         sort(directions);
-        /* Step 0:
+        /*
          * Get a unique list of RouteIds that service this stop.
          * There can be multiple RouteDirections with the same
          * RouteId, so thus the uniqueness requirement.
@@ -135,48 +136,6 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          */
         routes = _.uniq(_.pluck(directions, 'RouteId'));
         getRoutes(_.pluck($scope.departuresByDirection, 'RouteId'));
-        /* Step 1:
-         * For each RouteDirection,
-         * pull out its RouteId and Departures array,
-         * assuming that it HAS departures and isn't 'done.'
-         */
-        /* Step 2:
-         * For each RouteId, find all the departures
-         * (obtained in Step 1) whose RouteDirection matches this Id.
-         * This obtains an array of Departure arrays
-         *    (this root array has one element when
-         *       there's only 1 RouteDirection for a RouteId, but has
-         *       n elements for each RouteId that has n RouteDirections
-         *    ), so "flatten" it down to a single array.
-         * Assuming this array of departures exists and
-         * actually HAS departures, we have now
-         * found every known departure for this route.
-         *
-         * The routeDepartures variable will contain
-         * an array of routes and their corresponding
-         * departures in form [{RouteId, Departures}, ...]
-         */
-
-        /* Step 3:
-         * We now have an array of {RouteId, Departure}
-         * objects. We now get "stringified" times for each departure.
-         * We define a new object ($scope.departuresByRoute) to hold
-         * our final data.
-         * For each route, loop through its departures.
-         * For each departure:
-         *    If it was estimated in the past:
-                do not add it to the final array.
-         *    Otherwise:
-                Stringify its times, add them to the
-                  original Departure object
-         * Now that a route has its departures stringified, push
-         * everything for that route to the final array.
-         */
-
-        /* Step 5:
-         * Sort the departures
-         * for each route.
-         */
       }
     });
   };
@@ -198,8 +157,11 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
    ********************************************/
   $scope.$on('$ionicView.enter', function () {
     $ionicLoading.show({});
+    loadOrdering();
     getHeart();
     localforage.getItem('autoRefresh', function (err, value) {
+      console.log(err);
+      console.log(value);
       if (value) {
         if (value <= 1000) {
           value = 30000;
@@ -218,12 +180,23 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
       }
     });
   });
+
+  function saveOrdering () {
+    localforage.setItem('stopDepartureOrdering', $scope.order);
+  }
+
+  function loadOrdering () {
+    localforage.getItem('stopDepartureOrdering', function (err, ordering) {
+      $scope.order = ordering;
+    });
+  }
   /****************************************
    * When the angular $scope recognizes that
    * ionic's view engine has fired the *leave*
    * event, stop the autorefresh!
    ****************************************/
   $scope.$on('$ionicView.leave', function () {
+    saveOrdering();
     $interval.cancel(timer);
   });
 

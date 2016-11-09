@@ -11,12 +11,12 @@
       <div class="input-label">
         Order Departures By
       </div>
-      <select ng-model="sort">
+      <select ng-model="order" ng-change="sendOrderingAnalytics">
         <option value="0">Route</option>
         <option value="1">Time</option>
         </select>
     </label>
-    <div class="fade" ng-if="stop && sort === ROUTE_DIRECTION">
+    <div class="fade" ng-if="stop && order === ROUTE_DIRECTION">
       <ion-list ng-repeat="direction in departuresByDirection">
         <ion-item ng-click="toggleRouteDropdown({{direction}})"
                         ng-class="{active: isRouteDropdownShown({{direction}})}"
@@ -75,7 +75,7 @@
         </ion-item>
       </ion-list>
     </div>
-    <div class="fade" ng-if="stop && sort === TIME">
+    <div class="fade" ng-if="stop && order === TIME">
       <ion-item ng-repeat="direction in departuresByTime"
         style="background-color: #{{routeList[direction.RouteId].Color}};">
         <div class="row item-text-wrap white" href="#/app/routes/{{direction.RouteId}}">
