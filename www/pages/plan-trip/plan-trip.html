@@ -38,8 +38,7 @@
 
     <div class="input-div center-div">
       <button ng-click="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
-      <button ng-click="saveTrip()" class="user-input trip-button" ng-if="request.destinationOnly">Save Destination</button>
-    </div>
+          </div>
   <div id="directions-map" ng-show="route !== undefined"></div>
   <div class="input-div">
   </div>
@@ -74,7 +73,8 @@
             <p style="display:inline"><a ng-click="goToStop(step['transit']['departure_stop']['location'])">{{step['transit']['departure_stop']['name']}}</a> to <a ng-click="goToStop(step['transit']['arrival_stop']['location'])">{{step['transit']['arrival_stop']['name']}}</a></p>
           </div>
           <div ng-if="step['travel_mode'] == 'WALKING'">
-            <p><a ng-click="goToStop(step['end_location'])">{{step['instructions']}}</a></p>
+            <p ng-if="!$last"><a ng-click="goToStop(step['end_location'])">{{step['instructions']}}</a></p>
+            <p ng-if="$last">{{step['instructions']}}</p>
           </div>
           <p style="text-align:right display:inline-block">{{step['duration']['text']}}</p>
         </div>
@@ -82,7 +82,7 @@
     </div>
     </section>
     <div class="item item-divider item-positive">Not the trip you want?
-      <button class="button button-outline button-light icon-left" ng-click="openDatePicker(true)">
+    <button class="button button-outline button-light icon-left" ng-click="openDatePicker(true)">
         <i class="ion-calendar"></i>
         Pick another time.
       </button>

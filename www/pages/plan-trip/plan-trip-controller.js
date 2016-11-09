@@ -33,6 +33,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
       $ionicLoading.hide();
       $scope.noLocation = false;
+      $scope.request.destinationOnly = true;
       new google.maps.Geocoder().geocode({
         'latLng': new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
       }, function (results, status) {
@@ -76,27 +77,26 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   var reload = function () {
     constructMap(defaultMapCenter);
     // All dates on this page are in Unix Epoch
-    currentDate = new Date();
-    $scope.request = {
-      name: 'New Trip',
-      time: {
-        datetime: currentDate,
-        type: 'departure',
-        asap: true
-      },
-      origin: {},
-      destination: {},
-      destinationOnly: true
-    };
+    $scope.noLocation = false;
     // If we loaded a trip (user came via
     // saved trip on My Buses), pull out
     // its details and display them.
     if (loadedTrip !== null) {
-      $scope.loaded = true;
       $scope.request = loadedTrip;
-      $scope.request.time = loadedTrip.time;
+      $scope.request.time.option = $scope.timeOptions[$scope.request.time.option.id];
       loadedTrip = null;
+
+      //Fix the time of the saved trip. If the datetime is in the future, keep it
+      //If the datetime is in the past, keep the time and update the date to either
+      //today or tomorrow
+      //If the request is 'Departing Now', do not update time
+      if (!$scope.request.time.option.isASAP && $scope.request.time.datetime < Date.now()) {
+        $scope.request.time.datetime.setDate(new Date().getDate());
+        $scope.request.time.datetime.setMonth(new Date().getMonth());
+      }
+
       if ($scope.request.destinationOnly) {
+        $scope.request.origin = null;
         loadLocation().then(function () {
           $scope.getRoute();
         });
@@ -107,16 +107,23 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       ga('send', 'event', 'TripLoaded', 'PlanTripController.reload()', 'User has navigated to Plan Trip using a saved Trip.');
     }
     else {
-      $scope.loaded = false;
-      $scope.request.time.option = $scope.timeOptions[0];
+      $scope.request = {
+        name: 'New Trip',
+        time: {
+          datetime: new Date(),
+          option: $scope.timeOptions[0] 
+        },
+        origin: {},
+        destination: {},
+        destinationOnly: true,
+        saved: false
+      };
       loadLocation();
     }
   };
 
   $scope.$on('$ionicView.enter', function () {
     loadedTrip = Trips.pop();
-    //
-    $scope.selectedTimeOption = $scope.timeOptions[0];
     if (loadedTrip !== null || !$scope.request)//reload if either a trip is being loaded or if this page has not yet been loaded
       reload();
   });
@@ -153,7 +160,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     destinationAutocomplete.setBounds(bounds);
 
     originAutocomplete.addListener('place_changed', function () {
-      $scope.request.destinationOnly = false;
       var place = originAutocomplete.getPlace();
       if (!place.geometry) {
         console.error('Place has no geometry.');
@@ -163,6 +169,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         expandViewportToFitPlace($scope.map, place);
         $scope.request.origin.id = place.place_id;
         $scope.request.origin.name = place.name;
+        if ($scope.request.destination.name) {
+          $scope.request.name = place.name + " to " + $scope.request.destination.name;
+        }
         $scope.$apply();
       } else {
         $scope.request.origin.id = null;
@@ -181,6 +190,11 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         expandViewportToFitPlace($scope.map, place);
         $scope.request.destination.id = place.place_id;
         $scope.request.destination.name = place.name;
+        if ($scope.request.destinationOnly || !$scope.request.origin.name) {
+          $scope.request.name = place.name;
+        } else {
+          $scope.request.name = $scope.request.origin.name + " to " + place.name;
+        } 
         $scope.$apply();
       }
       else {
@@ -214,10 +228,14 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     // Google won't return trips for times past.
     // Instead of throwing an error, assume the user wants
     // directions for right now.
-    if ($scope.request.time.datetime < Date.now()) {
-      $scope.request.time.type = $scope.timeOptions[0];
+    if (!$scope.request.time.option.isASAP && $scope.request.time.datetime < Date.now()) {
+      $scope.request.time.option = $scope.timeOptions[0];
+      $ionicPopup.alert({
+        title: 'Requested Time In Past',
+        template: 'The trip you have requested is in the past. Route will find buses leaving now.'
+      });
     }
-
+    
     $ionicLoading.show({
       template: 'Routing..'
     });
@@ -234,7 +252,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         transitOptions['arrivalTime'] = $scope.request.time.datetime;
       }
       else {
-        console.error('Determining route for Plan Trip failed due to unexpected input. Expected \'arrival\' or \'departure\', received' + params.time.type);
+        console.error('Determining route for Plan Trip failed due to unexpected input. Expected \'arrival\' or \'departure\', received' + params.time.option);
         ga('send', 'event', 'RoutingParamsInvalid', 'PlanTripController.getRoute()', 'Received invalid time params for planning a route');
         return;
       }
@@ -247,6 +265,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       travelMode: google.maps.TravelMode.TRANSIT,
       transitOptions: transitOptions
     }, function (response, status) {
+      console.log(response);
       $ionicLoading.hide();
 
       if (status === google.maps.DirectionsStatus.OK) {
@@ -294,13 +313,13 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
    * Saves the current trip parameters to the db
    * for display on My Buses
    */
-  $scope.saveTrip = function () {
+  $scope.saveTrip = function() {
     var prevName = $scope.request.name;
-    if (!$scope.loaded) {
+    if (!$scope.request.saved) {
       $scope.request.name = '';//Clears the name instead of 'New Trip'
     }
     $ionicPopup.show({
-      template: '<input type="text" ng-model="params.name">',
+      template: '<input type="text" ng-model="request.name">',
       title: 'Trip Name',
       subTitle: 'Give this trip a name.',
       scope: $scope,
@@ -312,14 +331,13 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       {text: '<b>OK</b>',
         type: 'button-positive',
       onTap: function () {
-        if ($scope.loaded) {
+        if ($scope.request.saved) {
           Trips.set($scope.request);
         }
         else {
+          $scope.request.saved = true;
           Trips.add($scope.request);
         }
-        //the current trip is now considered loaded onto the page
-        $scope.loaded = true;
         saveSuccessful();}
       }]
     });
@@ -341,7 +359,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       template: '<div style=\'text-align:center\'>Close current trip?</div>'
     }).then(function (res) {
       if (res) {
-        $scope.loaded = false;
+        loadedTrip = null;
         $scope.route = undefined;
         reload();
       }
@@ -391,6 +409,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
    * so we can request trips on a specific date
    */
   function onDateChosen (date) {
+    console.log("OKAY" + date);
     if (date) {
       date = new Date(date);
       $scope.request.time.datetime.setDate(date.getDate());
@@ -426,11 +445,11 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     var datePickerConfig = {
       callback: onDateChosen,
       from: new Date(), //Optional
-      setLabel: 'OK',
+      to: new Date().setYear(new Date().getFullYear() + 1),
+      inputDate: $scope.request.time.datetime ? $scope.request.time.datetime : new Date(),
       closeLabel: 'Cancel',
       mondayFirst: false,
-      showTodayButton: true,
-      closeOnSelect: true
+      //closeOnSelect: true
     };
     ionicDatePicker.openDatePicker(datePickerConfig);
   };
