@@ -12,6 +12,7 @@ angular.module('pvta.factories')
         var favoriteStops = [newStop];
         localforage.setItem('favoriteStops', favoriteStops);
       }
+      ga('send', 'event', 'FavoriteStopAdded', 'FavoriteStops.push()', 'Favorited stop with ID: ' + stop.StopId);
     });
   };
 
