@@ -4,13 +4,12 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   // We can control which list is shown via the page's URL.
   // Pull that param and same it for later.
   $scope.currentDisplay = parseInt($stateParams.segment);
-  $ionicLoading.show({});
   $scope._ = _;
   /*
    * Get all the routes and stops
    */
   function getRoutesAndStops () {
-    $scope.routes = [];
+    $ionicLoading.show();
     // RouteForage returns a promise, resolve it.
     RouteForage.get().then(function (routes) {
       RouteForage.save(routes);
@@ -32,6 +31,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       stops = StopsForage.uniq(stops);
       $scope.stops = prepareStops(stops);
       StopsForage.save(stops);
+      $ionicLoading.hide();
       redraw();
     });
 
@@ -74,8 +74,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         $scope.stopsDisp = $scope.stops.slice(0, 41);
         break;
     }
-    // Finally, hide the loader to coax a redraw.
-    $ionicLoading.hide();
   };
 
   /* When the search button is clicked onscreen,

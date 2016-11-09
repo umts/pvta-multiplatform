@@ -1,5 +1,6 @@
 angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, $location, $ionicScrollDelegate){
   ga('set', 'page', '/route.html');
+  ga('set', 'route', $stateParams.routeId);
   ga('send', 'pageview');
 
   /*
