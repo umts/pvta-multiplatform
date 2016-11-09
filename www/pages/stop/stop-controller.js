@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading, $ionicPopup) {
+angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading) {
   ga('set', 'page', '/stop.html');
   ga('send', 'pageview');
   $scope.ROUTE_DIRECTION = '0';
@@ -44,22 +44,22 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   // to draw itself accordingly.
   var getHeart = function () {
     FavoriteStops.contains($stateParams.stopId, function (bool) {
-      console.log(bool)
       $scope.liked = bool;
     });
   };
 
   function calculateTimes (departure) {
-    return {sExact: moment(departure.SDT).format('LT'),
-              eExact: moment(departure.EDT).format('LT'),
-              sRelative: moment(departure.SDT).fromNow(),
-              eRelative: moment(departure.EDT).fromNow(),
-              eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
-            };
+    return {
+      sExact: moment(departure.SDT).format('LT'),
+      eExact: moment(departure.EDT).format('LT'),
+      sRelative: moment(departure.SDT).fromNow(),
+      eRelative: moment(departure.EDT).fromNow(),
+      eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
+    };
   }
 
-  function sort(directions) {
-    $scope.departuresByDirection = []
+  function sort (directions) {
+    $scope.departuresByDirection = [];
     $scope.departuresByTime = [];
     // Avail returns an array of RouteDirections. We must deal
     // with the Departures for each Direction.
@@ -111,7 +111,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     });
     // Departures by time: Sort the list of all
     // departures by Estimated Departure Time.
-    $scope.departuresByTime = _.sortBy($scope.departuresByTime, function(direction) {
+    $scope.departuresByTime = _.sortBy($scope.departuresByTime, function (direction) {
       return direction.Departures.EDT;
     });
   }
@@ -124,7 +124,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         // Avail returns a one element array that contains
         // a ton of stuff. Pull this stuff out.
         var directions = deps[0].RouteDirections;
-        sort(directions)
+        sort(directions);
         /* Step 0:
          * Get a unique list of RouteIds that service this stop.
          * There can be multiple RouteDirections with the same
@@ -177,9 +177,9 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * Sort the departures
          * for each route.
          */
-       }
-     });
-   };
+      }
+    });
+  };
 
   Stop.get({stopId: $stateParams.stopId}, function (stop) {
     $scope.stop = stop;
@@ -237,11 +237,9 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   $scope.toggleHeart = function () {
     FavoriteStops.contains($stateParams.stopId, function (bool) {
       if (bool === true) {
-        console.log('removing stop, it was facorited')
         FavoriteStops.remove($scope.stop);
       }
       else {
-        console.log('adding stop, it wasnt favorites');
         FavoriteStops.push($scope.stop);
       }
     });
