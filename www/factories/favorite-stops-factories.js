@@ -2,11 +2,14 @@ angular.module('pvta.factories')
 .factory('FavoriteStops', function () {
 
   var push = function (stop) {
-    localforage.getItem('favoriteStops', function (err, savedFavoriteStops) {
-      var newStop = {StopId: stop.StopId, Name: stop.Name};
-      if (savedFavoriteStops) {
-        savedFavoriteStops.push(newStop);
-        localforage.setItem('favoriteStops', savedFavoriteStops);
+    localforage.getItem('favoriteStops', function (err, stops) {
+      var newStop = {
+        StopId: stop.StopId,
+        Description: stop.Description
+      };
+      if (stops) {
+        stops.push(newStop);
+        localforage.setItem('favoriteStops', stops);
       }
       else {
         var favoriteStops = [newStop];

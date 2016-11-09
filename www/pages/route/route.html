@@ -16,7 +16,7 @@
           style="font-size: 150%; color: #{{route.Color}}">
         {{route.RouteAbbreviation}}
       </span>
-      <span class="col col-75 item-text-wrap center">{{route.LongName}}</span>
+      <span class="col col-75 item-text-wrap center">{{route.GoogleDescription}}</span>
     </div>
     <div ng-if="vehicles.length === 0 && route"
         class="item item-divider item-energized center"
@@ -53,7 +53,7 @@
         ng-if="route && stops"
         ng-repeat="stop in stops | orderBy: '+SortOrder'"
         href="#/app/stops/{{stop.StopId}}">
-        {{stop.Name}} ({{stop.StopId}})
+        {{stop.Description}} ({{stop.StopId}})
     </ion-item>
   </ion-content>
 </ion-view>

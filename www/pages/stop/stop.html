@@ -1,5 +1,5 @@
 <ion-view>
-  <ion-nav-title>{{stop ? (stop.Name + ' (' + stop.StopId + ')' ) : 'Loading...'}}</ion-nav-title>
+  <ion-nav-title>{{stop ? (stop.Description + ' (' + stop.StopId + ')' ) : 'Loading...'}}</ion-nav-title>
   <ion-nav-buttons side="secondary">
     <button id="like" ng-class="{'button button-icon icon ion-ios-heart': liked === true, 'button button-icon icon ion-ios-heart-outline': liked === false}"
                       ng-click="liked= !liked; toggleHeart(liked)">
@@ -98,7 +98,7 @@
     </div>
     <div ng-if="!departuresByDirection.length && stop">
       <ion-item class="item item-assertive center">
-        {{stop.Name}} has no departures for at least the next 3 hours.
+        {{stop.Description}} has no departures for at least the next 3 hours.
       </ion-item>
     </div>
     <div>

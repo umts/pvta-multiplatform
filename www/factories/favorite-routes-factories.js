@@ -5,7 +5,7 @@ angular.module('pvta.factories')
     localforage.getItem('favoriteRoutes', function (err, favoriteRoutes) {
       var newRoute = {
         RouteId: route.RouteId,
-        LongName: route.LongName,
+        GoogleDescription: route.GoogleDescription,
         ShortName: route.ShortName,
         RouteAbbreviation: route.RouteAbbreviation,
         Color: route.Color
