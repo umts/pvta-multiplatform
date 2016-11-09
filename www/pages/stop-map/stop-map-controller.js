@@ -25,7 +25,7 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
     // If we have stop details, plot it.
     if ($scope.stop && $scope.stop.Latitude && $scope.stop.Longitude) {
       var loc = new google.maps.LatLng($scope.stop.Latitude, $scope.stop.Longitude);
-      Map.addMapListener(Map.placeDesiredMarker(loc), $scope.stop.Name + ' (' + $scope.stop.StopId + ')');
+      Map.addMapListener(Map.placeDesiredMarker(loc), $scope.stop.Description + ' (' + $scope.stop.StopId + ')');
       return loc;
     }
     // If we don't have stop details, it means that we couldn't download any.

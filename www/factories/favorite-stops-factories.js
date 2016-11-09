@@ -3,7 +3,7 @@ angular.module('pvta.factories')
   var stops = [];
   var push = function (stop) {
     localforage.getItem('favoriteStops', function (err, stops) {
-      var newStop = {StopId: stop.StopId, Name: stop.Name};
+      var newStop = {StopId: stop.StopId, Description: stop.Description};
       if (stops) {
         stops.push(newStop);
         localforage.setItem('favoriteStops', stops);
