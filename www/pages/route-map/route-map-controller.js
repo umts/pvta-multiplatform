@@ -35,9 +35,10 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
         path: Map.busSVGPath,
         fillColor: '#' + $scope.route.Color,
         fillOpacity: 1,
-        strokeWeight: 0,
+        strokeWeight: 0.5,
         scale: .03,
-        rotation: vehicle.Heading
+        // 180 degrees is rightside-up
+        rotation: 180
       };
       //add a listener for that vehicle with that content as part of the infobubble
       Map.addMapListener(Map.placeDesiredMarker(loc, icon), content);
