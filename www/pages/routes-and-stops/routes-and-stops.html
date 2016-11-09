@@ -23,7 +23,7 @@
       </ion-item>
       <div ng-if="currentDisplay === 1 && stopsDisp.length >= 40" class="item item-divider item-positive item-text-wrap">Too many stops to show. Please search above for your stop by name or ID.</div>
     </ion-list>
-    <div ng-if="!routesDisp.length && !stopsDisp.length" class="bar bar-assertive title">
+    <div ng-if="routes && stops && !routesDisp.length && !stopsDisp.length" class="bar bar-assertive title">
         <h1 class="title">No results found.</h1>
     </div>
   </ion-content>
