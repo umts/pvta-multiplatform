@@ -1,9 +1,10 @@
 angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading, $ionicPopup) {
   ga('set', 'page', '/stop.html');
   ga('send', 'pageview');
-  $scope.ROUTE_DIRECTION = 0;
-  $scope.TIME = 1;
-  $scope.sort = $scope.ROUTE_DIRECTION
+  $scope.ROUTE_DIRECTION = '0';
+  $scope.TIME = '1';
+  $scope.filterOptions = ['Route', 'Time'];
+  $scope.sort = $scope.ROUTE_DIRECTION;
 
   /**
    * Lets the user choose how they want departures to be sorted
@@ -11,9 +12,11 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   $scope.chooseFilter = function () {
     if ($scope.sort === $scope.ROUTE_DIRECTION) {
       $scope.sort = $scope.TIME;
+      ga('send', 'event', 'StopDeparturesSortingChanged', 'StopController.chooseFilter()', 'Departures order changed: by time.');
     }
     else {
       $scope.sort = $scope.ROUTE_DIRECTION;
+      ga('send', 'event', 'StopDeparturesSortingChanged', 'StopController.chooseFilter()', 'Departures order changed: by route.');
     }
   };
 
@@ -115,7 +118,8 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
 
   $scope.getDepartures = function () {
     $ionicLoading.show();
-    StopDeparture.query({stopId: $stateParams.stopId}, function (deps) {
+    StopDeparture.query({ stopId: $stateParams.stopId }, function (deps) {
+      ga('send', 'event', 'StopDeparturesLoaded', 'StopController.getDepartures()', 'Stop id:' + $stateParams.stopId);
       if (deps) {
         // Avail returns a one element array that contains
         // a ton of stuff. Pull this stuff out.

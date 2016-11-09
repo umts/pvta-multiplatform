@@ -4,16 +4,18 @@
     <button id="like" ng-class="{'button button-icon icon ion-ios-heart': liked === true, 'button button-icon icon ion-ios-heart-outline': liked === false}"
                       ng-click="liked= !liked; toggleHeart(liked)">
     </button>
-    <button class="button button-icon icon ion-ios-settings"
-                      ng-click="chooseFilter()">
-    </button>
   </ion-nav-buttons>
   <ion-content overflow-scroll="true">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
-    <!-- For every route, group it and allow it to be toggled open or closed -->
-    <div class="item item-divider item-positive center" ng-if="stop && sort === ROUTE_DIRECTION">
-      Tap a route to view more departures
-    </div>
+    <label class="item item-input item-select">
+      <div class="input-label">
+        Order Departures By
+      </div>
+      <select ng-model="sort">
+        <option value="0">Route</option>
+        <option value="1">Time</option>
+        </select>
+    </label>
     <div class="fade" ng-if="stop && sort === ROUTE_DIRECTION">
       <ion-list ng-repeat="direction in departuresByDirection">
         <ion-item ng-click="toggleRouteDropdown({{direction}})"
