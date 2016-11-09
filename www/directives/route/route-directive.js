@@ -5,7 +5,8 @@ angular.module('pvta.directives').directive('route', function (FavoriteRoutes) {
     scope: {
       favoriteRoutes: '=favs',
       route: '=bananas',
-      toggle: '=toggle'
+      toggle: '=toggle',
+      _: '=underscore'
     },
     templateUrl: 'directives/route/route-directive.html'
   };

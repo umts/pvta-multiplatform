@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, FavoriteStops, FavoriteRoutes) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
   // We can control which list is shown via the page's URL.
@@ -9,6 +9,11 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   /*
    * Get all the routes and stops
    */
+
+   $scope.redirect = function(routeId){
+    $state.go('app.route', {routeId: routeId});
+  }
+
   function getRoutesAndStops () {
     $scope.routes = [];
     // RouteForage returns a promise, resolve it.
@@ -116,6 +121,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   function getFavorites () {
     localforage.getItem('favoriteRoutes', function (err, value) {
       $scope.favoriteRoutes = value;
+      console.log(JSON.stringify($scope.favoriteRoutes));
       redraw();
     });
     localforage.getItem('favoriteStops', function (err, value) {
@@ -143,6 +149,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       else {
         FavoriteRoutes.push(route);
       }
+      getFavorites();
+      console.log("Hi Aaron " + JSON.stringify($scope.favoriteRoutes));
     });
   };
 
@@ -152,6 +160,5 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   getRoutesAndStops();
   $scope.$on('$ionicView.enter', function () {
     getFavorites();
-    console.log($scope.favoriteRoutes);
   });
 });
