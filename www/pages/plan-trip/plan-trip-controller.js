@@ -90,7 +90,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       //If the datetime is in the past, keep the time and update the date to either
       //today or tomorrow
       //If the request is 'Departing Now', do not update time
-      if (!$scope.request.time.option.isASAP && $scope.request.time.datetime < Date.now()) {
+      if ($scope.request.time.datetime < Date.now()) {
         $scope.request.time.datetime.setDate(new Date().getDate());
         $scope.request.time.datetime.setMonth(new Date().getMonth());
       }
@@ -111,7 +111,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         name: 'New Trip',
         time: {
           datetime: new Date(),
-          option: $scope.timeOptions[0] 
+          option: $scope.timeOptions[0]
         },
         origin: {},
         destination: {},
@@ -160,60 +160,55 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     destinationAutocomplete.setBounds(bounds);
 
     originAutocomplete.addListener('place_changed', function () {
-      var place = originAutocomplete.getPlace();
-      if (!place.geometry) {
-        console.error('Place has no geometry.');
-        return;
-      }
-      if (bounds.contains(place.geometry.location)) {
-        expandViewportToFitPlace($scope.map, place);
+      mapLocation(originAutocomplete.getPlace(), function (place) {
         $scope.request.origin.id = place.place_id;
         $scope.request.origin.name = place.name;
+        //Name the trip if there is a destinatino: ORIGIN to DESTINATION
         if ($scope.request.destination.name) {
-          $scope.request.name = place.name + " to " + $scope.request.destination.name;
+          $scope.request.name = place.name + ' to ' + $scope.request.destination.name;
         }
         $scope.$apply();
-      } else {
+      }, function (err) {
         $scope.request.origin.id = null;
         originInput.value = $scope.request.origin.name;
-        invalidLocationPopup();
-      }
+      });
     });
 
     destinationAutocomplete.addListener('place_changed', function () {
-      var place = destinationAutocomplete.getPlace();
-      if (!place.geometry) {
-        console.error('Place has no geometry.');
-        return;
-      }
-      if (bounds.contains(place.geometry.location)) {
-        expandViewportToFitPlace($scope.map, place);
+      mapLocation(destinationAutocomplete.getPlace(), function (place) {
         $scope.request.destination.id = place.place_id;
         $scope.request.destination.name = place.name;
+        //Name the trip: ORIGIN to DESTINATION if not destinationOnly, otherwise just DESTINATION
         if ($scope.request.destinationOnly || !$scope.request.origin.name) {
           $scope.request.name = place.name;
         } else {
-          $scope.request.name = $scope.request.origin.name + " to " + place.name;
-        } 
+          $scope.request.name = $scope.request.origin.name + ' to ' + place.name;
+        }
         $scope.$apply();
-      }
-      else {
+      }, function (err) {
         $scope.request.destination.id = null;
         destinationInput.value = $scope.request.destination.name;
-        invalidLocationPopup();
-      }
+      });
     });
   }
 
-
-  function expandViewportToFitPlace (map, place) {
-    if (place.geometry.viewpoint) {
-      map.fitBounds(place.geometry.viewpoint);
+  function mapLocation (place, success, error) {
+    if (!place.geometry || (place.geometry && !bounds.contains(place.geometry.location))) {
+      invalidLocationPopup();
+      error();
     } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);
+      //Fit the location on the map
+      if (place.geometry.viewpoint) {
+        $scope.map.fitBounds(place.geometry.viewpoint);
+      } else {
+        $scope.map.setCenter(place.geometry.location);
+        $scope.map.setZoom(17);
+      }
+      //success callback
+      success(place);
     }
   }
+
   /*
    *
    * Uses all the trip params and
@@ -235,7 +230,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         template: 'The trip you have requested is in the past. Route will find buses leaving now.'
       });
     }
-    
+
     $ionicLoading.show({
       template: 'Routing..'
     });
@@ -313,7 +308,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
    * Saves the current trip parameters to the db
    * for display on My Buses
    */
-  $scope.saveTrip = function() {
+  $scope.saveTrip = function () {
     var prevName = $scope.request.name;
     $ionicPopup.show({
       template: '<input type="text" ng-model="request.name">',
