@@ -1,5 +1,5 @@
 <ion-view>
-  <ion-nav-title>{{stop.Name}} ({{stop.StopId}})</ion-nav-title>
+  <ion-nav-title>{{stop ? (stop.Description + ' (' + stop.StopId + ')' ) : 'Loading...'}}</ion-nav-title>
   <ion-nav-buttons side="secondary">
     <button id="like" ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}"
                       ng-click="liked= !liked; toggleHeart(liked)">
@@ -8,11 +8,11 @@
   <ion-content overflow-scroll="true">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
     <!-- For every route, group it and allow it to be toggled open or closed -->
-    <div class="item item-divider item-positive center">
+    <div class="item item-divider item-positive center" ng-if="stop">
       Tap a route to view more departures
     </div>
     <ion-list ng-repeat="routeDepartures in departuresByRoute">
-      <ion-item ng-click="toggleRouteDropdown({{routeDepartures.RouteId}})"
+      <ion-item ng-click="toggleRouteDropdown(routeDepartures.RouteId)"
                       ng-class="{active: isRouteDropdownShown({{routeDepartures.RouteId}})}"
                       style="background-color: #{{routeList[routeDepartures.RouteId].Color}};">
         <div class="row item-text-wrap white">
@@ -68,9 +68,9 @@
           </div>
       </ion-item>
     </ion-list>
-    <div ng-if="!departuresByRoute.length">
+    <div ng-if="!departuresByRoute.length && stop">
       <ion-item class="item item-assertive center">
-        {{stop.Name}} has no departures for at least the next 3 hours.
+        {{stop.Description}} has no departures for at least the next 3 hours.
       </ion-item>
     </div>
     <div>
@@ -82,7 +82,7 @@
     </div>
   </ion-content>
   <ion-footer-bar class="bar-positive">
-      <button class="button icon-center ion-ios-location title" ng-click="setCoordinates()">
+      <button class="button icon-center ion-ios-location title" ng-click="setCoordinates()" ng-if="stop">
         Find on map
       </button>
   </ion-footer-bar>
