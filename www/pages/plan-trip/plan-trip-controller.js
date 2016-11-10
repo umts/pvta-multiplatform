@@ -315,9 +315,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
    */
   $scope.saveTrip = function() {
     var prevName = $scope.request.name;
-    if (!$scope.request.saved) {
-      $scope.request.name = '';//Clears the name instead of 'New Trip'
-    }
     $ionicPopup.show({
       template: '<input type="text" ng-model="request.name">',
       title: 'Trip Name',
@@ -409,7 +406,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
    * so we can request trips on a specific date
    */
   function onDateChosen (date) {
-    console.log("OKAY" + date);
     if (date) {
       date = new Date(date);
       $scope.request.time.datetime.setDate(date.getDate());
@@ -431,6 +427,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   $scope.openTimePicker = function () {
     var timePickerConfig = {
       callback: onTimeChosen,
+      inputTime: $scope.request.time.datetime.getHours() * 60 * 60 + $scope.request.time.datetime.getMinutes() * 60,
       format: 12,         //Optional
       step: 1,           //Optional
     };
