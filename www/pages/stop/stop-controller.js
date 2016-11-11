@@ -160,8 +160,6 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     loadOrdering();
     getHeart();
     localforage.getItem('autoRefresh', function (err, value) {
-      console.log(err);
-      console.log(value);
       if (value) {
         if (value <= 1000) {
           value = 30000;
@@ -182,12 +180,20 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   });
 
   function saveOrdering () {
+    console.log('saved' + $scope.order);
     localforage.setItem('stopDepartureOrdering', $scope.order);
   }
 
   function loadOrdering () {
     localforage.getItem('stopDepartureOrdering', function (err, ordering) {
-      $scope.order = ordering;
+      order = parseInt(ordering);
+      console.log(order);
+      if (order && order === $scope.ROUTE_DIRECTION || order === $scope.TIME) {
+        $scope.order = order;
+      }
+      else {
+        $scope.order = $scope.ROUTE_DIRECTION;
+      }
     });
   }
   /****************************************
