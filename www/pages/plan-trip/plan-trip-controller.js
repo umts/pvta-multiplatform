@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $q, $cordovaGeolocation, $ionicLoading, $ionicPopup, $ionicScrollDelegate, NearestStop, Trips, $timeout, ionicDatePicker, ionicTimePicker) {
+angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $state, $q, $cordovaGeolocation, $ionicLoading, $ionicPopup, $ionicScrollDelegate, NearestStop, Trips, $timeout, ionicDatePicker, ionicTimePicker) {
   ga('set', 'page', '/plan-trip.html');
   ga('send', 'pageview');
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
@@ -76,7 +76,6 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   //or loaded parameters
   var reload = function () {
     constructMap(defaultMapCenter);
-    // All dates on this page are in Unix Epoch
     $scope.noLocation = false;
     // If we loaded a trip (user came via
     // saved trip on My Buses), pull out
@@ -87,14 +86,18 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       loadedTrip = null;
 
       //Fix the time of the saved trip. If the datetime is in the future, keep it
-      //If the datetime is in the past, keep the time and update the date to either
-      //today or tomorrow
-      //If the request is 'Departing Now', do not update time
+      //If the datetime is in the past, keep the time and update the date to today's.
       if ($scope.request.time.datetime < Date.now()) {
         $scope.request.time.datetime.setDate(new Date().getDate());
         $scope.request.time.datetime.setMonth(new Date().getMonth());
       }
 
+      //If the request has destinationOnly -> true, that implies
+      //that the user originally used Location Services to plan
+      //their trip. We assume that the user again wants to
+      // use their current location as the trip's origin.
+      // If destinationOnly is false, then we use the origin that
+      // was saved with the trip.
       if ($scope.request.destinationOnly) {
         $scope.request.origin = null;
         loadLocation().then(function () {
@@ -104,8 +107,11 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       else {
         $scope.getRoute();
       }
+
       ga('send', 'event', 'TripLoaded', 'PlanTripController.reload()', 'User has navigated to Plan Trip using a saved Trip.');
     }
+    //There is no loaded trip, so load the page with default (empty) parameters
+    //And attempt to use current location as trip's origin
     else {
       $scope.request = {
         name: 'New Trip',
@@ -124,7 +130,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
   $scope.$on('$ionicView.enter', function () {
     loadedTrip = Trips.pop();
-    if (loadedTrip !== null || !$scope.request)//reload if either a trip is being loaded or if this page has not yet been loaded
+    if (loadedTrip || !$scope.request)//reload if either a trip is being loaded or if this page has not yet been loaded
       reload();
   });
 
@@ -163,12 +169,16 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       mapLocation(originAutocomplete.getPlace(), function (place) {
         $scope.request.origin.id = place.place_id;
         $scope.request.origin.name = place.name;
-        //Name the trip if there is a destinatino: ORIGIN to DESTINATION
+        //Name the trip if there is a destination: ORIGIN to DESTINATION
         if ($scope.request.destination.name) {
           $scope.request.name = place.name + ' to ' + $scope.request.destination.name;
         }
         $scope.$apply();
       }, function (err) {
+        //If the location chosen is not valid, an error is thrown.
+        //$scope.request.origin.name still holds the text that the user
+        //originally typed into the field. We will set the field's value
+        //back to this text
         $scope.request.origin.id = null;
         originInput.value = $scope.request.origin.name;
       });
@@ -186,6 +196,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         }
         $scope.$apply();
       }, function (err) {
+        //See comments for originAutocompleteListener method
         $scope.request.destination.id = null;
         destinationInput.value = $scope.request.destination.name;
       });
@@ -226,8 +237,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     if (!$scope.request.time.option.isASAP && $scope.request.time.datetime < Date.now()) {
       $scope.request.time.option = $scope.timeOptions[0];
       $ionicPopup.alert({
-        title: 'Requested Time In Past',
-        template: 'The trip you have requested is in the past. Route will find buses leaving now.'
+        title: 'Invalid Trip Date',
+        template: 'Trips in the past are not supported. Defaulting to buses leaving now.'
       });
     }
 
@@ -441,14 +452,13 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       inputDate: $scope.request.time.datetime ? $scope.request.time.datetime : new Date(),
       closeLabel: 'Cancel',
       mondayFirst: false,
-      //closeOnSelect: true
     };
     ionicDatePicker.openDatePicker(datePickerConfig);
   };
 
   $scope.goToStop = function (loc) {
     NearestStop.get({latitude: loc.lat(), longitude: loc.lng()}, function (stop) {
-      $location.path('app/stops/' + stop.StopId);
+      $state.go('app.stop', {stopId: stop.StopId});
     });
   };
 

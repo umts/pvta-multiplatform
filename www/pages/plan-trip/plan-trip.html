@@ -38,22 +38,22 @@
 
     <div class="input-div center-div">
       <button ng-click="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
-          </div>
+    </div>
   <div id="directions-map" ng-show="route !== undefined"></div>
   <div class="input-div">
   </div>
   <div id="route" ng-if="route !== undefined">
     <div class = "item item-divider item-energized item-text-wrap">
-      <b>PLEASE NOTE: Trip is based on scheduled times. Check your stop's page to confirm bus departure time</b>
+      <b>PLEASE NOTE: Trip is based on scheduled times. Check your stop's page to confirm bus departure time.</b>
     </div>
     <div style="margin: 30px">
       <b>Origin:</b> {{route['start_address']}}
       <br>
       <b>Destination:</b> {{route['end_address']}}
       <br>
-      <b>Departure Time:</b> {{route['departure_time']['text']}}
+      <b>Departure Time: {{route['departure_time']['value'].toLocaleTimeString()}}</b>, {{route['departure_time']['value'].toDateString()}}
       <br>
-      <b>Arrival Time:</b> {{route['arrival_time']['text']}}
+      <b>Arrival Time: {{route['arrival_time']['value'].toLocaleTimeString()}}</b>,  {{route['arrival_time']['value'].toDateString()}}
     </div>
     <section id="cd-timeline" class="cd-container">
     <div ng-repeat="step in route['steps']" >
