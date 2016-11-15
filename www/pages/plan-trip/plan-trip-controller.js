@@ -19,8 +19,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     if ($scope.request.destinationOnly) {
       loadLocation();
     } else {
-      $scope.request.origin.name = '';
-      $scope.request.origin.id = '';
+      $scope.request.origin = {};
     }
   };
 
@@ -32,7 +31,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
     $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
       $ionicLoading.hide();
-      $scope.noLocation = false;
+      //destinationOnly tells us that the user is using their current location,
+      //and so only cares about the final destination
+      //Used when loading trips and with the Get Location button on trip page
       $scope.request.destinationOnly = true;
       new google.maps.Geocoder().geocode({
         'latLng': new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
@@ -75,12 +76,13 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   //newTrip method. Constructs the map, and then sets $scope.request as either default
   //or loaded parameters
   var reload = function () {
+    $scope.scrollTo('input');
     constructMap(defaultMapCenter);
     $scope.noLocation = false;
     // If we loaded a trip (user came via
     // saved trip on My Buses), pull out
     // its details and display them.
-    if (loadedTrip !== null) {
+    if (loadedTrip) {
       $scope.request = loadedTrip;
       $scope.request.time.option = $scope.timeOptions[$scope.request.time.option.id];
       loadedTrip = null;
@@ -99,7 +101,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       // If destinationOnly is false, then we use the origin that
       // was saved with the trip.
       if ($scope.request.destinationOnly) {
-        $scope.request.origin = null;
+        $scope.request.origin = {};
         loadLocation().then(function () {
           $scope.getRoute();
         });
@@ -134,11 +136,10 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       reload();
   });
 
-  var invalidLocationPopup = function () {
-    ga('send', 'event', 'InvalidLocation', 'PlanTripController.invalidLocationPopup()', 'Attempted to plan trip to/from location PVTA does not service');
+  var invalidLocationPopup = function (template) {
     $ionicPopup.alert({
       title: 'Invalid Location',
-      template: 'PVTA does not service this location.'
+      template: template
     });
   };
 
@@ -175,6 +176,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         }
         $scope.$apply();
       }, function (err) {
+        ga('send', 'event', 'AutocompleteFailure', 'originAutocomplete.place_changed', 'autocomplete failure in plan trip: ' + err);
         //If the location chosen is not valid, an error is thrown.
         //$scope.request.origin.name still holds the text that the user
         //originally typed into the field. We will set the field's value
@@ -196,6 +198,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         }
         $scope.$apply();
       }, function (err) {
+        ga('send', 'event', 'AutocompleteFailure', 'destinationAutocomplete.place_changed', 'autocomplete failure in plan trip: ' + err);
         //See comments for originAutocompleteListener method
         $scope.request.destination.id = null;
         destinationInput.value = $scope.request.destination.name;
@@ -204,9 +207,13 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   }
 
   function mapLocation (place, success, error) {
-    if (!place.geometry || (place.geometry && !bounds.contains(place.geometry.location))) {
-      invalidLocationPopup();
-      error();
+    if (!place.geometry) {      
+      invalidLocationPopup('Choose a location from the list of suggestions.');
+      error('No geometry, invalid input.');
+    }
+    else if (!bounds.contains(place.geometry.location)) {
+      invalidLocationPopup('PVTA does not service this location.');
+      error('Location ' + place.name + ' is out of bounds. ID: ' + place.id)
     } else {
       //Fit the location on the map
       if (place.geometry.viewpoint) {
@@ -363,7 +370,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }).then(function (res) {
       if (res) {
         loadedTrip = null;
-        $scope.route = undefined;
+        $scope.route = null;
         reload();
       }
     });
@@ -483,7 +490,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       id: 1
     },
     {
-      title: 'Arriving At...',
+      title: 'Arriving By...',
       type: 'arrival',
       isASAP: false,
       id: 2

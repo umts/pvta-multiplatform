@@ -9,12 +9,12 @@
         Unable to retrieve current location.
       </ion-item>
     </div>
-    <div class="list">
+    <div class="list" id="input">
       <div class="item item-input-inset">
         <label class="item-input-wrapper">
           <input id="origin-input" class="user-input location-typeahead" type="text" placeholder="Enter a starting location" ng-model="request.origin.name" ng-focus="disableTap()" />
         </label>
-        <i ng-class="params.destinationOnly ? 'ion-android-locate positive' : 'ion-android-locate'"
+        <i ng-class="request.destinationOnly ? 'ion-android-locate positive' : 'ion-android-locate'"
           style="font-size: 120%; margin-left: 1%"
           ng-click="request.destinationOnly = !request.destinationOnly; updateOrigin();">
         </i>
@@ -39,10 +39,10 @@
     <div class="input-div center-div">
       <button ng-click="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
     </div>
-  <div id="directions-map" ng-show="route !== undefined"></div>
+  <div id="directions-map" ng-show="route"></div>
   <div class="input-div">
   </div>
-  <div id="route" ng-if="route !== undefined">
+  <div id="route" ng-if="route">
     <div class = "item item-divider item-energized item-text-wrap">
       <b>PLEASE NOTE: Trip is based on scheduled times. Check your stop's page to confirm bus departure time.</b>
     </div>
@@ -51,9 +51,9 @@
       <br>
       <b>Destination:</b> {{route['end_address']}}
       <br>
-      <b>Departure Time: {{route['departure_time']['value'].toLocaleTimeString()}}</b>, {{route['departure_time']['value'].toDateString()}}
+      <b>Departure Time: {{route['departure_time']['value'] | date: "h:mm a"}}</b>, {{route['departure_time']['value'] | date: "EEEE dd MMM yyyy"}}
       <br>
-      <b>Arrival Time: {{route['arrival_time']['value'].toLocaleTimeString()}}</b>,  {{route['arrival_time']['value'].toDateString()}}
+      <b>Arrival Time: {{route['arrival_time']['value'] | date: "h:mm a"}}</b>,  {{route['arrival_time']['value'] | date: "EEEE dd MMM yyyy"}}
     </div>
     <section id="cd-timeline" class="cd-container">
     <div ng-repeat="step in route['steps']" >
