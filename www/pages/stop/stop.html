@@ -7,9 +7,9 @@
   </ion-nav-buttons>
   <ion-content overflow-scroll="true">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
-    <label class="item item-input item-select">
+    <label class="item item-input item-select item-positive">
       <div class="input-label">
-        Order Departures By {{order}}
+        Order Departures By:
       </div>
       <select ng-model="$parent.order" ng-change="sendOrderingAnalytics()">
         <option value="0">Route</option>
