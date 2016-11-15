@@ -31,10 +31,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
     $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
       $ionicLoading.hide();
-      //destinationOnly tells us that the user is using their current location,
-      //and so only cares about the final destination
-      //Used when loading trips and with the Get Location button on trip page
-      $scope.request.destinationOnly = true;
+      
+      //geocode current position to retrieve its corresponding Google Maps ID
       new google.maps.Geocoder().geocode({
         'latLng': new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
       }, function (results, status) {
@@ -44,6 +42,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
               name: results[1].formatted_address,
               id: results[1].place_id
             };
+            if ($scope.request.destination.name) {
+              $scope.request.name = $scope.request.destination.name;
+            }
             deferred.resolve();
             $scope.$apply();
           }
@@ -168,8 +169,11 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
     originAutocomplete.addListener('place_changed', function () {
       mapLocation(originAutocomplete.getPlace(), function (place) {
-        $scope.request.origin.id = place.place_id;
-        $scope.request.origin.name = place.name;
+        $scope.request.origin = {
+          name: place.name,
+          id: place.place_id
+        }
+        $scope.request.destinationOnly = false;
         //Name the trip if there is a destination: ORIGIN to DESTINATION
         if ($scope.request.destination.name) {
           $scope.request.name = place.name + ' to ' + $scope.request.destination.name;
@@ -188,8 +192,10 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
     destinationAutocomplete.addListener('place_changed', function () {
       mapLocation(destinationAutocomplete.getPlace(), function (place) {
-        $scope.request.destination.id = place.place_id;
-        $scope.request.destination.name = place.name;
+        $scope.request.destination = {
+          name: place.name,
+          id: place.place_id
+        }
         //Name the trip: ORIGIN to DESTINATION if not destinationOnly, otherwise just DESTINATION
         if ($scope.request.destinationOnly || !$scope.request.origin.name) {
           $scope.request.name = place.name;
