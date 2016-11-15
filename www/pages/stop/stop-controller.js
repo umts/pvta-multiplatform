@@ -3,7 +3,6 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   ga('send', 'pageview');
   $scope.ROUTE_DIRECTION = '0';
   $scope.TIME = '1';
-  $scope.filterOptions = ['Route', 'Time'];
   $scope.order = $scope.ROUTE_DIRECTION;
 
   /**
@@ -11,13 +10,12 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
    */
   $scope.sendOrderingAnalytics = function () {
     var eventName = 'StopDeparturesSortingChanged';
-    var funcName = 'StopController.chooseFilter()';
-    var desc = 'Departures order changed: by ';
+    var funcName = 'StopController.sendOrderingAnalytics()';
     if ($scope.order === $scope.ROUTE_DIRECTION) {
-      ga('send', 'event', eventName, funcName, desc + 'time');
+      ga('send', 'event', eventName, funcName, 'By time');
     }
     else {
-      ga('send', 'event', eventName, funcName, desc + 'route');
+      ga('send', 'event', eventName, funcName, 'By route');
     }
   };
 
@@ -48,16 +46,34 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
       $scope.liked = bool;
     });
   };
-
+  /**
+   * Given a Departure object,
+   * calculates the human-readable departure times
+   * that will be displayed in the UI.
+   * Returns an object with 5 properties,
+   * each a different way of displaying
+   * either a scheduled time ('s') or an estimated time ('e').
+   */
   function calculateTimes (departure) {
     return {
+      // ex: '8:12 PM'
       sExact: moment(departure.SDT).format('LT'),
       eExact: moment(departure.EDT).format('LT'),
+      // ex: 'in 6 minutes'
       sRelative: moment(departure.SDT).fromNow(),
       eRelative: moment(departure.EDT).fromNow(),
+      // ex: '6 minutes'
       eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
     };
   }
+/**
+  * Given all the RouteDirections and their upcoming departures
+  * at this stop, this function organizes and manipulates
+  * all departures so they can be clearly and simply displayed in the UI.
+  * It sorts departures in two ways:
+  *   1) By Route Direction
+  *   2) By Time
+  */
 
   function sort (directions) {
     $scope.departuresByDirection = [];
@@ -180,16 +196,21 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   });
 
   function saveOrdering () {
-    console.log('saved' + $scope.order);
-    localforage.setItem('stopDepartureOrdering', $scope.order);
+    localforage.setItem('stopDepartureOrdering', $scope.order) ;
+    var eventName = 'StopDepartureOrderingSaved';
+    var funcName = 'StopController.saveOrdering()';
+    if ($scope.order === $scope.ROUTE_DIRECTION) {
+      ga('send', 'event', eventName, funcName, 'By Route Direction');
+    }
+    else {
+      ga('send', 'event', eventName, funcName, 'By Time');
+    }
   }
 
   function loadOrdering () {
     localforage.getItem('stopDepartureOrdering', function (err, ordering) {
-      order = parseInt(ordering);
-      console.log(order);
-      if (order && order === $scope.ROUTE_DIRECTION || order === $scope.TIME) {
-        $scope.order = order;
+      if (ordering && ordering === $scope.ROUTE_DIRECTION || ordering === $scope.TIME) {
+        $scope.order = ordering;
       }
       else {
         $scope.order = $scope.ROUTE_DIRECTION;

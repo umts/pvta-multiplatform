@@ -11,7 +11,7 @@
       <div class="input-label">
         Order Departures By {{order}}
       </div>
-      <select ng-model="order" ng-change="sendOrderingAnalytics">
+      <select ng-model="$parent.order" ng-change="sendOrderingAnalytics()">
         <option value="0">Route</option>
         <option value="1">Time</option>
         </select>
