@@ -75,10 +75,11 @@
         </ion-item>
       </ion-list>
     </div>
-    <div class="fade" ng-if="stop && order === TIME">
+    <div class="fade departure-by-time" ng-if="stop && order === TIME">
       <ion-item ng-repeat="direction in departuresByTime"
-        style="background-color: #{{routeList[direction.RouteId].Color}};">
-        <div class="row item-text-wrap white" href="#/app/routes/{{direction.RouteId}}">
+        style="background-color: #{{routeList[direction.RouteId].Color}}" 
+        href="#/app/routes/{{direction.RouteId}}">
+        <div class="row item-text-wrap white">
           <div class="col route-shortname">
             {{routeList[direction.RouteId].RouteAbbreviation}}
           </div>

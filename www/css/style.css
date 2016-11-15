@@ -122,3 +122,14 @@ margin:5px;
 .fade.ng-enter.ng-enter-active {
   opacity:1;
 }
+/*
+ * Used when displaying Stop Departures by time.
+ * Essentially a workaround for the fact that <ion-item>s
+ * don't allow us to apply a background color and an href
+ * unless we subclass them.
+ * See the second answer at
+ * http://stackoverflow.com/questions/29878825/ionic-item-color-and-href-not-working
+ */
+.departure-by-time .item-complex .item-content {
+  background-color: inherit;
+}
