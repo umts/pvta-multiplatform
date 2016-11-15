@@ -18,7 +18,7 @@
     </label>
     <div class="fade" ng-if="stop && order === ROUTE_DIRECTION">
       <ion-list ng-repeat="direction in departuresByDirection">
-        <ion-item ng-click="toggleRouteDropdown({{direction}})"
+        <ion-item ng-click="toggleRouteDropdown(direction)"
                         ng-class="{active: isRouteDropdownShown({{direction}})}"
                         style="background-color: #{{routeList[direction.RouteId].Color}};">
           <div class="row item-text-wrap white">
