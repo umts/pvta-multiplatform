@@ -5,4 +5,4 @@
     </span>
     <p>{{route.LongName}}</p>
 </div>
-<button id="like" ng-class="_.contains(_.pluck(favoriteRoutes, 'RouteId'), route.RouteId) ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="$event.stopPropagation(); toggle(route)"></button>
+<button ng-class="liked ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="liked = !liked; toggle(route); $event.stopPropagation();"></button>

@@ -19,18 +19,13 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     // RouteForage returns a promise, resolve it.
     RouteForage.get().then(function (routes) {
       RouteForage.save(routes);
-      $scope.routes = stripDetails(routes);
+      getFavorites(routes);
       redraw();
     });
     /*
     * Nested function for removing stuff we don't need
     * from each route; this makes searching easier!
     */
-    function stripDetails (routeList) {
-      return _.map(routeList, function (route) {
-        return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color');
-      });
-    }
     // Remember, StopsForage returns a Promise.
     // Must resolve it.
     StopsForage.get().then(function (stops) {
@@ -49,6 +44,13 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         return _.pick(stop, 'StopId', 'Name');
       });
     }
+  }
+
+  function stripDetails (routeList) {
+    return _.map(routeList, function (route) {
+      route.Liked = _.contains(_.pluck($scope.favoriteRoutes, 'RouteId'), route.RouteId);
+      return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color', 'Liked');
+    });
   }
   // Two variables for the lists.
   $scope.routesDisp = [];
@@ -118,10 +120,10 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       }
     });
   };
-  function getFavorites () {
+  function getFavorites (routes) {
     localforage.getItem('favoriteRoutes', function (err, value) {
       $scope.favoriteRoutes = value;
-      console.log(JSON.stringify($scope.favoriteRoutes));
+      $scope.routes = stripDetails(routes);
       redraw();
     });
     localforage.getItem('favoriteStops', function (err, value) {
@@ -149,16 +151,15 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       else {
         FavoriteRoutes.push(route);
       }
-      getFavorites();
-      console.log("Hi Aaron " + JSON.stringify($scope.favoriteRoutes));
+      $scope.$apply();
     });
   };
 
   function redraw () {
     $scope.display($scope.currentDisplay);
   }
-  getRoutesAndStops();
+  
   $scope.$on('$ionicView.enter', function () {
-    getFavorites();
+    getRoutesAndStops();
   });
 });

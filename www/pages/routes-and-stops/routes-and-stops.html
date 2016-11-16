@@ -11,15 +11,7 @@
   <ion-content class="has-subheader" direction="y" scrollbar-y="false">
     <ion-list>
       <ion-item ng-show="currentDisplay === 0" ng-repeat="route in routesDisp" ng-click="redirect(route.RouteId)" class= "item item-icon-left item-icon-right">
-        <!--<route favs="favoriteRoutes" bananas="route" toggle="toggleRouteHeart" underscore="_"></route>-->
-        <div class="row-left">
-            <i class="icon ion-android-bus"></i>
-            <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">
-              {{route.RouteAbbreviation}}
-            </span>
-            <p>{{route.LongName}}</p>
-        </div>
-        <button id="like" ng-class="_.contains(_.pluck(favoriteRoutes, 'RouteId'), route.RouteId) ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="toggleRouteHeart(route); $event.stopPropagation();"></button>
+        <route liked="route.Liked" bananas="route" toggle="toggleRouteHeart" underscore="_"></route>
       </ion-item>
       <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | limitTo: 40" href="#/app/stops/{{stop.StopId}}">
         <i class="icon ion-ios-location" style="margin-right: 10px"></i>

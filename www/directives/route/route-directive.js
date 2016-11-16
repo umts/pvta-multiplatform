@@ -3,7 +3,7 @@ angular.module('pvta.directives').directive('route', function (FavoriteRoutes) {
 
   return {
     scope: {
-      favoriteRoutes: '=favs',
+      liked: '=liked',
       route: '=bananas',
       toggle: '=toggle',
       _: '=underscore'
