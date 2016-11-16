@@ -136,7 +136,6 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   $scope.getDepartures = function () {
     $ionicLoading.show();
     StopDeparture.query({ stopId: $stateParams.stopId }, function (deps) {
-      ga('send', 'event', 'StopDeparturesLoaded', 'StopController.getDepartures()', 'Stop id:' + $stateParams.stopId);
       if (deps) {
         // Avail returns a one element array that contains
         // a ton of stuff. Pull this stuff out.
@@ -158,6 +157,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
 
   Stop.get({stopId: $stateParams.stopId}, function (stop) {
     $scope.stop = stop;
+    ga('send', 'event', 'StopLoaded', 'StopController.self', 'Stop: ' + stop.Description + ' (' + $stateParams.stopId + ')');
   });
 
   // Load the departures for the first time
