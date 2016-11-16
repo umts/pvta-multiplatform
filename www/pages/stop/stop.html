@@ -1,74 +1,103 @@
 <ion-view view-title="Stop">
   <ion-nav-title>{{stop ? (stop.Description + ' (' + stop.StopId + ')' ) : 'Loading...'}}</ion-nav-title>
   <ion-nav-buttons side="secondary">
-    <button id="like" ng-class="{'button button-icon icon ion-ios-heart': liked, 'button button-icon icon ion-ios-heart-outline': !liked}"
+    <button id="like" ng-class="{'button button-icon icon ion-ios-heart': liked === true, 'button button-icon icon ion-ios-heart-outline': liked === false}"
                       ng-click="liked= !liked; toggleHeart(liked)">
     </button>
   </ion-nav-buttons>
   <ion-content overflow-scroll="true">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
-    <!-- For every route, group it and allow it to be toggled open or closed -->
-    <div class="item item-divider item-positive center" ng-if="stop">
-      Tap a route to view more departures
+    <label class="item item-input item-select item-positive">
+      <div class="input-label">
+        Order Departures By:
+      </div>
+      <select ng-model="$parent.order" ng-change="sendOrderingAnalytics()">
+        <option value="0">Route</option>
+        <option value="1">Time</option>
+        </select>
+    </label>
+    <div class="fade" ng-if="stop && order === ROUTE_DIRECTION">
+      <ion-list ng-repeat="direction in departuresByDirection">
+        <ion-item ng-click="toggleRouteDropdown(direction)"
+                        ng-class="{active: isRouteDropdownShown({{direction}})}"
+                        style="background-color: #{{routeList[direction.RouteId].Color}};">
+          <div class="row item-text-wrap white">
+            <div class="col route-shortname">
+              {{routeList[direction.RouteId].RouteAbbreviation}}
+            </div>
+            <div class="col-50">
+              {{direction.Departures[0].Trip.InternetServiceDesc}}
+            </div>
+            <div class="col-33 text-right">
+              <span>
+                {{direction.Departures[0].Times.eExact}}
+              </span>
+              <p style="color: white">
+                ({{direction.Departures[0].Times.eRelativeNoPrefix}})
+              </p>
+            </div>
+          </div>
+        </ion-item>
+      <!-- When a route has been expanded, show its departures -->
+        <ion-item class="item-accordion"
+                        ng-repeat="departure in direction.Departures"
+                        ng-show="isRouteDropdownShown({{direction}})"
+                        href="#/app/routes/{{direction.RouteId}}">
+            <div class="item-text-wrap bold center">
+              {{departure.Trip.InternetServiceDesc}}
+            </div>
+            <div class="row item-text-wrap">
+              <div class="col center">
+                <b>Scheduled</b>
+              </div>
+              <div class="col center">
+                <b>Estimated</b>
+              </div>
+            </div>
+            <div class="row item-text-wrap">
+              <div class="col">
+                <center class="departure-padding">
+                  {{departure.Times.sExact}}
+                </center>
+                <center>
+                  ({{departure.Times.sRelative}})
+                </center>
+              </div>
+              <div class="col">
+                <center class="departure-padding">
+                  {{departure.Times.eExact}}
+                </center>
+                <center>
+                  ({{departure.Times.eRelative}})
+                </center>
+              </div>
+            </div>
+        </ion-item>
+      </ion-list>
     </div>
-    <ion-list ng-repeat="routeDepartures in departuresByRoute">
-      <ion-item ng-click="toggleRouteDropdown(routeDepartures.RouteId)"
-                      ng-class="{active: isRouteDropdownShown({{routeDepartures.RouteId}})}"
-                      style="background-color: #{{routeList[routeDepartures.RouteId].Color}};">
+    <div class="fade departure-by-time" ng-if="stop && order === TIME">
+      <ion-item ng-repeat="direction in departuresByTime"
+        style="background-color: #{{routeList[direction.RouteId].Color}}" 
+        href="#/app/routes/{{direction.RouteId}}">
         <div class="row item-text-wrap white">
           <div class="col route-shortname">
-            {{routeList[routeDepartures.RouteId].RouteAbbreviation}}
+            {{routeList[direction.RouteId].RouteAbbreviation}}
           </div>
           <div class="col-50">
-            {{routeDepartures.Departures[0].Trip.InternetServiceDesc}}
+            {{direction.Departures.Trip.InternetServiceDesc}}
           </div>
           <div class="col-33 text-right">
             <span>
-              {{routeDepartures.Departures[0].Times.eExact}}
+              {{direction.Departures.Times.eExact}}
             </span>
             <p style="color: white">
-              ({{routeDepartures.Departures[0].Times.eRelativeNoPrefix}})
+              ({{direction.Departures.Times.eRelativeNoPrefix}})
             </p>
           </div>
         </div>
       </ion-item>
-      <!-- When a route has been expanded, show its departures -->
-      <ion-item class="item-accordion"
-                      ng-repeat="departure in routeDepartures.Departures"
-                      ng-show="isRouteDropdownShown({{routeDepartures.RouteId}})"
-                      href="#/app/routes/{{routeDepartures.RouteId}}">
-          <div class="item-text-wrap bold center">
-            {{departure.Trip.InternetServiceDesc}}
-          </div>
-          <div class="row item-text-wrap">
-            <div class="col center">
-              <b>Scheduled</b>
-            </div>
-            <div class="col center">
-              <b>Estimated</b>
-            </div>
-          </div>
-          <div class="row item-text-wrap">
-            <div class="col">
-              <center class="departure-padding">
-                {{departure.Times.sExact}}
-              </center>
-              <center>
-                ({{departure.Times.sRelative}})
-              </center>
-            </div>
-            <div class="col">
-              <center class="departure-padding">
-                {{departure.Times.eExact}}
-              </center>
-              <center>
-                ({{departure.Times.eRelative}})
-              </center>
-            </div>
-          </div>
-      </ion-item>
-    </ion-list>
-    <div ng-if="!departuresByRoute.length && stop">
+    </div>
+    <div ng-if="!departuresByDirection.length && stop">
       <ion-item class="item item-assertive center">
         {{stop.Description}} has no departures for at least the next 3 hours.
       </ion-item>
