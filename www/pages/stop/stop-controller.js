@@ -200,10 +200,10 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     var eventName = 'StopDepartureOrderingSaved';
     var funcName = 'StopController.saveOrdering()';
     if ($scope.order === $scope.ROUTE_DIRECTION) {
-      ga('send', 'event', eventName, funcName, 'By Route Direction');
+      ga('send', 'event', eventName, funcName, 'By route');
     }
     else {
-      ga('send', 'event', eventName, funcName, 'By Time');
+      ga('send', 'event', eventName, funcName, 'By time');
     }
   }
 
