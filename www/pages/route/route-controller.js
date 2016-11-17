@@ -18,7 +18,8 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
    * Download all the details for this route,
    * including the stops and vehicles on it.
    */
-  Route.get({routeId: $stateParams.routeId}, function(route) {
+  Route.get({ routeId: $stateParams.routeId }, function (route) {
+    ga('send', 'event', 'RouteLoaded', 'RouteController.self', 'Route: ' + route.RouteAbbreviation + ' (' + $stateParams.routeId + ')');
     $scope.route = route
     getHeart();
     $scope.stops = $scope.route.Stops;

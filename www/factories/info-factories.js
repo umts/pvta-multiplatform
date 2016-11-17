@@ -50,7 +50,7 @@ angular.module('pvta')
      */
     localforage.getItem('schema-11-7-2016_longname_and_stopname_cutoff_fix', function (err, schemaUpdateExists) {
       // If the key isn't found, that means we need to run the migration.
-      if (!schemaUpdateExists) {
+      if (schemaUpdateExists !== true) {
         // This migration simply empties the entire cache. Bye!
         localforage.clear();
         // Save the migration key.  The next time this function is run,
@@ -82,8 +82,8 @@ angular.module('pvta')
 
 
   return {
-    versionNum: '0.8.3',
-    versionName: 'Release Candidate 1',
+    versionNum: '0.9.0',
+    versionName: 'Release Candidate 2',
     performMigrations: performMigrations,
     showPopups: showPopups
   };
