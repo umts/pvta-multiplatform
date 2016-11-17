@@ -1,7 +1,7 @@
 <ion-view view-title="{{request.name === 'New Trip' ? 'Schedule' : request.name}}">
   <ion-nav-buttons side="secondary">
     <button class="button icon ion-compose" ng-click="newTrip()"></button>
-    <button class="button icon ion-ios-heart-outline" ng-click="saveTrip()"></button>
+    <button ng-class="{'button icon ion-ios-heart-outline': !request.saved, 'button icon ion-ios-heart': request.saved}" ng-click="saveTrip()"></button>
   </ion-nav-buttons>
   <ion-content>
     <div ng-if="noLocation">
