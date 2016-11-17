@@ -31,7 +31,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
 
     $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
       $ionicLoading.hide();
-      
+
       //geocode current position to retrieve its corresponding Google Maps ID
       new google.maps.Geocoder().geocode({
         'latLng': new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
@@ -213,7 +213,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   }
 
   function mapLocation (place, success, error) {
-    if (!place.geometry) {      
+    if (!place.geometry) {
       invalidLocationPopup('Choose a location from the list of suggestions.');
       error('No geometry, invalid input.');
     }
