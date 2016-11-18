@@ -1,6 +1,5 @@
 <div class="row-left">
   <i class="icon ion-ios-location" style="margin-right: 10px"></i>
   <p>{{stop.Name}} ({{stop.StopId}})</p>
-  {{liked}}
 </div>
-<button ng-class="liked ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="liked = !liked; toggleStop(stop); $event.stopPropagation();"></button>
+<button ng-class="liked ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="liked = !liked; toggle(stop); $event.stopPropagation();"></button>

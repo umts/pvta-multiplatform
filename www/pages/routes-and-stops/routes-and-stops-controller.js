@@ -157,6 +157,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   };
 
   $scope.toggleRouteHeart = function(route){
+    console.log("HIIIIIIIII");
     FavoriteRoutes.contains(route, function(bool){
       if(bool) {
         FavoriteRoutes.remove(route);
@@ -174,5 +175,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
 
   $scope.$on('$ionicView.enter', function () {
     getRoutesAndStops();
+    $scope.display($scope.currentDisplay);
   });
 });

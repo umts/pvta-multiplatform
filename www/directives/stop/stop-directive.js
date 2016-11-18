@@ -2,9 +2,9 @@ angular.module('pvta.directives').directive('stop', function () {
 
   return {
     scope: {
-      liked: '=likedStop',
+      liked: '=liked',
       stop: '=cucumber',
-      toggleStop: '=toggleStop'
+      toggle: '=toggle'
     },
     templateUrl: 'directives/stop/stop-directive.html'
   };

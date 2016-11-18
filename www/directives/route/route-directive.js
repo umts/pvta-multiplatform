@@ -2,9 +2,9 @@ angular.module('pvta.directives').directive('route', function () {
 
   return {
     scope: {
-      liked: '=likedRoute',
+      liked: '=liked',
       route: '=bananas',
-      toggleRoute: '=toggleRoute'
+      toggle: '=toggle'
     },
     templateUrl: 'directives/route/route-directive.html'
   };

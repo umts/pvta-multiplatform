@@ -11,10 +11,10 @@
   <ion-content class="has-subheader" direction="y" scrollbar-y="false">
     <ion-list>
       <ion-item ng-show="currentDisplay === 0" ng-repeat="route in routesDisp" ng-click="redirectRoute(route.RouteId)" class= "item item-icon-left item-icon-right">
-        <route likedRoute="route.Liked" bananas="route" toggle="toggleRouteHeart"></route>
+        <route liked="route.Liked" bananas="route" toggle="toggleRouteHeart"></route>
       </ion-item>
       <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | limitTo: 40" ng-click="redirectStop(stop.StopId)">
-        <stop likedStop="stop.Liked" cucumber="stop" toggleStop="toggleStopHeart"></stop>
+        <stop liked="stop.Liked" cucumber="stop" toggle="toggleStopHeart"></stop>
       </ion-item>
     </ion-list>
     <div ng-if="!routesDisp.length && !stopsDisp.length" class="bar bar-assertive title">
