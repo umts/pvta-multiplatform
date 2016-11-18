@@ -10,15 +10,12 @@
   </div>
   <ion-content class="has-subheader" direction="y" scrollbar-y="false">
     <ion-list>
-      <ion-item ng-show="currentDisplay === 0" ng-repeat="route in routesDisp" ng-click="redirect(route.RouteId)" class= "item item-icon-left item-icon-right">
-        <route liked="route.Liked" bananas="route" toggle="toggleRouteHeart" underscore="_"></route>
+      <ion-item ng-show="currentDisplay === 0" ng-repeat="route in routesDisp" ng-click="redirectRoute(route.RouteId)" class= "item item-icon-left item-icon-right">
+        <route likedRoute="route.Liked" bananas="route" toggle="toggleRouteHeart"></route>
       </ion-item>
-      <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | limitTo: 40" href="#/app/stops/{{stop.StopId}}">
-        <i class="icon ion-ios-location" style="margin-right: 10px"></i>
-        {{stop.Name}} ({{stop.StopId}})
-        <button id="like" ng-class="{'button button-icon icon ion-ios-heart': _.contains(_.pluck(favoriteStops, 'StopId'), stop.StopId),'button button-icon icon ion-ios-heart-outline': !_.contains(_.pluck(favoriteStops, 'StopId'), stop.StopId)}" ng-click="toggleStopHeart(stop)"></button>
+      <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | limitTo: 40" ng-click="redirectStop(stop.StopId)">
+        <stop likedStop="stop.Liked" cucumber="stop" toggleStop="toggleStopHeart"></stop>
       </ion-item>
-      <div ng-if="currentDisplay === 1 && stopsDisp.length >= 40" class="item item-divider item-positive item-text-wrap">Too many stops to show. Please search above for your stop by name or ID.</div>
     </ion-list>
     <div ng-if="!routesDisp.length && !stopsDisp.length" class="bar bar-assertive title">
         <h1 class="title">No results found.</h1>

@@ -10,8 +10,12 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
    * Get all the routes and stops
    */
 
-   $scope.redirect = function(routeId){
+   $scope.redirectRoute = function(routeId){
     $state.go('app.route', {routeId: routeId});
+  }
+
+  $scope.redirectStop = function(stopId){
+    $state.go('app.stop', {stopId: stopId});
   }
 
   function getRoutesAndStops () {
@@ -19,7 +23,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     // RouteForage returns a promise, resolve it.
     RouteForage.get().then(function (routes) {
       RouteForage.save(routes);
-      getFavorites(routes);
+      getFavoriteRoutes(routes);
       redraw();
     });
     /*
@@ -30,8 +34,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     // Must resolve it.
     StopsForage.get().then(function (stops) {
       stops = StopsForage.uniq(stops);
-      $scope.stops = prepareStops(stops);
       StopsForage.save(stops);
+      getFavoriteStops(stops);
       redraw();
     });
 
@@ -39,11 +43,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
      * keep the details about each stop that are useful
      * to us for displaying them.  It makes searching easier.
      */
-    function prepareStops (list) {
-      return _.map(list, function (stop) {
-        return _.pick(stop, 'StopId', 'Name');
-      });
-    }
   }
 
   function stripDetails (routeList) {
@@ -52,6 +51,14 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color', 'Liked');
     });
   }
+
+  function prepareStops (stopList) {
+    return _.map(stopList, function (stop) {
+      stop.Liked = _.contains(_.pluck($scope.favoriteStops, 'StopId'), stop.StopId);
+      return _.pick(stop, 'StopId', 'Name', 'Liked');
+    });
+  }
+
   // Two variables for the lists.
   $scope.routesDisp = [];
   $scope.stopsDisp = [];
@@ -120,17 +127,22 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       }
     });
   };
-  function getFavorites (routes) {
+
+  function getFavoriteRoutes (routes) {
     localforage.getItem('favoriteRoutes', function (err, value) {
       $scope.favoriteRoutes = value;
       $scope.routes = stripDetails(routes);
       redraw();
     });
+  };
+
+  function getFavoriteStops (stops){
     localforage.getItem('favoriteStops', function (err, value) {
       $scope.favoriteStops = value;
+      $scope.stops = prepareStops(stops);
       redraw();
     });
-  }
+  };
 
   $scope.toggleStopHeart = function (stop) {
     FavoriteStops.contains(stop.StopId, function (bool) {
@@ -140,6 +152,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       else {
         FavoriteStops.push(stop);
       }
+      $scope.$apply();
     });
   };
 
@@ -158,7 +171,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   function redraw () {
     $scope.display($scope.currentDisplay);
   }
-  
+
   $scope.$on('$ionicView.enter', function () {
     getRoutesAndStops();
   });
