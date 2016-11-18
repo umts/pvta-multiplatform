@@ -5,17 +5,28 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   // Pull that param and same it for later.
   $scope.currentDisplay = parseInt($stateParams.segment);
   $scope._ = _;
-  /*
-   * Get all the routes and stops
-   */
 
-   $scope.redirectRoute = function(routeId){
+  /*
+  *  Two redirect functions, which are called
+  *  when clicking on the ion-items in the lists.
+  *  These are necessary so that we can use
+  *  $event.stopPropagation() in the directive
+  *  (see directives/route/route-directive.html
+  *  or directives/stop/stop-directive.html for
+  *  more info about $event.stopPropagation())
+  */
+
+  $scope.redirectRoute = function(routeId){
     $state.go('app.route', {routeId: routeId});
   }
 
   $scope.redirectStop = function(stopId){
     $state.go('app.stop', {stopId: stopId});
   }
+
+  /*
+   * Get all the routes and stops
+   */
 
   function getRoutesAndStops () {
     $ionicLoading.show();
@@ -40,18 +51,24 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
 
     $ionicLoading.hide();
 
-    /* Similar to prepareRoutes, we only
-     * keep the details about each stop that are useful
-     * to us for displaying them.  It makes searching easier.
-     */
   }
+  /*
+   *  Only keep the details about the
+   *  route that we care about.
+   */
 
-  function stripDetails (routeList) {
+  function prepareRoutes (routeList) {
     return _.map(routeList, function (route) {
       route.Liked = _.contains(_.pluck($scope.favoriteRoutes, 'RouteId'), route.RouteId);
       return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color', 'GoogleDescription', 'Liked');
     });
   }
+
+  /*
+   *  Similar to prepareRoutes, we only
+   * keep the details about each stop that are useful
+   * to us for displaying them.  It makes searching easier.
+   */
 
   function prepareStops (stopList) {
     return _.map(stopList, function (stop) {
@@ -130,7 +147,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   function getFavoriteRoutes (routes) {
     localforage.getItem('favoriteRoutes', function (err, value) {
       $scope.favoriteRoutes = value;
-      $scope.routes = stripDetails(routes);
+      $scope.routes = prepareRoutes(routes);
       redraw();
     });
   };
@@ -143,9 +160,15 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     });
   };
 
+  /*
+   * Called when a user clicks on the heart button,
+   * this function either removes or adds
+   * the stop to the user's list of favorites.
+   */
+
   $scope.toggleStopHeart = function (stop) {
     FavoriteStops.contains(stop.StopId, function (bool) {
-      if (bool) {
+      if (bool == true) {
         FavoriteStops.remove(stop);
       }
       else {
@@ -155,9 +178,15 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     });
   };
 
+  /*
+   * Called when a user clicks on the heart button,
+   * this function either removes or adds
+   * the route to the user's list of favorites.
+   */
+
   $scope.toggleRouteHeart = function(route){
     FavoriteRoutes.contains(route, function(bool){
-      if(bool) {
+      if(bool === true) {
         FavoriteRoutes.remove(route);
       }
       else {
@@ -173,6 +202,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
 
   $scope.$on('$ionicView.enter', function () {
     getRoutesAndStops();
-    $scope.display($scope.currentDisplay);
+    redraw();
   });
 });
