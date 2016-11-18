@@ -172,7 +172,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         $scope.request.origin = {
           name: place.name,
           id: place.place_id
-        }
+        };
         $scope.request.destinationOnly = false;
         //Name the trip if there is a destination: ORIGIN to DESTINATION
         if ($scope.request.destination.name) {
@@ -195,7 +195,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         $scope.request.destination = {
           name: place.name,
           id: place.place_id
-        }
+        };
         //Name the trip: ORIGIN to DESTINATION if not destinationOnly, otherwise just DESTINATION
         if ($scope.request.destinationOnly || !$scope.request.origin.name) {
           $scope.request.name = place.name;
@@ -219,7 +219,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
     else if (!bounds.contains(place.geometry.location)) {
       invalidLocationPopup('PVTA does not service this location.');
-      error('Location ' + place.name + ' is out of bounds. ID: ' + place.id)
+      error('Location ' + place.name + ' is out of bounds. ID: ' + place.id);
     } else {
       //Fit the location on the map
       if (place.geometry.viewpoint) {

@@ -29,24 +29,12 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     * Nested function for removing stuff we don't need
     * from each route; this makes searching easier!
     */
-<<<<<<< HEAD
-=======
-    function stripDetails (routeList) {
-      return _.map(routeList, function (route) {
-        return _.pick(route, 'RouteId', 'RouteAbbreviation', 'GoogleDescription', 'ShortName', 'Color');
-      });
-    }
->>>>>>> 3848a15e92d12a65d302b58106be8a1151c3b1c4
     // Remember, StopsForage returns a Promise.
     // Must resolve it.
     StopsForage.get().then(function (stops) {
       stops = StopsForage.uniq(stops);
       StopsForage.save(stops);
-<<<<<<< HEAD
       getFavoriteStops(stops);
-=======
-      $ionicLoading.hide();
->>>>>>> 3848a15e92d12a65d302b58106be8a1151c3b1c4
       redraw();
     });
 
@@ -54,14 +42,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
      * keep the details about each stop that are useful
      * to us for displaying them.  It makes searching easier.
      */
-<<<<<<< HEAD
-=======
-    function prepareStops (list) {
-      return _.map(list, function (stop) {
-        return _.pick(stop, 'StopId', 'Description');
-      });
-    }
->>>>>>> 3848a15e92d12a65d302b58106be8a1151c3b1c4
   }
 
   function stripDetails (routeList) {
