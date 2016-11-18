@@ -16,13 +16,13 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   *  more info about $event.stopPropagation())
   */
 
-  $scope.redirectRoute = function(routeId){
+  $scope.redirectRoute = function (routeId) {
     $state.go('app.route', {routeId: routeId});
-  }
+  };
 
-  $scope.redirectStop = function(stopId){
+  $scope.redirectStop = function (stopId) {
     $state.go('app.stop', {stopId: stopId});
-  }
+  };
 
   /*
    * Get all the routes and stops
@@ -150,15 +150,15 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       $scope.routes = prepareRoutes(routes);
       redraw();
     });
-  };
+  }
 
-  function getFavoriteStops (stops){
+  function getFavoriteStops (stops) {
     localforage.getItem('favoriteStops', function (err, value) {
       $scope.favoriteStops = value;
       $scope.stops = prepareStops(stops);
       redraw();
     });
-  };
+  }
 
   /*
    * Called when a user clicks on the heart button,
@@ -168,7 +168,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
 
   $scope.toggleStopHeart = function (stop) {
     FavoriteStops.contains(stop.StopId, function (bool) {
-      if (bool == true) {
+      if (bool === true) {
         FavoriteStops.remove(stop);
       }
       else {
@@ -184,8 +184,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
    * the route to the user's list of favorites.
    */
 
-  $scope.toggleRouteHeart = function(route){
-    FavoriteRoutes.contains(route, function(bool){
+  $scope.toggleRouteHeart = function(route) {
+    FavoriteRoutes.contains(route, function (bool) {
       if(bool === true) {
         FavoriteRoutes.remove(route);
       }
