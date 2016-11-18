@@ -184,7 +184,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
    * the route to the user's list of favorites.
    */
 
-  $scope.toggleRouteHeart = function(route) {
+  $scope.toggleRouteHeart = function (route) {
     FavoriteRoutes.contains(route, function (bool) {
       if(bool === true) {
         FavoriteRoutes.remove(route);
