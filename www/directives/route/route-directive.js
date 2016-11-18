@@ -3,7 +3,7 @@ angular.module('pvta.directives').directive('route', function () {
   return {
     scope: {
       liked: '=liked',
-      route: '=bananas',
+      route: '=data',
       toggle: '=toggle'
     },
     templateUrl: 'directives/route/route-directive.html'

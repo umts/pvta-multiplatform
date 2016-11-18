@@ -38,6 +38,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       redraw();
     });
 
+    $ionicLoading.hide();
+
     /* Similar to prepareRoutes, we only
      * keep the details about each stop that are useful
      * to us for displaying them.  It makes searching easier.
@@ -47,14 +49,14 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   function stripDetails (routeList) {
     return _.map(routeList, function (route) {
       route.Liked = _.contains(_.pluck($scope.favoriteRoutes, 'RouteId'), route.RouteId);
-      return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color', 'Liked');
+      return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color', 'GoogleDescription', 'Liked');
     });
   }
 
   function prepareStops (stopList) {
     return _.map(stopList, function (stop) {
       stop.Liked = _.contains(_.pluck($scope.favoriteStops, 'StopId'), stop.StopId);
-      return _.pick(stop, 'StopId', 'Name', 'Liked');
+      return _.pick(stop, 'StopId', 'Name', 'Liked', 'Description');
     });
   }
 
@@ -154,7 +156,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   };
 
   $scope.toggleRouteHeart = function(route){
-    console.log("HIIIIIIIII");
     FavoriteRoutes.contains(route, function(bool){
       if(bool) {
         FavoriteRoutes.remove(route);
