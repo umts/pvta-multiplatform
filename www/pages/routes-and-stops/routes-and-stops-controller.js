@@ -4,7 +4,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   // We can control which list is shown via the page's URL.
   // Pull that param and same it for later.
   $scope.currentDisplay = parseInt($stateParams.segment);
-  $ionicLoading.show({});
   $scope._ = _;
   /*
    * Get all the routes and stops
@@ -19,7 +18,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   }
 
   function getRoutesAndStops () {
-    $scope.routes = [];
+    $ionicLoading.show();
     // RouteForage returns a promise, resolve it.
     RouteForage.get().then(function (routes) {
       RouteForage.save(routes);
@@ -30,12 +29,24 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     * Nested function for removing stuff we don't need
     * from each route; this makes searching easier!
     */
+<<<<<<< HEAD
+=======
+    function stripDetails (routeList) {
+      return _.map(routeList, function (route) {
+        return _.pick(route, 'RouteId', 'RouteAbbreviation', 'GoogleDescription', 'ShortName', 'Color');
+      });
+    }
+>>>>>>> 3848a15e92d12a65d302b58106be8a1151c3b1c4
     // Remember, StopsForage returns a Promise.
     // Must resolve it.
     StopsForage.get().then(function (stops) {
       stops = StopsForage.uniq(stops);
       StopsForage.save(stops);
+<<<<<<< HEAD
       getFavoriteStops(stops);
+=======
+      $ionicLoading.hide();
+>>>>>>> 3848a15e92d12a65d302b58106be8a1151c3b1c4
       redraw();
     });
 
@@ -43,6 +54,14 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
      * keep the details about each stop that are useful
      * to us for displaying them.  It makes searching easier.
      */
+<<<<<<< HEAD
+=======
+    function prepareStops (list) {
+      return _.map(list, function (stop) {
+        return _.pick(stop, 'StopId', 'Description');
+      });
+    }
+>>>>>>> 3848a15e92d12a65d302b58106be8a1151c3b1c4
   }
 
   function stripDetails (routeList) {
@@ -88,8 +107,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         $scope.stopsDisp = $scope.stops.slice(0, 41);
         break;
     }
-    // Finally, hide the loader to coax a redraw.
-    $ionicLoading.hide();
   };
 
   /* When the search button is clicked onscreen,

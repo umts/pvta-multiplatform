@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#387ef5">
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -12,13 +18,13 @@
     </script>
 
     <!-- UNCOMMENT BEFORE DEPLOYING - ANALYTICS -->
-    <!-- <meta name="google-site-verification" content="fl6hMTOUVgBkFwN8ivRVWGS5p-vPqF2qluCwanrhKDQ" /> -->
+    <!--<meta name="google-site-verification" content="fl6hMTOUVgBkFwN8ivRVWGS5p-vPqF2qluCwanrhKDQ" />-->
 
-    <!-- UNCOMMENT WHEN DEPLOYING - PRODUCTION MAPS API KEY
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPsmX2FrR5zk5WLLSqoo1TawQpr0hSyDs&libraries=places,geometry"></script> -->
+    <!-- UNCOMMENT WHEN DEPLOYING - PRODUCTION MAPS API KEY -->
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPsmX2FrR5zk5WLLSqoo1TawQpr0hSyDs&libraries=places,geometry"></script>-->
 
     <!-- COMMENT WHEN DEPLOYING - DEV MAPS API KEY -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuFkJ-z0W35mRxANKMAVMSLhI3kryvJ3Y&libraries=places,geometry"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuFkJ-z0W35mRxANKMAVMSLhI3kryvJ3Y&libraries=places,geometry"></script> 
 
     <!-- No more google urls after this point -->
     <meta charset="utf-8">
@@ -31,10 +37,13 @@
     <!-- compiled css output -->
     <link href="css/ionic.app.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="lib/timeline.css" rel="stylesheet">
 
     <!-- ionic/angularjs js -->
     <script src="bower_components/ionic/js/ionic.bundle.min.js"></script>
     <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+
+    <script src="bower_components/angular-aria/angular-aria.min.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="bower_components/ngCordova/dist/ng-cordova.js"></script>

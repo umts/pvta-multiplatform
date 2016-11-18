@@ -3,6 +3,6 @@
     <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">
       {{route.RouteAbbreviation}}
     </span>
-    <p>{{route.LongName}}</p>
+    <p>{{route.GoogleDescription}}</p>
 </div>
 <button ng-class="liked ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="liked = !liked; toggle(route); $event.stopPropagation();"></button>

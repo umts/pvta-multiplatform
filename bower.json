@@ -1,8 +1,8 @@
 {
-  "name": "PVTA",
+  "name": "pvta",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.3.1"
+    "ionic": "driftyco/ionic-bower#1.3.2"
   },
   "dependencies": {
     "moment": "~2.10.6",
@@ -14,6 +14,10 @@
     "angular-underscore-module": "~1.0.3",
     "angular-resource": "~1.5.8",
     "ionic-datepicker": "^1.2.1",
-    "ionic-timepicker": "^0.6.0"
+    "ionic-timepicker": "^0.6.0",
+    "angular-aria": "^1.5.8"
+  },
+  "resolutions": {
+    "angular": "1.5.3"
   }
 }
