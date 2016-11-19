@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips, $ionicPopup, Info) {
+angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips, $ionicPopup, Info, $ionicModal) {
   ga('set', 'page', '/my-buses.html');
   ga('send', 'pageview');
   $scope.messages = [];
@@ -95,6 +95,37 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     Trips.push(index);
     $location.path('app/plan-trip');
   };
+
+  $ionicModal.fromTemplateUrl('pages/my-buses/route-modal.html', {
+    scope: $scope
+  }).then(function (modal) {
+    $scope.modal = modal;
+  });
+  $ionicModal.fromTemplateUrl('pages/my-buses/stop-modal.html', {
+    scope: $scope
+  }).then(function (modal) {
+    $scope.stopModal = modal;
+  });
+  $scope.openModal = function () {
+    console.log('tits');
+    $scope.modal.show();
+  };
+  $scope.closeModal = function () {
+    $scope.modal.hide();
+  };
+  // Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function () {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function () {
+    // Execute action
+  });
+    // Execute action on remove modal
+  $scope.$on('modal.removed', function () {
+    // Execute action
+  });
+
   // Try to show the popup only when the controller is initially loaded;
   // no need to check every time the user comes to My Buses in the same session
   //showPopup();
