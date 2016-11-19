@@ -1,50 +1,82 @@
-angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
   // We can control which list is shown via the page's URL.
   // Pull that param and same it for later.
   $scope.currentDisplay = parseInt($stateParams.segment);
   $scope._ = _;
+
+  /*
+  *  Two redirect functions, which are called
+  *  when clicking on the ion-items in the lists.
+  *  These are necessary so that we can use
+  *  $event.stopPropagation() in the directive
+  *  (see directives/route/route-directive.html
+  *  or directives/stop/stop-directive.html for
+  *  more info about $event.stopPropagation())
+  */
+
+  $scope.redirectRoute = function (routeId) {
+    $state.go('app.route', {routeId: routeId});
+  };
+
+  $scope.redirectStop = function (stopId) {
+    $state.go('app.stop', {stopId: stopId});
+  };
+
   /*
    * Get all the routes and stops
    */
+
   function getRoutesAndStops () {
     $ionicLoading.show();
     // RouteForage returns a promise, resolve it.
     RouteForage.get().then(function (routes) {
       RouteForage.save(routes);
-      $scope.routes = stripDetails(routes);
+      getFavoriteRoutes(routes);
       redraw();
     });
     /*
     * Nested function for removing stuff we don't need
     * from each route; this makes searching easier!
     */
-    function stripDetails (routeList) {
-      return _.map(routeList, function (route) {
-        return _.pick(route, 'RouteId', 'RouteAbbreviation', 'GoogleDescription', 'ShortName', 'Color');
-      });
-    }
     // Remember, StopsForage returns a Promise.
     // Must resolve it.
     StopsForage.get().then(function (stops) {
       stops = StopsForage.uniq(stops);
-      $scope.stops = prepareStops(stops);
       StopsForage.save(stops);
-      $ionicLoading.hide();
+      getFavoriteStops(stops);
       redraw();
     });
 
-    /* Similar to prepareRoutes, we only
-     * keep the details about each stop that are useful
-     * to us for displaying them.  It makes searching easier.
-     */
-    function prepareStops (list) {
-      return _.map(list, function (stop) {
-        return _.pick(stop, 'StopId', 'Description');
-      });
-    }
+    $ionicLoading.hide();
+
   }
+  /*
+   *  Only keep the details about the
+   *  route that we care about.
+   */
+
+  function prepareRoutes (routeList) {
+    return _.map(routeList, function (route) {
+      route.Liked = _.contains(_.pluck($scope.favoriteRoutes, 'RouteId'), route.RouteId);
+      return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color', 'GoogleDescription', 'Liked');
+    });
+  }
+
+  /*
+   *  Similar to prepareRoutes, we only
+   * keep the details about each stop that are useful
+   * to us for displaying them.  It makes searching easier.
+   */
+
+  function prepareStops (stopList) {
+    return _.map(stopList, function (stop) {
+      stop.Liked = _.contains(_.pluck($scope.favoriteStops, 'StopId'), stop.StopId);
+      return _.pick(stop, 'StopId', 'Name', 'Liked', 'Description');
+    });
+  }
+
   // Two variables for the lists.
   $scope.routesDisp = [];
   $scope.stopsDisp = [];
@@ -111,22 +143,65 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       }
     });
   };
-  function getFavorites () {
+
+  function getFavoriteRoutes (routes) {
     localforage.getItem('favoriteRoutes', function (err, value) {
       $scope.favoriteRoutes = value;
-      redraw();
-    });
-    localforage.getItem('favoriteStops', function (err, value) {
-      $scope.favoriteStops = value;
+      $scope.routes = prepareRoutes(routes);
       redraw();
     });
   }
 
+  function getFavoriteStops (stops) {
+    localforage.getItem('favoriteStops', function (err, value) {
+      $scope.favoriteStops = value;
+      $scope.stops = prepareStops(stops);
+      redraw();
+    });
+  }
+
+  /*
+   * Called when a user clicks on the heart button,
+   * this function either removes or adds
+   * the stop to the user's list of favorites.
+   */
+
+  $scope.toggleStopHeart = function (stop) {
+    FavoriteStops.contains(stop.StopId, function (bool) {
+      if (bool === true) {
+        FavoriteStops.remove(stop);
+      }
+      else {
+        FavoriteStops.push(stop);
+      }
+      $scope.$apply();
+    });
+  };
+
+  /*
+   * Called when a user clicks on the heart button,
+   * this function either removes or adds
+   * the route to the user's list of favorites.
+   */
+
+  $scope.toggleRouteHeart = function (route) {
+    FavoriteRoutes.contains(route, function (bool) {
+      if(bool === true) {
+        FavoriteRoutes.remove(route);
+      }
+      else {
+        FavoriteRoutes.push(route);
+      }
+      $scope.$apply();
+    });
+  };
+
   function redraw () {
     $scope.display($scope.currentDisplay);
   }
-  getRoutesAndStops();
+
   $scope.$on('$ionicView.enter', function () {
-    getFavorites();
+    getRoutesAndStops();
+    redraw();
   });
 });

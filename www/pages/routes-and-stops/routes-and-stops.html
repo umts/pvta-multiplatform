@@ -10,16 +10,11 @@
   </div>
   <ion-content class="has-subheader" direction="y" scrollbar-y="false">
     <ion-list>
-      <ion-item ng-show="currentDisplay === 0" class="item item-icon-left item-icon-right" ng-repeat="route in routesDisp" href="#app/routes/{{route.RouteId}}">
-        <i class="icon ion-android-bus"></i>
-        <span style="color: #{{route.Color}}; font-size: 125%; font-weight: bold; margin-left: 10px">{{route.RouteAbbreviation}}</span>
-        <p>{{route.GoogleDescription}}</p>
-        <i ng-show="_.contains(_.pluck(favoriteRoutes, 'RouteId'), route.RouteId)" class="icon ion-ios-heart"></i>
+      <ion-item ng-show="currentDisplay === 0" ng-repeat="route in routesDisp" ng-click="redirectRoute(route.RouteId)" class= "item item-icon-left item-icon-right">
+        <route liked="route.Liked" data="route" toggle="toggleRouteHeart"></route>
       </ion-item>
-      <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | limitTo: 40" href="#/app/stops/{{stop.StopId}}">
-        <i class="icon ion-ios-location" style="margin-right: 10px"></i>
-        {{stop.Description}} ({{stop.StopId}})
-        <i ng-show="_.contains(_.pluck(favoriteStops, 'StopId'), stop.StopId)" class="icon ion-ios-heart"></i>
+      <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | limitTo: 40" ng-click="redirectStop(stop.StopId)">
+        <stop liked="stop.Liked" data="stop" toggle="toggleStopHeart"></stop>
       </ion-item>
       <div ng-if="stops && currentDisplay === 1 && stopsDisp > 30" class="item item-divider item-positive item-text-wrap">Too many stops to show. Please search above for your stop by name or ID.</div>
     </ion-list>
