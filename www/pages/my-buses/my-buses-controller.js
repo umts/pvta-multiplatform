@@ -96,35 +96,46 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     $location.path('app/plan-trip');
   };
 
-  $ionicModal.fromTemplateUrl('pages/my-buses/route-modal.html', {
-    scope: $scope
-  }).then(function (modal) {
-    $scope.routeModal = modal;
-  });
-  $ionicModal.fromTemplateUrl('pages/my-buses/stop-modal.html', {
-    scope: $scope
-  }).then(function (modal) {
-    $scope.stopModal = modal;
-  });
-  $scope.openModal = function () {
-    console.log('tits');
-    $scope.routeModal.show();
+  $scope.showStopModal = function () {
+    $ionicModal.fromTemplateUrl('pages/my-buses/stop-modal.html', {
+      scope: $scope
+    }).then(function (modal) {
+      $scope.stopModal = modal;
+      $scope.stopModal.show();
+    });
   };
-  $scope.closeModal = function () {
-    $scope.routeModal.hide();
+
+  $scope.showRouteModal = function () {
+    $ionicModal.fromTemplateUrl('pages/my-buses/route-modal.html', {
+      scope: $scope
+    }).then(function (modal) {
+      $scope.routeModal = modal;
+      $scope.routeModal.show();
+    });
   };
-  // Cleanup the modal when we're done with it!
-  $scope.$on('$destroy', function () {
+  $scope.hideRouteModal = function () {
     $scope.routeModal.remove();
-  });
+    $scope.routeModal = null;
+  };
+  $scope.hideStopModal = function () {
+    $scope.stopModal.remove();
+    $scope.stopModal = null;
+  };
+  // // Cleanup the modal when we're done with it!
+  // $scope.$on('$destroy', function () {
+  //   $scope.routeModal.remove();
+  // });
   // Execute action on hide modal
   $scope.$on('modal.hidden', function () {
     // Execute action
+    console.log('tits')
+    $scope.filterBarInstance();
+    $scope.filterBarInstance = null;
   });
-    // Execute action on remove modal
-  $scope.$on('modal.removed', function () {
-    // Execute action
-  });
+  //   // Execute action on remove modal
+  // $scope.$on('modal.removed', function () {
+  //   // Execute action
+  // });
 
   RouteForage.get().then(function (routes) {
     $scope.allRoutes = routes;
@@ -140,6 +151,7 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
   });
 
   $scope.showFilterBar = function (routes) {
+    console.log('titststs')
     var itms;
     // itms is the variable we'll be searching.
     // If routes are displayed, imts is routes.
@@ -150,7 +162,8 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     else {
       itms = $scope.allStops;
     }
-    filterBarInstance = $ionicFilterBar.show({
+    $scope.filterBarInstance = $ionicFilterBar.show({
+      container: '.modal',
       // tell $ionicFilterBar to search over itms.
       items: itms,
       // Every time the input changes, update the results.
@@ -164,7 +177,6 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
           // otherwise, update the stops list.
           $scope.allStops = filteredItems.slice(0, 41);
         }
-
       }
     });
   };
