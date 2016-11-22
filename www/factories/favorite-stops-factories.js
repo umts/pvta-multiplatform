@@ -52,7 +52,7 @@ angular.module('pvta.factories')
   }
 
   function save (stop) {
-    contains(stop, function (bool) {
+    contains(stop.StopId, function (bool) {
       if (bool) {
         remove(stop);
       }
@@ -65,6 +65,7 @@ angular.module('pvta.factories')
     push: push,
     getAll: getAll,
     remove: remove,
-    contains: contains
+    contains: contains,
+    save: save
   };
 });

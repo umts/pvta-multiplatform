@@ -4,7 +4,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   ga('send', 'pageview');
 
   $scope.showStopModal = function () {
-    $ionicModal.fromTemplateUrl('pages/my-buses/stop-modal.html', {
+    $ionicModal.fromTemplateUrl('pages/route/stop-modal.html', {
       scope: $scope
     }).then(function (modal) {
       $scope.stopModal = modal;
@@ -13,15 +13,15 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   };
 
   $scope.toggleStopHeart = function (stop) {
-    FavoriteStops.contains(stop.StopId, function (bool) {
-      if (bool === true) {
-        FavoriteStops.remove(stop);
-      }
-      else {
-        FavoriteStops.push(stop);
-      }
-      $scope.$apply();
-    });
+    // FavoriteStops.contains(stop.StopId, function (bool) {
+    //   if (bool === true) {
+    //     FavoriteStops.remove(stop);
+    //   }
+    //   else {
+    //     FavoriteStops.push(stop);
+    //   }
+    // });
+    FavoriteStops.save(stop);
   };
   /*
   * Called when the user performs a pull-to-refresh.  Only downloads
@@ -50,8 +50,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   function prepareStops (stops) {
     $scope.stops = []
     FavoriteStops.getAll().then(function (favoriteStops) {
-      if (favoriteStops) {
-        var favoriteStopIds = _.pluck(favoriteStops, 'StopId')
+        var favoriteStopIds = _.pluck(favoriteStops, 'StopId');
         for (var index = 0; index < stops.length; index++) {
            var stop = stops[index];
            var liked = false;
@@ -61,7 +60,6 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
            }
            $scope.stops.push({StopId: stop.StopId, Description: stop.Description, Liked: liked});
         }
-      }
     });
   }
   /**
