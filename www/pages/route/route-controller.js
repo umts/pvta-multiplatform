@@ -13,7 +13,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   };
 
   $scope.toggleStopHeart = function (stop) {
-    FavoriteStops.save(stop);
+    FavoriteStops.toggleFavoriteStop(stop);
   };
   /*
   * Called when the user performs a pull-to-refresh.  Only downloads

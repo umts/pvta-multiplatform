@@ -51,7 +51,7 @@ angular.module('pvta.factories')
     });
   }
 
-  function togglefavoriteStop (stop) {
+  function toggleFavoriteStop (stop) {
     contains(stop.StopId, function (bool) {
       if (bool) {
         remove(stop);
@@ -66,6 +66,6 @@ angular.module('pvta.factories')
     getAll: getAll,
     remove: remove,
     contains: contains,
-    togglefavoriteStop: togglefavoriteStop
+    toggleFavoriteStop: toggleFavoriteStop
   };
 });
