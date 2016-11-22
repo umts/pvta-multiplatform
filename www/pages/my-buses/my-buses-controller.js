@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips, $ionicPopup, Info, $ionicModal, RouteForage, StopsForage, $ionicFilterBar) {
+angular.module('pvta.controllers').controller('MyBusesController', function ($scope, $location, Messages, FavoriteRoutes, FavoriteStops, Trips, $ionicPopup, Info) {
   ga('set', 'page', '/my-buses.html');
   ga('send', 'pageview');
   $scope.messages = [];
@@ -94,91 +94,6 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
   $scope.openTrip = function (index) {
     Trips.push(index);
     $location.path('app/plan-trip');
-  };
-
-  $scope.showStopModal = function () {
-    $ionicModal.fromTemplateUrl('pages/my-buses/stop-modal.html', {
-      scope: $scope
-    }).then(function (modal) {
-      $scope.stopModal = modal;
-      $scope.stopModal.show();
-    });
-  };
-
-  $scope.showRouteModal = function () {
-    $ionicModal.fromTemplateUrl('pages/my-buses/route-modal.html', {
-      scope: $scope
-    }).then(function (modal) {
-      $scope.routeModal = modal;
-      $scope.routeModal.show();
-    });
-  };
-  $scope.hideRouteModal = function () {
-    $scope.routeModal.remove();
-    $scope.routeModal = null;
-  };
-  $scope.hideStopModal = function () {
-    $scope.stopModal.remove();
-    $scope.stopModal = null;
-  };
-  // // Cleanup the modal when we're done with it!
-  // $scope.$on('$destroy', function () {
-  //   $scope.routeModal.remove();
-  // });
-  // Execute action on hide modal
-  $scope.$on('modal.hidden', function () {
-    // Execute action
-    console.log('tits')
-    $scope.filterBarInstance();
-    $scope.filterBarInstance = null;
-  });
-  //   // Execute action on remove modal
-  // $scope.$on('modal.removed', function () {
-  //   // Execute action
-  // });
-
-  RouteForage.get().then(function (routes) {
-    $scope.allRoutes = routes;
-  });
-  /*
-  * Nested function for removing stuff we don't need
-  * from each route; this makes searching easier!
-  */
-  // Remember, StopsForage returns a Promise.
-  // Must resolve it.
-  StopsForage.get().then(function (stops) {
-    $scope.allStops = StopsForage.uniq(stops);
-  });
-
-  $scope.showFilterBar = function (routes) {
-    console.log('titststs')
-    var itms;
-    // itms is the variable we'll be searching.
-    // If routes are displayed, imts is routes.
-    // Else, it's stops.
-    if (routes === true) {
-      itms = $scope.allRoutes;
-    }
-    else {
-      itms = $scope.allStops;
-    }
-    $scope.filterBarInstance = $ionicFilterBar.show({
-      container: '.modal',
-      // tell $ionicFilterBar to search over itms.
-      items: itms,
-      // Every time the input changes, update the results.
-      update: function (filteredItems) {
-        // if routes are currently being displayed, update
-        // their list with our results here.
-        if (routes === true) {
-          $scope.allRoutes = filteredItems;
-        }
-        else {
-          // otherwise, update the stops list.
-          $scope.allStops = filteredItems.slice(0, 41);
-        }
-      }
-    });
   };
 
   // Try to show the popup only when the controller is initially loaded;
