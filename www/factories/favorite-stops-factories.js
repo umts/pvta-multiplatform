@@ -54,6 +54,17 @@ angular.module('pvta.factories')
       }
     });
   }
+
+  function save (stop) {
+    contains(stop, function (bool) {
+      if (bool) {
+        remove(stop);
+      }
+      else {
+        push(stop);
+      }
+    });
+  }
   return {
     push: push,
     getAll: getAll,

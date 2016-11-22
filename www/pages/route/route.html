@@ -44,16 +44,11 @@
         </ion-item>
       </ion-list>
     </div>
-    <ion-item class="item" ng-if="route && stops">
+    <ion-item class="item" ng-if="route && stops" ng-click="showStopModal()">
       <div class="text-center">
         <span>Stops on the {{route.RouteAbbreviation}}</span>
       </div>
     </ion-item>
-    <ion-item class="item item-text-wrap"
-        ng-if="route && stops"
-        ng-repeat="stop in stops | orderBy: '+SortOrder'"
-        href="#/app/stops/{{stop.StopId}}">
-        {{stop.Description}} ({{stop.StopId}})
-    </ion-item>
+    {{stops}}
   </ion-content>
 </ion-view>

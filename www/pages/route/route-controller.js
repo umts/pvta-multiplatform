@@ -1,8 +1,28 @@
-angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, $location, $ionicScrollDelegate){
+angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, $location, $ionicScrollDelegate, $ionicModal, FavoriteStops, $ionicFilterBar){
   ga('set', 'page', '/route.html');
   ga('set', 'route', $stateParams.routeId);
   ga('send', 'pageview');
 
+  $scope.showStopModal = function () {
+    $ionicModal.fromTemplateUrl('pages/my-buses/stop-modal.html', {
+      scope: $scope
+    }).then(function (modal) {
+      $scope.stopModal = modal;
+      $scope.stopModal.show();
+    });
+  };
+
+  $scope.toggleStopHeart = function (stop) {
+    FavoriteStops.contains(stop.StopId, function (bool) {
+      if (bool === true) {
+        FavoriteStops.remove(stop);
+      }
+      else {
+        FavoriteStops.push(stop);
+      }
+      $scope.$apply();
+    });
+  };
   /*
   * Called when the user performs a pull-to-refresh.  Only downloads
   * vehicle data instead of all route data.
@@ -22,10 +42,21 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     ga('send', 'event', 'RouteLoaded', 'RouteController.self', 'Route: ' + route.RouteAbbreviation + ' (' + $stateParams.routeId + ')');
     $scope.route = route
     getHeart();
-    $scope.stops = $scope.route.Stops;
+    prepareStops($scope.route.Stops);
     $scope.vehicles = $scope.route.Vehicles;
     $ionicLoading.hide();
   });
+
+  function prepareStops (stops) {
+    $scope.stops = []
+    for (var index = 0; index < stops.length; index++) {
+      var stop = stops[index];
+      FavoriteStops.contains(stop.StopId, function(bool) {
+        $scope.stops.push({StopId: stop.StopId, Description: stop.Description, Liked: bool});
+        console.log(JSON.stringify(stops[index]));
+      });
+    }
+  }
   /**
    * Download any Alerts for the current route
    * and display them.
@@ -39,6 +70,18 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     }
     $scope.messages = filteredMessages;
   });
+
+  $scope.showFilterBar = function () {
+    $ionicFilterBar.show({
+      container: '.modal',
+      // tell $ionicFilterBar to search over itms.
+      items: $scope.stops,
+      // Every time the input changes, update the results.
+      update: function (filteredItems) {
+          $scope.stops = filteredItems;
+      }
+    });
+  };
 
   // Toggles saving/unsaving this route to Favorites
   $scope.toggleHeart = function(liked) {

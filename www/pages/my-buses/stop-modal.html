@@ -2,11 +2,11 @@
   <ion-header-bar class="bar bar-header bar-positive">
     <h1 class="title">Pick a Route to Favorite</h1>
     <button class="button button-clear button-primary" ng-click="stopModal.hide()">Cancel</button>
-    <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar(false)"></button>
+    <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()"></button>
   </ion-header-bar>
   <ion-content class="padding">
-    <ion-item ng-repeat="stop in allStops | limitTo: 40" class= "item-icon-left item-icon-right">
-      <stop liked="stop.Liked" data="stop" toggle="toggleRouteHeart"></stop>
+    <ion-item ng-repeat="stop in stops | limitTo: 40" class= "item-icon-left item-icon-right" href="#/app/stops/{{stop.StopId}}">
+      <stop liked="stop.Liked" data="stop" toggle="toggleStopHeart"></stop>
     </ion-item>
   </ion-content>
 </ion-modal-view>
