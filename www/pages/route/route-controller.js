@@ -49,13 +49,20 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
 
   function prepareStops (stops) {
     $scope.stops = []
-    for (var index = 0; index < stops.length; index++) {
-      var stop = stops[index];
-      FavoriteStops.contains(stop.StopId, function(bool) {
-        $scope.stops.push({StopId: stop.StopId, Description: stop.Description, Liked: bool});
-        console.log(JSON.stringify(stops[index]));
-      });
-    }
+    FavoriteStops.getAll().then(function (favoriteStops) {
+      if (favoriteStops) {
+        var favoriteStopIds = _.pluck(favoriteStops, 'StopId')
+        for (var index = 0; index < stops.length; index++) {
+           var stop = stops[index];
+           var liked = false;
+           // If the ID of the stop in question is in the list of favorite stop IDs
+           if (_.contains(favoriteStopIds, stop.StopId)) {
+             liked = true;
+           }
+           $scope.stops.push({StopId: stop.StopId, Description: stop.Description, Liked: liked});
+        }
+      }
+    });
   }
   /**
    * Download any Alerts for the current route
