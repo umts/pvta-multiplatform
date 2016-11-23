@@ -1,6 +1,9 @@
 angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
+  var primarySort = '-Liked';
+  var secondarySort = 'RouteAbbreviation';
+  $scope.propertyName = [primarySort, secondarySort];
   // We can control which list is shown via the page's URL.
   // Pull that param and same it for later.
   $scope.currentDisplay = parseInt($stateParams.segment);
@@ -161,7 +164,28 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   }
 
   $scope.showFilters = function () {
-    $scope.show ? $scope.show = false : $scope.show = true;
+    //$scope.show ? $scope.show = false : $scope.show = true;
+    if ($scope.currentDisplay === 0) {
+      if (primarySort === '-Liked') {
+        primarySort = 'RouteAbbreviation';
+      }
+      else if (primarySort === 'RouteAbbreviation') {
+        primarySort = '-Liked';
+      }
+      secondarySort = 'RouteAbbreviation';
+    }
+    else if ($scope.currentDisplay === 1) {
+      if (primarySort === '-Liked') {
+        primarySort = 'Description';
+      }
+      else if (primarySort === 'Description') {
+        primarySort = '-Liked';
+      }
+      secondarySort = 'Description';
+    }
+    console.log('primary: ' + primarySort)
+    console.log('secondarySort: ' + secondarySort)
+    $scope.propertyName = [primarySort, secondarySort];
   };
 
   /** Determines how to order the list currently being displayed.
