@@ -10,12 +10,6 @@
     </div>
   </div>
   <ion-content class="has-subheader" direction="y" scrollbar-y="false">
-    <div class="button-bar animate-if" ng-if="show"> <!-- should be "show" in the if -->
-      <p>Order by {{orderBy}}</p>
-      <button ng-class="order === 0 ? 'button button-positive' : 'button  button-outline button-positive'" ng-click="orderBy(0)">Favorites</button>
-      <button ng-class="order === 1 ? 'button button-positive' : 'button  button-outline button-positive'" ng-click="orderBy(1)">Alphabetical</button>
-      <button ng-show="currentDisplay === 1" ng-class="order === 2 ? 'button button-positive' : 'button  button-outline button-positive'" ng-click="orderBy(2)">Distance From Me</button>
-    </div>
     <ion-list>
       <ion-item ng-show="currentDisplay === 0" ng-repeat="route in routesDisp | orderBy:propertyName" ng-click="redirectRoute(route.RouteId)" class= "item item-icon-left item-icon-right">
         <route liked="route.Liked" data="route" toggle="toggleRouteHeart"></route>
