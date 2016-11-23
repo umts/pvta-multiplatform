@@ -16,7 +16,7 @@
       <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | limitTo: 40" ng-click="redirectStop(stop.StopId)">
         <stop liked="stop.Liked" data="stop" toggle="toggleStopHeart"></stop>
       </ion-item>
-      <div ng-if="stops && currentDisplay === 1 && stopsDisp > 30" class="item item-divider item-positive item-text-wrap">Too many stops to show. Please search above for your stop by name or ID.</div>
+      <div ng-if="stops && currentDisplay === 1 && stopsDisp.length > 30" class="item item-divider item-positive item-text-wrap">Too many stops to show. Please search above for your stop by name or ID.</div>
     </ion-list>
     <div ng-if="routes && stops && !routesDisp.length && !stopsDisp.length" class="bar bar-assertive title">
         <h1 class="title">No results found.</h1>
