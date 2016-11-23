@@ -40,27 +40,27 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       redraw();
     });
     /*
-    * Nested function for removing stuff we don't need
-    * from each route; this makes searching easier!
-    */
-    // Remember, StopsForage returns a Promise.
-    // Must resolve it.
+     * Remember, StopsForage returns a Promise.
+     * Must resolve it.
+     */
     StopsForage.get().then(function (stops) {
       stops = StopsForage.uniq(stops);
       StopsForage.save(stops);
       getFavoriteStops(stops);
       redraw();
+      $ionicLoading.hide();
     });
-
-    $ionicLoading.hide();
-
   }
   /*
-   *  Only keep the details about the
-   *  route that we care about.
+   * Given the list of route objects, this function removes properties
+   * that we don't care about and adds whether each route is favorited.
+   *
+   * IMPORTANT: before this function is called, $scope.favoriteRoutes
+   * must already be populated!
    */
-
   function prepareRoutes (routeList) {
+    // For each route, add the custom 'Liked' property and keep only
+    // the properties we care about.  Doing this makes searching easier.
     return _.map(routeList, function (route) {
       route.Liked = _.contains(_.pluck($scope.favoriteRoutes, 'RouteId'), route.RouteId);
       return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color', 'GoogleDescription', 'Liked');
@@ -68,11 +68,10 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   }
 
   /*
-   *  Similar to prepareRoutes, we only
+   * Similar to prepareRoutes (see above), we only
    * keep the details about each stop that are useful
-   * to us for displaying them.  It makes searching easier.
+   * to us for displaying them.
    */
-
   function prepareStops (stopList) {
     return _.map(stopList, function (stop) {
       stop.Liked = _.contains(_.pluck($scope.favoriteStops, 'StopId'), stop.StopId);
@@ -109,6 +108,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         $scope.stopsDisp = $scope.stops.slice(0, 41);
         break;
     }
+    $scope.toggleOrdering();
   };
 
   /* When the search button is clicked onscreen,
@@ -162,78 +162,51 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       redraw();
     });
   }
-
-  $scope.showFilters = function () {
-    //$scope.show ? $scope.show = false : $scope.show = true;
+  /*
+   * Switches between the two ways Routes and Stops can be ordered.
+   */
+  $scope.toggleOrdering = function () {
+    // If routes are currently in view
     if ($scope.currentDisplay === 0) {
+      // If we're currently ordering by favorites, switch to name.
       if (primarySort === '-Liked') {
         primarySort = 'RouteAbbreviation';
       }
+      // If we're currently ordering by name, switch to favorites.
       else if (primarySort === 'RouteAbbreviation') {
         primarySort = '-Liked';
       }
+      else {
+        primarySort = '-Liked';
+      }
+      // Make sure the secondary dimension for ordering is always name.
       secondarySort = 'RouteAbbreviation';
     }
+    // If stops are currently in view
     else if ($scope.currentDisplay === 1) {
+      // If we're currently ordering by favorites, switch to name.
       if (primarySort === '-Liked') {
         primarySort = 'Description';
       }
+      // If we're currently ordering by name, switch to favorites.
       else if (primarySort === 'Description') {
         primarySort = '-Liked';
       }
+      else {
+        primarySort = '-Liked';
+      }
+      // Make sure the secondary dimension for ordering is always name.
       secondarySort = 'Description';
     }
-    console.log('primary: ' + primarySort)
-    console.log('secondarySort: ' + secondarySort)
+    // Assign the new ordering to the controller-wide filter.
     $scope.propertyName = [primarySort, secondarySort];
   };
 
-  /** Determines how to order the list currently being displayed.
-   * Expects 1 int input representing what type of ordering
-   * the user wants.
-   * Uses the currentDisplay variable to decide whether we're
-   * ordering Routes or Stops.
-   */
-  $scope.order = 0;
-  $scope.orderBy = function (val) {
-    $scope.order = val;
-    // If we're ordering Routes
-    if ($scope.currentDisplay === 0) {
-      // We're ordering by favorites
-      if (val === 0) {
-        // order by favorites
-      }
-      // we're ordering alphabetically
-      else if (val === 1) {
-        // order alphabetically
-      }
-      // Routes only support two ordering types.
-      // If somehow we're requested to order
-      // the list some other way, don't!
-    }
-    // If we're ordering Stops
-    else if ($scope.currentDisplay === 1) {
-      // We're ordering by favorites
-      if (val === 0) {
-        // order by favorites
-      }
-      // we're ordering alphabetically
-      else if (val === 1) {
-        // order alphabetically
-      }
-      // Stops support being ordered by location.
-      // Pass this off to a helper function.
-      else if (val === 2) {
-        // order by distance
-      }
-    }
-  };
   /*
    * Called when a user clicks on the heart button,
    * this function either removes or adds
    * the stop to the user's list of favorites.
    */
-
   $scope.toggleStopHeart = function (stop) {
     FavoriteStops.contains(stop.StopId, function (bool) {
       if (bool === true) {
@@ -251,7 +224,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
    * this function either removes or adds
    * the route to the user's list of favorites.
    */
-
   $scope.toggleRouteHeart = function (route) {
     FavoriteRoutes.contains(route, function (bool) {
       if (bool === true) {
