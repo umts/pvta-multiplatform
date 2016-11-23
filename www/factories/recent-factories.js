@@ -4,7 +4,7 @@ angular.module('pvta.factories')
   function recent (timestamp) {
     var now = moment();
     var diff = now.diff(timestamp, 'days');
-    if (diff <= 5) {
+    if (diff <= 1) {
       return true;
     }
     else {

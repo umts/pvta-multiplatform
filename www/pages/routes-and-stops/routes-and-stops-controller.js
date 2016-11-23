@@ -1,66 +1,82 @@
-angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
   // We can control which list is shown via the page's URL.
   // Pull that param and same it for later.
   $scope.currentDisplay = parseInt($stateParams.segment);
-  $ionicLoading.show({});
   $scope._ = _;
+
+  /*
+  *  Two redirect functions, which are called
+  *  when clicking on the ion-items in the lists.
+  *  These are necessary so that we can use
+  *  $event.stopPropagation() in the directive
+  *  (see directives/route/route-directive.html
+  *  or directives/stop/stop-directive.html for
+  *  more info about $event.stopPropagation())
+  */
+
+  $scope.redirectRoute = function (routeId) {
+    $state.go('app.route', {routeId: routeId});
+  };
+
+  $scope.redirectStop = function (stopId) {
+    $state.go('app.stop', {stopId: stopId});
+  };
+
   /*
    * Get all the routes and stops
    */
+
   function getRoutesAndStops () {
-    $scope.routes = [];
+    $ionicLoading.show();
     // RouteForage returns a promise, resolve it.
     RouteForage.get().then(function (routes) {
       RouteForage.save(routes);
-      $scope.routes = stripDetails(routes);
+      getFavoriteRoutes(routes);
       redraw();
     });
     /*
     * Nested function for removing stuff we don't need
     * from each route; this makes searching easier!
     */
-    function stripDetails (routeList) {
-      return _.map(routeList, function (route) {
-        return _.pick(route, 'RouteId', 'ShortName', 'LongName', 'Color');
-      });
-    }
-    /* Grab the current position.
-     * If we get it, get the list of stops based on that.
-     * Otherwise, just get a list of stops.  Avail's purview
-     * regarding order.
-     */
-    $cordovaGeolocation.getCurrentPosition({timeout: 3000}).then(function (position) {
-      // Remember, StopsForage returns a Promise.
-      // Must resolve it.
-      StopsForage.get(position.coords.latitude, position.coords.longitude).then(function (stops) {
-        StopsForage.save(stops);
-        stops = StopsForage.uniq(stops);
-        $scope.stops = prepareStops(stops);
-        redraw();
-      });
-    }, function (err) {
-      // If location services fail us, just
-      // get a list of stops; ordering no longer matters.
-      console.log('error finding position: ' + JSON.stringify(err));
-      StopsForage.get().then(function (stops) {
-        stops = StopsForage.uniq(stops);
-        StopsForage.save(stops);
-        $scope.stops = prepareStops(stops);
-        redraw();
-      });
+    // Remember, StopsForage returns a Promise.
+    // Must resolve it.
+    StopsForage.get().then(function (stops) {
+      stops = StopsForage.uniq(stops);
+      StopsForage.save(stops);
+      getFavoriteStops(stops);
+      redraw();
     });
-    /* Similar to prepareRoutes, we only
-     * keep the details about each stop that are useful
-     * to us for displaying them.  It makes searching easier.
-     */
-    function prepareStops (list) {
-      return _.map(list, function (stop) {
-        return _.pick(stop, 'StopId', 'Name');
-      });
-    }
+
+    $ionicLoading.hide();
+
   }
+  /*
+   *  Only keep the details about the
+   *  route that we care about.
+   */
+
+  function prepareRoutes (routeList) {
+    return _.map(routeList, function (route) {
+      route.Liked = _.contains(_.pluck($scope.favoriteRoutes, 'RouteId'), route.RouteId);
+      return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color', 'GoogleDescription', 'Liked');
+    });
+  }
+
+  /*
+   *  Similar to prepareRoutes, we only
+   * keep the details about each stop that are useful
+   * to us for displaying them.  It makes searching easier.
+   */
+
+  function prepareStops (stopList) {
+    return _.map(stopList, function (stop) {
+      stop.Liked = _.contains(_.pluck($scope.favoriteStops, 'StopId'), stop.StopId);
+      return _.pick(stop, 'StopId', 'Name', 'Liked', 'Description');
+    });
+  }
+
   // Two variables for the lists.
   $scope.routesDisp = [];
   $scope.stopsDisp = [];
@@ -87,11 +103,9 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         break;
       case 1:
         $scope.routesDisp = null;
-        $scope.stopsDisp = $scope.stops;
+        $scope.stopsDisp = $scope.stops.slice(0, 41);
         break;
     }
-    // Finally, hide the loader to coax a redraw.
-    $ionicLoading.hide();
   };
 
   /* When the search button is clicked onscreen,
@@ -109,7 +123,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       itms = $scope.routesDisp;
     }
     else {
-      itms = $scope.stopsDisp;
+      itms = $scope.stops;
     }
     filterBarInstance = $ionicFilterBar.show({
       // tell $ionicFilterBar to search over itms.
@@ -123,26 +137,32 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         }
         else {
           // otherwise, update the stops list.
-          $scope.stopsDisp = filteredItems;
+          $scope.stopsDisp = filteredItems.slice(0, 41);
         }
 
       }
     });
   };
-  function getFavorites () {
+
+  function getFavoriteRoutes (routes) {
     localforage.getItem('favoriteRoutes', function (err, value) {
       $scope.favoriteRoutes = value;
-      redraw();
-    });
-    localforage.getItem('favoriteStops', function (err, value) {
-      $scope.favoriteStops = value;
+      $scope.routes = prepareRoutes(routes);
       redraw();
     });
   }
 
-  $scope.showFilters = function() {
-    $scope.show ? $scope.show = false : $scope.show = true;
+  function getFavoriteStops (stops) {
+    localforage.getItem('favoriteStops', function (err, value) {
+      $scope.favoriteStops = value;
+      $scope.stops = prepareStops(stops);
+      redraw();
+    });
   }
+
+  $scope.showFilters = function () {
+    $scope.show ? $scope.show = false : $scope.show = true;
+  };
 
   /** Determines how to order the list currently being displayed.
    * Expects 1 int input representing what type of ordering
@@ -150,8 +170,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
    * Uses the currentDisplay variable to decide whether we're
    * ordering Routes or Stops.
    */
-   $scope.order = 0;
-  $scope.orderBy = function(val) {
+  $scope.order = 0;
+  $scope.orderBy = function (val) {
     $scope.order = val;
     // If we're ordering Routes
     if ($scope.currentDisplay === 0) {
@@ -183,7 +203,42 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         // order by distance
       }
     }
-  }
+  };
+  /*
+   * Called when a user clicks on the heart button,
+   * this function either removes or adds
+   * the stop to the user's list of favorites.
+   */
+
+  $scope.toggleStopHeart = function (stop) {
+    FavoriteStops.contains(stop.StopId, function (bool) {
+      if (bool === true) {
+        FavoriteStops.remove(stop);
+      }
+      else {
+        FavoriteStops.push(stop);
+      }
+      $scope.$apply();
+    });
+  };
+
+  /*
+   * Called when a user clicks on the heart button,
+   * this function either removes or adds
+   * the route to the user's list of favorites.
+   */
+
+  $scope.toggleRouteHeart = function (route) {
+    FavoriteRoutes.contains(route, function (bool) {
+      if (bool === true) {
+        FavoriteRoutes.remove(route);
+      }
+      else {
+        FavoriteRoutes.push(route);
+      }
+      $scope.$apply();
+    });
+  };
 
   function redraw () {
     $scope.display($scope.currentDisplay);
@@ -191,6 +246,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
 
   $scope.$on('$ionicView.enter', function () {
     getRoutesAndStops();
-    getFavorites();
+    redraw();
   });
 });

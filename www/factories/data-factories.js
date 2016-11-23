@@ -1,7 +1,7 @@
 angular.module('pvta.factories')
 
 .factory('Avail', function () {
-  return 'http://bustracker.pvta.com/infopoint/rest';
+  return 'https://bustracker.pvta.com/infopoint/rest';
 })
 
 .factory('Vehicle', function ($resource, Avail) {
@@ -14,6 +14,10 @@ angular.module('pvta.factories')
 
 .factory('Routes', function ($resource, Avail) {
   return $resource(Avail + '/routes/getvisibleroutes');
+})
+
+.factory('NearestStop', function ($resource, Avail) {
+  return $resource(Avail + '/Stops/NearestStop?latitude=:latitude&longitude=:longitude', { latitude: '@latitude', longitude: '@longitude' });
 })
 
 .factory('NearestStops', function ($resource, Avail) {

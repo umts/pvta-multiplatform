@@ -2,7 +2,7 @@
 
 UMass Transit's PVTA realtime app (name TBD)!
 
-[See our demo page for a live browser preview of beta 3!](http://umts.github.io/pvta-multiplatform)
+[See our demo page for a live browser preview of the release candidate!](http://umts.github.io/pvta-multiplatform)
 
 <a href="https://codeclimate.com/github/umts/pvta-multiplatform"><img src="https://codeclimate.com/github/umts/pvta-multiplatform/badges/gpa.svg" /></a>
 [![Issue Count](https://codeclimate.com/github/umts/pvta-multiplatform/badges/issue_count.svg)](https://codeclimate.com/github/umts/pvta-multiplatform)

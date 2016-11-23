@@ -1,7 +1,7 @@
 angular.module('pvta.controllers').controller('StopMapController', function ($scope, $ionicLoading, $stateParams, $ionicHistory, $ionicPopup, Stop, Map) {
   ga('set', 'page', '/stop-map.html');
   ga('send', 'pageview');
-  var bounds = new google.maps.LatLngBounds();
+
   $scope.displayDirections = false;
   var directionsDisplay;
   var directionsService = new google.maps.DirectionsService();
@@ -25,7 +25,7 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
     // If we have stop details, plot it.
     if ($scope.stop && $scope.stop.Latitude && $scope.stop.Longitude) {
       var loc = new google.maps.LatLng($scope.stop.Latitude, $scope.stop.Longitude);
-      Map.addMapListener(Map.placeDesiredMarker(loc), $scope.stop.Name + ' (' + $scope.stop.StopId + ')');
+      Map.addMapListener(Map.placeDesiredMarker(loc), $scope.stop.Description + ' (' + $scope.stop.StopId + ')');
       return loc;
     }
     // If we don't have stop details, it means that we couldn't download any.
@@ -57,6 +57,8 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
         console.log('unable to get current location');
         $scope.noLocation = true;
         $scope.displayDirections = false;
+        // Tell Google Analytics that a user doesn't have location
+        ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failure passed to Stop Map after failing on Map Factory');
       }
       // If we have a location, download and display directions
       // from here to the stop.
@@ -91,7 +93,7 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
     // Check which id the map has, pluck it from the HTML, and bind it
     // to a variable.
     $scope.map = new google.maps.Map(document.getElementById($scope.displayDirections ? 'stop-map' : 'map'), mapOptions);
-    Map.init($scope.map, bounds);
+    Map.init($scope.map);
     // Be ready to display directions if the user requests them.
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsDisplay.setMap($scope.map);
