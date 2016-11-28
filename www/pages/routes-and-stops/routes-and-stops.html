@@ -1,7 +1,6 @@
 <ion-view view-title="Routes and Stops">
   <ion-nav-buttons side="secondary">
     <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()"></button>
-    <button class="button button-icon icon ion-levels" ng-click="toggleOrdering()"></button>
   </ion-nav-buttons>
   <div class="bar bar-subheader">
     <div class="button-bar">
@@ -10,6 +9,15 @@
     </div>
   </div>
   <ion-content class="has-subheader" direction="y" scrollbar-y="false">
+    <label class="item item-input item-select">
+      <div class="input-label">
+        Order {{currentDisplay === 0 ? 'Routes' : 'Stops'}} By:
+      </div>
+      <select ng-model="$parent.order" ng-change="toggleOrdering()">
+        <option value="name">Name</option>
+        <option value="favorites">Favorites</option>
+        </select>
+    </label>
     <ion-list>
       <ion-item ng-show="currentDisplay === 0" ng-repeat="route in routesDisp | orderBy:propertyName" ng-click="redirectRoute(route.RouteId)" class= "item item-icon-left item-icon-right">
         <route liked="route.Liked" data="route" toggle="toggleRouteHeart"></route>

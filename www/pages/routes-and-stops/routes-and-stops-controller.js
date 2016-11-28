@@ -4,6 +4,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   var primarySort = '-Liked';
   var secondarySort = 'RouteAbbreviation';
   $scope.propertyName = [primarySort, secondarySort];
+  $scope.order = 'name';
   // We can control which list is shown via the page's URL.
   // Pull that param and same it for later.
   $scope.currentDisplay = parseInt($stateParams.segment);
@@ -169,11 +170,11 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     // If routes are currently in view
     if ($scope.currentDisplay === 0) {
       // If we're currently ordering by favorites, switch to name.
-      if (primarySort === '-Liked') {
+      if ($scope.order === 'name') {
         primarySort = 'RouteAbbreviation';
       }
       // If we're currently ordering by name, switch to favorites.
-      else if (primarySort === 'RouteAbbreviation') {
+      else if ($scope.order === 'favorites') {
         primarySort = '-Liked';
       }
       else {
@@ -185,11 +186,11 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     // If stops are currently in view
     else if ($scope.currentDisplay === 1) {
       // If we're currently ordering by favorites, switch to name.
-      if (primarySort === '-Liked') {
+      if ($scope.order === 'name') {
         primarySort = 'Description';
       }
       // If we're currently ordering by name, switch to favorites.
-      else if (primarySort === 'Description') {
+      else if ($scope.order === 'favorites') {
         primarySort = '-Liked';
       }
       else {
