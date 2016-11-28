@@ -105,7 +105,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         break;
       case 1:
         $scope.routesDisp = null;
-        $scope.stopsDisp = $scope.stops.slice(0, 41);
+        $scope.stopsDisp = $scope.stops;
         break;
     }
     $scope.toggleOrdering();
@@ -140,7 +140,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         }
         else {
           // otherwise, update the stops list.
-          $scope.stopsDisp = filteredItems.slice(0, 41);
+          $scope.stopsDisp = filteredItems;
         }
 
       }
