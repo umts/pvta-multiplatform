@@ -39,7 +39,7 @@ bower install
 shopt -s dotglob && git rm -rf --ignore-unmatch *
 git checkout master www/
 mv www/* ./
-rm -rf www
+rm -rf www platforms resources
 git checkout master scss
 git checkout master plugins
 echo "m.pvta.com" > CNAME
