@@ -15,7 +15,8 @@
     "angular-resource": "~1.5.8",
     "ionic-datepicker": "^1.2.1",
     "ionic-timepicker": "^0.6.0",
-    "angular-aria": "^1.5.8"
+    "angular-aria": "^1.5.8",
+    "haversine": "*"
   },
   "resolutions": {
     "angular": "1.5.3"
