@@ -3,13 +3,9 @@
       "css",
       "directives",
       "factorites",
-      "img",
       "lib",
       "pages"
     ],
-    "jpgOptions":{
-      "quality": 50
-    },
     "jsOptions": {
       "compress": {
         "drop_console": true
