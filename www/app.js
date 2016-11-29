@@ -26,7 +26,12 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
    * **************************************************/
   document.addEventListener('deviceready', onDeviceReady, true);
   function onDeviceReady () {
-    StatusBar.backgroundColorByHexString('#387ef5');
+    if (ionic.Platform.isAndroid()) {
+      StatusBar.backgroundColorByHexString('#2758ab');
+    }
+    else {
+      StatusBar.backgroundColorByHexString('#387ef5');
+    }
   }
 })
 
