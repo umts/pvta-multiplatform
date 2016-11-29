@@ -64,8 +64,12 @@ angular.module('pvta.factories')
     georssLayer.setMap(map);
   }
 
+  function getCurrentPosition () {
+    return $cordovaGeolocation.getCurrentPosition(options);
+  }
 
   return {
+    getCurrentPosition: getCurrentPosition,
     placeDesiredMarker: placeDesiredMarker,
     init: function (incomingMap) {
       map = incomingMap;

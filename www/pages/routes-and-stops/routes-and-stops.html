@@ -9,6 +9,11 @@
     </div>
   </div>
   <ion-content class="has-subheader" direction="y" scrollbar-y="false">
+    <div ng-if="noLocation && currentDisplay === 1">
+      <ion-item class="item item-assertive" style="text-align:center">
+        Unable to retrieve current location.
+      </ion-item>
+    </div>
     <label class="item item-input item-select">
       <div class="input-label">
         Order {{currentDisplay === 0 ? 'Routes' : 'Stops'}} By:
@@ -16,6 +21,7 @@
       <select ng-model="$parent.order" ng-change="toggleOrdering()">
         <option value="name">Name</option>
         <option value="favorites">Favorites</option>
+        <option ng-if="currentDisplay === 1" value="distance">Distance From Me</option>
         </select>
     </label>
     <ion-list>

@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
   var primarySort = '-Liked';
@@ -76,7 +76,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   function prepareStops (stopList) {
     return _.map(stopList, function (stop) {
       stop.Liked = _.contains(_.pluck($scope.favoriteStops, 'StopId'), stop.StopId);
-      return _.pick(stop, 'StopId', 'Name', 'Liked', 'Description');
+      return _.pick(stop, 'StopId', 'Name', 'Liked', 'Description', 'Latitude', 'Longitude');
     });
   }
 
@@ -160,7 +160,31 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     localforage.getItem('favoriteStops', function (err, value) {
       $scope.favoriteStops = value;
       $scope.stops = prepareStops(stops);
+      sortStopsByDistance();
       redraw();
+    });
+  }
+
+  function sortStopsByDistance () {
+    console.log($scope.stops.length);
+    Map.getCurrentPosition().then(function (position) {
+      console.log('retrieved location');
+      var currentLocation = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      };
+      for (var i = 0; i < $scope.stops.length; i++) {
+        var stop = $scope.stops[i];
+        var stopLocation = {latitude: stop.Latitude, longitude: stop.Longitude};
+        stop.Distance = haversine(currentLocation, stopLocation);
+        // console.log(JSON.stringify(currentLocation));
+        // console.log(JSON.stringify(stopLocation));
+      }
+      $scope.noLocation = false;
+    }, function (error) {
+      $scope.noLocation = true;
+      console.error('code: '    + error.code    + '\n' +
+        'message: ' + error.message + '\n');
     });
   }
   /*
@@ -192,6 +216,10 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       // If we're currently ordering by name, switch to favorites.
       else if ($scope.order === 'favorites') {
         primarySort = '-Liked';
+      }
+      else if ($scope.order === 'distance') {
+        // TODO show stops by distance
+        primarySort = 'Distance';
       }
       else {
         primarySort = '-Liked';
