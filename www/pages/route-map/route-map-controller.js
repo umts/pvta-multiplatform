@@ -1,7 +1,6 @@
-angular.module('pvta.controllers').controller('RouteMapController', function ($scope, $stateParams, $ionicLoading, Map, KML, Route) {
+angular.module('pvta.controllers').controller('RouteMapController', function ($scope, $stateParams, $ionicLoading, Map, Route) {
   ga('set', 'page', '/route-map.html');
   ga('send', 'pageview');
-  var bounds = new google.maps.LatLngBounds();
 
   var mapOptions = {
     center: new google.maps.LatLng(42.386270, -72.525844),
@@ -10,7 +9,7 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
   };
 
   $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-  Map.init($scope.map, bounds);
+  Map.init($scope.map);
 
   function placeVehicles () {
   //places every vehicle on said route on the map
@@ -29,23 +28,30 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
 
       //sets the content of the window to have a ton of information about the vehicle
       var content = '<div style=\'font-family: Arial;text-align: center\'><h3 style=\'color: #' + $scope.route.Color + '\'>'
-      + $scope.route.ShortName + ': ' + vehicle.Destination + '</h3>' + message + '<h4>Last Stop: ' + vehicle.LastStop + '</h4></div>';
-
+      + $scope.route.RouteAbbreviation + ': ' + vehicle.Destination + '</h3>' + message + '<h4>Last Stop: ' + vehicle.LastStop + '</h4></div>';
+      // An bus-shaped icon, with the color of the current route and
+      // rotated such that it is facing the same direction as the real bus.
+      var icon = {
+        path: Map.busSVGPath,
+        fillColor: '#' + $scope.route.Color,
+        fillOpacity: 1,
+        strokeWeight: 0.5,
+        scale: .03,
+        // 180 degrees is rightside-up
+        rotation: 180
+      };
       //add a listener for that vehicle with that content as part of the infobubble
-      Map.addMapListener(Map.placeDesiredMarker(loc, 'http://www.google.com/mapfiles/kml/paddle/go.png'), content);
+      Map.addMapListener(Map.placeDesiredMarker(loc, icon), content);
     });
   }
 
   $scope.$on('$ionicView.enter', function () {
     $ionicLoading.show({});
-    var fileName = KML.pop();
-    if (fileName) {
-      Map.addKML(fileName);
-    }
     Map.plotCurrentLocation();
     $scope.route = Route.get({routeId: $stateParams.routeId}, function () {
       $scope.stops = $scope.route.Stops;
       $scope.vehicles = $scope.route.Vehicles;
+      Map.addKML($scope.route.RouteTraceFilename);
       placeVehicles();
       $ionicLoading.hide();
     });

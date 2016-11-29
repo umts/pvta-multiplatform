@@ -1,0 +1,23 @@
+{
+    "foldersToProcess": [
+      "css",
+      "directives",
+      "factorites",
+      "img",
+      "lib",
+      "pages"
+    ],
+    "jpgOptions":{
+      "quality": 50
+    },
+    "jsOptions": {
+      "compress": {
+        "drop_console": true
+      }
+    },
+    "cssOptions": {
+      "keepSpecialComments": 0
+    },
+    "alwaysRun": true,
+    "showErrStack": false
+}
