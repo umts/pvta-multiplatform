@@ -1,11 +1,19 @@
 angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
+  // The two dimensions used in the view to sort the lists.
   var primarySort = '-Liked';
   var secondarySort = 'RouteAbbreviation';
+  // Used by orderBy in view to order lists by two
+  // dimensions (see them above).
   $scope.propertyName = [primarySort, secondarySort];
+  // The current sort order being used onscreen.
   $scope.order = 'favorites';
+  // Used for determining whether to calculate stop distances.
   var previousPosition;
+  // The lists that will eventually be displayed on the UI.
+  $scope.routesDisp = [];
+  $scope.stopsDisp = [];
   // We can control which list is shown via the page's URL.
   // Pull that param and same it for later.
   $scope.currentDisplay = parseInt($stateParams.segment);
@@ -30,7 +38,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   };
 
   /*
-   * Get all the routes
+   * Gets all the PVTA routes.
    */
   function getRoutes () {
     // RouteForage returns a promise, resolve it.
@@ -41,13 +49,9 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     });
   }
   /*
-   * Get all the stops
+   * Gets all the PVTA stops.
    */
   function getStops (position) {
-    /*
-     * Remember, StopsForage returns a Promise.
-     * Must resolve it.
-     */
     StopsForage.get().then(function (stops) {
       $scope.stops = StopsForage.uniq(stops);
       calculateStopDistances(position);
@@ -57,6 +61,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     });
   }
   /*
+   * Helper function.
    * Given the list of route objects, this function removes properties
    * that we don't care about and adds whether each route is favorited.
    *
@@ -73,9 +78,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   }
 
   /*
-   * Similar to prepareRoutes (see above), we only
-   * keep the details about each stop that are useful
-   * to us for displaying them.
+   * See prepareRoutes (above).
    */
   function prepareStops (stopList) {
     return _.map(stopList, function (stop) {
@@ -83,10 +86,27 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       return _.pick(stop, 'StopId', 'Name', 'Liked', 'Description', 'Latitude', 'Longitude', 'Distance');
     });
   }
-
-  // Two variables for the lists.
-  $scope.routesDisp = [];
-  $scope.stopsDisp = [];
+ /*
+  * Gets the list of the user's favorite routes and
+  * passes control to prepareRoutes.
+  */
+  function getFavoriteRoutes (routes) {
+    localforage.getItem('favoriteRoutes', function (err, value) {
+      $scope.favoriteRoutes = value;
+      $scope.routes = prepareRoutes(routes);
+      redraw();
+    });
+  }
+/*
+ * See getFavoriteRoutes (above).
+ */
+  function getFavoriteStops (stops) {
+    localforage.getItem('favoriteStops', function (err, value) {
+      $scope.favoriteStops = value;
+      $scope.stops = prepareStops(stops);
+      redraw();
+    });
+  }
 
   /* Decides which list to display.
    * Takes an index (0 or 1) and assigns
@@ -151,71 +171,73 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       }
     });
   };
-
-  function getFavoriteRoutes (routes) {
-    localforage.getItem('favoriteRoutes', function (err, value) {
-      $scope.favoriteRoutes = value;
-      $scope.routes = prepareRoutes(routes);
-      redraw();
-    });
-  }
-
-  function getFavoriteStops (stops) {
-    localforage.getItem('favoriteStops', function (err, value) {
-      $scope.favoriteStops = value;
-      $scope.stops = prepareStops(stops);
-      redraw();
-    });
-  }
-
+ /*
+  * Calculates the distance between the user and every PVTA stop.
+  * @param position: Object - the current location
+  */
   function calculateStopDistances (position) {
-    var currentPosition = {
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude
-    };
     if (position) {
+      var currentPosition = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      };
       // If this is the first time we've gotten the user's position OR
       // we've already had their position but they haven't moved more than
-      // 100m (.1km), we calculate our distance from every stop.
+      // 100m (.1km), we calculate their distance from every stop.
+      // We use the haversine formula here because it's more accurate
+      // the standard Distance Formula.
       if (!previousPosition || (previousPosition !== undefined && (haversine(previousPosition, currentPosition) > .1))) {
         var msg = 'User has no previous position or has moved; calculating stop distances.';
         ga('send', 'event', 'CalculatingStopDistances',
           'RoutesAndStopsController.calculateStopDistances', msg);
         console.log(msg);
+
         for (var i = 0; i < $scope.stops.length; i++) {
           var stop = $scope.stops[i];
-          // Use the well-known "square root of sum of squares"
-          // Distance Formula to calculate distance to each stop.
-          // This formula is more than 2x faster than haversine.
+          // Use the well-known Distance Formula, aka
+          // the "square root of the sum of squares"
+          // to calculate distance to each stop.
+          // 2x faster than haversine (less accurate), so
+          // we take the speed, since we're doing it ~2000 times.
           var lats = Math.pow(stop.Latitude - position.coords.latitude, 2);
           var lons = Math.pow(stop.Longitude - position.coords.longitude, 2);
+          // Distance is a float, representing degrees from our current location
           var newDistance = Math.sqrt(lats + lons);
           stop.Distance = newDistance;
         }
       }
+      // Regardless of whether we need to recalculate stop distances,
+      // we still have the user's location.
       $scope.noLocation = false;
       previousPosition = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       };
     }
+    // If we don't have their location, tell them!
     else if (!position) {
       $scope.noLocation = true;
     }
+    // Finally, regardless of whether we have their location,
+    // we want to save the stop list.
     StopsForage.save($scope.stops);
   }
   /*
-   * Switches between the two ways Routes and Stops can be ordered.
+   * Switches between the ways Routes and Stops can be ordered.
+   * Takes no params because the <select> is bound to a model - $scope.order.
    */
   $scope.toggleOrdering = function () {
     var routeOrderings = ['favorites', 'name'];
     var stopOrderings = ['favorites', 'distance'];
     // If routes are currently in view
     if ($scope.currentDisplay === 0) {
-      // If we're currently ordering by favorites, switch to name.
+      // If the current ordering isn't a supported ordering for routes,
+      // switch to one that is.
       if (!_.contains(routeOrderings, $scope.order)) {
         $scope.order = routeOrderings[0];
       }
+      // Based on the user's requested ordering, we need to
+      // set the dimensions that orderBy  will use in the view.
       switch ($scope.order) {
         case 'name':
           primarySort = 'RouteAbbreviation';
@@ -226,15 +248,15 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         default:
           primarySort = '-Liked';
       }
-      // Make sure the secondary dimension for ordering is always name.
+      // Make sure the secondary dimension for ordering is always by name.
       secondarySort = 'RouteAbbreviation';
     }
     // If stops are currently in view
     else if ($scope.currentDisplay === 1) {
+    // (See the same comments for routes, just above)
       if (!_.contains(stopOrderings, $scope.order)) {
         $scope.order = stopOrderings[0];
       }
-      // If we're currently ordering by favorites, switch to name.
       switch ($scope.order) {
         case 'name':
           primarySort = '-Liked';
@@ -248,7 +270,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         default:
           primarySort = '-Liked';
       }
-      // If we have location, secondarily sort by distance.Otherwise, by name.
+      // If we have location, secondarily sort by distance. Otherwise, by name.
       if ($scope.noLocation === false) {
         secondarySort = 'Distance';
       }
@@ -300,7 +322,10 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
 
   $scope.$on('$ionicView.enter', function () {
     $ionicLoading.show();
+    // Load the list of routes - do this every time
+    // because we need to update the "heart" for each one.
     getRoutes();
+    // Grab the current location and get the stops.
     Map.getCurrentPosition().then(function (position) {
       getStops(position);
     }, function (error) {
