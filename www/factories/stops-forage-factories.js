@@ -78,6 +78,17 @@ angular.module('pvta.factories')
     });
   }
 
+  function getAllStopsWithFavorites () {
+    return localforage.getItem('favoriteStops', function (err, favoriteStops) {
+      getStopList().then(function (stops) {
+        return _.map(stops, function (stop) {
+          stop.Liked = _.contains(_.pluck(favoriteStops, 'StopId'), stop.StopId);
+          return _.pick(stop, 'StopId', 'Name', 'Liked', 'Description');
+        });
+      });
+    });
+  }
+
   return {
     get: getStopList,
     save: saveStopList,

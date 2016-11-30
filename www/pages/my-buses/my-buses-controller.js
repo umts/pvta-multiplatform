@@ -95,6 +95,7 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     Trips.push(index);
     $location.path('app/plan-trip');
   };
+
   // Try to show the popup only when the controller is initially loaded;
   // no need to check every time the user comes to My Buses in the same session
   //showPopup();

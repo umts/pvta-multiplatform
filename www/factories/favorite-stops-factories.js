@@ -20,11 +20,7 @@ angular.module('pvta.factories')
   };
 
   var getAll = function () {
-    localforage.getItem('favoriteStops', function (err) {
-      if (err) {
-        console.log('Error getting all favorite stops: ' + err);
-      }
-    });
+    return localforage.getItem('favoriteStops');
   };
 
   var remove = function (stop) {
@@ -54,10 +50,22 @@ angular.module('pvta.factories')
       }
     });
   }
+
+  function toggleFavoriteStop (stop) {
+    contains(stop.StopId, function (bool) {
+      if (bool) {
+        remove(stop);
+      }
+      else {
+        push(stop);
+      }
+    });
+  }
   return {
     push: push,
     getAll: getAll,
     remove: remove,
-    contains: contains
+    contains: contains,
+    toggleFavoriteStop: toggleFavoriteStop
   };
 });

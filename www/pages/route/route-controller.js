@@ -1,8 +1,20 @@
-angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, $location, $ionicScrollDelegate){
+angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, $location, $ionicScrollDelegate, $ionicModal, FavoriteStops, $ionicFilterBar){
   ga('set', 'page', '/route.html');
   ga('set', 'route', $stateParams.routeId);
   ga('send', 'pageview');
 
+  $scope.showStopModal = function () {
+    $ionicModal.fromTemplateUrl('pages/route/stop-modal.html', {
+      scope: $scope
+    }).then(function (modal) {
+      $scope.stopModal = modal;
+      $scope.stopModal.show();
+    });
+  };
+
+  $scope.toggleStopHeart = function (stop) {
+    FavoriteStops.toggleFavoriteStop(stop);
+  };
   /*
   * Called when the user performs a pull-to-refresh.  Only downloads
   * vehicle data instead of all route data.
@@ -22,10 +34,26 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     ga('send', 'event', 'RouteLoaded', 'RouteController.self', 'Route: ' + route.RouteAbbreviation + ' (' + $stateParams.routeId + ')');
     $scope.route = route
     getHeart();
-    $scope.stops = $scope.route.Stops;
+    prepareStops($scope.route.Stops);
     $scope.vehicles = $scope.route.Vehicles;
     $ionicLoading.hide();
   });
+
+  function prepareStops (stops) {
+    $scope.stops = []
+    FavoriteStops.getAll().then(function (favoriteStops) {
+        var favoriteStopIds = _.pluck(favoriteStops, 'StopId');
+        for (var index = 0; index < stops.length; index++) {
+           var stop = stops[index];
+           var liked = false;
+           // If the ID of the stop in question is in the list of favorite stop IDs
+           if (_.contains(favoriteStopIds, stop.StopId)) {
+             liked = true;
+           }
+           $scope.stops.push({StopId: stop.StopId, Description: stop.Description, Liked: liked});
+        }
+    });
+  }
   /**
    * Download any Alerts for the current route
    * and display them.
@@ -39,6 +67,18 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     }
     $scope.messages = filteredMessages;
   });
+
+  $scope.showFilterBar = function () {
+    $ionicFilterBar.show({
+      container: '.modal',
+      // tell $ionicFilterBar to search over itms.
+      items: $scope.stops,
+      // Every time the input changes, update the results.
+      update: function (filteredItems) {
+          $scope.stops = filteredItems;
+      }
+    });
+  };
 
   // Toggles saving/unsaving this route to Favorites
   $scope.toggleHeart = function(liked) {

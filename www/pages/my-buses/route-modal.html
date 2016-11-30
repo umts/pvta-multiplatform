@@ -1,0 +1,14 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">Pick a Route to Favorite</h1>
+    <div class="buttons">
+      <button class="button button-clear button-primary" ng-click="hideRouteModal()">Cancel</button>
+      <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()"></button>
+    </div>
+  </ion-header-bar>
+  <ion-content class="padding">
+    <ion-item ng-repeat="route in allRoutes" class= "item-icon-left item-icon-right">
+      <route liked="route.Liked" data="route" toggle="toggleRouteHeart"></route>
+    </ion-item>
+  </ion-content>
+</ion-modal-view>
