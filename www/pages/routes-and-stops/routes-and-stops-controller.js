@@ -174,14 +174,19 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       longitude: position.coords.longitude
     };
     if (position) {
-      console.log('have pos')
+      // If this is the first time we've gotten the user's position OR
+      // we've already had their position but they haven't moved more than
+      // 100m (.1km), we calculate our distance from every stop.
       if (!previousPosition || (previousPosition !== undefined && (haversine(previousPosition, currentPosition) > .1))) {
-        var msg = 'User has no previous position or has moved; recalculating stop distances.';
+        var msg = 'User has no previous position or has moved; calculating stop distances.';
         ga('send', 'event', 'CalculatingStopDistances',
           'RoutesAndStopsController.calculateStopDistances', msg);
         console.log(msg);
         for (var i = 0; i < $scope.stops.length; i++) {
           var stop = $scope.stops[i];
+          // Use the well-known "square root of sum of squares"
+          // Distance Formula to calculate distance to each stop.
+          // This formula is more than 2x faster than haversine.
           var lats = Math.pow(stop.Latitude - position.coords.latitude, 2);
           var lons = Math.pow(stop.Longitude - position.coords.longitude, 2);
           var newDistance = Math.sqrt(lats + lons);
