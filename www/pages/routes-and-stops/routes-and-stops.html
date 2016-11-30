@@ -19,8 +19,8 @@
         Order {{currentDisplay === 0 ? 'Routes' : 'Stops'}} By:
       </div>
       <select ng-model="$parent.order" ng-change="toggleOrdering()">
-        <option value="name">Name</option>
         <option value="favorites">Favorites</option>
+        <option ng-if="currentDisplay === 0" value="name">Name</option>
         <option ng-if="currentDisplay === 1" value="distance">Distance From Me</option>
         </select>
     </label>
