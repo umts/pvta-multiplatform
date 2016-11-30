@@ -169,20 +169,11 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
 
   function sortStopsByDistance (position) {
     if (position) {
-      console.log('retrieved location');
-      // var similarDistance = 0;
-      // for (var i = 0; i < $scope.stops.length; i++) {
-      //   if (similarDistance > 10) {
-      //     break;
-      //   }
+      for (var i = 0; i < $scope.stops.length; i++) {
         var stop = $scope.stops[i];
         var lats = Math.pow(stop.Latitude - position.coords.latitude, 2);
         var lons = Math.pow(stop.Longitude - position.coords.longitude, 2);
-        var newDistance = Math.sqrt(lats + lons)
-        // One of the first 10 stops  the distance of the first 10 are within ~180ft, STOP
-        // if (i <= 10 && stop.Distance && (Math.abs(stop.Distance - newDistance) < 0.0005)) {
-        //   similarDistance++;
-        // }
+        var newDistance = Math.sqrt(lats + lons);
         stop.Distance = newDistance;
       }
       $scope.noLocation = false;
@@ -204,15 +195,15 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       if (!_.contains(routeOrderings, $scope.order)) {
         $scope.order = routeOrderings[0];
       }
-      if ($scope.order === 'name') {
-        primarySort = 'RouteAbbreviation';
-      }
-      // If we're currently ordering by name, switch to favorites.
-      else if ($scope.order === 'favorites') {
-        primarySort = '-Liked';
-      }
-      else {
-        primarySort = '-Liked';
+      switch ($scope.order) {
+        case 'name':
+          primarySort = 'RouteAbbreviation';
+          break;
+        case 'favorites':
+          primarySort = '-Liked';
+          break;
+        default:
+          primarySort = '-Liked';
       }
       // Make sure the secondary dimension for ordering is always name.
       secondarySort = 'RouteAbbreviation';
@@ -223,22 +214,26 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         $scope.order = stopOrderings[0];
       }
       // If we're currently ordering by favorites, switch to name.
-      if ($scope.order === 'name') {
-        primarySort = '-Liked';
+      switch ($scope.order) {
+        case 'name':
+          primarySort = '-Liked';
+          break;
+        case 'favorites':
+          primarySort = '-Liked';
+          break;
+        case 'distance':
+          primarySort = 'Distance';
+          break;
+        default:
+          primarySort = '-Liked';
       }
-      // If we're currently ordering by name, switch to favorites.
-      else if ($scope.order === 'favorites') {
-        primarySort = '-Liked';
-      }
-      else if ($scope.order === 'distance') {
-        // TODO show stops by distance
-        primarySort = 'Distance';
+      // If we have location, secondarily sort by distance.Otherwise, by name.
+      if ($scope.noLocation === false) {
+        secondarySort = 'Distance';
       }
       else {
-        primarySort = '-Liked';
+        secondarySort = 'Description';
       }
-      // Make sure the secondary dimension for ordering is always distance
-      secondarySort = 'Distance';
     }
     // Assign the new ordering to the controller-wide filter.
     $scope.propertyName = [primarySort, secondarySort];
