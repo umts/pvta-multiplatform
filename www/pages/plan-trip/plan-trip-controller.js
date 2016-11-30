@@ -287,7 +287,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       console.log(response);
       $ionicLoading.hide();
 
-      if (status === google.maps.DirectionsStatus.OK) {
+      if (status === google.maps.DirectionsStatus.OK && checkRouteTransit(response.routes[0])) {
         $scope.directionsDisplay.setDirections(response);
         $scope.route = response.routes[0].legs[0];
         $scope.$apply();
@@ -302,8 +302,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         console.log(status);
         $ionicPopup.alert(
           {
-            title: 'Unable to Find a Trip',
-            template: 'There are no scheduled buses that work for your trip.\nThis failure has a status code of: ' + status
+            title: 'Unable to Find Trip',
+            template: 'There are no scheduled buses for your trip.<br>Status Code: ' + status
           }
         );
         ga('send', 'event', 'TripStepsRetrievalFailure', 'PlanTripController.$scope.getRoute()', 'Unable to get a route; error: ' + status);
@@ -319,6 +319,10 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       ga('send', 'event', 'TripStepsRoutingFailure', 'PlanTripController.$scope.getRoute()', 'Trip Factory unable to get a route due to some error: ' + err);
     });
   };
+
+  var checkRouteTransit = function(route) {
+    return !(route.legs[0].steps.length == 1 && route.legs[0].steps[0]['travel_mode'] == 'WALKING')
+  }
 
   var saveSuccessful = function () {
     $ionicPopup.alert({
