@@ -5,6 +5,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   var secondarySort = 'RouteAbbreviation';
   $scope.propertyName = [primarySort, secondarySort];
   $scope.order = 'favorites';
+  var previousPosition;
   // We can control which list is shown via the page's URL.
   // Pull that param and same it for later.
   $scope.currentDisplay = parseInt($stateParams.segment);
@@ -49,7 +50,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
      */
     StopsForage.get().then(function (stops) {
       $scope.stops = StopsForage.uniq(stops);
-      sortStopsByDistance(position);
+      calculateStopDistances(position);
       getFavoriteStops(stops, position);
       redraw();
       $ionicLoading.hide();
@@ -167,18 +168,33 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     });
   }
 
-  function sortStopsByDistance (position) {
+  function calculateStopDistances (position) {
+    var currentPosition = {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    };
     if (position) {
-      for (var i = 0; i < $scope.stops.length; i++) {
-        var stop = $scope.stops[i];
-        var lats = Math.pow(stop.Latitude - position.coords.latitude, 2);
-        var lons = Math.pow(stop.Longitude - position.coords.longitude, 2);
-        var newDistance = Math.sqrt(lats + lons);
-        stop.Distance = newDistance;
+      console.log('have pos')
+      if (!previousPosition || (previousPosition !== undefined && (haversine(previousPosition, currentPosition) > .1))) {
+        var msg = 'User has no previous position or has moved; recalculating stop distances.';
+        ga('send', 'event', 'CalculatingStopDistances',
+          'RoutesAndStopsController.calculateStopDistances', msg);
+        console.log(msg);
+        for (var i = 0; i < $scope.stops.length; i++) {
+          var stop = $scope.stops[i];
+          var lats = Math.pow(stop.Latitude - position.coords.latitude, 2);
+          var lons = Math.pow(stop.Longitude - position.coords.longitude, 2);
+          var newDistance = Math.sqrt(lats + lons);
+          stop.Distance = newDistance;
+        }
       }
       $scope.noLocation = false;
+      previousPosition = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      };
     }
-    else {
+    else if (!position) {
       $scope.noLocation = true;
     }
     StopsForage.save($scope.stops);
@@ -284,7 +300,11 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       getStops(position);
     }, function (error) {
       getStops();
-      console.error('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+      console.error('code: ' + error.code + '\n' +
+        'message: ' + error.message + '\n');
+      ga('send', 'event', 'LocationFailure',
+        'Map.getCurrentPosition',
+        'Location failed in RoutesAndStops; error: ' + error.message);
     });
     redraw();
   });
