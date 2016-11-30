@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map, Stop, NearestStops, $q) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
   var primarySort = '-Liked';
@@ -29,24 +29,28 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   };
 
   /*
-   * Get all the routes and stops
+   * Get all the routes
    */
-
-  function getRoutesAndStops () {
-    $ionicLoading.show();
+  function getRoutes () {
     // RouteForage returns a promise, resolve it.
     RouteForage.get().then(function (routes) {
       RouteForage.save(routes);
       getFavoriteRoutes(routes);
       redraw();
     });
+  }
+  /*
+   * Get all the stops
+   */
+  function getStops (position) {
     /*
      * Remember, StopsForage returns a Promise.
      * Must resolve it.
      */
     StopsForage.get().then(function (stops) {
-      stops = StopsForage.uniq(stops);
-      getFavoriteStops(stops);
+      $scope.stops = StopsForage.uniq(stops);
+      sortStopsByDistance(position);
+      getFavoriteStops(stops, position);
       redraw();
       $ionicLoading.hide();
     });
@@ -159,50 +163,34 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     localforage.getItem('favoriteStops', function (err, value) {
       $scope.favoriteStops = value;
       $scope.stops = prepareStops(stops);
-      sortStopsByDistance();
       redraw();
     });
   }
 
-  function sortStopsByDistance () {
-    Map.getCurrentPosition().then(function (position) {
+  function sortStopsByDistance (position) {
+    if (position) {
       console.log('retrieved location');
-      // NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}).$promise.then(function (stops ){
-      //   var availOrder = _.pluck(stops, 'Description');
-      //   for (var i = 0; i < stops.length; i++) {
-      //     var stop = stops[i];
-      //     var stopLocation = {latitude: stop.Latitude, longitude: stop.Longitude};
-      //     var lats = Math.pow(stop.Latitude - position.coords.latitude, 2);
-      //     var lons = Math.pow(stop.Longitude - position.coords.longitude, 2);
-      //     stop.Distance = Math.sqrt(lats + lons) * 100;
-      //     stop.Hav = haversine(currentLocation, stopLocation);
-      //     console.log(stop.Hav)
+      // var similarDistance = 0;
+      // for (var i = 0; i < $scope.stops.length; i++) {
+      //   if (similarDistance > 10) {
+      //     break;
       //   }
-      //   var distanceFormOrder = _.pluck(_.sortBy(stops, 'Distance'), 'Description');
-      //   var havOrder = _.pluck(_.sortBy(stops, 'Hav'), 'Description');
-      //   _(100).times(function(n) {
-      //     if (availOrder[n] !== distanceFormOrder[n] || availOrder[n] !== havOrder[n] || distanceFormOrder[n] !== havOrder[n]) {
-      //       console.log('avail:' + availOrder[n]);
-      //       console.log('distance formula:' + distanceFormOrder[n]);
-      //       console.log('hav:' + havOrder[n])
-      //       console.log(n)
-      //     }
-      //   })
-      // });
-      for (var i = 0; i < $scope.stops.length; i++) {
         var stop = $scope.stops[i];
         var lats = Math.pow(stop.Latitude - position.coords.latitude, 2);
         var lons = Math.pow(stop.Longitude - position.coords.longitude, 2);
-        stop.Distance = Math.sqrt(lats + lons);
+        var newDistance = Math.sqrt(lats + lons)
+        // One of the first 10 stops  the distance of the first 10 are within ~180ft, STOP
+        // if (i <= 10 && stop.Distance && (Math.abs(stop.Distance - newDistance) < 0.0005)) {
+        //   similarDistance++;
+        // }
+        stop.Distance = newDistance;
       }
       $scope.noLocation = false;
-      StopsForage.save($scope.stops);
-    }, function (error) {
+    }
+    else {
       $scope.noLocation = true;
-      StopsForage.save($scope.stops);
-      console.error('code: '    + error.code    + '\n' +
-        'message: ' + error.message + '\n');
-    });
+    }
+    StopsForage.save($scope.stops);
   }
   /*
    * Switches between the two ways Routes and Stops can be ordered.
@@ -295,7 +283,14 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   }
 
   $scope.$on('$ionicView.enter', function () {
-    getRoutesAndStops();
+    $ionicLoading.show();
+    getRoutes();
+    Map.getCurrentPosition().then(function (position) {
+      getStops(position);
+    }, function (error) {
+      getStops();
+      console.error('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+    });
     redraw();
   });
 });
