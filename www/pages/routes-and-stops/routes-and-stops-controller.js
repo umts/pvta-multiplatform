@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map, Stop, NearestStops, $q) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
   var primarySort = '-Liked';
@@ -46,7 +46,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
      */
     StopsForage.get().then(function (stops) {
       stops = StopsForage.uniq(stops);
-      StopsForage.save(stops);
       getFavoriteStops(stops);
       redraw();
       $ionicLoading.hide();
@@ -76,7 +75,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   function prepareStops (stopList) {
     return _.map(stopList, function (stop) {
       stop.Liked = _.contains(_.pluck($scope.favoriteStops, 'StopId'), stop.StopId);
-      return _.pick(stop, 'StopId', 'Name', 'Liked', 'Description', 'Latitude', 'Longitude');
+      return _.pick(stop, 'StopId', 'Name', 'Liked', 'Description', 'Latitude', 'Longitude', 'Distance');
     });
   }
 
@@ -166,23 +165,41 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   }
 
   function sortStopsByDistance () {
-    console.log($scope.stops.length);
     Map.getCurrentPosition().then(function (position) {
       console.log('retrieved location');
-      var currentLocation = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      };
+      // NearestStops.query({latitude: position.coords.latitude, longitude: position.coords.longitude}).$promise.then(function (stops ){
+      //   var availOrder = _.pluck(stops, 'Description');
+      //   for (var i = 0; i < stops.length; i++) {
+      //     var stop = stops[i];
+      //     var stopLocation = {latitude: stop.Latitude, longitude: stop.Longitude};
+      //     var lats = Math.pow(stop.Latitude - position.coords.latitude, 2);
+      //     var lons = Math.pow(stop.Longitude - position.coords.longitude, 2);
+      //     stop.Distance = Math.sqrt(lats + lons) * 100;
+      //     stop.Hav = haversine(currentLocation, stopLocation);
+      //     console.log(stop.Hav)
+      //   }
+      //   var distanceFormOrder = _.pluck(_.sortBy(stops, 'Distance'), 'Description');
+      //   var havOrder = _.pluck(_.sortBy(stops, 'Hav'), 'Description');
+      //   _(100).times(function(n) {
+      //     if (availOrder[n] !== distanceFormOrder[n] || availOrder[n] !== havOrder[n] || distanceFormOrder[n] !== havOrder[n]) {
+      //       console.log('avail:' + availOrder[n]);
+      //       console.log('distance formula:' + distanceFormOrder[n]);
+      //       console.log('hav:' + havOrder[n])
+      //       console.log(n)
+      //     }
+      //   })
+      // });
       for (var i = 0; i < $scope.stops.length; i++) {
         var stop = $scope.stops[i];
-        var stopLocation = {latitude: stop.Latitude, longitude: stop.Longitude};
-        stop.Distance = haversine(currentLocation, stopLocation);
-        // console.log(JSON.stringify(currentLocation));
-        // console.log(JSON.stringify(stopLocation));
+        var lats = Math.pow(stop.Latitude - position.coords.latitude, 2);
+        var lons = Math.pow(stop.Longitude - position.coords.longitude, 2);
+        stop.Distance = Math.sqrt(lats + lons);
       }
       $scope.noLocation = false;
+      StopsForage.save($scope.stops);
     }, function (error) {
       $scope.noLocation = true;
+      StopsForage.save($scope.stops);
       console.error('code: '    + error.code    + '\n' +
         'message: ' + error.message + '\n');
     });
@@ -232,8 +249,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       else {
         primarySort = '-Liked';
       }
-      // Make sure the secondary dimension for ordering is always name.
-      secondarySort = 'Description';
+      // Make sure the secondary dimension for ordering is always distance
+      secondarySort = 'Distance';
     }
     // Assign the new ordering to the controller-wide filter.
     $scope.propertyName = [primarySort, secondarySort];
