@@ -123,7 +123,9 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
          * overwrite the RouteDirection's old departures array.
          */
         direction.Departures = futureDepartures;
-        $scope.departuresByDirection.push(direction);
+        if (direction.Departures.length > 0) {
+          $scope.departuresByDirection.push(direction);
+        }
       }
     });
     // Departures by time: Sort the list of all
