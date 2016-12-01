@@ -182,8 +182,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         longitude: position.coords.longitude
       };
       // If this is the first time we've gotten the user's position OR
-      // we've already had their position but they haven't moved more than
-      // 100m (.1km), we calculate their distance from every stop.
+      // we already gotten a position but they've since moved more than
+      // 100m (.1km) from it, we calculate their distance from every stop.
       // We use the haversine formula here because it's more accurate
       // the standard Distance Formula.
       if (!previousPosition || (previousPosition !== undefined && (haversine(previousPosition, currentPosition) > .1))) {
