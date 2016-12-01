@@ -286,7 +286,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
    */
   $scope.toggleStopHeart = function (stop) {
     FavoriteStops.contains(stop.StopId, function (bool) {
-      if (bool === true) {
+      if (bool) {
         FavoriteStops.remove(stop);
       }
       else {
@@ -303,7 +303,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
    */
   $scope.toggleRouteHeart = function (route) {
     FavoriteRoutes.contains(route, function (bool) {
-      if (bool === true) {
+      if (bool) {
         FavoriteRoutes.remove(route);
       }
       else {
