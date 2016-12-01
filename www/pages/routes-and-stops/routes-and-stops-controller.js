@@ -258,9 +258,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
         $scope.order = stopOrderings[0];
       }
       switch ($scope.order) {
-        case 'name':
-          primarySort = '-Liked';
-          break;
         case 'favorites':
           primarySort = '-Liked';
           break;
