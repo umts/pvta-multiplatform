@@ -19,22 +19,7 @@ angular.module('pvta.factories')
            * Otherwise, just get a list of stops.  Avail's purview
            * regarding order.
            */
-            // lat = position.coords.latitude;
-            // long = position.coords.longitude;
-            // var msg = 'Location acquired in StopForage!';
-            // console.log(msg);
-            // ga('send', 'event', 'LocationSuccess', '$cordovaGeolocation.getCurrentPosition', msg);
-            // return NearestStops.query({latitude: lat, longitude: long}).$promise;
           return Stops.query().$promise;
-          // },
-          // function (err) {
-          //   // Tell Google Analytics that a user doesn't have location
-          //   ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failed on Routes and Stops; error: ' + err.msg);
-          //   // If location services fail us, just
-          //   // get a list of stops; ordering no longer matters.
-          //   console.log('error finding position: ' + JSON.stringify(err));
-          //   return Stops.query().$promise;
-          // });
         }
       });
     }
