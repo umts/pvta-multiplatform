@@ -6,7 +6,7 @@
     </div>
     <div class="item item-divider item-positive item-text-wrap">Your Routes</div>
     <ion-list class="list" show-delete="false" can-swipe="true">
-      <ion-item class="item" ng-repeat="route in routes" href="#/app/routes/{{route.RouteId}}">
+      <ion-item class="item" ng-repeat="route in routes | orderBy:'RouteAbbreviation'" href="#/app/routes/{{route.RouteId}}">
         <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeRoute(route, $index)"></ion-option-button>
         <div class="row">
           <span class="col-5 item-text-wrap" style="color: #{{route.Color}}; font-size: 150%; font-weight: bold;">
@@ -22,7 +22,7 @@
         Add route
       </a>
       <div class="item item-divider item-positive">Your Stops</div>
-      <ion-item class="item item-text-wrap" ng-repeat="stop in stops" href="#/app/stops/{{stop.StopId}}">
+      <ion-item class="item item-text-wrap" ng-repeat="stop in stops | orderBy:'Description'" href="#/app/stops/{{stop.StopId}}">
         <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeStop(stop, $index)"></ion-option-button>
         <div class="item-icon-left">
           <i class="icon ion-ios-location" style="margin-right: 10px"></i>
