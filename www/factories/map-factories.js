@@ -5,16 +5,27 @@ angular.module('pvta.factories')
   var map;
   var currentLocation;
   var options = { timeout: 5000, enableHighAccuracy: true };
+  var markers = [];
 
-  function placeDesiredMarker (location, icon) {
+  function placeDesiredMarker (location, icon, isVehicleRefresh) {
     var neededMarker = new google.maps.Marker({
       map: map,
       icon: icon,
       animation: google.maps.Animation.DROP,
       position: location
     });
-    map.panTo(location);
+    if (!isVehicleRefresh) {
+      map.panTo(location);
+    }
+    markers.push(neededMarker);
     return neededMarker;
+  }
+
+  function removeAllMarkers () {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+    }
+    markers = [];
   }
 
   function plotCurrentLocation (cb) {
@@ -69,6 +80,7 @@ angular.module('pvta.factories')
   }
 
   return {
+    removeAllMarkers: removeAllMarkers,
     getCurrentPosition: getCurrentPosition,
     placeDesiredMarker: placeDesiredMarker,
     init: function (incomingMap) {
