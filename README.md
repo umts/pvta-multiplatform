@@ -9,7 +9,7 @@ UMass Transit's PVTA realtime app (name TBD)!
 
 The app is a hybrid that uses Ionic.
 
-All data is live, and comes from endpoints located on the PVTA's website.
+All data is live, and comes from endpoints documented [here](http://bustracker.pvta.com/InfoPoint/swagger/ui/index#!).
 
 To begin developing, follow these steps:
 
