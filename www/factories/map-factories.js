@@ -1,6 +1,6 @@
 angular.module('pvta.factories')
 
-.factory('Map', function ($cordovaGeolocation) {
+.factory('Map', function ($cordovaGeolocation, $ionicPopup) {
 
   var map;
   var currentLocation;
@@ -26,8 +26,9 @@ angular.module('pvta.factories')
         cb(currentLocation);
       }
     }, function (err) {
+      showInsecureOriginLocationPopup(err);
       // Tell Google Analytics that a user doesn't have location
-      ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failed in the Map Factory; error: '+ err.msg);
+      ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failed in the Map Factory; error: ' + err.message);
       if (cb) {
         cb(false);
       }
@@ -68,7 +69,17 @@ angular.module('pvta.factories')
     return $cordovaGeolocation.getCurrentPosition(options);
   }
 
+  function showInsecureOriginLocationPopup (err) {
+    if (err.code === 1 && err.message === 'Only secure origins are allowed (see: https://goo.gl/Y0ZkNV).') {
+      $ionicPopup.alert({
+        title: 'Location Features Disabled',
+        template: 'We\'ve temporarily disabled using your current location in PVTrAck, so this page might work a little differently than usual.<br>Sorry for the inconvenience!'
+      });
+    }
+  }
+
   return {
+    showInsecureOriginLocationPopup: showInsecureOriginLocationPopup,
     getCurrentPosition: getCurrentPosition,
     placeDesiredMarker: placeDesiredMarker,
     init: function (incomingMap) {
