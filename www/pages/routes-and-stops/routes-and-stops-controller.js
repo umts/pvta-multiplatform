@@ -327,6 +327,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       getStops(position);
     }, function (error) {
       getStops();
+      Map.showInsecureOriginLocationPopup(error);
       console.error('code: ' + error.code + '\n' +
         'message: ' + error.message + '\n');
       ga('send', 'event', 'LocationFailure',
