@@ -1,6 +1,7 @@
-angular.module('pvta.controllers').controller('RouteMapController', function ($scope, $stateParams, $ionicLoading, Map, Route) {
+angular.module('pvta.controllers').controller('RouteMapController', function ($scope, $stateParams, $ionicLoading, Map, Route, $interval, RouteVehicles) {
   ga('set', 'page', '/route-map.html');
   ga('send', 'pageview');
+  var timer;
 
   var mapOptions = {
     center: new google.maps.LatLng(42.386270, -72.525844),
@@ -11,8 +12,9 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
   $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
   Map.init($scope.map);
 
-  function placeVehicles () {
+  function placeVehicles (isVehicleRefresh) {
   //places every vehicle on said route on the map
+    Map.removeAllMarkers();
     _.each($scope.vehicles, function (vehicle) {
       var message;
       var loc = new google.maps.LatLng(vehicle.Latitude, vehicle.Longitude);
@@ -22,13 +24,15 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
         message = '<h4 style=\'color: green;\'>Bus ' + vehicle.Name + ' - ' + vehicle.DisplayStatus + '</h4>';
       }
       else {
-        message = '<h4 style=\'color: red;\'>Bus ' + vehicle.Name + ' - ' + vehicle.DisplayStatus
-          + ' by ' + vehicle.Deviation + ' minutes</h4>';
+        message = '<h4 style=\'color: red;\'>Bus ' + vehicle.Name + ' - ' + vehicle.DisplayStatus +
+          ' by ' + vehicle.Deviation + ' minutes</h4>';
       }
 
       //sets the content of the window to have a ton of information about the vehicle
-      var content = '<div style=\'font-family: Arial;text-align: center\'><h3 style=\'color: #' + $scope.route.Color + '\'>'
-      + $scope.route.RouteAbbreviation + ': ' + vehicle.Destination + '</h3>' + message + '<h4>Last Stop: ' + vehicle.LastStop + '</h4></div>';
+      var content = '<div style=\'font-family: Arial;text-align: center\'><h3 style=\'color: #' +
+      $scope.route.Color + '\'>' + $scope.route.RouteAbbreviation + ': ' +
+      vehicle.Destination + '</h3>' + message + '<h4>Last Stop: ' + vehicle.LastStop + '</h4>' +
+      '<h4>Last Updated: ' + moment(vehicle.LastUpdated).format('h:mm:ss a') + '</h4></div>';
       // An bus-shaped icon, with the color of the current route and
       // rotated such that it is facing the same direction as the real bus.
       var icon = {
@@ -41,7 +45,7 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
         rotation: 180
       };
       //add a listener for that vehicle with that content as part of the infobubble
-      Map.addMapListener(Map.placeDesiredMarker(loc, icon), content);
+      Map.addMapListener(Map.placeDesiredMarker(loc, icon, isVehicleRefresh), content);
     });
   }
 
@@ -55,6 +59,13 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
       placeVehicles();
       $ionicLoading.hide();
     });
+    timer = $interval(function () {
+      $scope.vehicles = RouteVehicles.query({id: $stateParams.routeId}, function () {
+        placeVehicles(true);
+      });
+    }, 30000);
   });
-
+  $scope.$on('$ionicView.leave', function () {
+    $interval.cancel(timer);
+  });
 });
