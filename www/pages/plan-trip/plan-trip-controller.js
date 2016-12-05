@@ -287,7 +287,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       console.log(response);
       $ionicLoading.hide();
 
-      if (status === google.maps.DirectionsStatus.OK && checkRouteTransit(response.routes[0])) {
+      if (status === google.maps.DirectionsStatus.OK && confirmValidRoute(response.routes[0])) {
         $scope.directionsDisplay.setDirections(response);
         $scope.route = response.routes[0].legs[0];
         $scope.$apply();
@@ -320,7 +320,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     });
   };
 
-  var checkRouteTransit = function(route) {
+  function confirmValidRoute(route) {
     return !(route.legs[0].steps.length == 1 && route.legs[0].steps[0]['travel_mode'] == 'WALKING')
   }
 
