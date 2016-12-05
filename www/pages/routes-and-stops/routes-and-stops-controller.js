@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map, $cordovaToast) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
   // The two dimensions used in the view to sort the lists.
@@ -291,6 +291,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       }
       else {
         FavoriteStops.push(stop);
+        $cordovaToast.showLongBottom('Added ' + stop.Description + ' to your favorites!');
       }
       $scope.$apply();
     });
@@ -308,6 +309,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       }
       else {
         FavoriteRoutes.push(route);
+        $cordovaToast.showLongBottom('Added the ' + route.RouteAbbreviation + ' to your favorites!');
       }
       $scope.$apply();
     });
