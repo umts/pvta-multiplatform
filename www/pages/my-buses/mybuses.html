@@ -8,8 +8,8 @@
     <ion-list class="list" show-delete="false" can-swipe="true">
       <ion-item class="item" ng-repeat="route in routes" href="#/app/routes/{{route.RouteId}}">
         <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeRoute(route, $index)"></ion-option-button>
-        <div class="row">
-          <span class="col-5 item-text-wrap" style="color: #{{route.Color}}; font-size: 150%; font-weight: bold;">
+        <div class="row" aria-label="Route {{route.RouteAbbreviation}} {{route.GoogleDescription}}">
+          <span class="col-5 item-text-wrap" style="color: #{{route.Color}}; font-size: 150%; font-weight: bold;" >
             {{route.RouteAbbreviation}}
           </span>
           <span class="col item-text-wrap" style="padding-left: 20px;">
