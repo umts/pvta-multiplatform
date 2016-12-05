@@ -320,8 +320,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     });
   };
 
-  function confirmValidRoute(route) {
-    return !(route.legs[0].steps.length == 1 && route.legs[0].steps[0]['travel_mode'] == 'WALKING')
+  function confirmValidRoute (route) {
+    return !(route.legs[0].steps.length === 1 && route.legs[0].steps[0]['travel_mode'] === 'WALKING');
   }
 
   var saveSuccessful = function () {
