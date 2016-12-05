@@ -288,14 +288,28 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     FavoriteStops.contains(stop.StopId, function (bool) {
       if (bool) {
         FavoriteStops.remove(stop);
+        showToast('Removed ' + stop.Description + ' from your favorites!');
       }
       else {
         FavoriteStops.push(stop);
-        $cordovaToast.showLongBottom('Added ' + stop.Description + ' to your favorites!');
+        showToast('Added ' + stop.Description + ' to your favorites!');
       }
       $scope.$apply();
     });
   };
+
+  function showToast (msg) {
+    if (!ionic.Platform.is('browser')) {
+      $cordovaToast.showLongBottom(msg);
+    }
+    else {
+      $ionicLoading.show({
+        template: msg,
+        noBackdrop: true,
+        duration: (1500)
+      });
+    }
+  }
 
   /*
    * Called when a user clicks on the heart button,
@@ -306,10 +320,11 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     FavoriteRoutes.contains(route, function (bool) {
       if (bool) {
         FavoriteRoutes.remove(route);
+        showToast('Removed the ' + route.RouteAbbreviation + ' from your favorites!');
       }
       else {
         FavoriteRoutes.push(route);
-        $cordovaToast.showLongBottom('Added the ' + route.RouteAbbreviation + ' to your favorites!');
+        showToast('Added the ' + route.RouteAbbreviation + ' to your favorites!');
       }
       $scope.$apply();
     });
