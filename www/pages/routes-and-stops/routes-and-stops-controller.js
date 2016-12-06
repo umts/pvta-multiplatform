@@ -9,6 +9,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   $scope.propertyName = [primarySort, secondarySort];
   // The current sort order being used onscreen.
   $scope.order = 'favorites';
+  var stopOrder = 'favorites';
+  var routeOrder = 'favorites';
   // Used for determining whether to calculate stop distances.
   var previousPosition;
   // The lists that will eventually be displayed on the UI.
@@ -127,10 +129,12 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       case 0:
         $scope.stopsDisp = null;
         $scope.routesDisp = $scope.routes;
+        $scope.order = routeOrder;
         break;
       case 1:
         $scope.routesDisp = null;
         $scope.stopsDisp = $scope.stops;
+        $scope.order = stopOrder;
         break;
     }
     $scope.toggleOrdering();
@@ -209,6 +213,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       // Regardless of whether we need to recalculate stop distances,
       // we still have the user's location.
       $scope.noLocation = false;
+      stopOrder = 'distance';
       previousPosition = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
@@ -217,6 +222,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     // If we don't have their location, tell them!
     else if (!position) {
       $scope.noLocation = true;
+      stopOrder = 'favorites';
     }
     // Finally, regardless of whether we have their location,
     // we want to save the stop list.
@@ -226,19 +232,17 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
    * Switches between the ways Routes and Stops can be ordered.
    * Takes no params because the <select> is bound to a model - $scope.order.
    */
-  $scope.toggleOrdering = function (requestedOrder) {
+  $scope.toggleOrdering = function () {
     var routeOrderings = ['favorites', 'name'];
     var stopOrderings = ['favorites', 'distance'];
-    if (requestedOrder) {
-      primarySort = requestedOrder;
-    }
     // If routes are currently in view
-    else if ($scope.currentDisplay === 0) {
+    if ($scope.currentDisplay === 0) {
       // If the current ordering isn't a supported ordering for routes,
       // switch to one that is.
       if (!_.contains(routeOrderings, $scope.order)) {
         $scope.order = routeOrderings[0];
       }
+      routeOrder = $scope.order;
       // Based on the user's requested ordering, we need to
       // set the dimensions that orderBy  will use in the view.
       switch ($scope.order) {
@@ -260,6 +264,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       if (!_.contains(stopOrderings, $scope.order)) {
         $scope.order = stopOrderings[0];
       }
+      stopOrder = $scope.order;
       switch ($scope.order) {
         case 'favorites':
           primarySort = '-Liked';
@@ -330,13 +335,12 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       getStops(position);
     }, function (error) {
       getStops();
-      $scope.
       Map.showInsecureOriginLocationPopup(error);
-      console.error('code: ' + error.code + '\n' +
+      console.error('No location. Code: ' + error.code + '\n' +
         'message: ' + error.message + '\n');
       ga('send', 'event', 'LocationFailure',
         'Map.getCurrentPosition',
-        'Location failed in RoutesAndStops; error: ' + error.message);
+        'Location failed in RoutesAndStops; error: ' + error.code + ':, ' + error.message);
     });
     redraw();
   });
