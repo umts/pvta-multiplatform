@@ -226,11 +226,14 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
    * Switches between the ways Routes and Stops can be ordered.
    * Takes no params because the <select> is bound to a model - $scope.order.
    */
-  $scope.toggleOrdering = function () {
+  $scope.toggleOrdering = function (requestedOrder) {
     var routeOrderings = ['favorites', 'name'];
     var stopOrderings = ['favorites', 'distance'];
+    if (requestedOrder) {
+      primarySort = requestedOrder;
+    }
     // If routes are currently in view
-    if ($scope.currentDisplay === 0) {
+    else if ($scope.currentDisplay === 0) {
       // If the current ordering isn't a supported ordering for routes,
       // switch to one that is.
       if (!_.contains(routeOrderings, $scope.order)) {
@@ -327,6 +330,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       getStops(position);
     }, function (error) {
       getStops();
+      $scope.
       Map.showInsecureOriginLocationPopup(error);
       console.error('code: ' + error.code + '\n' +
         'message: ' + error.message + '\n');
