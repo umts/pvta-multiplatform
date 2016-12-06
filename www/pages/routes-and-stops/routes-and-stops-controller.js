@@ -9,6 +9,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   $scope.propertyName = [primarySort, secondarySort];
   // The current sort order being used onscreen.
   $scope.order = 'favorites';
+  // The user can have different orderings based on what's being displayed.
   var stopOrder = 'favorites';
   var routeOrder = 'favorites';
   // Used for determining whether to calculate stop distances.
@@ -129,6 +130,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       case 0:
         $scope.stopsDisp = null;
         $scope.routesDisp = $scope.routes;
+        // toggleOrdering() will sort based on $scope.order,
+        // so set it to be the desired route ordering.
         $scope.order = routeOrder;
         break;
       case 1:
