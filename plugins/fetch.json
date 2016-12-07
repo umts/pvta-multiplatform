@@ -23,14 +23,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-geolocation": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-geolocation"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-compat": {
         "source": {
             "type": "registry",
@@ -75,6 +67,14 @@
         "source": {
             "type": "registry",
             "id": "cordova-plugin-x-toast"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-geolocation": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-geolocation@2.4.0"
         },
         "is_top_level": true,
         "variables": {}
