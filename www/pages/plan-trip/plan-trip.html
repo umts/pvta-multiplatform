@@ -1,4 +1,4 @@
-<ion-view view-title="{{request.name === 'New Trip' ? 'Schedule' : request.name}}">
+<ion-view view-title="{{request.name === 'New Trip' ? 'Schedule' : request.name}}" aria-live="polite">
   <ion-nav-buttons side="secondary">
     <button title="New Trip" aria-label="Open new trip" class="button icon ion-compose" ng-click="newTrip()"></button>
     <button title="Save" aria-label="Save trip" ng-class="{'button icon ion-ios-heart-outline': !request.saved, 'button icon ion-ios-heart': request.saved}" ng-click="saveTrip()"></button>
@@ -40,7 +40,7 @@
       <button ng-click="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
     </div>
     <div id="directions-map" ng-show="route"></div>
-    <div id="route" ng-if="route">
+    <div id="route" ng-if="route" aria-live="assertive">
       <div class = "item item-divider item-energized item-text-wrap">
         <b>PLEASE NOTE: Trip is based on scheduled times. Check your stop's page to confirm bus departure time.</b>
       </div>

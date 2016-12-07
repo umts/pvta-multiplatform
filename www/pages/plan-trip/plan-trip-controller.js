@@ -323,7 +323,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   var saveSuccessful = function () {
     $ionicPopup.alert({
       title: 'Save Successful!',
-      template: 'This trip can be accessed from My Buses.'
+      template: '<p role="alert" aria-live="assertive">This trip can be accessed from My Buses.</p>'
     });
     ga('send', 'event', 'TripSaveSuccessful', 'PlanTripController.saveSuccessful()', 'Saved a trip to favorites!');
   };
@@ -335,7 +335,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   $scope.saveTrip = function () {
     var prevName = $scope.request.name;
     $ionicPopup.show({
-      template: '<input type="text" ng-model="request.name">',
+      template: '<input type="text" ng-model="request.name" aria-label="Enter a name for this trip" aria-live="assertive">',
       title: 'Trip Name',
       subTitle: 'Give this trip a name.',
       scope: $scope,
@@ -372,7 +372,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   $scope.newTrip = function () {
     $ionicPopup.confirm({
       title: 'New Trip',
-      template: '<div style=\'text-align:center\'>Close current trip?</div>'
+      template: '<div aria-live="assertive" style=\'text-align:center\'>Close current trip?</div>'
     }).then(function (res) {
       if (res) {
         loadedTrip = null;
