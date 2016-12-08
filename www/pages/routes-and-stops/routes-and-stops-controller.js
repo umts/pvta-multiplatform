@@ -55,15 +55,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   /*
    * Gets all the PVTA stops.
    */
-  function getStops (position) {
-    StopsForage.get().then(function (stops) {
-      $scope.stops = StopsForage.uniq(stops);
-      calculateStopDistances(position);
-      getFavoriteStops(stops, position);
-      redraw();
-      console.log(time.diff(moment(), 'seconds'));
-      $ionicLoading.hide();
-    });
+  function getStops () {
+    return StopsForage.get();
   }
   /*
    * Helper function.
@@ -348,24 +341,32 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   }
 
   $scope.$on('$ionicView.enter', function () {
-    $ionicLoading.show();
+  //  $ionicLoading.show();
     time = moment();
     // Load the list of routes - do this every time
     // because we need to update the "heart" for each one.
     getRoutes();
-    // Grab the current location and get the stops.
-    Map.getCurrentPosition().then(function (position) {
-      console.log(time.diff(moment(), 'seconds'));
-      time = moment();
-      getStops(position);
-    }, function (error) {
-      getStops();
-      Map.showInsecureOriginLocationPopup(error);
-      console.error('No location. Code: ' + error.code + '\n' +
-        'message: ' + error.message + '\n');
-      ga('send', 'event', 'LocationFailure',
-        'Map.getCurrentPosition',
-        'Location failed in RoutesAndStops; error: ' + error.code + ':, ' + error.message);
+    // Get the stops.
+    getStops().then(function (stops) {
+      $scope.stops = StopsForage.uniq(stops);
+      getFavoriteStops(stops);
+      redraw();
+      console.log(time.diff(moment()));
+      // Grab the current location and sort by it
+      Map.getCurrentPosition().then(function (position) {
+        console.log('pos ', time.diff(moment()));
+        calculateStopDistances(position);
+        time = moment();
+      }, function (error) {
+        console.log('pos', time.diff(moment()));
+        Map.showInsecureOriginLocationPopup(error);
+        calculateStopDistances();
+        console.error('No location. Code: ' + error.code + '\n' +
+          'message: ' + error.message + '\n');
+        ga('send', 'event', 'LocationFailure',
+          'Map.getCurrentPosition',
+          'Location failed in RoutesAndStops; error: ' + error.code + ':, ' + error.message);
+      });
     });
     redraw();
   });
