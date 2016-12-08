@@ -51,6 +51,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       redraw();
     });
   }
+  var time;
   /*
    * Gets all the PVTA stops.
    */
@@ -60,6 +61,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       calculateStopDistances(position);
       getFavoriteStops(stops, position);
       redraw();
+      console.log(time.diff(moment(), 'seconds'));
       $ionicLoading.hide();
     });
   }
@@ -347,11 +349,14 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
 
   $scope.$on('$ionicView.enter', function () {
     $ionicLoading.show();
+    time = moment();
     // Load the list of routes - do this every time
     // because we need to update the "heart" for each one.
     getRoutes();
     // Grab the current location and get the stops.
     Map.getCurrentPosition().then(function (position) {
+      console.log(time.diff(moment(), 'seconds'));
+      time = moment();
       getStops(position);
     }, function (error) {
       getStops();
