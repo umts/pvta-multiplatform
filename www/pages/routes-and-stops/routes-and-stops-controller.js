@@ -349,7 +349,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     // Get the stops.
     getStops().then(function (stops) {
       $scope.stops = StopsForage.uniq(stops);
-      getFavoriteStops(stops);
+      getFavoriteStops($scope.stops);
       redraw();
       console.log(time.diff(moment()));
       // Grab the current location and sort by it
