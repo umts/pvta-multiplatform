@@ -34,17 +34,17 @@
         Add stop
       </a>
       <div class="item item-divider item-positive">Your Trips</div>
+      <ion-item class="item item-text-wrap" ng-repeat="trip in trips track by $index" ng-click="openTrip($index)">
+        <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeTrip($index)"></ion-option-button>
+        <div class="item-icon-left">
+          <i class="icon ion-map" style="margin-right: 10px"></i>
+          {{trip.name}}
+        </div>
+      </ion-item>
       <a class="item item-icon-left item-text-wrap" href="#/app/plan-trip">
         <i class="icon ion-ios-plus-outline"></i>
         Add trip
       </a>
-      <ion-item class="item item-text-wrap" ng-repeat="trip in trips track by $index" ng-click="openTrip($index)">
-      <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeTrip($index)"></ion-option-button>
-      <div class="item-icon-left">
-              <i class="icon ion-map" style="margin-right: 10px"></i>
-              {{trip.name}}
-      </div>
-      </ion-item>
       <div ng-if="messages.length > 0">
         <div class="item item-divider item-assertive">Active Alerts For Your Routes</div>
         <ion-item class="item" ng-repeat="message in messages">
