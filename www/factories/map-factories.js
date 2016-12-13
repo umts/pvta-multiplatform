@@ -1,20 +1,31 @@
 angular.module('pvta.factories')
 
-.factory('Map', function ($cordovaGeolocation) {
+.factory('Map', function ($cordovaGeolocation, $ionicPopup) {
 
   var map;
   var currentLocation;
   var options = { timeout: 5000, enableHighAccuracy: true };
+  var markers = [];
 
-  function placeDesiredMarker (location, icon) {
+  function placeDesiredMarker (location, icon, isVehicleRefresh) {
     var neededMarker = new google.maps.Marker({
       map: map,
       icon: icon,
       animation: google.maps.Animation.DROP,
       position: location
     });
-    map.panTo(location);
+    if (!isVehicleRefresh) {
+      map.panTo(location);
+    }
+    markers.push(neededMarker);
     return neededMarker;
+  }
+
+  function removeAllMarkers () {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+    }
+    markers = [];
   }
 
   function plotCurrentLocation (cb) {
@@ -26,8 +37,9 @@ angular.module('pvta.factories')
         cb(currentLocation);
       }
     }, function (err) {
+      showInsecureOriginLocationPopup(err);
       // Tell Google Analytics that a user doesn't have location
-      ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failed in the Map Factory; error: '+ err.msg);
+      ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failed in the Map Factory; error: ' + err.message);
       if (cb) {
         cb(false);
       }
@@ -64,8 +76,23 @@ angular.module('pvta.factories')
     georssLayer.setMap(map);
   }
 
+  function getCurrentPosition () {
+    return $cordovaGeolocation.getCurrentPosition(options);
+  }
+
+  function showInsecureOriginLocationPopup (err) {
+    if (err.code === 1 && err.message === 'Only secure origins are allowed (see: https://goo.gl/Y0ZkNV).') {
+      $ionicPopup.alert({
+        title: 'Location Features Disabled',
+        template: 'We\'ve temporarily disabled using your current location in PVTrAck, so this page might work a little differently than usual.<br>Sorry for the inconvenience!'
+      });
+    }
+  }
 
   return {
+    removeAllMarkers: removeAllMarkers,
+    showInsecureOriginLocationPopup: showInsecureOriginLocationPopup,
+    getCurrentPosition: getCurrentPosition,
     placeDesiredMarker: placeDesiredMarker,
     init: function (incomingMap) {
       map = incomingMap;

@@ -28,6 +28,9 @@
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.umts.pvtamultiplaform"
         },
+        "cordova-plugin-x-toast": {
+            "PACKAGE_NAME": "com.umts.pvtamultiplaform"
+        },
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.umts.pvtamultiplaform"
         }

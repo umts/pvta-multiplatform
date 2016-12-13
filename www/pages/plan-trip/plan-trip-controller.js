@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $state, $q, $cordovaGeolocation, $ionicLoading, $ionicPopup, $ionicScrollDelegate, NearestStop, Trips, $timeout, ionicDatePicker, ionicTimePicker) {
+angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $state, $q, $cordovaGeolocation, $ionicLoading, $ionicPopup, $ionicScrollDelegate, NearestStop, Trips, $timeout, ionicDatePicker, ionicTimePicker, Map) {
   ga('set', 'page', '/plan-trip.html');
   ga('send', 'pageview');
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
@@ -51,8 +51,9 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         }
       });
     }, function (err) {
+      Map.showInsecureOriginLocationPopup(err);
       // Tell Google Analytics that a user doesn't have location
-      ga('send', 'event', 'LocationFailure', 'PlanTripConsoller.$cordovaGeolocation.getCurrentPosition', 'location failed on Plan Trip; error: ' + err.msg);
+      ga('send', 'event', 'LocationFailure', 'PlanTripConsoller.$cordovaGeolocation.getCurrentPosition', 'location failed on Plan Trip; error: ' + err.message);
       // When getting location fails, this callback fires
       $scope.noLocation = true;
       /* When getting location fails immediately, $ionicLoading.hide()
@@ -288,7 +289,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       console.log(response);
       $ionicLoading.hide();
 
-      if (status === google.maps.DirectionsStatus.OK) {
+      if (status === google.maps.DirectionsStatus.OK && confirmValidRoute(response.routes[0])) {
         $scope.directionsDisplay.setDirections(response);
         $scope.route = response.routes[0].legs[0];
         $scope.$apply();
@@ -303,8 +304,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
         console.log(status);
         $ionicPopup.alert(
           {
-            title: 'Unable to Find a Trip',
-            template: 'There are no scheduled buses that work for your trip.\nThis failure has a status code of: ' + status
+            title: 'Unable to Find Trip',
+            template: 'There are no scheduled buses for your trip.<br>Status Code: ' + status
           }
         );
         ga('send', 'event', 'TripStepsRetrievalFailure', 'PlanTripController.$scope.getRoute()', 'Unable to get a route; error: ' + status);
@@ -320,6 +321,10 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
       ga('send', 'event', 'TripStepsRoutingFailure', 'PlanTripController.$scope.getRoute()', 'Trip Factory unable to get a route due to some error: ' + err);
     });
   };
+
+  function confirmValidRoute (route) {
+    return !(route.legs[0].steps.length === 1 && route.legs[0].steps[0]['travel_mode'] === 'WALKING');
+  }
 
   var saveSuccessful = function () {
     $ionicPopup.alert({
