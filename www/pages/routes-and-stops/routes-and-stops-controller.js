@@ -51,7 +51,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       redraw();
     });
   }
-  var time;
   /*
    * Gets all the PVTA stops.
    */
@@ -341,7 +340,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   }
 
   $scope.$on('$ionicView.enter', function () {
-    time = moment();
     // Load the list of routes - do this every time
     // because we need to update the "heart" for each one.
     getRoutes();
@@ -350,16 +348,13 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       $scope.stops = StopsForage.uniq(stops);
       getFavoriteStops($scope.stops);
       redraw();
-      console.log(time.diff(moment()));
-      // Grab the current location and sort by it
+      // Grab the current location
       Map.getCurrentPosition().then(function (position) {
-        console.log('pos ', time.diff(moment()));
         calculateStopDistances(position);
-        time = moment();
       }, function (error) {
-        console.log('pos', time.diff(moment()));
         Map.showInsecureOriginLocationPopup(error);
         calculateStopDistances();
+        // No location? Log and report.
         console.error('No location. Code: ' + error.code + '\n' +
           'message: ' + error.message + '\n');
         ga('send', 'event', 'LocationFailure',
