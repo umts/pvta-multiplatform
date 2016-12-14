@@ -349,13 +349,14 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       $ionicLoading.hide();
       $scope.stops = StopsForage.uniq(stops);
       getFavoriteStops($scope.stops);
-      redraw();
       // Grab the current location
       Map.getCurrentPosition().then(function (position) {
         calculateStopDistances(position);
+        redraw();
       }, function (error) {
         Map.showInsecureOriginLocationPopup(error);
         calculateStopDistances();
+        redraw();
         // No location? Log and report.
         console.error('No location. Code: ' + error.code + '\n' +
           'message: ' + error.message + '\n');
@@ -364,6 +365,5 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
           'Location failed in RoutesAndStops; error: ' + error.code + ':, ' + error.message);
       });
     });
-    redraw();
   });
 });
