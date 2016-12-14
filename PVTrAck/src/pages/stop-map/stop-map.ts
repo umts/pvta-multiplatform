@@ -3,13 +3,13 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 @Component({
-  selector: 'page-page1',
-  templateUrl: 'page1.html'
+  selector: 'page-stop-map',
+  templateUrl: 'stop-map.html'
 })
-export class Page1 {
+export class StopMap {
 
   constructor(public navCtrl: NavController) {
-    
+
   }
 
 }
