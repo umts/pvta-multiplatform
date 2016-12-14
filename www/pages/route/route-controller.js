@@ -102,6 +102,10 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
     getVehicles();
   };
 
+  $scope.redirectToStop = function (stopId) {
+    $state.go('app.stop', {stopId: stopId});
+  };
+
   $scope.$on('$ionicView.enter', function () {
     getHeart();
   });
