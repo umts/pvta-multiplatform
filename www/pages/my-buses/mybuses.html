@@ -1,8 +1,13 @@
 <ion-view view-title="My Buses">
   <ion-content>
-    <div class = "item item-divider item-energized item-text-wrap" style = "text-align:left;">
-      <b>Welcome to PVTrAck! (Pre-Release)</b> <br> Please send feedback to
-      <a style="color: white" href = "mailto: programmers@umass.edu">programmers@admin.umass.edu</a>!
+    <div ng-if="messages.length > 0">
+      <div class="item item-divider item-assertive">Alerts and Detours {{routes && routes.length > 0 ? 'For Your Routes' : ''}}</div>
+      <ion-item class="item" ng-repeat="message in messages">
+        <div class="item-icon-left item-text-wrap">
+          <i class="icon ion-android-alert" style="margin-right: 10px"></i>
+          {{message.Message}}
+        </div>
+      </ion-item>
     </div>
     <div class="item item-divider item-positive item-text-wrap">Your Routes</div>
     <ion-list class="list" show-delete="false" can-swipe="true">
@@ -45,15 +50,6 @@
         <i class="icon ion-ios-plus-outline"></i>
         Add trip
       </a>
-      <div ng-if="messages.length > 0">
-        <div class="item item-divider item-assertive">Active Alerts For Your Routes</div>
-        <ion-item class="item" ng-repeat="message in messages">
-          <div class="item-icon-left item-text-wrap">
-            <i class="icon ion-android-alert" style="margin-right: 10px"></i>
-            {{message.Message}}
-          </div>
-        </ion-item>
-      </div>
     </ion-list>
   </ion-content>
 </ion-view>
