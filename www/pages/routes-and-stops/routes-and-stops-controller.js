@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map, $cordovaToast) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map, $cordovaToast, ionicLoadingConfig) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
   // The two dimensions used in the view to sort the lists.
@@ -188,7 +188,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       // We use the haversine formula here because it's more accurate
       // the standard Distance Formula.
       if (!previousPosition || (previousPosition !== undefined && (haversine(previousPosition, currentPosition) > .1))) {
-        var msg = 'User has no previous position or has moved; calculating stop distances.';
+        var msg = 'Current position found, but no previous position or has moved; calculating stop distances.';
         ga('send', 'event', 'CalculatingStopDistances',
           'RoutesAndStopsController.calculateStopDistances', msg);
         console.log(msg);
@@ -342,9 +342,11 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   $scope.$on('$ionicView.enter', function () {
     // Load the list of routes - do this every time
     // because we need to update the "heart" for each one.
+    $ionicLoading.show(ionicLoadingConfig);
     getRoutes();
     // Get the stops.
     getStops().then(function (stops) {
+      $ionicLoading.hide();
       $scope.stops = StopsForage.uniq(stops);
       getFavoriteStops($scope.stops);
       redraw();
