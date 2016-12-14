@@ -21,7 +21,19 @@ import { StorageSettings } from '../pages/storage-settings/storage-settings';
   declarations: [
     MyApp,
     Page1,
-    Page2
+    Page2,
+    About,
+    Contact,
+    MyBuses,
+    PlanTrip,
+    PrivacyPolicy,
+    Route,
+    RouteMap,
+    RoutesAndStops,
+    Settings,
+    Stop,
+    StopMap,
+    StorageSettings
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -30,7 +42,19 @@ import { StorageSettings } from '../pages/storage-settings/storage-settings';
   entryComponents: [
     MyApp,
     Page1,
-    Page2
+    Page2,
+    About,
+    Contact,
+    MyBuses,
+    PlanTrip,
+    PrivacyPolicy,
+    Route,
+    RouteMap,
+    RoutesAndStops,
+    Settings,
+    Stop,
+    StopMap,
+    StorageSettings
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
