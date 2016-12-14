@@ -312,7 +312,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       $ionicLoading.show({
         template: msg,
         noBackdrop: true,
-        duration: (1500)
+        duration: 1500
       });
     }
   }
@@ -341,7 +341,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   }
 
   $scope.$on('$ionicView.enter', function () {
-  //  $ionicLoading.show();
     time = moment();
     // Load the list of routes - do this every time
     // because we need to update the "heart" for each one.
