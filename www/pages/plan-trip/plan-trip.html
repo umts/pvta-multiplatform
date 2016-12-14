@@ -14,7 +14,7 @@
         <label class="item-input-wrapper">
           <input id="origin-input" role="combobox" aria-autocomplete="list" aria-owns="places" aria-activedescendant="places" aria-label="Begin typing an origin and choose a location from the drop-down" class="user-input location-typeahead" type="text" placeholder="Enter a starting location" ng-model="request.origin.name" ng-focus="disableTap()" />
         </label>
-        <i aria-label="Use location of device" title="Use location of device" ng-class="request.destinationOnly ? 'ion-android-locate positive' : 'ion-android-locate'"
+        <i aria-label="{{request.destinationOnly ? 'Stop using' : 'Use'}} location of device" title="Use location of device" ng-class="request.destinationOnly ? 'ion-android-locate positive' : 'ion-android-locate'"
           style="font-size: 120%; margin-left: 1%"
           ng-click="request.destinationOnly = !request.destinationOnly; updateOrigin();">
         </i>

@@ -14,14 +14,14 @@
         Unable to retrieve current location.  Ensure location is enabled or search above for your stop.
       </ion-item>
     </div>
-    <label class="item item-input item-select">
-      <div class="input-label">
+    <label aria-label="Order by" class="item item-input item-select">
+      <div class="input-label" aria-hidden="true">
         Order {{currentDisplay === 0 ? 'Routes' : 'Stops'}} By:
       </div>
       <select ng-model="$parent.order" ng-change="toggleOrdering()">
-        <option value="favorites">Favorites</option>
-        <option ng-if="currentDisplay === 1" value="distance">Nearby</option>
-        <option ng-if="currentDisplay === 0" value="name">Name</option>
+        <option value="favorites" aria-label="Favorites">Favorites</option>
+        <option ng-if="currentDisplay === 1" value="distance" aria-label="Nearby">Nearby</option>
+        <option ng-if="currentDisplay === 0" value="name" aria-label="Name">Name</option>
         </select>
     </label>
     <ion-list>
