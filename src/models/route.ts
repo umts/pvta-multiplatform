@@ -1,4 +1,4 @@
-export class Route {
+class Route {
   shortName: string;
   longName: string;
   color: number;
