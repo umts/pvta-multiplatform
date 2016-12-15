@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteController', function($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, $location, $ionicScrollDelegate, $ionicModal, FavoriteStops, $ionicFilterBar){
+angular.module('pvta.controllers').controller('RouteController', function ($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, $location, $ionicScrollDelegate, $ionicModal, FavoriteStops, $ionicFilterBar) {
   ga('set', 'page', '/route.html');
   ga('set', 'route', $stateParams.routeId);
   ga('send', 'pageview');
@@ -15,15 +15,22 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   $scope.toggleStopHeart = function (stop) {
     FavoriteStops.toggleFavoriteStop(stop);
   };
+
+  var getHeart = function () {
+    FavoriteRoutes.contains($scope.route, function (bool) {
+      $scope.liked = bool;
+    });
+  };
+
   /*
   * Called when the user performs a pull-to-refresh.  Only downloads
   * vehicle data instead of all route data.
   */
   function getVehicles () {
     $scope.vehicles = RouteVehicles.query({id: $stateParams.routeId}, function () {
-    $scope.$broadcast('scroll.refreshComplete');
+      $scope.$broadcast('scroll.refreshComplete');
     });
-  };
+  }
 
   $ionicLoading.show({hideOnStateChange: true, duration: 5000});
   /**
@@ -32,7 +39,7 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
    */
   Route.get({ routeId: $stateParams.routeId }, function (route) {
     ga('send', 'event', 'RouteLoaded', 'RouteController.self', 'Route: ' + route.RouteAbbreviation + ' (' + $stateParams.routeId + ')');
-    $scope.route = route
+    $scope.route = route;
     getHeart();
     prepareStops($scope.route.Stops);
     $scope.vehicles = $scope.route.Vehicles;
@@ -40,18 +47,18 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
   });
 
   function prepareStops (stops) {
-    $scope.stops = []
+    $scope.stops = [];
     FavoriteStops.getAll().then(function (favoriteStops) {
-        var favoriteStopIds = _.pluck(favoriteStops, 'StopId');
-        for (var index = 0; index < stops.length; index++) {
-           var stop = stops[index];
-           var liked = false;
-           // If the ID of the stop in question is in the list of favorite stop IDs
-           if (_.contains(favoriteStopIds, stop.StopId)) {
-             liked = true;
-           }
-           $scope.stops.push({StopId: stop.StopId, Description: stop.Description, Liked: liked});
+      var favoriteStopIds = _.pluck(favoriteStops, 'StopId');
+      for (var index = 0; index < stops.length; index++) {
+        var stop = stops[index];
+        var liked = false;
+        // If the ID of the stop in question is in the list of favorite stop IDs
+        if (_.contains(favoriteStopIds, stop.StopId)) {
+          liked = true;
         }
+        $scope.stops.push({StopId: stop.StopId, Description: stop.Description, Liked: liked});
+      }
     });
   }
   /**
@@ -76,13 +83,13 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
       items: $scope.stops,
       // Every time the input changes, update the results.
       update: function (filteredItems) {
-          $scope.stops = filteredItems;
+        $scope.stops = filteredItems;
       }
     });
   };
 
   // Toggles saving/unsaving this route to Favorites
-  $scope.toggleHeart = function(liked) {
+  $scope.toggleHeart = function (liked) {
     FavoriteRoutes.contains($scope.route, function (bool) {
       if (bool) {
         FavoriteRoutes.remove($scope.route);
@@ -90,12 +97,6 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
       else {
         FavoriteRoutes.push($scope.route);
       }
-    });
-  };
-
-  var getHeart = function () {
-    FavoriteRoutes.contains($scope.route, function (bool) {
-      $scope.liked = bool;
     });
   };
 
