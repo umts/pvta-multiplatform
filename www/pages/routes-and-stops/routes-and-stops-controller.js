@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map, $cordovaToast) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map, $cordovaToast, Helper) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
   // The two dimensions used in the view to sort the lists.
@@ -32,13 +32,9 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   *  more info about $event.stopPropagation())
   */
 
-  $scope.redirectRoute = function (routeId) {
-    $state.go('app.route', {routeId: routeId});
-  };
+  $scope.redirectRoute = Helper.redirectToRoute;
 
-  $scope.redirectStop = function (stopId) {
-    $state.go('app.stop', {stopId: stopId});
-  };
+  $scope.redirectStop = Helper.redirectToStop;
 
   /*
    * Gets all the PVTA routes.
