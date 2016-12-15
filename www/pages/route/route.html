@@ -44,9 +44,13 @@
         </ion-item>
       </ion-list>
     </div>
-    <ion-item class="item" ng-if="route && stops" ng-click="showStopModal()">
+    <div class="item item-divider item-positive center"
+       ng-if="route && stops">
+      Stops
+    </div>
+    <ion-item class="item"  ng-if="route && stops" ng-click="showStopModal()">
       <div class="text-center">
-        <span>Stops on the {{route.RouteAbbreviation}}</span>
+        <span>Tap to view stops on the {{route.RouteAbbreviation}}...</span>
       </div>
     </ion-item>
   </ion-content>
