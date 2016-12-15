@@ -28,7 +28,8 @@ angular.module('pvta')
         localforage.setItem('returningUser', true);
         // Since this is a new user, we don't want them
         // to start seeing all of the popups for past updates.
-        for (key of popupKeys) {
+        for (var i = 0; i < popupKeys.length; i++) {
+          var key = popupKeys[i];
           localforage.setItem(key, true);
         }
       }

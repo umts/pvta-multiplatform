@@ -60,7 +60,8 @@ angular.module('pvta.controllers').controller('RouteController', function($scope
    */
   Messages.query(function (messages) {
     var filteredMessages = [];
-    for (var message of messages) {
+    for (var i = 0; i < messages.length; i++) {
+      var message = messages[i];
       if (_.contains(message.Routes, parseInt($stateParams.routeId))) {
         filteredMessages.push(message);
       }
