@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteController', function ($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, $location, $ionicScrollDelegate, $ionicModal, FavoriteStops, $ionicFilterBar) {
+angular.module('pvta.controllers').controller('RouteController', function ($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, $location, $ionicScrollDelegate, $ionicModal, FavoriteStops, $ionicFilterBar, Helper) {
   ga('set', 'page', '/route.html');
   ga('set', 'route', $stateParams.routeId);
   ga('send', 'pageview');
@@ -103,6 +103,8 @@ angular.module('pvta.controllers').controller('RouteController', function ($scop
   $scope.refresh = function () {
     getVehicles();
   };
+
+  $scope.redirectToStop = Helper.redirectToStop;
 
   $scope.$on('$ionicView.enter', function () {
     getHeart();
