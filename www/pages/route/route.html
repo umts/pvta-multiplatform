@@ -32,16 +32,16 @@
        </ion-item>
      </ion-list>
    </div>
-    <div ng-if="vehicles.length === 0 && route"
+    <div ng-if="route && vehicles.length === 0"
         class="item item-divider item-energized center"
         style="margin-bottom:1%">
       There are no buses currently on the {{route.RouteAbbreviation}}.
     </div>
     <div class="item item-divider item-positive center"
-       ng-if="vehicles.length !== 0 && route">
+       ng-if="route && vehicles.length !== 0">
       Buses
    </div>
-    <div ng-if="vehicles && vehicles.length != 0">
+    <div ng-if="vehicles && vehicles.length !== 0">
       <ion-list>
         <div ng-repeat="vehicle in vehicles | orderBy:'Destination'">
           <vehicle data="vehicle" color="route.Color"></vehicle>
