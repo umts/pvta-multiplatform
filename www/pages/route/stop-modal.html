@@ -5,7 +5,7 @@
     <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()"></button>
   </ion-header-bar>
   <ion-content class="padding">
-    <ion-item ng-repeat="stop in stops | limitTo: 40" class= "item-icon-left item-icon-right" ng-click="stopModal.remove()" href="#/app/stops/{{stop.StopId}}">
+    <ion-item ng-repeat="stop in stops | limitTo: 40" class= "item-icon-left item-icon-right" ng-click="redirectToStop(stop.StopId); stopModal.remove()">
       <stop liked="stop.Liked" data="stop" toggle="toggleStopHeart"></stop>
     </ion-item>
   </ion-content>

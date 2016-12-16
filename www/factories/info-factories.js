@@ -10,8 +10,8 @@ angular.module('pvta')
     // @TODO enter the key that's stored for determining
     // whether your popup has been seen in this array
     var popupKeys = [
-        'plan-trip-update'
-    ]
+      'plan-trip-update'
+    ];
     localforage.getItem('returningUser', function (err, returningUser) {
       // If the user has used PVTrack before, show them any
       // other popups that they might need to see
@@ -21,14 +21,15 @@ angular.module('pvta')
       }
       else {
         // If they're a new user
-        var alertPopup = $ionicPopup.alert({
+        $ionicPopup.alert({
           title: 'Welcome to PVTrAck!',
           template: 'This is My Buses, where your favorite routes and stops live for easy access.<br>Head to Routes and Stops to see where your bus is right now, or visit Schedule to plan your future bus trips!'
         });
         localforage.setItem('returningUser', true);
         // Since this is a new user, we don't want them
         // to start seeing all of the popups for past updates.
-        for (key of popupKeys) {
+        for (var i = 0; i < popupKeys.length; i++) {
+          var key = popupKeys[i];
           localforage.setItem(key, true);
         }
       }
@@ -43,7 +44,7 @@ angular.module('pvta')
    * Your migration's goal is to make the schema update as
    * painless as possible for our users.
    */
-  function performMigrations() {
+  function performMigrations () {
     /* Each migration has a 'key,' and we must first check to see
      * if that key has already been saved for the current user.
      * If it exists, the user has already run the migration.
@@ -70,9 +71,9 @@ angular.module('pvta')
     localforage.getItem('plan-trip-update', function (err, updatedPlanTrip) {
       // If they haven't seen the popup, show it.
       if (!updatedPlanTrip) {
-        var alertPopup = $ionicPopup.alert({
+        $ionicPopup.alert({
           title: 'Plan Trip is now Schedule!',
-          template: "We've made it even easier to search the bus schedules.<br>Go check it out!"
+          template: 'We\'ve made it even easier to search the bus schedules.<br>Go check it out!'
         });
         // Update storage to indicate the popup has been presented
         localforage.setItem('plan-trip-update', true);
@@ -82,8 +83,8 @@ angular.module('pvta')
 
 
   return {
-    versionNum: '0.9.3',
-    versionName: 'Release Candidate 3',
+    versionNum: '1.0.0',
+    versionName: 'Gold Master Candidate 2',
     performMigrations: performMigrations,
     showPopups: showPopups
   };
