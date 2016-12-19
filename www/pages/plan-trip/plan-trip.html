@@ -1,7 +1,7 @@
-<ion-view view-title="{{request.name === 'New Trip' ? 'Schedule' : request.name}}">
+<ion-view view-title="{{request.name === 'New Trip' ? 'Schedule' : request.name}}" aria-live="polite">
   <ion-nav-buttons side="secondary">
-    <button class="button icon ion-compose" ng-click="newTrip()"></button>
-    <button ng-class="{'button icon ion-ios-heart-outline': !request.saved, 'button icon ion-ios-heart': request.saved}" ng-click="saveTrip()"></button>
+    <button title="New Trip" data-tap-disabled="true" aria-label="Open new trip" class="button icon ion-compose" ng-click="newTrip()"></button>
+    <button title="Save" data-tap-disabled="true" aria-label="Save trip" ng-class="{'button icon ion-ios-heart-outline': !request.saved, 'button icon ion-ios-heart': request.saved}" ng-click="saveTrip()"></button>
   </ion-nav-buttons>
   <ion-content>
     <div ng-if="noLocation">
@@ -12,9 +12,9 @@
     <div class="list" id="input">
       <div class="item item-input-inset">
         <label class="item-input-wrapper">
-          <input id="origin-input" class="user-input location-typeahead" type="text" placeholder="Enter a starting location" ng-model="request.origin.name" ng-focus="disableTap()" />
+          <input id="origin-input" role="combobox" aria-autocomplete="list" aria-owns="places" aria-activedescendant="places" aria-label="Begin typing an origin and choose a location from the drop-down" class="user-input location-typeahead" type="text" placeholder="Enter a starting location" ng-model="request.origin.name" ng-focus="disableTap()" />
         </label>
-        <i ng-class="request.destinationOnly ? 'ion-android-locate positive' : 'ion-android-locate'"
+        <i aria-label="{{request.destinationOnly ? 'Stop using' : 'Use'}} location of device" title="Use location of device" ng-class="request.destinationOnly ? 'ion-android-locate positive' : 'ion-android-locate'"
           style="font-size: 120%; margin-left: 1%"
           ng-click="request.destinationOnly = !request.destinationOnly; updateOrigin();">
         </i>
@@ -25,10 +25,10 @@
         </label>
       </div>
       <div class="item item-input item-select">
-        <div class="input-label">
+        <label class="input-label">
           Search for buses:
-        </div>
-        <select ng-model="request.time.option" ng-options="option as option.title for option in timeOptions"></select>
+          <select ng-model="request.time.option" ng-options="option as option.title for option in timeOptions"></select>
+        </label>
       </div>
       <div class="button-bar" ng-show="request.time.option.isASAP === false">
         <button class="button icon-left ion-android-calendar" ng-click="openDatePicker()">{{request.time.datetime | date: "MMM d"}}</button>
@@ -40,7 +40,7 @@
       <button ng-click="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
     </div>
     <div id="directions-map" ng-show="route"></div>
-    <div id="route" ng-if="route">
+    <div id="route" ng-if="route" aria-live="assertive">
       <div class = "item item-divider item-energized item-text-wrap">
         <b>PLEASE NOTE: Trip is based on scheduled times. Check your stop's page to confirm bus departure time.</b>
       </div>

@@ -168,6 +168,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     originAutocomplete.setBounds(bounds);
     destinationAutocomplete.setBounds(bounds);
 
+
     originAutocomplete.addListener('place_changed', function () {
       mapLocation(originAutocomplete.getPlace(), function (place) {
         $scope.request.origin = {
@@ -329,7 +330,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   var saveSuccessful = function () {
     $ionicPopup.alert({
       title: 'Save Successful!',
-      template: 'This trip can be accessed from My Buses.'
+      template: '<p role="alert" aria-live="assertive">This trip can be accessed from My Buses.</p>'
     });
     ga('send', 'event', 'TripSaveSuccessful', 'PlanTripController.saveSuccessful()', 'Saved a trip to favorites!');
   };
@@ -341,9 +342,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   $scope.saveTrip = function () {
     var prevName = $scope.request.name;
     $ionicPopup.show({
-      template: '<input type="text" ng-model="request.name">',
+      template: '<input type="text" role="dialog" placeholder="Give this trip a name" ng-model="request.name" aria-live="assertive">',
       title: 'Trip Name',
-      subTitle: 'Give this trip a name.',
       scope: $scope,
       buttons: [
     {text: 'Cancel',
@@ -378,7 +378,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   $scope.newTrip = function () {
     $ionicPopup.confirm({
       title: 'New Trip',
-      template: '<div style=\'text-align:center\'>Close current trip?</div>'
+      template: '<div aria-live="assertive" style=\'text-align:center\'>Close current trip?</div>'
     }).then(function (res) {
       if (res) {
         loadedTrip = null;
@@ -395,6 +395,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     container = document.getElementsByClassName('pac-container');
     // disable ionic data tap
     angular.element(container).attr('data-tap-disabled', 'true');
+    angular.element(container).attr('id', 'places');
     // leave input field if google-address-entry is selected
     angular.element(container).on('click', function () {
       document.getElementById('origin-input').blur();

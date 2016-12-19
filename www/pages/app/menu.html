@@ -1,40 +1,40 @@
 <ion-side-menus enable-menu-with-back-views="false">
+  <ion-side-menu side="left" expose-aside-when="large">
+    <ion-header-bar class="bar-positive">
+      <header role="heading" class="title">PVTrAck</header>
+    </ion-header-bar>
+    <ion-content role="navigation" aria-label="PV-Track Menu">
+      <ion-list>
+        <ion-item menu-close href="#/app/my-buses">
+          <i class="icon ion-android-home" style="margin-right: 10px" aria-label="Home / My Buses"></i>
+          My Buses
+        </ion-item>
+        <ion-item menu-close href="#/app/routes-and-stops/0">
+          <i class="icon ion-ios-search" style="margin-right: 10px" aria-label="Routes and Stops"></i>
+          Routes and Stops
+        </ion-item>
+        <ion-item menu-close href="#/app/plan-trip">
+          <i class="icon ion-map" style="margin-right: 10px" aria-label="Schedule"></i>
+          Schedule
+        </ion-item>
+        <ion-item menu-close href="#/app/settings">
+          <i class="icon ion-ios-gear" style="margin-right: 10px" aria-label="Settings"></i>
+          Settings
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+
   <ion-side-menu-content>
     <ion-nav-bar class="bar-positive">
       <ion-nav-back-button>
       </ion-nav-back-button>
-
       <ion-nav-buttons side="left">
-        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        <button aria-label="Open navigation window" class="button button-icon button-clear ion-navicon" menu-toggle="left">
         </button>
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>
 
-  <ion-side-menu side="left" expose-aside-when="large">
-    <ion-header-bar class="bar-positive">
-      <h1 class="title">PVTA</h1>
-    </ion-header-bar>
-    <ion-content>
-      <ion-list>
-        <ion-item menu-close href="#/app/my-buses">
-          <i class="icon ion-android-home" style="margin-right: 10px"></i>
-          My Buses
-        </ion-item>
-        <ion-item menu-close href="#/app/routes-and-stops/0">
-          <i class="icon ion-ios-search" style="margin-right: 10px"></i>
-          Routes and Stops
-        </ion-item>
-        <ion-item menu-close href="#/app/plan-trip">
-          <i class="icon ion-map" style="margin-right: 10px"></i>
-          Schedule
-        </ion-item>
-        <ion-item menu-close href="#/app/settings">
-          <i class="icon ion-ios-gear" style="margin-right: 10px"></i>
-          Settings
-        </ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-side-menu>
-</ion-side-menus>
+  </ion-side-menus>
