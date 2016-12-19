@@ -1,4 +1,4 @@
-class Alert {
+export class Alert {
   MessageId: number;
   Message: string;
   FromDate: any;

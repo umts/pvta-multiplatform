@@ -1,4 +1,4 @@
-class StopDeparture {
+export class StopDeparture {
   StopId: number;
   StopRecordId: number;
   RouteDirections: any[];

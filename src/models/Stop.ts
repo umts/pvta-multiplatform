@@ -1,4 +1,4 @@
-class Stop {
+export class Stop {
   StopId: number;
   StopRecordId: number;
   Name: string;

@@ -1,4 +1,7 @@
-class RouteDetail {
+import { Stop } from './stop';
+import { Vehicle } from './Vehicle';
+import { Alert } from './Alert';
+export class RouteDetail {
   RouteId: number;
   RouteRecordId: number;
   ShortName: string;

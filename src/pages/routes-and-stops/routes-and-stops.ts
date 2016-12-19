@@ -5,7 +5,9 @@ import { NavController } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
 
 import { RouteService } from '../../services/route.service';
+import { StopService } from '../../services/stop.service';
 import { Route } from '../../models/route';
+import { Stop } from '../../models/stop';
 
 
 
@@ -15,25 +17,17 @@ import { Route } from '../../models/route';
 })
 export class RoutesAndStops implements OnInit {
   routes: Route[];
+  stops: Stop[];
   constructor(public navCtrl: NavController,
-    private routeService: RouteService) { }
+    private routeService: RouteService, private stopService: StopService) { }
 
-  //private routesUrl = 'http://bustracker.pvta.com/infopoint/rest/routes/getvisibleroutes';  // URL to web API
   ngOnInit(): void {
     console.log('kjdflkdsjf');
       this.routeService
       .getAllRoutes()
       .then(routes => this.routes = routes);
+      this.stopService
+      .getAllStops()
+      .then(stops => this.stops = stops);
     }
-  // poo() {
-  //   this.http.get('http://bustracker.pvta.com/infopoint/rest/routes/get/20030')
-  //     .subscribe(
-  //       data => {
-  //         let x: StopDeparture = data.json() as StopDeparture;
-  //         console.log(x)
-  //       },
-  //       err => console.log(err),
-  //       () => console.log('Random Quote Complete')
-  //     );
-  //   }
-}
+  }

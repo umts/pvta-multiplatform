@@ -1,4 +1,4 @@
-class Vehicle {
+export class Vehicle {
   VehicleId: number;
   Name: string;
   Latitude: number;

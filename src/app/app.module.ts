@@ -22,6 +22,7 @@ import { StorageSettings } from '../pages/storage-settings/storage-settings';
 
 // Services
 import { RouteService }          from '../services/route.service';
+import { StopService }          from '../services/stop.service';
 
 
 
@@ -66,6 +67,6 @@ import { RouteService }          from '../services/route.service';
     StorageSettings
   ],
   providers: [ {provide: ErrorHandler, useClass: IonicErrorHandler},
-    RouteService ]
+    RouteService, StopService ]
 })
 export class AppModule {}
