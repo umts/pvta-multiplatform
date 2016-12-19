@@ -1,26 +1,19 @@
 import { Injectable }    from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-import { Stop } from '../models/stop.model';
+import { StopDeparture } from '../models/stop-departure.model';
 
 @Injectable()
-export class StopService {
+export class StopDepartureService {
   private headers = new Headers({'Content-Type': 'application/json'});
-  private stopsURL = 'https://bustracker.pvta.com/InfoPoint/rest/stops/get';  // URL to web api
+  private stopDeparturesURL = 'https://bustracker.pvta.com/InfoPoint/rest/stopdepartures/get';  // URL to web api
   constructor(private http: Http) { }
 
-  getAllStops(): Promise<Stop[]> {
-    return this.http.get(`${this.stopsURL}allstops`)
-      .toPromise()
-      .then(response => response.json() as Stop[])
-      .catch(this.handleError);
-  }
-
-  getStop(id: number): Promise<Stop> {
-    const url = `${this.stopsURL}/${id}`;
+  getStopDeparture(id: number): Promise<StopDeparture> {
+    const url = `${this.stopDeparturesURL}/${id}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json() as Stop)
+      .then(response => response.json() as StopDeparture)
       .catch(this.handleError);
   }
 

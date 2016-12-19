@@ -1,7 +1,8 @@
 import { Injectable }    from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-import { Route } from '../models/route';
+import { Route } from '../models/route.model';
+import { RouteDetail } from '../models/route-detail.model';
 
 @Injectable()
 export class RouteService {

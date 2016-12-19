@@ -6,8 +6,8 @@ import { Http, Response } from '@angular/http';
 
 import { RouteService } from '../../services/route.service';
 import { StopService } from '../../services/stop.service';
-import { Route } from '../../models/route';
-import { Stop } from '../../models/stop';
+import { Route } from '../../models/route.model';
+import { Stop } from '../../models/stop.model';
 
 
 
