@@ -12,7 +12,7 @@ export class RouteService {
   constructor(private http: Http) { }
 
   getAllRoutes(): Promise<Route[]> {
-    return this.http.get(`${this.routesURL}allroutes`)
+    return this.http.get(`${this.routesURL}visibleroutes`)
       .toPromise()
       .then(response => response.json() as Route[])
       .catch(this.handleError);
