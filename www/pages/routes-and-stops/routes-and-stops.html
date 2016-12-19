@@ -27,10 +27,10 @@
     <div aria-live="polite">
     <ion-list>
     <ion-item ng-show="currentDisplay === 0" ng-repeat="route in routesDisp | orderBy:propertyName" ng-click="redirectRoute(route.RouteId)" class= "item item-icon-left item-icon-right">
-        <route liked="route.Liked" data="route" toggle="toggleRouteHeart"></route>
+        <route liked="route.Liked" data="route" toggle="toggleRouteHeart" data-tap-disabled="true"></route>
       </ion-item>
       <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | orderBy:propertyName | limitTo: 40" ng-click="redirectStop(stop.StopId)">
-        <stop liked="stop.Liked" data="stop" toggle="toggleStopHeart"></stop>
+        <stop liked="stop.Liked" data="stop" toggle="toggleStopHeart" data-tap-disabled="true"></stop>
       </ion-item>
       <div ng-if="stops && currentDisplay === 1 && stopsDisp.length > 30" class="item item-divider item-positive item-text-wrap">Too many stops to show. Please search above for your stop by name or ID.</div>
     </ion-list>
