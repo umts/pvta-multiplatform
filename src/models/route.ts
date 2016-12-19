@@ -1,4 +1,4 @@
-class Route {
+export class Route {
   RouteId: number;
   RouteRecordId: number;
   ShortName: string;

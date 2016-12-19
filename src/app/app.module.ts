@@ -1,6 +1,10 @@
+// Angular, Ionic, and their related components
 import { NgModule, ErrorHandler } from '@angular/core';
+import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
+
+// Pages
 import { Page1 } from '../pages/page1/page1';
 import { Page2 } from '../pages/page2/page2';
 import { About } from '../pages/about/about';
@@ -15,6 +19,10 @@ import { Settings } from '../pages/settings/settings';
 import { Stop } from '../pages/stop/stop';
 import { StopMap } from '../pages/stop-map/stop-map';
 import { StorageSettings } from '../pages/storage-settings/storage-settings';
+
+// Services
+import { RouteService }          from '../services/route.service';
+
 
 
 @NgModule({
@@ -36,7 +44,8 @@ import { StorageSettings } from '../pages/storage-settings/storage-settings';
     StorageSettings
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -56,6 +65,7 @@ import { StorageSettings } from '../pages/storage-settings/storage-settings';
     StopMap,
     StorageSettings
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [ {provide: ErrorHandler, useClass: IonicErrorHandler},
+    RouteService ]
 })
 export class AppModule {}
