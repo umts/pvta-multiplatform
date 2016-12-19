@@ -1,4 +1,4 @@
-class RouteDetails {
+class RouteDetail {
   RouteId: number;
   RouteRecordId: number;
   ShortName: string;

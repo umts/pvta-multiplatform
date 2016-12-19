@@ -22,7 +22,7 @@ export class RoutesAndStops implements OnInit {
   ngOnInit(): void {
     console.log('kjdflkdsjf');
       this.routeService
-      .getRoutes()
+      .getAllRoutes()
       .then(routes => this.routes = routes);
     }
   // poo() {
