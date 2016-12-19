@@ -18,6 +18,7 @@ import { Stop } from '../../models/stop.model';
 export class RoutesAndStops implements OnInit {
   routes: Route[];
   stops: Stop[];
+  currentDisplay: string = '0';
   constructor(public navCtrl: NavController,
     private routeService: RouteService, private stopService: StopService) { }
 

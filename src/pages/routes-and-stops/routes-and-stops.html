@@ -1,18 +1,33 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Routes and Stops</ion-title>
   </ion-navbar>
+  <ion-segment [(ngModel)]="currentDisplay" color="primary">
+    <ion-segment-button value="0">
+      Routes
+    </ion-segment-button>
+    <ion-segment-button value="1">
+      Stops
+    </ion-segment-button>
+  </ion-segment>
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+  <div [ngSwitch]="currentDisplay">
+    <ion-list *ngSwitchCase="0">
+      <ion-item *ngFor="let route of routes">
+        <h2>{{route.ShortName}}</h2>
+      </ion-item>
+    </ion-list>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+    <ion-list *ngSwitchCase="1">
+      <ion-item *ngFor="let stop of stops | slice:0:40">
+        <h2>{{stop.Description}}</h2>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>
