@@ -58,7 +58,8 @@ angular.module('pvta.controllers').controller('StorageSettingsController', funct
   function showConfirmPopup (header, body) {
     return $ionicPopup.confirm({
       title: header,
-      template: body
+      template: body,
+      okText: 'Yes'
     });
   }
   function showAlertPopup (header, body) {
