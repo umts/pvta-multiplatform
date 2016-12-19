@@ -18,35 +18,43 @@
       </span>
       <span class="col col-75 item-text-wrap center">{{route.GoogleDescription}}</span>
     </div>
-    <div ng-if="vehicles.length === 0 && route"
+    <!-- Container div for the alerts -->
+    <div class="item item-divider item-assertive center"
+       ng-if="messages.length > 0">
+      Alerts
+   </div>
+   <div ng-if="messages.length > 0">
+     <ion-list>
+       <ion-item class=item ng-repeat="item in messages">
+         <div class="row item-text-wrap">
+           {{item.Message}}
+         </div>
+       </ion-item>
+     </ion-list>
+   </div>
+    <div ng-if="route && vehicles.length === 0"
         class="item item-divider item-energized center"
         style="margin-bottom:1%">
       There are no buses currently on the {{route.RouteAbbreviation}}.
     </div>
-    <div ng-if="vehicles && vehicles.length != 0">
+    <div class="item item-divider item-positive center"
+       ng-if="route && vehicles.length !== 0">
+       Buses
+    </div>
+    <div ng-if="vehicles && vehicles.length !== 0">
       <ion-list>
         <div ng-repeat="vehicle in vehicles | orderBy:'Destination'">
           <vehicle data="vehicle" color="route.Color"></vehicle>
         </div>
      </ion-list>
    </div>
-     <!-- Container div for the alerts -->
-     <div class="item item-divider item-assertive center"
-        ng-if="messages.length > 0">
-       Alerts
+    <div class="item item-divider item-positive center"
+       ng-if="route && stops">
+      Stops
     </div>
-    <div ng-if="messages.length > 0">
-      <ion-list>
-        <ion-item class=item ng-repeat="item in messages">
-          <div class="row item-text-wrap">
-            {{item.Message}}
-          </div>
-        </ion-item>
-      </ion-list>
-    </div>
-    <ion-item class="item" ng-if="route && stops" ng-click="showStopModal()">
+    <ion-item class="item"  ng-if="route && stops" ng-click="showStopModal()">
       <div class="text-center">
-        <span>Stops on the {{route.RouteAbbreviation}}</span>
+        <span>Tap to view stops on the {{route.RouteAbbreviation}}...</span>
       </div>
     </ion-item>
   </ion-content>
