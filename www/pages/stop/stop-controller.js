@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading) {
+angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading, ionicLoadingConfig) {
   ga('set', 'page', '/stop.html');
   ga('send', 'pageview');
   $scope.ROUTE_DIRECTION = '0';
@@ -136,7 +136,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
   }
 
   $scope.getDepartures = function () {
-    $ionicLoading.show();
+    $ionicLoading.show(ionicLoadingConfig);
     StopDeparture.query({ stopId: $stateParams.stopId }, function (deps) {
       if (deps) {
         // Avail returns a one element array that contains
@@ -174,7 +174,7 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
    * localforage throws an error, set to 30s.
    ********************************************/
   $scope.$on('$ionicView.enter', function () {
-    $ionicLoading.show({});
+    $ionicLoading.show(ionicLoadingConfig);
     loadOrdering();
     getHeart();
     localforage.getItem('autoRefresh', function (err, value) {

@@ -9,6 +9,11 @@ angular.module('pvta.factories', ['ngResource']);
 angular.module('pvta.directives', []);
 angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment', 'jett.ionic.filter.bar', 'underscore', 'ionic-datepicker', 'ionic-timepicker', 'ngAnimate', 'ngAria'])
 
+.constant('ionicLoadingConfig', {
+  hideOnStateChange: true,
+  duration: 5000
+})
+
 .run(function ($ionicPlatform) {
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

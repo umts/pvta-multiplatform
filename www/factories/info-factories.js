@@ -84,7 +84,7 @@ angular.module('pvta')
 
   return {
     versionNum: '1.0.0',
-    versionName: 'Gold Master Candidate 2',
+    versionName: 'Initial Public Release!',
     performMigrations: performMigrations,
     showPopups: showPopups
   };
