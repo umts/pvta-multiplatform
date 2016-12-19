@@ -76,14 +76,14 @@ angular.module('pvta.controllers').controller('MyBusesController', function ($sc
     $scope.routes = [];
   };
 
-  $scope.removeRoute = function (route, currentIndex) {
+  $scope.removeRoute = function (route) {
     FavoriteRoutes.remove(route);
-    $scope.routes.splice(currentIndex, 1);
+    $scope.routes.splice($scope.routes.indexOf(route), 1);
   };
 
-  $scope.removeStop = function (stop, currentIndex) {
+  $scope.removeStop = function (stop) {
     FavoriteStops.remove(stop);
-    $scope.stops.splice(currentIndex, 1);
+    $scope.stops.splice($scope.stops.indexOf(stop), 1);
   };
 
   $scope.removeTrip = function (index) {
