@@ -23,9 +23,10 @@
         <option ng-if="currentDisplay === 1" value="distance" aria-label="Nearby">Nearby</option>
         <option ng-if="currentDisplay === 0" value="name" aria-label="Name">Name</option>
         </select>
-    </label>
+      </label>
+    <div aria-live="polite">
     <ion-list>
-      <ion-item ng-show="currentDisplay === 0" ng-repeat="route in routesDisp | orderBy:propertyName" ng-click="redirectRoute(route.RouteId)" class= "item item-icon-left item-icon-right">
+    <ion-item ng-show="currentDisplay === 0" ng-repeat="route in routesDisp | orderBy:propertyName" ng-click="redirectRoute(route.RouteId)" class= "item item-icon-left item-icon-right">
         <route liked="route.Liked" data="route" toggle="toggleRouteHeart"></route>
       </ion-item>
       <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | orderBy:propertyName | limitTo: 40" ng-click="redirectStop(stop.StopId)">
@@ -35,6 +36,7 @@
     </ion-list>
     <div ng-if="routes && stops && !routesDisp.length && !stopsDisp.length" class="bar bar-assertive title">
         <h1 class="title">No results found.</h1>
+      </div>
     </div>
   </ion-content>
 </ion-view>

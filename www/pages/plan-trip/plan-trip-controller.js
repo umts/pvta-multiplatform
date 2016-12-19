@@ -341,7 +341,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   $scope.saveTrip = function () {
     var prevName = $scope.request.name;
     $ionicPopup.show({
-      template: '<input type="text" role="dialog" placeholder="Give this trip a name" ng-model="request.name" aria-live="polite">',
+      template: '<input type="text" role="dialog" placeholder="Give this trip a name" ng-model="request.name" aria-live="assertive">',
       title: 'Trip Name',
       scope: $scope,
       buttons: [
