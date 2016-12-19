@@ -12,8 +12,12 @@ import { StopDepartureService } from '../../services/stop-departure.service';
 export class Stop {
   departures: StopDeparture[];
   constructor(public navCtrl: NavController,
-    private stopDepartureService: StopDepartureService) {
+    private stopDepartureService: StopDepartureService) { }
 
-  }
-
+    ngOnInit(): void {
+      // NEED STOP ID BEFORE UNCOMMENTING!
+        // this.stopDepartureService
+        // .getStopDeparture(navParams.stopId)
+        // .then(departures => this.departures = departures);
+      }
 }
