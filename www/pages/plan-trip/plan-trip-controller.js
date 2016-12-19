@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $state, $q, $cordovaGeolocation, $ionicLoading, $ionicPopup, $ionicScrollDelegate, NearestStop, Trips, $timeout, ionicDatePicker, ionicTimePicker, Map) {
+angular.module('pvta.controllers').controller('PlanTripController', function ($scope, $location, $state, $q, $cordovaGeolocation, $ionicLoading, $ionicPopup, $ionicScrollDelegate, NearestStop, Trips, $timeout, ionicDatePicker, ionicTimePicker, Map, ionicLoadingConfig) {
   ga('set', 'page', '/plan-trip.html');
   ga('send', 'pageview');
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
@@ -27,7 +27,7 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
   var loadLocation = function () {
     var deferred = $q.defer();
     var options = {timeout: 5000, enableHighAccuracy: true};
-    $ionicLoading.show();
+    $ionicLoading.show(ionicLoadingConfig);
 
     $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
       $ionicLoading.hide();
@@ -257,7 +257,8 @@ angular.module('pvta.controllers').controller('PlanTripController', function ($s
     }
 
     $ionicLoading.show({
-      template: 'Routing..'
+      template: 'Routing..',
+      timeout: 5000
     });
 
     transitOptions = {

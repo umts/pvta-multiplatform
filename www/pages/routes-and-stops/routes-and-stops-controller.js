@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map, $cordovaToast, Helper) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map, $cordovaToast, Helper, ionicLoadingConfig) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
   // The two dimensions used in the view to sort the lists.
@@ -50,14 +50,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   /*
    * Gets all the PVTA stops.
    */
-  function getStops (position) {
-    StopsForage.get().then(function (stops) {
-      $scope.stops = StopsForage.uniq(stops);
-      calculateStopDistances(position);
-      getFavoriteStops(stops, position);
-      redraw();
-      $ionicLoading.hide();
-    });
+  function getStops () {
+    return StopsForage.get();
   }
   /*
    * Helper function.
@@ -190,7 +184,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       // We use the haversine formula here because it's more accurate
       // the standard Distance Formula.
       if (!previousPosition || (previousPosition !== undefined && (haversine(previousPosition, currentPosition) > .1))) {
-        var msg = 'User has no previous position or has moved; calculating stop distances.';
+        var msg = 'Current position found, but no previous position or has moved; calculating stop distances.';
         ga('send', 'event', 'CalculatingStopDistances',
           'RoutesAndStopsController.calculateStopDistances', msg);
         console.log(msg);
@@ -313,7 +307,7 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       $ionicLoading.show({
         template: msg,
         noBackdrop: true,
-        duration: (1500)
+        duration: 1500
       });
     }
   }
@@ -342,22 +336,30 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   }
 
   $scope.$on('$ionicView.enter', function () {
-    $ionicLoading.show();
     // Load the list of routes - do this every time
     // because we need to update the "heart" for each one.
+    $ionicLoading.show(ionicLoadingConfig);
     getRoutes();
-    // Grab the current location and get the stops.
-    Map.getCurrentPosition().then(function (position) {
-      getStops(position);
-    }, function (error) {
-      getStops();
-      Map.showInsecureOriginLocationPopup(error);
-      console.error('No location. Code: ' + error.code + '\n' +
-        'message: ' + error.message + '\n');
-      ga('send', 'event', 'LocationFailure',
-        'Map.getCurrentPosition',
-        'Location failed in RoutesAndStops; error: ' + error.code + ':, ' + error.message);
+    // Get the stops.
+    getStops().then(function (stops) {
+      $ionicLoading.hide();
+      $scope.stops = StopsForage.uniq(stops);
+      getFavoriteStops($scope.stops);
+      // Grab the current location
+      Map.getCurrentPosition().then(function (position) {
+        calculateStopDistances(position);
+        redraw();
+      }, function (error) {
+        Map.showInsecureOriginLocationPopup(error);
+        calculateStopDistances();
+        redraw();
+        // No location? Log and report.
+        console.error('No location. Code: ' + error.code + '\n' +
+          'message: ' + error.message + '\n');
+        ga('send', 'event', 'LocationFailure',
+          'Map.getCurrentPosition',
+          'Location failed in RoutesAndStops; error: ' + error.code + ':, ' + error.message);
+      });
     });
-    redraw();
   });
 });
