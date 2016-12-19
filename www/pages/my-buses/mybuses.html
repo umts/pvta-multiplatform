@@ -15,7 +15,7 @@
     <ion-list class="list" show-delete="false" can-swipe="true">
       <div role="list" aria-labelledby="routes-heading">
         <ion-item class="item" ng-repeat="route in routes | orderBy:'RouteAbbreviation'" href="#/app/routes/{{route.RouteId}}">
-          <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeRoute(route, $index)"></ion-option-button>
+          <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeRoute(route)"></ion-option-button>
           <div class="row" aria-label="Route {{route.RouteAbbreviation}} {{route.GoogleDescription}}">
             <span class="col-5 item-text-wrap" style="color: #{{route.Color}}; font-size: 150%; font-weight: bold;" >
             {{route.RouteAbbreviation}}
@@ -33,7 +33,7 @@
       <div role="heading" id="stops-heading" class="item item-divider item-positive">Your Stops</div>
       <div role="list" aria-labelledby="stops-heading">
         <ion-item class="item item-text-wrap" ng-repeat="stop in stops | orderBy:'Description'" href="#/app/stops/{{stop.StopId}}">
-          <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeStop(stop, $index)"></ion-option-button>
+          <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeStop(stop)"></ion-option-button>
           <div class="item-icon-left" aria-label="{{stop.Description}} {{stop.StopId}}">
             <i class="icon ion-ios-location" style="margin-right: 10px"></i>
             {{stop.Description}} ({{stop.StopId}})
