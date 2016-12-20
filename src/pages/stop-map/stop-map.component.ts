@@ -6,7 +6,7 @@ import { NavController } from 'ionic-angular';
   selector: 'page-stop-map',
   templateUrl: 'stop-map.html'
 })
-export class StopMap {
+export class StopMapComponent {
 
   constructor(public navCtrl: NavController) {
 

@@ -9,7 +9,7 @@ import { StopDepartureService } from '../../services/stop-departure.service';
   selector: 'page-stop',
   templateUrl: 'stop.html'
 })
-export class Stop {
+export class StopComponent {
   departures: StopDeparture[];
   constructor(public navCtrl: NavController,
     private stopDepartureService: StopDepartureService) { }

@@ -6,7 +6,7 @@ import { NavController } from 'ionic-angular';
   selector: 'page-privacy-policy',
   templateUrl: 'privacy-policy.html'
 })
-export class PrivacyPolicy {
+export class PrivacyPolicyComponent {
 
   constructor(public navCtrl: NavController) {
 

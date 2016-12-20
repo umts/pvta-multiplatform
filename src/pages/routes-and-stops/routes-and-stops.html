@@ -25,20 +25,22 @@
 
   <div [ngSwitch]="currentDisplay">
     <ion-list *ngSwitchCase="0">
-      <ion-item *ngFor="let route of routes">
+      <button ion-item *ngFor="let route of routes"
+        (click)="redirectRoute(route.RouteId)">
         <ion-icon name="bus" style="margin-right: 10px"></ion-icon>
         <span [style.color]="'#' + route.Color" style="font-size: 125%; font-weight: bold; margin-left: 10px">
           {{route.RouteAbbreviation}}
         </span>
           <p>{{route.GoogleDescription}}</p>
-      </ion-item>
+      </button>
     </ion-list>
 
     <ion-list *ngSwitchCase="1">
-      <ion-item *ngFor="let stop of stops | slice:0:40">
+      <button ion-item *ngFor="let stop of stops | slice:0:40"
+        (click)="redirectStop(stop.StopId)">
         <ion-icon name="pin" style="margin-right: 10px"></ion-icon>
         <span>{{stop.Description}} ({{stop.StopId}})</span>
-      </ion-item>
+      </button>
     </ion-list>
   </div>
 </ion-content>

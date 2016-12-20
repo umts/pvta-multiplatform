@@ -8,6 +8,8 @@ import { RouteService } from '../../services/route.service';
 import { StopService } from '../../services/stop.service';
 import { Route } from '../../models/route.model';
 import { Stop } from '../../models/stop.model';
+import { RouteComponent } from '../route/route.component';
+import { StopComponent } from '../stop/stop.component'
 
 
 
@@ -15,7 +17,7 @@ import { Stop } from '../../models/stop.model';
   selector: 'page-routes-and-stops',
   templateUrl: 'routes-and-stops.html'
 })
-export class RoutesAndStops implements OnInit {
+export class RoutesAndStopsComponent implements OnInit {
   routes: Route[];
   stops: Stop[];
   currentDisplay: string = '0';
@@ -28,8 +30,19 @@ export class RoutesAndStops implements OnInit {
       console.log(JSON.stringify(query));
   }
 
+  redirectRoute(routeId: number): void {
+    this.navCtrl.push(RouteComponent, {
+      routeId: routeId
+    });
+  }
+
+  redirectStop(stopId: number): void {
+    this.navCtrl.push(StopComponent, {
+      stopId: stopId
+    });
+  }
+
   ngOnInit(): void {
-    console.log('kjdflkdsjf');
       this.routeService
       .getAllRoutes()
       .then(routes => this.routes = routes);

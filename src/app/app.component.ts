@@ -4,18 +4,18 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { Page1 } from '../pages/page1/page1';
 import { Page2 } from '../pages/page2/page2';
-import { About } from '../pages/about/about.component';
-import { Contact } from '../pages/contact/contact.component';
-import { MyBuses } from '../pages/my-buses/my-buses.component';
-import { PlanTrip } from '../pages/plan-trip/plan-trip.component';
-import { PrivacyPolicy } from '../pages/privacy-policy/privacy-policy.component';
-import { Route } from '../pages/route/route.component';
-import { RouteMap } from '../pages/route-map/route-map.component';
-import { RoutesAndStops } from '../pages/routes-and-stops/routes-and-stops.component';
-import { Settings } from '../pages/settings/settings.component';
-import { Stop } from '../pages/stop/stop.component';
-import { StopMap } from '../pages/stop-map/stop-map.component';
-import { StorageSettings } from '../pages/storage-settings/storage-settings.component';
+import { AboutComponent } from '../pages/about/about.component';
+import { ContactComponent } from '../pages/contact/contact.component';
+import { MyBusesComponent } from '../pages/my-buses/my-buses.component';
+import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
+import { PrivacyPolicyComponent } from '../pages/privacy-policy/privacy-policy.component';
+import { RouteComponent } from '../pages/route/route.component';
+import { RouteMapComponent } from '../pages/route-map/route-map.component';
+import { RoutesAndStopsComponent } from '../pages/routes-and-stops/routes-and-stops.component';
+import { SettingsComponent } from '../pages/settings/settings.component';
+import { StopComponent } from '../pages/stop/stop.component';
+import { StopMapComponent } from '../pages/stop-map/stop-map.component';
+import { StorageSettingsComponent } from '../pages/storage-settings/storage-settings.component';
 
 
 @Component({
@@ -35,10 +35,10 @@ export class MyApp {
     this.pages = [
       { title: 'Page One', component: Page1 },
       { title: 'Page Two', component: Page2 },
-      { title: 'My Buses', component: MyBuses },
-      { title: 'Routes and Stops', component: RoutesAndStops },
-      { title: 'Schedule', component: PlanTrip },
-      { title: 'Settings', component: Settings }
+      { title: 'My Buses', component: MyBusesComponent },
+      { title: 'Routes and Stops', component: RoutesAndStopsComponent },
+      { title: 'Schedule', component: PlanTripComponent },
+      { title: 'Settings', component: SettingsComponent }
     ];
 
   }

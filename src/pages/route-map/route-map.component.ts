@@ -6,7 +6,7 @@ import { NavController } from 'ionic-angular';
   selector: 'page-route-map',
   templateUrl: 'route-map.html'
 })
-export class RouteMap {
+export class RouteMapComponent {
 
   constructor(public navCtrl: NavController) {
 

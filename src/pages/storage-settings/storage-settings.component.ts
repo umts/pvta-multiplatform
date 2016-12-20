@@ -6,7 +6,7 @@ import { NavController } from 'ionic-angular';
   selector: 'page-storage-settings',
   templateUrl: 'storage-settings.html'
 })
-export class StorageSettings {
+export class StorageSettingsComponent {
 
   constructor(public navCtrl: NavController) {
 
