@@ -33,10 +33,10 @@ export class RouteService {
       .catch(this.handleError);
   }
 
-  getRouteDetail(id: number): Promise<RouteDetail[]> {
+  getRouteDetail(id: number): Promise<RouteDetail> {
     return this.http.get(`${this.routeDetailsURL}/${id}`)
       .toPromise()
-      .then(response => response.json() as RouteDetail[])
+      .then(response => response.json() as RouteDetail)
       .catch(this.handleError);
   }
 

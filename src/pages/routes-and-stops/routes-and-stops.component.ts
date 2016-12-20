@@ -17,7 +17,7 @@ import { StopComponent } from '../stop/stop.component'
   selector: 'page-routes-and-stops',
   templateUrl: 'routes-and-stops.html'
 })
-export class RoutesAndStopsComponent implements OnInit {
+export class RoutesAndStopsComponent {
   routes: Route[];
   stops: Stop[];
   currentDisplay: string = '0';
@@ -42,11 +42,11 @@ export class RoutesAndStopsComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-      this.routeService
+  ionViewWillEnter() {
+    this.routeService
       .getAllRoutes()
       .then(routes => this.routes = routes);
-      this.stopService
+    this.stopService
       .getAllStops()
       .then(stops => this.stops = stops);
     }
