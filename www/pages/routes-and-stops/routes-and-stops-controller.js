@@ -22,6 +22,8 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
   $scope.currentDisplay = parseInt($stateParams.segment);
   $scope._ = _;
 
+  var hideFilterBarFunction;
+
   /*
   *  Two redirect functions, which are called
   *  when clicking on the ion-items in the lists.
@@ -106,6 +108,9 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
    * the appropriate variables.
    */
   $scope.display = function (index) {
+    if (hideFilterBarFunction && $scope.currentDisplay !== index) {
+      hideFilterBarFunction();
+    }
     /* Set the controller-wide
      * variable to indicate
      * which type of data is being displayed.
@@ -150,9 +155,14 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     else {
       itms = $scope.stops;
     }
-    filterBarInstance = $ionicFilterBar.show({
+    hideFilterBarFunction = $ionicFilterBar.show({
       // tell $ionicFilterBar to search over itms.
       items: itms,
+      cancel: function () {
+        $scope.routesDisp = $scope.routes;
+        $scope.stopsDisp = $scope.stops;
+        hideFilterBarFunction = undefined;
+      },
       // Every time the input changes, update the results.
       update: function (filteredItems) {
         // if routes are currently being displayed, update
