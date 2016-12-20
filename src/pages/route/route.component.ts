@@ -7,6 +7,7 @@ import { AlertService } from '../../services/alert.service';
 import { RouteDetail } from '../../models/route-detail.model';
 import { Vehicle } from '../../models/vehicle.model';
 import { Alert } from '../../models/alert.model';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'page-route',
@@ -47,6 +48,7 @@ export class RouteComponent {
   }
 
   ionViewWillEnter() {
+    _.times(3, index => console.log(index));
     this.getAlerts();
     this.routeService
       .getRouteDetail(this.routeId)
