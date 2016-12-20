@@ -24,6 +24,7 @@ import { StorageSettingsComponent } from '../pages/storage-settings/storage-sett
 import { RouteService }          from '../services/route.service';
 import { StopService }          from '../services/stop.service';
 import { StopDepartureService }          from '../services/stop-departure.service';
+import { VehicleService }          from '../services/vehicle.service';
 
 
 
