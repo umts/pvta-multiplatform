@@ -6,4 +6,4 @@
     <p id="description">{{route.GoogleDescription}}</p>
 </div>
 <!--Here, $event.stopPropagation() is used so that clicking the button in the ion-item will not also cause the user to be redirected to the stop page -->
-<button ng-class="liked ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="liked = !liked; toggle(route); $event.stopPropagation();" aria-label="{{liked ? 'Unlike' : 'Like'}}"></button>
+<button ng-class="liked ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="liked = !liked; toggle(route); $event.stopPropagation();" aria-label="{{liked ? 'Unlike route' : 'Like route'}}"></button>

@@ -3,4 +3,4 @@
   <p id="stop-label">{{stop.Description}} ({{stop.StopId}})</p>
 </div>
 <!--Here, $event.stopPropagation() is used so that clicking the button in the ion-item will not also cause the user to be redirected to the route page -->
-<button ng-class="liked ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="liked = !liked; toggle(stop); $event.stopPropagation();" aria-label="{{liked ? 'Unlike' : 'Like'}}"></button>
+<button ng-class="liked ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="liked = !liked; toggle(stop); $event.stopPropagation();" aria-label="{{liked ? 'Unlike stop' : 'Like stop'}}"></button>
