@@ -21,4 +21,7 @@
       {{alert.Message}}
     </ion-item>
   </ion-item-group>
+  <ion-item class="item"  ng-if="route && stops" (click)="showStopModal()">
+      <span>Tap to view stops on the...</span>
+  </ion-item>
 </ion-content>
