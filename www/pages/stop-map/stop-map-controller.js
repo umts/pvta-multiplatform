@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('StopMapController', function ($scope, $ionicLoading, $stateParams, $ionicHistory, $ionicPopup, Stop, Map) {
+angular.module('pvta.controllers').controller('StopMapController', function ($scope, $ionicLoading, $stateParams, $ionicHistory, $ionicPopup, Stop, Map, ionicLoadingConfig) {
   ga('set', 'page', '/stop-map.html');
   ga('send', 'pageview');
 
@@ -46,7 +46,7 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
    * to the stop in question and displays them on the UI.
   */
   $scope.calculateDirections = function () {
-    $ionicLoading.show({duration: 5000});
+    $ionicLoading.show(ionicLoadingConfig);
     // A callback that we pass to the plotCurrentLocation
     // function below.  Handles actually getting
     // and displaying directions once we have a location.
@@ -87,7 +87,7 @@ angular.module('pvta.controllers').controller('StopMapController', function ($sc
   };
 
   $scope.$on('$ionicView.enter', function () {
-    $ionicLoading.show({});
+    $ionicLoading.show(ionicLoadingConfig);
     // The map div can have one of two ids:
     // one when directions are being shown, the other when not.
     // Check which id the map has, pluck it from the HTML, and bind it

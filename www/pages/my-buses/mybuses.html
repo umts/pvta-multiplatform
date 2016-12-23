@@ -1,59 +1,62 @@
 <ion-view view-title="My Buses">
   <ion-content>
-    <div class = "item item-divider item-energized item-text-wrap" style = "text-align:left;">
-      <b>Welcome to PVTrAck! (Pre-Release)</b> <br> Please send feedback to
-      <a style="color: white" href = "mailto: programmers@umass.edu">programmers@admin.umass.edu</a>!
-    </div>
-    <div class="item item-divider item-positive item-text-wrap">Your Routes</div>
-    <ion-list class="list" show-delete="false" can-swipe="true">
-      <ion-item class="item" ng-repeat="route in routes | orderBy:'RouteAbbreviation'" href="#/app/routes/{{route.RouteId}}">
-        <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeRoute(route, $index)"></ion-option-button>
-        <div class="row">
-          <span class="col-5 item-text-wrap" style="color: #{{route.Color}}; font-size: 150%; font-weight: bold;">
-            {{route.RouteAbbreviation}}
-          </span>
-          <span class="col item-text-wrap" style="padding-left: 20px;">
-            {{route.GoogleDescription}}
-          </span>
-        </div>
-      </ion-item>
-      <a class="item item-icon-left item-text-wrap" href="#/app/routes-and-stops/0">
-        <i class="icon ion-ios-plus-outline"></i>
-        Add route
-      </a>
-      <div class="item item-divider item-positive">Your Stops</div>
-      <ion-item class="item item-text-wrap" ng-repeat="stop in stops | orderBy:'Description'" href="#/app/stops/{{stop.StopId}}">
-        <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeStop(stop, $index)"></ion-option-button>
-        <div class="item-icon-left">
-          <i class="icon ion-ios-location" style="margin-right: 10px"></i>
-          {{stop.Description}} ({{stop.StopId}})
-        </div>
-      </ion-item>
-      <a class="item item-icon-left item-text-wrap" href="#/app/routes-and-stops/1">
-        <i class="icon ion-ios-plus-outline"></i>
-        Add stop
-      </a>
-      <div class="item item-divider item-positive">Your Trips</div>
-      <ion-item class="item item-text-wrap" ng-repeat="trip in trips track by $index" ng-click="openTrip($index)">
-        <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeTrip($index)"></ion-option-button>
-        <div class="item-icon-left">
-          <i class="icon ion-map" style="margin-right: 10px"></i>
-          {{trip.name}}
-        </div>
-      </ion-item>
-      <a class="item item-icon-left item-text-wrap" href="#/app/plan-trip">
-        <i class="icon ion-ios-plus-outline"></i>
-        Add trip
-      </a>
-      <div ng-if="messages.length > 0">
-        <div class="item item-divider item-assertive">Active Alerts For Your Routes</div>
+    <div ng-if="messages.length > 0">
+      <div role="heading" id="alerts-heading" class="item item-divider item-assertive">Alerts and Detours {{routes && routes.length > 0 ? 'For Your Routes' : ''}}</div>
+      <div role="list" aria-labelledby="alerts-heading">
         <ion-item class="item" ng-repeat="message in messages">
-          <div class="item-icon-left item-text-wrap">
+        <div class="item-icon-left item-text-wrap" aria-label="{{message.Message}}">
             <i class="icon ion-android-alert" style="margin-right: 10px"></i>
             {{message.Message}}
           </div>
         </ion-item>
       </div>
+    </div>
+    <div role="heading" id="routes-heading" class="item item-divider item-positive item-text-wrap">Your Routes</div>
+    <ion-list class="list" show-delete="false" can-swipe="true">
+      <div role="list" aria-labelledby="routes-heading">
+        <ion-item class="item" ng-repeat="route in routes | orderBy:'RouteAbbreviation'" href="#/app/routes/{{route.RouteId}}">
+          <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeRoute(route)"></ion-option-button>
+          <div class="row" aria-label="Route {{route.RouteAbbreviation}} {{route.GoogleDescription}}">
+            <span class="col-5 item-text-wrap" style="color: #{{route.Color}}; font-size: 150%; font-weight: bold;" >
+            {{route.RouteAbbreviation}}
+            </span>
+            <span class="col item-text-wrap" style="padding-left: 20px;">
+              {{route.GoogleDescription}}
+            </span>
+          </div>
+        </ion-item>
+        <a aria-label="Add route" class="item item-icon-left item-text-wrap" href="#/app/routes-and-stops/0">
+          <i class="icon ion-ios-plus-outline"></i>
+          Add route
+        </a>
+      </div>
+      <div role="heading" id="stops-heading" class="item item-divider item-positive">Your Stops</div>
+      <div role="list" aria-labelledby="stops-heading">
+        <ion-item class="item item-text-wrap" ng-repeat="stop in stops | orderBy:'Description'" href="#/app/stops/{{stop.StopId}}">
+          <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeStop(stop)"></ion-option-button>
+          <div class="item-icon-left" aria-label="{{stop.Description}} {{stop.StopId}}">
+            <i class="icon ion-ios-location" style="margin-right: 10px"></i>
+            {{stop.Description}} ({{stop.StopId}})
+          </div>
+        </ion-item>
+        <a aria-label="Add stop" class="item item-icon-left item-text-wrap" href="#/app/routes-and-stops/1">
+          <i class="icon ion-ios-plus-outline"></i>
+          Add stop
+        </a>
+      </div>
+      <div role="heading" id="trips-heading" class="item item-divider item-positive">Your Trips</div>
+      <div role="list" aria-labelledby="trips-heading">
+      <ion-item class="item item-text-wrap" ng-repeat="trip in trips track by $index" ng-click="openTrip($index)">
+        <ion-option-button class="button-assertive icon ion-trash-a" ng-click="removeTrip($index)"></ion-option-button>
+        <div class="item-icon-left" aria-label="{{trip.name}}">
+          <i class="icon ion-map" style="margin-right: 10px"></i>
+          {{trip.name}}
+        </div>
+      </ion-item>
+      <a aria-label="Add trip" class="item item-icon-left item-text-wrap" href="#/app/plan-trip">
+        <i class="icon ion-ios-plus-outline"></i>
+        Add trip
+      </a>
     </ion-list>
   </ion-content>
 </ion-view>

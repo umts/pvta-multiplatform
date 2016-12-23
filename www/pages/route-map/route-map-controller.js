@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteMapController', function ($scope, $stateParams, $ionicLoading, Map, Route, $interval, RouteVehicles) {
+angular.module('pvta.controllers').controller('RouteMapController', function ($scope, $stateParams, $ionicLoading, Map, Route, $interval, RouteVehicles, ionicLoadingConfig) {
   ga('set', 'page', '/route-map.html');
   ga('send', 'pageview');
   var timer;
@@ -50,7 +50,7 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
   }
 
   $scope.$on('$ionicView.enter', function () {
-    $ionicLoading.show({});
+    $ionicLoading.show(ionicLoadingConfig);
     Map.plotCurrentLocation();
     $scope.route = Route.get({routeId: $stateParams.routeId}, function () {
       $scope.stops = $scope.route.Stops;

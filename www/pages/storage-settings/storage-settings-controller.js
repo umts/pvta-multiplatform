@@ -6,7 +6,7 @@ angular.module('pvta.controllers').controller('StorageSettingsController', funct
     confirmPopup.then(function (res) {
       if (res) {
         localforage.clear(function () {
-          showAlertPopup('Your data has been deleted', 'Have fun adding it all back...muahahaha');
+          showAlertPopup('All Data Deleted', 'Favorites and cached PVTA data have been deleted.');
         });
       }
     });
@@ -16,7 +16,7 @@ angular.module('pvta.controllers').controller('StorageSettingsController', funct
     confirmPopup.then(function (res) {
       if (res) {
         localforage.removeItem('routes', function () {
-          showAlertPopup('Routes Deleted', '<center>Bye bye!</center>');
+          showAlertPopup('Routes Deleted');
         });
       }
     });
@@ -26,7 +26,7 @@ angular.module('pvta.controllers').controller('StorageSettingsController', funct
     confirmPopup.then(function (res) {
       if (res) {
         localforage.removeItem('stops', function () {
-          showAlertPopup('Stops Deleted', '<center>Bye bye!</center>');
+          showAlertPopup('Stops Deleted');
         });
       }
     });
@@ -38,7 +38,7 @@ angular.module('pvta.controllers').controller('StorageSettingsController', funct
     confirmPopup.then(function (res) {
       if (res) {
         localforage.removeItem('favoriteStops', function () {
-          showAlertPopup('Favorite Stops Deleted', '<center>Bye bye!</center>');
+          showAlertPopup('Favorite Stops Deleted');
         });
       }
     });
@@ -49,7 +49,7 @@ angular.module('pvta.controllers').controller('StorageSettingsController', funct
     confirmPopup.then(function (res) {
       if (res) {
         localforage.removeItem('favoriteRoutes', function () {
-          showAlertPopup('Favorite Routes Deleted', '<center>Bye bye!</center>');
+          showAlertPopup('Favorite Routes Deleted');
         });
       }
     });
@@ -58,7 +58,8 @@ angular.module('pvta.controllers').controller('StorageSettingsController', funct
   function showConfirmPopup (header, body) {
     return $ionicPopup.confirm({
       title: header,
-      template: body
+      template: body,
+      okText: 'Yes'
     });
   }
   function showAlertPopup (header, body) {

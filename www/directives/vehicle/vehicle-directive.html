@@ -1,34 +1,34 @@
-<div class="item">
+<div class="item" aria-labelledby="destination-label time-label stop-label riders-label">
   <!-- The first row - destination and status -->
   <div class="row">
     <!-- Destination -->
-    <div class="col col-50 item-text-wrap" style="color: #{{color}}; text-align:left;">
+    <div class="col col-50 item-text-wrap" style="color: #{{color}}; text-align:left;" aria-labelledby="destination-label">
         <i class="icon ion-android-bus" style="font-size: 125%"></i>
-        <b>To {{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b>
+        <b id="destination-label">To {{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b>
     </div>
     <!-- Vehicle Status -->
-    <div class="col padding-top-10 center">
+    <div class="col padding-top-10 center" aria-labelledby="time-label">
       <span class="icon-left green"  ng-if="vehicle.DisplayStatus==='On Time'">
         <i class="icon ion-ios-time-outline"></i>
-        {{vehicle.DisplayStatus}}
+        <span id="time-label">{{vehicle.DisplayStatus}}</span>
       </span>
       <span class="icon-left assertive" ng-if="vehicle.DisplayStatus === 'Late'">
         <i class="icon ion-ios-time-outline"></i>
-        {{vehicle.Deviation}} minutes late
+        <span id="time-label">{{vehicle.Deviation}} minutes late</span>
       </span>
     </div>
   </div>
   <!-- The second row - Last stop and pax -->
   <div class="row item-text-wrap text-left" style="padding-top: 10px">
     <!-- Last stop -->
-    <div class="col col-50 item-text-wrap" style="text-align: left;">
+    <div class="col col-50 item-text-wrap" style="text-align: left;" aria-labelledby="stop-label">
       <i class="icon ion-ios-location"></i>
-       {{vehicle.LastStop? vehicle.LastStop : "none specified"}}
+      <span id="stop-label">{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</span>
     </div>
     <!-- Number of riders -->
-    <div class="col icon-left positive center padding-top-10">
+    <div class="col icon-left positive center padding-top-10" aria-labelledby="riders-label">
      <i class="icon ion-android-people"></i>
-     {{vehicle.OnBoard}} {{vehicle.OnBoard === 1 ? 'rider' : 'riders'}}
+     <span id="riders-label">{{vehicle.OnBoard}} {{vehicle.OnBoard === 1 ? 'rider' : 'riders'}}</span>
    </div>
 
   </div>
