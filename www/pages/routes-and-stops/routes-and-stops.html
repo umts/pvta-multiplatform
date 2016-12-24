@@ -8,7 +8,7 @@
       <button aria-label="Show Stops" ng-class="currentDisplay === 1 ? 'button button-positive' : 'button  button-outline button-positive'" ng-click="display(1)">Stops</button>
     </div>
   </div>
-  <ion-content class="has-subheader" direction="y" scrollbar-y="false">
+  <ion-content class="has-subheader" direction="y" scrollbar-y="false" aria-live="polite">
     <div ng-if="noLocation && currentDisplay === 1 && order === 'distance'">
       <ion-item class="item item-assertive item-text-wrap">
         Unable to retrieve current location.  Ensure location is enabled or search above for your stop.

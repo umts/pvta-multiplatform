@@ -3,7 +3,7 @@
   <ion-nav-buttons side="secondary">
     <button id="like" data-tap-disabled="true" ng-class="{'button button-icon icon ion-ios-heart': liked === true, 'button button-icon icon ion-ios-heart-outline': liked === false}"
       ng-click="liked= !liked; toggleHeart(liked)"
-      aria-label="Like">
+      aria-label="{{liked ? 'Unlike stop' : 'Like stop'}}">
     </button>
   </ion-nav-buttons>
   <ion-content overflow-scroll="true">
@@ -12,9 +12,9 @@
       <div class="input-label">
         Order Departures By:
       </div>
-      <select ng-model="$parent.order" ng-change="sendOrderingAnalytics()">
-        <option value="0">Route</option>
-        <option value="1">Time</option>
+      <select ng-model="$parent.order" ng-change="sendOrderingAnalytics()" role="listbox">
+        <option value="0" role="option">Route</option>
+        <option value="1" role="option">Time</option>
         </select>
     </label>
     <div class="fade" ng-if="stop && order === ROUTE_DIRECTION">

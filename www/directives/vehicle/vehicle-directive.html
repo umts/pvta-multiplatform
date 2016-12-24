@@ -1,9 +1,9 @@
-<div class="item" aria-labelledby="destination-label time-label stop-label riders-label">
+<div class="item" aria-labelledby="#destination-label #time-label #stop-label #riders-label">
   <!-- The first row - destination and status -->
   <div class="row">
     <!-- Destination -->
     <div class="col col-50 item-text-wrap" style="color: #{{color}}; text-align:left;" aria-labelledby="destination-label">
-        <i class="icon ion-android-bus" style="font-size: 125%"></i>
+        <i class="icon ion-android-bus" style="font-size: 125%" aria-label="bus"></i>
         <b id="destination-label">To {{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b>
     </div>
     <!-- Vehicle Status -->
