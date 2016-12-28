@@ -8,7 +8,7 @@ import { RouteDetail } from '../../models/route-detail.model';
 import { Vehicle } from '../../models/vehicle.model';
 import { Alert } from '../../models/alert.model';
 import { Stop } from '../../models/stop.model';
-import * as _ from 'lodash';
+//import * as _ from 'lodash';
 
 @Component({
   selector: 'page-route',
@@ -16,10 +16,10 @@ import * as _ from 'lodash';
 })
 export class RouteComponent {
   routeId: number;
-  route: RouteDetail;
-  vehicles: Vehicle[];
-  alerts: Alert[] = [];
-  stops: Stop[];
+  // route: RouteDetail;
+  // vehicles: Vehicle[];
+  // alerts: Alert[];
+  // stops: Stop[];
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private routeService: RouteService, private vehicleService: VehicleService,
     private alertService: AlertService,
@@ -28,31 +28,31 @@ export class RouteComponent {
   }
 
   getVehicles (): void {
-    this.vehicleService
-      .getRouteVehicles(this.routeId)
-      .then(vehicles => this.vehicles = vehicles);
+    // this.vehicleService
+    //   .getRouteVehicles(this.routeId)
+    //   .then(vehicles => this.vehicles = vehicles);
   }
   /**
   * Download any Alerts for the current route
   * and display them.
   */
   getAlerts (): void {
-    this.alertService
-    .getAlerts()
-    .then(alerts => {
-      for (let alert of alerts) {
-        //this.vehicles = vehicles;
-        if (alert.Routes.includes(this.routeId)) {
-          this.alerts.push(alert);
-        }
-      }
-      console.log(JSON.stringify(this.alerts));
-    });
+    // this.alertService
+    // .getAlerts()
+    // .then(alerts => {
+    //   for (let alert of alerts) {
+    //     //this.vehicles = vehicles;
+    //     if (alert.Routes.includes(this.routeId)) {
+    //       this.alerts.push(alert);
+    //     }
+    //   }
+    //   console.log(JSON.stringify(this.alerts));
+    // });
   }
 
   showStopModal (): void {
-    let stopModal = this.modalCtrl.create(StopModal);
-    stopModal.present();
+    // let stopModal = this.modalCtrl.create(StopModal);
+    // stopModal.present();
     //  $ionicModal.fromTemplateUrl('pages/route/stop-modal.html', {
     //    scope: $scope
     //  }).then(function (modal) {
@@ -63,7 +63,7 @@ export class RouteComponent {
 
 
   prepareStops (stops: Stop[]): void {
-    this.stops = stops;
+    // this.stops = stops;
     // $scope.stops = [];
     // FavoriteStops.getAll().then(function (favoriteStops) {
     //   var favoriteStopIds = _.pluck(favoriteStops, 'StopId');
@@ -80,30 +80,30 @@ export class RouteComponent {
   }
 
   ionViewWillEnter() {
-    this.getAlerts();
-    this.routeService
-      .getRouteDetail(this.routeId)
-      .then(route => {
-        this.route = route;
-        //getHeart()
-        this.prepareStops(route.Stops);
-        this.vehicles = route.Vehicles;
-        //$ionicLoading.hide();
-      });
+  //   this.getAlerts();
+  //   this.routeService
+  //     .getRouteDetail(this.routeId)
+  //     .then(route => {
+  //       this.route = route;
+  //       //getHeart()
+  //       this.prepareStops(route.Stops);
+  //       this.vehicles = route.Vehicles;
+  //       //$ionicLoading.hide();
+  //     });
   }
 }
-@Component({
-  templateUrl: 'stop.modal.html'
-})
-
-export class StopModal {
-  character;
-
-  constructor(
-    public params: NavParams,
-    public viewCtrl: ViewController
-  ) {}
-  dismiss() {
-    this.viewCtrl.dismiss();
-  }
-}
+// @Component({
+//   templateUrl: 'stop.modal.html'
+// })
+//
+// export class StopModal {
+//   character;
+//
+//   constructor(
+//     public params: NavParams,
+//     public viewCtrl: ViewController
+//   ) {}
+//   dismiss() {
+//     this.viewCtrl.dismiss();
+//   }
+// }
