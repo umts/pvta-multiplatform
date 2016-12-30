@@ -56,3 +56,7 @@ From your local clone or fork of this repository, execute the following commands
 11. In the [Google Play Developer Console](play.google.com/apps/publish), navigate to the APK subpage from the sidemenu.
 Select `Upload new APK to production` (unless you want to beta test it, in which case to to the beta test tab first). In the popup, drag/drop the APK from your file explorer of choice.  Write a quick blurb about what changed, and click Submit Update.
 12. Rejoice.
+
+
+## To the App Store
+Forthcoming.
