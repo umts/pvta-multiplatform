@@ -18,24 +18,27 @@ angular.module('pvta.factories')
 
 angular.module('pvta.factories')
 
-.factory('Toast', function ($cordovaToast, $ionicLoading) {
+.factory('Toast', function ($cordovaToast, $ionicLoading, $interval) {
   // Shows a toast.
   // @param: duration - int. Can be 900, 2000, 3000, or 4000 due to a restriction in the
   // Cordova plugin.  Values are in milliseconds.
   function show (msg, duration) {
-    if (duration !== 900 && duration !== 2000 && duration !== 3000 && duration !== 4000) {
-      duration = 3000;
+    if ((duration !== 900) && (duration !== 2000) && (duration !== 3000) && (duration !== 4000)) {
       console.error('Toast.show() received an invalid parameter of ' + duration);
+      duration = 3000;
     }
     if (!ionic.Platform.is('browser')) {
       $cordovaToast.show(msg, duration, 'bottom');
     }
     else {
-      $ionicLoading.show({
-        template: msg,
-        noBackdrop: true,
-        duration: duration
-      });
+      $ionicLoading.hide();
+      $interval(function () {
+        $ionicLoading.show({
+          template: msg,
+          noBackdrop: true,
+          duration: duration
+        });
+      }, 500, 1);
     }
   }
 

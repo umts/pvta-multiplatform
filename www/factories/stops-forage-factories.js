@@ -22,9 +22,9 @@ angular.module('pvta.factories')
           return Stops.query().$promise;
         }
       }).catch(function () {
-        Toast.show('Can\'t save stops. Ensure you\'re not in private browsing and that you allow us to store data.', 5000);
+        Toast.show('Can\'t access device storage. Ensure that you allow us to store data.', 5000);
         return Stops.query().$promise;
-      });;
+      });
     }
     else {
       var msg = 'Stop list already loaded';
@@ -50,6 +50,7 @@ angular.module('pvta.factories')
       if (err) {
         var msg = 'Unable to save stops; Localforage error: ' + err;
         console.error(msg);
+        Toast.show('Can\'t access device storage. Ensure you\'re not in private browsing and that you allow us to store data.', 4000);
         ga('send', 'event', 'UnableToSaveStops', 'StopsForageFactory.pushListToForage()', msg);
       }
       else {
