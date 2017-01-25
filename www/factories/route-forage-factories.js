@@ -1,6 +1,6 @@
 angular.module('pvta.factories')
 
-.factory('RouteForage', function (RouteList, moment, Recent, Routes, $q) {
+.factory('RouteForage', function (RouteList, moment, Recent, Routes, $q, Toast) {
   function getRouteList () {
     if (RouteList.isEmpty()) {
       return localforage.getItem('routes').then(function (routes) {
@@ -16,6 +16,9 @@ angular.module('pvta.factories')
           ga('send', 'event', 'RoutesNotLoaded', 'RouteForageFactory.getRouteList()', msg);
           return Routes.query().$promise;
         }
+      }).catch(function () {
+        Toast.show('Can\'t save routes. Ensure you\'re not in private browsing and that you allow us to store data.', 5000);
+        return Routes.query().$promise;
       });
     }
     else {

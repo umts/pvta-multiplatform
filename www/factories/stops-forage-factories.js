@@ -1,6 +1,6 @@
 angular.module('pvta.factories')
 
-.factory('StopsForage', function (StopList, Recent, Stops, NearestStops, $q) {
+.factory('StopsForage', function (StopList, Recent, Stops, NearestStops, $q, Toast) {
   function getStopList () {
     if (StopList.isEmpty()) {
       return localforage.getItem('stops').then(function (stops) {
@@ -21,7 +21,10 @@ angular.module('pvta.factories')
            */
           return Stops.query().$promise;
         }
-      });
+      }).catch(function () {
+        Toast.show('Can\'t save stops. Ensure you\'re not in private browsing and that you allow us to store data.', 5000);
+        return Stops.query().$promise;
+      });;
     }
     else {
       var msg = 'Stop list already loaded';

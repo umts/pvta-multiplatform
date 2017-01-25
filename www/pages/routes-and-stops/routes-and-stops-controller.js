@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map, $cordovaToast, Helper, ionicLoadingConfig) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map, Helper, ionicLoadingConfig, Toast) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
   // The two dimensions used in the view to sort the lists.
@@ -304,28 +304,15 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     FavoriteStops.contains(stop.StopId, function (bool) {
       if (bool) {
         FavoriteStops.remove(stop);
-        showToast('Removed ' + stop.Description + ' from your favorites!');
+        Toast.show('Removed ' + stop.Description + ' from your favorites!', 3000);
       }
       else {
         FavoriteStops.push(stop);
-        showToast('Added ' + stop.Description + ' to your favorites!');
+        Toast.show('Added ' + stop.Description + ' to your favorites!', 3000);
       }
       $scope.$apply();
     });
   };
-
-  function showToast (msg) {
-    if (!ionic.Platform.is('browser')) {
-      $cordovaToast.showLongBottom(msg);
-    }
-    else {
-      $ionicLoading.show({
-        template: msg,
-        noBackdrop: true,
-        duration: 1500
-      });
-    }
-  }
 
   /*
    * Called when a user clicks on the heart button,
@@ -336,11 +323,11 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     FavoriteRoutes.contains(route, function (bool) {
       if (bool) {
         FavoriteRoutes.remove(route);
-        showToast('Removed the ' + route.RouteAbbreviation + ' from your favorites!');
+        Toast.show('Removed the ' + route.RouteAbbreviation + ' from your favorites!', 3000);
       }
       else {
         FavoriteRoutes.push(route);
-        showToast('Added the ' + route.RouteAbbreviation + ' to your favorites!');
+        Toast.show('Added the ' + route.RouteAbbreviation + ' to your favorites!', 3000);
       }
       $scope.$apply();
     });
