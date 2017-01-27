@@ -31,7 +31,7 @@ angular.module('pvta.factories')
   };
 
   var remove = function (favoriteRoute) {
-    localforage.getItem('favoriteRoutes', function (err, favoriteRoutes) {
+    localforage.getItem('favoriteRoutes').then(function (favoriteRoutes) {
       for (var i = 0; i < favoriteRoutes.length; i++) {
         if (favoriteRoutes[i].RouteId === favoriteRoute.RouteId) {
           favoriteRoutes.splice(i, 1);
@@ -42,6 +42,9 @@ angular.module('pvta.factories')
           console.log('Error getting all favorite stops: ' + err);
         }
       });
+      Toast.show('Removed the ' + route.RouteAbbreviation + ' from your favorites!', 3000);
+    }).catch(function () {
+      Toast.show('Couldn\t unfavorite route.');
     });
   };
 

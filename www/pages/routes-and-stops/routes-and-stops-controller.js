@@ -321,7 +321,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
     FavoriteRoutes.contains(route, function (bool) {
       if (bool) {
         FavoriteRoutes.remove(route);
-        Toast.show('Removed the ' + route.RouteAbbreviation + ' from your favorites!', 3000);
       }
       else {
         FavoriteRoutes.push(route);
