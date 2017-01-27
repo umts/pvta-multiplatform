@@ -2,7 +2,7 @@ angular.module('pvta.factories')
 
 .factory('FavoriteRoutes', function () {
   var push = function (route) {
-    localforage.getItem('favoriteRoutes', function (err, favoriteRoutes) {
+    localforage.getItem('favoriteRoutes').then(function (err, favoriteRoutes) {
       var newRoute = {
         RouteId: route.RouteId,
         GoogleDescription: route.GoogleDescription,
@@ -20,6 +20,9 @@ angular.module('pvta.factories')
         localforage.setItem('favoriteRoutes', newFavoriteRoute);
       }
       ga('send', 'event', 'FavoriteRouteAdded', 'FavoriteRoutes.push()', 'Favorited route with ID: ' + route.RouteId);
+      Toast.show('Added the ' + route.RouteAbbreviation + ' to your favorites!', 3000);
+    }).catch(function () {
+      Toast.show('Couldn\'t favorite route.', 2000);
     });
   };
 

@@ -308,7 +308,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       }
       else {
         FavoriteStops.push(stop);
-        Toast.show('Added ' + stop.Description + ' to your favorites!', 3000);
       }
       $scope.$apply();
     });
@@ -327,7 +326,6 @@ angular.module('pvta.controllers').controller('RoutesAndStopsController', functi
       }
       else {
         FavoriteRoutes.push(route);
-        Toast.show('Added the ' + route.RouteAbbreviation + ' to your favorites!', 3000);
       }
       $scope.$apply();
     });
