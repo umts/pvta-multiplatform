@@ -41,8 +41,12 @@ angular.module('pvta.factories')
       }, 500, 1);
     }
   }
+  function showStorageError () {
+    Toast.show('Can\'t access device storage. Ensure you\'re not in private browsing and that you allow us to store data.', 4000);
+  }
 
   return {
     show: show,
+    showStorageError: showStorageError
   };
 });

@@ -60,7 +60,7 @@ angular.module('pvta.controllers').controller('RouteController', function ($scop
         $scope.stops.push({StopId: stop.StopId, Description: stop.Description, Liked: liked});
       }
     }).catch(function () {
-      Toast.show('Can\'t access device storage. Ensure that you allow us to store data.', 3000);
+      Toast.showStorageError();
       $scope.stops = stops;
     });
   }

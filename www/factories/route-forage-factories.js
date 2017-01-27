@@ -17,7 +17,7 @@ angular.module('pvta.factories')
           return Routes.query().$promise;
         }
       }).catch(function () {
-        Toast.show('Can\'t access device storage. Ensure that you allow us to store data.', 3000);
+        Toast.showStorageError();
         return Routes.query().$promise;
       });
     }
@@ -45,7 +45,7 @@ angular.module('pvta.factories')
       if (err) {
         var msg = 'Unable to save routes; Localforage error: ' + err;
         console.error(msg);
-        Toast.show('Can\'t access device storage. Ensure you\'re not in private browsing and that you allow us to store data.', 4000);
+        Toast.showStorageError();
         ga('send', 'event', 'UnableToSaveRoutes', 'RouteForageFactory.pushListToForage()', msg);
       }
       else {
