@@ -1,6 +1,6 @@
 angular.module('pvta.factories')
 
-.factory('FavoriteRoutes', function () {
+.factory('FavoriteRoutes', function (Toast) {
   var push = function (route) {
     localforage.getItem('favoriteRoutes').then(function (err, favoriteRoutes) {
       var newRoute = {
