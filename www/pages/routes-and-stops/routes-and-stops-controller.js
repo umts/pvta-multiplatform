@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map, Helper, ionicLoadingConfig, Toast) {
+angular.module('pvta.controllers').controller('RoutesAndStopsController', function ($scope, $ionicFilterBar, $cordovaGeolocation, RouteForage, StopsForage, $ionicLoading, $stateParams, $state, FavoriteStops, FavoriteRoutes, Map, Helper, ionicLoadingConfig) {
   ga('set', 'page', '/routes-and-stops.html');
   ga('send', 'pageview');
   // The two dimensions used in the view to sort the lists.
