@@ -40,7 +40,7 @@ angular.module('pvta.factories')
       });
       Toast.show('Removed ' + stop.Description + ' from your favorites!', 3000);
     }).catch(function () {
-      Toast.show('Couldn\t unfavorite stop.');
+      Toast.show('Couldn\'t unfavorite stop.');
     });
   };
 
