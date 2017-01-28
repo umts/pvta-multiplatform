@@ -5,15 +5,15 @@ angular.module('pvta.factories')
     if (StopList.isEmpty()) {
       return localforage.getItem('stops').then(function (stops) {
         if ((stops !== null) && (stops.list.length > 0) && (Recent.recent(stops.time))) {
-          var msg = 'Loaded stops from storage';
-          console.log(msg);
-          ga('send', 'event', 'StopsLoaded', 'StopsForageFactory.getStopList()', msg);
+          var loadedMsg = 'Loaded stops from storage';
+          console.log(loadedMsg);
+          ga('send', 'event', 'StopsLoaded', 'StopsForageFactory.getStopList()', loadedMsg);
           return stops.list;
         }
         else {
-          var msg = 'No stops stored or stoplist is old';
-          console.log(msg);
-          ga('send', 'event', 'StopsNotLoaded', 'StopsForageFactory.getStopList()', msg);
+          var notLoadedMsg = 'No stops stored or stoplist is old';
+          console.log(notLoadedMsg);
+          ga('send', 'event', 'StopsNotLoaded', 'StopsForageFactory.getStopList()', notLoadedMsg);
           /* Grab the current position.
            * If we get it, get the list of stops based on that.
            * Otherwise, just get a list of stops.  Avail's purview
@@ -48,15 +48,15 @@ angular.module('pvta.factories')
     };
     localforage.setItem('stops', toForage, function (err) {
       if (err) {
-        var msg = 'Unable to save stops; Localforage error: ' + err;
-        console.error(msg);
+        var errorMsg = 'Unable to save stops; Localforage error: ' + err;
+        console.error(errorMsg);
         Toast.showStorageError();
-        ga('send', 'event', 'UnableToSaveStops', 'StopsForageFactory.pushListToForage()', msg);
+        ga('send', 'event', 'UnableToSaveStops', 'StopsForageFactory.pushListToForage()', errorMsg);
       }
       else {
-        var msg = 'Saved stops list.';
-        console.log(msg);
-        ga('send', 'event', 'SuccessfullySavedStops', 'StopsForageFactory.pushListToForage()', msg);
+        var successMsg = 'Saved stops list.';
+        console.log(successMsg);
+        ga('send', 'event', 'SuccessfullySavedStops', 'StopsForageFactory.pushListToForage()', successMsg);
       }
     });
   }
