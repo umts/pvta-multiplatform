@@ -28,7 +28,9 @@ angular.module('pvta.factories')
       duration = 3000;
     }
     if (!ionic.Platform.is('browser')) {
-      $cordovaToast.show(msg, duration, 'bottom');
+      $interval(function () {
+        $cordovaToast.show(msg, duration, 'bottom');
+      }, 500, 1);
     }
     else {
       $ionicLoading.hide();
