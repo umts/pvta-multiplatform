@@ -12,26 +12,28 @@
   <ion-content style="margin-bottom: 2%">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
 
-    <div class="row item center" style="font-size: 150%"
+    <div aria-label="Route #route-abbrev #route-desc" role="heading" class="row item center" style="font-size: 150%"
         ng-if="route">
-      <span class="col col-25 item-text-wrap bold"
+      <span id="route-abbrev" class="col col-25 item-text-wrap bold"
           style="font-size: 150%; color: #{{route.Color}}">
         {{route.RouteAbbreviation}}
       </span>
-      <span class="col col-75 item-text-wrap center">{{route.GoogleDescription}}</span>
+      <span id="route-desc" class="col col-75 item-text-wrap center">{{route.GoogleDescription}}</span>
     </div>
     <!-- Container div for the alerts -->
-    <div class="item item-divider item-assertive center"
+    <div id="alerts-heading" role="heading" aria-label="Alerts" class="item item-divider item-assertive center"
        ng-if="messages.length > 0">
       Alerts
    </div>
    <div ng-if="messages.length > 0">
      <ion-list>
-       <ion-item class=item ng-repeat="item in messages">
-         <div class="row item-text-wrap">
-           {{item.Message}}
-         </div>
-       </ion-item>
+       <div role="list" aria-labelledby="alerts-heading">
+         <ion-item class=item ng-repeat="item in messages">
+           <div class="row item-text-wrap">
+             {{item.Message}}
+           </div>
+         </ion-item>
+      </div>
      </ion-list>
    </div>
     <div ng-if="route && vehicles.length === 0"
@@ -39,7 +41,7 @@
         style="margin-bottom:1%">
       There are no buses currently on the {{route.RouteAbbreviation}}.
     </div>
-    <div class="item item-divider item-positive center"
+    <div  class="item item-divider item-positive center"
        ng-if="route && vehicles.length !== 0" role="heading" id="buses-heading">
        Buses
     </div>
