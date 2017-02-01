@@ -1,5 +1,7 @@
 platforms/android/*
 
+plugins/**/
+
 platforms/ios/*
 
 www/bower_components/*
