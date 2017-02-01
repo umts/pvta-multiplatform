@@ -22,6 +22,9 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
     }
+    // Set the global variable for whether the device is "online".
+    $rootScope.offline = !navigator.onLine;
+    // Add 2 listeners - one for when the device is "online," one for "offline."
     window.addEventListener('online', function () {
       $rootScope.offline = false;
       $rootScope.$digest();

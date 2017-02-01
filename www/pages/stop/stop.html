@@ -8,6 +8,7 @@
   </ion-nav-buttons>
   <ion-content overflow-scroll="true">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
+    <div ng-include="'pages/app/no-network.html'"></div>
     <label class="item item-input item-select item-positive">
       <div class="input-label">
         Order Departures By:
@@ -78,7 +79,7 @@
     </div>
     <div class="fade departure-by-time" ng-if="stop && order === TIME">
       <ion-item ng-repeat="direction in departuresByTime"
-        style="background-color: #{{routeList[direction.RouteId].Color}}" 
+        style="background-color: #{{routeList[direction.RouteId].Color}}"
         href="#/app/routes/{{direction.RouteId}}">
         <div class="row item-text-wrap white">
           <div class="col route-shortname">

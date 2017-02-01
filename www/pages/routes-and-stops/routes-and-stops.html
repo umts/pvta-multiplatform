@@ -9,11 +9,7 @@
     </div>
   </div>
   <ion-content class="has-subheader" direction="y" scrollbar-y="false" aria-live="polite">
-    <div ng-if="offline===true">
-      <ion-item class="item item-assertive item-text-wrap">
-        No network connection.
-      </ion-item>
-    </div>
+    <div ng-include="'pages/app/no-network.html'"></div>
     <div ng-if="noLocation && currentDisplay === 1 && order === 'distance'">
       <ion-item class="item item-assertive item-text-wrap">
         Unable to retrieve current location.  Ensure location is enabled or search above for your stop.
