@@ -1,6 +1,6 @@
 <!-- "Page 2" - aka detail page - template -->
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -9,16 +9,35 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-icon [name]="item.icon" item-left></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-right>
-        {{item.note}}
+  <ion-card>
+    <ion-list>
+      <div ion-item>
+        Version: vNum, vName
       </div>
-    </button>
-  </ion-list>
-  <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
+      <div ion-item>
+        Made with
+        <ion-icon name="ionic" aria-label="ionic"></ion-icon>,
+        <ion-icon name="logo-angular" aria-label="angular"></ion-icon>,
+        and
+        <ion-icon name="heart" aria-label="love"></ion-icon>
+        by UMass Transit's student developers in Amherst, MA
+      </div>
+      <button ion-item>
+        <ion-icon name="logo-github" aria-label="github icon"></ion-icon>
+        Contribute to PVTrAck
+      </button>
+      <button ion-item>
+        <ion-icon name="bug" aria-label="email icon"></ion-icon>
+        Find a bug? Let us know!
+      </button>
+      <button ion-item>
+        <ion-icon name="lock" aria-label="lock icon"></ion-icon>
+        View our Privacy Policy
+      </button>
+      <button ion-item>
+        <ion-icon name="call" aria-label="phone icon"></ion-icon>
+        Contact PVTA
+      </button>
+    </ion-list>
+  </ion-card>
 </ion-content>
