@@ -33,6 +33,8 @@ The javascript and corresponding HTML is contained in `www`.Start editing away!
    Just run `ionic serve -c` from the root project directory.
 
   Ionic will open your default browser and navigate to itself for you.
+  
+  *Note* There's a branch, `ionic2-base` for progress in porting PVTrAck to Ionic 2.  Please merge all Ionic 2 changes into this branch.  When (if) this branch becomes the main branch for development, it will be renamed as `master`.
 
 ### Emulating
 
