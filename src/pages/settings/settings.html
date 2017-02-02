@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -8,11 +8,21 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
-
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <ion-list>
+    <button ion-item (click)="goToPg()">
+      About
+    </button>
+    <ion-item class="item" href="#/app/settings/storage">
+      Storage
+    </ion-item>
+    <ion-item>
+      <ion-label>Autorefresh Timing</ion-label>
+      <ion-select [(ngModel)]="autorefresh">
+        <ion-option value="15000" click="updateRefresh(15000)">15 Seconds</ion-option>
+        <ion-option value="30000" click="updateRefresh(30000)">30 Seconds</ion-option>
+        <ion-option value="45000" click="updateRefresh(45000)">45 Seconds</ion-option>
+        <ion-option value="60000" click="updateRefresh(60000)">60 Seconds</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
 </ion-content>
