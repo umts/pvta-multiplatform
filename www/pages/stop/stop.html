@@ -8,7 +8,6 @@
   </ion-nav-buttons>
   <ion-content overflow-scroll="true">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
-    <div ng-include="'pages/app/no-network.html'"></div>
     <label class="item item-input item-select item-positive">
       <div class="input-label">
         Order Departures By:
@@ -18,6 +17,7 @@
         <option value="1" role="option">Time</option>
         </select>
     </label>
+    <div ng-include="'pages/app/no-network.html'"></div>
     <div class="fade" ng-if="stop && order === ROUTE_DIRECTION">
       <ion-list ng-repeat="direction in departuresByDirection">
         <ion-item ng-click="toggleRouteDropdown(direction)"

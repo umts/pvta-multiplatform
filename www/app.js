@@ -26,13 +26,11 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
     $rootScope.offline = !navigator.onLine;
     // Add 2 listeners - one for when the device is "online," one for "offline."
     window.addEventListener('online', function () {
-      console.log('online');
       $rootScope.offline = false;
       $rootScope.$digest();
     }, false);
 
     window.addEventListener('offline', function () {
-      console.log('offline');
       $rootScope.offline = true;
       $rootScope.$digest();
     }, false);
