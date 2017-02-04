@@ -8,11 +8,46 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+  <div *ngIf="messages.length > 0">
+      <div ion-item role="heading" id="alerts-heading">Alerts and Detours {{routes && routes.length > 0 ? 'For Your Routes' : ''}}</div>
+      <div role="list" aria-labelledby="alerts-heading">
+        <ion-item class="item" *ngFor="let message of messages">
+        <div class="item-icon-left item-text-wrap">
+            <i class="icon ion-android-alert" aria-label="alert" style="margin-right: 10px"></i>
+            {{message.Message}}
+          </div>
+        </ion-item>
+      </div>
+    </div>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+    <ion-list>
+      <ion-list-header>
+        Your Routes
+      </ion-list-header>
+      <ion-item-sliding>
+        <button ion-item *ngFor="let route of routes" (click)="goToRoutePage(route.RouteId)">
+          <h2>{{route.ShortName}}</h2>
+        </button>
+        <ion-item-options side="right">
+          <button ion-button color="danger" (click)="removeRoute(route)">
+            <ion-icon name="trash"></ion-icon>
+            Remove
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-list-header>
+        Your Stops
+      </ion-list-header>
+      <ion-item-sliding>
+        <button ion-item *ngFor="let stop of stops" (click)="goToStopPage(stop.StopId)">
+          <h2>{{stop.Description}}</h2>
+        </button>
+        <ion-item-options side="right">
+          <button ion-button color="danger" (click)="removeStop(Stop)">
+            <ion-icon name="trash"></ion-icon>
+            Remove
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+</ion-list>
 </ion-content>
