@@ -133,3 +133,7 @@ margin:5px;
 .departure-by-time .item-complex .item-content {
   background-color: inherit;
 }
+.bottom {
+  position: absolute;
+  bottom: 1%;
+}
