@@ -1,6 +1,6 @@
 <!-- "Page 2" - aka detail page - template -->
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -9,16 +9,29 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-icon [name]="item.icon" item-left></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-right>
-        {{item.note}}
-      </div>
-    </button>
-  </ion-list>
-  <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
+  <ion-card>
+    <ion-card-header>
+      We store some data for you on your phone. Should you wish to
+      remove any of that data, this is the page for you!
+    </ion-card-header>
+    <ion-list>
+      <button ion-item (click)="clearFavoriteRoutes()">
+        <p>Remove your favorite routes</p>
+      </button>
+      <button ion-item (click)="clearFavoriteStops()">
+        <p>Remove your favorite stops</p>
+      </button>
+      <button ion-item (click)="clearRoutes()">
+        <p>Remove data-saving route storage</p>
+      </button>
+      <button ion-item (click)="clearStops()">
+        <p>Remove data-saving stop storage</p>
+      </button>
+      <button ion-item (click)="clearAll()">
+        <p>Remove ALL of your stored data (use with caution!)</p>
+      </button>
+    </ion-list>
+
+    </ion-card>
+
 </ion-content>
