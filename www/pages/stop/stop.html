@@ -17,6 +17,7 @@
         <option value="1" role="option">Time</option>
         </select>
     </label>
+    <div ng-include="'pages/app/no-network.html'"></div>
     <div class="fade" ng-if="stop && order === ROUTE_DIRECTION">
       <ion-list ng-repeat="direction in departuresByDirection">
         <ion-item ng-click="toggleRouteDropdown(direction)"
@@ -78,7 +79,7 @@
     </div>
     <div class="fade departure-by-time" ng-if="stop && order === TIME">
       <ion-item ng-repeat="direction in departuresByTime"
-        style="background-color: #{{routeList[direction.RouteId].Color}}" 
+        style="background-color: #{{routeList[direction.RouteId].Color}}"
         href="#/app/routes/{{direction.RouteId}}">
         <div class="row item-text-wrap white">
           <div class="col route-shortname">

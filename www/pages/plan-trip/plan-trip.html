@@ -4,6 +4,7 @@
     <button title="Save" data-tap-disabled="true" aria-label="Save trip" ng-class="{'button icon ion-ios-heart-outline': !request.saved, 'button icon ion-ios-heart': request.saved}" ng-click="saveTrip()"></button>
   </ion-nav-buttons>
   <ion-content>
+    <div ng-include="'pages/app/no-network.html'"></div>
     <div ng-if="noLocation">
       <ion-item class="item item-assertive" style="text-align:center">
         Unable to retrieve current location.
