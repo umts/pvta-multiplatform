@@ -9,16 +9,27 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-icon [name]="item.icon" item-left></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-right>
-        {{item.note}}
-      </div>
-    </button>
-  </ion-list>
-  <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
+  <ion-list *ngFor="let direction of departuresByDirection">
+       <div ion-item (click)="toggleRouteDropdown(direction)"
+                       [style.background-color]="'#'+routeList[direction.RouteId].Color"
+                       [style.color]="'white'">
+                       <!-- [ngClass]="{active: isRouteDropdownShown({{direction}})}" -->
+         <div>
+           <div class="col route-shortname">
+             {{routeList[direction.RouteId].RouteAbbreviation}}
+           </div>
+           <div class="col-50">
+             {{direction.Departures[0].Trip.InternetServiceDesc}}
+           </div>
+           <div class="col-33 text-right">
+             <span>
+               {{direction.Departures[0].Times.eExact}}
+             </span>
+             <p style="color: white">
+               ({{direction.Departures[0].Times.eRelativeNoPrefix}})
+             </p>
+           </div>
+         </div>
+       </div>
+     </ion-list>
 </ion-content>
