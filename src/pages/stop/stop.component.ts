@@ -5,26 +5,109 @@ import { NavController, NavParams } from 'ionic-angular';
 import { StopDeparture } from '../../models/stop-departure.model';
 import { StopDepartureService } from '../../services/stop-departure.service';
 import { RouteComponent } from '../route/route.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'page-stop',
   templateUrl: 'stop.html'
 })
 export class StopComponent {
-  departures: StopDeparture[];
+  directions: StopDeparture[];
   shownRoute: any = null;
   stopId: number;
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private stopDepartureService: StopDepartureService) {
       this.stopId = navParams.get('stopId');
     }
-
-    ngOnInit(): void {
-      // NEED STOP ID BEFORE UNCOMMENTING!
-        // this.stopDepartureService
-        // .getStopDeparture(navParams.stopId)
-        // .then(departures => this.departures = departures);
+    ionViewWillEnter() {
+      this.stopDepartureService
+        .getStopDeparture(this.stopId)
+        .then(directions => this.sort(directions[0]));
       }
+      /**
+  * Given all the RouteDirections and their upcoming departures
+  * at this stop, this function organizes and manipulates
+  * all departures so they can be clearly and simply displayed in the UI.
+  * It sorts departures in two ways:
+  *   1) By Route Direction
+  *   2) By Time
+  */
+  departuresByDirection = [];
+  departuresByTime = [];
+  sort (directions): any {
+    console.log(JSON.stringify(directions));
+    this.departuresByDirection = [];
+    this.departuresByTime = [];
+    // Avail returns an array of RouteDirections. We must deal
+    // with the Departures for each Direction.
+    _.each(directions, function (direction) {
+      if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
+        // Sorting Departures by Direction requires us to
+        // maintain a tmp array of valid departures for a
+        // given direction.
+        var futureDepartures = [];
+        // For each Departure for a given RouteDirection...
+        _.each(direction.Departures, function (departure) {
+
+          // A departure is invalid if it was in the past
+
+          // @TODO REMOVE WHEN MOMENT HAS BEEN ADDED
+          if (false) {
+            // Never enter this, yo.
+          }
+          // @TODO UNCOMMENT WHEN MOMENT HAS BEEN ADDED
+          // if (!moment(departure.EDT).isAfter(Date.now())) {
+          //   return;
+          // }
+          /* Manipuate the departure object.
+           * When sorting by Direction, we only need to
+           * obtain the stringified departure times
+           * and save the departure to futureDepartures.
+           * When sorting by Time, pull out only the
+           * necessary details from the Departures
+           * and hold onto them.
+           */
+          else {
+            // Departures by time: we can use a stripped down
+            // version of the RouteDirection, because each
+            // departure will be its own entry in the list.
+            var lightweightDirection = {
+              RouteId: direction.RouteId,
+              Times: {},
+              Departures: []
+            };
+            // @TODO UNCOMMENT WHEN MOMENT IS ADDED
+            var times = { };
+            //var times = calculateTimes(departure);
+            departure.Times = times;
+            lightweightDirection.Times = times;
+            // Departures by time: marry this departure with its RouteId;
+            // that's all it needs.
+            lightweightDirection.Departures = departure;
+            // Departures by RouteDirection: this is a valid departure,
+            // so add it to the array.
+            futureDepartures.push(departure);
+            this.departuresByTime.push(lightweightDirection);
+          }
+        });
+        /* Departures by RouteDirection: now that we
+         * have all the valid departures for a given direction,
+         * overwrite the RouteDirection's old departures array.
+         */
+        direction.Departures = futureDepartures;
+        if (direction.Departures.length > 0) {
+          this.departuresByDirection.push(direction);
+        }
+      }
+    });
+    console.log(this.departuresByDirection);
+    // Departures by time: Sort the list of all
+    // departures by Estimated Departure Time.
+    this.departuresByTime = _.sortBy(this.departuresByTime, function (direction) {
+      return direction.Departures.EDT;
+    });
+  }
+
 
     // **Sets** whether a route's
     // departures have been expanded on the page
@@ -49,7 +132,7 @@ export class StopComponent {
  }
 
 
-    departuresByDirection = [ { RouteId: 20030,
+    departuresByDirectionDummy = [ { RouteId: 20030,
     RouteRecordId: 2,
     Direction: 'Northbound',
     DirectionCode: 'N',
@@ -592,7 +675,7 @@ export class StopComponent {
             eRelativeNoPrefix: '2 hours' } } ],
     HeadwayDepartures: null } ];
 
-    routeList = { '20030':
+    routeListDummy = { '20030':
    { RouteId: 20030,
      RouteRecordId: 2,
      ShortName: '30',

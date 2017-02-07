@@ -8,7 +8,7 @@ import { RouteDetail } from '../../models/route-detail.model';
 import { Vehicle } from '../../models/vehicle.model';
 import { Alert } from '../../models/alert.model';
 import { Stop } from '../../models/stop.model';
-//import * as _ from 'lodash';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'page-route',

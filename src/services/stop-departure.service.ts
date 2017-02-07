@@ -9,11 +9,11 @@ export class StopDepartureService {
   private stopDeparturesURL = 'https://bustracker.pvta.com/InfoPoint/rest/stopdepartures/get';  // URL to web api
   constructor(private http: Http) { }
 
-  getStopDeparture(id: number): Promise<StopDeparture> {
+  getStopDeparture(id: number): Promise<StopDeparture[]> {
     const url = `${this.stopDeparturesURL}/${id}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json() as StopDeparture)
+      .then(response => response.json() as StopDeparture[])
       .catch(this.handleError);
   }
 
