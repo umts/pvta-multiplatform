@@ -4,6 +4,7 @@ import { NavController } from 'ionic-angular';
 
 import { StopDeparture } from '../../models/stop-departure.model';
 import { StopDepartureService } from '../../services/stop-departure.service';
+import { RouteComponent } from '../route/route.component';
 
 @Component({
   selector: 'page-stop',
@@ -11,6 +12,7 @@ import { StopDepartureService } from '../../services/stop-departure.service';
 })
 export class StopComponent {
   departures: StopDeparture[];
+  shownRoute: any = null;
   constructor(public navCtrl: NavController,
     private stopDepartureService: StopDepartureService) { }
 
@@ -20,6 +22,29 @@ export class StopComponent {
         // .getStopDeparture(navParams.stopId)
         // .then(departures => this.departures = departures);
       }
+
+    // **Sets** whether a route's
+    // departures have been expanded on the page
+    toggleRouteDropdown (routeDirection): void {
+     if (this.isRouteDropdownShown(routeDirection)) {
+       this.shownRoute = null;
+     } else {
+       this.shownRoute = routeDirection.RouteId + routeDirection.DirectionCode;
+     }
+   };
+
+   // **Checks** whether a route's departures
+ // have been expanded on the page
+  isRouteDropdownShown (routeDirection): any  {
+   return this.shownRoute === (routeDirection.RouteId + routeDirection.DirectionCode);
+ };
+
+ goToRoutePage(routeId: number): void {
+   this.navCtrl.push(RouteComponent, {
+     routeId: routeId
+   });
+ }
+
 
     departuresByDirection = [ { RouteId: 20030,
     RouteRecordId: 2,

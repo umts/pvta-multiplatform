@@ -9,27 +9,69 @@
 </ion-header>
 
 <ion-content>
-  <ion-list *ngFor="let direction of departuresByDirection">
+  <ion-list no-lines>
+    <div *ngFor="let direction of departuresByDirection">
        <div ion-item (click)="toggleRouteDropdown(direction)"
                        [style.background-color]="'#'+routeList[direction.RouteId].Color"
                        [style.color]="'white'">
                        <!-- [ngClass]="{active: isRouteDropdownShown({{direction}})}" -->
-         <div>
-           <div class="col route-shortname">
+         <ion-grid>
+           <ion-row>
+           <ion-col class="route-shortname">
              {{routeList[direction.RouteId].RouteAbbreviation}}
-           </div>
-           <div class="col-50">
+           </ion-col>
+           <ion-col width-50>
              {{direction.Departures[0].Trip.InternetServiceDesc}}
-           </div>
-           <div class="col-33 text-right">
+           </ion-col>
+           <ion-col width-33 right>
              <span>
                {{direction.Departures[0].Times.eExact}}
              </span>
              <p style="color: white">
                ({{direction.Departures[0].Times.eRelativeNoPrefix}})
              </p>
-           </div>
-         </div>
+           </ion-col>
+         </ion-row>
+         </ion-grid>
        </div>
-     </ion-list>
+       <!-- When a route has been expanded, show its departures -->
+       <div ion-item *ngFor="let departure of direction.Departures"
+                      [hidden]="!isRouteDropdownShown(direction)"
+                      (click)="goToRoutePage(direction.RouteId)">
+                      <!-- ^^ this was part of that tag >> class="item-accordion" -->
+         <div class="item-text-wrap bold center">
+           {{departure.Trip.InternetServiceDesc}}
+         </div>
+           <ion-grid>
+             <ion-row>
+               <ion-col>
+                 <b>Scheduled</b>
+               </ion-col>
+               <ion-col>
+                 <b>Estimated</b>
+               </ion-col>
+             </ion-row>
+             <ion-row class="item-text-wrap">
+               <ion-col>
+                 <div class="center departure-padding">
+                   {{departure.Times.sExact}}
+                 </div>
+                 <div class="center">
+                   ({{departure.Times.sRelative}})
+                 </div>
+               </ion-col>
+               <ion-col>
+                 <div class="center departure-padding">
+                   {{departure.Times.eExact}}
+                 </div>
+                 <div class="center">
+                   ({{departure.Times.eRelative}})
+                 </div>
+               </ion-col>
+             </ion-row>
+           </ion-grid>
+       </div>
+
+     </div>
+   </ion-list>
 </ion-content>
