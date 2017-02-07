@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
 import { StopDeparture } from '../../models/stop-departure.model';
 import { StopDepartureService } from '../../services/stop-departure.service';
@@ -13,8 +13,11 @@ import { RouteComponent } from '../route/route.component';
 export class StopComponent {
   departures: StopDeparture[];
   shownRoute: any = null;
-  constructor(public navCtrl: NavController,
-    private stopDepartureService: StopDepartureService) { }
+  stopId: number;
+  constructor(public navCtrl: NavController, private navParams: NavParams,
+    private stopDepartureService: StopDepartureService) {
+      this.stopId = navParams.get('stopId');
+    }
 
     ngOnInit(): void {
       // NEED STOP ID BEFORE UNCOMMENTING!
