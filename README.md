@@ -15,27 +15,26 @@ To begin developing, follow these steps:
 
 ## Prerequisites
 - [Node.js <b>4.x and NPM</b>](https://nodejs.org/en/)
-- Angular.js (no explicit installation necessary)
-- Ionic and Cordova: `npm install -g cordova ionic`
+- Ionic, Angular, and Cordova: `npm install -g cordova ionic`
 
 ## Setup
 
-1. Fork this repository
+1. Clone repository
 
-1. Clone your fork onto your local machine
-
-1. In your fork's directory, run the following setup stuff:
+2. In your clone's directory, run the following setup stuff:
   1. `npm install`
   2. `bower install`
 
 ## Developing
 
-The javascript and corresponding HTML is contained in `www/pages`.Start editing away!
+The javascript and corresponding HTML is contained in `www`.Start editing away!
 
-2. Viewing the results of your changes is easy:
+  - Viewing the results of your changes is easy:
    Just run `ionic serve -c` from the root project directory.
 
   Ionic will open your default browser and navigate to itself for you.
+  
+  *Note* There's a branch, `ionic2-base` for progress in porting PVTrAck to Ionic 2.  Please merge all Ionic 2 changes into this branch.  When (if) this branch becomes the main branch for development, it will be renamed as `master`.
 
 ### Emulating
 

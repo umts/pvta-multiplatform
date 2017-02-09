@@ -33,11 +33,13 @@
         },
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.umts.pvtamultiplaform"
-        }
-    },
-    "dependent_plugins": {
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.umts.pvtamultiplaform"
+        },
         "cordova-plugin-compat": {
             "PACKAGE_NAME": "com.umts.pvtamultiplaform"
         }
-    }
+    },
+    "dependent_plugins": {}
 }

@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('RouteController', function ($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, $location, $ionicScrollDelegate, $ionicModal, FavoriteStops, $ionicFilterBar, Helper) {
+angular.module('pvta.controllers').controller('RouteController', function ($scope, $state, $stateParams, $ionicLoading, Route, RouteVehicles, FavoriteRoutes, Messages, $location, $ionicScrollDelegate, $ionicModal, FavoriteStops, $ionicFilterBar, Helper, Toast) {
   ga('set', 'page', '/route.html');
   ga('set', 'route', $stateParams.routeId);
   ga('send', 'pageview');
@@ -59,6 +59,9 @@ angular.module('pvta.controllers').controller('RouteController', function ($scop
         }
         $scope.stops.push({StopId: stop.StopId, Description: stop.Description, Liked: liked});
       }
+    }).catch(function () {
+      Toast.showStorageError();
+      $scope.stops = stops;
     });
   }
   /**
