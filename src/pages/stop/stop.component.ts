@@ -40,14 +40,15 @@ export class StopComponent {
     this.departuresByTime = [];
     // Avail returns an array of RouteDirections. We must deal
     // with the Departures for each Direction.
-    _.each(directions, function (direction) {
+    for (let direction of directions.RouteDirections) {
       if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
+        console.log(JSON.stringify(direction)+"\n");
         // Sorting Departures by Direction requires us to
         // maintain a tmp array of valid departures for a
         // given direction.
         var futureDepartures = [];
         // For each Departure for a given RouteDirection...
-        _.each(direction.Departures, function (departure) {
+        for (let departure of direction.Departures) {
 
           // A departure is invalid if it was in the past
 
@@ -89,7 +90,7 @@ export class StopComponent {
             futureDepartures.push(departure);
             this.departuresByTime.push(lightweightDirection);
           }
-        });
+        }
         /* Departures by RouteDirection: now that we
          * have all the valid departures for a given direction,
          * overwrite the RouteDirection's old departures array.
@@ -99,7 +100,7 @@ export class StopComponent {
           this.departuresByDirection.push(direction);
         }
       }
-    });
+    }
     console.log(this.departuresByDirection);
     // Departures by time: Sort the list of all
     // departures by Estimated Departure Time.

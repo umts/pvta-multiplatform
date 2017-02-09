@@ -11,15 +11,16 @@
 <ion-content>
   <p>{{departuresByDirection}}</p>
   <ion-list no-lines>
-    <div *ngFor="let direction of departuresByDirectionDummy">
-       <div ion-item (click)="toggleRouteDropdown(direction)"
-                       [style.background-color]="'#'+routeListDummy[direction.RouteId].Color"
-                       [style.color]="'white'">
+    <div *ngFor="let direction of departuresByDirection">
+       <div ion-item (click)="toggleRouteDropdown(direction)">
+                       <!-- [style.color]="'white'"> -->
+                       <!-- [style.background-color]="'#'+routeListDummy[direction.RouteId].Color" -->
                        <!-- [ngClass]="{active: isRouteDropdownShown({{direction}})}" -->
          <ion-grid>
            <ion-row>
            <ion-col class="route-shortname">
-             {{routeListDummy[direction.RouteId].RouteAbbreviation}}
+             <!-- {{routeListDummy[direction.RouteId].RouteAbbreviation}} -->
+             {{direction.RouteId}}
            </ion-col>
            <ion-col width-50>
              {{direction.Departures[0].Trip.InternetServiceDesc}}
