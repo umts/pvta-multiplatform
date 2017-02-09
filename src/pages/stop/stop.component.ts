@@ -5,6 +5,8 @@ import { NavController, NavParams } from 'ionic-angular';
 import { StopDeparture } from '../../models/stop-departure.model';
 import { StopDepartureService } from '../../services/stop-departure.service';
 import { RouteComponent } from '../route/route.component';
+import { RouteService } from '../../services/route.service';
+import { Route } from '../../models/route.model';
 import * as _ from 'lodash';
 
 @Component({
@@ -15,16 +17,43 @@ export class StopComponent {
   directions: StopDeparture[];
   shownRoute: any = null;
   stopId: number;
+  routeList: Object = {};
   constructor(public navCtrl: NavController, private navParams: NavParams,
-    private stopDepartureService: StopDepartureService) {
+    private stopDepartureService: StopDepartureService,
+    private routeService: RouteService) {
       this.stopId = navParams.get('stopId');
     }
     ionViewWillEnter() {
       this.stopDepartureService
         .getStopDeparture(this.stopId)
-        .then(directions => this.sort(directions[0]));
-      }
-      /**
+        .then(directions => {
+          this.sort(directions[0]);
+          this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
+        });
+    }
+
+  // For a given RouteId, downloads the simplest
+  // version of the details for that route from
+  // Avail.  Adds it to a $scope-wide list.
+  // Returns nothing.
+  getRoute (id): any {
+    this.routeService
+      .getRoute(id)
+      .then(route => {
+        this.routeList[id] = (route);
+      });
+  }
+  // Calls getRoute() for each RouteId in
+  // the input array.
+  // Ex input: [20030, 30031, 20035]
+  getRoutes (routes): any {
+    for (let routeId of routes) {
+      this.getRoute(routeId);
+    }
+    console.log(this.routeList);
+    //$ionicLoading.hide();
+  };
+  /**
   * Given all the RouteDirections and their upcoming departures
   * at this stop, this function organizes and manipulates
   * all departures so they can be clearly and simply displayed in the UI.
@@ -35,14 +64,14 @@ export class StopComponent {
   departuresByDirection = [];
   departuresByTime = [];
   sort (directions): any {
-    console.log(JSON.stringify(directions));
+    //console.log(JSON.stringify(directions));
     this.departuresByDirection = [];
     this.departuresByTime = [];
     // Avail returns an array of RouteDirections. We must deal
     // with the Departures for each Direction.
     for (let direction of directions.RouteDirections) {
       if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
-        console.log(JSON.stringify(direction)+"\n");
+      //  console.log(JSON.stringify(direction)+"\n");
         // Sorting Departures by Direction requires us to
         // maintain a tmp array of valid departures for a
         // given direction.
@@ -101,7 +130,7 @@ export class StopComponent {
         }
       }
     }
-    console.log(this.departuresByDirection);
+//    console.log(this.departuresByDirection);
     // Departures by time: Sort the list of all
     // departures by Estimated Departure Time.
     this.departuresByTime = _.sortBy(this.departuresByTime, function (direction) {
