@@ -16,6 +16,7 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
 
 .run(function ($ionicPlatform, $rootScope) {
   $ionicPlatform.ready(function () {
+    $rootScope.isAndroid = ionic.Platform.isAndroid();
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {
