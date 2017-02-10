@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="1013" id="com.umts.pvtamultiplaform" version="v1.0.0-pub.1.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.umts.pvtamultiplaform" version="1.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>PVTrAck</name>
     <description>
       Official app of the Pioneer Valley Transit Authority.
