@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
 
@@ -17,11 +17,14 @@ export class StopComponent {
   directions: StopDeparture[];
   shownRoute: any = null;
   stopId: number;
+  //routeList: Map<any, any>;
   routeList: Object = {};
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private stopDepartureService: StopDepartureService,
-    private routeService: RouteService) {
+    private routeService: RouteService, private changer: ChangeDetectorRef) {
       this.stopId = navParams.get('stopId');
+      // this.routeList = new Map();
+      // this.routeList.set('20031', 'sasn');
     }
     ionViewWillEnter() {
       this.stopDepartureService
@@ -29,6 +32,8 @@ export class StopComponent {
         .then(directions => {
           this.sort(directions[0]);
           this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
+          console.log(JSON.stringify(this.routeListDummy));
+          console.log(JSON.stringify(this.routeList));
         });
     }
 
@@ -40,7 +45,16 @@ export class StopComponent {
     this.routeService
       .getRoute(id)
       .then(route => {
-        this.routeList[id] = (route);
+        // console.log(route.RouteId);
+        let strId: string = String(route.RouteId);
+        Object.defineProperty(this.routeList, strId,
+          {
+            value: route,
+            writable: true,
+            enumerable: true
+          })
+        // this.routeList.set(route.RouteId, route);
+        // console.log(this.routeList.get('20031'));
       });
   }
   // Calls getRoute() for each RouteId in
@@ -50,7 +64,8 @@ export class StopComponent {
     for (let routeId of routes) {
       this.getRoute(routeId);
     }
-    console.log(this.routeList);
+    this.changer.detectChanges();
+    console.log(JSON.stringify(this.routeList));
     //$ionicLoading.hide();
   };
   /**
