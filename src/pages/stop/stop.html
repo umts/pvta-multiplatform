@@ -9,13 +9,14 @@
 </ion-header>
 
 <ion-content>
-  {{routeListDummy['20030'].Color | json}}
+
+  {{routeList[0]?.RouteId | json}}
   <b>TITTITITIT</b>
-  {{routeList['20030']| json}}
+  <!-- {{routeList['20030']| json}} -->
   <ion-list no-lines>
     <div *ngFor="let direction of departuresByDirection">
-       <div ion-item (click)="toggleRouteDropdown(direction)"
-       [style.background-color]="'#'+routeListDummy[direction.RouteId].Color">
+       <div ion-item (click)="toggleRouteDropdown(direction)">
+       <!-- [style.background-color]="'#'+routeListDummy[direction.RouteId].Color"> -->
                        <!-- [style.color]="'white'"> -->
                        <!-- [ngClass]="{active: isRouteDropdownShown({{direction}})}" -->
          <ion-grid>

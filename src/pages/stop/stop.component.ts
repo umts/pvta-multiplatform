@@ -18,7 +18,8 @@ export class StopComponent {
   shownRoute: any = null;
   stopId: number;
   //routeList: Map<any, any>;
-  routeList: Object = {};
+  departuresByDirection: Array<any> = [];
+  routeList = [];
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private stopDepartureService: StopDepartureService,
     private routeService: RouteService, private changer: ChangeDetectorRef) {
@@ -32,9 +33,15 @@ export class StopComponent {
         .then(directions => {
           this.sort(directions[0]);
           this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
-          console.log(JSON.stringify(this.routeListDummy));
-          console.log(JSON.stringify(this.routeList));
+          // console.log(JSON.stringify(this.routeListDummy));
+          // console.log(JSON.stringify(this.routeList));
         });
+    }
+
+    addValues(index, sname, lname, color): void {
+      // console.log(JSON.stringify(this.departuresByDirection));
+      // let p = this.departuresByDirection[index];
+      // p.ShortName = sname;
     }
 
   // For a given RouteId, downloads the simplest
@@ -45,14 +52,16 @@ export class StopComponent {
     this.routeService
       .getRoute(id)
       .then(route => {
-        // console.log(route.RouteId);
-        let strId: string = String(route.RouteId);
-        Object.defineProperty(this.routeList, strId,
-          {
-            value: route,
-            writable: true,
-            enumerable: true
-          })
+        this.routeList.push(route);
+        let index = _.findIndex(this.departuresByDirection, { 'RouteId': id });
+        // this.addValues(index, route.ShortName, route.RouteAbbreviation, route.Color);
+        // let strId: string = String(route.RouteId);
+        // Object.defineProperty(this.routeList, strId,
+        //   {
+        //     value: route,
+        //     writable: true,
+        //     enumerable: true
+        //   })
         // this.routeList.set(route.RouteId, route);
         // console.log(this.routeList.get('20031'));
       });
@@ -76,11 +85,9 @@ export class StopComponent {
   *   1) By Route Direction
   *   2) By Time
   */
-  departuresByDirection = [];
   departuresByTime = [];
   sort (directions): any {
     //console.log(JSON.stringify(directions));
-    this.departuresByDirection = [];
     this.departuresByTime = [];
     // Avail returns an array of RouteDirections. We must deal
     // with the Departures for each Direction.
