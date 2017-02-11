@@ -6,6 +6,15 @@
     </button>
     <ion-title>Stop {{stopId}}</ion-title>
   </ion-navbar>
+  <ion-toolbar color="primary">
+    <ion-item color="primary">
+      <ion-label style="color:white;">Order Departures By</ion-label>
+      <ion-select [(ngModel)]="order">
+        <ion-option value="0">Route</ion-option>
+        <ion-option value="1">Time</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -71,7 +80,31 @@
              </ion-row>
            </ion-grid>
        </div>
-
      </div>
+     <div>
+       <div ion-item *ngFor="let direction of departuresByTime"
+        (click)="goToRoutePage(direction.RouteId)"
+        [style.background-color]="'#'+routeList[direction.RouteId]?.Color"
+        [style.color]="'white'">
+        <ion-grid>
+          <ion-row>
+          <ion-col class="route-shortname">
+            {{routeList[direction.RouteId]?.RouteAbbreviation}}
+          </ion-col>
+          <ion-col width-50>
+            {{direction.Departures[0]?.Trip.InternetServiceDesc}}
+          </ion-col>
+          <ion-col width-33 right>
+            <span>
+              {{direction.Departures[0]?.Times.eExact}}
+            </span>
+            <p style="color: white">
+              ({{direction.Departures[0]?.Times.eRelativeNoPrefix}})
+            </p>
+          </ion-col>
+        </ion-row>
+        </ion-grid>
+      </div>
+       </div>
    </ion-list>
 </ion-content>

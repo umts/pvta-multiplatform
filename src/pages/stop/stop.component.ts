@@ -21,11 +21,13 @@ export class StopComponent {
   departuresByDirection: Array<any> = [];
   routeList = [];
   loader;
+  order: String;
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private stopDepartureService: StopDepartureService,
     private routeService: RouteService, private changer: ChangeDetectorRef,
     private loadingCtrl: LoadingController) {
       this.stopId = navParams.get('stopId');
+      this.order = '0';
       this.loader = loadingCtrl.create({
         content: 'Downloading departures...'
       });
