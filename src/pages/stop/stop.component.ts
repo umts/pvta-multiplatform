@@ -8,6 +8,7 @@ import { RouteComponent } from '../route/route.component';
 import { RouteService } from '../../services/route.service';
 import { Route } from '../../models/route.model';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 
 @Component({
   selector: 'page-stop',
@@ -53,6 +54,27 @@ export class StopComponent {
     console.log(this.routeList);
     //$ionicLoading.hide();
   };
+
+  /**
+   * Given a Departure object,
+   * calculates the human-readable departure times
+   * that will be displayed in the UI.
+   * Returns an object with 5 properties,
+   * each a different way of displaying
+   * either a scheduled time ('s') or an estimated time ('e').
+   */
+  calculateTimes (departure): Object {
+    return {
+      // ex: '8:12 PM'
+      sExact: moment(departure.SDT).format('LT'),
+      eExact: moment(departure.EDT).format('LT'),
+      // ex: 'in 6 minutes'
+      sRelative: moment(departure.SDT).fromNow(),
+      eRelative: moment(departure.EDT).fromNow(),
+      // ex: '6 minutes'
+      eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
+    };
+  }
   /**
   * Given all the RouteDirections and their upcoming departures
   * at this stop, this function organizes and manipulates
@@ -80,15 +102,9 @@ export class StopComponent {
         for (let departure of direction.Departures) {
 
           // A departure is invalid if it was in the past
-
-          // @TODO REMOVE WHEN MOMENT HAS BEEN ADDED
-          if (false) {
-            // Never enter this, yo.
+          if (!moment(departure.EDT).isAfter(Date.now())) {
+            continue;
           }
-          // @TODO UNCOMMENT WHEN MOMENT HAS BEEN ADDED
-          // if (!moment(departure.EDT).isAfter(Date.now())) {
-          //   return;
-          // }
           /* Manipuate the departure object.
            * When sorting by Direction, we only need to
            * obtain the stringified departure times
@@ -101,14 +117,12 @@ export class StopComponent {
             // Departures by time: we can use a stripped down
             // version of the RouteDirection, because each
             // departure will be its own entry in the list.
-            var lightweightDirection = {
+            let lightweightDirection = {
               RouteId: direction.RouteId,
               Times: {},
               Departures: []
             };
-            // @TODO UNCOMMENT WHEN MOMENT IS ADDED
-            var times = { };
-            //var times = calculateTimes(departure);
+            var times = this.calculateTimes(departure);
             departure.Times = times;
             lightweightDirection.Times = times;
             // Departures by time: marry this departure with its RouteId;
