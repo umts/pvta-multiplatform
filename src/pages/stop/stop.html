@@ -19,6 +19,7 @@
 
 <ion-content>
   <ion-list no-lines>
+    <div *ngIf="order == '0'">
     <div *ngFor="let direction of departuresByDirection">
        <div ion-item (click)="toggleRouteDropdown(direction)"
         [style.background-color]="'#'+routeList[direction.RouteId]?.Color"
@@ -54,10 +55,14 @@
            <ion-grid>
              <ion-row>
                <ion-col>
-                 <b>Scheduled</b>
+                 <div class="center">
+                   <b>Scheduled</b>
+                 </div>
                </ion-col>
                <ion-col>
-                 <b>Estimated</b>
+                 <div class="center">
+                   <b>Estimated</b>
+                 </div>
                </ion-col>
              </ion-row>
              <ion-row class="item-text-wrap">
@@ -81,7 +86,8 @@
            </ion-grid>
        </div>
      </div>
-     <div>
+   </div>
+     <div *ngIf="order == '1'">
        <div ion-item *ngFor="let direction of departuresByTime"
         (click)="goToRoutePage(direction.RouteId)"
         [style.background-color]="'#'+routeList[direction.RouteId]?.Color"
@@ -92,14 +98,14 @@
             {{routeList[direction.RouteId]?.RouteAbbreviation}}
           </ion-col>
           <ion-col width-50>
-            {{direction.Departures[0]?.Trip.InternetServiceDesc}}
+            {{direction.Departures?.Trip.InternetServiceDesc}}
           </ion-col>
           <ion-col width-33 right>
             <span>
-              {{direction.Departures[0]?.Times.eExact}}
+              {{direction.Departures?.Times.eExact}}
             </span>
             <p style="color: white">
-              ({{direction.Departures[0]?.Times.eRelativeNoPrefix}})
+              ({{direction.Departures?.Times.eRelativeNoPrefix}})
             </p>
           </ion-col>
         </ion-row>
