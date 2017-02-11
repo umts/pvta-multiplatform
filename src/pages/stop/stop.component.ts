@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, LoadingController } from 'ionic-angular';
 
 import { StopDeparture } from '../../models/stop-departure.model';
 import { StopDepartureService } from '../../services/stop-departure.service';
@@ -20,17 +20,24 @@ export class StopComponent {
   stopId: number;
   departuresByDirection: Array<any> = [];
   routeList = [];
+  loader;
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private stopDepartureService: StopDepartureService,
-    private routeService: RouteService, private changer: ChangeDetectorRef) {
+    private routeService: RouteService, private changer: ChangeDetectorRef,
+    private loadingCtrl: LoadingController) {
       this.stopId = navParams.get('stopId');
+      this.loader = loadingCtrl.create({
+        content: 'Downloading departures...'
+      });
     }
     ionViewWillEnter() {
+      this.loader.present();
       this.stopDepartureService
         .getStopDeparture(this.stopId)
         .then(directions => {
           this.sort(directions[0]);
           this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
+          this.loader.dismiss();
         });
     }
 
@@ -52,7 +59,7 @@ export class StopComponent {
     for (let routeId of routes) {
       this.getRoute(routeId);
     }
-    this.changer.detectChanges();
+
     //$ionicLoading.hide();
   };
 
