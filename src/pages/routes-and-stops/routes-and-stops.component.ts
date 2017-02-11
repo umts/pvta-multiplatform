@@ -22,12 +22,19 @@ export class RoutesAndStopsComponent {
   stops: Stop[];
   currentDisplay: string = '0';
   searchQuery: string = '';
+  stopsDisp: Stop[];
+  routesDisp: Route[];
   constructor(public navCtrl: NavController,
     private routeService: RouteService, private stopService: StopService) { }
 
-  onSearchQueryChanged(event, query): void {
-      console.log(JSON.stringify(event));
-      console.log(JSON.stringify(query));
+  onSearchQueryChanged(event: any): void {
+      console.log(JSON.stringify(event.target.value));
+      if (this.currentDisplay == '0') {
+
+      }
+      else {
+
+      }
   }
 
   redirectRoute(routeId: number): void {
@@ -45,9 +52,15 @@ export class RoutesAndStopsComponent {
   ionViewWillEnter() {
     this.routeService
       .getAllRoutes()
-      .then(routes => this.routes = routes);
+      .then(routes => {
+        this.routes = routes;
+        this.routesDisp = routes;
+      });
     this.stopService
       .getAllStops()
-      .then(stops => this.stops = stops);
+      .then(stops => {
+        this.stops = stops;
+        this.stopsDisp = stops;
+      });
     }
   }

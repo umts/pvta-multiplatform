@@ -5,7 +5,7 @@
     </button>
     <ion-title>Routes and Stops</ion-title>
   </ion-navbar>
-  <ion-segment [(ngModel)]="currentDisplay" color="primary">
+  <ion-segment [(ngModel)]="currentDisplay" >
     <ion-segment-button value="0">
       Routes
     </ion-segment-button>
@@ -13,15 +13,15 @@
       Stops
     </ion-segment-button>
   </ion-segment>
-</ion-header>
-
-<ion-content padding>
   <ion-searchbar
     [(ngModel)]="searchQuery"
     showCancelButton
-    (ionInput)="onSearchQueryChanged($event, query)"
+    (ionInput)="onSearchQueryChanged($event)"
     (ionCancel)="onCancel($event)">
   </ion-searchbar>
+</ion-header>
+
+<ion-content padding>
 
   <div [ngSwitch]="currentDisplay">
     <ion-list *ngSwitchCase="0">
