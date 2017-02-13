@@ -1,8 +1,8 @@
 angular.module('pvta.factories')
-.factory('FavoriteStops', function () {
+.factory('FavoriteStops', function (Toast) {
 
   var push = function (stop) {
-    localforage.getItem('favoriteStops', function (err, stops) {
+    localforage.getItem('favoriteStops').then(function (stops) {
       var newStop = {
         StopId: stop.StopId,
         Description: stop.Description
@@ -16,6 +16,9 @@ angular.module('pvta.factories')
         localforage.setItem('favoriteStops', favoriteStops);
       }
       ga('send', 'event', 'FavoriteStopAdded', 'FavoriteStops.push()', 'Favorited stop with ID: ' + stop.StopId);
+      Toast.show('Added ' + stop.Description + ' to your favorites!', 3000);
+    }).catch(function () {
+      Toast.show('Couldn\'t favorite stop.', 2000);
     });
   };
 
@@ -24,7 +27,7 @@ angular.module('pvta.factories')
   };
 
   var remove = function (stop) {
-    localforage.getItem('favoriteStops', function (err, stops) {
+    localforage.getItem('favoriteStops').then(function (stops) {
       for (var i = 0; i < stops.length; i++) {
         if (stops[i].StopId === stop.StopId) {
           stops.splice(i, 1);
@@ -35,6 +38,9 @@ angular.module('pvta.factories')
           console.log('Error removing favorite stop: ' + err);
         }
       });
+      Toast.show('Removed ' + stop.Description + ' from your favorites!', 3000);
+    }).catch(function () {
+      Toast.show('Couldn\'t unfavorite stop.');
     });
   };
 

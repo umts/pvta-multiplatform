@@ -1,21 +1,24 @@
 angular.module('pvta.factories')
 
-.factory('RouteForage', function (RouteList, moment, Recent, Routes, $q) {
+.factory('RouteForage', function (RouteList, moment, Recent, Routes, $q, Toast) {
   function getRouteList () {
     if (RouteList.isEmpty()) {
       return localforage.getItem('routes').then(function (routes) {
         if ((routes !== null) && (routes.list.length > 0) && (Recent.recent(routes.time))) {
-          var msg = 'Loaded routes from storage.';
-          console.log(msg);
-          ga('send', 'event', 'RoutesLoaded', 'RouteForageFactory.getRouteList()', msg);
+          var loadedMsg = 'Loaded routes from storage.';
+          console.log(loadedMsg);
+          ga('send', 'event', 'RoutesLoaded', 'RouteForageFactory.getRouteList()', loadedMsg);
           return routes.list;
         }
         else {
-          var msg = 'No routes stored or routelist is old';
-          console.log(msg);
-          ga('send', 'event', 'RoutesNotLoaded', 'RouteForageFactory.getRouteList()', msg);
+          var notLoadedMsg = 'No routes stored or routelist is old';
+          console.log(notLoadedMsg);
+          ga('send', 'event', 'RoutesNotLoaded', 'RouteForageFactory.getRouteList()', notLoadedMsg);
           return Routes.query().$promise;
         }
+      }).catch(function () {
+        Toast.showStorageError();
+        return Routes.query().$promise;
       });
     }
     else {
@@ -40,14 +43,15 @@ angular.module('pvta.factories')
     };
     localforage.setItem('routes', toForage, function (err) {
       if (err) {
-        var msg = 'Unable to save routes; Localforage error: ' + err;
-        console.error(msg);
-        ga('send', 'event', 'UnableToSaveRoutes', 'RouteForageFactory.pushListToForage()', msg);
+        var errorMsg = 'Unable to save routes; Localforage error: ' + err;
+        console.error(errorMsg);
+        Toast.showStorageError();
+        ga('send', 'event', 'UnableToSaveRoutes', 'RouteForageFactory.pushListToForage()', errorMsg);
       }
       else {
-        var msg = 'Saved routes list.';
-        console.log(msg);
-        ga('send', 'event', 'SuccessfullySavedRoutes', 'RoutesForageFactory.pushListToForage()', msg);
+        var successMsg = 'Saved routes list.';
+        console.log(successMsg);
+        ga('send', 'event', 'SuccessfullySavedRoutes', 'RoutesForageFactory.pushListToForage()', successMsg);
       }
     });
   }

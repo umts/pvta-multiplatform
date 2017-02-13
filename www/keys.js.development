@@ -1,0 +1,4 @@
+var mapsApi = document.createElement('script');
+var mapsKey = "AIzaSyCuFkJ-z0W35mRxANKMAVMSLhI3kryvJ3Y";
+mapsApi.src = "https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=" + mapsKey;
+document.getElementsByTagName("head")[0].appendChild(mapsApi)

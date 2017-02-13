@@ -1,0 +1,13 @@
+ga('create', 'UA-76375148-1', 'auto');
+
+var head = document.getElementsByTagName("head")[0];
+
+var analyticsMeta = document.createElement("meta");
+analyticsMeta.name = "google-site-verification";
+analyticsMeta.content = "fl6hMTOUVgBkFwN8ivRVWGS5p-vPqF2qluCwanrhKDQ";
+head.appendChild(analyticsMeta)
+
+var mapsApi = document.createElement('script');
+var mapsKey = "AIzaSyDPsmX2FrR5zk5WLLSqoo1TawQpr0hSyDs";
+mapsApi.src = "https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=" + mapsKey;
+head.appendChild(mapsApi)

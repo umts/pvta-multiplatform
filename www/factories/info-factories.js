@@ -83,8 +83,8 @@ angular.module('pvta')
 
 
   return {
-    versionNum: '1.0.0',
-    versionName: 'Initial Public Release!',
+    versionNum: '1.0.5',
+    versionName: 'Bugfix Update',
     performMigrations: performMigrations,
     showPopups: showPopups
   };

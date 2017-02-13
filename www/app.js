@@ -14,14 +14,27 @@ angular.module('pvta', ['ionic', 'ngCordova', 'pvta.controllers', 'angularMoment
   duration: 5000
 })
 
-.run(function ($ionicPlatform) {
+.run(function ($ionicPlatform, $rootScope) {
   $ionicPlatform.ready(function () {
+    $rootScope.isAndroid = ionic.Platform.isAndroid();
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
     }
+    // Set the global variable for whether the device is "online".
+    $rootScope.offline = !navigator.onLine;
+    // Add 2 listeners - one for when the device is "online," one for "offline."
+    window.addEventListener('online', function () {
+      $rootScope.offline = false;
+      $rootScope.$digest();
+    }, false);
+
+    window.addEventListener('offline', function () {
+      $rootScope.offline = true;
+      $rootScope.$digest();
+    }, false);
   });
   /******************************************************
    * Set the status bar color to our app's color.
