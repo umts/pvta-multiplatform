@@ -1,0 +1,37 @@
+<div ion-item aria-labelledby="#destination-label #time-label #stop-label #riders-label">
+  <ion-grid>
+    <!-- The first row - destination and status -->
+    <ion-row>
+      {{vehicles | json}}
+      <!-- Destination -->
+      <!-- <ion-col width-50 text-wrap style="color: #{{color}}; text-align:left;" aria-labelledby="destination-label">
+          <ion-icon name="bus" style="margin-right: 10px" aria-label="bus"></ion-icon>
+          <b id="destination-label">To {{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b>
+      </ion-col> -->
+      <!-- Vehicle Status -->
+      <!-- <ion-col aria-labelledby="time-label">
+        <span class="icon-left green" *ngIf="vehicle?.DisplayStatus==='On Time'">
+          <i class="icon ion-ios-time-outline"></i>
+          <span id="time-label">{{vehicle?.DisplayStatus}}</span>
+        </span>
+        <span class="icon-left assertive" *ngIf="vehicle?.DisplayStatus === 'Late'">
+          <i class="icon ion-ios-time-outline"></i>
+          <span id="time-label">{{vehicle?.Deviation}} minutes late</span>
+        </span>
+      </ion-col> -->
+    </ion-row>
+    <!-- The second row - Last stop and pax -->
+    <!-- <ion-row text-wrap class="row item-text-wrap text-left" style="padding-top: 10px"> -->
+      <!-- Last stop -->
+      <!-- <ion-col width-50 text-wrap style="text-align: left;" aria-labelledby="stop-label">
+        <i class="icon ion-ios-location"></i>
+        <span id="stop-label">{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</span>
+      </ion-col> -->
+      <!-- Number of riders -->
+      <!-- <ion-col class="icon-left positive center padding-top-10" aria-labelledby="riders-label">
+       <i class="icon ion-android-people"></i>
+       <span id="riders-label">{{vehicle.OnBoard}} {{vehicle.OnBoard === 1 ? 'rider' : 'riders'}}</span>
+     </ion-col>
+   </ion-row> -->
+  </ion-grid>
+</div>

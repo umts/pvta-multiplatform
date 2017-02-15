@@ -17,7 +17,7 @@ import { SettingsComponent } from '../pages/settings/settings.component';
 import { StopComponent } from '../pages/stop/stop.component';
 import { StopMapComponent } from '../pages/stop-map/stop-map.component';
 import { StorageSettingsComponent } from '../pages/storage-settings/storage-settings.component';
-
+import { VehicleComponent } from '../pages/route/vehicle.component';
 // Services
 import { RouteService }          from '../services/route.service';
 import { StopService }          from '../services/stop.service';
@@ -41,7 +41,8 @@ import { AlertService }          from '../services/alert.service';
     SettingsComponent,
     StopComponent,
     StopMapComponent,
-    StorageSettingsComponent
+    StorageSettingsComponent,
+    VehicleComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -61,7 +62,8 @@ import { AlertService }          from '../services/alert.service';
     SettingsComponent,
     StopComponent,
     StopMapComponent,
-    StorageSettingsComponent
+    StorageSettingsComponent,
+    VehicleComponent
   ],
   providers: [ {provide: ErrorHandler, useClass: IonicErrorHandler},
     RouteService, StopService, StopDepartureService, VehicleService, AlertService ]

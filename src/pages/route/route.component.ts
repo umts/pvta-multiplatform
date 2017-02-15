@@ -8,6 +8,7 @@ import { RouteDetail } from '../../models/route-detail.model';
 import { Vehicle } from '../../models/vehicle.model';
 import { Alert } from '../../models/alert.model';
 import { Stop } from '../../models/stop.model';
+import { VehicleComponent } from './vehicle.component';
 import * as _ from 'lodash';
 
 @Component({

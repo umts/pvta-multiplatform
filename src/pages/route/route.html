@@ -16,7 +16,24 @@
     </ion-item>
   </ion-item-group>
 
-  <ion-item class="item"  ng-if="route && stops" (click)="showStopModal()">
+  <!-- <div *ngif="route && vehicles.length == 0"
+      class="item item-divider item-energized center"
+      style="margin-bottom:1%">
+    There are no buses currently on the {{route.RouteAbbreviation}}.
+  </div> -->
+  <div class="item item-divider item-positive center"
+     *ngIf="route && vehicles.length !== 0" role="heading" id="buses-heading">
+     Buses
+  </div>
+  <div role="list" aria-labelledby="buses-heading" *ngIf="vehicles && vehicles.length !== 0">
+    <ion-list>
+      <div>
+        <vehicle [data]="vehicles" [color]="route.color"></vehicle>
+      </div>
+   </ion-list>
+ </div>
+
+  <ion-item class="item"  *ngIf="route && stops" (click)="showStopModal()">
       <span>Tap to view stops on the {{route?.RouteAbbreviation}}</span>
   </ion-item>
 </ion-content>
