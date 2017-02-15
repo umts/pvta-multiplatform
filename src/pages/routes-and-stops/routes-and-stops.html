@@ -16,15 +16,15 @@
   <ion-searchbar
     [(ngModel)]="searchQuery"
     showCancelButton
-    (ionInput)="onSearchQueryChanged($event)"
-    (ionCancel)="onCancel($event)">
+    (ionInput)="onSearchQueryChanged($event)">
+    <!-- (ionCancel)="onCancel($event)"> -->
   </ion-searchbar>
 </ion-header>
 
 <ion-content padding>
 
   <div [ngSwitch]="cDisplay">
-    <ion-list *ngSwitchCase="segment.Routes">
+    <ion-list text-wrap *ngSwitchCase="segment.Routes">
       <button ion-item *ngFor="let route of routesDisp"
         (click)="redirectRoute(route.RouteId)">
         <ion-icon name="bus" style="margin-right: 10px"></ion-icon>
@@ -35,7 +35,7 @@
       </button>
     </ion-list>
 
-    <ion-list *ngSwitchCase="segment.Stops">
+    <ion-list text-wrap *ngSwitchCase="segment.Stops">
       <button ion-item *ngFor="let stop of stopsDisp | slice:0:40"
         (click)="redirectStop(stop.StopId)">
         <ion-icon name="pin" style="margin-right: 10px"></ion-icon>
