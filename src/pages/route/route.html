@@ -4,7 +4,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Route {{route ? route.RouteAbbreviation : ''}} </ion-title>
+    <ion-title>Route {{route?.RouteAbbreviation}} </ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -15,13 +15,8 @@
       {{alert.Message}}
     </ion-item>
   </ion-item-group>
-  <ion-item-group>
-    <!-- <ion-item-divider *ngIf="alerts.length > 0" color="primary">Buses</ion-item-divider> -->
-    <ion-item class=item *ngFor="let alert of alerts">
-      {{alert.Message}}
-    </ion-item>
-  </ion-item-group>
+
   <ion-item class="item"  ng-if="route && stops" (click)="showStopModal()">
-      <span>Tap to view stops on the...</span>
+      <span>Tap to view stops on the {{route?.RouteAbbreviation}}</span>
   </ion-item>
 </ion-content>

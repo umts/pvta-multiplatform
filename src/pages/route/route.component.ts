@@ -16,15 +16,16 @@ import * as _ from 'lodash';
 })
 export class RouteComponent {
   routeId: number;
-  // route: RouteDetail;
-  // vehicles: Vehicle[];
-  // alerts: Alert[];
+  route: RouteDetail;
+  vehicles: Vehicle[];
+  alerts: Alert[];
   // stops: Stop[];
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private routeService: RouteService, private vehicleService: VehicleService,
     private alertService: AlertService,
     private modalCtrl: ModalController) {
     this.routeId = navParams.get('routeId');
+    this.alerts = [];
   }
 
   getVehicles (): void {
@@ -37,17 +38,17 @@ export class RouteComponent {
   * and display them.
   */
   getAlerts (): void {
-    // this.alertService
-    // .getAlerts()
-    // .then(alerts => {
-    //   for (let alert of alerts) {
-    //     //this.vehicles = vehicles;
-    //     if (alert.Routes.includes(this.routeId)) {
-    //       this.alerts.push(alert);
-    //     }
-    //   }
-    //   console.log(JSON.stringify(this.alerts));
-    // });
+    this.alertService
+    .getAlerts()
+    .then(alerts => {
+      for (let alert of alerts) {
+        console.log(alert.Routes.includes(this.routeId));
+        if (alert.Routes.includes(this.routeId)) {
+          this.alerts.push(alert);
+        }
+      }
+      console.log(JSON.stringify(this.alerts));
+    });
   }
 
   showStopModal (): void {
@@ -80,16 +81,16 @@ export class RouteComponent {
   }
 
   ionViewWillEnter() {
-  //   this.getAlerts();
-  //   this.routeService
-  //     .getRouteDetail(this.routeId)
-  //     .then(route => {
-  //       this.route = route;
-  //       //getHeart()
-  //       this.prepareStops(route.Stops);
-  //       this.vehicles = route.Vehicles;
-  //       //$ionicLoading.hide();
-  //     });
+    this.getAlerts();
+    this.routeService
+      .getRouteDetail(this.routeId)
+      .then(route => {
+        this.route = route;
+        //getHeart()
+        this.prepareStops(route.Stops);
+        this.vehicles = route.Vehicles;
+        //$ionicLoading.hide();
+      });
   }
 }
 // @Component({
