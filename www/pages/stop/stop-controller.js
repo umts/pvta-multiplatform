@@ -1,4 +1,4 @@
-angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading, ionicLoadingConfig) {
+angular.module('pvta.controllers').controller('StopController', function ($scope, $stateParams, $interval, $state, Stop, StopDeparture, moment, FavoriteStops, SimpleRoute, $ionicLoading, ionicLoadingConfig, Helper) {
   ga('set', 'page', '/stop.html');
   ga('send', 'pageview');
   $scope.ROUTE_DIRECTION = '0';
@@ -46,94 +46,6 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
       $scope.liked = bool;
     });
   };
-  /**
-   * Given a Departure object,
-   * calculates the human-readable departure times
-   * that will be displayed in the UI.
-   * Returns an object with 5 properties,
-   * each a different way of displaying
-   * either a scheduled time ('s') or an estimated time ('e').
-   */
-  function calculateTimes (departure) {
-    return {
-      // ex: '8:12 PM'
-      sExact: moment(departure.SDT).format('LT'),
-      eExact: moment(departure.EDT).format('LT'),
-      // ex: 'in 6 minutes'
-      sRelative: moment(departure.SDT).fromNow(),
-      eRelative: moment(departure.EDT).fromNow(),
-      // ex: '6 minutes'
-      eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
-    };
-  }
-/**
-  * Given all the RouteDirections and their upcoming departures
-  * at this stop, this function organizes and manipulates
-  * all departures so they can be clearly and simply displayed in the UI.
-  * It sorts departures in two ways:
-  *   1) By Route Direction
-  *   2) By Time
-  */
-
-  function sort (directions) {
-    $scope.departuresByDirection = [];
-    $scope.departuresByTime = [];
-    // Avail returns an array of RouteDirections. We must deal
-    // with the Departures for each Direction.
-    _.each(directions, function (direction) {
-      if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
-        // Sorting Departures by Direction requires us to
-        // maintain a tmp array of valid departures for a
-        // given direction.
-        var futureDepartures = [];
-        // For each Departure for a given RouteDirection...
-        _.each(direction.Departures, function (departure) {
-          // A departure is invalid if it was in the past
-          if (!moment(departure.EDT).isAfter(Date.now())) {
-            return;
-          }
-          /* Manipuate the departure object.
-           * When sorting by Direction, we only need to
-           * obtain the stringified departure times
-           * and save the departure to futureDepartures.
-
-           * When sorting by Time, pull out only the
-           * necessary details from the Departures
-           * and hold onto them.
-           */
-          else {
-            // Departures by time: we can use a stripped down
-            // version of the RouteDirection, because each
-            // departure will be its own entry in the list.
-            var lightweightDirection = {RouteId: direction.RouteId};
-            var times = calculateTimes(departure);
-            departure.Times = times;
-            lightweightDirection.Times = times;
-            // Departures by time: marry this departure with its RouteId;
-            // that's all it needs.
-            lightweightDirection.Departures = departure;
-            // Departures by RouteDirection: this is a valid departure,
-            // so add it to the array.
-            futureDepartures.push(departure);
-            $scope.departuresByTime.push(lightweightDirection);
-          }
-        });
-        /* Departures by RouteDirection: now that we
-         * have all the valid departures for a given direction,
-         * overwrite the RouteDirection's old departures array.
-         */
-        direction.Departures = futureDepartures;
-        if (direction.Departures.length > 0) {
-          $scope.departuresByDirection.push(direction);
-        }
-      }
-    });
-    // Departures by time: Sort the list of all
-    // departures by Estimated Departure Time.
-    $scope.departuresByTime = _.sortBy($scope.departuresByTime, function (direction) {
-      return direction.Departures.EDT;
-    });
-  }
 
   $scope.getDepartures = function () {
     $ionicLoading.show(ionicLoadingConfig);
@@ -142,7 +54,9 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
         // Avail returns a one element array that contains
         // a ton of stuff. Pull this stuff out.
         var directions = deps[0].RouteDirections;
-        sort(directions);
+        var sortedDepartures = Helper.sortStopDepartures(directions);
+        $scope.departuresByDirection = sortedDepartures.ByRouteDirection;
+        $scope.departuresByTime = sortedDepartures.ByTime;
         /*
          * Get a unique list of RouteIds that service this stop.
          * There can be multiple RouteDirections with the same
