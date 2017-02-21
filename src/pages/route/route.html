@@ -33,9 +33,9 @@
   </ion-toolbar>
 
     <ion-list aria-labelledby="buses-heading" *ngIf="route && vehicles && vehicles.length !== 0">
-      <ion-list-header role="heading" id="buses-heading">
-          Buses
-      </ion-list-header>
+      <ion-item-divider role="heading" id="buses-heading">
+        Buses
+      </ion-item-divider>
         <ion-item *ngFor="let vehicle of vehicles" aria-labelledby="#destination-label #time-label #stop-label #riders-label">
           <ion-grid>
             <!-- The first row - destination and status -->
@@ -72,10 +72,8 @@
            </ion-row>
           </ion-grid>
         </ion-item>
+        <button ion-button block *ngIf="route" (click)="showStopModal()" style="text-transform: none;">
+          Tap to view stops on the {{route?.RouteAbbreviation}}...
+        </button>
    </ion-list>
-
-
-  <ion-item class="item"  *ngIf="route && stops" (click)="showStopModal()">
-      <span>Tap to view stops on the {{route?.RouteAbbreviation}}</span>
-  </ion-item>
 </ion-content>
