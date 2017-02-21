@@ -5,11 +5,12 @@
     <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()" aria-label="Search list"></button>
   </ion-header-bar>
   <ion-content>
-  <div role="list" aria-labelledby="stops-heading">
-    <ion-item ng-repeat="stop in stops | limitTo: 40" class= "item-icon-left item-icon-right" ng-click="redirectToStop(stop.StopId); stopModal.remove()">
-      <stop liked="stop.Liked" data="stop" toggle="toggleStopHeart"></stop>
-    </ion-item>
-    <div ng-if="stops && stops.length > 40" class="item item-divider item-positive item-text-wrap">Too many stops to show. Please search above for your stop by name or ID.</div>
-  </div>
+    <div role="list" aria-label="Stops">
+      <ion-item class="item-icon-left item-icon-right" ng-repeat="stop in stops | limitTo: 40" data-tap-disabled="true">
+        <stop role="link" data="stop" ng-click="redirectToStop(stop.StopId); stopModal.remove()"></stop>
+        <button ng-class="stop.Liked ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="stop.Liked = !stop.Liked; toggleStopHeart(stop);" aria-label="{{stop.Liked ? 'Unlike this stop' : 'Like this stop'}}"></button>
+      </ion-item>
+      <div ng-if="stops && stops.length > 40" class="item item-divider item-positive item-text-wrap">Too many stops to show. Please search above for your stop by name or ID.</div>
+    </div>
   </ion-content>
 </ion-modal-view>
