@@ -28,14 +28,14 @@
     <div aria-live="polite">
       <ion-list>
         <div role="list" aria-label="Routes">
-          <ion-item ng-show="currentDisplay === 0" class= "item item-icon-left item-icon-right" ng-repeat="route in routesDisp | orderBy:propertyName">
-            <route role="link" data="route" ng-click="redirectRoute(route.RouteId)" data-tap-disabled="true"></route>
+          <ion-item ng-show="currentDisplay === 0" class= "item item-icon-left item-icon-right" ng-repeat="route in routesDisp | orderBy:propertyName" data-tap-disabled="true">
+            <route role="link" data="route" ng-click="redirectRoute(route.RouteId)"></route>
             <button ng-class="route.Liked ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="route.Liked = !route.Liked; toggleRouteHeart(route);" aria-label="{{route.Liked ? 'Unlike this route' : 'Like this route'}}"></button>
           </ion-item>
         </div>
         <div role="list" aria-label="Stops">
-          <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | orderBy:propertyName | limitTo: 40">
-            <stop role="link" data="stop" ng-click="redirectStop(stop.StopId)" data-tap-disabled="true"></stop>
+          <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | orderBy:propertyName | limitTo: 40" data-tap-disabled="true">
+            <stop role="link" data="stop" ng-click="redirectStop(stop.StopId)"></stop>
             <button ng-class="stop.Liked ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="stop.Liked = !stop.Liked; toggleStopHeart(stop);" aria-label="{{stop.Liked ? 'Unlike this stop' : 'Like this stop'}}"></button>
           </ion-item>
         </div>
