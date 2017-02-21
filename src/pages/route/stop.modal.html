@@ -3,12 +3,17 @@
     <ion-title>
       Stops on this route
     </ion-title>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+   </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <ion-list text-wrap>
     <button ion-item *ngFor="let stop of stops | slice:0:40"
-      (click)="redirectStop(stop.StopId)">
+      (click)="goToStopPage(stop.StopId)">
       <ion-icon name="pin" style="margin-right: 10px"></ion-icon>
       <span>{{stop.Description}} ({{stop.StopId}})</span>
     </button>
