@@ -1,3 +1,16 @@
 page-route {
 
+ .vehicle-late {
+   color: red;
+ }
+ .vehicle-ontime {
+   color: green;
+ }
+ .poo {
+   text-shadow:
+    -0.5px -0.5px 0 white,
+     0.5px -0.5px 0 white,
+    -0.5px  0.5px 0 white,
+     0.5px  0.5px 0 white;
+ }
 }

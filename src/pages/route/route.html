@@ -9,6 +9,16 @@
 </ion-header>
 
 <ion-content>
+  <ion-toolbar *ngIf="route" color="positive-dark">
+      <ion-title style="text-align:center;">
+        <span class="poo" [style.color]="'#'+ route?.Color" style="font-weight: bold; font-size:150%;">
+          {{route.RouteAbbreviation}}
+        </span>
+
+      {{route.GoogleDescription}}
+
+      </ion-title>
+  </ion-toolbar>
   <ion-item-group>
     <!-- <ion-item-divider *ngIf="alerts.length > 0" color="danger">Alerts</ion-item-divider> -->
     <ion-item class=item *ngFor="let alert of alerts">
@@ -16,22 +26,54 @@
     </ion-item>
   </ion-item-group>
 
-  <!-- <div *ngif="route && vehicles.length == 0"
-      class="item item-divider item-energized center"
-      style="margin-bottom:1%">
-    There are no buses currently on the {{route.RouteAbbreviation}}.
-  </div> -->
-  <div class="item item-divider item-positive center"
-     *ngIf="route && vehicles.length !== 0" role="heading" id="buses-heading">
-     Buses
-  </div>
-  <div role="list" aria-labelledby="buses-heading" *ngIf="vehicles && vehicles.length !== 0">
-    <ion-list>
-      <div>
-        <vehicle [data]="vehicles" [color]="route.color"></vehicle>
-      </div>
+  <ion-toolbar *ngIf="route && vehicles.length == 0">
+    <ion-title>
+      There are no buses currently on the {{route?.RouteAbbreviation}}.
+    </ion-title>
+  </ion-toolbar>
+
+    <ion-list aria-labelledby="buses-heading" *ngIf="route && vehicles && vehicles.length !== 0">
+      <ion-list-header role="heading" id="buses-heading">
+          Buses
+      </ion-list-header>
+        <ion-item *ngFor="let vehicle of vehicles" aria-labelledby="#destination-label #time-label #stop-label #riders-label">
+          <ion-grid>
+            <!-- The first row - destination and status -->
+            <ion-row>
+              <!-- Destination -->
+              <ion-col width-50 wrap [style.color]="'#'+ route?.Color" aria-labelledby="destination-label">
+                  <ion-icon name="bus" style="margin-right: 10px" aria-label="bus"></ion-icon>
+                  <b id="destination-label">To {{vehicle?.Destination ? vehicle?.Destination : "an unreported destination"}}</b>
+              </ion-col>
+              <!-- Vehicle Status -->
+              <ion-col aria-labelledby="time-label">
+                <span class="vehicle-ontime" *ngIf="vehicle?.DisplayStatus==='On Time'">
+                  <ion-icon name="clock" item-left></ion-icon>
+                  <span id="time-label">{{vehicle?.DisplayStatus}}</span>
+                </span>
+                <span class="vehicle-late" *ngIf="vehicle?.DisplayStatus === 'Late'">
+                  <ion-icon name="clock" item-left></ion-icon>
+                  <span id="time-label">{{vehicle?.Deviation}} minutes late</span>
+                </span>
+              </ion-col>
+            </ion-row>
+            <!-- The second row - Last stop and pax -->
+            <ion-row wrap>
+              <!-- Last stop -->
+              <ion-col width-50 wrap aria-labelledby="stop-label">
+                <ion-icon name="pin" item-left></ion-icon>
+                <span id="stop-label">{{vehicle?.LastStop? vehicle?.LastStop : "none specified"}}</span>
+              </ion-col>
+              <!-- Number of riders -->
+              <ion-col width-50 class="padding-top-10" aria-labelledby="riders-label">
+               <ion-icon name="md-people" item-left></ion-icon>
+               <span id="riders-label">{{vehicle?.OnBoard}} {{vehicle?.OnBoard === 1 ? 'rider' : 'riders'}}</span>
+             </ion-col>
+           </ion-row>
+          </ion-grid>
+        </ion-item>
    </ion-list>
- </div>
+
 
   <ion-item class="item"  *ngIf="route && stops" (click)="showStopModal()">
       <span>Tap to view stops on the {{route?.RouteAbbreviation}}</span>
