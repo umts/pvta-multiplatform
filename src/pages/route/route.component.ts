@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, NavParams, ModalController, ViewController } from 'ionic-angular';
+import { NavController, Platform, NavParams, ModalController, ViewController } from 'ionic-angular';
 import { RouteService } from '../../services/route.service';
 import { VehicleService } from '../../services/vehicle.service';
 import { AlertService } from '../../services/alert.service';
@@ -9,6 +9,7 @@ import { Vehicle } from '../../models/vehicle.model';
 import { Alert } from '../../models/alert.model';
 import { Stop } from '../../models/stop.model';
 import { VehicleComponent } from './vehicle.component';
+import { StopModal } from './stop.modal';
 import * as _ from 'lodash';
 
 @Component({
@@ -20,7 +21,7 @@ export class RouteComponent {
   route: RouteDetail;
   vehicles: Vehicle[];
   alerts: Alert[];
-  // stops: Stop[];
+  stops: Stop[];
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private routeService: RouteService, private vehicleService: VehicleService,
     private alertService: AlertService,
@@ -53,19 +54,13 @@ export class RouteComponent {
   }
 
   showStopModal (): void {
-    // let stopModal = this.modalCtrl.create(StopModal);
-    // stopModal.present();
-    //  $ionicModal.fromTemplateUrl('pages/route/stop-modal.html', {
-    //    scope: $scope
-    //  }).then(function (modal) {
-    //    $scope.stopModal = modal;
-    //    $scope.stopModal.show();
-    //  });
+    let stopModal = this.modalCtrl.create(StopModal, {stops: this.stops});
+    stopModal.present();
  }
 
 
   prepareStops (stops: Stop[]): void {
-    // this.stops = stops;
+    this.stops = stops;
     // $scope.stops = [];
     // FavoriteStops.getAll().then(function (favoriteStops) {
     //   var favoriteStopIds = _.pluck(favoriteStops, 'StopId');
@@ -90,22 +85,8 @@ export class RouteComponent {
         //getHeart()
         this.prepareStops(route.Stops);
         this.vehicles = route.Vehicles;
+        let modal = this.modalCtrl.create(StopModal, {stops: this.stops});
         //$ionicLoading.hide();
       });
   }
 }
-// @Component({
-//   templateUrl: 'stop.modal.html'
-// })
-//
-// export class StopModal {
-//   character;
-//
-//   constructor(
-//     public params: NavParams,
-//     public viewCtrl: ViewController
-//   ) {}
-//   dismiss() {
-//     this.viewCtrl.dismiss();
-//   }
-// }

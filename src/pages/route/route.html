@@ -20,8 +20,14 @@
       </ion-title>
   </ion-toolbar>
   <ion-item-group>
-    <!-- <ion-item-divider *ngIf="alerts.length > 0" color="danger">Alerts</ion-item-divider> -->
-    <ion-item class=item *ngFor="let alert of alerts">
+    <!-- <ion-item-divider  color="danger">Alerts</ion-item-divider> -->
+    <ion-toolbar *ngIf="alerts.length > 0" color="danger">
+      <ion-title>
+        Alerts
+      </ion-title>
+    </ion-toolbar>
+    <ion-item text-wrap icon-left *ngFor="let alert of alerts">
+      <ion-icon name="alert"></ion-icon>
       {{alert.Message}}
     </ion-item>
   </ion-item-group>
@@ -72,8 +78,8 @@
            </ion-row>
           </ion-grid>
         </ion-item>
-        <button ion-button block *ngIf="route" (click)="showStopModal()" style="text-transform: none;">
-          Tap to view stops on the {{route?.RouteAbbreviation}}...
-        </button>
    </ion-list>
+   <button ion-button block *ngIf="route" (click)="showStopModal()" style="text-transform: none;">
+     Tap to view stops on the {{route?.RouteAbbreviation}}...
+   </button>
 </ion-content>

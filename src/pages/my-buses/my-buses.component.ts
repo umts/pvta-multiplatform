@@ -55,6 +55,12 @@ export class MyBusesComponent {
       RouteAbbreviation: "B43",
       RouteId: 30043,
       ShortName:"B43"
+    },
+    {
+      Color: "C7A020",
+      RouteAbbreviation: "38",
+      RouteId: 20038,
+      ShortName:"38"
     }
   ];
 
