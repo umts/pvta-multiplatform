@@ -1,9 +1,9 @@
 <ion-side-menus enable-menu-with-back-views="false">
   <ion-side-menu side="left" expose-aside-when="large">
-    <ion-header-bar class="bar-positive">
+    <ion-header-bar class="bar-positive" aria-labelledby="navigation-menu">
       <header role="heading" class="title">PVTrAck</header>
     </ion-header-bar>
-    <ion-content role="navigation" aria-label="PV-Track Menu">
+    <ion-content role="navigation" id="navigation-menu" aria-label="Peeveetrack Menu">
       <ion-list>
         <ion-item menu-close href="#/app/my-buses">
           <i class="icon ion-android-home margin-right-10" aria-label="Home / My Buses"></i>
@@ -31,7 +31,7 @@
 
   <ion-side-menu-content>
     <ion-nav-bar class="bar-positive">
-      <ion-nav-back-button>
+      <ion-nav-back-button aria-label="Back">
       </ion-nav-back-button>
       <ion-nav-buttons side="left">
         <button aria-label="Open navigation window" class="button button-icon button-clear ion-navicon" menu-toggle="left">

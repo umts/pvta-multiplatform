@@ -15,7 +15,7 @@
         Unable to retrieve current location.  Ensure location is enabled or search above for your stop.
       </ion-item>
     </div>
-    <label aria-label="Order by" class="item item-input item-select">
+    <label aria-label="Choose ordering, current order by {{$parent.order}}" class="item item-input item-select">
       <div class="input-label" aria-hidden="true">
         Order {{currentDisplay === 0 ? 'Routes' : 'Stops'}} By:
       </div>
@@ -27,12 +27,18 @@
       </label>
     <div aria-live="polite">
       <ion-list>
-        <ion-item ng-show="currentDisplay === 0" ng-repeat="route in routesDisp | orderBy:propertyName" ng-click="redirectRoute(route.RouteId)" class= "item item-icon-left item-icon-right">
-          <route liked="route.Liked" data="route" toggle="toggleRouteHeart" data-tap-disabled="true"></route>
-        </ion-item>
-        <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | orderBy:propertyName | limitTo: 40" ng-click="redirectStop(stop.StopId)">
-          <stop liked="stop.Liked" data="stop" toggle="toggleStopHeart" data-tap-disabled="true"></stop>
-        </ion-item>
+        <div role="list" aria-label="Routes">
+          <ion-item ng-show="currentDisplay === 0" class= "item item-icon-left item-icon-right" ng-repeat="route in routesDisp | orderBy:propertyName" data-tap-disabled="true">
+            <route role="link" data="route" ng-click="redirectRoute(route.RouteId)"></route>
+            <button ng-class="route.Liked ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="route.Liked = !route.Liked; toggleRouteHeart(route);" aria-label="{{route.Liked ? 'Unlike this route' : 'Like this route'}}"></button>
+          </ion-item>
+        </div>
+        <div role="list" aria-label="Stops">
+          <ion-item ng-show="currentDisplay === 1" class="item item-icon-left item-icon-right" ng-repeat="stop in stopsDisp | orderBy:propertyName | limitTo: 40" data-tap-disabled="true">
+            <stop role="link" data="stop" ng-click="redirectStop(stop.StopId)"></stop>
+            <button ng-class="stop.Liked ? 'button button-icon icon ion-ios-heart' : 'button button-icon icon ion-ios-heart-outline'" ng-click="stop.Liked = !stop.Liked; toggleStopHeart(stop);" aria-label="{{stop.Liked ? 'Unlike this stop' : 'Like this stop'}}"></button>
+          </ion-item>
+        </div>
         <div ng-if="stops && currentDisplay === 1 && stopsDisp.length > 30" class="item item-divider item-positive item-text-wrap">Too many stops to show. Please search above for your stop by name or ID.</div>
       </ion-list>
       <div ng-if="routes && stops && !routesDisp.length && !stopsDisp.length" class="bar bar-assertive title">

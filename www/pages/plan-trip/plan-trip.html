@@ -40,7 +40,7 @@
     <div class="input-div center-div">
       <button ng-click="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
     </div>
-    <div id="directions-map" ng-show="route"></div>
+    <div id="directions-map" ng-show="route" aria-hidden="true"></div>
     <div id="route" ng-if="route" aria-live="assertive">
       <div class = "item item-divider item-energized item-text-wrap">
         <b>PLEASE NOTE: Trip is based on scheduled times. Check your stop's page to confirm bus departure time.</b>
