@@ -83,8 +83,8 @@ angular.module('pvta')
 
 
   return {
-    versionNum: '1.0.5',
-    versionName: 'Bugfix Update',
+    versionNum: '1.1.0',
+    versionName: 'Screenreader Update',
     performMigrations: performMigrations,
     showPopups: showPopups
   };
