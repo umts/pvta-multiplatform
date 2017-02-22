@@ -6,6 +6,10 @@
     "config_munge": {
         "files": {}
     },
-    "installed_plugins": {},
+    "installed_plugins": {
+        "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "com.umts.pvtamultiplaform"
+        }
+    },
     "dependent_plugins": {}
 }

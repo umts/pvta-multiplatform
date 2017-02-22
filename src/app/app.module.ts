@@ -69,6 +69,7 @@ import { AlertService }          from '../services/alert.service';
     VehicleComponent
   ],
   providers: [ {provide: ErrorHandler, useClass: IonicErrorHandler},
-    RouteService, StopService, StopDepartureService, VehicleService, AlertService ]
+    RouteService, StopService, StopDepartureService, VehicleService, AlertService,
+    Storage]
 })
 export class AppModule {}
