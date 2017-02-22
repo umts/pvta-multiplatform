@@ -7,6 +7,9 @@
         "files": {}
     },
     "installed_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.umts.pvtamultiplaform"
+        },
         "cordova-plugin-console": {
             "PACKAGE_NAME": "com.umts.pvtamultiplaform"
         },
@@ -17,6 +20,9 @@
             "PACKAGE_NAME": "com.umts.pvtamultiplaform"
         },
         "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.umts.pvtamultiplaform"
+        },
+        "cordova-plugin-network-information": {
             "PACKAGE_NAME": "com.umts.pvtamultiplaform"
         },
         "cordova-plugin-splashscreen": {
@@ -32,12 +38,6 @@
             "PACKAGE_NAME": "com.umts.pvtamultiplaform"
         },
         "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "com.umts.pvtamultiplaform"
-        },
-        "cordova-plugin-network-information": {
-            "PACKAGE_NAME": "com.umts.pvtamultiplaform"
-        },
-        "cordova-plugin-compat": {
             "PACKAGE_NAME": "com.umts.pvtamultiplaform"
         }
     },
