@@ -8,8 +8,8 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="messages.length > 0">
-      <div ion-item role="heading" id="alerts-heading">Alerts and Detours {{routes && routes.length > 0 ? 'For Your Routes' : ''}}</div>
+  <div *ngIf="messages?.length > 0">
+      <div ion-item role="heading" id="alerts-heading">Alerts and Detours {{routes && routes?.length > 0 ? 'For Your Routes' : ''}}</div>
       <div role="list" aria-labelledby="alerts-heading">
         <ion-item class="item" *ngFor="let message of messages">
         <div class="item-icon-left item-text-wrap">
@@ -25,8 +25,8 @@
         Your Routes
       </ion-list-header>
       <ion-item-sliding>
-        <button ion-item *ngFor="let route of routes" (click)="goToRoutePage(route.RouteId)">
-          <h2>{{route.ShortName}}</h2>
+        <button ion-item *ngFor="let route of routes" (click)="goToRoutePage(route?.RouteId)">
+          <h2>{{route?.ShortName}}</h2>
         </button>
         <ion-item-options side="right">
           <button ion-button color="danger" (click)="removeRoute(route)">

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { StopComponent } from '../stop/stop.component';
 import { RouteComponent } from '../route/route.component';
+import { FavoriteRouteService } from '../../services/favorite-route.service';
 
 @Component({
   selector: 'page-my-buses',
@@ -10,7 +12,16 @@ import { RouteComponent } from '../route/route.component';
 })
 export class MyBusesComponent {
 
-  constructor(public navCtrl: NavController) {
+  routes;
+
+  constructor(public navCtrl: NavController, private storage: Storage) {}
+
+  ionViewWillEnter() {
+    this.storage.ready().then(() => {
+      this.storage.get('favoriteRoutes').then(favoriteRoutes => {
+        this.routes = favoriteRoutes;
+      })
+    })
 
   }
 
@@ -29,61 +40,61 @@ export class MyBusesComponent {
     }
   ];
 
-  routes: any = [
-    {
-      Color: "C7A020",
-      GoogleDescription: "North Amherst / Old Belchertown Rd",
-      RouteAbbreviation: "30",
-      RouteId: 20030,
-      ShortName:"30"
-    },
-    {
-      Color: "C7A020",
-      GoogleDescription: "Sunderland / South Amherst",
-      RouteAbbreviation: "31",
-      RouteId: 20031,
-      ShortName:"31"
-    },
-    {
-      Color: "C7A020",
-      RouteAbbreviation: "46",
-      RouteId: 20046,
-      ShortName:"46"
-    },
-    {
-      Color: "C7A020",
-      RouteAbbreviation: "B43",
-      RouteId: 30043,
-      ShortName:"B43"
-    },
-    {
-      Color: "C7A020",
-      RouteAbbreviation: "38",
-      RouteId: 20038,
-      ShortName:"38"
-    }
-  ];
-
-  messages: any = [
-      {
-        MessageId: 0,
-        Message: "The Route 30 is bypassing Colonial Village due to snow. Catch buses on Route 9.",
-        FromDate: "2017-02-04T20:24:42.916Z",
-        ToDate: "2017-02-04T20:24:42.916Z",
-        FromTime: "2017-02-04T20:24:42.916Z",
-        ToTime: "2017-02-04T20:24:42.916Z",
-        Priority: 0,
-        DaysOfWeek: 1,
-        Published: true,
-        PublicAccess: 0,
-        Routes: [
-          20030
-        ],
-        Signs: [],
-        MessageTranslations: [],
-        ChannelMessages: []
-      }
-    ];
+  // routes: any = [
+  //   {
+  //     Color: "C7A020",
+  //     GoogleDescription: "North Amherst / Old Belchertown Rd",
+  //     RouteAbbreviation: "30",
+  //     RouteId: 20030,
+  //     ShortName:"30"
+  //   },
+  //   {
+  //     Color: "C7A020",
+  //     GoogleDescription: "Sunderland / South Amherst",
+  //     RouteAbbreviation: "31",
+  //     RouteId: 20031,
+  //     ShortName:"31"
+  //   },
+  //   {
+  //     Color: "C7A020",
+  //     RouteAbbreviation: "46",
+  //     RouteId: 20046,
+  //     ShortName:"46"
+  //   },
+  //   {
+  //     Color: "C7A020",
+  //     RouteAbbreviation: "B43",
+  //     RouteId: 30043,
+  //     ShortName:"B43"
+  //   },
+  //   {
+  //     Color: "C7A020",
+  //     RouteAbbreviation: "38",
+  //     RouteId: 20038,
+  //     ShortName:"38"
+  //   }
+  // ];
+  //
+  // messages: any = [
+  //     {
+  //       MessageId: 0,
+  //       Message: "The Route 30 is bypassing Colonial Village due to snow. Catch buses on Route 9.",
+  //       FromDate: "2017-02-04T20:24:42.916Z",
+  //       ToDate: "2017-02-04T20:24:42.916Z",
+  //       FromTime: "2017-02-04T20:24:42.916Z",
+  //       ToTime: "2017-02-04T20:24:42.916Z",
+  //       Priority: 0,
+  //       DaysOfWeek: 1,
+  //       Published: true,
+  //       PublicAccess: 0,
+  //       Routes: [
+  //         20030
+  //       ],
+  //       Signs: [],
+  //       MessageTranslations: [],
+  //       ChannelMessages: []
+  //     }
+    // ];
     goToStopPage(stopId: number): void {
       this.navCtrl.push(StopComponent, {
         stopId: stopId
