@@ -12,8 +12,7 @@ set :local_temp_dir, Pathname.new(Dir.mktmpdir)
 set :deploy_to, "/srv/#{fetch :application}"
 
 set :app_subdirectory, 'www'
-set :rsync_opts, '--recursive --links --times --perms --chmod=g+w'
-
+set :rsync_opts, '--recursive --links --times --perms --chmod=g+w,Dg+s'
 set :log_level, :info
 
 namespace :scm do
