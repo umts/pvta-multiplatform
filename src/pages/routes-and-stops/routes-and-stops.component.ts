@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { NavController, LoadingController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import { Http, Response } from '@angular/http';
 
@@ -34,7 +35,7 @@ export class RoutesAndStopsComponent {
   loader;
   constructor(public navCtrl: NavController,
     private routeService: RouteService, private stopService: StopService,
-    private loadingCtrl: LoadingController) {
+    private loadingCtrl: LoadingController, private storage: Storage) {
       this.cDisplay = SegmentDisplay.Routes;
       this.loader = loadingCtrl.create({
           content: 'Downloading departures...'
@@ -65,6 +66,9 @@ export class RoutesAndStopsComponent {
   }
 
   redirectRoute(routeId: number): void {
+    this.storage.get('name').then((name) => {
+      console.log('Me: Hey, ' + name + '! You have a very nice name.');
+    });
     this.navCtrl.push(RouteComponent, {
       routeId: routeId
     });
@@ -76,14 +80,18 @@ export class RoutesAndStopsComponent {
     });
   }
 
+
   ionViewWillEnter() {
     this.loader.present();
-    this.routeService
-      .getAllRoutes()
-      .then(routes => {
+    this.routeService.getRouteList((route: Promise<Route[]>) => {
+      route.then(routes => {
+        console.log(routes);
         this.routes = _.sortBy(routes, ['ShortName']);
         this.routesDisp = this.routes;
+        this.routeService.saveRouteList(this.routes);
       });
+    });
+
     this.stopService
       .getAllStops()
       .then(stops => {
