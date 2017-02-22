@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/toPromise';
 import { Route } from '../models/route.model';
 import { RouteDetail } from '../models/route-detail.model';
+import * as moment from 'moment';
 
 
 @Injectable()
@@ -51,16 +52,14 @@ export class RouteService {
   getRouteList (cb: Function): any {
     this.storage.ready().then(() => {
       this.storage.get('routes').then((routes) => {
-        // let loadedList = routes as RouteListStorage
-        console.log('tits', routes);
-        if (routes && routes.list.length > 0) {
-          console.log('Got saved route list');
+        let now = moment();
+        let diff = now.diff(routes.time, 'days')
+        if (routes && routes.list.length > 0 && diff <= 1) {
           cb(new Promise((resolve, reject) => {
             resolve(routes.list);
           }))
         }
         else {
-          console.log('HAVE TO GET LIST');
           cb(this.getAllRoutes());
         }
       })
@@ -77,11 +76,5 @@ export class RouteService {
         console.log('loaded', routes);
       })
     })
-  }
-}
-class RouteListStorage {
-  list;
-  time;
-  constructor(list: Route[], time: Date) {
   }
 }
