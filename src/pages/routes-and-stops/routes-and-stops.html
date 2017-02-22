@@ -25,18 +25,17 @@
 
   <div [ngSwitch]="cDisplay">
     <ion-list text-wrap *ngSwitchCase="segment.Routes">
-      <button ion-item *ngFor="let route of routesDisp"
+      <div ion-item *ngFor="let route of routesDisp"
         (click)="redirectRoute(route.RouteId)">
         <ion-icon name="bus" style="margin-right: 10px"></ion-icon>
         <span [style.color]="'#' + route.Color" style="font-size: 125%; font-weight: bold; margin-left: 10px">
           {{route.RouteAbbreviation}}
         </span>
           <p>{{route.GoogleDescription}}</p>
-      </button>
-      <!-- Only icon (no text) -->
-      <button ion-button icon-only>
-        <ion-icon name="home"></ion-icon>
-      </button>
+          <button ion-button icon-only item-right clear (click)="route.Liked = !route.Liked; $event.stopPropagation()">
+            <ion-icon name="{{route.Liked ? 'ios-heart' : 'ios-heart-outline'}}"></ion-icon>
+          </button>
+      </div>
     </ion-list>
 
     <ion-list text-wrap *ngSwitchCase="segment.Stops">
