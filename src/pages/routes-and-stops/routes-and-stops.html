@@ -32,7 +32,7 @@
           {{route.RouteAbbreviation}}
         </span>
           <p>{{route.GoogleDescription}}</p>
-          <button ion-button icon-only item-right clear (click)="route.Liked = !route.Liked; $event.stopPropagation()">
+          <button ion-button icon-only item-right clear (click)="route.Liked = !route.Liked; toggleRouteHeart(route); $event.stopPropagation()">
             <ion-icon name="{{route.Liked ? 'ios-heart' : 'ios-heart-outline'}}"></ion-icon>
           </button>
       </div>

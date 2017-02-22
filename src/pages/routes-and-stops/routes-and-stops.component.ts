@@ -7,6 +7,7 @@ import { Http, Response } from '@angular/http';
 
 import { RouteService } from '../../services/route.service';
 import { StopService } from '../../services/stop.service';
+import { FavoriteRouteService, FavoriteRouteModel } from '../../services/favorite-route.service';
 import { Route } from '../../models/route.model';
 import { Stop } from '../../models/stop.model';
 import { RouteComponent } from '../route/route.component';
@@ -26,6 +27,7 @@ export enum SegmentDisplay {
 export class RoutesAndStopsComponent {
   routes: Route[];
   stops: Stop[];
+  favoriteRoutes: FavoriteRouteModel[];
   // currentDisplay: string = '0';
   segment = SegmentDisplay;
   cDisplay: SegmentDisplay;
@@ -35,7 +37,8 @@ export class RoutesAndStopsComponent {
   loader;
   constructor(public navCtrl: NavController,
     private routeService: RouteService, private stopService: StopService,
-    private loadingCtrl: LoadingController, private storage: Storage) {
+    private loadingCtrl: LoadingController, private storage: Storage,
+    private favoriteRouteService: FavoriteRouteService) {
       this.cDisplay = SegmentDisplay.Routes;
       this.loader = loadingCtrl.create({
           content: 'Downloading departures...'
@@ -80,6 +83,30 @@ export class RoutesAndStopsComponent {
     });
   }
 
+  prepareRoutes(): any {
+    // For each route, add the custom 'Liked' property and keep only
+    // the properties we care about.  Doing this makes searching easier.
+    return _.map(this.routes, (route) => {
+      route.Liked = _.includes(_.map(this.favoriteRoutes, 'RouteId'), route.RouteId);
+      return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color', 'GoogleDescription', 'Liked');
+    });
+  }
+
+  toggleRouteHeart(route: Route): void {
+    console.log('toggling the', route.RouteAbbreviation);
+    this.favoriteRouteService.toggleFavorite(route);
+  }
+
+  getFavoriteRoutes(): void {
+    this.storage.ready().then(() => {
+      this.storage.get('favoriteRoutes').then((favoriteRoutes: FavoriteRouteModel[]) => {
+        console.log('favs', favoriteRoutes);
+        this.favoriteRoutes = favoriteRoutes;
+        this.routes = this.prepareRoutes();
+      })
+    })
+  }
+
 
   ionViewWillEnter() {
     this.loader.present();
@@ -89,6 +116,7 @@ export class RoutesAndStopsComponent {
         this.routes = _.sortBy(routes, ['ShortName']);
         this.routesDisp = this.routes;
         this.routeService.saveRouteList(this.routes);
+        this.getFavoriteRoutes();
       });
     });
 
