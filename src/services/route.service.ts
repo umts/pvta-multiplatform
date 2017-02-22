@@ -52,12 +52,14 @@ export class RouteService {
   getRouteList (cb: Function): any {
     this.storage.ready().then(() => {
       this.storage.get('routes').then((routes) => {
-        let now = moment();
-        let diff = now.diff(routes.time, 'days')
-        if (routes && routes.list.length > 0 && diff <= 1) {
-          cb(new Promise((resolve, reject) => {
-            resolve(routes.list);
-          }))
+        if (routes && routes.list.length > 0) {
+          let now = moment();
+          let diff = now.diff(routes.time, 'days')
+          if (diff <= 1) {
+            cb(new Promise((resolve, reject) => {
+              resolve(routes.list);
+            }))
+          }
         }
         else {
           cb(this.getAllRoutes());
