@@ -9,9 +9,6 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
-  $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-  Map.init($scope.map);
-
   function placeVehicles (isVehicleRefresh) {
   //places every vehicle on said route on the map
     Map.removeAllMarkers();
@@ -50,8 +47,9 @@ angular.module('pvta.controllers').controller('RouteMapController', function ($s
   }
 
   $scope.$on('$ionicView.enter', function () {
+    $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    Map.init($scope.map);
     $ionicLoading.show(ionicLoadingConfig);
-    Map.plotCurrentLocation();
     $scope.route = Route.get({routeId: $stateParams.routeId}, function () {
       $scope.stops = $scope.route.Stops;
       $scope.vehicles = $scope.route.Vehicles;
