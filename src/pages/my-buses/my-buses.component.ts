@@ -7,6 +7,7 @@ import { RouteComponent } from '../route/route.component';
 import { FavoriteRouteService } from '../../providers/favorite-route.service';
 import { AlertService } from '../../providers/alert.service';
 import { Alert } from '../../models/alert.model';
+import { RouteMapComponent } from '../route-map/route-map.component';
 import * as _ from 'lodash';
 
 @Component({
@@ -97,5 +98,9 @@ export class MyBusesComponent {
     this.navCtrl.push(RouteComponent, {
       routeId: routeId
     });
+  }
+  goToMap(): void {
+    console.log('map?')
+    this.navCtrl.push(RouteMapComponent);
   }
 }

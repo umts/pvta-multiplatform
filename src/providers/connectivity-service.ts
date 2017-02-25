@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { Network } from 'ionic-native';
+import { Platform } from 'ionic-angular';
 
 /*
   Generated class for the ConnectivityService provider.
@@ -11,8 +11,10 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ConnectivityService {
 
-  constructor(public http: Http) {
-    console.log('Hello ConnectivityService Provider');
+  onDevice: boolean;
+
+  constructor(private platform: Platform) {
+    this.onDevice = this.platform.is('cordova');
   }
 
 }
