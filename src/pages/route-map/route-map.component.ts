@@ -7,7 +7,7 @@ import { Route } from '../../models/route.model';
 import { Geolocation } from 'ionic-native';
 import { Vehicle } from '../../models/vehicle.model';
 import * as moment from 'moment';
-import * as Map from '../../providers/map.service';
+import { MapService } from '../../providers/map.service';
 
 
 declare var google;
@@ -31,20 +31,21 @@ export class RouteMapComponent {
   };
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private routeService: RouteService, private vehicleService: VehicleService) {
+    private routeService: RouteService, private vehicleService: VehicleService,
+    private mapService: MapService) {
       this.routeId = navParams.get('routeId');
     }
 
   ionViewWillEnter(){
     this.loadMap();
-    Map.init(this.map);
+    this.mapService.init(this.map);
     // $ionicLoading.show(ionicLoadingConfig);
     this.routeService
       .getRoute(this.routeId)
       .then(route => {
         this.route = route;
         this.vehicles = route.Vehicles;
-        Map.addKML(route.RouteTraceFilename);
+        this.mapService.addKML(route.RouteTraceFilename);
         this.placeVehicles(false);
         // $ionicLoading.hide();
       });
@@ -69,8 +70,8 @@ export class RouteMapComponent {
 
   placeVehicles (isVehicleRefresh) {
     //places every vehicle on said route on the map
-      Map.removeAllMarkers();
-      for (let vehicle: Vehicle of this.vehicles) {
+      this.mapService.removeAllMarkers();
+      for (let vehicle of this.vehicles) {
         let message;
         var loc = new google.maps.LatLng(vehicle.Latitude, vehicle.Longitude);
 
@@ -91,7 +92,7 @@ export class RouteMapComponent {
         // An bus-shaped icon, with the color of the current route and
         // rotated such that it is facing the same direction as the real bus.
         var icon = {
-          path: Map.busSVGPath,
+          path: this.mapService.busSVGPath,
           fillColor: '#' + this.route.Color,
           fillOpacity: 1,
           strokeWeight: 0.5,
@@ -100,7 +101,7 @@ export class RouteMapComponent {
           rotation: 180
         };
         //add a listener for that vehicle with that content as part of the infobubble
-        Map.addMapListener(Map.placeDesiredMarker(loc, icon, isVehicleRefresh), content);
+        this.mapService.addMapListener(this.mapService.placeDesiredMarker(loc, icon, isVehicleRefresh), content);
       }
     }
 
