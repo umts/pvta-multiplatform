@@ -28,6 +28,7 @@ import { VehicleService }          from '../providers/vehicle.service';
 import { AlertService }          from '../providers/alert.service';
 import { FavoriteRouteService } from '../providers/favorite-route.service';
 import { FavoriteStopService } from '../providers/favorite-stop.service';
+import { ConnectivityService } from '../providers/connectivity-service';
 
 
 
@@ -73,6 +74,6 @@ import { FavoriteStopService } from '../providers/favorite-stop.service';
   ],
   providers: [ {provide: ErrorHandler, useClass: IonicErrorHandler},
     RouteService, StopService, StopDepartureService, VehicleService, AlertService,
-    Storage, FavoriteRouteService, FavoriteStopService]
+    Storage, FavoriteRouteService, FavoriteStopService, ConnectivityService]
 })
 export class AppModule {}
