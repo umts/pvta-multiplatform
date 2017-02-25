@@ -18,7 +18,7 @@ export class VehicleService {
   }
 
   getRouteVehicles(routeId: number): Promise<Vehicle[]> {
-    const url = `${this.vehiclesURL}AllVehiclesForRoute/${routeId}`;
+    const url = `${this.vehiclesURL}AllVehiclesForRoute?routeid=${routeId}`;
     return this.http.get(url)
       .toPromise()
       .then(response => response.json() as Vehicle[])

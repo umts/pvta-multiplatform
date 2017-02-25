@@ -21,13 +21,15 @@ import { StopMapComponent } from '../pages/stop-map/stop-map.component';
 import { StorageSettingsComponent } from '../pages/storage-settings/storage-settings.component';
 import { VehicleComponent } from '../pages/route/vehicle.component';
 // Services
-import { RouteService }          from '../services/route.service';
-import { StopService }          from '../services/stop.service';
-import { StopDepartureService }          from '../services/stop-departure.service';
-import { VehicleService }          from '../services/vehicle.service';
-import { AlertService }          from '../services/alert.service';
-import { FavoriteRouteService } from '../services/favorite-route.service';
-import { FavoriteStopService } from '../services/favorite-stop.service';
+import { RouteService }          from '../providers/route.service';
+import { StopService }          from '../providers/stop.service';
+import { StopDepartureService }          from '../providers/stop-departure.service';
+import { VehicleService }          from '../providers/vehicle.service';
+import { AlertService }          from '../providers/alert.service';
+import { FavoriteRouteService } from '../providers/favorite-route.service';
+import { FavoriteStopService } from '../providers/favorite-stop.service';
+import { ConnectivityService } from '../providers/connectivity.service';
+import { MapService } from '../providers/map.service';
 
 
 
@@ -73,6 +75,7 @@ import { FavoriteStopService } from '../services/favorite-stop.service';
   ],
   providers: [ {provide: ErrorHandler, useClass: IonicErrorHandler},
     RouteService, StopService, StopDepartureService, VehicleService, AlertService,
-    Storage, FavoriteRouteService, FavoriteStopService]
+    Storage, FavoriteRouteService, FavoriteStopService, ConnectivityService,
+    MapService]
 })
 export class AppModule {}

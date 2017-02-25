@@ -1,8 +1,16 @@
 {
-    "cordova-sqlite-storage": {
+    "cordova-plugin-network-information": {
         "source": {
             "type": "registry",
-            "id": "cordova-sqlite-storage@2.0.2"
+            "id": "cordova-plugin-network-information"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-geolocation": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-geolocation"
         },
         "is_top_level": true,
         "variables": {}
