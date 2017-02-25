@@ -3,7 +3,9 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 
 import { StopDeparture } from '../../models/stop-departure.model';
+import { Stop } from '../../models/stop.model';
 import { StopDepartureService } from '../../providers/stop-departure.service';
+import { StopService } from '../../providers/stop.service';
 import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { RouteComponent } from '../route/route.component';
 import { RouteService } from '../../providers/route.service';
@@ -19,14 +21,17 @@ export class StopComponent {
   directions: StopDeparture[];
   shownRoute: any = null;
   stopId: number;
+  liked: boolean;
   departuresByDirection: Array<any> = [];
   routeList = [];
   loader;
   order: String;
+  stop: Stop;
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private stopDepartureService: StopDepartureService,
     private routeService: RouteService, private changer: ChangeDetectorRef,
-    private loadingCtrl: LoadingController, private favoriteStopService: FavoriteStopService) {
+    private loadingCtrl: LoadingController, private favoriteStopService: FavoriteStopService,
+    private stopService: StopService) {
       this.stopId = navParams.get('stopId');
       this.order = '0';
       this.loader = loadingCtrl.create({
@@ -40,8 +45,14 @@ export class StopComponent {
         .then(directions => {
           this.sort(directions[0]);
           this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
+          this.favoriteStopService.contains(this.stopId, (liked) => {
+            this.liked = liked;
+          });
           this.loader.dismiss();
         });
+      this.stopService.getStop(this.stopId).then(stop => {
+        this.stop = stop;
+      })
     }
 
   // For a given RouteId, downloads the simplest
@@ -65,9 +76,9 @@ export class StopComponent {
 
     //$ionicLoading.hide();
   };
-  toggleStopHeart(stop): void {
+  toggleStopHeart(): void {
     // console.log('toggling', stop.Description);
-    this.favoriteStopService.toggleFavorite(stop);
+    this.favoriteStopService.toggleFavorite(this.stopId, this.stop.Description);
   }
   /**
    * Given a Departure object,

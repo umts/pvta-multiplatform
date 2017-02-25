@@ -9,12 +9,12 @@ export class FavoriteStopService {
  */
  constructor(private storage: Storage){}
 
- add(stop: Stop): void {
+ add(stopId: any, description: string): void {
    this.storage.ready().then(() => {
      this.storage.get('favoriteStops').then((favoriteStops) => {
        var newStop = {
-        StopId: stop.StopId,
-        Description: stop.Description
+        StopId: stopId,
+        Description: description
       };
 
       if (favoriteStops) {
@@ -28,11 +28,11 @@ export class FavoriteStopService {
    })
   }
 
-  contains(stop: Stop, cb: Function): void {
+  contains(stopId: any, cb: Function): void {
     this.storage.ready().then(() => {
       this.storage.get('favoriteStops').then((stops) => {
         if (stops) {
-          if (_.find(stops, {StopId: stop.StopId})) {
+          if (_.find(stops, {StopId: stopId})) {
             cb(true);
           } else {
             cb(false);
@@ -45,13 +45,13 @@ export class FavoriteStopService {
   }
   // Removes a stop from the user's Favorites.
   // @param favoritestop - a stop object.
-  remove(stopToRemove: Stop): void {
+  remove(stopIdToRemove: any): void {
     // First, load the existing list of favorite stops.
     this.storage.ready().then(() => {
       this.storage.get('favoriteStops').then(favoriteStops => {
         // Go through the list until we find the one we're trying to remove.
         for (var i = 0; i < favoriteStops.length; i++) {
-          if (favoriteStops[i].StopId === stopToRemove.StopId) {
+          if (favoriteStops[i].StopId === stopIdToRemove) {
             favoriteStops.splice(i, 1);
           }
         }
@@ -61,14 +61,14 @@ export class FavoriteStopService {
     })
   }
 
-  toggleFavorite(stop: Stop): void {
-    this.contains(stop, (wasFavorited: boolean) => {
-      console.log('stop being favd',stop);
+  toggleFavorite(stopId: any, description: string): void {
+    this.contains(stopId, (wasFavorited: boolean) => {
+      console.log('stop being favd',description);
       console.log('stopwasalreadyfavorited', wasFavorited);
       if (wasFavorited) {
-        this.remove(stop);
+        this.remove(stopId);
       } else {
-        this.add(stop);
+        this.add(stopId, description);
       }
     })
   }

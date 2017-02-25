@@ -98,7 +98,7 @@ export class RoutesAndStopsComponent {
   }
   toggleStopHeart(stop: Stop): void {
     // console.log('toggling', stop.Description);
-    this.favoriteStopService.toggleFavorite(stop);
+    this.favoriteStopService.toggleFavorite(stop.StopId, stop.Description);
   }
 
   getFavoriteRoutes(): void {
