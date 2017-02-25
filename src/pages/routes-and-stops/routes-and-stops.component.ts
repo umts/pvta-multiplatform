@@ -72,9 +72,6 @@ export class RoutesAndStopsComponent {
   }
 
   redirectRoute(routeId: number): void {
-    this.storage.get('name').then((name) => {
-      console.log('Me: Hey, ' + name + '! You have a very nice name.');
-    });
     this.navCtrl.push(RouteComponent, {
       routeId: routeId
     });
@@ -96,18 +93,18 @@ export class RoutesAndStopsComponent {
   }
 
   toggleRouteHeart(route: Route): void {
-    console.log('toggling the', route.RouteAbbreviation);
+    // console.log('toggling the', route.RouteAbbreviation);
     this.favoriteRouteService.toggleFavorite(route);
   }
   toggleStopHeart(stop: Stop): void {
-    console.log('toggling', stop.Description);
+    // console.log('toggling', stop.Description);
     this.favoriteStopService.toggleFavorite(stop);
   }
 
   getFavoriteRoutes(): void {
     this.storage.ready().then(() => {
       this.storage.get('favoriteRoutes').then((favoriteRoutes: FavoriteRouteModel[]) => {
-        console.log('favs', favoriteRoutes);
+        // console.log('favs', favoriteRoutes);
         this.favoriteRoutes = favoriteRoutes;
         this.routes = this.prepareRoutes();
       })
@@ -115,11 +112,9 @@ export class RoutesAndStopsComponent {
   }
 
   prepareStops(): any {
-    console.log('dlkfjdslfkdsjflkdsjf')
     // For each route, add the custom 'Liked' property and keep only
     // the properties we care about.  Doing this makes searching easier.
     return _.map(this.stops, (stop) => {
-      console.log(_.map(this.favoriteStops, 'StopId'));
       stop.Liked = _.includes(_.map(this.favoriteStops, 'StopId'), stop.StopId);
       return _.pick(stop, 'StopId', 'Name', 'Liked', 'Description', 'Latitude', 'Longitude', 'Distance');
     });
@@ -127,7 +122,6 @@ export class RoutesAndStopsComponent {
   getFavoriteStops(): void {
     this.storage.ready().then(() => {
       this.storage.get('favoriteStops').then((favoriteStops: Stop[]) => {
-        console.log('favs', favoriteStops);
         this.favoriteStops = favoriteStops;
         this.stops = this.prepareStops();
       })
@@ -136,23 +130,24 @@ export class RoutesAndStopsComponent {
 
   ionViewWillEnter() {
     this.loader.present();
-    this.routeService.getRouteList((route: Promise<Route[]>) => {
-      route.then(routes => {
-        console.log(routes);
+    this.routeService.getRouteList((routesPromise: Promise<Route[]>) => {
+      routesPromise.then(routes => {
+
         this.routes = _.sortBy(routes, ['ShortName']);
         this.routesDisp = this.routes;
         this.routeService.saveRouteList(this.routes);
         this.getFavoriteRoutes();
       });
     });
+    this.stopService.getStopList((stopsPromise: Promise<Stop[]>) => {
+      stopsPromise.then(stops => {
 
-    this.stopService
-      .getAllStops()
-      .then(stops => {
         this.stops = _.uniqBy(stops, 'StopId');
         this.stopsDisp = this.stops;
+        this.stopService.saveStopList(this.stops);
         this.getFavoriteStops();
         this.loader.dismiss();
       });
-    }
+    });
   }
+}
