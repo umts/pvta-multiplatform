@@ -9,6 +9,7 @@ import { Vehicle } from '../../models/vehicle.model';
 import { Alert } from '../../models/alert.model';
 import { Stop } from '../../models/stop.model';
 import { VehicleComponent } from './vehicle.component';
+import { RouteMapComponent } from '../route-map/route-map.component';
 import { StopModal } from './stop.modal';
 import * as _ from 'lodash';
 
@@ -40,6 +41,7 @@ export class RouteComponent {
   * and display them.
   */
   getAlerts (): void {
+    this.alerts = [];
     this.alertService
     .getAlerts()
     .then(alerts => {
@@ -74,6 +76,10 @@ export class RouteComponent {
     //     $scope.stops.push({StopId: stop.StopId, Description: stop.Description, Liked: liked});
     //   }
     // });
+  }
+
+  private goToRouteMapPage(): void {
+    this.navCtrl.push(RouteMapComponent, {routeId: this.routeId});
   }
 
   ionViewWillEnter() {

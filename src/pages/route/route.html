@@ -1,10 +1,14 @@
-<!-- "Page 2" - aka detail page - template -->
 <ion-header>
   <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Route {{route?.RouteAbbreviation}} </ion-title>
+    <ion-buttons end>
+      <button ion-button outline icon-only (click)="goToRouteMapPage()">
+        <ion-icon name="map"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 

@@ -36,7 +36,7 @@ export class RouteMapComponent {
       this.routeId = navParams.get('routeId');
     }
 
-  ionViewWillEnter(){
+  ionViewDidEnter(){
     this.loadMap();
     this.mapService.init(this.map);
     // $ionicLoading.show(ionicLoadingConfig);
