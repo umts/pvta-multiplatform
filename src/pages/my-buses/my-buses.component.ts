@@ -101,6 +101,8 @@ export class MyBusesComponent {
   }
   goToMap(): void {
     console.log('map?')
-    this.navCtrl.push(RouteMapComponent);
+    this.navCtrl.push(RouteMapComponent, {
+      routeId: 20030
+    });
   }
 }

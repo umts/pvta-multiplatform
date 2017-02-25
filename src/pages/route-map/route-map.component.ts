@@ -91,8 +91,9 @@ export class RouteMapComponent {
         '<h4>Last Updated: ' + moment(vehicle.LastUpdated).format('h:mm:ss a') + '</h4></div>';
         // An bus-shaped icon, with the color of the current route and
         // rotated such that it is facing the same direction as the real bus.
+        console.log(this.mapService.busSVGPath())
         var icon = {
-          path: this.mapService.busSVGPath,
+          path: this.mapService.busSVGPath(),
           fillColor: '#' + this.route.Color,
           fillOpacity: 1,
           strokeWeight: 0.5,
