@@ -3,9 +3,9 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 
 import { StopDeparture } from '../../models/stop-departure.model';
-import { StopDepartureService } from '../../services/stop-departure.service';
+import { StopDepartureService } from '../../providers/stop-departure.service';
 import { RouteComponent } from '../route/route.component';
-import { RouteService } from '../../services/route.service';
+import { RouteService } from '../../providers/route.service';
 import { Route } from '../../models/route.model';
 import * as _ from 'lodash';
 import * as moment from 'moment';

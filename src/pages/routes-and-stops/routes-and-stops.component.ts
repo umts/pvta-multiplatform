@@ -5,14 +5,14 @@ import { Storage } from '@ionic/storage';
 
 import { Http, Response } from '@angular/http';
 
-import { RouteService } from '../../services/route.service';
-import { StopService } from '../../services/stop.service';
-import { FavoriteRouteService, FavoriteRouteModel } from '../../services/favorite-route.service';
+import { RouteService } from '../../providers/route.service';
+import { StopService } from '../../providers/stop.service';
+import { FavoriteRouteService, FavoriteRouteModel } from '../../providers/favorite-route.service';
 import { Route } from '../../models/route.model';
 import { Stop } from '../../models/stop.model';
 import { RouteComponent } from '../route/route.component';
 import { StopComponent } from '../stop/stop.component'
-import { FavoriteStopService, FavoriteStopModel } from '../../services/favorite-stop.service';
+import { FavoriteStopService, FavoriteStopModel } from '../../providers/favorite-stop.service';
 import * as _ from 'lodash';
 
 export enum SegmentDisplay {

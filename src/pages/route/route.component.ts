@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
 import { NavController, Platform, NavParams, ModalController, ViewController } from 'ionic-angular';
-import { RouteService } from '../../services/route.service';
-import { VehicleService } from '../../services/vehicle.service';
-import { AlertService } from '../../services/alert.service';
+import { RouteService } from '../../providers/route.service';
+import { VehicleService } from '../../providers/vehicle.service';
+import { AlertService } from '../../providers/alert.service';
 import { RouteDetail } from '../../models/route-detail.model';
 import { Vehicle } from '../../models/vehicle.model';
 import { Alert } from '../../models/alert.model';

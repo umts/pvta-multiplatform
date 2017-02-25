@@ -4,8 +4,8 @@ import { NavController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StopComponent } from '../stop/stop.component';
 import { RouteComponent } from '../route/route.component';
-import { FavoriteRouteService } from '../../services/favorite-route.service';
-import { AlertService } from '../../services/alert.service';
+import { FavoriteRouteService } from '../../providers/favorite-route.service';
+import { AlertService } from '../../providers/alert.service';
 import { Alert } from '../../models/alert.model';
 import * as _ from 'lodash';
 
