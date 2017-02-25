@@ -12,6 +12,7 @@ import { Route } from '../../models/route.model';
 import { Stop } from '../../models/stop.model';
 import { RouteComponent } from '../route/route.component';
 import { StopComponent } from '../stop/stop.component'
+import { FavoriteStopService, FavoriteStopModel } from '../../services/favorite-stop.service';
 import * as _ from 'lodash';
 
 export enum SegmentDisplay {
@@ -27,6 +28,7 @@ export enum SegmentDisplay {
 export class RoutesAndStopsComponent {
   routes: Route[];
   stops: Stop[];
+  favoriteStops: FavoriteStopModel[];
   favoriteRoutes: FavoriteRouteModel[];
   // currentDisplay: string = '0';
   segment = SegmentDisplay;
@@ -38,7 +40,8 @@ export class RoutesAndStopsComponent {
   constructor(public navCtrl: NavController,
     private routeService: RouteService, private stopService: StopService,
     private loadingCtrl: LoadingController, private storage: Storage,
-    private favoriteRouteService: FavoriteRouteService) {
+    private favoriteRouteService: FavoriteRouteService,
+    private favoriteStopService: FavoriteStopService) {
       this.cDisplay = SegmentDisplay.Routes;
       this.loader = loadingCtrl.create({
           content: 'Downloading departures...'
@@ -96,6 +99,10 @@ export class RoutesAndStopsComponent {
     console.log('toggling the', route.RouteAbbreviation);
     this.favoriteRouteService.toggleFavorite(route);
   }
+  toggleStopHeart(stop: Stop): void {
+    console.log('toggling', stop.Description);
+    this.favoriteStopService.toggleFavorite(stop);
+  }
 
   getFavoriteRoutes(): void {
     this.storage.ready().then(() => {
@@ -107,6 +114,25 @@ export class RoutesAndStopsComponent {
     })
   }
 
+  prepareStops(): any {
+    console.log('dlkfjdslfkdsjflkdsjf')
+    // For each route, add the custom 'Liked' property and keep only
+    // the properties we care about.  Doing this makes searching easier.
+    return _.map(this.stops, (stop) => {
+      console.log(_.map(this.favoriteStops, 'StopId'));
+      stop.Liked = _.includes(_.map(this.favoriteStops, 'StopId'), stop.StopId);
+      return _.pick(stop, 'StopId', 'Name', 'Liked', 'Description', 'Latitude', 'Longitude', 'Distance');
+    });
+  }
+  getFavoriteStops(): void {
+    this.storage.ready().then(() => {
+      this.storage.get('favoriteStops').then((favoriteStops: Stop[]) => {
+        console.log('favs', favoriteStops);
+        this.favoriteStops = favoriteStops;
+        this.stops = this.prepareStops();
+      })
+    })
+  }
 
   ionViewWillEnter() {
     this.loader.present();
@@ -125,6 +151,7 @@ export class RoutesAndStopsComponent {
       .then(stops => {
         this.stops = _.uniqBy(stops, 'StopId');
         this.stopsDisp = this.stops;
+        this.getFavoriteStops();
         this.loader.dismiss();
       });
     }
