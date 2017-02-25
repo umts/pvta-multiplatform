@@ -1,3 +1,7 @@
+ngrok
+
+plugins/*
+
 www
 
 platforms/android/*

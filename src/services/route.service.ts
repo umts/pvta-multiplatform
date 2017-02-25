@@ -1,15 +1,18 @@
 import { Injectable }    from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/toPromise';
 import { Route } from '../models/route.model';
 import { RouteDetail } from '../models/route-detail.model';
+import * as moment from 'moment';
+
 
 @Injectable()
 export class RouteService {
   private headers = new Headers({'Content-Type': 'application/json'});
   private routesURL = 'https://bustracker.pvta.com/InfoPoint/rest/routes/get';  // URL to web api
   private routeDetailsURL = 'https://bustracker.pvta.com/InfoPoint/rest/routedetails/get';  // URL to web api
-  constructor(private http: Http) { }
+  constructor(private http: Http, private storage: Storage) { }
 
   getAllRoutes(): Promise<Route[]> {
     return this.http.get(`${this.routesURL}visibleroutes`)
@@ -44,5 +47,36 @@ export class RouteService {
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
+  }
+
+  getRouteList (cb: Function): any {
+    this.storage.ready().then(() => {
+      this.storage.get('routes').then((routes) => {
+        if (routes && routes.list.length > 0) {
+          let now = moment();
+          let diff = now.diff(routes.time, 'days')
+          if (diff <= 1) {
+            cb(new Promise((resolve, reject) => {
+              resolve(routes.list);
+            }))
+          }
+        }
+        else {
+          cb(this.getAllRoutes());
+        }
+      })
+    });
+  }
+  saveRouteList(routes: Route[]): void {
+    console.log('passed', routes);
+    this.storage.ready().then(() => {
+      this.storage.set('routes', {
+        list: routes,
+        time: new Date()
+      });
+      this.storage.get('routes').then((routes) => {
+        console.log('loaded', routes);
+      })
+    })
   }
 }

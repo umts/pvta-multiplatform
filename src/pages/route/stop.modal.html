@@ -1,30 +1,21 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Description
+      Stops on this route
     </ion-title>
     <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-        <span color="primary" showWhen="ios">Cancel</span>
-        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      <button ion-button icon-only (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
       </button>
-    </ion-buttons>
+   </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-list>
-      <ion-item>
-        <ion-avatar item-left>
-          <img src="{{character.image}}">
-        </ion-avatar>
-        <h2>{{character.name}}</h2>
-        <p>{{character.quote}}</p>
-      </ion-item>
-      <ion-item *ngFor="let item of character['items']">
-        {{item.title}}
-        <ion-note item-right>
-          {{item.note}}
-        </ion-note>
-      </ion-item>
+  <ion-list text-wrap>
+    <button ion-item *ngFor="let stop of stops | slice:0:40"
+      (click)="goToStopPage(stop.StopId)">
+      <ion-icon name="pin" style="margin-right: 10px"></ion-icon>
+      <span>{{stop.Description}} ({{stop.StopId}})</span>
+    </button>
   </ion-list>
 </ion-content>

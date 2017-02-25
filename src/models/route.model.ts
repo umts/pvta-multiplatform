@@ -22,6 +22,7 @@ export class Route {
   Directions: any;
   Vehicles: Vehicle[];
   Messages: Alert[];
+  Liked: boolean;
 
   constructor(RouteId: number, RouteRecordId: number, ShortName: string,
     LongName: string, RouteAbbreviation: string, IvrDescription: string,
@@ -29,7 +30,7 @@ export class Route {
     SortOrder: number, RouteTraceFilename: string, RouteTraceHash64: any,
     IsHeadway: boolean, IncludeInGoogle: boolean, GoogleDescription: string,
     Stops: any, RouteStops: any, Directions: any, Vehicles: Vehicle[],
-    Messages: Alert[]){
+    Messages: Alert[], liked = false){
       this.RouteId = RouteId;
       this.RouteRecordId = RouteRecordId;
       this.ShortName = ShortName;
