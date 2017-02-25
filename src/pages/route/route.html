@@ -8,6 +8,9 @@
       <button ion-button outline icon-only (click)="goToRouteMapPage()">
         <ion-icon name="map"></ion-icon>
       </button>
+      <button ion-button icon-only item-right clear (click)="route.Liked = !route.Liked; toggleRouteHeart(route);">
+        <ion-icon name="{{route?.Liked ? 'ios-heart' : 'ios-heart-outline'}}"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>

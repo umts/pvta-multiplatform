@@ -4,6 +4,7 @@ import { NavController, NavParams, LoadingController } from 'ionic-angular';
 
 import { StopDeparture } from '../../models/stop-departure.model';
 import { StopDepartureService } from '../../providers/stop-departure.service';
+import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { RouteComponent } from '../route/route.component';
 import { RouteService } from '../../providers/route.service';
 import { Route } from '../../models/route.model';
@@ -25,7 +26,7 @@ export class StopComponent {
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private stopDepartureService: StopDepartureService,
     private routeService: RouteService, private changer: ChangeDetectorRef,
-    private loadingCtrl: LoadingController) {
+    private loadingCtrl: LoadingController, private favoriteStopService: FavoriteStopService) {
       this.stopId = navParams.get('stopId');
       this.order = '0';
       this.loader = loadingCtrl.create({
@@ -64,7 +65,10 @@ export class StopComponent {
 
     //$ionicLoading.hide();
   };
-
+  toggleStopHeart(stop): void {
+    // console.log('toggling', stop.Description);
+    this.favoriteStopService.toggleFavorite(stop);
+  }
   /**
    * Given a Departure object,
    * calculates the human-readable departure times

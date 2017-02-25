@@ -4,6 +4,7 @@ import { NavController, Platform, NavParams, ModalController, ViewController } f
 import { RouteService } from '../../providers/route.service';
 import { VehicleService } from '../../providers/vehicle.service';
 import { AlertService } from '../../providers/alert.service';
+import { FavoriteRouteService } from '../../providers/favorite-route.service';
 import { RouteDetail } from '../../models/route-detail.model';
 import { Vehicle } from '../../models/vehicle.model';
 import { Alert } from '../../models/alert.model';
@@ -26,7 +27,7 @@ export class RouteComponent {
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private routeService: RouteService, private vehicleService: VehicleService,
     private alertService: AlertService,
-    private modalCtrl: ModalController) {
+    private modalCtrl: ModalController, private favoriteRouteService: FavoriteRouteService) {
     this.routeId = navParams.get('routeId');
     this.alerts = [];
   }
@@ -53,6 +54,10 @@ export class RouteComponent {
       }
       console.log(JSON.stringify(this.alerts));
     });
+  }
+
+  toggleRouteHeart(route): void {
+    this.favoriteRouteService.toggleFavorite(route);
   }
 
   showStopModal (): void {
@@ -91,6 +96,9 @@ export class RouteComponent {
         //getHeart()
         this.prepareStops(route.Stops);
         this.vehicles = route.Vehicles;
+        this.favoriteRouteService.contains(route, (liked) => {
+          this.route.Liked = liked;
+        });
         let modal = this.modalCtrl.create(StopModal, {stops: this.stops});
         //$ionicLoading.hide();
       });

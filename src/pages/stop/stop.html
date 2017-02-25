@@ -5,6 +5,9 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Stop {{stopId}}</ion-title>
+    <button ion-button icon-only item-right clear (click)="stop.Liked = !stop.Liked; toggleStopHeart(stop);">
+      <ion-icon name="{{stop?.Liked ? 'ios-heart' : 'ios-heart-outline'}}"></ion-icon>
+    </button>
   </ion-navbar>
   <ion-toolbar color="primary">
     <ion-item color="primary">
