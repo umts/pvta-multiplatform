@@ -5,6 +5,9 @@ import { Storage } from '@ionic/storage';
 import { StopComponent } from '../stop/stop.component';
 import { RouteComponent } from '../route/route.component';
 import { FavoriteRouteService } from '../../services/favorite-route.service';
+import { AlertService } from '../../services/alert.service';
+import { Alert } from '../../models/alert.model';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'page-my-buses',
@@ -13,96 +16,86 @@ import { FavoriteRouteService } from '../../services/favorite-route.service';
 export class MyBusesComponent {
 
   routes;
+  stops;
+  alerts: Alert[];
 
-  constructor(public navCtrl: NavController, private storage: Storage) {}
+  constructor(public navCtrl: NavController, private storage: Storage,
+    private alertService: AlertService) {
+      this.alerts = [];
+    }
+
+  private filterAlerts(): void {
+    /* Given a list of routes and a $promise
+   * for gettings alerts from avail, only
+   * display alerts for these RouteIds.
+   */
+    let routeIds = _.map(this.routes, 'RouteId');
+    // Resolve the promise, which will contain
+    // a list of all alerts
+    this.alertService.getAlerts().then(alerts => {
+      for (let alert of alerts) {
+        /* If the Routes property of an
+         * alert contains any of RouteIDs
+         *  in question (aka the list of
+         * RouteIds of the user's favorite
+         * routes), push it.
+         *
+         *  ****NOTE****
+         * This algorithm will cause an alert
+         * to be displayed as many times as
+         * a RouteId from the input array appears
+         * in the alert's Routes array.
+         *
+         * For example: if Avail screws up
+         * and an alert has a Routes property
+         *  = [20030, 20031, 20030]
+         * and the route 30 is in the input
+         * routes array, this alert will
+         * appear on the page twice.
+         */
+
+         //Also if there are no routes for that alert , show it by default
+        if (alert.Routes.length == 0) {
+          this.alerts.push(alert);
+        }
+
+        else {
+          for (let routeId of alert.Routes) {
+            if (routeIds.includes(routeId)) {
+              this.alerts.push(alert);
+            }
+          }
+        }
+      }
+      console.log(this.alerts);
+      // Finally, remove any duplicates.  Use the ID of the alert to
+      // determine whether we've encountered a duplicate.
+      this.alerts = _.uniqBy(alerts, (alert) => {
+        return alert.MessageId;
+      });
+    });
+  }
 
   ionViewWillEnter() {
     this.storage.ready().then(() => {
       this.storage.get('favoriteRoutes').then(favoriteRoutes => {
         this.routes = favoriteRoutes;
+        this.filterAlerts();
+      });
+      this.storage.get('favoriteStops').then(favoriteStops => {
+        this.stops = favoriteStops;
       })
     })
 
   }
-
-  stops: any = [
-    {
-      Description: "The Boulders Apts",
-      StopId: 157
-    },
-    {
-      Description: "Arnold House",
-      StopId: 56
-    },
-    {
-      Description: "Fine Arts Center",
-      StopId: 71
-    }
-  ];
-
-  // routes: any = [
-  //   {
-  //     Color: "C7A020",
-  //     GoogleDescription: "North Amherst / Old Belchertown Rd",
-  //     RouteAbbreviation: "30",
-  //     RouteId: 20030,
-  //     ShortName:"30"
-  //   },
-  //   {
-  //     Color: "C7A020",
-  //     GoogleDescription: "Sunderland / South Amherst",
-  //     RouteAbbreviation: "31",
-  //     RouteId: 20031,
-  //     ShortName:"31"
-  //   },
-  //   {
-  //     Color: "C7A020",
-  //     RouteAbbreviation: "46",
-  //     RouteId: 20046,
-  //     ShortName:"46"
-  //   },
-  //   {
-  //     Color: "C7A020",
-  //     RouteAbbreviation: "B43",
-  //     RouteId: 30043,
-  //     ShortName:"B43"
-  //   },
-  //   {
-  //     Color: "C7A020",
-  //     RouteAbbreviation: "38",
-  //     RouteId: 20038,
-  //     ShortName:"38"
-  //   }
-  // ];
-  //
-  // messages: any = [
-  //     {
-  //       MessageId: 0,
-  //       Message: "The Route 30 is bypassing Colonial Village due to snow. Catch buses on Route 9.",
-  //       FromDate: "2017-02-04T20:24:42.916Z",
-  //       ToDate: "2017-02-04T20:24:42.916Z",
-  //       FromTime: "2017-02-04T20:24:42.916Z",
-  //       ToTime: "2017-02-04T20:24:42.916Z",
-  //       Priority: 0,
-  //       DaysOfWeek: 1,
-  //       Published: true,
-  //       PublicAccess: 0,
-  //       Routes: [
-  //         20030
-  //       ],
-  //       Signs: [],
-  //       MessageTranslations: [],
-  //       ChannelMessages: []
-  //     }
-    // ];
-    goToStopPage(stopId: number): void {
-      this.navCtrl.push(StopComponent, {
-        stopId: stopId
-      });
-    }
-    goToRoutePage(routeId: number): void {
-      this.navCtrl.push(RouteComponent, {
-        routeId: routeId
-      });
-    }
+  goToStopPage(stopId: number): void {
+    this.navCtrl.push(StopComponent, {
+      stopId: stopId
+    });
+  }
+  goToRoutePage(routeId: number): void {
+    this.navCtrl.push(RouteComponent, {
+      routeId: routeId
+    });
+  }
 }
