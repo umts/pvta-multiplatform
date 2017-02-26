@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
+import { InfoService } from '../../providers/info.service';
 
 @Component({
   selector: 'page-about',
@@ -8,8 +9,12 @@ import { NavController } from 'ionic-angular';
 })
 export class AboutComponent {
 
-  constructor(public navCtrl: NavController) {
+  versionName;
+  versionNumber;
 
+  constructor(public navCtrl: NavController, private infoService: InfoService) {
+    this.versionName = infoService.getVersionName();
+    this.versionNumber = infoService.getVersionNumber();
   }
 
 }
