@@ -42,6 +42,9 @@ export class StopService {
             cb(new Promise((resolve, reject) => {
               resolve(stops.list);
             }))
+          } else {
+            console.log('stop list is too old!')
+            cb(this.getAllStops());
           }
         }
         else {

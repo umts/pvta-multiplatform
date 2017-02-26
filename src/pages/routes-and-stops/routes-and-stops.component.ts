@@ -130,14 +130,16 @@ export class RoutesAndStopsComponent {
 
   ionViewWillEnter() {
     this.loader.present();
+    console.log('routesdisp after everything',this.routesDisp);
     this.routeService.getRouteList((routesPromise: Promise<Route[]>) => {
       routesPromise.then(routes => {
-
         this.routes = _.sortBy(routes, ['ShortName']);
         this.routesDisp = this.routes;
         this.routeService.saveRouteList(this.routes);
         this.getFavoriteRoutes();
-      });
+      }).catch(err => {
+        console.error(err);
+      })
     });
     this.stopService.getStopList((stopsPromise: Promise<Stop[]>) => {
       stopsPromise.then(stops => {
