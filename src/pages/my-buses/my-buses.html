@@ -22,6 +22,7 @@
   <ion-item-group>
     <ion-item-divider text-wrap item role="heading" id="routes-heading">
       Your Routes
+      <button ion-button outline item-right (click)="openRouteModal()">Add Routes</button>
     </ion-item-divider>
       <button text-wrap ion-item *ngFor="let route of routes"
       role="list" aria-labelledby="routes-heading"
@@ -37,14 +38,16 @@
       </button>
     </ion-item-group>
     <ion-item-group>
-      <ion-item-divider role="heading" id="stops-heading">
+      <ion-item-divider role="heading" aria-label="your stops" id="stops-heading">
         Your Stops
+        <button ion-button outline item-right (click)="openStopModal()">Add Stops</button>
       </ion-item-divider>
-      <button ion-item item-left *ngFor="let stop of stops"
-      role="list" aria-labelledby="stops-heading"
-      (click)="goToStopPage(stop.StopId)">
-        <ion-icon name="pin" style="margin-right: 10px"></ion-icon>
-        {{stop.Description}} ({{stop.StopId}})
-      </button>
+      <div role="list">
+        <button ion-item item-left *ngFor="let stop of stops"
+        (click)="goToStopPage(stop.StopId)">
+          <ion-icon name="pin" aria-hidden="true" style="margin-right: 10px"></ion-icon>
+          {{stop.Description}} ({{stop.StopId}})
+        </button>
+      </div>
     </ion-item-group>
 </ion-content>
