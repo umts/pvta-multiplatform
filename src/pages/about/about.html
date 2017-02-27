@@ -16,17 +16,24 @@
       </div>
       <div ion-item>
         Made with
-        <ion-icon name="ionic" aria-label="ionic"></ion-icon>,
-        <ion-icon name="logo-angular" aria-label="angular"></ion-icon>,
+        <ion-icon name="ionic" aria-label="ionic"
+        onclick="window.open('https://ionicframework.com', '_blank');">
+        </ion-icon>,
+        <ion-icon name="logo-angular" aria-label="angular"
+        onclick="window.open('https://angular.io', '_blank');">
+        </ion-icon>,
         and
-        <ion-icon name="heart" aria-label="love"></ion-icon>
+        <ion-icon name="heart" aria-label="love"
+        onclick="window.open('https://en.wikipedia.org/wiki/Compassion', '_blank');">
+        </ion-icon>
         by UMass Transit's student developers in Amherst, MA
       </div>
-      <button ion-item>
+      <button ion-item
+      onclick="window.open('https://github.com/umts/pvta-multiplatform', '_system');">
         <ion-icon name="logo-github" aria-label="github icon"></ion-icon>
         Contribute to PVTrAck
       </button>
-      <button ion-item>
+      <button ion-item onclick="window.open('mailto:programmers@admin.umass.edu', '_system');">
         <ion-icon name="bug" aria-label="email icon"></ion-icon>
         Find a bug? Let us know!
       </button>
@@ -34,7 +41,7 @@
         <ion-icon name="lock" aria-label="lock icon"></ion-icon>
         View our Privacy Policy
       </button>
-      <button ion-item>
+      <button ion-item (click)="goToContactPage()">
         <ion-icon name="call" aria-label="phone icon"></ion-icon>
         Contact PVTA
       </button>
