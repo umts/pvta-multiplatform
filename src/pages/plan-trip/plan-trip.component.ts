@@ -3,6 +3,9 @@ import { Geolocation } from 'ionic-native';
 import { NavController } from 'ionic-angular';
 import {StopService} from '../../providers/stop.service';
 import {StopComponent} from '../stop/stop.component';
+import * as moment from 'moment';
+
+declare var google;
 @Component({
   selector: 'page-plan-trip',
   templateUrl: 'plan-trip.html'
@@ -164,7 +167,7 @@ export class PlanTripComponent {
       this.request = {
         name: 'New Trip',
         time: {
-          datetime: new Date(),
+          datetime: moment().toISOString(),
           option: this.timeOptions[0]
         },
         origin: {},
@@ -206,8 +209,8 @@ export class PlanTripComponent {
       destinationAutocomplete.setBounds(this.bounds);
 
 
-      originAutocomplete.addListener('place_changed', function () {
-        this.mapLocation(originAutocomplete.getPlace(), function (place) {
+      originAutocomplete.addListener('place_changed', () => {
+        this.mapLocation(originAutocomplete.getPlace(), (place) => {
           this.request.origin = {
             name: place.name,
             id: place.place_id
@@ -217,7 +220,7 @@ export class PlanTripComponent {
           if (this.request.destination.name) {
             this.request.name = place.name + ' to ' + this.request.destination.name;
           }
-        }, function (err) {
+        }, (err) => {
           // ga('send', 'event', 'AutocompleteFailure', 'originAutocomplete.place_changed', 'autocomplete failure in plan trip: ' + err);
           //If the location chosen is not valid, an error is thrown.
           //$scope.request.origin.name still holds the text that the user
@@ -228,8 +231,8 @@ export class PlanTripComponent {
         });
       });
 
-      destinationAutocomplete.addListener('place_changed', function () {
-        this.mapLocation(destinationAutocomplete.getPlace(), function (place) {
+      destinationAutocomplete.addListener('place_changed', () => {
+        this.mapLocation(destinationAutocomplete.getPlace(), (place) => {
           this.request.destination = {
             name: place.name,
             id: place.place_id
@@ -240,7 +243,7 @@ export class PlanTripComponent {
           } else {
             this.request.name = this.request.origin.name + ' to ' + place.name;
           }
-        }, function (err) {
+        }, (err) => {
           // ga('send', 'event', 'AutocompleteFailure', 'destinationAutocomplete.place_changed', 'autocomplete failure in plan trip: ' + err);
           //See comments for originAutocompleteListener method
           this.request.destination.id = null;
@@ -459,7 +462,7 @@ export class PlanTripComponent {
    * Wrapper function for opening the
    * time picker in the UI.
    */
-  openTimePicker = function () {
+  openTimePicker(): void {
     console.log('time picker');
     // var timePickerConfig = {
     //   callback: onTimeChosen,
