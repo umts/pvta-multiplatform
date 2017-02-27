@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Geolocation } from 'ionic-native';
 import { NavController } from 'ionic-angular';
-
+import {StopService} from '../../providers/stop.service';
+import {StopComponent} from '../stop/stop.component';
 @Component({
   selector: 'page-plan-trip',
   templateUrl: 'plan-trip.html'
@@ -16,14 +17,38 @@ export class PlanTripComponent {
    request;
    noLocation: boolean;
    loadedTrip;
-   timeOptions;
    directionsDisplay;
    map;
    route;
 
-  constructor(public navCtrl: NavController) {
-
-  }
+  constructor(public navCtrl: NavController, private stopService: StopService) {}
+  /*
+   * List of the different types
+   * of times that we can request trips.
+   * Each type has a name that we
+   * use in the UI and a few
+   * properties for us.
+   */
+  timeOptions = [
+    {
+      title: 'Leaving Now', // for the UI
+      type: 'departure', // whether the user wants to depart or arrive at the given time
+      isASAP: true, // whether we should ignore all other given times and request a trip leaving NOW
+      id: 0
+    },
+    {
+      title: 'Departing At...',
+      type: 'departure',
+      isASAP: false,
+      id: 1
+    },
+    {
+      title: 'Arriving By...',
+      type: 'arrival',
+      isASAP: false,
+      id: 2
+    }
+  ];
   /**
   * Checks whether we're trying to
   * get directions starting at the
@@ -444,4 +469,9 @@ export class PlanTripComponent {
     // };
     // ionicTimePicker.openTimePicker(timePickerConfig);
   }
+  goToStop(loc): void {
+    this.stopService.getNearestStop(loc.lat(), loc.lng()).then(stop => {
+      this.navCtrl.push(StopComponent, {stopId: stop.StopId});
+    });
+  };
 }
