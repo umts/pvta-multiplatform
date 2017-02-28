@@ -92,22 +92,24 @@ angular.module('pvta.controllers').controller('StopController', function ($scope
     loadOrdering();
     getHeart();
     localforage.getItem('autoRefresh', function (err, value) {
-      if (value) {
-        if (value <= 1000) {
-          value = 30000;
-        }
+      console.log(value);
+      if (value && value !== -1) {
         // Refresh departures every `value` seconds
+        console.log('A valid customized or default refresh value');
         timer = $interval(function () {
+          console.log('refreshing at users preference');
           $scope.getDepartures();
         }, value);
       }
-      else {
+      else if (!value) {
+        console.log('An invalid refresh value, somehow.');
         timer = $interval(function () {
+          console.log('refreshing after 30s');
           $scope.getDepartures();
         }, 30000);
-        $ionicLoading.hide();
         console.log(err);
       }
+      $ionicLoading.hide();
     });
   });
 
