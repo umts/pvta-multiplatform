@@ -19,7 +19,12 @@ angular.module('pvta')
         // @TODO Add a function to show your popup here!
         showPlanTripUpdatePopup();
       }
-      else { // If they're a new user.
+      else {
+        // If they're a new user
+        $ionicPopup.alert({
+          title: 'Welcome to PVTrAck!',
+          template: '<p aria-live="assertive">This is My Buses, where your favorite routes and stops live for easy access.<br>Head to Routes and Stops to see where your bus is right now, or visit Schedule to plan your future bus trips!</p>'
+        });
         localforage.setItem('returningUser', true);
         // Since this is a new user, we don't want them
         // to start seeing all of the popups for past updates.
@@ -75,6 +80,7 @@ angular.module('pvta')
       }
     });
   }
+
 
   return {
     versionNum: '1.1.0',
