@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <!-- <div ng-include="'pages/app/no-network.html'"></div> -->
   <div class="list" id="input">
     <div class="item item-input-inset">
@@ -41,7 +41,6 @@
         </ion-option>
       </ion-select>
     </ion-item>
-    {{request?.time.datetime}}
     <div *ngIf="timeOptions[request?.time.option]?.isASAP === false">
       <ion-item>
         <ion-label>Date</ion-label>
@@ -62,36 +61,49 @@
   <div class="input-div center-div">
     <button (click)="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
   </div>
-  <div id="directions-map" [hidden]="!route" aria-hidden="true"></div>
+  <div id="directions-map" [hidden]="true" aria-hidden="true"></div>
   <!-- *ngIf="route" -->
   <div id="route" aria-live="assertive">
-    <div class = "item item-divider item-energized item-text-wrap">
-      <b>PLEASE NOTE: Trip is based on scheduled times. Check your stop's page to confirm bus departure time.</b>
+    <div *ngIf="route" text-wrap>
+      <div ion-item >
+        PLEASE NOTE: Trip is based on scheduled times. Check your stop's page to confirm bus departure time.
+      </div>
+      <ion-item>
+        <ion-label>Origin:</ion-label>
+        <div item-content>
+          {{route['start_address']}}
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>Destination:</ion-label>
+        <div item-content>
+          {{route['end_address']}}
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>Departure Time:</ion-label>
+        <div item-content>
+          {{route['departure_time']['value'] | date: "h:mm a"}},
+          {{route['departure_time']['value'] | date: "EEEE dd MMM yyyy"}}
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>Arrival Time:</ion-label>
+        <div item-content>
+          {{route['arrival_time']['value'] | date: "h:mm a"}},
+          {{route['arrival_time']['value'] | date: "EEEE dd MMM yyyy"}}
+        </div>
+      </ion-item>
     </div>
-    <div style="margin: 30px" *ngIf="route">
-      <b>Origin:</b> {{route['start_address']}}
-      <br>
-      <b>Destination:</b> {{route['end_address']}}
-      <br>
-      <b>Departure Time: {{route['departure_time']['value'] | date: "h:mm a"}}</b>, {{route['departure_time']['value'] | date: "EEEE dd MMM yyyy"}}
-      <br>
-      <b>Arrival Time: {{route['arrival_time']['value'] | date: "h:mm a"}}</b>,  {{route['arrival_time']['value'] | date: "EEEE dd MMM yyyy"}}
-    </div>
-    <section *ngIf="route != undefined" id="cd-timeline" class="cd-container">
-      <div *ngFor="let step of route['steps']" >
-        <div class="cd-timeline-block">
-          <div class="cd-timeline-icon dark">
-            <div *ngIf="step['travel_mode'] == 'WALKING'">
-              <i class="ion-android-walk"></i>
-            </div>
+    <section *ngIf="route != undefined" id="cd-timeline">
+      <div *ngFor="let step of route['steps']">
+        <div ion-item>
             <div *ngIf="step['travel_mode'] == 'TRANSIT'">
-              <i class="ion-android-bus"></i>
-            </div>
-          </div>
-          <div class="cd-timeline-content dark">
-            <div *ngIf="step['travel_mode'] == 'TRANSIT'">
-              <h1>{{step['transit']['line']['short_name']}}</h1>
-              <p class="cd-author">Departs {{step['transit']['departure_time']['text']}}</p>
+              <h1>
+                <ion-icon name="bus"></ion-icon>
+                {{step['transit']['line']['short_name']}}
+              </h1>
+              <p>Departs {{step['transit']['departure_time']['text']}}</p>
               <p style="display:inline"><a
                 (click)="goToStop(step['transit']['departure_stop']['location'])">
                 {{step['transit']['departure_stop']['name']}}</a>
@@ -101,16 +113,16 @@
               </p>
             </div>
             <div *ngIf="step['travel_mode'] == 'WALKING'">
-              <p *ngIf="!$last">
+              <h1><ion-icon style="margin-top:1%;" name="walk" *ngIf="step['travel_mode'] == 'WALKING'"></ion-icon></h1>
+              <span *ngIf="!$last">
                 <a (click)="goToStop(step['end_location'])">
                   {{step['instructions']}}</a>
-              </p>
+              </span>
               <p *ngIf="$last">{{step['instructions']}}</p>
             </div>
             <p style="text-align:right display:inline-block">
               {{step['duration']['text']}}
             </p>
-          </div>
         </div>
       </div>
     </section>

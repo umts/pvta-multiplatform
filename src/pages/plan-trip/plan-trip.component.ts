@@ -27,7 +27,6 @@ export class PlanTripComponent {
 
   constructor(public navCtrl: NavController, private stopService: StopService,
   private toastCtrl: ToastController, private loadingCtrl: LoadingController) {
-    this.loader = loadingCtrl.create();
   }
   /*
    * List of the different types
@@ -44,7 +43,7 @@ export class PlanTripComponent {
       id: 0
     },
     {
-      title: 'Departing At...',
+      title: 'Departing At',
       type: 'departure',
       isASAP: false,
       id: 1
@@ -309,6 +308,7 @@ export class PlanTripComponent {
         //   template: 'Routing..',
         //   timeout: 5000
         // });
+        this.loader = this.loadingCtrl.create();
         this.loader.present();
         let transitOptions = {
           modes: [google.maps.TransitMode.BUS],
@@ -343,14 +343,14 @@ export class PlanTripComponent {
           // $ionicLoading.hide();
           // && this.confirmValidRoute(response.routes[0])
           if (status === google.maps.DirectionsStatus.OK ) {
-            this.directionsDisplay.setDirections(response);
+            // this.directionsDisplay.setDirections(response);
             this.route = response.routes[0].legs[0];
             // $scope.scrollTo('route');
             // Force a map redraw because it was hidden before.
             // There's an angular bug with ng-show that will cause
             // the map to draw only grey after being hidden
             // unless we force a redraw.
-            google.maps.event.trigger(this.map, 'resize');
+            // google.maps.event.trigger(this.map, 'resize');
             this.loader.dismiss();
             // ga('send', 'event', 'TripStepsRetrieved', 'PlanTripController.getRoute()', 'Received steps for a planned trip!');
           } else  {
@@ -366,9 +366,9 @@ export class PlanTripComponent {
             // otherwise contained all our data to undefined, because, well,
             // the data was bad.
             this.route = undefined;
-            this.loader.dismiss();
           }
         });
+        this.loader.dismiss();
         // , function (err) {
         //   this.route = undefined;
         //   // $ionicLoading.hide();
