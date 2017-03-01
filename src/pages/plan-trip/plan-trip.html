@@ -9,11 +9,6 @@
 
 <ion-content padding>
   <!-- <div ng-include="'pages/app/no-network.html'"></div> -->
-  <div ng-if="noLocation">
-    <!-- <ion-item class="item item-assertive" style="text-align:center"> -->
-      Unable to retrieve current location.
-    <!-- </ion-item> -->
-  </div>
   <div class="list" id="input">
     <div class="item item-input-inset">
       <label class="item-input-wrapper">
@@ -38,11 +33,24 @@
         type="text" placeholder="Enter a destination" [(ngModel)]="request?.destination.name"/>
       </label>
     </div>
-    <div class="item item-input item-select">
-      <label class="input-label">
-        Search for buses:
-        <ion-select [(ngModel)]="request?.time.option" [selectOptions]="timeOptions"></ion-select>
-      </label>
+    <ion-item>
+      <ion-label>Search for buses:</ion-label>
+      <ion-select [(ngModel)]="request?.time.option">
+        <ion-option *ngFor="let option of timeOptions" value="{{option.id}}">
+          {{option.title}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+    {{request?.time.datetime}}
+    <div *ngIf="timeOptions[request?.time.option]?.isASAP === false">
+      <ion-item>
+        <ion-label>Date</ion-label>
+        <ion-datetime style="color: black" displayFormat="MMM D" pickerFormat="MMM D" [(ngModel)]="request?.time.datetime"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>Time</ion-label>
+        <ion-datetime displayFormat="h:mm A" pickerFormat="h:mm A" [(ngModel)]="request?.time.datetime"></ion-datetime>
+      </ion-item>
     </div>
      <!-- [hidden]="request?.time.option.isASAP === true" -->
     <div>
@@ -107,12 +115,4 @@
       </div>
     </section>
   </div>
-  <ion-item>
-    <ion-label>Date</ion-label>
-    <ion-datetime style="color: black" displayFormat="MMM D" pickerFormat="MMM D" [(ngModel)]="request?.time.datetime"></ion-datetime>
-  </ion-item>
-  <ion-item>
-    <ion-label>Time</ion-label>
-    <ion-datetime displayFormat="h:mm A" pickerFormat="h:mm A" [(ngModel)]="request?.time.datetime"></ion-datetime>
-  </ion-item>
 </ion-content>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Geolocation } from 'ionic-native';
-import { NavController } from 'ionic-angular';
+import { NavController, ToastController, LoadingController } from 'ionic-angular';
 import {StopService} from '../../providers/stop.service';
 import {StopComponent} from '../stop/stop.component';
 import * as moment from 'moment';
@@ -23,8 +23,12 @@ export class PlanTripComponent {
    directionsDisplay;
    map;
    route;
+   loader;
 
-  constructor(public navCtrl: NavController, private stopService: StopService) {}
+  constructor(public navCtrl: NavController, private stopService: StopService,
+  private toastCtrl: ToastController, private loadingCtrl: LoadingController) {
+    this.loader = loadingCtrl.create();
+  }
   /*
    * List of the different types
    * of times that we can request trips.
@@ -95,6 +99,12 @@ export class PlanTripComponent {
       //TODO
       this.getRoute();
     }).catch(err => {
+      this.toastCtrl.create({
+        message: 'Unable to retrieve current location',
+        position: 'bottom',
+        showCloseButton: true,
+        dismissOnPageChange: true
+      }).present();
       // Map.showInsecureOriginLocationPopup(err);
       // Tell Google Analytics that a user doesn't have location
       // ga('send', 'event', 'LocationFailure', 'PlanTripConsoller.$cordovaGeolocation.getCurrentPosition', 'location failed on Plan Trip; error: ' + err.message);
@@ -132,7 +142,7 @@ export class PlanTripComponent {
     // its details and display them.
     if (this.loadedTrip) {
       this.request = this.loadedTrip;
-      this.request.time.option = this.timeOptions[this.request.time.option.id];
+      this.request.time.option = this.timeOptions[this.request.time.option];
       this.loadedTrip = null;
 
       //Fix the time of the saved trip. If the datetime is in the future, keep it
@@ -141,7 +151,6 @@ export class PlanTripComponent {
         this.request.time.datetime.setDate(new Date().getDate());
         this.request.time.datetime.setMonth(new Date().getMonth());
       }
-
       //If the request has destinationOnly -> true, that implies
       //that the user originally used Location Services to plan
       //their trip. We assume that the user again wants to
@@ -167,8 +176,8 @@ export class PlanTripComponent {
       this.request = {
         name: 'New Trip',
         time: {
-          datetime: moment().toISOString(),
-          option: this.timeOptions[0]
+          datetime: moment().format(),
+          option: 0
         },
         origin: {},
         destination: {},
@@ -177,6 +186,7 @@ export class PlanTripComponent {
       };
       this.loadLocation();
     }
+    console.log(this.request.time.option);
   }
 
   ionViewWillEnter() {
@@ -286,8 +296,8 @@ export class PlanTripComponent {
         // Google won't return trips for times past.
         // Instead of throwing an error, assume the user wants
         // directions for right now.
-        if (!this.request.time.option.isASAP && this.request.time.datetime < Date.now()) {
-          this.request.time.option = this.timeOptions[0];
+        if (!this.timeOptions[this.request.time.option].isASAP && this.request.time.datetime < Date.now()) {
+          this.request.time.option = this.timeOptions[0].id;
           // $ionicPopup.alert({
           //   title: 'Invalid Trip Date',
           //   template: 'Trips in the past are not supported. Defaulting to buses leaving now.'
@@ -299,22 +309,23 @@ export class PlanTripComponent {
         //   template: 'Routing..',
         //   timeout: 5000
         // });
-
+        this.loader.present();
         let transitOptions = {
           modes: [google.maps.TransitMode.BUS],
           routingPreference: google.maps.TransitRoutePreference.FEWER_TRANSFERS
         };
 
-        if (this.request.time.option.isASAP !== true) {
-          if (this.request.time.option.type === 'departure') {
-            transitOptions['departureTime'] = this.request.time.datetime;
+        if (this.timeOptions[this.request.time.option].isASAP !== true) {
+          if (this.timeOptions[this.request.time.option].type === 'departure') {
+            transitOptions['departureTime'] = new Date(this.request.time.datetime);
           }
-          else if (this.request.time.option.type === 'arrival') {
-            transitOptions['arrivalTime'] = this.request.time.datetime;
+          else if (this.timeOptions[this.request.time.option].type === 'arrival') {
+            transitOptions['arrivalTime'] = new Date(this.request.time.datetime);
           }
           else {
             console.error('Determining route for Plan Trip failed due to unexpected input. Expected \'arrival\' or \'departure\', received');
             // ga('send', 'event', 'RoutingParamsInvalid', 'PlanTripController.getRoute()', 'Received invalid time params for planning a route');
+            this.loader.dismiss();
             return;
           }
         }
@@ -340,6 +351,7 @@ export class PlanTripComponent {
             // the map to draw only grey after being hidden
             // unless we force a redraw.
             google.maps.event.trigger(this.map, 'resize');
+            this.loader.dismiss();
             // ga('send', 'event', 'TripStepsRetrieved', 'PlanTripController.getRoute()', 'Received steps for a planned trip!');
           } else  {
             console.log(status);
@@ -354,6 +366,7 @@ export class PlanTripComponent {
             // otherwise contained all our data to undefined, because, well,
             // the data was bad.
             this.route = undefined;
+            this.loader.dismiss();
           }
         });
         // , function (err) {
@@ -414,64 +427,64 @@ export class PlanTripComponent {
   //  });
  }
 
- /*
-   * Callback function for when the user uses
-   * the time picker to select a time.
-   * Sets the trip param's time property
-   * so we can request a trip at a specific time.
-   * @param: time, an int in Unix Epoch
-   */
-  onTimeChosen(time): void {
-    if (typeof (time) === 'undefined') {
-      var error = 'Received undefined time from timepicker.';
-      console.error(error);
-      // ga('send', 'event', 'TimePickerReturnedBadValue', 'PlanTripController.onTimeChosen()', 'Received undefined time from timepicker.');
-    } else {
-      // Make the input into a Javascript date object
-      var selectedTime = new Date(time * 1000);
-      // Pull the hours and minutes; we don't care about
-      // anything else
-      this.request.time.datetime.setHours(selectedTime.getUTCHours());
-      this.request.time.datetime.setMinutes(selectedTime.getUTCMinutes());
-      // ga('send', 'event', 'TripTimeChosen', 'PlanTripController.onTimeChosen()', 'Custom time for trip was set!');
-    }
-  }
+ // /*
+ //   * Callback function for when the user uses
+ //   * the time picker to select a time.
+ //   * Sets the trip param's time property
+ //   * so we can request a trip at a specific time.
+ //   * @param: time, an int in Unix Epoch
+ //   */
+ //  onTimeChosen(time): void {
+ //    if (typeof (time) === 'undefined') {
+ //      var error = 'Received undefined time from timepicker.';
+ //      console.error(error);
+ //      // ga('send', 'event', 'TimePickerReturnedBadValue', 'PlanTripController.onTimeChosen()', 'Received undefined time from timepicker.');
+ //    } else {
+ //      // Make the input into a Javascript date object
+ //      var selectedTime = new Date(time * 1000);
+ //      // Pull the hours and minutes; we don't care about
+ //      // anything else
+ //      this.request.time.datetime.setHours(selectedTime.getUTCHours());
+ //      this.request.time.datetime.setMinutes(selectedTime.getUTCMinutes());
+ //      // ga('send', 'event', 'TripTimeChosen', 'PlanTripController.onTimeChosen()', 'Custom time for trip was set!');
+ //    }
+ //  }
 
-  /*
-   * Callback function for when user
-   * has selected a date in the datepicker.
-   * Sets the trip params date property
-   * so we can request trips on a specific date
-   */
-  onDateChosen(date): void {
-    if (date) {
-      date = new Date(date);
-      this.request.time.datetime.setDate(date.getDate());
-      this.request.time.datetime.setMonth(date.getMonth());
-      this.request.time.datetime.setFullYear(date.getFullYear());
-      // ga('send', 'event', 'TripDateChosen', 'PlanTripController.onDateChosen()', 'Custom date for trip was set!');
-    }
-    else {
-      var error = 'Received undefined date from datepicker.';
-      console.error(error);
-      // ga('send', 'event', 'DatePickerReturnedBadValue', 'PlanTripController.onDateChosen()', error);
-    }
-  }
+  // /*
+  //  * Callback function for when user
+  //  * has selected a date in the datepicker.
+  //  * Sets the trip params date property
+  //  * so we can request trips on a specific date
+  //  */
+  // onDateChosen(date): void {
+  //   if (date) {
+  //     date = new Date(date);
+  //     this.request.time.datetime.setDate(date.getDate());
+  //     this.request.time.datetime.setMonth(date.getMonth());
+  //     this.request.time.datetime.setFullYear(date.getFullYear());
+  //     // ga('send', 'event', 'TripDateChosen', 'PlanTripController.onDateChosen()', 'Custom date for trip was set!');
+  //   }
+  //   else {
+  //     var error = 'Received undefined date from datepicker.';
+  //     console.error(error);
+  //     // ga('send', 'event', 'DatePickerReturnedBadValue', 'PlanTripController.onDateChosen()', error);
+  //   }
+  // }
 
-  /*
-   * Wrapper function for opening the
-   * time picker in the UI.
-   */
-  openTimePicker(): void {
-    console.log('time picker');
-    // var timePickerConfig = {
-    //   callback: onTimeChosen,
-    //   inputTime: $scope.request.time.datetime.getHours() * 60 * 60 + $scope.request.time.datetime.getMinutes() * 60,
-    //   format: 12,         //Optional
-    //   step: 1,           //Optional
-    // };
-    // ionicTimePicker.openTimePicker(timePickerConfig);
-  }
+  // /*
+  //  * Wrapper function for opening the
+  //  * time picker in the UI.
+  //  */
+  // openTimePicker(): void {
+  //   console.log('time picker');
+  //   // var timePickerConfig = {
+  //   //   callback: onTimeChosen,
+  //   //   inputTime: $scope.request.time.datetime.getHours() * 60 * 60 + $scope.request.time.datetime.getMinutes() * 60,
+  //   //   format: 12,         //Optional
+  //   //   step: 1,           //Optional
+  //   // };
+  //   // ionicTimePicker.openTimePicker(timePickerConfig);
+  // }
   goToStop(loc): void {
     this.stopService.getNearestStop(loc.lat(), loc.lng()).then(stop => {
       this.navCtrl.push(StopComponent, {stopId: stop.StopId});
