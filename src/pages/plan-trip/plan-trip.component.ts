@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation } from 'ionic-native';
 import { NavController, ToastController, LoadingController } from 'ionic-angular';
 import {StopService} from '../../providers/stop.service';
@@ -11,6 +11,8 @@ declare var google;
   templateUrl: 'plan-trip.html'
 })
 export class PlanTripComponent {
+
+  @ViewChild('tits') mapElement: ElementRef;
 
   defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
   // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
@@ -202,7 +204,7 @@ export class PlanTripComponent {
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
 
-      this.map = new google.maps.Map(document.getElementById('directions-map'), mapOptions);
+      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
 
       this.directionsDisplay = new google.maps.DirectionsRenderer;
@@ -343,7 +345,7 @@ export class PlanTripComponent {
           // $ionicLoading.hide();
           // && this.confirmValidRoute(response.routes[0])
           if (status === google.maps.DirectionsStatus.OK ) {
-            // this.directionsDisplay.setDirections(response);
+            this.directionsDisplay.setDirections(response);
             this.route = response.routes[0].legs[0];
             // $scope.scrollTo('route');
             // Force a map redraw because it was hidden before.
@@ -351,7 +353,16 @@ export class PlanTripComponent {
             // the map to draw only grey after being hidden
             // unless we force a redraw.
             // google.maps.event.trigger(this.map, 'resize');
-            this.loader.dismiss();
+
+            setTimeout(() => {
+              this.loader.dismiss();
+              google.maps.event.trigger(this.map, 'resize');
+              google.maps.event.addListenerOnce(this.map, "idle", () => {
+                console.log('dsflknsdlfkdjsf');
+                google.maps.event.trigger(this.map, 'resize');
+              });
+            }, 500);
+
             // ga('send', 'event', 'TripStepsRetrieved', 'PlanTripController.getRoute()', 'Received steps for a planned trip!');
           } else  {
             console.log(status);
