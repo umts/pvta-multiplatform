@@ -53,7 +53,22 @@ import { InfoService } from '../providers/info.service';
     VehicleComponent
   ],
   imports: [
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {}, {
+      links: [
+        {component: MyBusesComponent, name: 'My Buses', segment: 'my-buses'},
+        {component: RoutesAndStopsComponent, name: 'Routes and Stops', segment: 'routes-and-stops'},
+        {component: PlanTripComponent, name: 'Plan Trip', segment: 'plan-trip'},
+        {component: SettingsComponent, name: 'Settings', segment: 'settings'},
+        {component: AboutComponent, name: 'About', segment: 'settings/about', defaultHistory: [SettingsComponent]},
+        {component: StorageSettingsComponent, name: 'Storage', segment: 'settings/storage', defaultHistory: [SettingsComponent]},
+        {component: ContactComponent, name: 'Contact', segment: 'settings/about/contact', defaultHistory: [AboutComponent, SettingsComponent]},
+        {component: PrivacyPolicyComponent, name: 'Privacy Policy', segment: 'settings/about/privacy-policy', defaultHistory: [AboutComponent, SettingsComponent]},
+        {component: RouteComponent, name: 'Route', segment: 'route/:routeId', defaultHistory: [MyBusesComponent]},
+        {component: StopComponent, name: 'Stop', segment: 'stop/:stopId', defaultHistory: [MyBusesComponent]},
+        {component: RouteMapComponent, name: 'Route Map', segment: 'route/:routeId/map', defaultHistory: [MyBusesComponent]},
+        {component: StopMapComponent, name: 'Stop Map', segment: 'stop/:stopId/map', defaultHistory: [MyBusesComponent]},
+      ]
+    }),
     HttpModule
   ],
   bootstrap: [IonicApp],
