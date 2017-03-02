@@ -8,7 +8,8 @@ import * as moment from 'moment';
 @Injectable()
 export class StopService {
   private headers = new Headers({'Content-Type': 'application/json'});
-  private stopsURL = 'https://bustracker.pvta.com/InfoPoint/rest/stops/get';  // URL to web api
+  private stopsURL = 'https://bustracker.pvta.com/InfoPoint/rest/stops/get';
+  private nearestStopURL = 'https://bustracker.pvta.com/InfoPoint/rest/stops/NearestStop';
   constructor(private http: Http, private storage: Storage) { }
 
   getAllStops(): Promise<Stop[]> {
@@ -20,6 +21,14 @@ export class StopService {
 
   getStop(id: number): Promise<Stop> {
     const url = `${this.stopsURL}/${id}`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json() as Stop)
+      .catch(this.handleError);
+  }
+
+  getNearestStop(lat: number, long: number): Promise<Stop> {
+    const url = `${this.nearestStopURL}?latitude=${lat}&longitude=${long}`;
     return this.http.get(url)
       .toPromise()
       .then(response => response.json() as Stop)

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -7,12 +7,124 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+<ion-content>
+  <!-- <div ng-include="'pages/app/no-network.html'"></div> -->
+  <div class="list" id="input">
+    <div class="item item-input-inset">
+      <label class="item-input-wrapper">
+        <!-- ng-focus="disableTap()" / -->
+        <input id="origin-input" role="combobox" aria-autocomplete="list"
+        aria-owns="places" aria-activedescendant="places"
+        aria-label="Begin typing an origin and choose a location from the drop-down"
+         class="user-input location-typeahead" type="text"
+         placeholder="Enter a starting location" [(ngModel)]="request?.origin.name">
+      </label>
+      <!-- aria-label="{{request?.destinationOnly ? 'Stop using' : 'Use'}} location of device" -->
+      <ion-icon
+      title="Use location of device"
+      [ngClass]="request?.destinationOnly ? 'ion-android-locate positive' : 'ion-android-locate'"
+        style="font-size: 120%; margin-left: 1%"
+        (click)="request.destinationOnly = !request.destinationOnly; updateOrigin();">
+      </ion-icon>
+    </div>
+    <div class="item item-input-inset">
+      <label class="item-input-wrapper">
+        <input id="destination-input" class="user-input location-typeahead"
+        type="text" placeholder="Enter a destination" [(ngModel)]="request?.destination.name"/>
+      </label>
+    </div>
+    <ion-item>
+      <ion-label>Search for buses:</ion-label>
+      <ion-select [(ngModel)]="request?.time.option">
+        <ion-option *ngFor="let option of timeOptions" value="{{option.id}}">
+          {{option.title}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+    <div *ngIf="timeOptions[request?.time.option]?.isASAP === false">
+      <ion-item>
+        <ion-label>Date</ion-label>
+        <ion-datetime style="color: black" displayFormat="MMM D" pickerFormat="MMM D" [(ngModel)]="request?.time.datetime"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>Time</ion-label>
+        <ion-datetime displayFormat="h:mm A" pickerFormat="h:mm A" [(ngModel)]="request?.time.datetime"></ion-datetime>
+      </ion-item>
+    </div>
+     <!-- [hidden]="request?.time.option.isASAP === true" -->
+    <div>
+      <!-- <button class="button icon-left ion-android-calendar" (click)="openDatePicker()">{{request?.time.datetime | date: "MMM d"}}</button>
+      <button class="button icon-left ion-ios-time-outline" (click)="openTimePicker()">{{request?.time.datetime | date: "h:mm a"}}</button> -->
+    </div>
+  </div>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <div class="input-div center-div">
+    <button (click)="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
+  </div>
+  <div #directionsMap id="directionsMap" [hidden]="!route" aria-hidden="true"></div>
+  <!-- *ngIf="route" -->
+  <div id="route" aria-live="assertive">
+    <div *ngIf="route" text-wrap>
+      <div ion-item >
+        PLEASE NOTE: Trip is based on scheduled times. Check your stop's page to confirm bus departure time.
+      </div>
+      <ion-item>
+        <ion-label>Origin:</ion-label>
+        <div item-content>
+          {{route['start_address']}}
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>Destination:</ion-label>
+        <div item-content>
+          {{route['end_address']}}
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>Departure Time:</ion-label>
+        <div item-content>
+          {{route['departure_time']['value'] | date: "h:mm a"}},
+          {{route['departure_time']['value'] | date: "EEEE dd MMM yyyy"}}
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>Arrival Time:</ion-label>
+        <div item-content>
+          {{route['arrival_time']['value'] | date: "h:mm a"}},
+          {{route['arrival_time']['value'] | date: "EEEE dd MMM yyyy"}}
+        </div>
+      </ion-item>
+    </div>
+    <section *ngIf="route != undefined" id="cd-timeline">
+      <div *ngFor="let step of route['steps']">
+        <div ion-item>
+            <div *ngIf="step['travel_mode'] == 'TRANSIT'">
+              <h1>
+                <ion-icon name="bus"></ion-icon>
+                {{step['transit']['line']['short_name']}}
+              </h1>
+              <p>Departs {{step['transit']['departure_time']['text']}}</p>
+              <p style="display:inline"><a
+                (click)="goToStop(step['transit']['departure_stop']['location'])">
+                {{step['transit']['departure_stop']['name']}}</a>
+                to
+                <a (click)="goToStop(step['transit']['arrival_stop']['location'])">
+                  {{step['transit']['arrival_stop']['name']}}</a>
+              </p>
+            </div>
+            <div *ngIf="step['travel_mode'] == 'WALKING'">
+              <h1><ion-icon style="margin-top:1%;" name="walk" *ngIf="step['travel_mode'] == 'WALKING'"></ion-icon></h1>
+              <span *ngIf="!$last">
+                <a (click)="goToStop(step['end_location'])">
+                  {{step['instructions']}}</a>
+              </span>
+              <p *ngIf="$last">{{step['instructions']}}</p>
+            </div>
+            <p style="text-align:right display:inline-block">
+              {{step['duration']['text']}}
+            </p>
+        </div>
+      </div>
+    </section>
+  </div>
 </ion-content>
