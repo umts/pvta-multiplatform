@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>
-      Add Favorite Stops
+      {{title}}
     </ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
@@ -20,7 +20,14 @@
   <ion-item *ngIf="stopsDisp.length === 0">
     Search above to see stops.
   </ion-item>
-  <ion-list text-wrap>
+  <ion-list *ngIf="requester === 1" text-wrap>
+    <button ion-item *ngFor="let stop of stopsDisp | slice:0:40"
+      (click)="goToStopPage(stop.StopId)">
+      <ion-icon name="pin" style="margin-right: 10px"></ion-icon>
+      <span>{{stop.Description}} ({{stop.StopId}})</span>
+    </button>
+  </ion-list>
+  <ion-list *ngIf="requester === 0" text-wrap>
     <ion-item *ngFor="let stop of stopsDisp | slice:0:40">
       <ion-label>{{stop.Description}} ({{stop.StopId}})
       </ion-label>

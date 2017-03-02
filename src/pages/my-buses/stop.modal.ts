@@ -21,6 +21,7 @@ export class MyBusesStopModal {
   stopsDisp: Stop[] = [];
   favoriteStops: FavoriteStopModel[];
   requester: StopModalRequester;
+  title: string;
   constructor(
     public platform: Platform, private favoriteStopService: FavoriteStopService,
     public params: NavParams, private loadingCtrl: LoadingController,
@@ -28,7 +29,7 @@ export class MyBusesStopModal {
     public navCtrl: NavController, public stopService: StopService
   ) {
     this.requester = <StopModalRequester> this.params.get('requester');
-    console.log(typeof(this.requester), this.requester)
+    this.title = this.params.get('title');
     this.stops = this.params.get('stops');
     }
 
@@ -43,16 +44,18 @@ export class MyBusesStopModal {
   }
 
   ionViewWillEnter() {
-    let loader = this.loadingCtrl.create();
-    loader.present();
-    this.stopService.getStopList((stopsPromise: Promise<Stop[]>) => {
-      stopsPromise.then(stops => {
-        this.stops = _.uniqBy(stops, 'StopId');
-        this.stopService.saveStopList(this.stops);
-        this.getFavoriteStops();
-        loader.dismiss();
+    if (this.requester === StopModalRequester.MyBuses) {
+      let loader = this.loadingCtrl.create();
+      loader.present();
+      this.stopService.getStopList((stopsPromise: Promise<Stop[]>) => {
+        stopsPromise.then(stops => {
+          this.stops = _.uniqBy(stops, 'StopId');
+          this.stopService.saveStopList(this.stops);
+          this.getFavoriteStops();
+          loader.dismiss();
+        });
       });
-    });
+    }
   }
 
   toggleStopHeart(stop: Stop): void {

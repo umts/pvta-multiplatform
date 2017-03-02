@@ -11,6 +11,7 @@ import { Alert } from '../../models/alert.model';
 import { Stop } from '../../models/stop.model';
 import { VehicleComponent } from './vehicle.component';
 import { RouteMapComponent } from '../route-map/route-map.component';
+import { MyBusesStopModal, StopModalRequester } from '../my-buses/stop.modal';
 import { RouteStopModal } from './stop.modal';
 import * as _ from 'lodash';
 
@@ -61,7 +62,13 @@ export class RouteComponent {
   }
 
   showStopModal (): void {
-    let stopModal = this.modalCtrl.create(RouteStopModal, {stops: this.stops});
+    let stopModal = this.modalCtrl.create(MyBusesStopModal,
+      {
+        title: `Stops on the ${this.route.RouteAbbreviation}`,
+        requester: StopModalRequester.Route,
+        stops: this.stops
+      }
+    );
     stopModal.present();
  }
 

@@ -91,7 +91,10 @@ export class MyBusesComponent {
 
   showStopModal (): void {
     let stopModal = this.modalCtrl.create(MyBusesStopModal,
-      { requester: StopModalRequester.MyBuses }
+      {
+        requester: StopModalRequester.MyBuses,
+        title: 'Add Favorite Stops'
+      }
     );
     stopModal.present();
   }
