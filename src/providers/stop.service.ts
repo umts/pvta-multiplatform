@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/toPromise';
 import { Stop } from '../models/stop.model';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 
 @Injectable()
 export class StopService {
@@ -74,5 +75,12 @@ export class StopService {
         console.log('loaded', stops);
       })
     })
+  }
+  filterStopsByQuery(stops: Stop[], query: string): Stop[] {
+    query = query.toLowerCase().trim();
+    return _.filter(stops, stop => {
+      return (stop.Description.toLowerCase().includes(query) ||
+      stop.StopId.toString().includes(query));
+    });
   }
 }

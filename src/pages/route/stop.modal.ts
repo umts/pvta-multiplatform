@@ -9,7 +9,7 @@ import { StopComponent } from '../stop/stop.component';
 @Component({
   templateUrl: 'stop.modal.html'
 })
-export class StopModal {
+export class RouteStopModal {
   character;
   stops;
   constructor(

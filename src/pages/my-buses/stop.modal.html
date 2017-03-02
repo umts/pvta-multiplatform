@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Stops on this route
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+   </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-searchbar
+    [(ngModel)]="searchQuery"
+    showCancelButton
+    (ionInput)="onSearchQueryChanged($event)">
+    <!-- (ionCancel)="onCancel($event)"> -->
+  </ion-searchbar>
+  <ion-list text-wrap>
+    <button ion-item *ngFor="let stop of stopsDisp | slice:0:40"
+      (click)="goToStopPage(stop.StopId)">
+      <ion-icon name="pin" style="margin-right: 10px"></ion-icon>
+      <span>{{stop.Description}} ({{stop.StopId}})</span>
+    </button>
+  </ion-list>
+</ion-content>

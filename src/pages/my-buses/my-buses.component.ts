@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StopComponent } from '../stop/stop.component';
 import { RouteComponent } from '../route/route.component';
 import { FavoriteRouteService } from '../../providers/favorite-route.service';
 import { AlertService } from '../../providers/alert.service';
 import { Alert } from '../../models/alert.model';
+import { MyBusesStopModal } from './stop.modal';
 import * as _ from 'lodash';
 
 @Component({
@@ -14,13 +15,13 @@ import * as _ from 'lodash';
   templateUrl: 'my-buses.html'
 })
 export class MyBusesComponent {
-
   routes;
   stops;
   alerts: Alert[];
 
   constructor(public navCtrl: NavController, private storage: Storage,
-    private alertService: AlertService) {
+    private alertService: AlertService,
+    private modalCtrl: ModalController) {
       this.alerts = [];
     }
 
@@ -86,8 +87,13 @@ export class MyBusesComponent {
         this.stops = favoriteStops;
       })
     })
-
   }
+
+  showStopModal (): void {
+    let stopModal = this.modalCtrl.create(MyBusesStopModal);
+    stopModal.present();
+  }
+
   goToStopPage(stopId: number): void {
     this.navCtrl.push(StopComponent, {
       stopId: stopId
