@@ -16,7 +16,7 @@ export class MyBusesStopModal {
   searchQuery: string = '';
   character;
   stops: Stop[];
-  stopsDisp: Stop[];
+  stopsDisp: Stop[] = [];
   favoriteStops: FavoriteStopModel[];
   constructor(
     public platform: Platform,
@@ -35,7 +35,7 @@ export class MyBusesStopModal {
     let query: string = event.target.value;
     console.log(query);
     if (!query || query == '') {
-      this.stopsDisp = this.stops;
+      this.stopsDisp = [];
     }
     else {
       this.stopsDisp = this.stopService.filterStopsByQuery(this.stops, query);
@@ -48,7 +48,7 @@ export class MyBusesStopModal {
     this.stopService.getStopList((stopsPromise: Promise<Stop[]>) => {
       stopsPromise.then(stops => {
         this.stops = _.uniqBy(stops, 'StopId');
-        this.stopsDisp = this.stops;
+        this.stopsDisp = [];
         this.stopService.saveStopList(this.stops);
         this.getFavoriteStops();
         loader.dismiss();

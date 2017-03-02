@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>
-      Stops on this route
+      Add Favorite Stops
     </ion-title>
     <ion-buttons start>
-      <button ion-button icon-only (click)="dismiss()">
-        <ion-icon name="close"></ion-icon>
+      <button ion-button (click)="dismiss()">
+        Done
       </button>
    </ion-buttons>
   </ion-toolbar>
@@ -17,11 +17,13 @@
     (ionInput)="onSearchQueryChanged($event)">
     <!-- (ionCancel)="onCancel($event)"> -->
   </ion-searchbar>
+  <ion-item *ngIf="stopsDisp.length === 0">
+    Search above to see stops.
+  </ion-item>
   <ion-list text-wrap>
-    <button ion-item *ngFor="let stop of stopsDisp | slice:0:40"
-      (click)="goToStopPage(stop.StopId)">
-      <ion-icon name="pin" style="margin-right: 10px"></ion-icon>
-      <span>{{stop.Description}} ({{stop.StopId}})</span>
-    </button>
+    <ion-item *ngFor="let stop of stopsDisp | slice:0:40">
+      <ion-label>{{stop.Description}} ({{stop.StopId}})</ion-label>
+      <ion-checkbox color="primary" checked="stop.Liked"></ion-checkbox>
+    </ion-item>
   </ion-list>
 </ion-content>
