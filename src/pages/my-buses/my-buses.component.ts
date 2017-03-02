@@ -7,7 +7,7 @@ import { RouteComponent } from '../route/route.component';
 import { FavoriteRouteService } from '../../providers/favorite-route.service';
 import { AlertService } from '../../providers/alert.service';
 import { Alert } from '../../models/alert.model';
-import { MyBusesStopModal, StopModalRequester } from './stop.modal';
+import { MyBusesStopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';
 import * as _ from 'lodash';
 
 @Component({

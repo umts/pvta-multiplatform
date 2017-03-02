@@ -3,7 +3,7 @@ import { FavoriteStopService, FavoriteStopModel } from '../../providers/favorite
 import { Storage } from '@ionic/storage';
 import { NavController, Platform, NavParams, ModalController, LoadingController, ViewController } from 'ionic-angular';
 import { Stop } from '../../models/stop.model';
-import { StopComponent } from '../stop/stop.component';
+import { StopComponent } from '../../pages/stop/stop.component';
 import { StopService} from '../../providers/stop.service';
 import * as _ from 'lodash';
 

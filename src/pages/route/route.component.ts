@@ -11,7 +11,7 @@ import { Alert } from '../../models/alert.model';
 import { Stop } from '../../models/stop.model';
 import { VehicleComponent } from './vehicle.component';
 import { RouteMapComponent } from '../route-map/route-map.component';
-import { MyBusesStopModal, StopModalRequester } from '../my-buses/stop.modal';
+import { MyBusesStopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';
 import * as _ from 'lodash';
 
 @Component({

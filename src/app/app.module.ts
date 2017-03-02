@@ -12,7 +12,7 @@ import { MyBusesComponent } from '../pages/my-buses/my-buses.component';
 import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
 import { PrivacyPolicyComponent } from '../pages/privacy-policy/privacy-policy.component';
 import { RouteComponent } from '../pages/route/route.component';
-import { MyBusesStopModal } from '../pages/my-buses/stop.modal';
+import { MyBusesStopModal } from '../modals/stop-modal/stop.modal';
 import { RouteMapComponent } from '../pages/route-map/route-map.component';
 import { RoutesAndStopsComponent } from '../pages/routes-and-stops/routes-and-stops.component';
 import { SettingsComponent } from '../pages/settings/settings.component';
