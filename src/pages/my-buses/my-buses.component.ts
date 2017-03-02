@@ -7,7 +7,7 @@ import { RouteComponent } from '../route/route.component';
 import { FavoriteRouteService } from '../../providers/favorite-route.service';
 import { AlertService } from '../../providers/alert.service';
 import { Alert } from '../../models/alert.model';
-import { MyBusesStopModal } from './stop.modal';
+import { MyBusesStopModal, StopModalRequester } from './stop.modal';
 import * as _ from 'lodash';
 
 @Component({
@@ -90,7 +90,9 @@ export class MyBusesComponent {
   }
 
   showStopModal (): void {
-    let stopModal = this.modalCtrl.create(MyBusesStopModal);
+    let stopModal = this.modalCtrl.create(MyBusesStopModal,
+      { requester: StopModalRequester.MyBuses }
+    );
     stopModal.present();
   }
 

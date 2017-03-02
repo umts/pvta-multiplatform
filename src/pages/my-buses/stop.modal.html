@@ -22,8 +22,11 @@
   </ion-item>
   <ion-list text-wrap>
     <ion-item *ngFor="let stop of stopsDisp | slice:0:40">
-      <ion-label>{{stop.Description}} ({{stop.StopId}})</ion-label>
-      <ion-checkbox color="primary" checked="stop.Liked"></ion-checkbox>
+      <ion-label>{{stop.Description}} ({{stop.StopId}})
+      </ion-label>
+      <ion-checkbox color="primary" checked="{{stop.Liked}}"
+        (click)="stop.Liked = !stop.Liked; toggleStopHeart(stop);">
+      </ion-checkbox>
     </ion-item>
   </ion-list>
 </ion-content>

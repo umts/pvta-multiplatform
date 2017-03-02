@@ -7,7 +7,9 @@ import { StopComponent } from '../stop/stop.component';
 import { StopService} from '../../providers/stop.service';
 import * as _ from 'lodash';
 
-
+export enum StopModalRequester {
+  MyBuses, Route
+}
 
 @Component({
   templateUrl: 'stop.modal.html'
@@ -18,12 +20,16 @@ export class MyBusesStopModal {
   stops: Stop[];
   stopsDisp: Stop[] = [];
   favoriteStops: FavoriteStopModel[];
+  requester: StopModalRequester;
   constructor(
-    public platform: Platform,
+    public platform: Platform, private favoriteStopService: FavoriteStopService,
     public params: NavParams, private loadingCtrl: LoadingController,
     public viewCtrl: ViewController, private storage: Storage,
     public navCtrl: NavController, public stopService: StopService
   ) {
+    this.requester = <StopModalRequester> this.params.get('requester');
+    console.log(typeof(this.requester), this.requester)
+    this.stops = this.params.get('stops');
     }
 
   goToStopPage(stopId: number): void {
@@ -33,13 +39,7 @@ export class MyBusesStopModal {
   }
   onSearchQueryChanged(event: any): void {
     let query: string = event.target.value;
-    console.log(query);
-    if (!query || query == '') {
-      this.stopsDisp = [];
-    }
-    else {
-      this.stopsDisp = this.stopService.filterStopsByQuery(this.stops, query);
-    }
+    this.stopsDisp = this.stopService.filterStopsByQuery(this.stops, query);
   }
 
   ionViewWillEnter() {
@@ -48,12 +48,16 @@ export class MyBusesStopModal {
     this.stopService.getStopList((stopsPromise: Promise<Stop[]>) => {
       stopsPromise.then(stops => {
         this.stops = _.uniqBy(stops, 'StopId');
-        this.stopsDisp = [];
         this.stopService.saveStopList(this.stops);
         this.getFavoriteStops();
         loader.dismiss();
       });
     });
+  }
+
+  toggleStopHeart(stop: Stop): void {
+    // console.log('toggling', stop.Description);
+    this.favoriteStopService.toggleFavorite(stop.StopId, stop.Description);
   }
 
   prepareStops(): any {
