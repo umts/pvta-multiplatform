@@ -5,6 +5,8 @@ import {StopService} from '../../providers/stop.service';
 import {StopComponent} from '../stop/stop.component';
 import * as moment from 'moment';
 
+// @TODO THIS ENTIRE COMPONENT IS A WORK IN PROGRESS; #ALPHA
+
 declare var google;
 @Component({
   selector: 'page-plan-trip',
