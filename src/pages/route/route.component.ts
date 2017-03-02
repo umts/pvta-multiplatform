@@ -12,7 +12,6 @@ import { Stop } from '../../models/stop.model';
 import { VehicleComponent } from './vehicle.component';
 import { RouteMapComponent } from '../route-map/route-map.component';
 import { MyBusesStopModal, StopModalRequester } from '../my-buses/stop.modal';
-import { RouteStopModal } from './stop.modal';
 import * as _ from 'lodash';
 
 @Component({
@@ -106,8 +105,6 @@ export class RouteComponent {
         this.favoriteRouteService.contains(route, (liked) => {
           this.route.Liked = liked;
         });
-        let modal = this.modalCtrl.create(RouteStopModal, {stops: this.stops});
-        //$ionicLoading.hide();
       });
   }
 }
