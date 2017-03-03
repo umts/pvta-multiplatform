@@ -14,7 +14,7 @@ export enum StopModalRequester {
 @Component({
   templateUrl: 'stop.modal.html'
 })
-export class MyBusesStopModal {
+export class StopModal {
   searchQuery: string = '';
   character;
   stops: Stop[];
