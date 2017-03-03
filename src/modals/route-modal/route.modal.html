@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      {{title}}
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        Done
+      </button>
+   </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list *ngIf="requester === 0" text-wrap>
+    <ion-item *ngFor="let route of routes">
+      <ion-checkbox color="primary" checked="{{route.Liked}}"
+        (click)="route.Liked = !route.Liked; toggleRouteHeart(route);">
+      </ion-checkbox>
+        <ion-label>
+          <ion-row wrap>
+            <ion-col width-25 [style.color]="'#' + route.Color" style="font-size: 125%; font-weight: bold; margin-left: 5%">
+              {{route.RouteAbbreviation}}
+            </ion-col>
+            <ion-col>
+              {{route.GoogleDescription}}
+            </ion-col>
+          </ion-row>
+        </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

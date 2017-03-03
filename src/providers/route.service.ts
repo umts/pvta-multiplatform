@@ -3,8 +3,10 @@ import { Headers, Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/toPromise';
 import { Route } from '../models/route.model';
+import { FavoriteRouteModel } from './favorite-route.service';
 import { RouteDetail } from '../models/route-detail.model';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 
 
 @Injectable()
@@ -78,6 +80,14 @@ export class RouteService {
       }).catch(err => {
         console.error('an error getting routes from storage!', err);
       });
+    });
+  }
+  prepareRoutes(favoriteRoutes: FavoriteRouteModel[], allRoutes: Route[]): any {
+    // For each route, add the custom 'Liked' property and keep only
+    // the properties we care about.  Doing this makes searching easier.
+    return _.map(allRoutes, (route) => {
+      route.Liked = _.includes(_.map(favoriteRoutes, 'RouteId'), route.RouteId);
+      return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color', 'GoogleDescription', 'Liked');
     });
   }
   saveRouteList(routes: Route[]): void {

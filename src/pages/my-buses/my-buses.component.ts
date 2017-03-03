@@ -8,6 +8,7 @@ import { FavoriteRouteService } from '../../providers/favorite-route.service';
 import { AlertService } from '../../providers/alert.service';
 import { Alert } from '../../models/alert.model';
 import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';
+import { RouteModal, RouteModalRequester } from '../../modals/route-modal/route.modal';
 import * as _ from 'lodash';
 
 @Component({
@@ -89,7 +90,7 @@ export class MyBusesComponent {
     })
   }
 
-  showStopModal (): void {
+  showStopModal(): void {
     let stopModal = this.modalCtrl.create(StopModal,
       {
         requester: StopModalRequester.MyBuses,
@@ -97,6 +98,16 @@ export class MyBusesComponent {
       }
     );
     stopModal.present();
+  }
+
+  showRouteModal(): void {
+    let routeModal = this.modalCtrl.create(RouteModal,
+      {
+        requester: RouteModalRequester.MyBuses,
+        title: 'Add Favorite Routes'
+      }
+    );
+    routeModal.present();
   }
 
   goToStopPage(stopId: number): void {
