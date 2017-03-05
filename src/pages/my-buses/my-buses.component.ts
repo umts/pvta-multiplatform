@@ -34,8 +34,8 @@ export class MyBusesComponent {
     let routeIds = _.map(this.routes, 'RouteId');
     // Resolve the promise, which will contain
     // a list of all alerts
-    this.alertService.getAlerts().then(alerts => {
-      for (let alert of alerts) {
+    this.alertService.getAlerts().then(downloadedAlerts => {
+      for (let alert of downloadedAlerts) {
         /* If the Routes property of an
          * alert contains any of RouteIDs
          *  in question (aka the list of
@@ -58,6 +58,7 @@ export class MyBusesComponent {
 
          //Also if there are no routes for that alert , show it by default
         if (alert.Routes.length == 0) {
+          console.log('no orutes for alert');
           this.alerts.push(alert);
         }
 
@@ -69,10 +70,9 @@ export class MyBusesComponent {
           }
         }
       }
-      console.log(this.alerts);
       // Finally, remove any duplicates.  Use the ID of the alert to
       // determine whether we've encountered a duplicate.
-      this.alerts = _.uniqBy(alerts, (alert) => {
+      this.alerts = _.uniqBy(this.alerts, (alert) => {
         return alert.MessageId;
       });
     });
