@@ -5,7 +5,7 @@
     </button>
     <ion-title>Routes and Stops</ion-title>
   </ion-navbar>
-  <ion-segment [(ngModel)]="cDisplay">
+  <ion-segment [(ngModel)]="cDisplay" (ionChange)="toggleOrdering()">
     <ion-segment-button value="routes">
       Routes
     </ion-segment-button>
@@ -19,10 +19,17 @@
     (ionInput)="onSearchQueryChanged($event)">
     <!-- (ionCancel)="onCancel($event)"> -->
   </ion-searchbar>
+  <ion-item>
+    <ion-label>Order {{cDisplay == 'routes' ? 'Routes' : 'Stops'}} By:</ion-label>
+    <ion-select [(ngModel)]="order" (ionChange)="toggleOrdering()">
+      <ion-option value="favorites">Favorites</ion-option>
+      <ion-option *ngIf="cDisplay == 'routes'" value="name" aria-label="Name">Name</ion-option>
+      <ion-option *ngIf="cDisplay == 'stops'" value="distance" aria-label="Distance">Distance</ion-option>
+    </ion-select>
+  </ion-item>
 </ion-header>
 
 <ion-content padding>
-
   <div [ngSwitch]="cDisplay">
     <ion-list text-wrap *ngSwitchCase="'routes'">
       <div ion-item *ngFor="let route of routesDisp"

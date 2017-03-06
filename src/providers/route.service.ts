@@ -57,12 +57,12 @@ export class RouteService {
     this.storage.ready().then(() => {
       console.log('getroutelist storage ready');
       this.storage.get('routes').then((routes) => {
-        console.log('getroutelist list retrieved', routes);
+        console.log('getroutelist list retrieved');
         if (routes && routes.list.length > 0) {
           console.log('list length > 0 and it exists');
           let now = moment();
           let diff = now.diff(routes.time, 'days')
-          console.log('the diference is', diff);
+          // console.log('the diference is', diff);
           if (diff <= 1) {
             console.log('Routeservice forage, returning list');
             cb(new Promise((resolve, reject) => {
@@ -91,14 +91,14 @@ export class RouteService {
     });
   }
   saveRouteList(routes: Route[]): void {
-    console.log('passed', routes);
+    // console.log('passed', routes);
     this.storage.ready().then(() => {
       this.storage.set('routes', {
         list: routes,
         time: new Date()
       });
       this.storage.get('routes').then((routes) => {
-        console.log('loaded', routes);
+        // console.log('loaded', routes);
       })
     })
   }

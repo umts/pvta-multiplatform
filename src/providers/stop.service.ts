@@ -65,14 +65,14 @@ export class StopService {
     });
   }
   saveStopList(stops: Stop[]): void {
-    console.log('passed', stops);
+    // console.log('passed', stops);
     this.storage.ready().then(() => {
       this.storage.set('stops', {
         list: stops,
         time: new Date()
       });
       this.storage.get('stops').then((stops) => {
-        console.log('loaded', stops);
+        // console.log('loaded', stops);
       })
     })
   }
