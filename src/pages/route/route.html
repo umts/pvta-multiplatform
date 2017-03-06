@@ -5,7 +5,7 @@
     </button>
     <ion-title>Route {{route?.RouteAbbreviation}} </ion-title>
     <ion-buttons end>
-      <button ion-button outline icon-only (click)="goToRouteMapPage()">
+      <button ion-button icon-only (click)="goToRouteMapPage()">
         <ion-icon name="map"></ion-icon>
       </button>
       <button ion-button icon-only item-right clear (click)="route.Liked = !route.Liked; toggleRouteHeart(route);">
