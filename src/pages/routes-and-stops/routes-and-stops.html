@@ -6,10 +6,10 @@
     <ion-title>Routes and Stops</ion-title>
   </ion-navbar>
   <ion-segment [(ngModel)]="cDisplay">
-    <ion-segment-button value="{{segment.Routes}}">
+    <ion-segment-button value="routes">
       Routes
     </ion-segment-button>
-    <ion-segment-button value="{{segment.Stops}}">
+    <ion-segment-button value="stops">
       Stops
     </ion-segment-button>
   </ion-segment>
@@ -24,7 +24,7 @@
 <ion-content padding>
 
   <div [ngSwitch]="cDisplay">
-    <ion-list text-wrap *ngSwitchCase="segment.Routes">
+    <ion-list text-wrap *ngSwitchCase="'routes'">
       <div ion-item *ngFor="let route of routesDisp"
         (click)="redirectRoute(route.RouteId)">
         <ion-icon name="bus" style="margin-right: 10px"></ion-icon>
@@ -38,7 +38,7 @@
       </div>
     </ion-list>
 
-    <ion-list text-wrap *ngSwitchCase="segment.Stops">
+    <ion-list text-wrap *ngSwitchCase="'stops'">
       <button ion-item *ngFor="let stop of stopsDisp | slice:0:40"
         (click)="redirectStop(stop.StopId)">
         <ion-icon name="pin" style="margin-right: 10px"></ion-icon>

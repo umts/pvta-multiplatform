@@ -15,11 +15,6 @@ import { StopComponent } from '../stop/stop.component'
 import { FavoriteStopService, FavoriteStopModel } from '../../providers/favorite-stop.service';
 import * as _ from 'lodash';
 
-export enum SegmentDisplay {
-    Routes,
-    Stops,
-}
-
 @Component({
   selector: 'page-routes-and-stops',
   templateUrl: 'routes-and-stops.html'
@@ -30,9 +25,7 @@ export class RoutesAndStopsComponent {
   stops: Stop[];
   favoriteStops: FavoriteStopModel[];
   favoriteRoutes: FavoriteRouteModel[];
-  // currentDisplay: string = '0';
-  segment = SegmentDisplay;
-  cDisplay: SegmentDisplay;
+  cDisplay: string;
   searchQuery: string = '';
   stopsDisp: Stop[];
   routesDisp: Route[];
@@ -42,7 +35,7 @@ export class RoutesAndStopsComponent {
     private loadingCtrl: LoadingController, private storage: Storage,
     private favoriteRouteService: FavoriteRouteService,
     private favoriteStopService: FavoriteStopService) {
-      this.cDisplay = SegmentDisplay.Routes;
+      this.cDisplay = 'routes';
       this.loader = loadingCtrl.create({
           content: 'Downloading departures...'
         });
@@ -56,13 +49,13 @@ export class RoutesAndStopsComponent {
     }
     else {
       query = query.toLowerCase().trim();
-      if (this.cDisplay == SegmentDisplay.Routes) {
+      if (this.cDisplay == 'routes') {
         this.routesDisp = _.filter(this.routes, route => {
           return (route.LongName.toLowerCase().includes(query) ||
           route.RouteAbbreviation.toLowerCase().includes(query));
         });
       }
-      else if (this.cDisplay = SegmentDisplay.Stops){
+      else if (this.cDisplay = 'stops'){
         this.stopsDisp = _.filter(this.stops, stop => {
           return (stop.Description.toLowerCase().includes(query) ||
           stop.StopId.toString().includes(query));
