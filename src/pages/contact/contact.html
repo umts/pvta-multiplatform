@@ -1,6 +1,5 @@
-<!-- "Page 2" - aka detail page - template -->
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -9,16 +8,166 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-icon [name]="item.icon" item-left></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-right>
-        {{item.note}}
-      </div>
-    </button>
-  </ion-list>
-  <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
+  <ion-card>
+    <ion-card-header role="heading" id="pvta-heading">
+      PVTA
+    </ion-card-header>
+    <ion-list role="list" aria-labelledby="pvta-heading">
+      <ion-item>
+        <ion-label role="heading">
+          PVTA Customer Service
+        </ion-label>
+        <div item-content>
+          413-781-PVTA (7882)
+        </div>
+        <button ion-button outline icon-left item-left
+        role="link"
+        onclick="window.open('tel:413-781-7882'), '_system'">
+          <ion-icon name="call" aria-label="Call"></ion-icon>
+          Call
+        </button>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          Online Complaints/Concerns Form
+        </ion-label>
+        <button ion-button outline icon-left item-left
+        role="link"
+          onclick="window.open('http://pvta.com/contactComplaints.php', '_blank');">
+          <ion-icon name="md-globe" role="link" aria-label="go to website"></ion-icon>
+          Visit Site
+        </button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header id="lost-n-found-heading">
+      Lost and Found / Regional Bus Information
+    </ion-card-header>
+    <ion-list aria-labelledby="lost-n-found-heading">
+      <ion-item>
+        <ion-label>
+          Springfield Area
+        </ion-label>
+        <div item-content>
+          413-788-8630
+        </div>
+        <button ion-button outline icon-left item-left
+        role="link"
+        onclick="window.open('tel:413-788-8630'), '_system'">
+          <ion-icon name="call" aria-label="Call"></ion-icon>
+          Call
+        </button>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          Holyoke Transportation Center
+        </ion-label>
+        <div item-content>
+          413-536-0694
+        </div>
+        <button ion-button outline icon-left item-left
+        role="link"
+        onclick="window.open('tel:413-536-0694'), '_system'">
+          <ion-icon name="call" aria-label="Call"></ion-icon>
+          Call
+        </button>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          Northampton Area
+        </ion-label>
+        <div item-content>
+          413-586-3548
+        </div>
+        <button ion-button outline icon-left item-left
+        role="link"
+        onclick="window.open('tel:413-586-3548'), '_system'">
+          <ion-icon name="call" aria-label="Call"></ion-icon>
+          Call
+        </button>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          UMass Amherst Area
+        </ion-label>
+        <div item-content>
+          413-545-0056
+        </div>
+        <button ion-button outline icon-left item-left
+        role="link"
+        onclick="window.open('tel:413-545-0056'), '_system'">
+          <ion-icon name="call" aria-label="Call"></ion-icon>
+          Call
+        </button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <ion-card>
+    <ion-card-header id="social-heading">
+      Social Media
+    </ion-card-header>
+    <ion-list aria-labelledby="social-heading">
+      <ion-item>
+        <button ion-button outline icon-left item-left
+        role="link"
+        onclick="window.open('https://www.facebook.com/Pioneer-Valley-Transit-Authority-169604739716541'), '_system'">
+          <ion-icon name="logo-facebook" aria-label="Go to Facebook"></ion-icon>
+          Visit
+        </button>
+        PVTA Facebook
+      </ion-item>
+      <ion-item>
+        <button ion-button outline icon-left item-left
+        role="link"
+        onclick="window.open('https://twitter.com/pvta'), '_system'">
+          <ion-icon name="logo-twitter" aria-label="Go to Twitter"></ion-icon>
+          Visit
+        </button>
+        PVTA Twitter
+      </ion-item>
+      <ion-item>
+        <button ion-button outline icon-left item-left
+        role="link"
+        onclick="window.open('https://www.facebook.com/UMassTransit'), '_system'">
+          <ion-icon name="logo-facebook" aria-label="Go to Facebook"></ion-icon>
+          Visit
+        </button>
+        UMass Transit Facebook
+      </ion-item>
+      <ion-item>
+        <button ion-button outline icon-left item-left
+        role="link"
+        onclick="window.open('https://twitter.com/umasstransit'), '_system'">
+          <ion-icon name="logo-twitter" aria-label="Go to Twitter"></ion-icon>
+          Visit
+        </button>
+        UMass Transit Twitter
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header id="paratransit-heading">
+      Paratransit Van Requests
+    </ion-card-header>
+    <ion-list aria-labelledby="paratransit-heading">
+      <ion-item>
+        <ion-label>
+          PVTA Paratransit Van Requests:
+        </ion-label>
+        <div item-content>
+          413-732-6248
+        </div>
+        <button ion-button outline icon-left item-left
+        role="link"
+        onclick="window.open('tel:413-732-6248'), '_system'">
+          <ion-icon name="call" aria-label="Call"></ion-icon>
+          Call
+        </button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
 </ion-content>
