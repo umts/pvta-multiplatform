@@ -69,7 +69,7 @@
   <div class="input-div center-div">
     <button (click)="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
   </div>
-  <div #directionsMap id="directionsMap" [hidden]="false" class="directions-map-hohoho" aria-hidden="true"></div>
+  <div #directionsMap id="directionsMap" [hidden]="!route" class="directions-map-hohoho" aria-hidden="true"></div>
   <!-- *ngIf="route" -->
   <div id="route" aria-live="assertive">
     <div *ngIf="route" text-wrap>

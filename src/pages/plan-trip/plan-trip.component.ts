@@ -266,32 +266,10 @@ export class PlanTripComponent {
   }
   mapbounds;
   mapLocation(place): void {
-    if (!place || !place.geometry) {
-      // @TODO Add invalidLocationPopup
-      // invalidLocationPopup('Choose a location from the list of suggestions.');
-      console.error('No geometry, invalid input.');
-    }
-    else if (!this.bounds.contains(place.geometry.location)) {
-      // @TODO Add invalidLocationPopup
-      // invalidLocationPopup('PVTA does not service this location.');
-      console.error('Location ' + place.name + ' is out of bounds. ID: ' + place.id);
-    } else {
       //Fit the location on the map
       // debugger;
       console.log('totoitoto')
       this.mapbounds.extend(place.geometry.location);
-      // if (place.geometry.viewport) {
-      //   console.log('have viewport');
-      //   this.mapbounds.extend(place.geometry.viewport)
-      // } else {
-      //   console.log('dont have viewport');
-      //   this.map.setCenter(place.geometry.location);
-      //   this.map.setZoom(17);
-      // }
-      // this.map.fitBounds(this.mapbounds);
-      //success callback
-      // success(place);
-    }
   }
 
   presentAlert(title: string, body: string): void {
@@ -453,14 +431,14 @@ export class PlanTripComponent {
         // unless we force a redraw after a brief delay.
         setTimeout(() => {
           this.loader.dismiss();
-          google.maps.event.addListenerOnce(this.map, "idle", () => {
-            google.maps.event.trigger(this.map, 'resize');
-          });
+          // google.maps.event.addListenerOnce(this.map, "idle", () => {
+          //   google.maps.event.trigger(this.map, 'resize');
+          // });
           console.log(this.originPlace);
           console.log(this.destinationPlace);
-          this.mapLocation(this.originPlace);
-          this.mapLocation(this.destinationPlace);
-          this.map.fitBounds(this.mapbounds);
+          // this.mapLocation(this.originPlace);
+          // this.mapLocation(this.destinationPlace);
+          // this.map.fitBounds(this.mapbounds);
         }, 500);
         // ga('send', 'event', 'TripStepsRetrieved', 'PlanTripController.getRoute()', 'Received steps for a planned trip!');
       } else  {
