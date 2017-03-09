@@ -10,7 +10,15 @@
 <ion-content>
   <!-- <div ng-include="'pages/app/no-network.html'"></div> -->
   <div class="list" id="input">
-    <div class="item item-input-inset">
+    <ion-item>
+     <ion-input placeholder="Enter an origin" (blur)="getOriginPlace()" [(ngModel)]="originInput"></ion-input>
+    </ion-item>
+    {{originInput}}
+    <ion-item>
+     <ion-input placeholder="Enter a destination" (blur)="getDestinationPlace()" [(ngModel)]="destinationInput"></ion-input>
+    </ion-item>
+    {{destinationInput}}
+    <div [hidden]="true" class="item item-input-inset">
       <label class="item-input-wrapper">
         <!-- ng-focus="disableTap()" / -->
         <input id="origin-input" role="combobox" aria-autocomplete="list"
@@ -27,7 +35,7 @@
         (click)="request.destinationOnly = !request.destinationOnly; updateOrigin();">
       </ion-icon>
     </div>
-    <div class="item item-input-inset">
+    <div [hidden]="true" class="item item-input-inset">
       <label class="item-input-wrapper">
         <input id="destination-input" class="user-input location-typeahead"
         type="text" placeholder="Enter a destination" [(ngModel)]="request?.destination.name"/>
@@ -61,7 +69,7 @@
   <div class="input-div center-div">
     <button (click)="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
   </div>
-  <div #directionsMap id="directionsMap" [hidden]="!route" aria-hidden="true"></div>
+  <div #directionsMap id="directionsMap" [hidden]="false" class="directions-map-hohoho" aria-hidden="true"></div>
   <!-- *ngIf="route" -->
   <div id="route" aria-live="assertive">
     <div *ngIf="route" text-wrap>

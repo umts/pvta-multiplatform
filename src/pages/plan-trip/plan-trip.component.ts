@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation } from 'ionic-native';
-import { NavController, ToastController, LoadingController } from 'ionic-angular';
+import { NavController, ToastController, LoadingController, AlertController } from 'ionic-angular';
 import {StopService} from '../../providers/stop.service';
 import {StopComponent} from '../stop/stop.component';
 import * as moment from 'moment';
@@ -19,22 +19,31 @@ export class PlanTripComponent {
    neBound = new google.maps.LatLng(42.51138, -72.20302);
    bounds = new google.maps.LatLngBounds(this.swBound, this.neBound);
    request;
+   originForm: string = '';
+   destionationForm: string = '';
+   originPlace;
+   originInput: string = '';
+   destinationPlace;
    noLocation: boolean;
    loadedTrip;
+   destinationInput;
    directionsDisplay;
    map;
    route;
    loader;
+   placeService;
    timeOptions = []
 
   constructor(public navCtrl: NavController, private stopService: StopService,
-  private toastCtrl: ToastController, private loadingCtrl: LoadingController) {
+  private toastCtrl: ToastController, private loadingCtrl: LoadingController,
+  private alertCtrl: AlertController) {
     /* List of the different types of times that we can request trips.
      * Each type has a name (for the UI) and a few properties for us:
      * type: whether the user wants a "departure" or "arrival"
      * isASAP: whether we should ignore all other given times and
                request a trip leaving NOW
       */
+    this.mapbounds = new google.maps.LatLngBounds();
     this.timeOptions = [
       { title: 'Leaving Now', type: 'departure', isASAP: true, id: 0 },
       { title: 'Departing At', type: 'departure', isASAP: false,id: 1 },
@@ -67,6 +76,8 @@ export class PlanTripComponent {
         (results, status) => {
           if (status === google.maps.GeocoderStatus.OK) {
             if (results[1]) {
+              this.originPlace = results[1];
+              this.originInput = results[1].formatted_address;
               this.request.origin = {
                 name: results[1].formatted_address,
                 id: results[1].place_id
@@ -78,7 +89,7 @@ export class PlanTripComponent {
           }
         }
       );
-      this.getRoute();
+      // this.getRoute();
     })
     .catch(err => {
       this.toastCtrl.create({
@@ -103,7 +114,7 @@ export class PlanTripComponent {
         this.request.destinationOnly = false;
       }, 1000);
       console.error('unable to get location ' + err.message);
-      this.getRoute();
+      // this.getRoute();
     });
   }
 
@@ -138,7 +149,7 @@ export class PlanTripComponent {
         this.loadLocation();
       }
       else {
-        this.getRoute();
+        // this.getRoute();
       }
       // ga('send', 'event', 'TripLoaded', 'PlanTripController.reload()', 'User has navigated to Plan Trip using a saved Trip.');
     }
@@ -182,77 +193,199 @@ export class PlanTripComponent {
     var originInput = <HTMLInputElement>document.getElementById('origin-input');
     var destinationInput = <HTMLInputElement>document.getElementById('destination-input');
 
-    var originAutocomplete = new google.maps.places.Autocomplete(originInput);
-    var destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput);
-    originAutocomplete.setBounds(this.bounds);
-    destinationAutocomplete.setBounds(this.bounds);
+    // var originAutocomplete = new google.maps.places.Autocomplete(originInput);
+    // var destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput);
+    this.placeService = new google.maps.places.PlacesService(this.map);
+    // originAutocomplete.setBounds(this.bounds);
+    // destinationAutocomplete.setBounds(this.bounds);
     // When the user has selected a valid Place from the dropdown
-    originAutocomplete.addListener('place_changed', () => {
-      this.mapLocation(originAutocomplete.getPlace(), (place) => {
-        this.request.origin = {
-          name: place.name,
-          id: place.place_id
-        };
-        this.request.destinationOnly = false;
-        // Give the trip a default name if it has an origin AND destination.
-        if (this.request.destination.name) {
-          this.request.name = place.name + ' to ' + this.request.destination.name;
-        }
-      }, (err) => {
-        // ga('send', 'event', 'AutocompleteFailure', 'originAutocomplete.place_changed', 'autocomplete failure in plan trip: ' + err);
-
-        // If the location chosen is not valid, an error is thrown.
-        // request.origin.name still holds the text that the user
-        // originally typed into the field. We will set the field's value
-        // back to this text.
-        this.request.origin.id = null;
-        originInput.value = this.request.origin.name;
-      });
-    });
-    // When a valid destination is chosen:
-    destinationAutocomplete.addListener('place_changed', () => {
-      this.mapLocation(destinationAutocomplete.getPlace(), (place) => {
-        this.request.destination = {
-          name: place.name,
-          id: place.place_id
-        };
-        // Name the trip
-        if (this.request.destinationOnly || !this.request.origin.name) {
-          this.request.name = place.name;
-        } else {
-          // ORIGIN to DESTINATION if not destinationOnly
-          this.request.name = this.request.origin.name + ' to ' + place.name;
-        }
-      }, (err) => {
-        // ga('send', 'event', 'AutocompleteFailure', 'destinationAutocomplete.place_changed', 'autocomplete failure in plan trip: ' + err);
-        //See comments for originAutocompleteListener method
-        this.request.destination.id = null;
-        destinationInput.value = this.request.destination.name;
-      });
-    });
+    // originAutocomplete.addListener('place_changed', () => {
+    //   let place = originAutocomplete.getPlace();
+    //   debugger;
+    //   if (!place || !place.geometry) {
+    //     // @TODO Add invalidLocationPopup
+    //     // invalidLocationPopup('Choose a location from the list of suggestions.');
+    //     // ga('send', 'event', 'AutocompleteFailure', 'originAutocomplete.place_changed', 'autocomplete failure in plan trip: ' + err);
+    //
+    //     // If the location chosen is not valid, an error is thrown.
+    //     // request.origin.name still holds the text that the user
+    //     // originally typed into the field. We will set the field's value
+    //     // back to this text.
+    //     this.request.origin.id = null;
+    //     originInput.value = this.request.origin.name;
+    //     console.error('No geometry, invalid input.');
+    //   } else if (!this.bounds.contains(place.geometry.location)) {
+    //     // @TODO Add invalidLocationPopup
+    //     // invalidLocationPopup('PVTA does not service this location.');
+    //     console.error('Location ' + place.name + ' is out of bounds. ID: ' + place.id);
+    //   } else {
+    //     this.originPlace = place;
+    //     this.request.origin = {
+    //       name: place.name,
+    //       id: place.place_id
+    //     };
+    //     this.request.destinationOnly = false;
+    //     // Give the trip a default name if it has an origin AND destination.
+    //     if (this.request.destination.name) {
+    //       this.request.name = place.name + ' to ' + this.request.destination.name;
+    //     }
+    //   }
+    // });
+    // // When a valid destination is chosen:
+    // destinationAutocomplete.addListener('place_changed', () => {
+    //   let place =  destinationAutocomplete.getPlace();
+    //   if (!place || !place.geometry) {
+    //     // @TODO Add invalidLocationPopup
+    //     // invalidLocationPopup('Choose a location from the list of suggestions.');
+    //     console.error('No geometry, invalid input.');
+    //   }
+    //   else if (!this.bounds.contains(place.geometry.location)) {
+    //     // @TODO Add invalidLocationPopup
+    //     // invalidLocationPopup('PVTA does not service this location.');
+    //     console.error('Location ' + place.name + ' is out of bounds. ID: ' + place.id);
+    //   } else {
+    //     this.destinationPlace = place;
+    //     this.request.destination = {
+    //       name: place.name,
+    //       id: place.place_id
+    //     };
+    //     // Name the trip
+    //     if (this.request.destinationOnly || !this.request.origin.name) {
+    //       this.request.name = place.name;
+    //     } else {
+    //       // ORIGIN to DESTINATION if not destinationOnly
+    //       this.request.name = this.request.origin.name + ' to ' + place.name;
+    //     }
+    //   }
+    // }, (err) => {
+    //     // ga('send', 'event', 'AutocompleteFailure', 'destinationAutocomplete.place_changed', 'autocomplete failure in plan trip: ' + err);
+    //     //See comments for originAutocompleteListener method
+    //     this.request.destination.id = null;
+    //     destinationInput.value = this.request.destination.name;
+    // });
   }
-
-  mapLocation(place, success, error): void {
-    if (!place.geometry) {
+  mapbounds;
+  mapLocation(place): void {
+    if (!place || !place.geometry) {
       // @TODO Add invalidLocationPopup
       // invalidLocationPopup('Choose a location from the list of suggestions.');
-      error('No geometry, invalid input.');
+      console.error('No geometry, invalid input.');
     }
     else if (!this.bounds.contains(place.geometry.location)) {
       // @TODO Add invalidLocationPopup
       // invalidLocationPopup('PVTA does not service this location.');
-      error('Location ' + place.name + ' is out of bounds. ID: ' + place.id);
+      console.error('Location ' + place.name + ' is out of bounds. ID: ' + place.id);
     } else {
       //Fit the location on the map
-      if (place.geometry.viewpoint) {
-        this.map.fitBounds(place.geometry.viewpoint);
-      } else {
-        this.map.setCenter(place.geometry.location);
-        this.map.setZoom(17);
-      }
+      // debugger;
+      console.log('totoitoto')
+      this.mapbounds.extend(place.geometry.location);
+      // if (place.geometry.viewport) {
+      //   console.log('have viewport');
+      //   this.mapbounds.extend(place.geometry.viewport)
+      // } else {
+      //   console.log('dont have viewport');
+      //   this.map.setCenter(place.geometry.location);
+      //   this.map.setZoom(17);
+      // }
+      // this.map.fitBounds(this.mapbounds);
       //success callback
-      success(place);
+      // success(place);
     }
+  }
+
+  presentAlert(title: string, body: string): void {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: body,
+      buttons: ['Dismiss']
+    });
+    alert.present();
+  }
+  presentLocationPicker(places, origin: boolean): any {
+      let alert = this.alertCtrl.create({title: 'pick a location'});
+      for (let place of places) {
+        alert.addInput({
+          type: 'radio',
+          label: place.formatted_address,
+          value: place
+        });
+      }
+      alert.addButton(
+        {
+          text: 'ok',
+          handler: place => {
+            if (!this.bounds.contains(place.geometry.location)) {
+              this.presentAlert('Invalid Origin', 'The PVTA does not service this location.');
+              return;
+            }
+            if (origin) {
+              console.log('set origin');
+              this.setRequestOrigin(place)
+            } else {
+              this.setRequestDestination(place);
+            }
+          }
+        });
+      alert.present();
+  }
+
+  checkForValidPlace(type: string, status) {
+    if (status != google.maps.places.PlacesServiceStatus.OK) {
+      this.presentAlert(`Invalid ${type}`, `Unable to find a route. Error code: ${status}`)
+    }
+  }
+
+  setRequestOrigin(place): void {
+    console.log('origin place', place);
+    this.originInput = place.formatted_address;
+    this.request.origin = {
+      name: place.formatted_address,
+      id: place.place_id
+    };
+  }
+  setRequestDestination(place): void {
+    console.log('destination place', place);
+     this.destinationInput = place.formatted_address;
+    this.request.destination = {
+      name: place.formatted_address,
+      id: place.place_id
+    };
+  }
+
+  getOriginPlace(): void {
+    if (!this.originInput) return;
+    let originPlaceRequest = {
+      query: this.originInput,
+      bounds: this.bounds
+    };
+    this.placeService.textSearch(originPlaceRequest, (results, status) => {
+      this.checkForValidPlace('Origin', status);
+      console.log(results)
+      if (results.length > 1) {
+        this.presentLocationPicker(results, true);
+      }
+      else {
+        this.setRequestOrigin(results[0])
+      }
+      this.request.destinationOnly = false;
+    });
+  }
+  getDestinationPlace(): void {
+    if (!this.destinationInput) return;
+    let destinationPlaceRequest = {
+      query: this.destinationInput,
+      bounds: this.bounds
+    };
+    this.placeService.textSearch(destinationPlaceRequest, (results, status) => {
+      this.checkForValidPlace('Destination', status);
+      console.log(results);
+      if (results.length > 1) {
+        this.presentLocationPicker(results, false);
+      } else {
+        this.setRequestDestination(results[0]);
+      }
+    });
   }
 
   /* Requests a trip from Google using the trip params.
@@ -261,6 +394,7 @@ export class PlanTripComponent {
    getRoute(): void {
     // We need an origin and destination
     if (!this.request.origin.id || !this.request.destination.id) {
+      console.error('Missing an origin or destination id');
       return;
     }
     // Google won't return trips for times past.
@@ -268,11 +402,8 @@ export class PlanTripComponent {
     // directions for right now.
     if (!this.timeOptions[this.request.time.option].isASAP && this.request.time.datetime < Date.now()) {
       this.request.time.option = this.timeOptions[0].id;
-      // @TODO add this popup
-      // $ionicPopup.alert({
-      //   title: 'Invalid Trip Date',
-      //   template: 'Trips in the past are not supported. Defaulting to buses leaving now.'
-      // });
+      this.presentAlert('Invalid Trip Date',
+      'Trips in the past are not supported. Defaulting to buses leaving now.');
       console.error('Trips in the past are not supported. Defaulting to buses leaving now.');
     }
     this.loader = this.loadingCtrl.create();
@@ -307,7 +438,7 @@ export class PlanTripComponent {
         transitOptions: transitOptions
       },
       (response, status) => {
-      console.log(response);
+      console.log('directionsresponse', response, 'directionstatus', status);
       // @TODO figure out whether to add this back in
       // && this.confirmValidRoute(response.routes[0])
       if (status === google.maps.DirectionsStatus.OK ) {
@@ -325,6 +456,11 @@ export class PlanTripComponent {
           google.maps.event.addListenerOnce(this.map, "idle", () => {
             google.maps.event.trigger(this.map, 'resize');
           });
+          console.log(this.originPlace);
+          console.log(this.destinationPlace);
+          this.mapLocation(this.originPlace);
+          this.mapLocation(this.destinationPlace);
+          this.map.fitBounds(this.mapbounds);
         }, 500);
         // ga('send', 'event', 'TripStepsRetrieved', 'PlanTripController.getRoute()', 'Received steps for a planned trip!');
       } else  {
