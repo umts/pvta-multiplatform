@@ -75,7 +75,7 @@ export class PlanTripComponent {
         (results, status) => {
           if (status === google.maps.GeocoderStatus.OK) {
             console.log(results);
-            if (results[0] && !this.bounds.contains(results[0].geometry.location)) {
+            if (results[0] && this.bounds.contains(results[0].geometry.location)) {
               let closestGeolocationAddress = results[0];
               this.originPlace = closestGeolocationAddress;
               this.originInput = closestGeolocationAddress.formatted_address;
@@ -87,8 +87,8 @@ export class PlanTripComponent {
                 this.request.name = this.request.destination.name;
               }
             } else {
-              this.presentAlert('Invalid Origin',
-              'The PVTA does not service this location.');
+              this.presentAlert('Can\'t Use Current Location',
+              'Your current location isn\'t in the PVTA\'s service area. Please search for a starting location above.');
             }
           }
         }
