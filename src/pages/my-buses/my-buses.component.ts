@@ -4,6 +4,7 @@ import { NavController, ModalController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StopComponent } from '../stop/stop.component';
 import { RouteComponent } from '../route/route.component';
+import { PlanTripComponent } from '../plan-trip/plan-trip.component';
 import { FavoriteRouteService } from '../../providers/favorite-route.service';
 import { AlertService } from '../../providers/alert.service';
 import { Alert } from '../../models/alert.model';
@@ -122,6 +123,11 @@ export class MyBusesComponent {
   goToRoutePage(routeId: number): void {
     this.navCtrl.push(RouteComponent, {
       routeId: routeId
+    });
+  }
+  goToTripPage(trip): void {
+    this.navCtrl.push(PlanTripComponent, {
+      loadedTrip: trip
     });
   }
 }

@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation } from 'ionic-native';
-import { NavController, ToastController, LoadingController, AlertController } from 'ionic-angular';
+import { NavController, ToastController, LoadingController, AlertController, NavParams } from 'ionic-angular';
 import {StopService} from '../../providers/stop.service';
 import {FavoriteTripService} from '../../providers/favorite-trip.service';
 import {StopComponent} from '../stop/stop.component';
@@ -35,7 +35,8 @@ export class PlanTripComponent {
 
   constructor(public navCtrl: NavController, private stopService: StopService,
   private toastCtrl: ToastController, private loadingCtrl: LoadingController,
-  private alertCtrl: AlertController, private tripService: FavoriteTripService) {
+  private alertCtrl: AlertController, private tripService: FavoriteTripService,
+  private navParams: NavParams) {
     /* List of the different types of times that we can request trips.
      * Each type has a name (for the UI) and a few properties for us:
      * type: whether the user wants a "departure" or "arrival"
@@ -74,7 +75,7 @@ export class PlanTripComponent {
         (results, status) => {
           if (status === google.maps.GeocoderStatus.OK) {
             console.log(results);
-            if (results[0]) {
+            if (results[0] && !this.bounds.contains(results[0].geometry.location)) {
               let closestGeolocationAddress = results[0];
               this.originPlace = closestGeolocationAddress;
               this.originInput = closestGeolocationAddress.formatted_address;
@@ -85,6 +86,9 @@ export class PlanTripComponent {
               if (this.request.destination.name) {
                 this.request.name = this.request.destination.name;
               }
+            } else {
+              this.presentAlert('Invalid Origin',
+              'The PVTA does not service this location.');
             }
           }
         }
@@ -173,8 +177,8 @@ export class PlanTripComponent {
 
   ionViewWillEnter() {
     // @TODO Load saved trips
-    let loadedTrip = null;
-    // this.loadedTrip = Trips.pop();
+    // let loadedTrip = null;
+    let loadedTrip = this.navParams.get('loadedTrip');
     this.reload(loadedTrip);
   }
 
@@ -372,29 +376,6 @@ export class PlanTripComponent {
          }
        ]
      }).present();
-     // $ionicPopup.show({
-      //   template: '<input type="text" role="dialog" placeholder="Give this trip a name" ng-model="request.name" aria-live="assertive">',
-      //   title: 'Trip Name',
-      //   scope: $scope,
-      //   buttons: [
-      // {text: 'Cancel',
-      //   onTap: function () {
-      //     $scope.request.name = prevName;
-      //   }},
-      //   {text: '<b>OK</b>',
-      //     type: 'button-positive',
-      // @TODO Save the trip
-      //   onTap: function () {
-      //     if ($scope.request.saved) {
-      //       Trips.set($scope.request);
-      //     }
-      //     else {
-      //       $scope.request.saved = true;
-      //       Trips.add($scope.request);
-      //     }
-      //     saveSuccessful();}
-      //   }]
-      // });
   }
 
   /* Allows for location selection on google

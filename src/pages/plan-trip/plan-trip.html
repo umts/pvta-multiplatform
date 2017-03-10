@@ -9,7 +9,7 @@
 
 <ion-content>
   <!-- <div ng-include="'pages/app/no-network.html'"></div> -->
-  <div class="list" id="input">
+  <ion-list id="input">
     <ion-item>
       <label class="item-input-wrapper">
         <!-- ng-focus="disableTap()" / -->
@@ -51,17 +51,10 @@
         <ion-datetime displayFormat="h:mm A" pickerFormat="h:mm A" [(ngModel)]="request?.time.datetime"></ion-datetime>
       </ion-item>
     </div>
-     <!-- [hidden]="request?.time.option.isASAP === true" -->
-    <div>
-      <!-- <button class="button icon-left ion-android-calendar" (click)="openDatePicker()">{{request?.time.datetime | date: "MMM d"}}</button>
-      <button class="button icon-left ion-ios-time-outline" (click)="openTimePicker()">{{request?.time.datetime | date: "h:mm a"}}</button> -->
-    </div>
-  </div>
+  </ion-list>
+  <button ion-button block *ngIf="route" (click)="saveTrip()">Save Trip</button>
+  <button ion-button block (click)="getRoute()" id="dasd">Search Schedule</button>
 
-  <div class="input-div center-div">
-    <button (click)="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
-    <button (click)="saveTrip()">Save Trip</button>
-  </div>
   <div #directionsMap id="directionsMap" [hidden]="!route" class="directions-map-hohoho" aria-hidden="true"></div>
   <!-- *ngIf="route" -->
   <div id="route" aria-live="assertive">
