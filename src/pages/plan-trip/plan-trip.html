@@ -60,6 +60,7 @@
 
   <div class="input-div center-div">
     <button (click)="getRoute()" id="route-button" class="user-input trip-button">Search Schedule</button>
+    <button (click)="saveTrip()">Save Trip</button>
   </div>
   <div #directionsMap id="directionsMap" [hidden]="!route" class="directions-map-hohoho" aria-hidden="true"></div>
   <!-- *ngIf="route" -->

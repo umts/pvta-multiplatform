@@ -50,4 +50,16 @@
         </button>
       </div>
     </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider role="heading" aria-label="your trips" id="trips-heading">
+        Your Trips
+      </ion-item-divider>
+      <div role="list">
+        <button ion-item item-left *ngFor="let trip of trips"
+        (click)="goToTripPage(trip)">
+          <ion-icon name="map" aria-hidden="true" style="margin-right: 10px"></ion-icon>
+          {{trip.name}}
+        </button>
+      </div>
+    </ion-item-group>
 </ion-content>

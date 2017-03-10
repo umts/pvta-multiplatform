@@ -19,6 +19,7 @@ export class MyBusesComponent {
   routes;
   stops;
   alerts: Alert[];
+  trips;
 
   constructor(public navCtrl: NavController, private storage: Storage,
     private alertService: AlertService,
@@ -86,6 +87,9 @@ export class MyBusesComponent {
       });
       this.storage.get('favoriteStops').then(favoriteStops => {
         this.stops = favoriteStops;
+      })
+      this.storage.get('savedTrips').then(savedTrips => {
+        this.trips = savedTrips;
       })
     })
   }

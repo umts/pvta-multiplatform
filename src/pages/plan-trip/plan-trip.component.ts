@@ -365,13 +365,13 @@ export class PlanTripComponent {
            text: 'Save',
            handler: data => {
              console.log('data', data);
-             this.request.name = data;
+             this.request.name = data.name;
              console.log('Saved clicked');
              this.tripService.saveTrip(this.request);
            }
          }
        ]
-     })
+     }).present();
      // $ionicPopup.show({
       //   template: '<input type="text" role="dialog" placeholder="Give this trip a name" ng-model="request.name" aria-live="assertive">',
       //   title: 'Trip Name',
