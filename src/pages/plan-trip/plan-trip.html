@@ -11,14 +11,6 @@
   <!-- <div ng-include="'pages/app/no-network.html'"></div> -->
   <div class="list" id="input">
     <ion-item>
-     <ion-input placeholder="Enter an origin" (blur)="getOriginPlace()" [(ngModel)]="originInput"></ion-input>
-    </ion-item>
-    {{originInput}}
-    <ion-item>
-     <ion-input placeholder="Enter a destination" (blur)="getDestinationPlace()" [(ngModel)]="destinationInput"></ion-input>
-    </ion-item>
-    {{destinationInput}}
-    <div [hidden]="true" class="item item-input-inset">
       <label class="item-input-wrapper">
         <!-- ng-focus="disableTap()" / -->
         <input id="origin-input" role="combobox" aria-autocomplete="list"
@@ -34,13 +26,13 @@
         style="font-size: 120%; margin-left: 1%"
         (click)="request.destinationOnly = !request.destinationOnly; updateOrigin();">
       </ion-icon>
-    </div>
-    <div [hidden]="true" class="item item-input-inset">
+    </ion-item>
+    <ion-item>
       <label class="item-input-wrapper">
         <input id="destination-input" class="user-input location-typeahead"
         type="text" placeholder="Enter a destination" [(ngModel)]="request?.destination.name"/>
       </label>
-    </div>
+    </ion-item>
     <ion-item>
       <ion-label>Search for buses:</ion-label>
       <ion-select [(ngModel)]="request?.time.option">
