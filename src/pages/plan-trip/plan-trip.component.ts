@@ -408,6 +408,7 @@ export class PlanTripComponent {
     /*
      * Send the official request to Google!
      */
+    //  this.route = []
     directionsService.route(
       {
         origin: {'placeId': this.request.origin.id},
@@ -420,8 +421,24 @@ export class PlanTripComponent {
       // @TODO figure out whether to add this back in
       // && this.confirmValidRoute(response.routes[0])
       if (status === google.maps.DirectionsStatus.OK ) {
-        this.directionsDisplay.setDirections(response);
-        this.route = response.routes[0].legs[0];
+        setTimeout(() => {
+          this.loader.dismiss();
+          google.maps.event.trigger(this.map, 'resize');
+          // this.map.setZoom(10);
+          this.directionsDisplay.setDirections(response);
+          this.route = response.routes[0].legs[0];
+          console.log('map idle')
+          console.log(this.originPlace);
+          console.log(this.destinationPlace);
+          // this.mapLocation(this.originPlace);
+          // this.mapLocation(this.destinationPlace);
+          // this.map.fitBounds(this.mapbounds);
+        }, 1000);
+        setTimeout(() => {
+          google.maps.event.trigger(this.map, 'resize');
+          console.log('tits');
+          this.directionsDisplay.setDirections(response);
+        }, 2000)
         // @TODO scroll to route being displayed in UI
         // $scope.scrollTo('route');
 
@@ -429,18 +446,7 @@ export class PlanTripComponent {
         // There's STILL an angular bug (with [hidden]) that will cause
         // the map to draw only grey after being hidden
         // unless we force a redraw after a brief delay.
-        setTimeout(() => {
-          this.loader.dismiss();
-          // google.maps.event.addListenerOnce(this.map, "idle", () => {
-          //   google.maps.event.trigger(this.map, 'resize');
-          // });
-          console.log(this.originPlace);
-          console.log(this.destinationPlace);
-          // this.mapLocation(this.originPlace);
-          // this.mapLocation(this.destinationPlace);
-          // this.map.fitBounds(this.mapbounds);
-        }, 500);
-        // ga('send', 'event', 'TripStepsRetrieved', 'PlanTripController.getRoute()', 'Received steps for a planned trip!');
+        // ga('send', 'event', 'TripStepsRetrieved', ser 'PlanTripController.getRoute()', 'Received steps for a planned trip!');
       } else  {
         console.log(status);
         // @TODO Add the popup
@@ -458,7 +464,7 @@ export class PlanTripComponent {
         this.route = undefined;
       }
     });
-    this.loader.dismiss();
+    // this.loader.dismiss();
     // @TODO figure out of this should be a thing?
     // , function (err) {
     //   this.route = undefined;
