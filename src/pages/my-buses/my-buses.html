@@ -24,6 +24,9 @@
       Your Routes
       <button ion-button outline item-right (click)="showRouteModal()">Add Routes</button>
     </ion-item-divider>
+      <ion-item *ngIf="!routes">
+        No favorite routes yet!
+      </ion-item>
       <button text-wrap ion-item *ngFor="let route of routes"
       role="list" aria-labelledby="routes-heading"
       (click)="goToRoutePage(route?.RouteId)">
@@ -43,6 +46,9 @@
         <button ion-button outline item-right (click)="showStopModal()">Add Stops</button>
       </ion-item-divider>
       <div role="list">
+        <ion-item *ngIf="!stops">
+          No favorite stops yet!
+        </ion-item>
         <button ion-item item-left *ngFor="let stop of stops"
         (click)="goToStopPage(stop.StopId)">
           <ion-icon name="pin" aria-hidden="true" style="margin-right: 10px"></ion-icon>
@@ -50,7 +56,7 @@
         </button>
       </div>
     </ion-item-group>
-    <ion-item-group>
+    <ion-item-group *ngIf="trips?.length > 0">
       <ion-item-divider role="heading" aria-label="your trips" id="trips-heading">
         Your Trips
       </ion-item-divider>
