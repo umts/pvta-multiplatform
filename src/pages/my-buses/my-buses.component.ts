@@ -81,18 +81,32 @@ export class MyBusesComponent {
   }
 
   ionViewWillEnter() {
+    this.getFavoriteRoutes();
+    this.getFavoriteStops();
+    this.getSavedTrips();
+  }
+
+  getFavoriteRoutes(): void {
     this.storage.ready().then(() => {
       this.storage.get('favoriteRoutes').then(favoriteRoutes => {
         this.routes = favoriteRoutes;
         this.filterAlerts();
       });
+    });
+  }
+  getFavoriteStops(): void {
+    this.storage.ready().then(() => {
       this.storage.get('favoriteStops').then(favoriteStops => {
         this.stops = favoriteStops;
-      })
+      });
+    });
+  }
+  getSavedTrips(): void {
+    this.storage.ready().then(() => {
       this.storage.get('savedTrips').then(savedTrips => {
         this.trips = savedTrips;
-      })
-    })
+      });
+    });
   }
 
   showStopModal(): void {
@@ -103,6 +117,7 @@ export class MyBusesComponent {
       }
     );
     stopModal.present();
+    stopModal.onDidDismiss(() => {this.getFavoriteStops()});
   }
 
   showRouteModal(): void {
@@ -113,6 +128,7 @@ export class MyBusesComponent {
       }
     );
     routeModal.present();
+    routeModal.onDidDismiss(() => {this.getFavoriteRoutes()});
   }
 
   goToStopPage(stopId: number): void {
