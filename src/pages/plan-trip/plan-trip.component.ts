@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation } from 'ionic-native';
 import { NavController, ToastController, LoadingController, AlertController } from 'ionic-angular';
 import {StopService} from '../../providers/stop.service';
+import {FavoriteTripService} from '../../providers/favorite-trip.service';
 import {StopComponent} from '../stop/stop.component';
 import * as moment from 'moment';
 
@@ -34,7 +35,7 @@ export class PlanTripComponent {
 
   constructor(public navCtrl: NavController, private stopService: StopService,
   private toastCtrl: ToastController, private loadingCtrl: LoadingController,
-  private alertCtrl: AlertController) {
+  private alertCtrl: AlertController, private tripService: FavoriteTripService) {
     /* List of the different types of times that we can request trips.
      * Each type has a name (for the UI) and a few properties for us:
      * type: whether the user wants a "departure" or "arrival"
@@ -342,9 +343,35 @@ export class PlanTripComponent {
    * for display on My Buses
   */
   saveTrip(): void {
-    var prevName = this.request.name;
     console.log('saving trip yo');
      // @TODO Show the dialog for naming trip
+     this.alertCtrl.create({
+       title: 'Save Trip',
+       message: 'Give this trip a name',
+       inputs: [
+         {
+           name: 'name',
+           placeholder: 'example: To the mall!'
+         },
+       ],
+       buttons: [
+         {
+           text: 'Cancel',
+           handler: data => {
+             console.log('Cancel clicked');
+           }
+         },
+         {
+           text: 'Save',
+           handler: data => {
+             console.log('data', data);
+             this.request.name = data;
+             console.log('Saved clicked');
+             this.tripService.saveTrip(this.request);
+           }
+         }
+       ]
+     })
      // $ionicPopup.show({
       //   template: '<input type="text" role="dialog" placeholder="Give this trip a name" ng-model="request.name" aria-live="assertive">',
       //   title: 'Trip Name',
