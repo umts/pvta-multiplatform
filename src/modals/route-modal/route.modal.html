@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>
-      {{title}}
+    <ion-title aria-label="Add favorite routes popup. Check all the routes as you'd like to favorite, and click done.">
+      <span role="heading">{{title}}</span>
     </ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
@@ -11,17 +11,17 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-list *ngIf="requester === 0" text-wrap>
+  <ion-list role="list" aria-label="routes" *ngIf="requester === 0" text-wrap>
     <ion-item *ngFor="let route of routes">
       <ion-checkbox color="primary" checked="{{route.Liked}}"
         (click)="route.Liked = !route.Liked; toggleRouteHeart(route);">
       </ion-checkbox>
         <ion-label>
-          <ion-row wrap>
-            <ion-col width-25 [style.color]="'#' + route.Color" style="font-size: 125%; font-weight: bold; margin-left: 5%">
+          <ion-row wrap attr.aria-label="Route {{route.RouteAbbreviation}} {{route.GoogleDescription}}">
+            <ion-col aria-hidden="true" width-25 [style.color]="'#' + route.Color" style="font-size: 125%; font-weight: bold; margin-left: 5%">
               {{route.RouteAbbreviation}}
             </ion-col>
-            <ion-col>
+            <ion-col aria-hidden="true" >
               {{route.GoogleDescription}}
             </ion-col>
           </ion-row>

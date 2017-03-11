@@ -22,35 +22,36 @@
   <ion-item-group>
     <ion-item-divider text-wrap item role="heading" id="routes-heading">
       Your Routes
-      <button ion-button outline item-right (click)="showRouteModal()">Add Routes</button>
+      <button ion-button outline item-right aria-label="Add favorite routes. Opens a popup that won't get keyboard focus, please navigate to the bottom of the page" (click)="showRouteModal()">Add Routes</button>
     </ion-item-divider>
       <ion-item *ngIf="!routes">
         No favorite routes yet!
       </ion-item>
-      <button text-wrap ion-item *ngFor="let route of routes"
-      role="list" aria-labelledby="routes-heading"
-      (click)="goToRoutePage(route?.RouteId)">
-        <ion-row>
-          <ion-col width-25 [style.color]="'#' + route.Color" style="font-size: 120%; font-weight: bold;" >
-          {{route?.RouteAbbreviation}}
-          </ion-col>
-          <ion-col style="padding-left: 20px;">
-            {{route?.GoogleDescription}}
-          </ion-col>
-        </ion-row>
-      </button>
+      <div role="list" aria-label="your routes">
+        <button text-wrap ion-item *ngFor="let route of routes"
+        (click)="goToRoutePage(route?.RouteId)">
+          <ion-row attr.aria-label="Route {{route.RouteAbbreviation}} {{route.GoogleDescription}}">
+            <ion-col width-25 [style.color]="'#' + route.Color" style="font-size: 120%; font-weight: bold;" >
+            {{route?.RouteAbbreviation}}
+            </ion-col>
+            <ion-col style="padding-left: 20px;">
+              {{route?.GoogleDescription}}
+            </ion-col>
+          </ion-row>
+        </button>
+      </div>
     </ion-item-group>
     <ion-item-group>
-      <ion-item-divider role="heading" aria-label="your stops" id="stops-heading">
+      <ion-item-divider role="heading" id="stops-heading">
         Your Stops
         <button ion-button outline item-right (click)="showStopModal()">Add Stops</button>
       </ion-item-divider>
-      <div role="list">
+      <div role="list" aria-label="your stops">
         <ion-item *ngIf="!stops">
           No favorite stops yet!
         </ion-item>
         <button ion-item item-left *ngFor="let stop of stops"
-        (click)="goToStopPage(stop.StopId)">
+        (click)="goToStopPage(stop.StopId)" attr.aria-label="{{stop.Description}}, stop number {{stop.StopId}}">
           <ion-icon name="pin" aria-hidden="true" style="margin-right: 10px"></ion-icon>
           {{stop.Description}} ({{stop.StopId}})
         </button>

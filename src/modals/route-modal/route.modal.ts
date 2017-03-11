@@ -28,7 +28,6 @@ export class RouteModal {
     this.requester = <RouteModalRequester> this.params.get('requester');
     this.title = this.params.get('title');
     }
-
   ionViewWillEnter() {
     if (this.requester === RouteModalRequester.MyBuses) {
       let loader = this.loadingCtrl.create();
