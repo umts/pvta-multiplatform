@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title aria-label="Add favorite routes popup. Check all the routes as you'd like to favorite, and click done.">
+    <ion-title aria-label="Add favorite routes popup. Check the routes you want to favorite, and click done.">
       <span role="heading">{{title}}</span>
     </ion-title>
     <ion-buttons start>
@@ -12,7 +12,7 @@
 </ion-header>
 <ion-content>
   <ion-list role="list" aria-label="routes" *ngIf="requester === 0" text-wrap>
-    <ion-item *ngFor="let route of routes">
+    <ion-item role="heading" *ngFor="let route of routes">
       <ion-checkbox color="primary" checked="{{route.Liked}}"
         (click)="route.Liked = !route.Liked; toggleRouteHeart(route);">
       </ion-checkbox>

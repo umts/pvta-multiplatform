@@ -29,7 +29,10 @@
     </ion-item>
     <ion-item>
       <label class="item-input-wrapper">
-        <input id="destination-input" class="user-input location-typeahead"
+        <input role="combobox" aria-autocomplete="list"
+        aria-owns="places" aria-activedescendant="places"
+        aria-label="Begin typing a destination and choose a location from the drop-down"
+        id="destination-input" class="user-input location-typeahead"
         type="text" placeholder="Enter a destination" [(ngModel)]="request?.destination.name"/>
       </label>
     </ion-item>

@@ -22,6 +22,7 @@ export class StopModal {
   favoriteStops: FavoriteStopModel[];
   requester: StopModalRequester;
   title: string;
+  ariaTitle;
   constructor(
     public platform: Platform, private favoriteStopService: FavoriteStopService,
     public params: NavParams, private loadingCtrl: LoadingController,
@@ -31,6 +32,11 @@ export class StopModal {
     this.requester = <StopModalRequester> this.params.get('requester');
     this.title = this.params.get('title');
     this.stops = this.params.get('stops');
+    if (this.requester == StopModalRequester.MyBuses) {
+      this.ariaTitle = "Add favorite stops popup. Check the stops you want to favorite, and click done."
+    } else {
+      this.ariaTitle = this.title;
+    }
     }
 
   goToStopPage(stopId: number): void {
