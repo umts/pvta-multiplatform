@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { FavoriteRouteService, FavoriteRouteModel } from '../../providers/favorite-route.service';
 import { Storage } from '@ionic/storage';
-import { NavController, Platform, NavParams, ModalController, LoadingController, ViewController } from 'ionic-angular';
+import { NavController, Platform, NavParams, LoadingController, ViewController } from 'ionic-angular';
 import { Route } from '../../models/route.model';
-import { RouteComponent } from '../../pages/route/route.component';
 import { RouteService} from '../../providers/route.service';
 import * as _ from 'lodash';
 

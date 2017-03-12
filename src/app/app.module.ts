@@ -2,7 +2,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
@@ -74,6 +74,7 @@ import { InfoService } from '../providers/info.service';
         {component: StopMapComponent, name: 'Stop Map', segment: 'stop/:stopId/map', defaultHistory: [MyBusesComponent]},
       ]
     }),
+    IonicStorageModule.forRoot(),
     HttpModule
   ],
   bootstrap: [IonicApp],
@@ -97,7 +98,7 @@ import { InfoService } from '../providers/info.service';
   ],
   providers: [ {provide: ErrorHandler, useClass: IonicErrorHandler},
     RouteService, StopService, StopDepartureService, VehicleService, AlertService,
-    Storage, FavoriteRouteService, FavoriteStopService, ConnectivityService,
+    FavoriteRouteService, FavoriteStopService, ConnectivityService,
     MapService, InfoService, FavoriteTripService]
 })
 export class AppModule {}

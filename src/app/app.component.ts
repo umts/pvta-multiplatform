@@ -2,18 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
-import { AboutComponent } from '../pages/about/about.component';
-import { ContactComponent } from '../pages/contact/contact.component';
 import { MyBusesComponent } from '../pages/my-buses/my-buses.component';
 import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
-import { PrivacyPolicyComponent } from '../pages/privacy-policy/privacy-policy.component';
-import { RouteComponent } from '../pages/route/route.component';
-import { RouteMapComponent } from '../pages/route-map/route-map.component';
 import { RoutesAndStopsComponent } from '../pages/routes-and-stops/routes-and-stops.component';
 import { SettingsComponent } from '../pages/settings/settings.component';
-import { StopComponent } from '../pages/stop/stop.component';
-import { StopMapComponent } from '../pages/stop-map/stop-map.component';
-import { StorageSettingsComponent } from '../pages/storage-settings/storage-settings.component';
 
 
 @Component({

@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { NavController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-import { Http, Response } from '@angular/http';
 import {Geolocation} from 'ionic-native'
 import { RouteService } from '../../providers/route.service';
 import { StopService } from '../../providers/stop.service';

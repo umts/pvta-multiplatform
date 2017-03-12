@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FavoriteStopService, FavoriteStopModel } from '../../providers/favorite-stop.service';
 import { Storage } from '@ionic/storage';
-import { NavController, Platform, NavParams, ModalController, LoadingController, ViewController } from 'ionic-angular';
+import { NavController, Platform, NavParams, LoadingController, ViewController } from 'ionic-angular';
 import { Stop } from '../../models/stop.model';
 import { StopComponent } from '../../pages/stop/stop.component';
 import { StopService} from '../../providers/stop.service';

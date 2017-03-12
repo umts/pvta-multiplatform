@@ -55,8 +55,8 @@
       </ion-item>
     </div>
   </ion-list>
-  <button ion-button block *ngIf="route" (click)="saveTrip()">Save Trip</button>
-  <button ion-button block (click)="getRoute()" id="dasd">Search Schedule</button>
+  <button ion-button round *ngIf="route" (click)="saveTrip()">Save Trip</button>
+  <button ion-button round (click)="getRoute()" id="dasd">Search Schedule</button>
 
   <div #directionsMap id="directionsMap" [hidden]="!route" class="directions-map-hohoho" aria-hidden="true"></div>
   <!-- *ngIf="route" -->
@@ -65,34 +65,31 @@
       <div ion-item >
         PLEASE NOTE: Trip is based on scheduled times. Check your stop's page to confirm bus departure time.
       </div>
-      <ion-item>
-        <ion-label>Origin:</ion-label>
-        <div item-content>
-          {{route['start_address']}}
-        </div>
-      </ion-item>
-      <ion-item>
-        <ion-label>Destination:</ion-label>
-        <div item-content>
-          {{route['end_address']}}
-        </div>
-      </ion-item>
-      <ion-item>
-        <ion-label>Departure Time:</ion-label>
-        <div item-content>
+      <ion-item-group>
+        <ion-item-divider color="light">Origin</ion-item-divider>
+        <ion-item>{{route['start_address']}}</ion-item>
+      </ion-item-group>
+      <ion-item-group>
+        <ion-item-divider color="light">Destination</ion-item-divider>
+        <ion-item>{{route['end_address']}}</ion-item>
+      </ion-item-group>
+      <ion-item-group>
+        <ion-item-divider color="light">Departure Time:</ion-item-divider>
+        <ion-item>
           {{route['departure_time']['value'] | date: "h:mm a"}},
           {{route['departure_time']['value'] | date: "EEEE dd MMM yyyy"}}
-        </div>
-      </ion-item>
-      <ion-item>
-        <ion-label>Arrival Time:</ion-label>
-        <div item-content>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-group>
+        <ion-item-divider color="light">Arrival Time:</ion-item-divider>
+        <ion-item>
           {{route['arrival_time']['value'] | date: "h:mm a"}},
           {{route['arrival_time']['value'] | date: "EEEE dd MMM yyyy"}}
-        </div>
-      </ion-item>
+        </ion-item>
+      </ion-item-group>
     </div>
     <section *ngIf="route != undefined" id="cd-timeline">
+      <ion-item-divider color="secondary">Steps</ion-item-divider>
       <div *ngFor="let step of route['steps']">
         <div ion-item>
             <div *ngIf="step['travel_mode'] == 'TRANSIT'">

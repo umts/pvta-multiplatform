@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, Platform, NavParams, ModalController, ViewController } from 'ionic-angular';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { RouteService } from '../../providers/route.service';
 import { VehicleService } from '../../providers/vehicle.service';
 import { AlertService } from '../../providers/alert.service';
@@ -9,10 +9,8 @@ import { RouteDetail } from '../../models/route-detail.model';
 import { Vehicle } from '../../models/vehicle.model';
 import { Alert } from '../../models/alert.model';
 import { Stop } from '../../models/stop.model';
-import { VehicleComponent } from './vehicle.component';
 import { RouteMapComponent } from '../route-map/route-map.component';
 import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'page-route',

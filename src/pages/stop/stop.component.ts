@@ -9,7 +9,6 @@ import { StopService } from '../../providers/stop.service';
 import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { RouteComponent } from '../route/route.component';
 import { RouteService } from '../../providers/route.service';
-import { Route } from '../../models/route.model';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 

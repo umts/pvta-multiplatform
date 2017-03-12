@@ -5,7 +5,6 @@ import { Storage } from '@ionic/storage';
 import { StopComponent } from '../stop/stop.component';
 import { RouteComponent } from '../route/route.component';
 import { PlanTripComponent } from '../plan-trip/plan-trip.component';
-import { FavoriteRouteService } from '../../providers/favorite-route.service';
 import { AlertService } from '../../providers/alert.service';
 import { Alert } from '../../models/alert.model';
 import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';
