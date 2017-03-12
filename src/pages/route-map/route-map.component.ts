@@ -32,7 +32,7 @@ export class RouteMapComponent {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private routeService: RouteService, private vehicleService: VehicleService,
-    private mapService: MapService) {
+    private mapService: MapService, private connection: ConnectivityService) {
       this.routeId = navParams.get('routeId');
     }
 
@@ -43,6 +43,9 @@ export class RouteMapComponent {
     this.routeService
       .getRoute(this.routeId)
       .then(route => {
+        if (!route) {
+          return;
+        }
         this.route = route;
         this.vehicles = route.Vehicles;
         this.mapService.addKML(route.RouteTraceFilename);
@@ -53,10 +56,16 @@ export class RouteMapComponent {
       this.vehicleService
         .getRouteVehicles(this.routeId)
         .then(routeVehicles => {
+          if (!routeVehicles) {
+            return;
+          }
           this.vehicles = routeVehicles;
           this.placeVehicles(true);
       });
     }, 30000);
+  }
+  ionViewCanEnter(): boolean {
+   return this.connection.getConnectionStatus();
   }
 
   loadMap(){
@@ -71,6 +80,9 @@ export class RouteMapComponent {
   placeVehicles (isVehicleRefresh) {
     //places every vehicle on said route on the map
       this.mapService.removeAllMarkers();
+      if (!this.vehicles) {
+        return;
+      }
       for (let vehicle of this.vehicles) {
         let message;
         var loc = new google.maps.LatLng(vehicle.Latitude, vehicle.Longitude);

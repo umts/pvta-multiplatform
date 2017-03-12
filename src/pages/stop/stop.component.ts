@@ -11,6 +11,7 @@ import { RouteComponent } from '../route/route.component';
 import { RouteService } from '../../providers/route.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { ConnectivityService } from '../../providers/connectivity.service';
 
 @Component({
   selector: 'page-stop',
@@ -30,30 +31,33 @@ export class StopComponent {
     private stopDepartureService: StopDepartureService,
     private routeService: RouteService, private changer: ChangeDetectorRef,
     private loadingCtrl: LoadingController, private favoriteStopService: FavoriteStopService,
-    private stopService: StopService) {
+    private stopService: StopService, private connection: ConnectivityService) {
       this.stopId = navParams.get('stopId');
       this.order = '0';
       this.loader = loadingCtrl.create({
         content: 'Downloading departures...'
       });
-    }
-    ionViewWillEnter() {
-      this.loader.present();
-      this.stopDepartureService
-        .getStopDeparture(this.stopId)
-        .then(directions => {
-          this.sort(directions[0]);
-          this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
-          this.favoriteStopService.contains(this.stopId, (liked) => {
-            this.liked = liked;
-          });
-          this.loader.dismiss();
+  }
+  ionViewWillEnter() {
+    this.loader.present();
+    this.stopDepartureService
+      .getStopDeparture(this.stopId)
+      .then(directions => {
+        this.sort(directions[0]);
+        this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
+        this.favoriteStopService.contains(this.stopId, (liked) => {
+          this.liked = liked;
         });
-      this.stopService.getStop(this.stopId).then(stop => {
-        this.stop = stop;
-      })
-    }
+        this.loader.dismiss();
+      });
+    this.stopService.getStop(this.stopId).then(stop => {
+      this.stop = stop;
+    })
+  }
 
+  ionViewCanEnter(): boolean {
+   return this.connection.getConnectionStatus();
+  }
   // For a given RouteId, downloads the simplest
   // version of the details for that route from
   // Avail.  Adds it to a $scope-wide list.

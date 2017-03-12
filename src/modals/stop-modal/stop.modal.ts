@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FavoriteStopService, FavoriteStopModel } from '../../providers/favorite-stop.service';
 import { Storage } from '@ionic/storage';
-import { NavController, Platform, NavParams, LoadingController, ViewController } from 'ionic-angular';
+import { NavController, Platform, NavParams, LoadingController, ViewController, AlertController } from 'ionic-angular';
 import { Stop } from '../../models/stop.model';
 import { StopComponent } from '../../pages/stop/stop.component';
 import { StopService} from '../../providers/stop.service';
@@ -27,7 +27,8 @@ export class StopModal {
     public platform: Platform, private favoriteStopService: FavoriteStopService,
     public params: NavParams, private loadingCtrl: LoadingController,
     public viewCtrl: ViewController, private storage: Storage,
-    public navCtrl: NavController, public stopService: StopService
+    public navCtrl: NavController, public stopService: StopService,
+    private alertCtrl: AlertController
   ) {
     this.requester = <StopModalRequester> this.params.get('requester');
     this.title = this.params.get('title');
@@ -42,6 +43,12 @@ export class StopModal {
   goToStopPage(stopId: number): void {
     this.navCtrl.push(StopComponent, {
       stopId: stopId
+    }).catch(() => {
+      this.alertCtrl.create({
+        title: 'No Connection',
+        subTitle: 'The stop page requires an internet connection',
+        buttons: ['Dismiss']
+      }).present();
     });
   }
   onSearchQueryChanged(event: any): void {

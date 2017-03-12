@@ -1,20 +1,30 @@
 import { Injectable } from '@angular/core';
+import { ToastController} from 'ionic-angular';
 import { Network } from 'ionic-native';
-import { Platform } from 'ionic-angular';
 
-/*
-  Generated class for the ConnectivityService provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
 export class ConnectivityService {
 
-  onDevice: boolean;
+  connected: boolean;
+  offlineToast;
 
-  constructor(private platform: Platform) {
-    this.onDevice = this.platform.is('cordova');
+  constructor(private toast: ToastController,) { }
+
+  setConnectionStatus(connected: boolean) {
+    this.connected = connected;
+    if (this.connected == true && this.offlineToast) {
+      this.offlineToast.dismiss();
+      this.offlineToast = null;
+    }
+    else if (this.connected == false && !this.offlineToast) {
+      this.offlineToast = this.toast.create({
+        message: 'No network connection. Check connection settings.'
+      });
+      this.offlineToast.present();
+    }
   }
 
+  getConnectionStatus(): boolean {
+    return this.connected;
+  }
 }

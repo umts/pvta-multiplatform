@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StopComponent } from '../stop/stop.component';
 import { RouteComponent } from '../route/route.component';
 import { PlanTripComponent } from '../plan-trip/plan-trip.component';
 import { AlertService } from '../../providers/alert.service';
+import { RouteService } from '../../providers/route.service';
+import { StopService } from '../../providers/stop.service';
 import { Alert } from '../../models/alert.model';
 import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';
 import { RouteModal, RouteModalRequester } from '../../modals/route-modal/route.modal';
@@ -22,8 +24,9 @@ export class MyBusesComponent {
   trips;
 
   constructor(public navCtrl: NavController, private storage: Storage,
-    private alertService: AlertService,
-    private modalCtrl: ModalController) {
+    private alertService: AlertService, private alertCtrl: AlertController,
+    private modalCtrl: ModalController, private routeService: RouteService,
+    private stopService: StopService) {
       this.alerts = [];
     }
 
@@ -36,6 +39,9 @@ export class MyBusesComponent {
     // Resolve the promise, which will contain
     // a list of all alerts
     this.alertService.getAlerts().then(downloadedAlerts => {
+      if (!downloadedAlerts) {
+        return;
+      }
       for (let alert of downloadedAlerts) {
         /* If the Routes property of an
          * alert contains any of RouteIDs
@@ -133,13 +139,27 @@ export class MyBusesComponent {
   goToStopPage(stopId: number): void {
     this.navCtrl.push(StopComponent, {
       stopId: stopId
+    }).catch(() => {
+      this.alertCtrl.create({
+        title: 'No Connection',
+        subTitle: 'The stop page requires an internet connection',
+        buttons: ['Dismiss']
+      }).present();
     });
   }
+
   goToRoutePage(routeId: number): void {
     this.navCtrl.push(RouteComponent, {
       routeId: routeId
+    }).catch(() => {
+      this.alertCtrl.create({
+        title: 'No Connection',
+        subTitle: 'The route page requires an internet connection',
+        buttons: ['Dismiss']
+      }).present();
     });
   }
+  
   goToTripPage(trip): void {
     this.navCtrl.push(PlanTripComponent, {
       loadedTrip: trip

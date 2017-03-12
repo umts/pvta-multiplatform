@@ -36,9 +36,8 @@ export class StopService {
       .catch(this.handleError);
   }
 
-  private handleError(error: any): Promise<any> {
+  private handleError(error: any): void {
     console.error('An error occurred', error); // for demo purposes only
-    return Promise.reject(error.message || error);
   }
 
   getStopList (cb: Function): any {
@@ -71,10 +70,7 @@ export class StopService {
         list: stops,
         time: new Date()
       });
-      this.storage.get('stops').then((stops) => {
-        // console.log('loaded', stops);
-      })
-    })
+    });
   }
   filterStopsByQuery(stops: Stop[], query: string): Stop[] {
     if (!query || query == '') {

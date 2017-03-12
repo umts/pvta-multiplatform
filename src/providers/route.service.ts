@@ -47,9 +47,8 @@ export class RouteService {
   }
 
 
-  private handleError(error: any): Promise<any> {
+  private handleError(error: any): void {
     console.error('An error occurred', error); // for demo purposes only
-    return Promise.reject(error.message || error);
   }
 
   getRouteList (cb: Function): any {
@@ -97,9 +96,6 @@ export class RouteService {
         list: routes,
         time: new Date()
       });
-      this.storage.get('routes').then((routes) => {
-        // console.log('loaded', routes);
-      })
-    })
+    });
   }
 }

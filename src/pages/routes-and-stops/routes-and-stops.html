@@ -33,7 +33,7 @@
   <div [ngSwitch]="cDisplay">
     <ion-list text-wrap *ngSwitchCase="'routes'">
       <div ion-item *ngFor="let route of routesDisp"
-        (click)="redirectRoute(route.RouteId)">
+        (click)="goToRoutePage(route.RouteId)">
         <ion-icon name="bus" style="margin-right: 10px"></ion-icon>
         <span [style.color]="'#' + route.Color" style="font-size: 125%; font-weight: bold; margin-left: 10px">
           {{route.RouteAbbreviation}}
@@ -47,7 +47,7 @@
 
     <ion-list text-wrap *ngSwitchCase="'stops'">
       <button ion-item *ngFor="let stop of stopsDisp | slice:0:40"
-        (click)="redirectStop(stop.StopId)">
+        (click)="goToStopPage(stop.StopId)">
         <ion-icon name="pin" style="margin-right: 10px"></ion-icon>
         <span>{{stop.Description}} ({{stop.StopId}})</span>
         <button ion-button icon-only item-right clear (click)="stop.Liked = !stop.Liked; toggleStopHeart(stop); $event.stopPropagation()">

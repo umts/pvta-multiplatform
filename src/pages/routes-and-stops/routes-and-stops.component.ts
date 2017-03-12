@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import {Geolocation} from 'ionic-native'
@@ -36,13 +36,13 @@ export class RoutesAndStopsComponent {
   constructor(public navCtrl: NavController,
     private routeService: RouteService, private stopService: StopService,
     private loadingCtrl: LoadingController, private storage: Storage,
-    private favoriteRouteService: FavoriteRouteService,
+    private favoriteRouteService: FavoriteRouteService, private alertCtrl: AlertController,
     private favoriteStopService: FavoriteStopService) {
       this.order = 'favorites';
       this.cDisplay = 'routes';
       this.loader = loadingCtrl.create({
-          content: 'Downloading departures...'
-        });
+        content: 'Downloading...'
+      });
     }
   onSearchQueryChanged(event: any): void {
     let query: string = event.target.value;
@@ -67,15 +67,27 @@ export class RoutesAndStopsComponent {
     }
   }
 
-  redirectRoute(routeId: number): void {
+  goToRoutePage(routeId: number): void {
     this.navCtrl.push(RouteComponent, {
       routeId: routeId
+    }).catch(() => {
+      this.alertCtrl.create({
+        title: 'No Connection',
+        subTitle: 'The route page requires an internet connection',
+        buttons: ['Dismiss']
+      }).present();
     });
   }
 
-  redirectStop(stopId: number): void {
+  goToStopPage(stopId: number): void {
     this.navCtrl.push(StopComponent, {
       stopId: stopId
+    }).catch(() => {
+      this.alertCtrl.create({
+        title: 'No Connection',
+        subTitle: 'The stop page requires an internet connection',
+        buttons: ['Dismiss']
+      }).present();
     });
   }
 
@@ -126,7 +138,6 @@ export class RoutesAndStopsComponent {
   }
 
   ionViewWillEnter() {
-    this.loader.present();
     this.routeService.getRouteList((routesPromise: Promise<Route[]>) => {
       routesPromise.then(routes => {
         this.routes = _.sortBy(routes, ['ShortName']);
@@ -139,7 +150,6 @@ export class RoutesAndStopsComponent {
     });
     this.stopService.getStopList((stopsPromise: Promise<Stop[]>) => {
       stopsPromise.then(stops => {
-
         this.stops = _.uniqBy(stops, 'StopId');
         this.stopsDisp = this.stops;
         this.stopService.saveStopList(this.stops);
@@ -150,7 +160,8 @@ export class RoutesAndStopsComponent {
         }).catch(err => {
           this.calculateStopDistances()
         })
-        this.loader.dismiss();
+      }).catch(err => {
+        console.error(err);
       });
     });
   }

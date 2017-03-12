@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { RouteService } from '../../providers/route.service';
 import { VehicleService } from '../../providers/vehicle.service';
 import { AlertService } from '../../providers/alert.service';
@@ -11,6 +11,7 @@ import { Alert } from '../../models/alert.model';
 import { Stop } from '../../models/stop.model';
 import { RouteMapComponent } from '../route-map/route-map.component';
 import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';
+import { ConnectivityService } from '../../providers/connectivity.service';
 
 @Component({
   selector: 'page-route',
@@ -24,8 +25,9 @@ export class RouteComponent {
   stops: Stop[];
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private routeService: RouteService, private vehicleService: VehicleService,
-    private alertService: AlertService,
-    private modalCtrl: ModalController, private favoriteRouteService: FavoriteRouteService) {
+    private alertService: AlertService, private connection: ConnectivityService,
+    private modalCtrl: ModalController, private favoriteRouteService: FavoriteRouteService,
+    private alertCtrl: AlertController) {
     this.routeId = navParams.get('routeId');
     this.alerts = [];
   }
@@ -44,6 +46,9 @@ export class RouteComponent {
     this.alertService
     .getAlerts()
     .then(alerts => {
+      if (!alerts) {
+        return;
+      }
       for (let alert of alerts) {
         console.log(alert.Routes.includes(this.routeId));
         if (alert.Routes.includes(this.routeId)) {
@@ -88,7 +93,19 @@ export class RouteComponent {
   }
 
   private goToRouteMapPage(): void {
-    this.navCtrl.push(RouteMapComponent, {routeId: this.routeId});
+    this.navCtrl.push(RouteMapComponent, {
+      routeId: this.routeId
+    }).catch(() => {
+      this.alertCtrl.create({
+        title: 'No Connection',
+        subTitle: 'The map page requires an internet connection',
+        buttons: ['Dismiss']
+      }).present();
+    });
+  }
+
+  ionViewCanEnter(): boolean {
+   return this.connection.getConnectionStatus();
   }
 
   ionViewWillEnter() {
@@ -96,6 +113,9 @@ export class RouteComponent {
     this.routeService
       .getRouteDetail(this.routeId)
       .then(route => {
+        if (!route) {
+          return;
+        }
         this.route = route;
         //getHeart()
         this.prepareStops(route.Stops);

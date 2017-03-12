@@ -1,11 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, ToastController} from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { MyBusesComponent } from '../pages/my-buses/my-buses.component';
 import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
 import { RoutesAndStopsComponent } from '../pages/routes-and-stops/routes-and-stops.component';
 import { SettingsComponent } from '../pages/settings/settings.component';
+import { ConnectivityService } from '../providers/connectivity.service';
 
 
 @Component({
@@ -15,10 +16,11 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = MyBusesComponent;
-
+  offlineToast;
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform) {
+  constructor(public platform: Platform,
+  private connectivityService: ConnectivityService) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -40,6 +42,15 @@ export class MyApp {
         StatusBar.backgroundColorByHexString('#1976D2');
       }
       Splashscreen.hide();
+      window.addEventListener('online', () =>  {
+        console.log('online');
+        this.connectivityService.setConnectionStatus(true);
+      }, false);
+
+      window.addEventListener('offline', () => {
+        console.log('offline');
+        this.connectivityService.setConnectionStatus(false);
+      }, false);
     });
   }
 
