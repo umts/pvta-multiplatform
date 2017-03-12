@@ -31,7 +31,9 @@ export class PlanTripComponent {
    map;
    route;
    loader;
-   timeOptions = []
+   timeOptions = [];
+   noLocationToast;
+   noOriginOrDestinationToast;
 
   constructor(public navCtrl: NavController, private stopService: StopService,
   private toastCtrl: ToastController, private loadingCtrl: LoadingController,
@@ -96,13 +98,13 @@ export class PlanTripComponent {
       // this.getRoute();
     })
     .catch(err => {
-      this.toastCtrl.create({
+      this.noLocationToast = this.toastCtrl.create({
         message: 'Unable to retrieve current location',
         position: 'bottom',
         showCloseButton: true,
         dismissOnPageChange: true
         })
-      .present();
+      this.noLocationToast.present();
       // Tell Google Analytics that a user doesn't have location
       // ga('send', 'event', 'LocationFailure', 'PlanTripConsoller.$cordovaGeolocation.getCurrentPosition', 'location failed on Plan Trip; error: ' + err.message);
       // When getting location fails, this callback fires
@@ -135,7 +137,6 @@ export class PlanTripComponent {
     // its details and display them.
     if (loadedTrip) {
       this.request = loadedTrip;
-      this.request.time.option = this.timeOptions[this.request.time.option];
       loadedTrip = null;
       // If the datetime of loeaded trip is in the past,
       // keep the time and update the date to today. Else do nothing.
@@ -153,7 +154,7 @@ export class PlanTripComponent {
         this.loadLocation();
       }
       else {
-        // this.getRoute();
+        this.getRoute();
       }
       // ga('send', 'event', 'TripLoaded', 'PlanTripController.reload()', 'User has navigated to Plan Trip using a saved Trip.');
     }
@@ -161,7 +162,7 @@ export class PlanTripComponent {
     // Attempt to use current location as trip's origin.
     else {
       this.request = {
-        name: 'New Trip',
+        name: 'Schedule',
         time: {
           datetime: moment().format(),
           option: 0 // The ID of the timeOption the trip will use
@@ -179,6 +180,7 @@ export class PlanTripComponent {
     // @TODO Load saved trips
     // let loadedTrip = null;
     let loadedTrip = this.navParams.get('loadedTrip');
+    console.log(loadedTrip);
     this.reload(loadedTrip);
   }
 
@@ -217,6 +219,7 @@ export class PlanTripComponent {
       } else if (!this.bounds.contains(place.geometry.location)) {
         this.presentAlert('Invalid Origin',
         'The PVTA does not service this location.');
+        this.request.origin = {};
         console.error(`Location ${place.name} is out of bounds.`);
       } else {
         this.originPlace = place;
@@ -236,6 +239,7 @@ export class PlanTripComponent {
         console.error('No geometry, invalid input.');
       }
       else if (!this.bounds.contains(place.geometry.location)) {
+        this.request.destination = {};
         this.presentAlert('Invalid Destination',
         'The PVTA does not service this location.');
         console.error(`Location ${place.name} is out of bounds.`);
@@ -267,8 +271,18 @@ export class PlanTripComponent {
    * This function is the crown jewel of this component.
    */
    getRoute(): void {
+     if (this.noOriginOrDestinationToast) {
+       this.noOriginOrDestinationToast.dismiss();
+     }
     // We need an origin and destination
     if (!this.request.origin.id || !this.request.destination.id) {
+      this.noOriginOrDestinationToast = this.toastCtrl.create({
+        message: 'You must enter both an origin and destination to search the schedule',
+        position: 'bottom',
+        showCloseButton: true,
+        dismissOnPageChange: true
+        })
+      this.noOriginOrDestinationToast.present();
       console.error('Missing an origin or destination id');
       return;
     }
@@ -313,6 +327,9 @@ export class PlanTripComponent {
         transitOptions: transitOptions
       }, (response, status) => {
       if (status === google.maps.DirectionsStatus.OK ) {
+        if (this.noLocationToast) {
+          this.noLocationToast.dismiss();
+        }
         // Force a map redraw because it was hidden before.
         // There's an angular bug (with [hidden]) that will cause
         // the map to draw only grey after being hidden
@@ -322,11 +339,11 @@ export class PlanTripComponent {
           google.maps.event.trigger(this.map, 'resize');
           this.directionsDisplay.setDirections(response);
           this.route = response.routes[0].legs[0];
-        }, 1000);
+        }, 500);
         setTimeout(() => {
           google.maps.event.trigger(this.map, 'resize');
           this.directionsDisplay.setDirections(response);
-        }, 2000)
+        }, 1000)
 
         // ga('send', 'event', 'TripStepsRetrieved', ser 'PlanTripController.getRoute()', 'Received steps for a planned trip!');
       } else  {
