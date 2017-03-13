@@ -60,7 +60,7 @@
 
   <div #directionsMap id="directionsMap" [hidden]="!route" class="directions-map-hohoho" aria-hidden="true"></div>
   <!-- *ngIf="route" -->
-  <div id="route" aria-live="assertive">
+  <div #routeScrollArea id="route" aria-live="assertive">
     <div *ngIf="route" text-wrap>
       <div ion-item >
         PLEASE NOTE: Trip is based on scheduled times. Check your stop's page to confirm bus departure time.
@@ -107,7 +107,9 @@
               </p>
             </div>
             <div *ngIf="step['travel_mode'] == 'WALKING'">
-              <h1><ion-icon style="margin-top:1%;" name="walk" *ngIf="step['travel_mode'] == 'WALKING'"></ion-icon></h1>
+              <h1 aria-hidden="true">
+                <ion-icon style="margin-top:1%;" name="walk" *ngIf="step['travel_mode'] == 'WALKING'"></ion-icon>
+              </h1>
               <span *ngIf="!$last">
                 <a (click)="goToStop(step['end_location'])">
                   {{step['instructions']}}</a>

@@ -14,6 +14,7 @@ declare var google;
 })
 export class PlanTripComponent {
   @ViewChild('directionsMap') mapElement: ElementRef;
+  @ViewChild('routeScrollArea') routeElement: ElementRef;
   // defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
   // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
    swBound = new google.maps.LatLng(41.93335, -72.85809);
@@ -277,11 +278,19 @@ export class PlanTripComponent {
     // We need an origin and destination
     if (!this.request.origin.id || !this.request.destination.id) {
       this.noOriginOrDestinationToast = this.toastCtrl.create({
-        message: 'You must enter both an origin and destination to search the schedule',
+        message: 'You must select an origin and destination from the autocomplete dropdowns above in order to search the schedule',
         position: 'bottom',
         showCloseButton: true,
         dismissOnPageChange: true
         })
+      // Clear out the search boxes for either/both of the incorrectly
+      // selected fields
+      if (!this.request.origin.id) {
+        this.request.origin.name = '';
+      }
+      if (!this.request.destination.id) {
+        this.request.destination.name = '';
+      }
       this.noOriginOrDestinationToast.present();
       console.error('Missing an origin or destination id');
       return;
@@ -330,6 +339,7 @@ export class PlanTripComponent {
         if (this.noLocationToast) {
           this.noLocationToast.dismiss();
         }
+        this.routeElement.nativeElement.scrollIntoView();
         // Force a map redraw because it was hidden before.
         // There's an angular bug (with [hidden]) that will cause
         // the map to draw only grey after being hidden
