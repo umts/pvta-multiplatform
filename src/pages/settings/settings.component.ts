@@ -30,8 +30,9 @@ export class SettingsComponent {
     this.navCtrl.push(StorageSettingsComponent);
   }
 
-  ionViewWillExit() {
+  ionViewWillLeave() {
     this.storage.ready().then(() => {
+      console.log('setting autorefresh to', this.autoRefresh);
       this.storage.set('autoRefresh', this.autoRefresh);
     });
   }

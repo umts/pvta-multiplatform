@@ -26,7 +26,7 @@ export class StopComponent {
   routeList = [];
   loader;
   interval;
-  autoRefreshTime;
+  autoRefreshTime: number;
   order: String;
   stop: Stop;
   constructor(public navCtrl: NavController, private navParams: NavParams,
@@ -37,28 +37,59 @@ export class StopComponent {
     private storage: Storage) {
       this.stopId = navParams.get('stopId');
       this.order = '0';
-      this.loader = loadingCtrl.create({
-        content: 'Downloading departures...'
-      });
-      storage.ready().then(() => {
-        storage.get('autoRefresh').then(autoRefresh => {
-          this.autoRefreshTime = autoRefresh;
-        })
-      })
   }
-  ionViewWillEnter() {
-    this.favoriteStopService.contains(this.stopId, (liked) => {
-      this.liked = liked;
-    });
-    this.loader.present();
+
+  presentLoader(): void {
+    if (!this.loader) {
+      this.loader = this.loadingCtrl.create({
+        content: 'Downloading departures...',
+        duration: 3000
+      });
+    }
+  }
+  hideLoader(): void {
+    if (this.loader) {
+      this.loader.dismiss();
+      this.loader = null;
+    }
+  }
+
+  getDepartures(): void {
+    this.presentLoader();
     this.stopDepartureService.getStopDeparture(this.stopId)
       .then(directions => {
         this.sort(directions[0]);
         this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
-        this.loader.dismiss();
+        this.hideLoader();
     });
-    this.interval = setInterval(() => {
-    }, this.autoRefreshTime)
+  }
+
+  ionViewWillEnter() {
+    this.favoriteStopService.contains(this.stopId, (liked) => {
+      this.liked = liked;
+    });
+    this.storage.ready().then(() => {
+      this.storage.get('autoRefresh').then(autoRefresh => {
+        console.log(autoRefresh);
+        if (autoRefresh != null) {
+          this.autoRefreshTime = <number> autoRefresh;
+          console.log('autorefresh isnt null');
+        } else {
+          console.log('autorefresh is null');
+          this.autoRefreshTime = 45000;
+          this.storage.set('autoRefresh', 45000);
+        }
+        this.getDepartures();
+        if (autoRefresh > 0) {
+          console.log('autorefresh is greater than 0');
+          this.interval = setInterval(() => {
+            console.log('autoRefresh');
+            this.getDepartures();
+
+          }, this.autoRefreshTime)
+        }
+      });
+    });
     this.stopService.getStop(this.stopId).then(stop => {
       this.stop = stop;
     })
@@ -123,6 +154,7 @@ export class StopComponent {
   departuresByTime = [];
   sort (directions): any {
     this.departuresByTime = [];
+    this.departuresByDirection = [];
     // Avail returns an array of RouteDirections. We must deal
     // with the Departures for each Direction.
     for (let direction of directions.RouteDirections) {
