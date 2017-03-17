@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
-
+import { Storage } from '@ionic/storage';
 import { StopDeparture } from '../../models/stop-departure.model';
 import { Stop } from '../../models/stop.model';
 import { StopDepartureService } from '../../providers/stop-departure.service';
@@ -25,31 +25,40 @@ export class StopComponent {
   departuresByDirection: Array<any> = [];
   routeList = [];
   loader;
+  interval;
+  autoRefreshTime;
   order: String;
   stop: Stop;
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private stopDepartureService: StopDepartureService,
     private routeService: RouteService, private changer: ChangeDetectorRef,
     private loadingCtrl: LoadingController, private favoriteStopService: FavoriteStopService,
-    private stopService: StopService, private connection: ConnectivityService) {
+    private stopService: StopService, private connection: ConnectivityService,
+    private storage: Storage) {
       this.stopId = navParams.get('stopId');
       this.order = '0';
       this.loader = loadingCtrl.create({
         content: 'Downloading departures...'
       });
+      storage.ready().then(() => {
+        storage.get('autoRefresh').then(autoRefresh => {
+          this.autoRefreshTime = autoRefresh;
+        })
+      })
   }
   ionViewWillEnter() {
+    this.favoriteStopService.contains(this.stopId, (liked) => {
+      this.liked = liked;
+    });
     this.loader.present();
-    this.stopDepartureService
-      .getStopDeparture(this.stopId)
+    this.stopDepartureService.getStopDeparture(this.stopId)
       .then(directions => {
         this.sort(directions[0]);
         this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
-        this.favoriteStopService.contains(this.stopId, (liked) => {
-          this.liked = liked;
-        });
         this.loader.dismiss();
-      });
+    });
+    this.interval = setInterval(() => {
+    }, this.autoRefreshTime)
     this.stopService.getStop(this.stopId).then(stop => {
       this.stop = stop;
     })
