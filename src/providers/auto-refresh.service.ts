@@ -6,13 +6,14 @@ export class AutoRefreshService {
 
   constructor(public storage: Storage) { }
 
-  isAutoRefreshValid(autoRefresh: any): boolean {
+  verifyValidity(autoRefresh: number): [boolean, number] {
     if (autoRefresh != null) {
       console.log('autorefresh is valid');
-      return true;
+      return [true, autoRefresh];
     } else {
       console.log('autorefresh is invalid');
-      return false;
+      this.storage.set('autoRefresh', 45000);
+      return [false, 45000];
     }
   }
   isAutoRefreshEnabled(autoRefresh: any): boolean {

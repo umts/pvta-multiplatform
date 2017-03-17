@@ -32,11 +32,11 @@ export class StopComponent {
   order: String;
   stop: Stop;
   constructor(public navCtrl: NavController, private navParams: NavParams,
-    private stopDepartureService: StopDepartureService,
-    private routeService: RouteService, private changer: ChangeDetectorRef,
-    private loadingCtrl: LoadingController, private favoriteStopService: FavoriteStopService,
-    private stopService: StopService, private connection: ConnectivityService,
-    private storage: Storage, private autoRefreshService: AutoRefreshService) {
+    private stopDepartureSvc: StopDepartureService,
+    private routeSvc: RouteService, private changer: ChangeDetectorRef,
+    private loadingCtrl: LoadingController, private favoriteStopSvc: FavoriteStopService,
+    private stopSvc: StopService, private connection: ConnectivityService,
+    private storage: Storage, private refreshSvc: AutoRefreshService) {
       this.stopId = navParams.get('stopId');
       this.order = '0';
   }
@@ -56,7 +56,7 @@ export class StopComponent {
 
   getDepartures(): void {
     this.presentLoader();
-    this.stopDepartureService.getStopDeparture(this.stopId)
+    this.stopDepartureSvc.getStopDeparture(this.stopId)
       .then(directions => {
         this.sort(directions[0]);
         this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
@@ -65,19 +65,20 @@ export class StopComponent {
   }
 
   ionViewWillEnter() {
-    this.favoriteStopService.contains(this.stopId, (liked) => {
+    this.favoriteStopSvc.contains(this.stopId, (liked) => {
       this.liked = liked;
     });
     this.getDepartures();
     this.storage.ready().then(() => {
       this.storage.get('autoRefresh').then(autoRefresh => {
-        // If the saved autorefresh value is NOT valid, make it valid and save it.
-        if (!this.autoRefreshService.isAutoRefreshValid(autoRefresh)) {
-          autoRefresh = 45000;
-          this.storage.set('autoRefresh', 45000);
+        let autoRefreshValidity: [boolean, number] = this.refreshSvc
+        .verifyValidity(autoRefresh);
+        // If the saved autorefresh value is NOT valid, make it valid.
+        if (autoRefreshValidity[0] == false) {
+          autoRefresh = autoRefreshValidity[1];
         }
         // If autorefresh is on, set an interval to refresh departures.
-        if (this.autoRefreshService.isAutoRefreshEnabled(autoRefresh)) {
+        if (this.refreshSvc.isAutoRefreshEnabled(autoRefresh)) {
             this.interval = setInterval(() => {
               console.log('Refreshing departures');
               this.getDepartures();
@@ -85,7 +86,7 @@ export class StopComponent {
         }
       });
     });
-    this.stopService.getStop(this.stopId).then(stop => {
+    this.stopSvc.getStop(this.stopId).then(stop => {
       this.stop = stop;
     })
   }
@@ -102,7 +103,7 @@ export class StopComponent {
   // Avail.  Adds it to a $scope-wide list.
   // Returns nothing.
   getRoute (id): any {
-    this.routeService
+    this.routeSvc
       .getRoute(id)
       .then(route => {
         this.routeList[id] = (route);
@@ -118,7 +119,7 @@ export class StopComponent {
   };
   toggleStopHeart(): void {
     // console.log('toggling', stop.Description);
-    this.favoriteStopService.toggleFavorite(this.stopId, this.stop.Description);
+    this.favoriteStopSvc.toggleFavorite(this.stopId, this.stop.Description);
   }
   /**
    * Given a Departure object,
