@@ -35,6 +35,7 @@ import { FavoriteTripService } from '../providers/favorite-trip.service';
 import { ConnectivityService } from '../providers/connectivity.service';
 import { MapService } from '../providers/map.service';
 import { InfoService } from '../providers/info.service';
+import { AutoRefreshService } from '../providers/auto-refresh.service';
 
 
 
@@ -99,6 +100,6 @@ import { InfoService } from '../providers/info.service';
   providers: [ {provide: ErrorHandler, useClass: IonicErrorHandler},
     RouteService, StopService, StopDepartureService, VehicleService, AlertService,
     FavoriteRouteService, FavoriteStopService, ConnectivityService,
-    MapService, InfoService, FavoriteTripService]
+    MapService, InfoService, FavoriteTripService, AutoRefreshService]
 })
 export class AppModule {}

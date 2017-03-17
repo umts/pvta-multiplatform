@@ -12,6 +12,8 @@ import { RouteService } from '../../providers/route.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ConnectivityService } from '../../providers/connectivity.service';
+import { AutoRefreshService } from '../../providers/auto-refresh.service';
+
 
 @Component({
   selector: 'page-stop',
@@ -26,7 +28,7 @@ export class StopComponent {
   routeList = [];
   loader;
   interval;
-  autoRefreshTime: number;
+  // autoRefreshTime: number;
   order: String;
   stop: Stop;
   constructor(public navCtrl: NavController, private navParams: NavParams,
@@ -34,23 +36,21 @@ export class StopComponent {
     private routeService: RouteService, private changer: ChangeDetectorRef,
     private loadingCtrl: LoadingController, private favoriteStopService: FavoriteStopService,
     private stopService: StopService, private connection: ConnectivityService,
-    private storage: Storage) {
+    private storage: Storage, private autoRefreshService: AutoRefreshService) {
       this.stopId = navParams.get('stopId');
       this.order = '0';
   }
 
   presentLoader(): void {
-    if (!this.loader) {
       this.loader = this.loadingCtrl.create({
         content: 'Downloading departures...',
         duration: 3000
       });
-    }
+      this.loader.present();
   }
   hideLoader(): void {
     if (this.loader) {
       this.loader.dismiss();
-      this.loader = null;
     }
   }
 
@@ -68,25 +68,20 @@ export class StopComponent {
     this.favoriteStopService.contains(this.stopId, (liked) => {
       this.liked = liked;
     });
+    this.getDepartures();
     this.storage.ready().then(() => {
       this.storage.get('autoRefresh').then(autoRefresh => {
-        console.log(autoRefresh);
-        if (autoRefresh != null) {
-          this.autoRefreshTime = <number> autoRefresh;
-          console.log('autorefresh isnt null');
-        } else {
-          console.log('autorefresh is null');
-          this.autoRefreshTime = 45000;
+        // If the saved autorefresh value is NOT valid, make it valid and save it.
+        if (!this.autoRefreshService.isAutoRefreshValid(autoRefresh)) {
+          autoRefresh = 45000;
           this.storage.set('autoRefresh', 45000);
         }
-        this.getDepartures();
-        if (autoRefresh > 0) {
-          console.log('autorefresh is greater than 0');
-          this.interval = setInterval(() => {
-            console.log('autoRefresh');
-            this.getDepartures();
-
-          }, this.autoRefreshTime)
+        // If autorefresh is on, set an interval to refresh departures.
+        if (this.autoRefreshService.isAutoRefreshEnabled(autoRefresh)) {
+            this.interval = setInterval(() => {
+              console.log('Refreshing departures');
+              this.getDepartures();
+            }, autoRefresh);
         }
       });
     });
@@ -116,8 +111,6 @@ export class StopComponent {
     for (let routeId of routes) {
       this.getRoute(routeId);
     }
-
-    //$ionicLoading.hide();
   };
   toggleStopHeart(): void {
     // console.log('toggling', stop.Description);
