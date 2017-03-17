@@ -90,6 +90,10 @@ export class StopComponent {
     })
   }
 
+  ionViewWillLeave() {
+    clearInterval(this.interval);
+  }
+
   ionViewCanEnter(): boolean {
    return this.connection.getConnectionStatus();
   }
