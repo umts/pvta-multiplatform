@@ -339,7 +339,6 @@ export class PlanTripComponent {
         if (this.noLocationToast) {
           this.noLocationToast.dismiss();
         }
-        this.routeElement.nativeElement.scrollIntoView();
         // Force a map redraw because it was hidden before.
         // There's an angular bug (with [hidden]) that will cause
         // the map to draw only grey after being hidden
@@ -353,8 +352,8 @@ export class PlanTripComponent {
         setTimeout(() => {
           google.maps.event.trigger(this.map, 'resize');
           this.directionsDisplay.setDirections(response);
-        }, 1000)
-
+          this.routeElement.nativeElement.scrollIntoView();
+        }, 1000);
         // ga('send', 'event', 'TripStepsRetrieved', ser 'PlanTripController.getRoute()', 'Received steps for a planned trip!');
       } else  {
         console.log(status);
