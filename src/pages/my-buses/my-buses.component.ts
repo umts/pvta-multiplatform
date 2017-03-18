@@ -8,6 +8,7 @@ import { PlanTripComponent } from '../plan-trip/plan-trip.component';
 import { AlertService } from '../../providers/alert.service';
 import { RouteService } from '../../providers/route.service';
 import { StopService } from '../../providers/stop.service';
+import { FavoriteTripService } from '../../providers/favorite-trip.service';
 import { Alert } from '../../models/alert.model';
 import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';
 import { RouteModal, RouteModalRequester } from '../../modals/route-modal/route.modal';
@@ -24,9 +25,9 @@ export class MyBusesComponent {
   trips;
 
   constructor(public navCtrl: NavController, private storage: Storage,
-    private alertService: AlertService, private alertCtrl: AlertController,
-    private modalCtrl: ModalController, private routeService: RouteService,
-    private stopService: StopService) {
+    private alertSvc: AlertService, private alertCtrl: AlertController,
+    private modalCtrl: ModalController, private routeSvc: RouteService,
+    private stopSvc: StopService, private tripSvc: FavoriteTripService) {
       this.alerts = [];
     }
 
@@ -38,7 +39,7 @@ export class MyBusesComponent {
     let routeIds = _.map(this.routes, 'RouteId');
     // Resolve the promise, which will contain
     // a list of all alerts
-    this.alertService.getAlerts().then(downloadedAlerts => {
+    this.alertSvc.getAlerts().then(downloadedAlerts => {
       if (!downloadedAlerts) {
         return;
       }
@@ -159,10 +160,14 @@ export class MyBusesComponent {
       }).present();
     });
   }
-  
+
   goToTripPage(trip): void {
     this.navCtrl.push(PlanTripComponent, {
       loadedTrip: trip
     });
+  }
+  deleteTrip(trip): void {
+    _.remove(this.trips, {name: trip.name});
+    this.tripSvc.deleteTrip(trip);
   }
 }

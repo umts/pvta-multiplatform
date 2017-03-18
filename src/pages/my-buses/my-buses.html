@@ -61,12 +61,16 @@
       <ion-item-divider role="heading" aria-label="your trips" id="trips-heading">
         Your Trips
       </ion-item-divider>
-      <div role="list">
-        <button ion-item item-left *ngFor="let trip of trips"
-        (click)="goToTripPage(trip)">
-          <ion-icon name="map" aria-hidden="true" style="margin-right: 10px"></ion-icon>
-          {{trip.name}}
-        </button>
-      </div>
+      <ion-list role="list">
+        <ion-item-sliding *ngFor="let trip of trips">
+          <button ion-item item-left (click)="goToTripPage(trip)">
+            <ion-icon name="map" aria-hidden="true" style="margin-right: 10px"></ion-icon>
+            {{trip.name}}
+          </button>
+          <ion-item-options>
+            <button ion-button color="danger" (click)="deleteTrip(trip)">Delete</button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
     </ion-item-group>
 </ion-content>
