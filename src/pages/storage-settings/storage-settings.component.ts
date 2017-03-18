@@ -13,7 +13,7 @@ export class StorageSettingsComponent {
 
   showToast(message: string): void {
     if (this.toast) {
-      this.toast.dismissAll();  
+      this.toast.dismissAll();
     }
 
     this.toast = this.toastCtrl.create({

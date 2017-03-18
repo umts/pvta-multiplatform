@@ -67,7 +67,7 @@ import { AutoRefreshService } from '../providers/auto-refresh.service';
         {component: SettingsComponent, name: 'Settings', segment: 'settings'},
         {component: AboutComponent, name: 'About', segment: 'settings/about', defaultHistory: [SettingsComponent]},
         {component: StorageSettingsComponent, name: 'Storage', segment: 'settings/storage', defaultHistory: [SettingsComponent]},
-        {component: ContactComponent, name: 'Contact', segment: 'settings/about/contact', defaultHistory: [AboutComponent, SettingsComponent]},
+        {component: ContactComponent, name: 'Contact', segment: 'settings/contact', defaultHistory: [SettingsComponent]},
         {component: PrivacyPolicyComponent, name: 'Privacy Policy', segment: 'settings/about/privacy-policy', defaultHistory: [AboutComponent, SettingsComponent]},
         {component: RouteComponent, name: 'Route', segment: 'route/:routeId', defaultHistory: [MyBusesComponent]},
         {component: StopComponent, name: 'Stop', segment: 'stop/:stopId', defaultHistory: [MyBusesComponent]},

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { NavController } from 'ionic-angular';
 import { AboutComponent } from '../about/about.component';
+import { ContactComponent} from '../contact/contact.component';
 import { StorageSettingsComponent} from '../storage-settings/storage-settings.component';
 
 @Component({
@@ -15,21 +16,21 @@ export class SettingsComponent {
       storage.get('autoRefresh').then(autoRefreshTiming => {
         if (autoRefreshTiming) {
           this.autoRefresh = autoRefreshTiming
-        }
-        else {
+        } else {
           this.autoRefresh = '45000';
         }
       });
     });
   }
-
   goToAboutPage() {
     this.navCtrl.push(AboutComponent)
   }
   goToStorageSettingsPage() {
     this.navCtrl.push(StorageSettingsComponent);
   }
-
+  goToContactPage(): void {
+    this.navCtrl.push(ContactComponent);
+  }
   ionViewWillLeave() {
     this.storage.ready().then(() => {
       console.log('setting autorefresh to', this.autoRefresh);
