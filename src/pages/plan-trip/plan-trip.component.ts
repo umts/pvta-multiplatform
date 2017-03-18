@@ -48,7 +48,7 @@ export class PlanTripComponent {
       */
     this.timeOptions = [
       { title: 'Leaving Now', type: 'departure', isASAP: true, id: 0 },
-      { title: 'Departing At', type: 'departure', isASAP: false,id: 1 },
+      { title: 'Departing At...', type: 'departure', isASAP: false,id: 1 },
       { title: 'Arriving By...', type: 'arrival', isASAP: false, id: 2 }
     ];
   }
