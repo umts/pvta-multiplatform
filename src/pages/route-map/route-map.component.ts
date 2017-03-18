@@ -107,10 +107,10 @@ export class RouteMapComponent {
           path: this.mapService.busSVGPath(),
           fillColor: '#' + this.route.Color,
           fillOpacity: 1,
-          strokeWeight: 0.5,
-          scale: .03,
+          strokeWeight: 1.5,
+          scale: .04,
           // 180 degrees is rightside-up
-          rotation: 180
+          rotation: vehicle.Heading + 180
         };
         //add a listener for that vehicle with that content as part of the infobubble
         this.mapService.addMapListener(this.mapService.placeDesiredMarker(loc, icon, isVehicleRefresh), content);
