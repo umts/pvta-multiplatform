@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { ConnectivityService } from '../../providers/connectivity.service';
 import { RouteService } from '../../providers/route.service';
 import { VehicleService } from '../../providers/vehicle.service';
@@ -8,7 +9,7 @@ import { Geolocation } from 'ionic-native';
 import { Vehicle } from '../../models/vehicle.model';
 import * as moment from 'moment';
 import { MapService } from '../../providers/map.service';
-
+import { AutoRefreshService } from '../../providers/auto-refresh.service';
 
 declare var google;
 
@@ -31,80 +32,104 @@ export class RouteMapComponent {
   };
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private routeService: RouteService, private vehicleService: VehicleService,
-    private mapService: MapService, private connection: ConnectivityService) {
+    private routeSvc: RouteService, private vehicleSvc: VehicleService,
+    private mapSvc: MapService, private connection: ConnectivityService,
+    private refreshSvc: AutoRefreshService, private storage: Storage) {
       this.routeId = navParams.get('routeId');
     }
 
   ionViewDidEnter(){
     this.loadMap();
-    this.mapService.init(this.map);
     // $ionicLoading.show(ionicLoadingConfig);
-    this.routeService
-      .getRoute(this.routeId)
-      .then(route => {
-        if (!route) {
-          return;
+    this.routeSvc.getRoute(this.routeId).then(route => {
+      if (!route) {
+        return;
+      }
+      this.route = route;
+      this.vehicles = route.Vehicles;
+      this.mapSvc.addKML(route.RouteTraceFilename);
+      this.placeVehicles(false);
+    });
+    this.storage.ready().then(() => {
+      this.storage.get('autoRefresh').then(autoRefresh => {
+        let autoRefreshValidity: [boolean, number] = this.refreshSvc
+        .verifyValidity(autoRefresh);
+        // If the saved autorefresh value is NOT valid, make it valid.
+        if (autoRefreshValidity[0] == false) {
+          autoRefresh = autoRefreshValidity[1];
         }
-        this.route = route;
-        this.vehicles = route.Vehicles;
-        this.mapService.addKML(route.RouteTraceFilename);
-        this.placeVehicles(false);
-        // $ionicLoading.hide();
+        // If autorefresh is on, set an interval to refresh departures.
+        if (this.refreshSvc.isAutoRefreshEnabled(autoRefresh)) {
+          this.interval = setInterval(() => {
+            this.getVehicles();
+          }, autoRefresh);
+        }
       });
-    this.interval = setInterval(() => {
-      this.vehicleService
-        .getRouteVehicles(this.routeId)
-        .then(routeVehicles => {
-          if (!routeVehicles) {
-            return;
-          }
-          this.vehicles = routeVehicles;
-          this.placeVehicles(true);
-      });
-    }, 30000);
+    });
   }
+
   ionViewCanEnter(): boolean {
    return this.connection.getConnectionStatus();
   }
 
-  loadMap(){
+  ionViewWillLeave() {
+    clearInterval(this.interval);
+  }
 
+  getVehicles() {
+    console.log('Refreshing vehicles')
+    this.vehicleSvc.getRouteVehicles(this.routeId)
+    .then(routeVehicles => {
+      if (!routeVehicles) {
+        return;
+      }
+      this.vehicles = routeVehicles;
+      this.placeVehicles(true);
+    });
+  }
 
+  loadMap(): void {
     let latLng = new google.maps.LatLng(-34.9290, 138.6010);
-
-    this.map = new google.maps.Map(this.mapElement.nativeElement, this.mapOptions);
-
+    this.map = new google.maps.Map(this.mapElement.nativeElement,
+      this.mapOptions);
+    this.mapSvc.init(this.map);
   }
 
   placeVehicles (isVehicleRefresh) {
     //places every vehicle on said route on the map
-      this.mapService.removeAllMarkers();
+      this.mapSvc.removeAllMarkers();
       if (!this.vehicles) {
         return;
       }
       for (let vehicle of this.vehicles) {
-        let message;
+        let fullTitle = `<b style=\"color:`;
+        let busDetails = `Bus ${vehicle.Name} - ${vehicle.DisplayStatus}`;
         var loc = new google.maps.LatLng(vehicle.Latitude, vehicle.Longitude);
-
         //if the vehicle is on time, make the text green. If it's late, make the text red and say late by how much
         if (vehicle.DisplayStatus === 'On Time') {
-          message = '<h4 style=\'color: green;\'>Bus ' + vehicle.Name + ' - ' + vehicle.DisplayStatus + '</h4>';
+          fullTitle += `green\"> ${busDetails}`;
+        } else {
+          fullTitle += `red\"> ${busDetails} by ${vehicle.Deviation} minutes`;
         }
-        else {
-          message = '<h4 style=\'color: red;\'>Bus ' + vehicle.Name + ' - ' + vehicle.DisplayStatus +
-            ' by ' + vehicle.Deviation + ' minutes</h4>';
-        }
+        fullTitle += '</b>';
 
         //sets the content of the window to have a ton of information about the vehicle
-        var content = '<div style=\'font-family: Arial;text-align: center\'><h3 style=\'color: #' +
-        this.route.Color + '\'>' + this.route.RouteAbbreviation + ': ' +
-        vehicle.Destination + '</h3>' + message + '<h4>Last Stop: ' + vehicle.LastStop + '</h4>' +
-        '<h4>Last Updated: ' + moment(vehicle.LastUpdated).format('h:mm:ss a') + '</h4></div>';
+        var content = `
+        <div style=\"text-align: center\; font-weight: bold; font-size: 125%;">
+          <p style=\"color: #${this.route.Color}\">
+            ${this.route.RouteAbbreviation}:
+            ${vehicle.Destination}
+          </p>
+          ${fullTitle}
+          <p>Last Stop: ${vehicle.LastStop}</p>
+          <p>
+            Last Updated: ${moment(vehicle.LastUpdated).format('h:mm:ss a')}
+          </p>
+        </div>`;
         // An bus-shaped icon, with the color of the current route and
         // rotated such that it is facing the same direction as the real bus.
         var icon = {
-          path: this.mapService.busSVGPath(),
+          path: this.mapSvc.busSVGPath(),
           fillColor: '#' + this.route.Color,
           fillOpacity: 1,
           strokeWeight: 1.5,
@@ -113,7 +138,7 @@ export class RouteMapComponent {
           rotation: vehicle.Heading + 180
         };
         //add a listener for that vehicle with that content as part of the infobubble
-        this.mapService.addMapListener(this.mapService.placeDesiredMarker(loc, icon, isVehicleRefresh), content);
+        this.mapSvc.addMapListener(this.mapSvc.placeDesiredMarker(loc, icon, isVehicleRefresh), content);
       }
     }
 

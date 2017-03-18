@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
-
+import { Storage } from '@ionic/storage';
 import { StopDeparture } from '../../models/stop-departure.model';
 import { Stop } from '../../models/stop.model';
 import { StopDepartureService } from '../../providers/stop-departure.service';
@@ -12,6 +12,8 @@ import { RouteService } from '../../providers/route.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ConnectivityService } from '../../providers/connectivity.service';
+import { AutoRefreshService } from '../../providers/auto-refresh.service';
+
 
 @Component({
   selector: 'page-stop',
@@ -25,34 +27,72 @@ export class StopComponent {
   departuresByDirection: Array<any> = [];
   routeList = [];
   loader;
+  interval;
+  // autoRefreshTime: number;
   order: String;
   stop: Stop;
   constructor(public navCtrl: NavController, private navParams: NavParams,
-    private stopDepartureService: StopDepartureService,
-    private routeService: RouteService, private changer: ChangeDetectorRef,
-    private loadingCtrl: LoadingController, private favoriteStopService: FavoriteStopService,
-    private stopService: StopService, private connection: ConnectivityService) {
+    private stopDepartureSvc: StopDepartureService,
+    private routeSvc: RouteService, private changer: ChangeDetectorRef,
+    private loadingCtrl: LoadingController, private favoriteStopSvc: FavoriteStopService,
+    private stopSvc: StopService, private connection: ConnectivityService,
+    private storage: Storage, private refreshSvc: AutoRefreshService) {
       this.stopId = navParams.get('stopId');
       this.order = '0';
-      this.loader = loadingCtrl.create({
-        content: 'Downloading departures...'
-      });
   }
-  ionViewWillEnter() {
-    this.loader.present();
-    this.stopDepartureService
-      .getStopDeparture(this.stopId)
+
+  presentLoader(): void {
+      this.loader = this.loadingCtrl.create({
+        content: 'Downloading departures...',
+        duration: 3000
+      });
+      this.loader.present();
+  }
+  hideLoader(): void {
+    if (this.loader) {
+      this.loader.dismiss();
+    }
+  }
+
+  getDepartures(): void {
+    this.presentLoader();
+    this.stopDepartureSvc.getStopDeparture(this.stopId)
       .then(directions => {
         this.sort(directions[0]);
         this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
-        this.favoriteStopService.contains(this.stopId, (liked) => {
-          this.liked = liked;
-        });
-        this.loader.dismiss();
+        this.hideLoader();
+    });
+  }
+
+  ionViewWillEnter() {
+    this.favoriteStopSvc.contains(this.stopId, (liked) => {
+      this.liked = liked;
+    });
+    this.getDepartures();
+    this.storage.ready().then(() => {
+      this.storage.get('autoRefresh').then(autoRefresh => {
+        let autoRefreshValidity: [boolean, number] = this.refreshSvc
+        .verifyValidity(autoRefresh);
+        // If the saved autorefresh value is NOT valid, make it valid.
+        if (autoRefreshValidity[0] == false) {
+          autoRefresh = autoRefreshValidity[1];
+        }
+        // If autorefresh is on, set an interval to refresh departures.
+        if (this.refreshSvc.isAutoRefreshEnabled(autoRefresh)) {
+            this.interval = setInterval(() => {
+              console.log('Refreshing departures');
+              this.getDepartures();
+            }, autoRefresh);
+        }
       });
-    this.stopService.getStop(this.stopId).then(stop => {
+    });
+    this.stopSvc.getStop(this.stopId).then(stop => {
       this.stop = stop;
     })
+  }
+
+  ionViewWillLeave() {
+    clearInterval(this.interval);
   }
 
   ionViewCanEnter(): boolean {
@@ -63,7 +103,7 @@ export class StopComponent {
   // Avail.  Adds it to a $scope-wide list.
   // Returns nothing.
   getRoute (id): any {
-    this.routeService
+    this.routeSvc
       .getRoute(id)
       .then(route => {
         this.routeList[id] = (route);
@@ -76,12 +116,10 @@ export class StopComponent {
     for (let routeId of routes) {
       this.getRoute(routeId);
     }
-
-    //$ionicLoading.hide();
   };
   toggleStopHeart(): void {
     // console.log('toggling', stop.Description);
-    this.favoriteStopService.toggleFavorite(this.stopId, this.stop.Description);
+    this.favoriteStopSvc.toggleFavorite(this.stopId, this.stop.Description);
   }
   /**
    * Given a Departure object,
@@ -114,6 +152,7 @@ export class StopComponent {
   departuresByTime = [];
   sort (directions): any {
     this.departuresByTime = [];
+    this.departuresByDirection = [];
     // Avail returns an array of RouteDirections. We must deal
     // with the Departures for each Direction.
     for (let direction of directions.RouteDirections) {
