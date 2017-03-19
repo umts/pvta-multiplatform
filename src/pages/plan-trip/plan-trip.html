@@ -52,7 +52,7 @@
   <button ion-button round *ngIf="route" (click)="saveTrip()">Save Trip</button>
   <button ion-button round (click)="getRoute()" id="dasd">Search Schedule</button>
 
-  <div #directionsMap id="directionsMap" [hidden]="!route" class="directions-map-hohoho" aria-hidden="true"></div>
+  <div #directionsMap id="directionsMap" [hidden]="!route" class="directions-map" aria-hidden="true"></div>
   <!-- *ngIf="route" -->
   <div #routeScrollArea id="route" aria-live="assertive">
     <div *ngIf="route" text-wrap>
