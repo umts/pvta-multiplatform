@@ -20,12 +20,6 @@
          placeholder="Enter a starting location" [(ngModel)]="request?.origin.name">
       </label>
       <!-- aria-label="{{request?.destinationOnly ? 'Stop using' : 'Use'}} location of device" -->
-      <ion-icon
-      title="Use location of device"
-      [ngClass]="request?.destinationOnly ? 'ion-android-locate positive' : 'ion-android-locate'"
-        style="font-size: 120%; margin-left: 1%"
-        (click)="request.destinationOnly = !request.destinationOnly; updateOrigin();">
-      </ion-icon>
     </ion-item>
     <ion-item>
       <label class="item-input-wrapper">
