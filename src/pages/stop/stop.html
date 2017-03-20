@@ -22,10 +22,10 @@
 </ion-header>
 
 <ion-content>
-  <ion-list no-lines>
+  <ion-list no-lines text-wrap>
     <div *ngIf="order == '0'">
     <div *ngFor="let direction of departuresByDirection">
-       <div ion-item text-wrap (click)="toggleRouteDropdown(direction)"
+       <div ion-item (click)="toggleRouteDropdown(direction)"
         [style.background-color]="'#'+routeList[direction.RouteId]?.Color"
         [style.color]="'white'">
         <!-- [ngClass]="{active: isRouteDropdownShown({{direction}})}" -->
