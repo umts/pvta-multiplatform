@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { PrivacyPolicyComponent } from '../privacy-policy/privacy-policy.component.ts';
 import { NavController } from 'ionic-angular';
 import { InfoService } from '../../providers/info.service';
 
@@ -15,5 +15,8 @@ export class AboutComponent {
   constructor(public navCtrl: NavController, private infoService: InfoService) {
     this.versionName = infoService.getVersionName();
     this.versionNumber = infoService.getVersionNumber();
+  }
+  goToPrivacyPolicyPage(): void {
+    this.navCtrl.push(PrivacyPolicyComponent);
   }
 }
