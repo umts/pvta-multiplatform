@@ -12,8 +12,17 @@
           {{p.title}}
         </button>
       </ion-list>
+      <div style="position: absolute; bottom: 1%; margin-left: 5%;" *ngIf="showNativeStoreAd">
+        <div onclick="window.open('https://play.google.com/store/apps/details?id=com.umts.pvtamultiplaform', '_blank');">
+          <ion-icon color="dark-green" name="md-appstore" aria-label="Play Store Link"></ion-icon>
+          <a>Get PVTrAck on Android!</a>
+        </div>
+        <div>
+          <ion-icon color="grey" name="ios-appstore-outline"></ion-icon>
+          <i style="color: grey">Coming soon to iOS!</i>
+        </div>
+      </div>
     </ion-content>
-
   </ion-menu>
 
   <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->

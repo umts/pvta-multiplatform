@@ -18,6 +18,7 @@ export class MyApp {
   rootPage: any = MyBusesComponent;
   offlineToast;
   pages: Array<{title: string, component: any}>;
+  showNativeStoreAd;
 
   constructor(public platform: Platform,
   private connectivityService: ConnectivityService) {
@@ -41,6 +42,7 @@ export class MyApp {
       if (this.platform.is('android')) {
         StatusBar.backgroundColorByHexString('#1976D2');
       }
+      this.showNativeStoreAd = this.platform.is('mobileweb') || this.platform.is('core');
       Splashscreen.hide();
       window.addEventListener('online', () =>  {
         console.log('online');
