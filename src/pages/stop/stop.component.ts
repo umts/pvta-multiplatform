@@ -55,7 +55,6 @@ export class StopComponent {
   }
 
   getDepartures(): void {
-    this.presentLoader();
     this.stopDepartureSvc.getStopDeparture(this.stopId)
       .then(directions => {
         this.sort(directions[0]);
@@ -68,6 +67,7 @@ export class StopComponent {
     this.favoriteStopSvc.contains(this.stopId, (liked) => {
       this.liked = liked;
     });
+    this.presentLoader();
     this.getDepartures();
     this.storage.ready().then(() => {
       this.storage.get('autoRefresh').then(autoRefresh => {

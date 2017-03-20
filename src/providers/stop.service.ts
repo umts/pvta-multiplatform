@@ -40,7 +40,7 @@ export class StopService {
     console.error('An error occurred', error); // for demo purposes only
   }
 
-  getStopList (cb: Function): any {
+  getStopList (cb: Function): void {
     this.storage.ready().then(() => {
       this.storage.get('stops').then((stops) => {
         if (stops && stops.list.length > 0) {

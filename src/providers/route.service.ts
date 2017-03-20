@@ -51,7 +51,7 @@ export class RouteService {
     console.error('An error occurred', error); // for demo purposes only
   }
 
-  getRouteList (cb: Function): any {
+  getRouteList (cb: Function): void {
     console.log('getroutelist top');
     this.storage.ready().then(() => {
       console.log('getroutelist storage ready');

@@ -18,7 +18,7 @@ export class MyApp {
   rootPage: any = MyBusesComponent;
   offlineToast;
   pages: Array<{title: string, component: any}>;
-  showNativeStoreAd;
+  showNativeStoreAd = false;
 
   constructor(public platform: Platform,
   private connectivityService: ConnectivityService) {
