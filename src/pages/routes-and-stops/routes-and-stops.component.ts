@@ -138,9 +138,7 @@ export class RoutesAndStopsComponent {
   }
 
   ionViewWillEnter() {
-    console.log('wojdfldksjfdslfjdslkfj');
     this.routeService.getRouteList((routesPromise: Promise<Route[]>) => {
-      console.log('routelistlistlistlistlist');
       routesPromise.then(routes => {
         this.routes = _.sortBy(routes, ['ShortName']);
         this.routesDisp = this.routes;
