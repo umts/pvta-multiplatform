@@ -95,7 +95,7 @@ export class RoutesAndStopsComponent {
   prepareRoutes(): any {
     // For each route, add the custom 'Liked' property and keep only
     // the properties we care about.  Doing this makes searching easier.
-    return _.map(this.routes, (route) => {
+    this.routes = <Route[]> _.map(this.routes, (route) => {
       route.Liked = _.includes(_.map(this.favoriteRoutes, 'RouteId'), route.RouteId);
       return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color', 'GoogleDescription', 'Liked');
     });
@@ -110,15 +110,15 @@ export class RoutesAndStopsComponent {
     this.favoriteStopService.toggleFavorite(stop.StopId, stop.Description);
   }
 
-  getFavoriteRoutes(): void {
-    this.storage.ready().then(() => {
-      this.storage.get('favoriteRoutes').then((favoriteRoutes: FavoriteRouteModel[]) => {
+  getFavoriteRoutes(): Promise<any> {
+    return this.storage.ready().then(() => {
+      return this.storage.get('favoriteRoutes').then((favoriteRoutes: FavoriteRouteModel[]) => {
         // console.log('favs', favoriteRoutes);
-        this.favoriteRoutes = favoriteRoutes;
-        this.routes = this.prepareRoutes();
-        this.toggleOrdering();
-      })
-    })
+        return new Promise((resolve, reject) => {
+          resolve(favoriteRoutes);
+        });
+      });
+    });
   }
 
   prepareStops(): any {
@@ -129,30 +129,49 @@ export class RoutesAndStopsComponent {
       return _.pick(stop, 'StopId', 'Name', 'Liked', 'Description', 'Latitude', 'Longitude', 'Distance');
     });
   }
-  getFavoriteStops(): void {
-    this.storage.ready().then(() => {
-      this.storage.get('favoriteStops').then((favoriteStops: Stop[]) => {
-        this.favoriteStops = favoriteStops;
-        this.stops = this.prepareStops();
-      })
-    })
+  getFavoriteStops(): Promise<any> {
+    return this.storage.ready().then(() => {
+      return this.storage.get('favoriteStops').then((favoriteStops: Stop[]) => {
+        return new Promise((resolve, reject) => {
+          resolve(favoriteStops);
+        });
+      });
+    });
   }
 
   ionViewWillEnter() {
     this.onSearchQueryChanged(this.searchQuery);
-    this.routeService.getRouteList().then((routes: Route[]) => {
+    let r: Promise<any> = this.routeService.getRouteList();
+    let s: Promise<any> = this.stopService.getStopList();
+    let fs: Promise<any> = this.getFavoriteStops();
+    let fr: Promise<any> = this.getFavoriteRoutes();
+
+    r.then((routes: Route[]) => {
       this.routes = _.sortBy(routes, ['ShortName']);
       this.routesDisp = this.routes;
       this.routeService.saveRouteList(this.routes);
-      this.getFavoriteRoutes();
     }).catch(err => {
       console.error(err);
     });
-    this.stopService.getStopList().then((stops: Stop[]) => {
+    Promise.all([r, fr]).then(() => {
+      console.log('ready with routes and fav routes');
+      this.routes = this.prepareRoutes();
+    });
+    Promise.all([s, fs]).then(() => {
+      console.log('ready with stops and fav stops');
+      this.routes = this.prepareRoutes();
+    });
+    fs.then(stops => {
+      this.favoriteStops = stops;
+    });
+    fr.then(routes => {
+      this.favoriteRoutes = routes;
+    });
+    s.then((stops: Stop[]) => {
       this.stops = _.uniqBy(stops, 'StopId');
       this.stopsDisp = this.stops;
       this.stopService.saveStopList(this.stops);
-      this.getFavoriteStops();
+
       let options = {timeout: 5000, enableHighAccuracy: true};
       Geolocation.getCurrentPosition(options).then(position => {
         this.calculateStopDistances(position)

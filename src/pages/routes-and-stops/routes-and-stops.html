@@ -30,6 +30,7 @@
 </ion-header>
 
 <ion-content padding>
+  {{routes | json}}
   <div [ngSwitch]="cDisplay">
     <ion-list text-wrap *ngSwitchCase="'routes'">
       <div ion-item *ngFor="let route of routesDisp"

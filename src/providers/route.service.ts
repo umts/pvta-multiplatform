@@ -69,12 +69,12 @@ export class RouteService {
             });
           } else {
             console.log('Routeservice forage, list is too old!');
-            return this.getAllRoutes();
+            return Promise.resolve(this.getAllRoutes());
           }
         }
         else {
           console.log('Routeservice forage, download routes');
-          return this.getAllRoutes();
+          return Promise.resolve(this.getAllRoutes());
         }
       }).catch(err => {
         console.error('an error getting routes from storage!', err);
