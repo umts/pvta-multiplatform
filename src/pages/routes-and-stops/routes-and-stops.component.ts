@@ -140,16 +140,15 @@ export class RoutesAndStopsComponent {
 
   ionViewWillEnter() {
     this.onSearchQueryChanged(this.searchQuery);
-    this.routeService.getRouteList((routesPromise: Promise<Route[]>) => {
-      routesPromise.then(routes => {
+    this.routeService.getRouteList().then((routes: Route[]) => {
+      // console.log(routes)
         this.routes = _.sortBy(routes, ['ShortName']);
         this.routesDisp = this.routes;
         this.routeService.saveRouteList(this.routes);
         this.getFavoriteRoutes();
       }).catch(err => {
         console.error(err);
-      })
-    });
+      });
     this.stopService.getStopList((stopsPromise: Promise<Stop[]>) => {
       stopsPromise.then(stops => {
         this.stops = _.uniqBy(stops, 'StopId');

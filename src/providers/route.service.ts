@@ -51,11 +51,11 @@ export class RouteService {
     console.error('An error occurred', error); // for demo purposes only
   }
 
-  getRouteList (cb: Function): void {
+  getRouteList(): Promise<any> {
     console.log('getroutelist top');
-    this.storage.ready().then(() => {
+    return this.storage.ready().then(() => {
       console.log('getroutelist storage ready');
-      this.storage.get('routes').then((routes) => {
+      return this.storage.get('routes').then((routes) => {
         console.log('getroutelist list retrieved');
         if (routes && routes.list.length > 0) {
           console.log('list length > 0 and it exists');
@@ -64,17 +64,17 @@ export class RouteService {
           // console.log('the diference is', diff);
           if (diff <= 1) {
             console.log('Routeservice forage, returning list');
-            cb(new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
               resolve(routes.list);
-            }))
+            });
           } else {
             console.log('Routeservice forage, list is too old!');
-            cb(this.getAllRoutes());
+            return this.getAllRoutes();
           }
         }
         else {
           console.log('Routeservice forage, download routes');
-          cb(this.getAllRoutes());
+          return this.getAllRoutes();
         }
       }).catch(err => {
         console.error('an error getting routes from storage!', err);

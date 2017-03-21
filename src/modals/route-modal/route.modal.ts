@@ -31,8 +31,7 @@ export class RouteModal {
     if (this.requester === RouteModalRequester.MyBuses) {
       let loader = this.loadingCtrl.create();
       loader.present();
-      this.routeService.getRouteList((routesPromise: Promise<Route[]>) => {
-        routesPromise.then(routes => {
+      this.routeService.getRouteList().then((routes: Route[]) => {
           console.log('have routes');
           this.routes = _.sortBy(routes, ['ShortName']);
           this.routeService.saveRouteList(this.routes);
@@ -41,7 +40,6 @@ export class RouteModal {
         }).catch(err => {
           console.error(err);
         })
-      });
     }
   }
 
