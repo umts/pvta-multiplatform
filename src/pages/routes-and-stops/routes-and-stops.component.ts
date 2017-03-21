@@ -44,13 +44,14 @@ export class RoutesAndStopsComponent {
         content: 'Downloading...'
       });
     }
-  onSearchQueryChanged(event: any): void {
-    let query: string = event.target.value;
+  onSearchQueryChanged(query: string): void {
     if (!query || query == '') {
       this.routesDisp = this.routes;
       this.stopsDisp = this.stops;
+      this.searchQuery = '';
     }
     else {
+      this.searchQuery = query;
       query = query.toLowerCase().trim();
       if (this.cDisplay == 'routes') {
         this.routesDisp = _.filter(this.routes, route => {
@@ -138,6 +139,7 @@ export class RoutesAndStopsComponent {
   }
 
   ionViewWillEnter() {
+    this.onSearchQueryChanged(this.searchQuery);
     this.routeService.getRouteList((routesPromise: Promise<Route[]>) => {
       routesPromise.then(routes => {
         this.routes = _.sortBy(routes, ['ShortName']);
@@ -170,6 +172,7 @@ export class RoutesAndStopsComponent {
    * Takes no params because the <select> is bound to a model - $scope.order.
    */
   toggleOrdering(): void {
+    this.onSearchQueryChanged(this.searchQuery);
     var routeOrderings = ['favorites', 'name'];
     var stopOrderings = ['favorites', 'distance'];
     let primarySort: string;

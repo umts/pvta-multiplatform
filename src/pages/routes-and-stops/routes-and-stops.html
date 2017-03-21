@@ -16,7 +16,7 @@
   <ion-searchbar
     [(ngModel)]="searchQuery"
     showCancelButton
-    (ionInput)="onSearchQueryChanged($event)">
+    (ionInput)="onSearchQueryChanged($event.target.value)">
     <!-- (ionCancel)="onCancel($event)"> -->
   </ion-searchbar>
   <ion-item>
