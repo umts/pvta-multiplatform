@@ -141,29 +141,26 @@ export class RoutesAndStopsComponent {
   ionViewWillEnter() {
     this.onSearchQueryChanged(this.searchQuery);
     this.routeService.getRouteList().then((routes: Route[]) => {
-      // console.log(routes)
-        this.routes = _.sortBy(routes, ['ShortName']);
-        this.routesDisp = this.routes;
-        this.routeService.saveRouteList(this.routes);
-        this.getFavoriteRoutes();
+      this.routes = _.sortBy(routes, ['ShortName']);
+      this.routesDisp = this.routes;
+      this.routeService.saveRouteList(this.routes);
+      this.getFavoriteRoutes();
+    }).catch(err => {
+      console.error(err);
+    });
+    this.stopService.getStopList().then((stops: Stop[]) => {
+      this.stops = _.uniqBy(stops, 'StopId');
+      this.stopsDisp = this.stops;
+      this.stopService.saveStopList(this.stops);
+      this.getFavoriteStops();
+      let options = {timeout: 5000, enableHighAccuracy: true};
+      Geolocation.getCurrentPosition(options).then(position => {
+        this.calculateStopDistances(position)
       }).catch(err => {
-        console.error(err);
-      });
-    this.stopService.getStopList((stopsPromise: Promise<Stop[]>) => {
-      stopsPromise.then(stops => {
-        this.stops = _.uniqBy(stops, 'StopId');
-        this.stopsDisp = this.stops;
-        this.stopService.saveStopList(this.stops);
-        this.getFavoriteStops();
-        let options = {timeout: 5000, enableHighAccuracy: true};
-        Geolocation.getCurrentPosition(options).then(position => {
-          this.calculateStopDistances(position)
-        }).catch(err => {
-          this.calculateStopDistances()
-        })
-      }).catch(err => {
-        console.error(err);
-      });
+        this.calculateStopDistances()
+      })
+    }).catch(err => {
+      console.error(err);
     });
   }
   /*

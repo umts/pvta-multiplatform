@@ -32,14 +32,14 @@ export class RouteModal {
       let loader = this.loadingCtrl.create();
       loader.present();
       this.routeService.getRouteList().then((routes: Route[]) => {
-          console.log('have routes');
-          this.routes = _.sortBy(routes, ['ShortName']);
-          this.routeService.saveRouteList(this.routes);
-          this.getFavoriteRoutes();
-          loader.dismiss();
-        }).catch(err => {
-          console.error(err);
-        })
+        console.log('have routes');
+        this.routes = _.sortBy(routes, ['ShortName']);
+        this.routeService.saveRouteList(this.routes);
+        this.getFavoriteRoutes();
+        loader.dismiss();
+      }).catch(err => {
+        console.error(err);
+      });
     }
   }
 
