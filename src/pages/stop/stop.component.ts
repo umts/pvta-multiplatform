@@ -88,7 +88,7 @@ export class StopComponent {
     });
     this.stopSvc.getStop(this.stopId).then(stop => {
       this.stop = stop;
-    })
+    });
   }
 
   ionViewWillLeave() {

@@ -123,7 +123,7 @@ export class MyBusesComponent {
       }
     );
     stopModal.present();
-    stopModal.onDidDismiss(() => {this.getFavoriteStops()});
+    stopModal.onDidDismiss(() => {this.getFavoriteStops(); });
   }
 
   showRouteModal(): void {
@@ -134,7 +134,7 @@ export class MyBusesComponent {
       }
     );
     routeModal.present();
-    routeModal.onDidDismiss(() => {this.getFavoriteRoutes()});
+    routeModal.onDidDismiss(() => {this.getFavoriteRoutes(); });
   }
 
   goToStopPage(stopId: number): void {

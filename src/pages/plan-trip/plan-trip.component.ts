@@ -48,7 +48,7 @@ export class PlanTripComponent {
       */
     this.timeOptions = [
       { title: 'Leaving Now', type: 'departure', isASAP: true, id: 0 },
-      { title: 'Departing At...', type: 'departure', isASAP: false,id: 1 },
+      { title: 'Departing At...', type: 'departure', isASAP: false, id: 1 },
       { title: 'Arriving By...', type: 'arrival', isASAP: false, id: 2 }
     ];
   }
@@ -73,7 +73,7 @@ export class PlanTripComponent {
       //geocode current position to retrieve its corresponding Google Maps ID
       new google.maps.Geocoder().geocode(
         {
-          'location': new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
+          'location': new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         },
         (results, status) => {
           if (status === google.maps.GeocoderStatus.OK) {
@@ -104,7 +104,7 @@ export class PlanTripComponent {
         position: 'bottom',
         showCloseButton: true,
         dismissOnPageChange: true
-        })
+        });
       this.noLocationToast.present();
       // Tell Google Analytics that a user doesn't have location
       // ga('send', 'event', 'LocationFailure', 'PlanTripConsoller.$cordovaGeolocation.getCurrentPosition', 'location failed on Plan Trip; error: ' + err.message);
@@ -282,7 +282,7 @@ export class PlanTripComponent {
         position: 'bottom',
         showCloseButton: true,
         dismissOnPageChange: true
-        })
+        });
       // Clear out the search boxes for either/both of the incorrectly
       // selected fields
       if (!this.request.origin.id) {

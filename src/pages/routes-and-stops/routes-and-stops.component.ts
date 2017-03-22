@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import {Geolocation} from 'ionic-native'
+import {Geolocation} from 'ionic-native';
 import { RouteService } from '../../providers/route.service';
 import { StopService } from '../../providers/stop.service';
 import { FavoriteRouteService, FavoriteRouteModel } from '../../providers/favorite-route.service';
 import { Route } from '../../models/route.model';
 import { Stop } from '../../models/stop.model';
 import { RouteComponent } from '../route/route.component';
-import { StopComponent } from '../stop/stop.component'
+import { StopComponent } from '../stop/stop.component';
 import { FavoriteStopService, FavoriteStopModel } from '../../providers/favorite-stop.service';
 import * as _ from 'lodash';
 import * as haversine from 'haversine';
@@ -30,8 +30,8 @@ export class RoutesAndStopsComponent {
   searchQuery: string = '';
   stopsDisp: Stop[];
   routesDisp: Route[];
-  stopsPromise: Promise<any>
-  routesPromise: Promise<any>
+  stopsPromise: Promise<any>;
+  routesPromise: Promise<any>;
   loader;
   constructor(public navCtrl: NavController,
     private routeSvc: RouteService, private stopSvc: StopService,
@@ -154,10 +154,10 @@ export class RoutesAndStopsComponent {
 
       let options = {timeout: 5000, enableHighAccuracy: true};
       Geolocation.getCurrentPosition(options).then(position => {
-        this.calculateStopDistances(position)
+        this.calculateStopDistances(position);
       }).catch(err => {
-        this.calculateStopDistances()
-      })
+        this.calculateStopDistances();
+      });
     }).catch(err => {
       console.error(err);
     });
@@ -177,7 +177,7 @@ export class RoutesAndStopsComponent {
       this.favStops = value[1];
       this.stops = this.prepareStops();
     });
-    Promise.all([this.routesPromise, fr, this.stopsPromise, fs]).then(()=> {
+    Promise.all([this.routesPromise, fr, this.stopsPromise, fs]).then(() => {
       this.toggleOrdering();
     });
 
