@@ -7,7 +7,7 @@ export class ConnectivityService {
   connected: boolean;
   offlineToast;
 
-  constructor(private toast: ToastController, ) { }
+  constructor(private toast: ToastController) { }
 
   setConnectionStatus(connected: boolean) {
     this.connected = connected;
