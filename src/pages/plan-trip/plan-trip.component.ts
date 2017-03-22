@@ -102,8 +102,7 @@ export class PlanTripComponent {
       this.noLocationToast = this.toastCtrl.create({
         message: 'Unable to retrieve current location',
         position: 'bottom',
-        showCloseButton: true,
-        dismissOnPageChange: true
+        showCloseButton: true
         })
       this.noLocationToast.present();
       // Tell Google Analytics that a user doesn't have location
@@ -280,8 +279,7 @@ export class PlanTripComponent {
       this.noOriginOrDestinationToast = this.toastCtrl.create({
         message: 'You must select an origin and destination from the autocomplete dropdowns above in order to search the schedule',
         position: 'bottom',
-        showCloseButton: true,
-        dismissOnPageChange: true
+        showCloseButton: true
         })
       // Clear out the search boxes for either/both of the incorrectly
       // selected fields
