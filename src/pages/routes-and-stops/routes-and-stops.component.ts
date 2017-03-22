@@ -95,7 +95,7 @@ export class RoutesAndStopsComponent {
   prepareRoutes(): any {
     // For each route, add the custom 'Liked' property and keep only
     // the properties we care about.  Doing this makes searching easier.
-    this.routes = <Route[]> _.map(this.routes, (route) => {
+    return _.map(this.routes, (route) => {
       route.Liked = _.includes(_.map(this.favoriteRoutes, 'RouteId'), route.RouteId);
       return _.pick(route, 'RouteId', 'RouteAbbreviation', 'LongName', 'ShortName', 'Color', 'GoogleDescription', 'Liked');
     });
@@ -153,19 +153,18 @@ export class RoutesAndStopsComponent {
     }).catch(err => {
       console.error(err);
     });
-    Promise.all([r, fr]).then(() => {
-      console.log('ready with routes and fav routes');
+    Promise.all([r, fr]).then((value) => {
+      console.log('ready with routes and fav routes', value);
+      this.favoriteRoutes = value[1];
       this.routes = this.prepareRoutes();
     });
-    Promise.all([s, fs]).then(() => {
-      console.log('ready with stops and fav stops');
-      this.routes = this.prepareRoutes();
+    Promise.all([s, fs]).then((value) => {
+      console.log('ready with stops and fav stops', value);
+      this.favoriteStops = value[1];
+      this.stops = this.prepareStops();
     });
-    fs.then(stops => {
-      this.favoriteStops = stops;
-    });
-    fr.then(routes => {
-      this.favoriteRoutes = routes;
+    Promise.all([r, fr, s, fs]).then(()=> {
+      this.toggleOrdering();
     });
     s.then((stops: Stop[]) => {
       this.stops = _.uniqBy(stops, 'StopId');
