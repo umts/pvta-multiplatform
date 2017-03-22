@@ -19,8 +19,7 @@ export class StorageSettingsComponent {
     this.toast = this.toastCtrl.create({
       message: message,
       position: 'bottom',
-      showCloseButton: true,
-      dismissOnPageChange: true
+      showCloseButton: true
       });
     this.toast.present();
   }
