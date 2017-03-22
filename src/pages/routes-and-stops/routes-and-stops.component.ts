@@ -32,6 +32,8 @@ export class RoutesAndStopsComponent {
   searchQuery: string = '';
   stopsDisp: Stop[];
   routesDisp: Route[];
+  stopsPromise: Promise<any>
+  routesPromise: Promise<any>
   loader;
   constructor(public navCtrl: NavController,
     private routeService: RouteService, private stopService: StopService,
@@ -139,34 +141,20 @@ export class RoutesAndStopsComponent {
     });
   }
 
-  ionViewWillEnter() {
-    this.onSearchQueryChanged(this.searchQuery);
-    let r: Promise<any> = this.routeService.getRouteList();
-    let s: Promise<any> = this.stopService.getStopList();
-    let fs: Promise<any> = this.getFavoriteStops();
-    let fr: Promise<any> = this.getFavoriteRoutes();
-
-    r.then((routes: Route[]) => {
+  ionViewDidLoad() {
+    this.routesPromise = this.routeService.getRouteList();
+    this.routesPromise.then((routes: Route[]) => {
+      console.log('got a list of routes');
       this.routes = _.sortBy(routes, ['ShortName']);
       this.routesDisp = this.routes;
       this.routeService.saveRouteList(this.routes);
     }).catch(err => {
       console.error(err);
     });
-    Promise.all([r, fr]).then((value) => {
-      console.log('ready with routes and fav routes', value);
-      this.favoriteRoutes = value[1];
-      this.routes = this.prepareRoutes();
-    });
-    Promise.all([s, fs]).then((value) => {
-      console.log('ready with stops and fav stops', value);
-      this.favoriteStops = value[1];
-      this.stops = this.prepareStops();
-    });
-    Promise.all([r, fr, s, fs]).then(()=> {
-      this.toggleOrdering();
-    });
-    s.then((stops: Stop[]) => {
+
+    this.stopsPromise = this.stopService.getStopList();
+    this.stopsPromise.then((stops: Stop[]) => {
+      console.log('got a list of stops');
       this.stops = _.uniqBy(stops, 'StopId');
       this.stopsDisp = this.stops;
       this.stopService.saveStopList(this.stops);
@@ -180,6 +168,31 @@ export class RoutesAndStopsComponent {
     }).catch(err => {
       console.error(err);
     });
+  }
+
+  ionViewWillEnter() {
+    this.onSearchQueryChanged(this.searchQuery);
+
+
+    let fs: Promise<any> = this.getFavoriteStops();
+    let fr: Promise<any> = this.getFavoriteRoutes();
+
+
+    Promise.all([this.routesPromise, fr]).then((value) => {
+      console.log('ready with routes and fav routes', value);
+      this.favoriteRoutes = value[1];
+      this.routes = this.prepareRoutes();
+    });
+    Promise.all([this.stopsPromise, fs]).then((value) => {
+      console.log('ready with stops and fav stops', value);
+      this.favoriteStops = value[1];
+      this.stops = this.prepareStops();
+    });
+    Promise.all([this.routesPromise, fr, this.stopsPromise, fs]).then(()=> {
+      console.log('gots everythang');
+      this.toggleOrdering();
+    });
+
   }
   /*
    * Switches between the ways Routes and Stops can be ordered.
