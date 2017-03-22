@@ -102,18 +102,15 @@ export class RoutesAndStopsComponent {
   }
 
   toggleRouteHeart(route: Route): void {
-    // console.log('toggling the', route.RouteAbbreviation);
     this.favRouteSvc.toggleFavorite(route);
   }
   toggleStopHeart(stop: Stop): void {
-    // console.log('toggling', stop.Description);
     this.favStopSvc.toggleFavorite(stop.StopId, stop.Description);
   }
 
   getfavRoutes(): Promise<any> {
     return this.storage.ready().then(() => {
       return this.storage.get('favoriteRoutes').then((favRoutes: FavoriteRouteModel[]) => {
-        // console.log('favs', favoriteRoutes);
         return new Promise((resolve, reject) => {
           resolve(favRoutes);
         });
@@ -173,17 +170,16 @@ export class RoutesAndStopsComponent {
     let fs: Promise<any> = this.getfavStops();
     let fr: Promise<any> = this.getfavRoutes();
     Promise.all([this.routesPromise, fr]).then((value) => {
-      console.log('ready with routes and fav routes', value);
+      console.log('ready with routes and fav routes');
       this.favRoutes = value[1];
       this.routes = this.prepareRoutes();
     });
     Promise.all([this.stopsPromise, fs]).then((value) => {
-      console.log('ready with stops and fav stops', value);
+      console.log('ready with stops and fav stops');
       this.favStops = value[1];
       this.stops = this.prepareStops();
     });
     Promise.all([this.routesPromise, fr, this.stopsPromise, fs]).then(()=> {
-      console.log('gots everythang');
       this.toggleOrdering();
     });
 
@@ -222,7 +218,6 @@ export class RoutesAndStopsComponent {
       }
       secondarySort = 'RouteAbbreviation';
       secondarySortType = 'asc';
-      console.log(primarySort, secondarySort);
       this.routesDisp = _.orderBy(this.routesDisp,
         [primarySort, secondarySort], [primarySortType, secondarySortType]);
     }
