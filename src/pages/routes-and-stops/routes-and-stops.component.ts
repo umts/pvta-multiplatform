@@ -102,18 +102,15 @@ export class RoutesAndStopsComponent {
   }
 
   toggleRouteHeart(route: Route): void {
-    // console.log('toggling the', route.RouteAbbreviation);
     this.favoriteRouteService.toggleFavorite(route);
   }
   toggleStopHeart(stop: Stop): void {
-    // console.log('toggling', stop.Description);
     this.favoriteStopService.toggleFavorite(stop.StopId, stop.Description);
   }
 
   getFavoriteRoutes(): void {
     this.storage.ready().then(() => {
       this.storage.get('favoriteRoutes').then((favoriteRoutes: FavoriteRouteModel[]) => {
-        // console.log('favs', favoriteRoutes);
         this.favoriteRoutes = favoriteRoutes;
         this.routes = this.prepareRoutes();
         this.toggleOrdering();
@@ -201,7 +198,6 @@ export class RoutesAndStopsComponent {
       }
       secondarySort = 'RouteAbbreviation';
       secondarySortType = 'asc';
-      console.log(primarySort, secondarySort);
       this.routesDisp = _.orderBy(this.routesDisp,
         [primarySort, secondarySort], [primarySortType, secondarySortType]);
     }
