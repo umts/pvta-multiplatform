@@ -60,7 +60,7 @@ export class RouteService {
         if (routes && routes.list.length > 0) {
           console.log('list length > 0 and it exists');
           let now = moment();
-          let diff = now.diff(routes.time, 'days')
+          let diff = now.diff(routes.time, 'days');
           // console.log('the diference is', diff);
           if (diff <= 1) {
             console.log('Routeservice forage, returning list');

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Route } from '../models/route.model';
 import * as _ from 'lodash';
@@ -27,8 +27,8 @@ export class FavoriteRouteService {
       else {
         this.storage.set('favoriteRoutes', [newRoute]);
       }
-    })
-   })
+    });
+   });
   }
 
   contains(route: Route, cb: Function): void {
@@ -43,8 +43,8 @@ export class FavoriteRouteService {
         } else {
           cb(false);
         }
-      })
-    })
+      });
+    });
   }
   // Removes a route from the user's Favorites.
   // @param favoriteRoute - a Route object.
@@ -60,20 +60,20 @@ export class FavoriteRouteService {
         }
         // Save the new list, which has the desired route removed.
         this.storage.set('favoriteRoutes', favoriteRoutes);
-      })
-    })
+      });
+    });
   }
 
   toggleFavorite(route: Route): void {
     this.contains(route, (wasFavorited: boolean) => {
-      console.log('route being favd',route);
+      console.log('route being favd', route);
       console.log('routewasalreadyfavorited', wasFavorited);
       if (wasFavorited) {
         this.remove(route);
       } else {
         this.add(route);
       }
-    })
+    });
   }
 }
 
