@@ -66,11 +66,11 @@ export class PlanTripComponent {
      this.request.origin = {};
    }
  }
- //Loads the user's location and updates the origin
+ // Loads the user's location and updates the origin
   loadLocation(): void {
     let options = {timeout: 5000, enableHighAccuracy: true};
     Geolocation.getCurrentPosition(options).then(position => {
-      //geocode current position to retrieve its corresponding Google Maps ID
+      // Geocode current position to retrieve its corresponding Google Maps ID
       new google.maps.Geocoder().geocode(
         {
           'location': new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
@@ -153,15 +153,13 @@ export class PlanTripComponent {
       if (this.request.destinationOnly) {
         this.request.origin = {};
         this.loadLocation();
-      }
-      else {
+      } else {
         this.getRoute();
       }
       // ga('send', 'event', 'TripLoaded', 'PlanTripController.reload()', 'User has navigated to Plan Trip using a saved Trip.');
-    }
-    // There is no loaded trip.  Load the page with default parameters.
-    // Attempt to use current location as trip's origin.
-    else {
+    } else {
+      // There is no loaded trip.  Load the page with default parameters.
+      // Attempt to use current location as trip's origin.
       this.request = {
         name: 'Schedule',
         time: {
@@ -238,8 +236,7 @@ export class PlanTripComponent {
         this.presentAlert('Invalid Destination',
         'Choose a location from the list of suggestions.');
         console.error('No geometry, invalid input.');
-      }
-      else if (!this.bounds.contains(place.geometry.location)) {
+      } else if (!this.bounds.contains(place.geometry.location)) {
         this.request.destination = {};
         this.presentAlert('Invalid Destination',
         'The PVTA does not service this location.');
