@@ -139,7 +139,6 @@ export class RoutesAndStopsComponent {
   ionViewDidLoad() {
     this.routesPromise = this.routeSvc.getRouteList();
     this.routesPromise.then((routes: Route[]) => {
-      console.log('got a list of routes');
       this.routes = _.sortBy(routes, ['ShortName']);
       this.routesDisp = this.routes;
       this.routeSvc.saveRouteList(this.routes);
@@ -149,7 +148,6 @@ export class RoutesAndStopsComponent {
 
     this.stopsPromise = this.stopSvc.getStopList();
     this.stopsPromise.then((stops: Stop[]) => {
-      console.log('got a list of stops');
       this.stops = _.uniqBy(stops, 'StopId');
       this.stopsDisp = this.stops;
       this.stopSvc.saveStopList(this.stops);
@@ -170,12 +168,12 @@ export class RoutesAndStopsComponent {
     let fs: Promise<any> = this.getfavStops();
     let fr: Promise<any> = this.getfavRoutes();
     Promise.all([this.routesPromise, fr]).then((value) => {
-      console.log('ready with routes and fav routes');
+      console.log('Ready with routes and fav routes');
       this.favRoutes = value[1];
       this.routes = this.prepareRoutes();
     });
     Promise.all([this.stopsPromise, fs]).then((value) => {
-      console.log('ready with stops and fav stops');
+      console.log('Ready with stops and fav stops');
       this.favStops = value[1];
       this.stops = this.prepareStops();
     });
