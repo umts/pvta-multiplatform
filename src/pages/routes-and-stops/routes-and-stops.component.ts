@@ -169,16 +169,24 @@ export class RoutesAndStopsComponent {
       console.log('Ready with routes and fav routes');
       this.favRoutes = value[1];
       this.routes = this.prepareRoutes();
+    }).catch(err => {
+      console.log('weenies');
+      console.log(err);
     });
     Promise.all([this.stopsPromise, fs]).then((value) => {
       console.log('Ready with stops and fav stops');
       this.favStops = value[1];
       this.stops = this.prepareStops();
+    }).catch(err => {
+      console.log('weenies');
+      console.log(err);
     });
     Promise.all([this.routesPromise, fr, this.stopsPromise, fs]).then(() => {
       this.toggleOrdering();
+    }).catch(err => {
+      console.log('weenies');
+      console.log(err);
     });
-
   }
   /*
    * Switches between the ways Routes and Stops can be ordered.
