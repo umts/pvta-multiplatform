@@ -1,5 +1,5 @@
 import { Injectable }    from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/toPromise';
 import { Route } from '../models/route.model';
@@ -11,7 +11,6 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class RouteService {
-  private headers = new Headers({'Content-Type': 'application/json'});
   private routesURL = 'https://bustracker.pvta.com/InfoPoint/rest/routes/get';  // URL to web api
   private routeDetailsURL = 'https://bustracker.pvta.com/InfoPoint/rest/routedetails/get';  // URL to web api
   constructor(private http: Http, private storage: Storage) { }
@@ -71,8 +70,7 @@ export class RouteService {
             console.log('Routeservice forage, list is too old!');
             return Promise.resolve(this.getAllRoutes());
           }
-        }
-        else {
+        } else {
           console.log('Routeservice forage, download routes');
           return Promise.resolve(this.getAllRoutes());
         }

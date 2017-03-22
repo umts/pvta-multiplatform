@@ -7,7 +7,7 @@ export class FavoriteRouteService {
 /* Checks to see if a route is included
  * in the favorites. Returns boolean.
  */
- constructor(private storage: Storage){}
+ constructor(private storage: Storage) {}
 
  add(route: Route): void {
    this.storage.ready().then(() => {
@@ -23,8 +23,7 @@ export class FavoriteRouteService {
       if (favoriteRoutes) {
         favoriteRoutes.push(newRoute);
         this.storage.set('favoriteRoutes', favoriteRoutes);
-      }
-      else {
+      } else {
         this.storage.set('favoriteRoutes', [newRoute]);
       }
     });

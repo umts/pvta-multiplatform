@@ -5,7 +5,6 @@ import { ConnectivityService } from '../../providers/connectivity.service';
 import { RouteService } from '../../providers/route.service';
 import { VehicleService } from '../../providers/vehicle.service';
 import { Route } from '../../models/route.model';
-import { Geolocation } from 'ionic-native';
 import { Vehicle } from '../../models/vehicle.model';
 import * as moment from 'moment';
 import { MapService } from '../../providers/map.service';
@@ -38,7 +37,7 @@ export class RouteMapComponent {
       this.routeId = navParams.get('routeId');
     }
 
-  ionViewDidEnter(){
+  ionViewDidEnter() {
     this.loadMap();
     // $ionicLoading.show(ionicLoadingConfig);
     this.routeSvc.getRoute(this.routeId).then(route => {
@@ -55,7 +54,7 @@ export class RouteMapComponent {
         let autoRefreshValidity: [boolean, number] = this.refreshSvc
         .verifyValidity(autoRefresh);
         // If the saved autorefresh value is NOT valid, make it valid.
-        if (autoRefreshValidity[0] == false) {
+        if (autoRefreshValidity[0] === false) {
           autoRefresh = autoRefreshValidity[1];
         }
         // If autorefresh is on, set an interval to refresh departures.
@@ -77,7 +76,7 @@ export class RouteMapComponent {
   }
 
   getVehicles() {
-    console.log('Refreshing vehicles')
+    console.log('Refreshing vehicles');
     this.vehicleSvc.getRouteVehicles(this.routeId)
     .then(routeVehicles => {
       if (!routeVehicles) {
@@ -89,14 +88,13 @@ export class RouteMapComponent {
   }
 
   loadMap(): void {
-    let latLng = new google.maps.LatLng(-34.9290, 138.6010);
     this.map = new google.maps.Map(this.mapElement.nativeElement,
       this.mapOptions);
     this.mapSvc.init(this.map);
   }
 
   placeVehicles (isVehicleRefresh) {
-    //places every vehicle on said route on the map
+    // Places every vehicle on said route on the map
       this.mapSvc.removeAllMarkers();
       if (!this.vehicles) {
         return;
@@ -105,7 +103,7 @@ export class RouteMapComponent {
         let fullTitle = `<b style=\"color:`;
         let busDetails = `Bus ${vehicle.Name} - ${vehicle.DisplayStatus}`;
         var loc = new google.maps.LatLng(vehicle.Latitude, vehicle.Longitude);
-        //if the vehicle is on time, make the text green. If it's late, make the text red and say late by how much
+        // If the vehicle is on time, make the text green. If it's late, make the text red and say late by how much
         if (vehicle.DisplayStatus === 'On Time') {
           fullTitle += `green\"> ${busDetails}`;
         } else {
@@ -113,7 +111,7 @@ export class RouteMapComponent {
         }
         fullTitle += '</b>';
 
-        //sets the content of the window to have a ton of information about the vehicle
+        // Sets the content of the window to have a ton of information about the vehicle
         var content = `
         <div style=\"text-align: center\; font-weight: bold; font-size: 125%;">
           <p style=\"color: #${this.route.Color}\">
@@ -137,7 +135,7 @@ export class RouteMapComponent {
           // 180 degrees is rightside-up
           rotation: vehicle.Heading + 180
         };
-        //add a listener for that vehicle with that content as part of the infobubble
+        // Add a listener for that vehicle with that content as part of the infobubble
         this.mapSvc.addMapListener(this.mapSvc.placeDesiredMarker(loc, icon, isVehicleRefresh), content);
       }
     }
