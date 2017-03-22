@@ -170,12 +170,8 @@ export class RoutesAndStopsComponent {
 
   ionViewWillEnter() {
     this.onSearchQueryChanged(this.searchQuery);
-
-
     let fs: Promise<any> = this.getfavStops();
     let fr: Promise<any> = this.getfavRoutes();
-
-
     Promise.all([this.routesPromise, fr]).then((value) => {
       console.log('ready with routes and fav routes', value);
       this.favRoutes = value[1];
