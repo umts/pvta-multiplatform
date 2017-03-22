@@ -40,25 +40,25 @@ export class StopService {
     console.error('An error occurred', error); // for demo purposes only
   }
 
-  getStopList (cb: Function): void {
-    this.storage.ready().then(() => {
-      this.storage.get('stops').then((stops) => {
+  getStopList (): Promise<any> {
+    return this.storage.ready().then(() => {
+      return this.storage.get('stops').then((stops) => {
         if (stops && stops.list.length > 0) {
           let now = moment();
           let diff = now.diff(stops.time, 'days')
           if (diff <= 1) {
             console.log('stoplist is loaded and recent')
-            cb(new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
               resolve(stops.list);
-            }))
+            });
           } else {
             console.log('stop list is too old!')
-            cb(this.getAllStops());
+            return this.getAllStops();
           }
         }
         else {
           console.log('got to download stops')
-          cb(this.getAllStops());
+          return this.getAllStops();
         }
       })
     });

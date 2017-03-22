@@ -60,13 +60,11 @@ export class StopModal {
     if (this.requester === StopModalRequester.MyBuses) {
       let loader = this.loadingCtrl.create();
       loader.present();
-      this.stopService.getStopList((stopsPromise: Promise<Stop[]>) => {
-        stopsPromise.then(stops => {
-          this.stops = _.uniqBy(stops, 'StopId');
-          this.stopService.saveStopList(this.stops);
-          this.getFavoriteStops();
-          loader.dismiss();
-        });
+      this.stopService.getStopList().then((stops: Stop[]) => {
+        this.stops = _.uniqBy(stops, 'StopId');
+        this.stopService.saveStopList(this.stops);
+        this.getFavoriteStops();
+        loader.dismiss();
       });
     }
   }
