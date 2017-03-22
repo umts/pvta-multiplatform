@@ -86,7 +86,7 @@ export class MapService {
   }
   // A well-known svg 'path.' When rendered, it draws a bus!
   busSVGPath(): string {
-    return "M0,0 350,700 700,0 350,150z";
+    return 'M0,0 350,700 700,0 350,150z';
   }
 
 }

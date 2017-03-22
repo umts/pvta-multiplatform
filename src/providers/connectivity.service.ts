@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ToastController} from 'ionic-angular';
-import { Network } from 'ionic-native';
 
 @Injectable()
 export class ConnectivityService {
@@ -8,7 +7,7 @@ export class ConnectivityService {
   connected: boolean;
   offlineToast;
 
-  constructor(private toast: ToastController,) { }
+  constructor(private toast: ToastController) { }
 
   setConnectionStatus(connected: boolean) {
     this.connected = connected;

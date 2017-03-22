@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core'
+import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Stop } from '../models/stop.model';
 import * as _ from 'lodash';
 @Injectable()
 export class FavoriteStopService {
@@ -24,8 +23,8 @@ export class FavoriteStopService {
       else {
         this.storage.set('favoriteStops', [newStop]);
       }
-    })
-   })
+    });
+   });
   }
 
   contains(stopId: any, cb: Function): void {
@@ -40,8 +39,8 @@ export class FavoriteStopService {
         } else {
           cb(false);
         }
-      })
-    })
+      });
+    });
   }
   // Removes a stop from the user's Favorites.
   // @param favoritestop - a stop object.
@@ -57,20 +56,20 @@ export class FavoriteStopService {
         }
         // Save the new list, which has the desired Stop removed.
         this.storage.set('favoriteStops', favoriteStops);
-      })
-    })
+      });
+    });
   }
 
   toggleFavorite(stopId: any, description: string): void {
     this.contains(stopId, (wasFavorited: boolean) => {
-      console.log('stop being favd',description);
+      console.log('stop being favd', description);
       console.log('stopwasalreadyfavorited', wasFavorited);
       if (wasFavorited) {
         this.remove(stopId);
       } else {
         this.add(stopId, description);
       }
-    })
+    });
   }
 }
 

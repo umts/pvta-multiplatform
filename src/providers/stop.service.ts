@@ -1,5 +1,5 @@
 import { Injectable }    from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/toPromise';
 import { Stop } from '../models/stop.model';
@@ -8,7 +8,6 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class StopService {
-  private headers = new Headers({'Content-Type': 'application/json'});
   private stopsURL = 'https://bustracker.pvta.com/InfoPoint/rest/stops/get';
   private nearestStopURL = 'https://bustracker.pvta.com/InfoPoint/rest/stops/NearestStop';
   constructor(private http: Http, private storage: Storage) { }
@@ -45,22 +44,21 @@ export class StopService {
       return this.storage.get('stops').then((stops) => {
         if (stops && stops.list.length > 0) {
           let now = moment();
-          let diff = now.diff(stops.time, 'days')
+          let diff = now.diff(stops.time, 'days');
           if (diff <= 1) {
-            console.log('stoplist is loaded and recent')
+            console.log('stoplist is loaded and recent');
             return new Promise((resolve, reject) => {
               resolve(stops.list);
             });
           } else {
-            console.log('stop list is too old!')
+            console.log('stop list is too old!');
             return this.getAllStops();
           }
-        }
-        else {
-          console.log('got to download stops')
+        } else {
+          console.log('got to download stops');
           return this.getAllStops();
         }
-      })
+      });
     });
   }
   saveStopList(stops: Stop[]): void {
@@ -73,7 +71,7 @@ export class StopService {
     });
   }
   filterStopsByQuery(stops: Stop[], query: string): Stop[] {
-    if (!query || query == '') {
+    if (!query || query === '') {
       return [];
     }
     query = query.toLowerCase().trim();
