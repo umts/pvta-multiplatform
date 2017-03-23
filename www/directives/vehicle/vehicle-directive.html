@@ -1,19 +1,19 @@
-<div class="item" aria-labelledby="#destination-label #time-label #stop-label #riders-label">
+<div class="item" aria-label="Bus">
   <!-- The first row - destination and status -->
   <div class="row">
     <!-- Destination -->
     <div class="col col-50 item-text-wrap" style="color: #{{color}}; text-align:left;">
-        <i class="icon ion-android-bus" style="font-size: 125%" aria-label="bus"></i>
+        <i class="icon ion-android-bus" style="font-size: 125%" aria-hidden="true"></i>
         <b id="destination-label">To {{vehicle.Destination ? vehicle.Destination : "an unreported destination"}}</b>
     </div>
     <!-- Vehicle Status -->
     <div class="col padding-top-10 center">
       <span class="icon-left green"  ng-if="vehicle.DisplayStatus==='On Time'">
-        <i class="icon ion-ios-time-outline" aria-label="bus status"></i>
+        <i class="icon ion-ios-time-outline" aria-hidden="true"></i>
         <span id="time-label">{{vehicle.DisplayStatus}}</span>
       </span>
       <span class="icon-left assertive" ng-if="vehicle.DisplayStatus === 'Late'">
-        <i class="icon ion-ios-time-outline" aria-label="bus status"></i>
+        <i class="icon ion-ios-time-outline" aria-hidden="true"></i>
         <span id="time-label">{{vehicle.Deviation}} minutes late</span>
       </span>
     </div>
@@ -22,12 +22,12 @@
   <div class="row item-text-wrap text-left" style="padding-top: 10px">
     <!-- Last stop -->
     <div class="col col-50 item-text-wrap" style="text-align: left;">
-      <i class="icon ion-ios-location" aria-label="last location of bus"></i>
+      <i class="icon ion-ios-location" aria-label="Last location of bus"></i>
       <span id="stop-label">{{vehicle.LastStop? vehicle.LastStop : "none specified"}}</span>
     </div>
     <!-- Number of riders -->
     <div class="col icon-left positive center padding-top-10">
-     <i class="icon ion-android-people" aria-label="number of riders"></i>
+     <i class="icon ion-android-people" aria-hidden="true"></i>
      <span id="riders-label">{{vehicle.OnBoard}} {{vehicle.OnBoard === 1 ? 'rider' : 'riders'}}</span>
    </div>
 
