@@ -1,4 +1,4 @@
-<ion-view view-title="Stop">
+<ion-view view-title="Stop" aria-label="This page auto refreshes content. To stop this, navigate to Settings and change the Auto refresh timing to off"   class="item item-input item-select item-positive">
   <ion-nav-title role="heading">{{stop ? (stop.Description + ' (' + stop.StopId + ')' ) : 'Loading...'}}</ion-nav-title>
   <ion-nav-buttons side="secondary">
     <button id="like" data-tap-disabled="true" ng-class="{'button button-icon icon ion-ios-heart': liked === true, 'button button-icon icon ion-ios-heart-outline': liked === false}"
@@ -8,7 +8,7 @@
   </ion-nav-buttons>
   <ion-content overflow-scroll="true">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
-    <label aria-label="This page auto refreshes content. To stop this, navigate to Settings and change the Auto refresh timing to off"   class="item item-input item-select item-positive">
+    <label>
       <div class="input-label">
         Order Departures By:
       </div>
