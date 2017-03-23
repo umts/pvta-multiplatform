@@ -76,8 +76,8 @@ angular.module('pvta')
   }
 
   return {
-    versionNum: '1.1.0',
-    versionName: 'Screenreader Update',
+    versionNum: '1.1.5',
+    versionName: 'Screenreader Update 2',
     performMigrations: performMigrations,
     showPopups: showPopups
   };
