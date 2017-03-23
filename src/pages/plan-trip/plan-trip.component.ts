@@ -48,7 +48,7 @@ export class PlanTripComponent {
       */
     this.timeOptions = [
       { title: 'Leaving Now', type: 'departure', isASAP: true, id: 0 },
-      { title: 'Departing At...', type: 'departure', isASAP: false,id: 1 },
+      { title: 'Departing At...', type: 'departure', isASAP: false, id: 1 },
       { title: 'Arriving By...', type: 'arrival', isASAP: false, id: 2 }
     ];
   }
@@ -66,14 +66,14 @@ export class PlanTripComponent {
      this.request.origin = {};
    }
  }
- //Loads the user's location and updates the origin
+ // Loads the user's location and updates the origin
   loadLocation(): void {
     let options = {timeout: 5000, enableHighAccuracy: true};
     Geolocation.getCurrentPosition(options).then(position => {
-      //geocode current position to retrieve its corresponding Google Maps ID
+      // Geocode current position to retrieve its corresponding Google Maps ID
       new google.maps.Geocoder().geocode(
         {
-          'location': new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
+          'location': new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         },
         (results, status) => {
           if (status === google.maps.GeocoderStatus.OK) {
@@ -103,7 +103,8 @@ export class PlanTripComponent {
         message: 'Unable to retrieve current location',
         position: 'bottom',
         showCloseButton: true
-        })
+        });
+
       this.noLocationToast.present();
       // Tell Google Analytics that a user doesn't have location
       // ga('send', 'event', 'LocationFailure', 'PlanTripConsoller.$cordovaGeolocation.getCurrentPosition', 'location failed on Plan Trip; error: ' + err.message);
@@ -152,15 +153,13 @@ export class PlanTripComponent {
       if (this.request.destinationOnly) {
         this.request.origin = {};
         this.loadLocation();
-      }
-      else {
+      } else {
         this.getRoute();
       }
       // ga('send', 'event', 'TripLoaded', 'PlanTripController.reload()', 'User has navigated to Plan Trip using a saved Trip.');
-    }
-    // There is no loaded trip.  Load the page with default parameters.
-    // Attempt to use current location as trip's origin.
-    else {
+    } else {
+      // There is no loaded trip.  Load the page with default parameters.
+      // Attempt to use current location as trip's origin.
       this.request = {
         name: 'Schedule',
         time: {
@@ -237,8 +236,7 @@ export class PlanTripComponent {
         this.presentAlert('Invalid Destination',
         'Choose a location from the list of suggestions.');
         console.error('No geometry, invalid input.');
-      }
-      else if (!this.bounds.contains(place.geometry.location)) {
+      } else if (!this.bounds.contains(place.geometry.location)) {
         this.request.destination = {};
         this.presentAlert('Invalid Destination',
         'The PVTA does not service this location.');
@@ -280,7 +278,7 @@ export class PlanTripComponent {
         message: 'You must select an origin and destination from the autocomplete dropdowns above in order to search the schedule',
         position: 'bottom',
         showCloseButton: true
-        })
+        });
       // Clear out the search boxes for either/both of the incorrectly
       // selected fields
       if (!this.request.origin.id) {

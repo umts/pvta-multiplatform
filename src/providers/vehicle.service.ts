@@ -1,11 +1,10 @@
 import { Injectable }    from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { Vehicle } from '../models/vehicle.model';
 
 @Injectable()
 export class VehicleService {
-  private headers = new Headers({'Content-Type': 'application/json'});
   private vehiclesURL = 'https://bustracker.pvta.com/InfoPoint/rest/vehicles/get';  // URL to web api
   constructor(private http: Http) { }
 

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import {Geolocation} from 'ionic-native'
+import {Geolocation} from 'ionic-native';
 import { RouteService } from '../../providers/route.service';
 import { StopService } from '../../providers/stop.service';
 import { FavoriteRouteService, FavoriteRouteModel } from '../../providers/favorite-route.service';
 import { Route } from '../../models/route.model';
 import { Stop } from '../../models/stop.model';
 import { RouteComponent } from '../route/route.component';
-import { StopComponent } from '../stop/stop.component'
+import { StopComponent } from '../stop/stop.component';
 import { FavoriteStopService, FavoriteStopModel } from '../../providers/favorite-stop.service';
 import * as _ from 'lodash';
 import * as haversine from 'haversine';
@@ -30,8 +30,8 @@ export class RoutesAndStopsComponent {
   searchQuery: string = '';
   stopsDisp: Stop[];
   routesDisp: Route[];
-  stopsPromise: Promise<any>
-  routesPromise: Promise<any>
+  stopsPromise: Promise<any>;
+  routesPromise: Promise<any>;
   loader;
   constructor(public navCtrl: NavController,
     private routeSvc: RouteService, private stopSvc: StopService,
@@ -45,21 +45,19 @@ export class RoutesAndStopsComponent {
       });
     }
   onSearchQueryChanged(query: string): void {
-    if (!query || query == '') {
+    if (!query || query === '') {
       this.routesDisp = this.routes;
       this.stopsDisp = this.stops;
       this.searchQuery = '';
-    }
-    else {
+    } else {
       this.searchQuery = query;
       query = query.toLowerCase().trim();
-      if (this.cDisplay == 'routes') {
+      if (this.cDisplay === 'routes') {
         this.routesDisp = _.filter(this.routes, route => {
           return (route.LongName.toLowerCase().includes(query) ||
           route.RouteAbbreviation.toLowerCase().includes(query));
         });
-      }
-      else if (this.cDisplay = 'stops'){
+      } else if (this.cDisplay = 'stops') {
         this.stopsDisp = _.filter(this.stops, stop => {
           return (stop.Description.toLowerCase().includes(query) ||
           stop.StopId.toString().includes(query));
@@ -154,10 +152,10 @@ export class RoutesAndStopsComponent {
 
       let options = {timeout: 5000, enableHighAccuracy: true};
       Geolocation.getCurrentPosition(options).then(position => {
-        this.calculateStopDistances(position)
+        this.calculateStopDistances(position);
       }).catch(err => {
-        this.calculateStopDistances()
-      })
+        this.calculateStopDistances();
+      });
     }).catch(err => {
       console.error(err);
     });
@@ -171,16 +169,24 @@ export class RoutesAndStopsComponent {
       console.log('Ready with routes and fav routes');
       this.favRoutes = value[1];
       this.routes = this.prepareRoutes();
+    }).catch(err => {
+      console.log('weenies');
+      console.log(err);
     });
     Promise.all([this.stopsPromise, fs]).then((value) => {
       console.log('Ready with stops and fav stops');
       this.favStops = value[1];
       this.stops = this.prepareStops();
+    }).catch(err => {
+      console.log('weenies');
+      console.log(err);
     });
-    Promise.all([this.routesPromise, fr, this.stopsPromise, fs]).then(()=> {
+    Promise.all([this.routesPromise, fr, this.stopsPromise, fs]).then(() => {
       this.toggleOrdering();
+    }).catch(err => {
+      console.log('weenies');
+      console.log(err);
     });
-
   }
   /*
    * Switches between the ways Routes and Stops can be ordered.
@@ -195,7 +201,7 @@ export class RoutesAndStopsComponent {
     let secondarySort: string;
     let secondarySortType: string;
     // If routes are currently in view
-    if (this.cDisplay == 'routes') {
+    if (this.cDisplay === 'routes') {
       if (!routeOrderings.includes(this.order)) {
         this.order = routeOrderings[0];
       }
@@ -218,9 +224,8 @@ export class RoutesAndStopsComponent {
       secondarySortType = 'asc';
       this.routesDisp = _.orderBy(this.routesDisp,
         [primarySort, secondarySort], [primarySortType, secondarySortType]);
-    }
-    // If stops are currently in view
-    else if (this.cDisplay == 'stops') {
+    } else if (this.cDisplay === 'stops') {
+      // If stops are currently in view
       if (!stopOrderings.includes(this.order)) {
         this.order = stopOrderings[0];
       }
@@ -291,9 +296,8 @@ export class RoutesAndStopsComponent {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       };
-    }
-    // If we don't have their location, tell them!
-    else if (!position) {
+    } else if (!position) {
+      // If we don't have their location, tell them!
       this.noLocation = true;
       // stopOrder = 'favorites';
     }

@@ -15,8 +15,7 @@ export class FavoriteTripService {
           savedTrips.push(params);
           console.log('trip existed, now is', savedTrips);
           this.storage.set('savedTrips', savedTrips);
-        }
-        else {
+        } else {
           let savedTrips = [params];
           console.log('trip didnt exist, now is', savedTrips);
           this.storage.set('savedTrips', savedTrips);

@@ -64,13 +64,11 @@ export class MyBusesComponent {
          * appear on the page twice.
          */
 
-         //Also if there are no routes for that alert , show it by default
-        if (alert.Routes.length == 0) {
+         // Also if there are no routes for that alert , show it by default
+        if (alert.Routes.length === 0) {
           console.log('no orutes for alert');
           this.alerts.push(alert);
-        }
-
-        else {
+        } else {
           for (let routeId of alert.Routes) {
             if (routeIds.includes(routeId)) {
               this.alerts.push(alert);
@@ -123,7 +121,7 @@ export class MyBusesComponent {
       }
     );
     stopModal.present();
-    stopModal.onDidDismiss(() => {this.getFavoriteStops()});
+    stopModal.onDidDismiss(() => {this.getFavoriteStops(); });
   }
 
   showRouteModal(): void {
@@ -134,7 +132,7 @@ export class MyBusesComponent {
       }
     );
     routeModal.present();
-    routeModal.onDidDismiss(() => {this.getFavoriteRoutes()});
+    routeModal.onDidDismiss(() => {this.getFavoriteRoutes(); });
   }
 
   goToStopPage(stopId: number): void {

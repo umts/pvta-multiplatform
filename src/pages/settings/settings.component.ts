@@ -15,7 +15,7 @@ export class SettingsComponent {
     storage.ready().then(() => {
       storage.get('autoRefresh').then(autoRefreshTiming => {
         if (autoRefreshTiming) {
-          this.autoRefresh = autoRefreshTiming
+          this.autoRefresh = autoRefreshTiming;
         } else {
           this.autoRefresh = '45000';
         }
@@ -23,7 +23,7 @@ export class SettingsComponent {
     });
   }
   goToAboutPage() {
-    this.navCtrl.push(AboutComponent)
+    this.navCtrl.push(AboutComponent);
   }
   goToStorageSettingsPage() {
     this.navCtrl.push(StorageSettingsComponent);

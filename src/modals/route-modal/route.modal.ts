@@ -49,9 +49,9 @@ export class RouteModal {
         // console.log('favs', favoriteRoutes);
         this.favoriteRoutes = favoriteRoutes;
         this.routes = this.routeService.prepareRoutes(this.favoriteRoutes, this.routes);
-        console.log('FLKJDFKLJLDFJLKAJF', this.routes)
-      })
-    })
+        console.log('FLKJDFKLJLDFJLKAJF', this.routes);
+      });
+    });
   }
 
   toggleRouteHeart(route: Route): void {

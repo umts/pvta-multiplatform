@@ -53,9 +53,9 @@ export class MapService {
 
    addMapListener (marker, onClick) {
     google.maps.event.addListener(marker, 'click', () => {
-      //this auto-closes any bubbles that may already be open
-      //when you open another one, so that only one bubble can
-      //be open at once
+      // This auto-closes any bubbles that may already be open
+      // when you open another one, so that only one bubble can
+      // be open at once
       for (let window of this.windows) {
         window.close();
       }

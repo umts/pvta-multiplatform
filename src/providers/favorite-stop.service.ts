@@ -6,7 +6,7 @@ export class FavoriteStopService {
 /* Checks to see if a stop is included
  * in the favorites. Returns boolean.
  */
- constructor(private storage: Storage){}
+ constructor(private storage: Storage) {}
 
  add(stopId: any, description: string): void {
    this.storage.ready().then(() => {
@@ -19,8 +19,7 @@ export class FavoriteStopService {
       if (favoriteStops) {
         favoriteStops.push(newStop);
         this.storage.set('favoriteStops', favoriteStops);
-      }
-      else {
+      } else {
         this.storage.set('favoriteStops', [newStop]);
       }
     });

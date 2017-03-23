@@ -11,11 +11,10 @@ export class ConnectivityService {
 
   setConnectionStatus(connected: boolean) {
     this.connected = connected;
-    if (this.connected == true && this.offlineToast) {
+    if (this.connected === true && this.offlineToast) {
       this.offlineToast.dismiss();
       this.offlineToast = null;
-    }
-    else if (this.connected == false && !this.offlineToast) {
+    } else if (this.connected === false && !this.offlineToast) {
       this.offlineToast = this.toast.create({
         message: 'No network connection. Check connection settings.'
       });

@@ -92,7 +92,7 @@ export class RouteComponent {
     // });
   }
 
-  private goToRouteMapPage(): void {
+  goToRouteMapPage(): void {
     this.navCtrl.push(RouteMapComponent, {
       routeId: this.routeId
     }).catch(() => {
@@ -117,7 +117,7 @@ export class RouteComponent {
           return;
         }
         this.route = route;
-        //getHeart()
+        // getHeart()
         this.prepareStops(route.Stops);
         this.vehicles = route.Vehicles;
         this.favoriteRouteService.contains(route, (liked) => {

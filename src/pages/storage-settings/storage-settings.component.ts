@@ -7,7 +7,7 @@ import { NavController, ToastController, Toast, AlertController } from 'ionic-an
   templateUrl: 'storage-settings.html'
 })
 export class StorageSettingsComponent {
-  toast: Toast
+  toast: Toast;
   constructor(public navCtrl: NavController, private storage: Storage,
   private toastCtrl: ToastController, private alertCtrl: AlertController) { }
 
@@ -20,7 +20,7 @@ export class StorageSettingsComponent {
       message: message,
       position: 'bottom',
       showCloseButton: true
-      })
+      });
     this.toast.present();
   }
 
@@ -28,25 +28,25 @@ export class StorageSettingsComponent {
     this.storage.ready().then(() => {
       this.storage.remove('favoriteRoutes');
       this.showToast('Removed your favorite routes');
-    })
+    });
   }
   clearFavoriteStops(): void {
     this.storage.ready().then(() => {
       this.storage.remove('favoriteStops');
       this.showToast('Removed your favorite stops');
-    })
+    });
   }
   clearRoutes(): void {
     this.storage.ready().then(() => {
       this.storage.remove('routes');
       this.showToast('Removed the saved list of routes');
-    })
+    });
   }
   clearStops(): void {
     this.storage.ready().then(() => {
       this.storage.remove('stops');
       this.showToast('Removed the saved list of stops');
-    })
+    });
   }
   clearAll(): void {
     let alert = this.alertCtrl.create({
@@ -66,7 +66,7 @@ export class StorageSettingsComponent {
             this.storage.ready().then(() => {
               this.storage.clear();
               this.showToast('Removed all saved data');
-            })
+            });
           }
         }
       ]

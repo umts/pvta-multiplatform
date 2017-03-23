@@ -74,7 +74,7 @@ export class StopComponent {
         let autoRefreshValidity: [boolean, number] = this.refreshSvc
         .verifyValidity(autoRefresh);
         // If the saved autorefresh value is NOT valid, make it valid.
-        if (autoRefreshValidity[0] == false) {
+        if (autoRefreshValidity[0] === false) {
           autoRefresh = autoRefreshValidity[1];
         }
         // If autorefresh is on, set an interval to refresh departures.
@@ -88,7 +88,7 @@ export class StopComponent {
     });
     this.stopSvc.getStop(this.stopId).then(stop => {
       this.stop = stop;
-    })
+    });
   }
 
   ionViewWillLeave() {
@@ -156,7 +156,7 @@ export class StopComponent {
     // Avail returns an array of RouteDirections. We must deal
     // with the Departures for each Direction.
     for (let direction of directions.RouteDirections) {
-      if (direction.Departures && direction.Departures.length != 0 && !direction.IsDone) {
+      if (direction.Departures && direction.Departures.length !== 0 && !direction.IsDone) {
         // Sorting Departures by Direction requires us to
         // maintain a tmp array of valid departures for a
         // given direction.
@@ -167,16 +167,15 @@ export class StopComponent {
           // A departure is invalid if it was in the past
           if (!moment(departure.EDT).isAfter(Date.now())) {
             continue;
-          }
-          /* Manipuate the departure object.
-           * When sorting by Direction, we only need to
-           * obtain the stringified departure times
-           * and save the departure to futureDepartures.
-           * When sorting by Time, pull out only the
-           * necessary details from the Departures
-           * and hold onto them.
-           */
-          else {
+          } else {
+            /* Manipuate the departure object.
+             * When sorting by Direction, we only need to
+             * obtain the stringified departure times
+             * and save the departure to futureDepartures.
+             * When sorting by Time, pull out only the
+             * necessary details from the Departures
+             * and hold onto them.
+             */
             // Departures by time: we can use a stripped down
             // version of the RouteDirection, because each
             // departure will be its own entry in the list.

@@ -30,7 +30,7 @@ export class Route {
     SortOrder: number, RouteTraceFilename: string, RouteTraceHash64: any,
     IsHeadway: boolean, IncludeInGoogle: boolean, GoogleDescription: string,
     Stops: any, RouteStops: any, Directions: any, Vehicles: Vehicle[],
-    Messages: Alert[], liked = false){
+    Messages: Alert[], liked = false) {
       this.RouteId = RouteId;
       this.RouteRecordId = RouteRecordId;
       this.ShortName = ShortName;
