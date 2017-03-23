@@ -4,12 +4,14 @@ angular.module('pvta.controllers').controller('SettingsController', function ($s
 
   $scope.autorefresh = 45000;
   localforage.getItem('autoRefresh', function (err, value) {
-    if (value) $scope.autorefresh = value;
-    else console.log(err);
+    if (value) {
+      $scope.autorefresh = value;
+    } else {
+      console.log(err);
+    }
   });
 
   $scope.updateRefresh = function (val) {
-    localforage.setItem('autoRefresh', val, function (err, value) {
-    });
+    localforage.setItem('autoRefresh', val);
   };
 });
