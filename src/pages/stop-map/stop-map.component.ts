@@ -79,7 +79,7 @@ export class StopMapComponent {
   calculateDirections(): void {
     this.directionsRequested = true;
     this.directionsObtained = false;
-    this.mapHeight = '80%';
+    this.mapHeight = '90%';
     console.log('calculateDirections')
     // $ionicLoading.show(ionicLoadingConfig);
     // A callback that we pass to the plotCurrentLocation
@@ -112,13 +112,12 @@ export class StopMapComponent {
     this.directionsService.route(request, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
         this.directionsDisplay.setDirections(result);
-        this.mapSvc.removeAllMarkers();
         // Use NgZone to trigger change detection for events that brought us
         // us outside Angular's detection zone, like this directions request
         this.zone.run(() => {
           this.mapHeight = '50%';
-          google.maps.event.trigger(this.map, "resize");
           this.directionsObtained = true
+          google.maps.event.trigger(this.map, "resize");
         });
       }
     });

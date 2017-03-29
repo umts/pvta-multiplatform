@@ -7,20 +7,19 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content text-wrap>
   <ion-fab top right edge>
     <button ion-fab color="directions-green"
     (click)="calculateDirections();">
       <ion-icon name="arrow-round-forward"></ion-icon>
     </button>
   </ion-fab>
-  <div #map id="map" [style.height]="mapHeight"></div>
-  <div #directions id="directions">
-    <div *ngIf="directionsRequested && !directionsObtained">
-      <p center style="font-size: 150%">
-        <ion-spinner></ion-spinner>
-        Getting directions to {{stop?.Description}}
-      </p>
-    </div>
+  <div *ngIf="directionsRequested && !directionsObtained">
+    <p center style="font-size: 150%">
+      <ion-spinner></ion-spinner>
+      Getting directions to {{stop?.Description}}
+    </p>
   </div>
+  <div #map id="map" [style.height]="mapHeight"></div>
+  <div #directions id="directions"></div>
 </ion-content>
