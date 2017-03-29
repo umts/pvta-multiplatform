@@ -8,6 +8,7 @@ import { StopDepartureService } from '../../providers/stop-departure.service';
 import { StopService } from '../../providers/stop.service';
 import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { RouteComponent } from '../route/route.component';
+import { StopMapComponent } from '../stop-map/stop-map.component';
 import { RouteService } from '../../providers/route.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -233,6 +234,11 @@ export class StopComponent {
  goToRoutePage(routeId: number): void {
    this.navCtrl.push(RouteComponent, {
      routeId: routeId
+   });
+ }
+ goToStopMapPage(): void {
+   this.navCtrl.push(StopMapComponent, {
+     stopId: this.stopId
    });
  }
 }

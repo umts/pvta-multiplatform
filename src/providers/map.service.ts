@@ -11,7 +11,18 @@ export class MapService {
   markers = [];
   windows = [];
 
-  placeDesiredMarker(location, icon, isVehicleRefresh): any {
+  placeStaticMarker(location, title): any {
+    console.log(location);
+    this.map.panTo(location);
+    return new google.maps.Marker({
+      map: this.map,
+      animation: google.maps.Animation.DROP,
+      position: location,
+      title: title
+    });
+  }
+
+  placeVehicleMarker(location, icon, isVehicleRefresh): any {
     var neededMarker = new google.maps.Marker({
       map: this.map,
       icon: icon,
