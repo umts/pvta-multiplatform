@@ -1,5 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import {Geolocation} from 'ionic-native';
 import { Stop } from '../../models/stop.model';
 import { MapService } from '../../providers/map.service';
 import { StopService } from '../../providers/stop.service';
@@ -12,14 +13,18 @@ declare var google;
 })
 export class StopMapComponent {
   @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('directions') directionsElement: ElementRef;
   displayDirections: boolean = false;
   map: any;
   directionsDisplay: any;
   stopId: number;
   stop: Stop;
+  directionsRequested: boolean = false;
+  directionsObtained: boolean = false;
+  mapHeight: string = '100%';
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private stopSvc: StopService, private mapSvc: MapService) {
+    private stopSvc: StopService, private mapSvc: MapService, private zone: NgZone) {
     this.stopId = navParams.get('stopId');
   }
   directionsService = new google.maps.DirectionsService();
@@ -45,6 +50,7 @@ export class StopMapComponent {
     // Download the stop details and plot it on the map.
     this.stopSvc.getStop(this.stopId).then(stop => {
       console.log(stop);
+      this.stop = stop;
       this.placeStop(stop);
       // $ionicLoading.hide();
     });
@@ -70,45 +76,56 @@ export class StopMapComponent {
    * Gets directions from the user's current location
    * to the stop in question and displays them on the UI.
   */
-  calculateDirections = function () {
+  calculateDirections(): void {
+    this.directionsRequested = true;
+    this.directionsObtained = false;
+    this.mapHeight = '80%';
+    console.log('calculateDirections')
     // $ionicLoading.show(ionicLoadingConfig);
     // A callback that we pass to the plotCurrentLocation
     // function below.  Handles actually getting
     // and displaying directions once we have a location.
-    var cb = function (position) {
-      // If we weren't able to get a location for any reason,
-      // we should encounter a falsy.
-      if (!position) {
-        console.log('unable to get current location');
-        this.noLocation = true;
-        this.displayDirections = false;
-        // Tell Google Analytics that a user doesn't have location
-        // ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failure passed to Stop Map after failing on Map Factory');
-      } else {
-        // If we have a location, download and display directions
-        // from here to the stop.
-        this.noLocation = false;
-        this.displayDirections = true;
-        this.directionsDisplay.setPanel(document.getElementById('directions'));
-        let start = position;
-        var end = this.placeStop();
-        var request = {
-          origin: start,
-          destination: end,
-          travelMode: google.maps.TravelMode.WALKING
-        };
-        this.directionsService.route(request, (result, status) => {
-          if (status === google.maps.DirectionsStatus.OK) {
-            this.directionsDisplay.setDirections(result);
-          }
+    Geolocation.getCurrentPosition().then(position => {
+      // If we have a location, download and display directions
+      // from here to the stop.
+      // this.noLocation = false;
+      this.displayDirections = true;
+      this.directionsDisplay.setPanel(this.directionsElement.nativeElement);
+      let start = position;
+      // var end = this.placeStop();
+      var request = {
+        origin: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+        destination: new google.maps.LatLng(this.stop.Latitude, this.stop.Longitude),
+        travelMode: google.maps.TravelMode.WALKING
+      };
+      this.getDirections(request);
+    }).catch(err => {
+      console.log('unable to get current location');
+      // this.noLocation = true;
+      this.displayDirections = false;
+      // Tell Google Analytics that a user doesn't have location
+      // ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failure passed to Stop Map after failing on Map Factory');
+    });
+  }
+
+  getDirections(request): void {
+    this.directionsService.route(request, (result, status) => {
+      if (status === google.maps.DirectionsStatus.OK) {
+        this.directionsDisplay.setDirections(result);
+        this.mapSvc.removeAllMarkers();
+        // Use NgZone to trigger change detection for events that brought us
+        // us outside Angular's detection zone, like this directions request
+        this.zone.run(() => {
+          this.mapHeight = '50%';
+          google.maps.event.trigger(this.map, "resize");
+          this.directionsObtained = true
         });
       }
+    });
+  }
       // $ionicLoading.hide();
-    };
+    // };
     // Get the current location. Once we have (or definitively don't have)
     // a location, the callback passed as a param will be called.
     // Map.plotCurrentLocation(cb);
-  };
-
-
 }
