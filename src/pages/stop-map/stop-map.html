@@ -11,7 +11,7 @@
   <ion-fab right middle>
     <button ion-fab color="directions-green"
     (click)="calculateDirections();">
-      <ion-icon name="arrow-round-forward"></ion-icon>
+      <ion-icon name="md-arrow-round-forward"></ion-icon>
     </button>
   </ion-fab>
   <ion-toolbar *ngIf="directionsRequested && !directionsObtained" color="positive-dark" style="text-align: center;">
@@ -21,7 +21,7 @@
           <ion-spinner color="white"></ion-spinner>
         </ion-col>
         <ion-col>
-          <span text-wrap style="font-size:125%; color: white;">
+          <span text-wrap style="color: white;">
             Getting directions to {{stop?.Description}}
           </span>
         </ion-col>
