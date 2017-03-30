@@ -8,18 +8,26 @@
 </ion-header>
 
 <ion-content text-wrap>
-  <ion-fab top right edge>
+  <ion-fab right middle>
     <button ion-fab color="directions-green"
     (click)="calculateDirections();">
       <ion-icon name="arrow-round-forward"></ion-icon>
     </button>
   </ion-fab>
-  <div *ngIf="directionsRequested && !directionsObtained">
-    <p center style="font-size: 150%">
-      <ion-spinner></ion-spinner>
-      Getting directions to {{stop?.Description}}
-    </p>
-  </div>
+  <ion-toolbar *ngIf="directionsRequested && !directionsObtained" color="positive-dark" style="text-align: center;">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-auto>
+          <ion-spinner color="white"></ion-spinner>
+        </ion-col>
+        <ion-col>
+          <span text-wrap style="font-size:125%; color: white;">
+            Getting directions to {{stop?.Description}}
+          </span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
   <div #map id="map" [style.height]="mapHeight"></div>
   <div #directions id="directions"></div>
 </ion-content>
