@@ -30,7 +30,10 @@
         type="text" placeholder="Enter a destination" [(ngModel)]="request?.destination.name"/>
       </label>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="isInternetExplorer">
+      <p style="font-style: italic;">Internet Explorer only supports finding buses leaving now.</p>
+    </ion-item>
+    <ion-item *ngIf="!isInternetExplorer">
       <ion-label>Search for buses:</ion-label>
       <ion-select [(ngModel)]="request?.time.option">
         <ion-option *ngFor="let option of timeOptions" value="{{option.id}}">

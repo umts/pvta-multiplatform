@@ -33,11 +33,13 @@ export class RoutesAndStopsComponent {
   stopsPromise: Promise<any>;
   routesPromise: Promise<any>;
   loader;
+  isInternetExplorer: boolean = false;
   constructor(public navCtrl: NavController,
     private routeSvc: RouteService, private stopSvc: StopService,
     private loadingCtrl: LoadingController, private storage: Storage,
     private favRouteSvc: FavoriteRouteService, private alertCtrl: AlertController,
     private favStopSvc: FavoriteStopService) {
+      this.isInternetExplorer = navigator.userAgent.indexOf('Trident', 0) !== -1;
       this.order = 'favorites';
       this.cDisplay = 'routes';
       this.loader = loadingCtrl.create({

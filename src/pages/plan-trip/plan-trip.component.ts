@@ -35,6 +35,7 @@ export class PlanTripComponent {
    timeOptions = [];
    noLocationToast;
    noOriginOrDestinationToast;
+   isInternetExplorer: boolean = false;
 
   constructor(public navCtrl: NavController, private stopService: StopService,
   private toastCtrl: ToastController, private loadingCtrl: LoadingController,
@@ -46,6 +47,7 @@ export class PlanTripComponent {
      * isASAP: whether we should ignore all other given times and
                request a trip leaving NOW
       */
+    this.isInternetExplorer = navigator.userAgent.indexOf('Trident', 0) !== -1;
     this.timeOptions = [
       { title: 'Leaving Now', type: 'departure', isASAP: true, id: 0 },
       { title: 'Departing At...', type: 'departure', isASAP: false, id: 1 },
