@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import {Geolocation} from 'ionic-native';
 import { Stop } from '../../models/stop.model';
 import { MapService } from '../../providers/map.service';
@@ -24,7 +24,8 @@ export class StopMapComponent {
   mapHeight: string = '100%';
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private stopSvc: StopService, private mapSvc: MapService, private zone: NgZone) {
+    private stopSvc: StopService, private mapSvc: MapService, private zone: NgZone,
+    private toastCtrl: ToastController) {
     this.stopId = navParams.get('stopId');
   }
   directionsService = new google.maps.DirectionsService();
@@ -102,7 +103,13 @@ export class StopMapComponent {
     }).catch(err => {
       console.log('unable to get current location');
       // this.noLocation = true;
-      this.displayDirections = false;
+      this.directionsObtained = false;
+      this.directionsRequested = false;
+      this.toastCtrl.create({
+        message: 'Cannot get directions to this stop. Please ensure location services are enabled.',
+        position: 'bottom',
+        showCloseButton: true
+      }).present();
       // Tell Google Analytics that a user doesn't have location
       // ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failure passed to Stop Map after failing on Map Factory');
     });
@@ -119,6 +126,14 @@ export class StopMapComponent {
           this.directionsObtained = true
           google.maps.event.trigger(this.map, "resize");
         });
+      } else {
+        this.directionsObtained = false;
+        this.directionsRequested = false;
+        this.toastCtrl.create({
+          message: `Couldn't get directions to this stop. Status code ${status}`,
+          position: 'bottom',
+          showCloseButton: true
+        }).present();
       }
     });
   }
