@@ -36,7 +36,10 @@ export class StopMapComponent {
       // Sets the center to Haigis Mall
       center: new google.maps.LatLng(42.386270, -72.525844),
       zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      zoomControlOptions: {
+              position: google.maps.ControlPosition.LEFT_CENTER
+      }
     };
     // The map div can have one of two ids:
     // one when directions are being shown, the other when not.

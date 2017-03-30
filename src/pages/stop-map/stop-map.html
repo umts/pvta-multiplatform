@@ -8,10 +8,10 @@
 </ion-header>
 
 <ion-content text-wrap>
-  <ion-fab right middle>
-    <button ion-fab color="directions-green"
+  <ion-fab top right edge>
+    <button ion-fab mini color="directions-green"
     (click)="calculateDirections();">
-      <ion-icon name="md-arrow-round-forward"></ion-icon>
+      <ion-icon name="navigate"></ion-icon>
     </button>
   </ion-fab>
   <ion-toolbar *ngIf="directionsRequested && !directionsObtained" color="positive-dark" style="text-align: center;">
