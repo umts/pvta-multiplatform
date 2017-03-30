@@ -11,7 +11,9 @@ import { StorageSettingsComponent} from '../storage-settings/storage-settings.co
 })
 export class SettingsComponent {
   autoRefresh: string;
+  isInternetExplorer: boolean = false;
   constructor(public navCtrl: NavController, private storage: Storage) {
+    this.isInternetExplorer = navigator.userAgent.indexOf('Trident', 0) !== -1;
     storage.ready().then(() => {
       storage.get('autoRefresh').then(autoRefreshTiming => {
         if (autoRefreshTiming) {

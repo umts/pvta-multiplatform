@@ -202,7 +202,7 @@ export class RoutesAndStopsComponent {
     let secondarySortType: string;
     // If routes are currently in view
     if (this.cDisplay === 'routes') {
-      if (!routeOrderings.includes(this.order)) {
+      if (!_.includes(routeOrderings, this.order)) {
         this.order = routeOrderings[0];
       }
       // Based on the user's requested ordering, we need to
@@ -226,7 +226,7 @@ export class RoutesAndStopsComponent {
         [primarySort, secondarySort], [primarySortType, secondarySortType]);
     } else if (this.cDisplay === 'stops') {
       // If stops are currently in view
-      if (!stopOrderings.includes(this.order)) {
+      if (!_.includes(stopOrderings, this.order)) {
         this.order = stopOrderings[0];
       }
       switch (this.order) {
