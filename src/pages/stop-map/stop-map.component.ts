@@ -24,7 +24,7 @@ export class StopMapComponent {
   mapHeight: string = '100%';
   loader: any;
 
-  constructor(public navParams: NavParams, private stopSvc: StopService, 
+  constructor(public navParams: NavParams, private stopSvc: StopService,
     private mapSvc: MapService, private zone: NgZone,
     private toastCtrl: ToastController, private connection: ConnectivityService,
     private loadingCtrl: LoadingController) {
