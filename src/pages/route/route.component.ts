@@ -98,7 +98,7 @@ export class RouteComponent {
     }).catch(() => {
       this.alertCtrl.create({
         title: 'No Connection',
-        subTitle: 'The map page requires an internet connection',
+        subTitle: 'The Route Map page requires an Internet connection',
         buttons: ['Dismiss']
       }).present();
     });

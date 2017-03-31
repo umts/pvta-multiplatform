@@ -136,7 +136,7 @@ export class RouteMapComponent {
           rotation: vehicle.Heading + 180
         };
         // Add a listener for that vehicle with that content as part of the infobubble
-        this.mapSvc.addMapListener(this.mapSvc.placeDesiredMarker(loc, icon, isVehicleRefresh), content);
+        this.mapSvc.addMapListener(this.mapSvc.placeVehicleMarker(loc, icon, isVehicleRefresh), content);
       }
     }
 

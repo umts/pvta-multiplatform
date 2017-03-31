@@ -75,7 +75,7 @@ export class RoutesAndStopsComponent {
     }).catch(() => {
       this.alertCtrl.create({
         title: 'No Connection',
-        subTitle: 'The route page requires an internet connection',
+        subTitle: 'The Route page requires an Internet connection',
         buttons: ['Dismiss']
       }).present();
     });
@@ -87,7 +87,7 @@ export class RoutesAndStopsComponent {
     }).catch(() => {
       this.alertCtrl.create({
         title: 'No Connection',
-        subTitle: 'The stop page requires an internet connection',
+        subTitle: 'The Stop page requires an Internet connection',
         buttons: ['Dismiss']
       }).present();
     });
