@@ -91,7 +91,7 @@ export class StopMapComponent {
    * Gets directions from the user's current location
    * to the stop in question and displays them on the UI.
   */
-  calculateDirections(): void {
+  retrieveDirections(): void {
     this.directionsRequested = true;
     this.directionsObtained = false;
     this.mapHeight = '90%';
@@ -104,7 +104,9 @@ export class StopMapComponent {
         destination: new google.maps.LatLng(this.stop.Latitude, this.stop.Longitude),
         travelMode: google.maps.TravelMode.WALKING
       };
-      this.getDirections(request);
+      this.directionsService.route(request, (result, status) => {
+        this.displayDirections(result, status);
+      });
     }).catch(err => {
       console.log('Unable to get current location');
       this.directionsObtained = false;
@@ -119,26 +121,24 @@ export class StopMapComponent {
     });
   }
 
-  getDirections(request): void {
-    this.directionsService.route(request, (result, status) => {
-      if (status === google.maps.DirectionsStatus.OK) {
-        this.directionsDisplay.setDirections(result);
-        // Use NgZone to trigger change detection for events that brought us
-        // us outside Angular's detection zone, like this directions request
-        this.zone.run(() => {
-          this.mapHeight = '50%';
-          this.directionsObtained = true;
-          google.maps.event.trigger(this.map, 'resize');
-        });
-      } else {
-        this.directionsObtained = false;
-        this.directionsRequested = false;
-        this.toastCtrl.create({
-          message: `Couldn't get directions to this stop. Status code ${status}`,
-          position: 'bottom',
-          showCloseButton: true
-        }).present();
-      }
-    });
+  displayDirections(result, status): void {
+    if (status === google.maps.DirectionsStatus.OK) {
+      this.directionsDisplay.setDirections(result);
+      // Use NgZone to trigger change detection for events that brought us
+      // us outside Angular's detection zone, like this directions request
+      this.zone.run(() => {
+        this.mapHeight = '50%';
+        this.directionsObtained = true;
+        google.maps.event.trigger(this.map, 'resize');
+      });
+    } else {
+      this.directionsObtained = false;
+      this.directionsRequested = false;
+      this.toastCtrl.create({
+        message: `Couldn't get directions to this stop. Status code ${status}`,
+        position: 'bottom',
+        showCloseButton: true
+      }).present();
+    }
   }
 }
