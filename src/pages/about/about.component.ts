@@ -10,10 +10,8 @@ declare var ga;
   templateUrl: 'about.html'
 })
 export class AboutComponent {
-
   versionName;
   versionNumber;
-
   constructor(public navCtrl: NavController, private infoService: InfoService) {
     this.versionName = infoService.getVersionName();
     this.versionNumber = infoService.getVersionNumber();

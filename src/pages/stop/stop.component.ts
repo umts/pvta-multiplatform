@@ -102,7 +102,8 @@ export class StopComponent {
     this.stopSvc.getStop(this.stopId).then(stop => {
       this.stop = stop;
       this.title = `${this.stop.Description} (${this.stopId})`;
-      ga('send', 'event', 'StopLoaded', 'StopController.self', `Stop: ${stop.Description} (${this.stopId})`);
+      ga('send', 'event', 'StopLoaded',
+      'StopComponent.ionViewWillEnter', `Stop: ${stop.Description} (${this.stopId})`);
     }).catch(err => {
       console.error(err);
     });

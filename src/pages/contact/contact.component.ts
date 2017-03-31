@@ -8,7 +8,6 @@ declare var ga;
   templateUrl: 'contact.html'
 })
 export class ContactComponent {
-
   constructor(public navCtrl: NavController) {
     ga('set', 'page', '/about/contact.html');
     ga('send', 'pageview');

@@ -275,8 +275,8 @@ export class RoutesAndStopsComponent {
       // the standard Distance Formula.
       if (!this.previousPosition || (this.previousPosition !== undefined && (haversine(this.previousPosition, currentPosition) > .1))) {
         var msg = 'Current position found, but no previous position or has moved; calculating stop distances.';
-        // ga('send', 'event', 'CalculatingStopDistances',
-          // 'RoutesAndStopsController.calculateStopDistances', msg);
+        ga('send', 'event', 'CalculatingStopDistances',
+          'RoutesAndStopsComponent.calculateStopDistances()', msg);
         console.log(msg);
 
         for (let stop of this.stops) {

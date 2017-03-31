@@ -6,8 +6,7 @@ import {FavoriteTripService} from '../../providers/favorite-trip.service';
 import {StopComponent} from '../stop/stop.component';
 import * as moment from 'moment';
 
-declare var google;
-declare var ga;
+declare var google, ga;
 @Component({
   selector: 'page-plan-trip',
   templateUrl: 'plan-trip.html'
@@ -109,7 +108,8 @@ export class PlanTripComponent {
 
       this.noLocationToast.present();
       // Tell Google Analytics that a user doesn't have location
-      ga('send', 'event', 'LocationFailure', 'PlanTripConsoller.$cordovaGeolocation.getCurrentPosition', 'location failed on Plan Trip; error: ' + err.message);
+      ga('send', 'event', 'LocationFailure',
+      'PlanTripComponent.loadLocation()', `location failed on Plan Trip; error: ${err.message}`);
       // When getting location fails, this callback fires
       this.noLocation = true;
       /* When getting location fails immediately, $ionicLoading.hide()
@@ -158,7 +158,8 @@ export class PlanTripComponent {
       } else {
         this.getRoute();
       }
-      ga('send', 'event', 'TripLoaded', 'PlanTripController.reload()', 'User has navigated to Plan Trip using a saved Trip.');
+      ga('send', 'event', 'TripLoaded', 'PlanTripComponent.reload()',
+      'User has navigated to Plan Trip using a saved Trip.');
     } else {
       // There is no loaded trip.  Load the page with default parameters.
       // Attempt to use current location as trip's origin.
@@ -209,7 +210,8 @@ export class PlanTripComponent {
       if (!place || !place.geometry) {
         this.presentAlert('Invalid Origin',
         'Choose a location from the list of suggestions.');
-        ga('send', 'event', 'AutocompleteFailure', 'originAutocomplete.place_changed', 'autocomplete failure in plan trip: user didnt pick a value from dropdown');
+        ga('send', 'event', 'AutocompleteFailure', 'originAutocomplete.place_changed',
+        'autocomplete failure in plan trip: user didnt pick a value from dropdown');
         // If the location chosen is not valid, an error is thrown.
         // request.origin.name still holds the text that the user
         // originally typed into the field. We will set the field's value
@@ -251,7 +253,8 @@ export class PlanTripComponent {
         };
       }
     }, (err) => {
-        ga('send', 'event', 'AutocompleteFailure', 'destinationAutocomplete.place_changed', 'autocomplete failure in plan trip: user didnt pick a value from dropdown');
+        ga('send', 'event', 'AutocompleteFailure', 'destinationAutocomplete.place_changed',
+        'autocomplete failure in plan trip: user didnt pick a value from dropdown');
         // See comments for originAutocompleteListener method
         this.request.destination.id = null;
         destinationInput.value = this.request.destination.name;
@@ -317,7 +320,8 @@ export class PlanTripComponent {
         transitOptions['arrivalTime'] = new Date(this.request.time.datetime);
       } else {
         this.presentAlert('Error', 'Received invalid time');
-        ga('send', 'event', 'RoutingParamsInvalid', 'PlanTripController.getRoute()', 'Received invalid time params for planning a route');
+        ga('send', 'event', 'RoutingParamsInvalid', 'PlanTripComponent.getRoute()',
+        'Received invalid time params for planning a route');
         this.loader.dismiss();
         return;
       }
@@ -352,11 +356,13 @@ export class PlanTripComponent {
           this.directionsDisplay.setDirections(response);
           this.routeElement.nativeElement.scrollIntoView();
         }, 1000);
-        ga('send', 'event', 'TripStepsRetrieved', 'PlanTripController.getRoute()', 'Received steps for a planned trip!');
+        ga('send', 'event', 'TripStepsRetrieved', 'PlanTripComponent.getRoute()',
+        'Received steps for a planned trip!');
       } else  {
         console.log(status);
         this.presentAlert('Unable to Find Trip', `There are no scheduled buses for your trip. Error: ${status}`);
-        ga('send', 'event', 'TripStepsRetrievalFailure', 'PlanTripController.$scope.getRoute()', `Unable to get a route; error: ${status}`);
+        ga('send', 'event', 'TripStepsRetrievalFailure',
+        'PlanTripComponent.getRoute()', `Unable to get a route; error: ${status}`);
 
         // In cases of error, we set the route object that
         // otherwise contained all our data to undefined, because, well,
@@ -395,7 +401,8 @@ export class PlanTripComponent {
              this.request.name = data.name;
              console.log('Saved clicked');
              this.tripService.saveTrip(this.request);
-             ga('send', 'event', 'TripSaveSuccessful', 'PlanTripController.saveSuccessful()', 'Saved a trip to favorites!');
+             ga('send', 'event', 'TripSaveSuccessful', 'PlanTripComponent.saveTrip()',
+             'Saved a trip to favorites!');
            }
          }
        ]

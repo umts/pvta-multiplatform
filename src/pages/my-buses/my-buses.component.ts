@@ -25,7 +25,6 @@ export class MyBusesComponent {
   stops;
   alerts: Alert[];
   trips;
-
   constructor(public navCtrl: NavController, private storage: Storage,
     private alertSvc: AlertService, private alertCtrl: AlertController,
     private modalCtrl: ModalController, private routeSvc: RouteService,

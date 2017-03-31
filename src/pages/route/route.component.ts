@@ -125,7 +125,8 @@ export class RouteComponent {
       this.favoriteRouteService.contains(route, (liked) => {
         this.route.Liked = liked;
       });
-      ga('send', 'event', 'RouteLoaded', 'RouteController.self', `Route: ${route.RouteAbbreviation} (${this.routeId})`);
+      ga('send', 'event', 'RouteLoaded',
+      'RouteComponent.ionViewWillEnter', `Route: ${route.RouteAbbreviation} (${this.routeId})`);
     });
   }
 }

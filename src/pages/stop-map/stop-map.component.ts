@@ -119,7 +119,8 @@ export class StopMapComponent {
         showCloseButton: true
       }).present();
       // Tell Google Analytics that a user doesn't have location
-      ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failure passed to Stop Map after failing on Map Factory');
+      ga('send', 'event', 'LocationFailure',
+      'StopMapComponent.retrieveDirections()', `location failure on Stop Map: ${err.message}`);
     });
   }
 
