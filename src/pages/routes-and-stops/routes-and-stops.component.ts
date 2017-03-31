@@ -13,6 +13,8 @@ import { FavoriteStopService, FavoriteStopModel } from '../../providers/favorite
 import * as _ from 'lodash';
 import * as haversine from 'haversine';
 
+declare var ga;
+
 @Component({
   selector: 'page-routes-and-stops',
   templateUrl: 'routes-and-stops.html'
@@ -43,6 +45,8 @@ export class RoutesAndStopsComponent {
       this.loader = loadingCtrl.create({
         content: 'Downloading...'
       });
+      ga('set', 'page', '/routes-and-stops.html');
+      ga('send', 'pageview');
     }
   onSearchQueryChanged(query: string): void {
     if (!query || query === '') {

@@ -13,6 +13,8 @@ import { RouteMapComponent } from '../route-map/route-map.component';
 import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';
 import { ConnectivityService } from '../../providers/connectivity.service';
 
+declare var ga;
+
 @Component({
   selector: 'page-route',
   templateUrl: 'route.html'
@@ -30,6 +32,8 @@ export class RouteComponent {
     private alertCtrl: AlertController) {
     this.routeId = navParams.get('routeId');
     this.alerts = [];
+    ga('set', 'page', '/route.html');
+    ga('send', 'pageview');
   }
 
   getVehicles (): void {
@@ -110,19 +114,18 @@ export class RouteComponent {
 
   ionViewWillEnter() {
     this.getAlerts();
-    this.routeService
-      .getRouteDetail(this.routeId)
-      .then(route => {
-        if (!route) {
-          return;
-        }
-        this.route = route;
-        // getHeart()
-        this.prepareStops(route.Stops);
-        this.vehicles = route.Vehicles;
-        this.favoriteRouteService.contains(route, (liked) => {
-          this.route.Liked = liked;
-        });
+    this.routeService.getRouteDetail(this.routeId).then(route => {
+      if (!route) {
+        return;
+      }
+      this.route = route;
+      // getHeart()
+      this.prepareStops(route.Stops);
+      this.vehicles = route.Vehicles;
+      this.favoriteRouteService.contains(route, (liked) => {
+        this.route.Liked = liked;
       });
+      ga('send', 'event', 'RouteLoaded', 'RouteController.self', `Route: ${route.RouteAbbreviation} (${this.routeId})`);
+    });
   }
 }

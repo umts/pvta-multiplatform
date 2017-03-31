@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import { MapService } from '../../providers/map.service';
 import { AutoRefreshService } from '../../providers/auto-refresh.service';
 
-declare var google;
+declare var google, ga;
 
 @Component({
   selector: 'page-route-map',
@@ -35,6 +35,8 @@ export class RouteMapComponent {
     private mapSvc: MapService, private connection: ConnectivityService,
     private refreshSvc: AutoRefreshService, private storage: Storage) {
       this.routeId = navParams.get('routeId');
+      ga('set', 'page', '/route-map.html');
+      ga('send', 'pageview');
     }
 
   ionViewDidEnter() {

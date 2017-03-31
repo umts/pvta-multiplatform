@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-
 import { NavController } from 'ionic-angular';
+
+declare var ga;
 
 @Component({
   selector: 'page-privacy-policy',
@@ -9,7 +10,8 @@ import { NavController } from 'ionic-angular';
 export class PrivacyPolicyComponent {
 
   constructor(public navCtrl: NavController) {
-
+    ga('set', 'page', '/privacy-policy.html');
+    ga('send', 'pageview');
   }
 
 }

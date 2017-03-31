@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { NavController, ToastController, Toast, AlertController } from 'ionic-angular';
 
+declare var ga;
+
 @Component({
   selector: 'page-storage-settings',
   templateUrl: 'storage-settings.html'
@@ -9,7 +11,10 @@ import { NavController, ToastController, Toast, AlertController } from 'ionic-an
 export class StorageSettingsComponent {
   toast: Toast;
   constructor(public navCtrl: NavController, private storage: Storage,
-  private toastCtrl: ToastController, private alertCtrl: AlertController) { }
+  private toastCtrl: ToastController, private alertCtrl: AlertController) {
+    ga('set', 'page', '/storage-settings.html');
+    ga('send', 'pageview');
+  }
 
   showToast(message: string): void {
     if (this.toast) {

@@ -8,6 +8,7 @@ import { RoutesAndStopsComponent } from '../pages/routes-and-stops/routes-and-st
 import { SettingsComponent } from '../pages/settings/settings.component';
 import { ConnectivityService } from '../providers/connectivity.service';
 
+declare var ga;
 
 @Component({
   templateUrl: 'app.html'
@@ -52,6 +53,7 @@ export class MyApp {
       window.addEventListener('offline', () => {
         console.log('offline');
         this.connectivityService.setConnectionStatus(false);
+        ga('send', 'event', 'DeviceOffline', 'AppComponent.initializeApp()', 'Device went offline');
       }, false);
     });
   }

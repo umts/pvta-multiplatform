@@ -15,6 +15,7 @@ import * as moment from 'moment';
 import { ConnectivityService } from '../../providers/connectivity.service';
 import { AutoRefreshService } from '../../providers/auto-refresh.service';
 
+declare var ga;
 
 @Component({
   selector: 'page-stop',
@@ -43,6 +44,8 @@ export class StopComponent {
       this.stopId = navParams.get('stopId');
       this.title = `Stop ${this.stopId}`;
       this.order = '0';
+      ga('set', 'page', '/stop.html');
+      ga('send', 'pageview');
   }
 
   presentLoader(): void {
@@ -99,6 +102,7 @@ export class StopComponent {
     this.stopSvc.getStop(this.stopId).then(stop => {
       this.stop = stop;
       this.title = `${this.stop.Description} (${this.stopId})`;
+      ga('send', 'event', 'StopLoaded', 'StopController.self', `Stop: ${stop.Description} (${this.stopId})`);
     }).catch(err => {
       console.error(err);
     });
