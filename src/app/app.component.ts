@@ -7,6 +7,7 @@ import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
 import { RoutesAndStopsComponent } from '../pages/routes-and-stops/routes-and-stops.component';
 import { SettingsComponent } from '../pages/settings/settings.component';
 import { ConnectivityService } from '../providers/connectivity.service';
+import { InfoService } from '../providers/info.service';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class MyApp {
   pages: Array<{title: string, component: any}>;
   showNativeStoreAd = false;
 
-  constructor(public platform: Platform,
+  constructor(public platform: Platform, private infoSvc: InfoService,
   private connectivityService: ConnectivityService) {
     this.initializeApp();
 
@@ -42,6 +43,8 @@ export class MyApp {
       if (this.platform.is('android')) {
         StatusBar.backgroundColorByHexString('#1976D2');
       }
+      let isIE: boolean = navigator.userAgent.indexOf('Trident', 0) !== -1;
+      this.infoSvc.setInternetExplorer(isIE);
       this.showNativeStoreAd = this.platform.is('mobileweb') || this.platform.is('core');
       Splashscreen.hide();
       window.addEventListener('online', () =>  {

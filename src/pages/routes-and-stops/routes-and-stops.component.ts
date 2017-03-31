@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 import {Geolocation} from 'ionic-native';
 import { RouteService } from '../../providers/route.service';
 import { StopService } from '../../providers/stop.service';
+import { InfoService } from '../../providers/info.service';
 import { FavoriteRouteService, FavoriteRouteModel } from '../../providers/favorite-route.service';
 import { Route } from '../../models/route.model';
 import { Stop } from '../../models/stop.model';
@@ -34,12 +35,12 @@ export class RoutesAndStopsComponent {
   routesPromise: Promise<any>;
   loader;
   isInternetExplorer: boolean = false;
-  constructor(public navCtrl: NavController,
+  constructor(public navCtrl: NavController, private infoSvc: InfoService,
     private routeSvc: RouteService, private stopSvc: StopService,
     private loadingCtrl: LoadingController, private storage: Storage,
     private favRouteSvc: FavoriteRouteService, private alertCtrl: AlertController,
     private favStopSvc: FavoriteStopService) {
-      this.isInternetExplorer = navigator.userAgent.indexOf('Trident', 0) !== -1;
+      this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.order = 'favorites';
       this.cDisplay = 'routes';
       this.loader = loadingCtrl.create({
