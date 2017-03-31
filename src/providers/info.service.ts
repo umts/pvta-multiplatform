@@ -11,7 +11,7 @@ export class InfoService {
   }
 
   getVersionName(): string {
-    return 'UI Overhaul Beta 2';
+    return 'UI Overhaul Beta 3';
   }
 
 }
