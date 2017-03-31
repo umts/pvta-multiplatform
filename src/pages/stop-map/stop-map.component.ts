@@ -131,8 +131,8 @@ export class StopMapComponent {
         // us outside Angular's detection zone, like this directions request
         this.zone.run(() => {
           this.mapHeight = '50%';
-          this.directionsObtained = true
-          google.maps.event.trigger(this.map, "resize");
+          this.directionsObtained = true;
+          google.maps.event.trigger(this.map, 'resize');
         });
       } else {
         this.directionsObtained = false;
