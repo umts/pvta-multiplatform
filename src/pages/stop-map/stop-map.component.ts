@@ -15,7 +15,6 @@ declare var google;
 export class StopMapComponent {
   @ViewChild('map') mapElement: ElementRef;
   @ViewChild('directions') directionsElement: ElementRef;
-  displayDirections: boolean = false;
   map: any;
   directionsDisplay: any;
   stopId: number;
@@ -35,8 +34,7 @@ export class StopMapComponent {
 
   ionViewDidEnter() {
     let mapOptions = {
-      // Sets the center to Haigis Mall
-      center: new google.maps.LatLng(42.386270, -72.525844),
+      center: new google.maps.LatLng(42.386270, -72.525844), // Haigis Mall
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       zoomControlOptions: {
@@ -51,7 +49,6 @@ export class StopMapComponent {
     this.directionsDisplay.setMap(this.map);
     // Download the stop details and plot it on the map.
     this.stopSvc.getStop(this.stopId).then(stop => {
-      console.log(stop);
       this.stop = stop;
       this.placeStop(stop);
       this.hideLoader();
@@ -61,16 +58,17 @@ export class StopMapComponent {
   }
 
   ionViewCanEnter(): boolean {
-   return this.connection.getConnectionStatus();
+    return this.connection.getConnectionStatus();
   }
 
   presentLoader(): void {
-      this.loader = this.loadingCtrl.create({
-        content: 'Mapping Stop...',
-        duration: 3000
-      });
-      this.loader.present();
+    this.loader = this.loadingCtrl.create({
+      content: 'Mapping Stop...',
+      duration: 3000
+    });
+    this.loader.present();
   }
+
   hideLoader(): void {
     if (this.loader) {
       this.loader.dismiss();
@@ -84,11 +82,9 @@ export class StopMapComponent {
   * function will succeed.
   */
   placeStop(stop: Stop): void {
-    // If we have stop details, plot it.
-    console.log('about to place marker yo')
     let loc = new google.maps.LatLng(stop.Latitude, stop.Longitude);
-    let marker = this.mapSvc.placeStaticMarker(loc, `${stop.Description}  (${stop.StopId})`);
-    this.mapSvc.addMapListener(marker, '');
+    let marker = this.mapSvc.placeStaticMarker(loc);
+    this.mapSvc.addMapListener(marker, `${stop.Description} (${stop.StopId})`);
   }
 
   /***
@@ -99,18 +95,13 @@ export class StopMapComponent {
     this.directionsRequested = true;
     this.directionsObtained = false;
     this.mapHeight = '90%';
-    console.log('calculateDirections')
-    // $ionicLoading.show(ionicLoadingConfig);
     // A callback that we pass to the plotCurrentLocation
     // function below.  Handles actually getting
     // and displaying directions once we have a location.
     Geolocation.getCurrentPosition().then(position => {
       // If we have a location, download and display directions
       // from here to the stop.
-      // this.noLocation = false;
-      this.displayDirections = true;
       this.directionsDisplay.setPanel(this.directionsElement.nativeElement);
-      let start = position;
       // var end = this.placeStop();
       var request = {
         origin: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
@@ -119,8 +110,7 @@ export class StopMapComponent {
       };
       this.getDirections(request);
     }).catch(err => {
-      console.log('unable to get current location');
-      // this.noLocation = true;
+      console.log('Unable to get current location');
       this.directionsObtained = false;
       this.directionsRequested = false;
       this.toastCtrl.create({
@@ -155,9 +145,4 @@ export class StopMapComponent {
       }
     });
   }
-      // $ionicLoading.hide();
-    // };
-    // Get the current location. Once we have (or definitively don't have)
-    // a location, the callback passed as a param will be called.
-    // Map.plotCurrentLocation(cb);
 }

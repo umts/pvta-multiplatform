@@ -11,14 +11,13 @@ export class MapService {
   markers = [];
   windows = [];
 
-  placeStaticMarker(location, title): any {
+  placeStaticMarker(location): any {
     console.log(location);
     this.map.panTo(location);
     return new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
-      position: location,
-      title: title
+      position: location
     });
   }
 
