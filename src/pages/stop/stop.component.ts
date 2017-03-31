@@ -30,6 +30,7 @@ export class StopComponent {
   loader;
   interval;
   // autoRefreshTime: number;
+  title: string;
   order: String;
   stop: Stop;
   constructor(public navCtrl: NavController, private navParams: NavParams,
@@ -39,6 +40,7 @@ export class StopComponent {
     private stopSvc: StopService, private connection: ConnectivityService,
     private storage: Storage, private refreshSvc: AutoRefreshService) {
       this.stopId = navParams.get('stopId');
+      this.title = `Stop ${this.stopId}`;
       this.order = '0';
   }
 
@@ -89,6 +91,7 @@ export class StopComponent {
     });
     this.stopSvc.getStop(this.stopId).then(stop => {
       this.stop = stop;
+      this.title = `${this.stop.Description} (${this.stopId})`;
     });
   }
 
