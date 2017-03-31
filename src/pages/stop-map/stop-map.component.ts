@@ -1,9 +1,10 @@
 import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
 import {Geolocation} from 'ionic-native';
 import { Stop } from '../../models/stop.model';
 import { MapService } from '../../providers/map.service';
 import { StopService } from '../../providers/stop.service';
+import { ConnectivityService } from '../../providers/connectivity.service';
 
 declare var google;
 
@@ -22,31 +23,28 @@ export class StopMapComponent {
   directionsRequested: boolean = false;
   directionsObtained: boolean = false;
   mapHeight: string = '100%';
+  loader: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private stopSvc: StopService, private mapSvc: MapService, private zone: NgZone,
-    private toastCtrl: ToastController) {
+    private toastCtrl: ToastController, private connection: ConnectivityService,
+    private loadingCtrl: LoadingController) {
     this.stopId = navParams.get('stopId');
   }
   directionsService = new google.maps.DirectionsService();
 
   ionViewDidEnter() {
-    // $ionicLoading.show(ionicLoadingConfig);
     let mapOptions = {
       // Sets the center to Haigis Mall
       center: new google.maps.LatLng(42.386270, -72.525844),
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       zoomControlOptions: {
-              position: google.maps.ControlPosition.LEFT_CENTER
+        position: google.maps.ControlPosition.LEFT_CENTER
       }
     };
-    // The map div can have one of two ids:
-    // one when directions are being shown, the other when not.
-    // Check which id the map has, pluck it from the HTML, and bind it
-    // to a variable.
-    this.map = new google.maps.Map(this.mapElement.nativeElement,
-      mapOptions);
+    this.presentLoader();
+    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     this.mapSvc.init(this.map);
     // Be ready to display directions if the user requests them.
     this.directionsDisplay = new google.maps.DirectionsRenderer();
@@ -56,11 +54,28 @@ export class StopMapComponent {
       console.log(stop);
       this.stop = stop;
       this.placeStop(stop);
-      // $ionicLoading.hide();
+      this.hideLoader();
+    }).catch(err => {
+      console.error(err);
     });
   }
 
+  ionViewCanEnter(): boolean {
+   return this.connection.getConnectionStatus();
+  }
 
+  presentLoader(): void {
+      this.loader = this.loadingCtrl.create({
+        content: 'Mapping Stop...',
+        duration: 3000
+      });
+      this.loader.present();
+  }
+  hideLoader(): void {
+    if (this.loader) {
+      this.loader.dismiss();
+    }
+  }
 
   /****
   * Plots a stop on the map.  When clicked, the marker

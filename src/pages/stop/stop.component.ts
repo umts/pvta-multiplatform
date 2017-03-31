@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StopDeparture } from '../../models/stop-departure.model';
 import { Stop } from '../../models/stop.model';
@@ -38,7 +38,8 @@ export class StopComponent {
     private routeSvc: RouteService, private changer: ChangeDetectorRef,
     private loadingCtrl: LoadingController, private favoriteStopSvc: FavoriteStopService,
     private stopSvc: StopService, private connection: ConnectivityService,
-    private storage: Storage, private refreshSvc: AutoRefreshService) {
+    private storage: Storage, private refreshSvc: AutoRefreshService,
+    private alertCtrl: AlertController ) {
       this.stopId = navParams.get('stopId');
       this.title = `Stop ${this.stopId}`;
       this.order = '0';
@@ -63,6 +64,8 @@ export class StopComponent {
         this.sort(directions[0]);
         this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
         this.hideLoader();
+    }).catch(err => {
+      console.error(err);
     });
   }
 
@@ -87,11 +90,17 @@ export class StopComponent {
               this.getDepartures();
             }, autoRefresh);
         }
+      }).catch(err => {
+        console.error(err);
       });
+    }).catch(err => {
+      console.error(err);
     });
     this.stopSvc.getStop(this.stopId).then(stop => {
       this.stop = stop;
       this.title = `${this.stop.Description} (${this.stopId})`;
+    }).catch(err => {
+      console.error(err);
     });
   }
 
@@ -111,6 +120,8 @@ export class StopComponent {
       .getRoute(id)
       .then(route => {
         this.routeList[id] = (route);
+      }).catch(err => {
+        console.error(err);
       });
   }
   // Calls getRoute() for each RouteId in
@@ -242,6 +253,12 @@ export class StopComponent {
  goToStopMapPage(): void {
    this.navCtrl.push(StopMapComponent, {
      stopId: this.stopId
+   }).catch(() => {
+     this.alertCtrl.create({
+       title: 'No Connection',
+       subTitle: 'The Stop Map page requires an Internet connection',
+       buttons: ['Dismiss']
+     }).present();
    });
  }
 }
