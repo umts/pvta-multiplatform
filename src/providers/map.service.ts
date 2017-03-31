@@ -11,8 +11,7 @@ export class MapService {
   markers = [];
   windows = [];
 
-  placeStaticMarker(location): any {
-    console.log(location);
+  dropPin(location): any {
     this.map.panTo(location);
     return new google.maps.Marker({
       map: this.map,

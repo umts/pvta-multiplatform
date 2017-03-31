@@ -83,7 +83,7 @@ export class StopMapComponent {
   */
   placeStop(stop: Stop): void {
     let loc = new google.maps.LatLng(stop.Latitude, stop.Longitude);
-    let marker = this.mapSvc.placeStaticMarker(loc);
+    let marker = this.mapSvc.dropPin(loc);
     this.mapSvc.addMapListener(marker, `${stop.Description} (${stop.StopId})`);
   }
 
@@ -95,14 +95,10 @@ export class StopMapComponent {
     this.directionsRequested = true;
     this.directionsObtained = false;
     this.mapHeight = '90%';
-    // A callback that we pass to the plotCurrentLocation
-    // function below.  Handles actually getting
-    // and displaying directions once we have a location.
     Geolocation.getCurrentPosition().then(position => {
       // If we have a location, download and display directions
       // from here to the stop.
       this.directionsDisplay.setPanel(this.directionsElement.nativeElement);
-      // var end = this.placeStop();
       var request = {
         origin: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
         destination: new google.maps.LatLng(this.stop.Latitude, this.stop.Longitude),
