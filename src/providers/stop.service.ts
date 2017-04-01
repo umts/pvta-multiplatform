@@ -72,7 +72,7 @@ export class StopService {
   }
   filterStopsByQuery(stops: Stop[], query: string): Stop[] {
     if (!query || query === '') {
-      return [];
+      return stops;
     }
     query = query.toLowerCase().trim();
     return _.filter(stops, stop => {
