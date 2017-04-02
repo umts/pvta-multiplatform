@@ -1,6 +1,6 @@
 import { Stop } from './stop.model';
-import { Vehicle } from './Vehicle.model';
-import { Alert } from './Alert.model';
+import { Vehicle } from './vehicle.model';
+import { Alert } from './alert.model';
 export class RouteDetail {
   RouteId: number;
   RouteRecordId: number;
