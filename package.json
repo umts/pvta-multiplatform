@@ -1,7 +1,11 @@
 {
-  "name": "ionic-hello-world",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "name": "PVTrAck",
+  "author": "Pioneer Valley Transit Authority",
+  "version": "2.0.0",
+  "license": "MIT",
+  "homepage": "https://m.pvta.com",
+  "repository": "github.com/umts/pvta-multiplatform",
+  "description": "The best way to find your buses on the go.",
   "private": true,
   "scripts": {
     "ionic:build": "ionic-app-scripts build",
@@ -48,6 +52,5 @@
       "version": "",
       "locator": "ios"
     }
-  ],
-  "description": "PVTrAck: An Ionic project"
+  ]
 }

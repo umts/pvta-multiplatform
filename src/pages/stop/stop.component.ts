@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StopDeparture } from '../../models/stop-departure.model';
 import { Stop } from '../../models/stop.model';
@@ -8,6 +8,7 @@ import { StopDepartureService } from '../../providers/stop-departure.service';
 import { StopService } from '../../providers/stop.service';
 import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { RouteComponent } from '../route/route.component';
+import { StopMapComponent } from '../stop-map/stop-map.component';
 import { RouteService } from '../../providers/route.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -29,6 +30,7 @@ export class StopComponent {
   loader;
   interval;
   // autoRefreshTime: number;
+  title: string;
   order: String;
   stop: Stop;
   constructor(public navCtrl: NavController, private navParams: NavParams,
@@ -36,8 +38,10 @@ export class StopComponent {
     private routeSvc: RouteService, private changer: ChangeDetectorRef,
     private loadingCtrl: LoadingController, private favoriteStopSvc: FavoriteStopService,
     private stopSvc: StopService, private connection: ConnectivityService,
-    private storage: Storage, private refreshSvc: AutoRefreshService) {
+    private storage: Storage, private refreshSvc: AutoRefreshService,
+    private alertCtrl: AlertController ) {
       this.stopId = navParams.get('stopId');
+      this.title = `Stop ${this.stopId}`;
       this.order = '0';
   }
 
@@ -60,6 +64,8 @@ export class StopComponent {
         this.sort(directions[0]);
         this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
         this.hideLoader();
+    }).catch(err => {
+      console.error(err);
     });
   }
 
@@ -84,10 +90,17 @@ export class StopComponent {
               this.getDepartures();
             }, autoRefresh);
         }
+      }).catch(err => {
+        console.error(err);
       });
+    }).catch(err => {
+      console.error(err);
     });
     this.stopSvc.getStop(this.stopId).then(stop => {
       this.stop = stop;
+      this.title = `${this.stop.Description} (${this.stopId})`;
+    }).catch(err => {
+      console.error(err);
     });
   }
 
@@ -107,6 +120,8 @@ export class StopComponent {
       .getRoute(id)
       .then(route => {
         this.routeList[id] = (route);
+      }).catch(err => {
+        console.error(err);
       });
   }
   // Calls getRoute() for each RouteId in
@@ -233,6 +248,17 @@ export class StopComponent {
  goToRoutePage(routeId: number): void {
    this.navCtrl.push(RouteComponent, {
      routeId: routeId
+   });
+ }
+ goToStopMapPage(): void {
+   this.navCtrl.push(StopMapComponent, {
+     stopId: this.stopId
+   }).catch(() => {
+     this.alertCtrl.create({
+       title: 'No Connection',
+       subTitle: 'The Stop Map page requires an Internet connection',
+       buttons: ['Dismiss']
+     }).present();
    });
  }
 }
