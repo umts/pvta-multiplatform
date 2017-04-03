@@ -1,5 +1,5 @@
-import { Vehicle } from './Vehicle.model';
-import { Alert } from './Alert.model';
+import { Vehicle } from './vehicle.model';
+import { Alert } from './alert.model';
 export class Route {
   RouteId: number;
   RouteRecordId: number;
