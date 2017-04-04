@@ -29,7 +29,7 @@ export class StopMapComponent {
     private toastCtrl: ToastController, private connection: ConnectivityService,
     private loadingCtrl: LoadingController) {
     this.stopId = navParams.get('stopId');
-    ga('set', 'page', '/stop-map.html');
+    ga('set', 'page', '/stop/stop-map.html');
     ga('send', 'pageview');
   }
   directionsService = new google.maps.DirectionsService();

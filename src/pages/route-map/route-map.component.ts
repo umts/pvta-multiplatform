@@ -35,7 +35,7 @@ export class RouteMapComponent {
     private mapSvc: MapService, private connection: ConnectivityService,
     private refreshSvc: AutoRefreshService, private storage: Storage) {
       this.routeId = navParams.get('routeId');
-      ga('set', 'page', '/route-map.html');
+      ga('set', 'page', '/route/route-map.html');
       ga('send', 'pageview');
     }
 

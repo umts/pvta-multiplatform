@@ -10,7 +10,7 @@ declare var ga;
 export class PrivacyPolicyComponent {
 
   constructor(public navCtrl: NavController) {
-    ga('set', 'page', '/privacy-policy.html');
+    ga('set', 'page', '/settings/about/privacy-policy.html');
     ga('send', 'pageview');
   }
 

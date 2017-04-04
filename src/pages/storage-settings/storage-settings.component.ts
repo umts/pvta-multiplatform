@@ -12,7 +12,7 @@ export class StorageSettingsComponent {
   toast: Toast;
   constructor(public navCtrl: NavController, private storage: Storage,
   private toastCtrl: ToastController, private alertCtrl: AlertController) {
-    ga('set', 'page', '/storage-settings.html');
+    ga('set', 'page', '/settings/storage-settings.html');
     ga('send', 'pageview');
   }
 

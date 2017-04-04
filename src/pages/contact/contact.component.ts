@@ -9,7 +9,7 @@ declare var ga;
 })
 export class ContactComponent {
   constructor(public navCtrl: NavController) {
-    ga('set', 'page', '/about/contact.html');
+    ga('set', 'page', '/settings/contact.html');
     ga('send', 'pageview');
   }
 
