@@ -6,6 +6,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
+import { Ng2PaginationModule } from 'ng2-pagination';
 
 // Pages
 import { AboutComponent } from '../pages/about/about.component';
@@ -76,7 +77,8 @@ import { AutoRefreshService } from '../providers/auto-refresh.service';
       ]
     }),
     IonicStorageModule.forRoot(),
-    HttpModule
+    HttpModule,
+    Ng2PaginationModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
