@@ -27,7 +27,8 @@ export class RouteMapComponent {
   mapOptions = {
     center: new google.maps.LatLng(42.386270, -72.525844),
     zoom: 15,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    fullscreenControl: false
   };
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
