@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{request?.name}}</ion-title>
+    <ion-title role="heading">{{request?.name}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -30,6 +30,7 @@
         type="text" placeholder="Enter a destination" [(ngModel)]="request?.destination.name"/>
       </label>
     </ion-item>
+  </ion-list>
     <ion-item>
       <ion-label>Search for buses:</ion-label>
       <ion-select [(ngModel)]="request?.time.option">
@@ -39,16 +40,15 @@
       </ion-select>
     </ion-item>
     <div *ngIf="timeOptions[request?.time.option]?.isASAP === false">
-      <ion-item>
+      <ion-item aria-labelledby="date-label">
         <ion-label>Date</ion-label>
-        <ion-datetime style="color: black" displayFormat="MMM D" pickerFormat="MMM D" [(ngModel)]="request?.time.datetime"></ion-datetime>
+        <ion-datetime id="date-label" aria-label="" style="color: black" displayFormat="MMM D" pickerFormat="MMM D" [(ngModel)]="request?.time.datetime"></ion-datetime>
       </ion-item>
       <ion-item>
         <ion-label>Time</ion-label>
         <ion-datetime displayFormat="h:mm A" pickerFormat="h:mm A" [(ngModel)]="request?.time.datetime"></ion-datetime>
       </ion-item>
     </div>
-  </ion-list>
   <button ion-button round *ngIf="route" (click)="saveTrip()">Save Trip</button>
   <button ion-button round (click)="getRoute()" id="dasd">Search Schedule</button>
 
