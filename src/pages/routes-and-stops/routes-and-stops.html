@@ -30,7 +30,7 @@
 </ion-header>
 <ion-content padding>
   <div [ngSwitch]="cDisplay">
-    <ion-list text-wrap *ngSwitchCase="'routes'">
+    <ion-list role="list" aria-label="all routes" text-wrap *ngSwitchCase="'routes'">
       <div ion-item *ngFor="let route of routesDisp"
         (click)="goToRoutePage(route.RouteId)">
         <ion-icon aria-hidden="true" name="bus" style="margin-right: 10px"></ion-icon>
@@ -44,15 +44,15 @@
       </div>
     </ion-list>
 
-    <ion-list text-wrap *ngSwitchCase="'stops'">
-      <button ion-item *ngFor="let stop of stopsDisp | slice:0:40"
+    <ion-list role="list" aria-label="stops" text-wrap *ngSwitchCase="'stops'">
+      <div ion-item *ngFor="let stop of stopsDisp | slice:0:40"
         (click)="goToStopPage(stop.StopId)">
-        <ion-icon name="pin" style="margin-right: 10px"></ion-icon>
+        <ion-icon aria-hidden="true" name="pin" style="margin-right: 10px"></ion-icon>
         <span>{{stop.Description}} ({{stop.StopId}})</span>
-        <button ion-button icon-only item-right clear (click)="stop.Liked = !stop.Liked; toggleStopHeart(stop); $event.stopPropagation()">
+        <button ion-button icon-only item-right clear (click)="stop.Liked = !stop.Liked; toggleStopHeart(stop); $event.stopPropagation()" attr.aria-label="{{stop.Liked ? 'Unlike this stop' : 'Like this stop'}}">
           <ion-icon name="{{stop.Liked ? 'ios-heart' : 'ios-heart-outline'}}"></ion-icon>
         </button>
-      </button>
+      </div>
     </ion-list>
   </div>
 </ion-content>
