@@ -15,7 +15,7 @@ export class AboutComponent {
   constructor(public navCtrl: NavController, private infoService: InfoService) {
     this.versionName = infoService.getVersionName();
     this.versionNumber = infoService.getVersionNumber();
-    ga('set', 'page', '/about.html');
+    ga('set', 'page', '/settings/about.html');
     ga('send', 'pageview');
   }
   goToPrivacyPolicyPage(): void {
