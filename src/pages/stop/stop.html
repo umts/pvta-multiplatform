@@ -3,12 +3,14 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{title}}</ion-title>
+    <ion-title role="heading">{{title}}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="goToStopMapPage()">
+      <button aria-hidden="true" ion-button icon-only (click)="goToStopMapPage()">
         <ion-icon name="compass"></ion-icon>
       </button>
-      <button ion-button icon-only item-right clear (click)="liked = !liked; toggleStopHeart();">
+      <button ion-button icon-only item-right clear
+      (click)="liked = !liked; toggleStopHeart();"
+      attr.aria-label="{{liked ? 'Unlike stop' : 'Like stop'}}">
         <ion-icon name="{{liked ? 'ios-heart' : 'ios-heart-outline'}}"></ion-icon>
       </button>
     </ion-buttons>

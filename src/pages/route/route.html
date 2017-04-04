@@ -8,7 +8,9 @@
       <button aria-hidden="true" ion-button icon-only (click)="goToRouteMapPage()">
         <ion-icon name="map"></ion-icon>
       </button>
-      <button ion-button icon-only item-right clear (click)="route.Liked = !route.Liked; toggleRouteHeart(route);">
+      <button ion-button icon-only item-right clear
+      (click)="route.Liked = !route.Liked; toggleRouteHeart(route);"
+      attr.aria-label="{{route?.Liked ? 'Unlike this route' : 'Like this route'}}">
         <ion-icon name="{{route?.Liked ? 'ios-heart' : 'ios-heart-outline'}}"></ion-icon>
       </button>
     </ion-buttons>
@@ -24,14 +26,16 @@
   <ion-item-group>
     <!-- <ion-item-divider  color="danger">Alerts</ion-item-divider> -->
     <ion-toolbar *ngIf="alerts.length > 0" color="danger">
-      <ion-title>
+      <ion-title role="heading">
         Alerts
       </ion-title>
     </ion-toolbar>
-    <ion-item text-wrap icon-left *ngFor="let alert of alerts">
-      <ion-icon name="alert"></ion-icon>
-      {{alert.Message}}
-    </ion-item>
+    <ion-list role="list" aria-label="alerts">
+      <ion-item text-wrap icon-left *ngFor="let alert of alerts">
+        <ion-icon aria-hidden="true" name="alert"></ion-icon>
+        {{alert.Message}}
+      </ion-item>
+    </ion-list>
   </ion-item-group>
 
   <ion-toolbar *ngIf="route && vehicles.length == 0">
