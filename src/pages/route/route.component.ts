@@ -33,10 +33,13 @@ export class RouteComponent {
     this.alerts = [];
   }
 
-  getVehicles (): void {
-    // this.vehicleService
-    //   .getRouteVehicles(this.routeId)
-    //   .then(vehicles => this.vehicles = vehicles);
+  getVehicles(refresher): void {
+    console.log('getvehicles', refresher);
+    this.vehicleService.getRouteVehicles(this.routeId)
+      .then(vehicles => {
+        this.vehicles = vehicles;
+        refresher.complete();
+      });
   }
   /**
   * Download any Alerts for the current route

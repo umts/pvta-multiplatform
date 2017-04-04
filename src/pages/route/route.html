@@ -16,6 +16,10 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher (ionRefresh)="getVehicles($event)">
+    <ion-refresher-content pullingText="Pull to refresh buses...">
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-toolbar *ngIf="route" color="positive-dark" style="text-align: center;">
     <span text-wrap style="font-size:125%; color: white; font-weight: bold;">
       {{route.GoogleDescription}}
