@@ -46,6 +46,17 @@ export class StopComponent {
       this.order = '0';
       ga('set', 'page', '/stop.html');
       ga('send', 'pageview');
+      document.addEventListener('pause', this.handleAppPause);
+      document.addEventListener('resume', this.handleAppResume);
+  }
+
+  handleAppPause = () => {
+    console.log('pause');
+    clearInterval(this.interval);
+  }
+  handleAppResume = () => {
+    console.log('resume');
+    this.ionViewWillEnter();
   }
 
   presentLoader(): void {
@@ -111,6 +122,8 @@ export class StopComponent {
 
   ionViewWillLeave() {
     clearInterval(this.interval);
+    document.removeEventListener('pause', this.handleAppPause);
+    document.removeEventListener('resume', this.handleAppResume);
   }
 
   ionViewCanEnter(): boolean {
