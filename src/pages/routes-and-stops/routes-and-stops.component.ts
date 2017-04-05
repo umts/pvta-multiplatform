@@ -14,6 +14,8 @@ import { FavoriteStopService, FavoriteStopModel } from '../../providers/favorite
 import * as _ from 'lodash';
 import * as haversine from 'haversine';
 
+declare var ga;
+
 @Component({
   selector: 'page-routes-and-stops',
   templateUrl: 'routes-and-stops.html'
@@ -46,6 +48,8 @@ export class RoutesAndStopsComponent {
       this.loader = loadingCtrl.create({
         content: 'Downloading...'
       });
+      ga('set', 'page', '/routes-and-stops.html');
+      ga('send', 'pageview');
     }
   onSearchQueryChanged(query: string): void {
     if (!query || query === '') {
@@ -274,8 +278,8 @@ export class RoutesAndStopsComponent {
       // the standard Distance Formula.
       if (!this.previousPosition || (this.previousPosition !== undefined && (haversine(this.previousPosition, currentPosition) > .1))) {
         var msg = 'Current position found, but no previous position or has moved; calculating stop distances.';
-        // ga('send', 'event', 'CalculatingStopDistances',
-          // 'RoutesAndStopsController.calculateStopDistances', msg);
+        ga('send', 'event', 'CalculatingStopDistances',
+          'RoutesAndStopsComponent.calculateStopDistances()', msg);
         console.log(msg);
 
         for (let stop of this.stops) {

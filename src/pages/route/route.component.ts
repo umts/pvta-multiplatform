@@ -14,6 +14,8 @@ import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.moda
 import { ConnectivityService } from '../../providers/connectivity.service';
 import * as _ from 'lodash';
 
+declare var ga;
+
 @Component({
   selector: 'page-route',
   templateUrl: 'route.html'
@@ -31,6 +33,8 @@ export class RouteComponent {
     private alertCtrl: AlertController) {
     this.routeId = parseInt(navParams.get('routeId'));
     this.alerts = [];
+    ga('set', 'page', '/route.html');
+    ga('send', 'pageview');
   }
 
   getVehicles(refresher): void {
@@ -103,6 +107,8 @@ export class RouteComponent {
       this.favoriteRouteService.contains(route, (liked) => {
         this.route.Liked = liked;
       });
+      ga('send', 'event', 'RouteLoaded',
+      'RouteComponent.ionViewWillEnter', `Route: ${route.RouteAbbreviation} (${this.routeId})`);
     });
   }
 }

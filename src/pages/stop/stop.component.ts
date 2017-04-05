@@ -16,6 +16,7 @@ import { ConnectivityService } from '../../providers/connectivity.service';
 import { AutoRefreshService } from '../../providers/auto-refresh.service';
 import { InfoService } from '../../providers/info.service';
 
+declare var ga;
 
 @Component({
   selector: 'page-stop',
@@ -46,6 +47,8 @@ export class StopComponent {
       this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.title = `Stop ${this.stopId}`;
       this.order = '0';
+      ga('set', 'page', '/stop.html');
+      ga('send', 'pageview');
       document.addEventListener('pause', this.handleAppPause);
       document.addEventListener('resume', this.handleAppResume);
   }
@@ -113,6 +116,8 @@ export class StopComponent {
     this.stopSvc.getStop(this.stopId).then(stop => {
       this.stop = stop;
       this.title = `${this.stop.Description} (${this.stopId})`;
+      ga('send', 'event', 'StopLoaded',
+      'StopComponent.ionViewWillEnter', `Stop: ${stop.Description} (${this.stopId})`);
     }).catch(err => {
       console.error(err);
     });

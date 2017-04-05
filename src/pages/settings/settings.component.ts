@@ -6,6 +6,8 @@ import { ContactComponent} from '../contact/contact.component';
 import { StorageSettingsComponent} from '../storage-settings/storage-settings.component';
 import { InfoService } from '../../providers/info.service';
 
+declare var ga;
+
 @Component({
   selector: 'page-settings',
   templateUrl: 'settings.html'
@@ -25,6 +27,8 @@ export class SettingsComponent {
         }
       });
     });
+    ga('set', 'page', '/settings.html');
+    ga('send', 'pageview');
   }
   goToAboutPage() {
     this.navCtrl.push(AboutComponent);
