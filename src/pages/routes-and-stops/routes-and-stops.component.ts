@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 import {Geolocation} from 'ionic-native';
 import { RouteService } from '../../providers/route.service';
 import { StopService } from '../../providers/stop.service';
+import { InfoService } from '../../providers/info.service';
 import { FavoriteRouteService, FavoriteRouteModel } from '../../providers/favorite-route.service';
 import { Route } from '../../models/route.model';
 import { Stop } from '../../models/stop.model';
@@ -33,11 +34,13 @@ export class RoutesAndStopsComponent {
   stopsPromise: Promise<any>;
   routesPromise: Promise<any>;
   loader;
-  constructor(public navCtrl: NavController,
+  isInternetExplorer: boolean = false;
+  constructor(public navCtrl: NavController, private infoSvc: InfoService,
     private routeSvc: RouteService, private stopSvc: StopService,
     private loadingCtrl: LoadingController, private storage: Storage,
     private favRouteSvc: FavoriteRouteService, private alertCtrl: AlertController,
     private favStopSvc: FavoriteStopService) {
+      this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.order = 'favorites';
       this.cDisplay = 'routes';
       this.loader = loadingCtrl.create({
@@ -202,7 +205,7 @@ export class RoutesAndStopsComponent {
     let secondarySortType: string;
     // If routes are currently in view
     if (this.cDisplay === 'routes') {
-      if (!routeOrderings.includes(this.order)) {
+      if (!_.includes(routeOrderings, this.order)) {
         this.order = routeOrderings[0];
       }
       // Based on the user's requested ordering, we need to
@@ -226,7 +229,7 @@ export class RoutesAndStopsComponent {
         [primarySort, secondarySort], [primarySortType, secondarySortType]);
     } else if (this.cDisplay === 'stops') {
       // If stops are currently in view
-      if (!stopOrderings.includes(this.order)) {
+      if (!_.includes(stopOrderings, this.order)) {
         this.order = stopOrderings[0];
       }
       switch (this.order) {
