@@ -29,14 +29,17 @@ export class RouteComponent {
     private alertService: AlertService, private connection: ConnectivityService,
     private modalCtrl: ModalController, private favoriteRouteService: FavoriteRouteService,
     private alertCtrl: AlertController) {
-    this.routeId = navParams.get('routeId');
+    this.routeId = parseInt(navParams.get('routeId'));
     this.alerts = [];
   }
 
-  getVehicles (): void {
-    // this.vehicleService
-    //   .getRouteVehicles(this.routeId)
-    //   .then(vehicles => this.vehicles = vehicles);
+  getVehicles(refresher): void {
+    console.log('getvehicles', refresher);
+    this.vehicleService.getRouteVehicles(this.routeId)
+      .then(vehicles => {
+        this.vehicles = vehicles;
+        refresher.complete();
+      });
   }
   /**
   * Download any Alerts for the current route
@@ -45,8 +48,7 @@ export class RouteComponent {
   getAlerts (): void {
     this.alerts = [];
     this.alertService
-    .getAlerts()
-    .then(alerts => {
+    .getAlerts().then(alerts => {
       if (!alerts) {
         return;
       }
@@ -55,7 +57,6 @@ export class RouteComponent {
           this.alerts.push(alert);
         }
       }
-      console.log(JSON.stringify(this.alerts));
     });
   }
 
@@ -72,24 +73,6 @@ export class RouteComponent {
       }
     );
     stopModal.present();
- }
-
-
-  prepareStops (stops: Stop[]): void {
-    this.stops = stops;
-    // $scope.stops = [];
-    // FavoriteStops.getAll().then(function (favoriteStops) {
-    //   var favoriteStopIds = _.pluck(favoriteStops, 'StopId');
-    //   for (var index = 0; index < stops.length; index++) {
-    //     var stop = stops[index];
-    //     var liked = false;
-    //     // If the ID of the stop in question is in the list of favorite stop IDs
-    //     if (_.contains(favoriteStopIds, stop.StopId)) {
-    //       liked = true;
-    //     }
-    //     $scope.stops.push({StopId: stop.StopId, Description: stop.Description, Liked: liked});
-    //   }
-    // });
   }
 
   goToRouteMapPage(): void {
@@ -110,19 +93,16 @@ export class RouteComponent {
 
   ionViewWillEnter() {
     this.getAlerts();
-    this.routeService
-      .getRouteDetail(this.routeId)
-      .then(route => {
-        if (!route) {
-          return;
-        }
-        this.route = route;
-        // getHeart()
-        this.prepareStops(route.Stops);
-        this.vehicles = route.Vehicles;
-        this.favoriteRouteService.contains(route, (liked) => {
-          this.route.Liked = liked;
-        });
+    this.routeService.getRouteDetail(this.routeId).then(route => {
+      if (!route) {
+        return;
+      }
+      this.route = route;
+      this.stops = route.Stops;
+      this.vehicles = route.Vehicles;
+      this.favoriteRouteService.contains(route, (liked) => {
+        this.route.Liked = liked;
       });
+    });
   }
 }
