@@ -70,7 +70,7 @@ export class MyBusesComponent {
           this.alerts.push(alert);
         } else {
           for (let routeId of alert.Routes) {
-            if (routeIds.includes(routeId)) {
+            if (_.includes(routeIds, routeId)) {
               this.alerts.push(alert);
             }
           }

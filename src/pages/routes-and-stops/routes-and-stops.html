@@ -19,7 +19,7 @@
     (ionInput)="onSearchQueryChanged($event.target.value)">
     <!-- (ionCancel)="onCancel($event)"> -->
   </ion-searchbar>
-  <ion-item>
+  <ion-item *ngIf="!isInternetExplorer">
     <ion-label>Order {{cDisplay == 'routes' ? 'Routes' : 'Stops'}} By:</ion-label>
     <ion-select [(ngModel)]="order" (ionChange)="toggleOrdering()">
       <ion-option value="favorites">Favorites</ion-option>

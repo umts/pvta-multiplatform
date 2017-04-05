@@ -12,6 +12,7 @@ import { Stop } from '../../models/stop.model';
 import { RouteMapComponent } from '../route-map/route-map.component';
 import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';
 import { ConnectivityService } from '../../providers/connectivity.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'page-route',
@@ -50,8 +51,7 @@ export class RouteComponent {
         return;
       }
       for (let alert of alerts) {
-        console.log(alert.Routes.includes(this.routeId));
-        if (alert.Routes.includes(this.routeId)) {
+        if (_.includes(alert.Routes, this.routeId)) {
           this.alerts.push(alert);
         }
       }
