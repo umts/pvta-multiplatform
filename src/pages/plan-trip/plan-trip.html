@@ -31,7 +31,10 @@
       </label>
     </ion-item>
     <ion-item *ngIf="isInternetExplorer">
-      <p style="font-style: italic;">Internet Explorer only supports finding buses leaving now.</p>
+      <p style="font-style: italic;">
+        Internet Explorer does not support searching the schedule on
+        specific dates and times, and will only find the soonest available trip.
+      </p>
     </ion-item>
     <ion-item *ngIf="!isInternetExplorer">
       <ion-label>Search for buses:</ion-label>
