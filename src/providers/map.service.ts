@@ -59,7 +59,7 @@ export class MapService {
   }
 
   addKML (fileName) {
-    let toAdd = `https://bustracker.pvta.com/infopoint/Resources/Traces/${fileName}`
+    let toAdd = `https://bustracker.pvta.com/infopoint/Resources/Traces/${fileName}`;
     let georssLayer = new google.maps.KmlLayer({
       url: toAdd,
       suppressInfoWindows: true

@@ -31,7 +31,7 @@ export class RouteComponent {
     private alertService: AlertService, private connection: ConnectivityService,
     private modalCtrl: ModalController, private favoriteRouteService: FavoriteRouteService,
     private alertCtrl: AlertController) {
-    this.routeId = parseInt(navParams.get('routeId'));
+    this.routeId = parseInt(navParams.get('routeId'), 10);
     this.alerts = [];
     ga('set', 'page', '/route.html');
     ga('send', 'pageview');
