@@ -15,10 +15,13 @@
     <button ion-item (click)="goToContactPage()">
       Contact PVTA
     </button>
-    <ion-item class="item" (click)="goToStorageSettingsPage()">
+    <button ion-item (click)="goToStorageSettingsPage()">
       Storage
+    </button>
+    <ion-item *ngIf="isInternetExplorer">
+      <p style="font-style: italic;">Autorefresh timing customization is not supported in Internet Explorer.</p>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="!isInternetExplorer">
       <ion-label>Autorefresh Timing</ion-label>
       <ion-select [(ngModel)]="autoRefresh">
         <ion-option value="0">Autorefresh Off</ion-option>

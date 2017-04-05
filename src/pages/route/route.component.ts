@@ -12,6 +12,7 @@ import { Stop } from '../../models/stop.model';
 import { RouteMapComponent } from '../route-map/route-map.component';
 import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';
 import { ConnectivityService } from '../../providers/connectivity.service';
+import * as _ from 'lodash';
 
 declare var ga;
 
@@ -30,16 +31,19 @@ export class RouteComponent {
     private alertService: AlertService, private connection: ConnectivityService,
     private modalCtrl: ModalController, private favoriteRouteService: FavoriteRouteService,
     private alertCtrl: AlertController) {
-    this.routeId = navParams.get('routeId');
+    this.routeId = parseInt(navParams.get('routeId'));
     this.alerts = [];
     ga('set', 'page', '/route.html');
     ga('send', 'pageview');
   }
 
-  getVehicles (): void {
-    // this.vehicleService
-    //   .getRouteVehicles(this.routeId)
-    //   .then(vehicles => this.vehicles = vehicles);
+  getVehicles(refresher): void {
+    console.log('getvehicles', refresher);
+    this.vehicleService.getRouteVehicles(this.routeId)
+      .then(vehicles => {
+        this.vehicles = vehicles;
+        refresher.complete();
+      });
   }
   /**
   * Download any Alerts for the current route
@@ -48,18 +52,15 @@ export class RouteComponent {
   getAlerts (): void {
     this.alerts = [];
     this.alertService
-    .getAlerts()
-    .then(alerts => {
+    .getAlerts().then(alerts => {
       if (!alerts) {
         return;
       }
       for (let alert of alerts) {
-        console.log(alert.Routes.includes(this.routeId));
-        if (alert.Routes.includes(this.routeId)) {
+        if (_.includes(alert.Routes, this.routeId)) {
           this.alerts.push(alert);
         }
       }
-      console.log(JSON.stringify(this.alerts));
     });
   }
 
@@ -76,24 +77,6 @@ export class RouteComponent {
       }
     );
     stopModal.present();
- }
-
-
-  prepareStops (stops: Stop[]): void {
-    this.stops = stops;
-    // $scope.stops = [];
-    // FavoriteStops.getAll().then(function (favoriteStops) {
-    //   var favoriteStopIds = _.pluck(favoriteStops, 'StopId');
-    //   for (var index = 0; index < stops.length; index++) {
-    //     var stop = stops[index];
-    //     var liked = false;
-    //     // If the ID of the stop in question is in the list of favorite stop IDs
-    //     if (_.contains(favoriteStopIds, stop.StopId)) {
-    //       liked = true;
-    //     }
-    //     $scope.stops.push({StopId: stop.StopId, Description: stop.Description, Liked: liked});
-    //   }
-    // });
   }
 
   goToRouteMapPage(): void {
@@ -119,8 +102,7 @@ export class RouteComponent {
         return;
       }
       this.route = route;
-      // getHeart()
-      this.prepareStops(route.Stops);
+      this.stops = route.Stops;
       this.vehicles = route.Vehicles;
       this.favoriteRouteService.contains(route, (liked) => {
         this.route.Liked = liked;

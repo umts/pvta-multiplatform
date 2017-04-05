@@ -1,9 +1,10 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation } from 'ionic-native';
 import { NavController, ToastController, LoadingController, AlertController, NavParams } from 'ionic-angular';
-import {StopService} from '../../providers/stop.service';
-import {FavoriteTripService} from '../../providers/favorite-trip.service';
-import {StopComponent} from '../stop/stop.component';
+import { StopService } from '../../providers/stop.service';
+import { FavoriteTripService } from '../../providers/favorite-trip.service';
+import { InfoService } from '../../providers/info.service';
+import { StopComponent } from '../stop/stop.component';
 import * as moment from 'moment';
 
 declare var google, ga;
@@ -34,17 +35,19 @@ export class PlanTripComponent {
    timeOptions = [];
    noLocationToast;
    noOriginOrDestinationToast;
+   isInternetExplorer: boolean = false;
 
   constructor(public navCtrl: NavController, private stopService: StopService,
   private toastCtrl: ToastController, private loadingCtrl: LoadingController,
   private alertCtrl: AlertController, private tripService: FavoriteTripService,
-  private navParams: NavParams) {
+  private navParams: NavParams, private infoSvc: InfoService) {
     /* List of the different types of times that we can request trips.
      * Each type has a name (for the UI) and a few properties for us:
      * type: whether the user wants a "departure" or "arrival"
      * isASAP: whether we should ignore all other given times and
                request a trip leaving NOW
       */
+    this.isInternetExplorer = this.infoSvc.isInternetExplorer();
     this.timeOptions = [
       { title: 'Leaving Now', type: 'departure', isASAP: true, id: 0 },
       { title: 'Departing At...', type: 'departure', isASAP: false, id: 1 },

@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ConnectivityService } from '../../providers/connectivity.service';
 import { AutoRefreshService } from '../../providers/auto-refresh.service';
+import { InfoService } from '../../providers/info.service';
 
 declare var ga;
 
@@ -34,14 +35,16 @@ export class StopComponent {
   title: string;
   order: String;
   stop: Stop;
+  isInternetExplorer: boolean = false;
   constructor(public navCtrl: NavController, private navParams: NavParams,
-    private stopDepartureSvc: StopDepartureService,
+    private stopDepartureSvc: StopDepartureService, private infoSvc: InfoService,
     private routeSvc: RouteService, private changer: ChangeDetectorRef,
     private loadingCtrl: LoadingController, private favoriteStopSvc: FavoriteStopService,
     private stopSvc: StopService, private connection: ConnectivityService,
     private storage: Storage, private refreshSvc: AutoRefreshService,
     private alertCtrl: AlertController ) {
       this.stopId = navParams.get('stopId');
+      this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.title = `Stop ${this.stopId}`;
       this.order = '0';
       ga('set', 'page', '/stop.html');
