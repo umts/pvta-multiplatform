@@ -73,7 +73,7 @@ export class RouteComponent {
       }
     );
     stopModal.present();
- }
+  }
 
   goToRouteMapPage(): void {
     this.navCtrl.push(RouteMapComponent, {
@@ -93,18 +93,16 @@ export class RouteComponent {
 
   ionViewWillEnter() {
     this.getAlerts();
-    this.routeService
-      .getRouteDetail(this.routeId)
-      .then(route => {
-        if (!route) {
-          return;
-        }
-        this.route = route;
-        this.stops = route.Stops;
-        this.vehicles = route.Vehicles;
-        this.favoriteRouteService.contains(route, (liked) => {
-          this.route.Liked = liked;
-        });
+    this.routeService.getRouteDetail(this.routeId).then(route => {
+      if (!route) {
+        return;
+      }
+      this.route = route;
+      this.stops = route.Stops;
+      this.vehicles = route.Vehicles;
+      this.favoriteRouteService.contains(route, (liked) => {
+        this.route.Liked = liked;
       });
+    });
   }
 }
