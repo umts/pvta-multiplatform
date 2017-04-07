@@ -43,7 +43,7 @@ export class StopComponent {
     private stopSvc: StopService, private connection: ConnectivityService,
     private storage: Storage, private refreshSvc: AutoRefreshService,
     private alertCtrl: AlertController ) {
-      this.stopId = navParams.get('stopId');
+      this.stopId = parseInt(navParams.get('stopId'), 10);
       this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.title = `Stop ${this.stopId}`;
       this.order = '0';
