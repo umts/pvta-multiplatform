@@ -19,7 +19,7 @@
     (ionInput)="onSearchQueryChanged($event.target.value)">
     <!-- (ionCancel)="onCancel($event)"> -->
   </ion-searchbar>
-  <ion-item>
+  <ion-item *ngIf="!isInternetExplorer">
     <ion-label>Order {{cDisplay == 'routes' ? 'Routes' : 'Stops'}} By:</ion-label>
     <ion-select [(ngModel)]="order" (ionChange)="toggleOrdering()">
       <ion-option value="favorites">Favorites</ion-option>
@@ -45,7 +45,7 @@
     </ion-list>
 
     <ion-list role="list" aria-label="stops" text-wrap *ngSwitchCase="'stops'">
-      <div ion-item *ngFor="let stop of stopsDisp | slice:0:40"
+      <div ion-item *ngFor="let stop of stopsDisp | paginate: { itemsPerPage: 40, currentPage: p }"
         (click)="goToStopPage(stop.StopId)">
         <ion-icon aria-hidden="true" name="pin" style="margin-right: 10px"></ion-icon>
         <span>{{stop.Description}} ({{stop.StopId}})</span>
@@ -53,6 +53,7 @@
           <ion-icon name="{{stop.Liked ? 'ios-heart' : 'ios-heart-outline'}}"></ion-icon>
         </button>
       </div>
+      <pagination-controls center class="pages" (pageChange)="p = $event"></pagination-controls>
     </ion-list>
   </div>
 </ion-content>

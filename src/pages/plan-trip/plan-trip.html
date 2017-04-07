@@ -31,7 +31,13 @@
       </label>
     </ion-item>
   </ion-list>
-    <ion-item>
+    <ion-item *ngIf="isInternetExplorer">
+      <p style="font-style: italic;">
+        Internet Explorer does not support searching the schedule on
+        specific dates and times, and will only find the soonest available trip.
+      </p>
+    </ion-item>
+    <ion-item *ngIf="!isInternetExplorer">
       <ion-label>Search for buses:</ion-label>
       <ion-select [(ngModel)]="request?.time.option">
         <ion-option *ngFor="let option of timeOptions" value="{{option.id}}">

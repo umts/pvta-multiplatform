@@ -4,6 +4,9 @@ import { NavController } from 'ionic-angular';
 import { AboutComponent } from '../about/about.component';
 import { ContactComponent} from '../contact/contact.component';
 import { StorageSettingsComponent} from '../storage-settings/storage-settings.component';
+import { InfoService } from '../../providers/info.service';
+
+declare var ga;
 
 @Component({
   selector: 'page-settings',
@@ -11,7 +14,10 @@ import { StorageSettingsComponent} from '../storage-settings/storage-settings.co
 })
 export class SettingsComponent {
   autoRefresh: string;
-  constructor(public navCtrl: NavController, private storage: Storage) {
+  isInternetExplorer: boolean = false;
+  constructor(public navCtrl: NavController, private storage: Storage,
+  private infoSvc: InfoService) {
+    this.isInternetExplorer = infoSvc.isInternetExplorer();
     storage.ready().then(() => {
       storage.get('autoRefresh').then(autoRefreshTiming => {
         if (autoRefreshTiming) {
@@ -21,6 +27,8 @@ export class SettingsComponent {
         }
       });
     });
+    ga('set', 'page', '/settings.html');
+    ga('send', 'pageview');
   }
   goToAboutPage() {
     this.navCtrl.push(AboutComponent);
