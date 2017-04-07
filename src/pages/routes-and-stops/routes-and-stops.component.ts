@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 import {Geolocation} from 'ionic-native';
 import { RouteService } from '../../providers/route.service';
 import { StopService } from '../../providers/stop.service';
+import { InfoService } from '../../providers/info.service';
 import { FavoriteRouteService, FavoriteRouteModel } from '../../providers/favorite-route.service';
 import { Route } from '../../models/route.model';
 import { Stop } from '../../models/stop.model';
@@ -12,6 +13,8 @@ import { StopComponent } from '../stop/stop.component';
 import { FavoriteStopService, FavoriteStopModel } from '../../providers/favorite-stop.service';
 import * as _ from 'lodash';
 import * as haversine from 'haversine';
+
+declare var ga;
 
 @Component({
   selector: 'page-routes-and-stops',
@@ -33,16 +36,20 @@ export class RoutesAndStopsComponent {
   stopsPromise: Promise<any>;
   routesPromise: Promise<any>;
   loader;
-  constructor(public navCtrl: NavController,
+  isInternetExplorer: boolean = false;
+  constructor(public navCtrl: NavController, private infoSvc: InfoService,
     private routeSvc: RouteService, private stopSvc: StopService,
     private loadingCtrl: LoadingController, private storage: Storage,
     private favRouteSvc: FavoriteRouteService, private alertCtrl: AlertController,
     private favStopSvc: FavoriteStopService) {
+      this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.order = 'favorites';
       this.cDisplay = 'routes';
       this.loader = loadingCtrl.create({
         content: 'Downloading...'
       });
+      ga('set', 'page', '/routes-and-stops.html');
+      ga('send', 'pageview');
     }
   onSearchQueryChanged(query: string): void {
     if (!query || query === '') {
@@ -202,7 +209,7 @@ export class RoutesAndStopsComponent {
     let secondarySortType: string;
     // If routes are currently in view
     if (this.cDisplay === 'routes') {
-      if (!routeOrderings.includes(this.order)) {
+      if (!_.includes(routeOrderings, this.order)) {
         this.order = routeOrderings[0];
       }
       // Based on the user's requested ordering, we need to
@@ -226,7 +233,7 @@ export class RoutesAndStopsComponent {
         [primarySort, secondarySort], [primarySortType, secondarySortType]);
     } else if (this.cDisplay === 'stops') {
       // If stops are currently in view
-      if (!stopOrderings.includes(this.order)) {
+      if (!_.includes(stopOrderings, this.order)) {
         this.order = stopOrderings[0];
       }
       switch (this.order) {
@@ -271,8 +278,8 @@ export class RoutesAndStopsComponent {
       // the standard Distance Formula.
       if (!this.previousPosition || (this.previousPosition !== undefined && (haversine(this.previousPosition, currentPosition) > .1))) {
         var msg = 'Current position found, but no previous position or has moved; calculating stop distances.';
-        // ga('send', 'event', 'CalculatingStopDistances',
-          // 'RoutesAndStopsController.calculateStopDistances', msg);
+        ga('send', 'event', 'CalculatingStopDistances',
+          'RoutesAndStopsComponent.calculateStopDistances()', msg);
         console.log(msg);
 
         for (let stop of this.stops) {

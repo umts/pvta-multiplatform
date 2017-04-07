@@ -32,11 +32,13 @@ export class StopModal {
   ) {
     this.requester = <StopModalRequester> this.params.get('requester');
     this.title = this.params.get('title');
-    this.stops = this.params.get('stops');
     if (this.requester === StopModalRequester.MyBuses) {
       this.ariaTitle = 'Add favorite stops popup. Check the stops you want to favorite, and click done.';
     } else {
       this.ariaTitle = this.title;
+      this.stops = this.params.get('stops');
+      this.stopsDisp = this.stops;
+
     }
     }
 
@@ -87,6 +89,7 @@ export class StopModal {
       this.storage.get('favoriteStops').then((favoriteStops: Stop[]) => {
         this.favoriteStops = favoriteStops;
         this.stops = this.prepareStops();
+        this.stopsDisp = this.stops;
       });
     });
   }

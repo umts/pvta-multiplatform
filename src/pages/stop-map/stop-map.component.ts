@@ -6,7 +6,7 @@ import { MapService } from '../../providers/map.service';
 import { StopService } from '../../providers/stop.service';
 import { ConnectivityService } from '../../providers/connectivity.service';
 
-declare var google;
+declare var google, ga;
 
 @Component({
   selector: 'page-stop-map',
@@ -29,6 +29,8 @@ export class StopMapComponent {
     private toastCtrl: ToastController, private connection: ConnectivityService,
     private loadingCtrl: LoadingController) {
     this.stopId = navParams.get('stopId');
+    ga('set', 'page', '/stop/stop-map.html');
+    ga('send', 'pageview');
   }
   directionsService = new google.maps.DirectionsService();
 
@@ -117,7 +119,8 @@ export class StopMapComponent {
         showCloseButton: true
       }).present();
       // Tell Google Analytics that a user doesn't have location
-      // ga('send', 'event', 'LocationFailure', '$cordovaGeolocation.getCurrentPosition', 'location failure passed to Stop Map after failing on Map Factory');
+      ga('send', 'event', 'LocationFailure',
+      'StopMapComponent.retrieveDirections()', `location failure on Stop Map: ${err.message}`);
     });
   }
 

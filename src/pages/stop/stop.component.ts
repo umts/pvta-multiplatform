@@ -14,7 +14,9 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ConnectivityService } from '../../providers/connectivity.service';
 import { AutoRefreshService } from '../../providers/auto-refresh.service';
+import { InfoService } from '../../providers/info.service';
 
+declare var ga;
 
 @Component({
   selector: 'page-stop',
@@ -33,16 +35,31 @@ export class StopComponent {
   title: string;
   order: String;
   stop: Stop;
+  isInternetExplorer: boolean = false;
   constructor(public navCtrl: NavController, private navParams: NavParams,
-    private stopDepartureSvc: StopDepartureService,
+    private stopDepartureSvc: StopDepartureService, private infoSvc: InfoService,
     private routeSvc: RouteService, private changer: ChangeDetectorRef,
     private loadingCtrl: LoadingController, private favoriteStopSvc: FavoriteStopService,
     private stopSvc: StopService, private connection: ConnectivityService,
     private storage: Storage, private refreshSvc: AutoRefreshService,
     private alertCtrl: AlertController ) {
       this.stopId = navParams.get('stopId');
+      this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.title = `Stop ${this.stopId}`;
       this.order = '0';
+      ga('set', 'page', '/stop.html');
+      ga('send', 'pageview');
+      document.addEventListener('pause', this.handleAppPause);
+      document.addEventListener('resume', this.handleAppResume);
+  }
+
+  handleAppPause = () => {
+    console.log('pause');
+    clearInterval(this.interval);
+  }
+  handleAppResume = () => {
+    console.log('resume');
+    this.ionViewWillEnter();
   }
 
   presentLoader(): void {
@@ -99,6 +116,8 @@ export class StopComponent {
     this.stopSvc.getStop(this.stopId).then(stop => {
       this.stop = stop;
       this.title = `${this.stop.Description} (${this.stopId})`;
+      ga('send', 'event', 'StopLoaded',
+      'StopComponent.ionViewWillEnter', `Stop: ${stop.Description} (${this.stopId})`);
     }).catch(err => {
       console.error(err);
     });
@@ -106,6 +125,8 @@ export class StopComponent {
 
   ionViewWillLeave() {
     clearInterval(this.interval);
+    document.removeEventListener('pause', this.handleAppPause);
+    document.removeEventListener('resume', this.handleAppResume);
   }
 
   ionViewCanEnter(): boolean {

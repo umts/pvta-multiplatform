@@ -14,6 +14,8 @@ import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.moda
 import { RouteModal, RouteModalRequester } from '../../modals/route-modal/route.modal';
 import * as _ from 'lodash';
 
+declare var ga;
+
 @Component({
   selector: 'page-my-buses',
   templateUrl: 'my-buses.html'
@@ -23,12 +25,13 @@ export class MyBusesComponent {
   stops;
   alerts: Alert[];
   trips;
-
   constructor(public navCtrl: NavController, private storage: Storage,
     private alertSvc: AlertService, private alertCtrl: AlertController,
     private modalCtrl: ModalController, private routeSvc: RouteService,
     private stopSvc: StopService, private tripSvc: FavoriteTripService) {
       this.alerts = [];
+      ga('set', 'page', '/my-buses.html');
+      ga('send', 'pageview');
     }
 
   private filterAlerts(): void {
@@ -70,7 +73,7 @@ export class MyBusesComponent {
           this.alerts.push(alert);
         } else {
           for (let routeId of alert.Routes) {
-            if (routeIds.includes(routeId)) {
+            if (_.includes(routeIds, routeId)) {
               this.alerts.push(alert);
             }
           }

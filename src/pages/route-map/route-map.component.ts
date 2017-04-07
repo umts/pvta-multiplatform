@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import { MapService } from '../../providers/map.service';
 import { AutoRefreshService } from '../../providers/auto-refresh.service';
 
-declare var google;
+declare var google, ga;
 
 @Component({
   selector: 'page-route-map',
@@ -27,7 +27,8 @@ export class RouteMapComponent {
   mapOptions = {
     center: new google.maps.LatLng(42.386270, -72.525844),
     zoom: 15,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    fullscreenControl: false
   };
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -35,6 +36,8 @@ export class RouteMapComponent {
     private mapSvc: MapService, private connection: ConnectivityService,
     private refreshSvc: AutoRefreshService, private storage: Storage) {
       this.routeId = navParams.get('routeId');
+      ga('set', 'page', '/route/route-map.html');
+      ga('send', 'pageview');
     }
 
   ionViewDidEnter() {
