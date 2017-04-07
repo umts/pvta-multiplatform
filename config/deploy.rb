@@ -24,7 +24,6 @@ namespace :scm do
   task :create_release do
     invoke 'local_copy:create_release'
     invoke 'local_copy:upload_release'
-    invoke 'api_keys:link'
   end
 
   task :set_current_revision do

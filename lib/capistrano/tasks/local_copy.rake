@@ -9,6 +9,7 @@ namespace :local_copy do
 
   task create_release: :clone do
     invoke 'npm:install'
+    invoke 'npm:build'
   end
 
   task :upload_release do
