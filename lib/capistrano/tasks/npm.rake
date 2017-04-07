@@ -10,11 +10,11 @@ namespace :npm do
   task :build do
     run_locally do
       within fetch(:local_temp_dir).join('release') do
-        stagemap = {'development' => 'dev',
-                    'staging' => 'prod',
-                    'production' => 'prod'
-        }
-        execute :npm, 'run', 'ionic:build', "--#{stagemap[fetch(:stage)]}", '--release'
+        stagemap = { development: 'dev',
+                     staging:     'prod',
+                     production:  'prod'
+                   }
+        execute :npm, 'run', 'ionic:build', "--#{stagemap.fetch(fetch(:stage))}", '--release'
       end
     end
   end
