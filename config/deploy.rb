@@ -5,11 +5,8 @@ lock '3.4.0'
 
 set :application, 'pvta-multiplatform'
 set :scm, :scm
-set :branch, 'master'
-set :repo_url, 'git@github.com:umts/pvta-multiplatform.git'
 
 set :local_temp_dir, Pathname.new(Dir.mktmpdir)
-set :deploy_to, "/srv/#{fetch :application}"
 
 set :app_subdirectory, 'www'
 set :rsync_opts, '--recursive --links --times --perms --chmod=g+w'

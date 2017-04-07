@@ -5,6 +5,6 @@ server 'af-transit-app3.admin.umass.edu',
 set :tmp_dir, "/tmp/#{remote_user}"
 
 set :repo_url, 'git@github.com:umts/pvta-multiplatform.git'
-set :branch, 'master'
+set :branch, 'ionic2/base'
 
-set :deploy_to, '/srv/pvta-multiplatform'
+set :deploy_to, '/srv/pvta-multiplatform-staging'
