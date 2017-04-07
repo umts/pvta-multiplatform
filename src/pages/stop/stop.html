@@ -113,6 +113,11 @@
       </div>
     </div>
   </ion-list>
+
+  <ion-toolbar *ngIf="!departuresByDirection.length && stop">
+    {{stop.Description}} has no departures for at least the next 3 hours.
+  </ion-toolbar>
+
   <ion-item>
     <i>Disclaimer:</i>
     <p>
