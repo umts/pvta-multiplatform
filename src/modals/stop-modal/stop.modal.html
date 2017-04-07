@@ -22,11 +22,8 @@
   </ion-searchbar>
   <ion-list id="stops" role="list" aria-label="stops" *ngIf="requester === 1" text-wrap>
     <button ion-item role="heading" *ngFor="let stop of stopsDisp | paginate: { itemsPerPage: 40, currentPage: p }" (click)="goToStopPage(stop.StopId)">
-
-
-        <ion-icon name="pin" style="margin-right: 10px"></ion-icon>
+        <ion-icon aria-hidden="true" name="pin" style="margin-right: 10px"></ion-icon>
         <span>{{stop.Description}} ({{stop.StopId}})</span>
-
     </button>
   </ion-list>
   <ion-list role="list" *ngIf="requester === 0" text-wrap>

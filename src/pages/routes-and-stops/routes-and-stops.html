@@ -34,7 +34,7 @@
       <div ion-item *ngFor="let route of routesDisp"
         (click)="goToRoutePage(route.RouteId)">
         <ion-icon aria-hidden="true" name="bus" style="margin-right: 10px"></ion-icon>
-        <span [style.color]="'#' + route.Color" style="font-size: 125%; font-weight: bold; margin-left: 10px">
+        <span role="heading" [style.color]="'#' + route.Color" style="font-size: 125%; font-weight: bold; margin-left: 10px">
           {{route.RouteAbbreviation}}
         </span>
           <p>{{route.GoogleDescription}}</p>
@@ -48,7 +48,7 @@
       <div ion-item *ngFor="let stop of stopsDisp | paginate: { itemsPerPage: 40, currentPage: p }"
         (click)="goToStopPage(stop.StopId)">
         <ion-icon aria-hidden="true" name="pin" style="margin-right: 10px"></ion-icon>
-        <span>{{stop.Description}} ({{stop.StopId}})</span>
+        <span role="heading">{{stop.Description}} ({{stop.StopId}})</span>
         <button ion-button icon-only item-right clear (click)="stop.Liked = !stop.Liked; toggleStopHeart(stop); $event.stopPropagation()" attr.aria-label="{{stop.Liked ? 'Unlike this stop' : 'Like this stop'}}">
           <ion-icon name="{{stop.Liked ? 'ios-heart' : 'ios-heart-outline'}}"></ion-icon>
         </button>
