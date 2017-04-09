@@ -40,6 +40,7 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      console.log('initializeApp');
       StatusBar.styleDefault();
       if (this.platform.is('android')) {
         StatusBar.backgroundColorByHexString('#1976D2');
@@ -48,17 +49,29 @@ export class MyApp {
       this.infoSvc.setInternetExplorer(isIE);
       this.showNativeStoreAd = this.platform.is('mobileweb') || this.platform.is('core');
       Splashscreen.hide();
-      window.addEventListener('online', () =>  {
-        console.log('online');
-        this.connectivityService.setConnectionStatus(true);
-      }, false);
-
-      window.addEventListener('offline', () => {
-        console.log('offline');
-        this.connectivityService.setConnectionStatus(false);
-        ga('send', 'event', 'DeviceOffline', 'AppComponent.initializeApp()', 'Device went offline');
-      }, false);
+      document.addEventListener('pause', this.onAppPause);
+      document.addEventListener('resume', this.onAppResume);
+      document.addEventListener('offline', this.onDeviceOffline, false);
+      document.addEventListener('online', this.onDeviceOnline, false);
     });
+  }
+  onAppPause = () => {
+    console.log('pause');
+    document.removeEventListener('offline', this.onDeviceOffline);
+    document.removeEventListener('online', this.onDeviceOnline);
+  }
+  onAppResume = () => {
+    console.log('resume');
+    document.addEventListener('offline', this.onDeviceOffline, false);
+    document.addEventListener('online', this.onDeviceOnline, false);
+  }
+  onDeviceOffline = () => {
+    console.log('offline');
+    this.connectivityService.setConnectionStatus(false);
+  }
+  onDeviceOnline = () => {
+    console.log('online');
+    this.connectivityService.setConnectionStatus(true);
   }
 
   openPage(page) {
