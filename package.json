@@ -11,6 +11,9 @@
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve"
   },
+  "config": {
+    "ionic_webpack": "webpack.config.js"
+  },
   "dependencies": {
     "@angular/common": "2.4.8",
     "@angular/compiler": "2.4.8",
@@ -22,6 +25,7 @@
     "@angular/platform-browser-dynamic": "2.4.8",
     "@angular/platform-server": "2.4.8",
     "@ionic/storage": "^2.0.0",
+    "@types/google.analytics": "0.0.33",
     "haversine": "^1.0.2",
     "intl": "^1.2.5",
     "ionic-angular": "2.2.0",
