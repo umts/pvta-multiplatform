@@ -54,11 +54,11 @@ export class StopComponent {
   }
 
   handleAppPause = () => {
-    console.log('pause');
+    console.log('StopComponent: pause');
     clearInterval(this.interval);
   }
   handleAppResume = () => {
-    console.log('resume');
+    console.log('StopComponent: resume');
     this.ionViewWillEnter();
   }
 

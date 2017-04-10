@@ -58,21 +58,21 @@ export class MyApp {
     });
   }
   onAppPause = () => {
-    console.log('pause');
+    console.log('App: pause');
     window.removeEventListener('offline', this.onDeviceOffline);
     window.removeEventListener('online', this.onDeviceOnline);
   }
   onAppResume = () => {
-    console.log('resume');
+    console.log('App: resume');
     window.addEventListener('offline', this.onDeviceOffline, false);
     window.addEventListener('online', this.onDeviceOnline, false);
   }
   onDeviceOffline = () => {
-    console.log('offline');
+    console.log('App: offline');
     this.connectivityService.setConnectionStatus(false);
   }
   onDeviceOnline = () => {
-    console.log('online');
+    console.log('App: online');
     this.connectivityService.setConnectionStatus(true);
   }
 
