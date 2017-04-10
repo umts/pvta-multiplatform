@@ -1,7 +1,7 @@
 {
 	"name": "PVTA",
   "short_name": "PVTA",
-  "start_url": "index.html",
+  "start_url": "#/my-buses",
   "theme_color": "#2196F3",
   "background_color": "#1976D2",
 	"display": "standalone",
@@ -16,5 +16,15 @@
 			"sizes": "192x192",
 			"type": "image/png"
 		},
+		{
+			"src": "assets/icon/favicon-16x16.png",
+			"sizes": "16x16",
+			"type": "image/png"
+		},
+		{
+			"src": "assets/icon/favicon-32x32.png",
+			"sizes": "32x32",
+			"type": "image/png"
+		}
 	]
 }
