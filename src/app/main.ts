@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import { gaInit } from './ga.ts';
 gaInit();
 
-declare const ENV;
+declare const ENV, ga;
 
 var head = document.getElementsByTagName('head')[0];
 var mapsApi = document.createElement('script');
