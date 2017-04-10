@@ -1,13 +1,20 @@
 {
-  "name": "Ionic",
-  "short_name": "Ionic",
+	"name": "PVTA",
+  "short_name": "PVTA",
   "start_url": "index.html",
-  "display": "standalone",
-  "icons": [{
-    "src": "assets/imgs/logo.png",
-    "sizes": "512x512",
-    "type": "image/png"
-  }],
-  "background_color": "#4e8ef7",
-  "theme_color": "#4e8ef7"
+  "theme_color": "#2196F3",
+  "background_color": "#1976D2",
+	"display": "standalone",
+	"icons": [
+    {
+      "src": "assets/icon/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+		{
+			"src": "assets/icon/android-chrome-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+	]
 }
