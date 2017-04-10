@@ -49,21 +49,23 @@ export class MyApp {
       this.infoSvc.setInternetExplorer(isIE);
       this.showNativeStoreAd = this.platform.is('mobileweb') || this.platform.is('core');
       Splashscreen.hide();
+      // Must use document for pause/resume, and window for on/offline.
+      // Great question.
       document.addEventListener('pause', this.onAppPause);
       document.addEventListener('resume', this.onAppResume);
-      document.addEventListener('offline', this.onDeviceOffline, false);
-      document.addEventListener('online', this.onDeviceOnline, false);
+      window.addEventListener('offline', this.onDeviceOffline, false);
+      window.addEventListener('online', this.onDeviceOnline, false);
     });
   }
   onAppPause = () => {
     console.log('pause');
-    document.removeEventListener('offline', this.onDeviceOffline);
-    document.removeEventListener('online', this.onDeviceOnline);
+    window.removeEventListener('offline', this.onDeviceOffline);
+    window.removeEventListener('online', this.onDeviceOnline);
   }
   onAppResume = () => {
     console.log('resume');
-    document.addEventListener('offline', this.onDeviceOffline, false);
-    document.addEventListener('online', this.onDeviceOnline, false);
+    window.addEventListener('offline', this.onDeviceOffline, false);
+    window.addEventListener('online', this.onDeviceOnline, false);
   }
   onDeviceOffline = () => {
     console.log('offline');
