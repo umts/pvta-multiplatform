@@ -75,14 +75,21 @@ export class StopComponent {
     }
   }
 
-  getDepartures(): void {
+  pullToRefresh(refresher): void {
+    this.getDepartures(refresher);
+  }
+
+  getDepartures(refresher?: any): void {
     this.stopDepartureSvc.getStopDeparture(this.stopId)
       .then(directions => {
         this.sort(directions[0]);
         this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
         this.hideLoader();
+        if (refresher) refresher.complete();
     }).catch(err => {
       console.error(err);
+      this.hideLoader();
+      if (refresher) refresher.complete();
     });
   }
 

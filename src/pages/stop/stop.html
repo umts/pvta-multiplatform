@@ -25,6 +25,10 @@
 </ion-header>
 
 <ion-content text-wrap>
+  <ion-refresher (ionRefresh)="pullToRefresh($event)">
+    <ion-refresher-content pullingText="Pull to refresh departures...">
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-list no-lines>
     <div *ngIf="order == '0'">
       <div *ngFor="let direction of departuresByDirection">
