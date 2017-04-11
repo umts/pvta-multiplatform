@@ -65,24 +65,31 @@ export class StopComponent {
   presentLoader(): void {
       this.loader = this.loadingCtrl.create({
         content: 'Downloading departures...',
-        duration: 3000
       });
       this.loader.present();
   }
+
   hideLoader(): void {
     if (this.loader) {
       this.loader.dismiss();
     }
   }
 
-  getDepartures(): void {
+  pullToRefresh(refresher): void {
+    this.getDepartures(refresher);
+  }
+
+  getDepartures(refresher?: any): void {
     this.stopDepartureSvc.getStopDeparture(this.stopId)
       .then(directions => {
         this.sort(directions[0]);
         this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
         this.hideLoader();
+        if (refresher) refresher.complete();
     }).catch(err => {
-      console.error(err);
+      console.error(`Couldn't download departures, error: ${err}`);
+      this.hideLoader();
+      if (refresher) refresher.complete();
     });
   }
 
@@ -108,10 +115,10 @@ export class StopComponent {
             }, autoRefresh);
         }
       }).catch(err => {
-        console.error(err);
+        console.error(`Error retrieving refresh time: ${err}`);
       });
     }).catch(err => {
-      console.error(err);
+      console.error(`Error connecting to local storage: ${err}`);
     });
     this.stopSvc.getStop(this.stopId).then(stop => {
       this.stop = stop;
@@ -119,7 +126,7 @@ export class StopComponent {
       ga('send', 'event', 'StopLoaded',
       'StopComponent.ionViewWillEnter', `Stop: ${stop.Description} (${this.stopId})`);
     }).catch(err => {
-      console.error(err);
+      console.error(`Error downloading stop details: ${err}`);
     });
   }
 
@@ -142,7 +149,7 @@ export class StopComponent {
       .then(route => {
         this.routeList[id] = (route);
       }).catch(err => {
-        console.error(err);
+        console.error(`Error downloading details for ${id}: ${err}`);
       });
   }
   // Calls getRoute() for each RouteId in
@@ -269,6 +276,8 @@ export class StopComponent {
  goToRoutePage(routeId: number): void {
    this.navCtrl.push(RouteComponent, {
      routeId: routeId
+   }).catch(() => {
+     console.error('Unable to go to route page');
    });
  }
  goToStopMapPage(): void {
