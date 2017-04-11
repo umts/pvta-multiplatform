@@ -35,7 +35,6 @@ export class StopComponent {
   title: string;
   order: String;
   stop: Stop;
-  loaderIsShown: boolean = false;
   isInternetExplorer: boolean = false;
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private stopDepartureSvc: StopDepartureService, private infoSvc: InfoService,
@@ -66,17 +65,12 @@ export class StopComponent {
   presentLoader(): void {
       this.loader = this.loadingCtrl.create({
         content: 'Downloading departures...',
-        duration: 3000
       });
       this.loader.present();
-      this.loaderIsShown = true;
-      this.loader.onDidDismiss(() => {
-        this.loaderIsShown = false;
-      });
   }
 
   hideLoader(): void {
-    if (this.loader && this.loaderIsShown) {
+    if (this.loader) {
       this.loader.dismiss();
     }
   }
