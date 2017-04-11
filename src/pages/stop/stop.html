@@ -27,6 +27,10 @@
 </ion-header>
 
 <ion-content text-wrap aria-label="This page auto refreshes content. To stop this, navigate to Settings and change the Auto refresh timing to off">
+  <ion-refresher (ionRefresh)="pullToRefresh($event)">
+    <ion-refresher-content pullingText="Pull to refresh departures...">
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-list aria-label="upcoming departures at this stop" role="list" no-lines>
     <div *ngIf="order == '0'">
       <div *ngFor="let direction of departuresByDirection">
