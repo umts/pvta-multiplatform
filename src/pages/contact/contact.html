@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Contact</ion-title>
+    <ion-title role="heading">Contact</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -13,7 +13,7 @@
       PVTA
     </ion-card-header>
     <ion-list role="list" aria-labelledby="pvta-heading">
-      <ion-item>
+      <ion-item role="listitem">
         <ion-label role="heading">
           PVTA Customer Service
         </ion-label>
@@ -23,18 +23,18 @@
         <button ion-button outline icon-left item-left
         role="link"
         onclick="window.open('tel:413-781-7882'), '_system'">
-          <ion-icon name="call" aria-label="Call"></ion-icon>
+          <ion-icon aria-hidden="true" name="call"></ion-icon>
           Call
         </button>
       </ion-item>
-      <ion-item>
+      <ion-item role="listitem">
         <ion-label>
           Complaints/Concerns Form
         </ion-label>
         <button ion-button outline icon-left item-left
         role="link"
           onclick="window.open('http://pvta.com/contactComplaints.php', '_blank');">
-          <ion-icon name="md-globe" role="link" aria-label="go to website"></ion-icon>
+          <ion-icon name="md-globe" aria-hidden="true"></ion-icon>
           Visit
         </button>
       </ion-item>
@@ -42,11 +42,11 @@
   </ion-card>
 
   <ion-card>
-    <ion-card-header id="lost-n-found-heading">
+    <ion-card-header role="heading" id="lost-n-found-heading">
       Lost & Found / Regional Garages
     </ion-card-header>
-    <ion-list aria-labelledby="lost-n-found-heading">
-      <ion-item>
+    <ion-list role="list" aria-labelledby="lost-n-found-heading">
+      <ion-item role="listitem">
         <ion-label>
           Springfield Area
         </ion-label>
@@ -56,11 +56,11 @@
         <button ion-button outline icon-left item-left
         role="link"
         onclick="window.open('tel:413-788-8630'), '_system'">
-          <ion-icon name="call" aria-label="Call"></ion-icon>
+          <ion-icon name="call" aria-hidden="true"></ion-icon>
           Call
         </button>
       </ion-item>
-      <ion-item>
+      <ion-item role="listitem">
         <ion-label>
           Holyoke Transportation Center
         </ion-label>
@@ -70,11 +70,11 @@
         <button ion-button outline icon-left item-left
         role="link"
         onclick="window.open('tel:413-536-0694'), '_system'">
-          <ion-icon name="call" aria-label="Call"></ion-icon>
+          <ion-icon name="call" aria-hidden="true"></ion-icon>
           Call
         </button>
       </ion-item>
-      <ion-item>
+      <ion-item role="listitem">
         <ion-label>
           Northampton Area
         </ion-label>
@@ -84,11 +84,11 @@
         <button ion-button outline icon-left item-left
         role="link"
         onclick="window.open('tel:413-586-3548'), '_system'">
-          <ion-icon name="call" aria-label="Call"></ion-icon>
+          <ion-icon name="call" aria-hidden="true"></ion-icon>
           Call
         </button>
       </ion-item>
-      <ion-item>
+      <ion-item role="listitem">
         <ion-label>
           UMass Area
         </ion-label>
@@ -98,49 +98,49 @@
         <button ion-button outline icon-left item-left
         role="link"
         onclick="window.open('tel:413-545-0056'), '_system'">
-          <ion-icon name="call" aria-label="Call"></ion-icon>
+          <ion-icon name="call" aria-hidden="true"></ion-icon>
           Call
         </button>
       </ion-item>
     </ion-list>
   </ion-card>
   <ion-card>
-    <ion-card-header id="social-heading">
+    <ion-card-header role="heading" id="social-heading">
       Social Media
     </ion-card-header>
-    <ion-list aria-labelledby="social-heading">
-      <ion-item>
+    <ion-list role="list" aria-labelledby="social-heading">
+      <ion-item role="listitem">
         <button ion-button outline icon-left item-left
         role="link"
         onclick="window.open('https://www.facebook.com/Pioneer-Valley-Transit-Authority-169604739716541'), '_system'">
-          <ion-icon name="logo-facebook" aria-label="Go to Facebook"></ion-icon>
+          <ion-icon name="logo-facebook" aria-hidden="true"></ion-icon>
           Visit
         </button>
         PVTA Facebook
       </ion-item>
-      <ion-item>
+      <ion-item role="listitem">
         <button ion-button outline icon-left item-left
         role="link"
         onclick="window.open('https://twitter.com/pvta'), '_system'">
-          <ion-icon name="logo-twitter" aria-label="Go to Twitter"></ion-icon>
+          <ion-icon name="logo-twitter" aria-hidden="true"></ion-icon>
           Visit
         </button>
         PVTA Twitter
       </ion-item>
-      <ion-item>
+      <ion-item role="listitem">
         <button ion-button outline icon-left item-left
         role="link"
         onclick="window.open('https://www.facebook.com/UMassTransit'), '_system'">
-          <ion-icon name="logo-facebook" aria-label="Go to Facebook"></ion-icon>
+          <ion-icon name="logo-facebook" aria-hidden="true"></ion-icon>
           Visit
         </button>
         UMass Transit Facebook
       </ion-item>
-      <ion-item>
+      <ion-item role="listitem">
         <button ion-button outline icon-left item-left
         role="link"
         onclick="window.open('https://twitter.com/umasstransit'), '_system'">
-          <ion-icon name="logo-twitter" aria-label="Go to Twitter"></ion-icon>
+          <ion-icon name="logo-twitter" aria-hidden="true"></ion-icon>
           Visit
         </button>
         UMass Transit Twitter
@@ -149,11 +149,11 @@
   </ion-card>
 
   <ion-card>
-    <ion-card-header id="paratransit-heading">
+    <ion-card-header role="heading" id="paratransit-heading">
       Paratransit
     </ion-card-header>
-    <ion-list aria-labelledby="paratransit-heading">
-      <ion-item>
+    <ion-list role="list" aria-labelledby="paratransit-heading">
+      <ion-item role="listitem">
         <ion-label>
           PVTA Paratransit Van Requests
         </ion-label>
@@ -163,7 +163,7 @@
         <button ion-button outline icon-left item-left
         role="link"
         onclick="window.open('tel:413-732-6248'), '_system'">
-          <ion-icon name="call" aria-label="Call"></ion-icon>
+          <ion-icon name="call" aria-hidden="true"></ion-icon>
           Call
         </button>
       </ion-item>

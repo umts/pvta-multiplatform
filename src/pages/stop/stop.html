@@ -3,12 +3,14 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{title}}</ion-title>
+    <ion-title role="heading">{{title}}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="goToStopMapPage()">
+      <button aria-hidden="true" ion-button icon-only (click)="goToStopMapPage()">
         <ion-icon name="compass"></ion-icon>
       </button>
-      <button ion-button icon-only item-right clear (click)="liked = !liked; toggleStopHeart();">
+      <button ion-button icon-only item-right clear
+      (click)="liked = !liked; toggleStopHeart();"
+      attr.aria-label="{{liked ? 'Unlike stop' : 'Like stop'}}">
         <ion-icon name="{{liked ? 'ios-heart' : 'ios-heart-outline'}}"></ion-icon>
       </button>
     </ion-buttons>
@@ -24,8 +26,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content text-wrap>
-  <ion-list no-lines>
+<ion-content text-wrap aria-label="This page auto refreshes content. To stop this, navigate to Settings and change the Auto refresh timing to off">
+  <ion-list aria-label="upcoming departures at this stop" role="list" no-lines>
     <div *ngIf="order == '0'">
       <div *ngFor="let direction of departuresByDirection">
         <div ion-item (click)="toggleRouteDropdown(direction)" [style.background-color]="'#'+routeList[direction.RouteId]?.Color" [style.color]="'white'">

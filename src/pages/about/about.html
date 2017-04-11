@@ -1,10 +1,9 @@
-<!-- "Page 2" - aka detail page - template -->
 <ion-header>
   <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>About</ion-title>
+    <ion-title role="heading">About</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -16,29 +15,36 @@
       </div>
       <div ion-item>
         Made with
-        <ion-icon name="ionic" aria-label="ionic"
-        onclick="window.open('https://ionicframework.com', '_blank');">
-        </ion-icon>,
-        <ion-icon name="logo-angular" aria-label="angular"
-        onclick="window.open('https://angular.io', '_blank');">
-        </ion-icon>,
+        <a role="link">
+          <ion-icon name="ionic"
+          onclick="window.open('https://ionicframework.com', '_blank');">
+          </ion-icon>
+        </a>,
+        <a role="link">
+          <ion-icon name="logo-angular"
+          onclick="window.open('https://angular.io', '_blank');">
+          </ion-icon>
+        </a>,
         and
-        <ion-icon name="heart" aria-label="love"
-        onclick="window.open('https://en.wikipedia.org/wiki/Compassion', '_blank');">
-        </ion-icon>
+        <a role="link">
+          <ion-icon name="heart"
+          onclick="window.open('https://en.wikipedia.org/wiki/Compassion', '_blank');">
+          </ion-icon>
+        </a>,
         by UMass Transit's student developers in Amherst, MA
       </div>
-      <button ion-item
+      <button ion-item role="link"
       onclick="window.open('https://github.com/umts/pvta-multiplatform', '_system');">
-        <ion-icon name="logo-github" aria-label="github icon"></ion-icon>
+        <ion-icon name="logo-github" aria-hidden="true"></ion-icon>
         Contribute to PVTrAck
       </button>
-      <button ion-item onclick="window.open('mailto:programmers@admin.umass.edu', '_system');">
-        <ion-icon name="bug" aria-label="email icon"></ion-icon>
+      <button ion-item role="link"
+      onclick="window.open('mailto:programmers@admin.umass.edu', '_system');">
+        <ion-icon name="bug" aria-hidden="true"></ion-icon>
         Find a bug? Let us know!
       </button>
       <button ion-item (click)="goToPrivacyPolicyPage()">
-        <ion-icon name="lock" aria-label="lock icon"></ion-icon>
+        <ion-icon name="lock" aria-hidden="true"></ion-icon>
         View our Privacy Policy
       </button>
     </ion-list>
