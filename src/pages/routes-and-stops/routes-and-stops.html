@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Routes and Stops</ion-title>
+    <ion-title role="heading">Routes and Stops</ion-title>
   </ion-navbar>
   <ion-segment [(ngModel)]="cDisplay" (ionChange)="toggleOrdering()">
     <ion-segment-button value="routes">
@@ -30,29 +30,29 @@
 </ion-header>
 <ion-content padding>
   <div [ngSwitch]="cDisplay">
-    <ion-list text-wrap *ngSwitchCase="'routes'">
+    <ion-list role="list" aria-label="all routes" text-wrap *ngSwitchCase="'routes'">
       <div ion-item *ngFor="let route of routesDisp"
         (click)="goToRoutePage(route.RouteId)">
-        <ion-icon name="bus" style="margin-right: 10px"></ion-icon>
-        <span [style.color]="'#' + route.Color" style="font-size: 125%; font-weight: bold; margin-left: 10px">
+        <ion-icon aria-hidden="true" name="bus" style="margin-right: 10px"></ion-icon>
+        <span role="heading" [style.color]="'#' + route.Color" style="font-size: 125%; font-weight: bold; margin-left: 10px">
           {{route.RouteAbbreviation}}
         </span>
           <p>{{route.GoogleDescription}}</p>
-          <button ion-button icon-only item-right clear (click)="route.Liked = !route.Liked; toggleRouteHeart(route); $event.stopPropagation()">
+          <button ion-button icon-only item-right clear (click)="route.Liked = !route.Liked; toggleRouteHeart(route); $event.stopPropagation()" attr.aria-label="{{route.Liked ? 'Unlike this route' : 'Like this route'}}">
             <ion-icon name="{{route.Liked ? 'ios-heart' : 'ios-heart-outline'}}"></ion-icon>
           </button>
       </div>
     </ion-list>
 
-    <ion-list text-wrap *ngSwitchCase="'stops'">
-      <button ion-item *ngFor="let stop of stopsDisp | paginate: { itemsPerPage: 40, currentPage: p }"
+    <ion-list role="list" aria-label="stops" text-wrap *ngSwitchCase="'stops'">
+      <div ion-item *ngFor="let stop of stopsDisp | paginate: { itemsPerPage: 40, currentPage: p }"
         (click)="goToStopPage(stop.StopId)">
-        <ion-icon name="pin" style="margin-right: 10px"></ion-icon>
-        <span>{{stop.Description}} ({{stop.StopId}})</span>
-        <button ion-button icon-only item-right clear (click)="stop.Liked = !stop.Liked; toggleStopHeart(stop); $event.stopPropagation()">
+        <ion-icon aria-hidden="true" name="pin" style="margin-right: 10px"></ion-icon>
+        <span role="heading">{{stop.Description}} ({{stop.StopId}})</span>
+        <button ion-button icon-only item-right clear (click)="stop.Liked = !stop.Liked; toggleStopHeart(stop); $event.stopPropagation()" attr.aria-label="{{stop.Liked ? 'Unlike this stop' : 'Like this stop'}}">
           <ion-icon name="{{stop.Liked ? 'ios-heart' : 'ios-heart-outline'}}"></ion-icon>
         </button>
-      </button>
+      </div>
       <pagination-controls center class="pages" (pageChange)="p = $event"></pagination-controls>
     </ion-list>
   </div>

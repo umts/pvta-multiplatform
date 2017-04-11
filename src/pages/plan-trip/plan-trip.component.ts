@@ -301,8 +301,8 @@ export class PlanTripComponent {
     }
     // Google won't return trips for times past.
     // Instead of throwing an error, assume the user wants
-    // directions for right now.
-    if (!this.timeOptions[this.request.time.option].isASAP && this.request.time.datetime < Date.now()) {
+    // directions for right now
+    if (!this.timeOptions[this.request.time.option].isASAP && moment(this.request.time.datetime).isBefore(moment())) {
       this.request.time.option = this.timeOptions[0].id;
       this.presentAlert('Invalid Trip Date',
       'Trips in the past are not supported. Defaulting to buses leaving now.');
@@ -364,6 +364,7 @@ export class PlanTripComponent {
       } else  {
         console.log(status);
         this.presentAlert('Unable to Find Trip', `There are no scheduled buses for your trip. Error: ${status}`);
+        this.loader.dismiss();
         ga('send', 'event', 'TripStepsRetrievalFailure',
         'PlanTripComponent.getRoute()', `Unable to get a route; error: ${status}`);
 
