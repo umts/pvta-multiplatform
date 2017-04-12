@@ -1,7 +1,7 @@
 {
 	"name": "PVTA",
   "short_name": "PVTA",
-  "start_url": "/",
+  "start_url": "/index.html",
   "theme_color": "#2196F3",
   "background_color": "#1976D2",
 	"display": "standalone",
