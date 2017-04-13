@@ -48,6 +48,9 @@ export class MyApp {
       let isIE: boolean = navigator.userAgent.indexOf('Trident', 0) !== -1;
       this.infoSvc.setInternetExplorer(isIE);
       this.showNativeStoreAd = this.platform.is('mobileweb') || this.platform.is('core');
+      if (this.showNativeStoreAd) {
+        window.addEventListener('beforeinstallprompt', this.onInstallPromptShown);
+      }
       Splashscreen.hide();
       // Must use document for pause/resume, and window for on/offline.
       // Great question.
@@ -74,6 +77,18 @@ export class MyApp {
   onDeviceOnline = () => {
     console.log('App: online');
     this.connectivityService.setConnectionStatus(true);
+  }
+  onInstallPromptShown = (e: any) => {
+    // beforeinstallprompt Event fired
+    // e.userChoice will return a Promise.
+    e.userChoice.then(choiceResult => {
+      console.log(choiceResult.outcome);
+      if(choiceResult.outcome == 'dismissed') {
+        console.log('User cancelled home screen install');
+      } else {
+        console.log('User added to home screen');
+      }
+    });
   }
 
   openPage(page) {
