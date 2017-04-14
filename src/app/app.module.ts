@@ -76,7 +76,8 @@ import { AutoRefreshService } from '../providers/auto-refresh.service';
         {component: StopMapComponent, name: 'Stop Map', segment: 'stop/:stopId/map', defaultHistory: [MyBusesComponent]},
       ]
     }),
-    IonicStorageModule.forRoot(),
+    // For backwards compatibility with V1 users' storage!
+    IonicStorageModule.forRoot({name: 'localforage', storeName: 'keyvaluepairs'}),
     HttpModule,
     Ng2PaginationModule
   ],
