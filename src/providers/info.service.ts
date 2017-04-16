@@ -14,7 +14,7 @@ export class InfoService {
   }
 
   getVersionName(): string {
-    return 'UI Overhaul Beta 3';
+    return 'PVTrAck Overhaul Initial Release';
   }
 
   setInternetExplorer(isIE: boolean): void {
