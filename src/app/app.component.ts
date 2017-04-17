@@ -82,12 +82,8 @@ export class MyApp {
     // beforeinstallprompt Event fired
     // e.userChoice will return a Promise.
     e.userChoice.then(choiceResult => {
-      console.log(choiceResult.outcome);
-      if(choiceResult.outcome == 'dismissed') {
-        console.log('User cancelled home screen install');
-      } else {
-        console.log('User added to home screen');
-      }
+      ga('send', 'event', 'Native App Install Banner Interaction',
+      'AppComponent.initializeApp()', choiceResult.outcome);
     });
   }
 
