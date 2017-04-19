@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform} from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
-
+import localforage from "localforage";
+import { Storage } from '@ionic/storage';
 import { MyBusesComponent } from '../pages/my-buses/my-buses.component';
 import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
 import { RoutesAndStopsComponent } from '../pages/routes-and-stops/routes-and-stops.component';
@@ -23,7 +24,7 @@ export class MyApp {
   showNativeStoreAd = false;
 
   constructor(public platform: Platform, private infoSvc: InfoService,
-  private connectivityService: ConnectivityService) {
+  private connectivityService: ConnectivityService, private storage: Storage) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -56,7 +57,33 @@ export class MyApp {
       window.addEventListener('offline', this.onDeviceOffline, false);
       window.addEventListener('online', this.onDeviceOnline, false);
     });
+    //if (this.showNativeStoreAd) {
+      this.getOldFavorites();
+    //}
   }
+
+  getOldFavorites(): void {
+    // The same code, but using ES6 Promises.
+    this.storage.ready().then(() => {
+      console.log(this.storage.driver);
+      if (this.storage.driver === 'sqlite' || this.storage.driver === 'cordovaSQLiteDriver') {
+        localforage.iterate((value, key, iterationNumber) => {
+          // Resulting key/value pair -- this callback
+          // will be executed for every item in the
+          // database.
+          console.log([key, value]);
+          this.storage.set(key, value);
+        }).then(() =>{
+          console.log('Iteration has completed');
+          localforage.clear();
+        }).catch((err) => {
+          // This code runs if there were any errors
+          console.log(err);
+        });
+      }
+    });
+  }
+
   onAppPause = () => {
     console.log('App: pause');
     window.removeEventListener('offline', this.onDeviceOffline);
