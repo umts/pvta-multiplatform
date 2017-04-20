@@ -1,10 +1,17 @@
 {
-  "name": "PVTrAck - The Official App of the Pioneer Valley Transit Authority",
+  "name": "PVTrAck",
   "short_name": "PVTrAck",
   "theme_color": "#2196F3",
   "start_url": "index.html",
   "background_color": "#1976D2",
   "display": "standalone",
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "com.umts.pvtamultiplaform"
+    }
+  ],
   "icons": [
     {
       "src": "assets/icon/android-chrome-512x512.png",
