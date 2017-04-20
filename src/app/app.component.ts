@@ -20,7 +20,7 @@ export class MyApp {
   rootPage: any = MyBusesComponent;
   offlineToast;
   pages: Array<{title: string, component: any}>;
-  showNativeStoreAd = false;
+  runningInBrowser = false;
 
   constructor(public platform: Platform, private infoSvc: InfoService,
   private connectivityService: ConnectivityService) {
@@ -47,7 +47,11 @@ export class MyApp {
       }
       let isIE: boolean = navigator.userAgent.indexOf('Trident', 0) !== -1;
       this.infoSvc.setInternetExplorer(isIE);
-      this.showNativeStoreAd = this.platform.is('mobileweb') || this.platform.is('core');
+      this.runningInBrowser = this.platform.is('mobileweb') || this.platform.is('core');
+      // Listen for the app install banner interactions
+      if (this.runningInBrowser) {
+        window.addEventListener('beforeinstallprompt', this.onInstallPromptShown);
+      }
       Splashscreen.hide();
       // Must use document for pause/resume, and window for on/offline.
       // Great question.
@@ -74,6 +78,14 @@ export class MyApp {
   onDeviceOnline = () => {
     console.log('App: online');
     this.connectivityService.setConnectionStatus(true);
+  }
+  onInstallPromptShown = (e: any) => {
+    // beforeinstallprompt Event fired
+    // e.userChoice will return a Promise.
+    e.userChoice.then(choiceResult => {
+      ga('send', 'event', 'Native App Install Banner Interaction',
+      'AppComponent.initializeApp()', choiceResult.outcome);
+    });
   }
 
   openPage(page) {
