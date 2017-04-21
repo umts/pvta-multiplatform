@@ -63,13 +63,13 @@ export class MyApp {
     performMigrations(this.runningInBrowser);
   }
 
-
-
   onAppPause = () => {
+    // Don't keep listening for network events when we're not active
     console.log('App: pause');
     window.removeEventListener('offline', this.onDeviceOffline);
     window.removeEventListener('online', this.onDeviceOnline);
   }
+
   onAppResume = () => {
     console.log('App: resume');
     window.addEventListener('offline', this.onDeviceOffline, false);
@@ -84,7 +84,7 @@ export class MyApp {
     this.connectivityService.setConnectionStatus(true);
   }
   onInstallPromptShown = (e: any) => {
-    // beforeinstallprompt Event fired
+    // beforeinstallprompt event fired
     // e.userChoice will return a Promise.
     e.userChoice.then(choiceResult => {
       ga('send', 'event', 'Native App Install Banner Interaction',

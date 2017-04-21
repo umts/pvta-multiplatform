@@ -36,24 +36,32 @@ export function performMigrations(runningInBrowser: boolean) {
     })
   });
 }
+/*
+ * The database migration for db version 0
+ */
 function getOldFavorites(runningInBrowser: boolean): void {
+  // Only do this specific migration if we're a native app.
   if (!runningInBrowser) {
     this.storage.ready().then(() => {
       console.log(this.storage.driver);
+      // Only do this migration if this device is capable of using
+      // native SQLite storage
+      // (ionic falls back to localforage if not, in which case we're done)
       if (this.storage.driver === 'sqlite'
       || this.storage.driver === 'cordovaSQLiteDriver') {
+        // Move each thing from PVTrAck 1.x's storage to 2.0's.
+        console.log('Copying PVTrAck 1.x\'s storage');
         localforage.iterate((value, key, iterationNumber) => {
-          // Resulting key/value pair -- this callback
-          // will be executed for every item in the
-          // database.
           console.log([key, value]);
           this.storage.set(key, value);
         }).then(() =>{
-          console.log('Iteration has completed');
+          // In success, we no longer need 1.x's storage.
+          console.log('PVTrAck 1.x storage copy completed');
           localforage.clear();
+          // ALWAYS update the user's current DB version after running
+          // a migration.
           this.storage.set('previousVersion', currentVersion);
         }).catch((err) => {
-          // This code runs if there were any errors
           console.log(err);
         });
       }
