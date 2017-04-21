@@ -62,8 +62,6 @@ export class MyApp {
       window.addEventListener('online', this.onDeviceOnline, false);
     });
     performMigrations(this.runningInBrowser);
-    // if (!this.runningInBrowser) {
-    // }
   }
 
 
