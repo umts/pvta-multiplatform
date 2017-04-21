@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform} from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
-import { Storage } from '@ionic/storage';
 import { MyBusesComponent } from '../pages/my-buses/my-buses.component';
 import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
 import { RoutesAndStopsComponent } from '../pages/routes-and-stops/routes-and-stops.component';
@@ -24,7 +23,7 @@ export class MyApp {
   runningInBrowser = false;
 
   constructor(public platform: Platform, private infoSvc: InfoService,
-  private connectivityService: ConnectivityService, private storage: Storage) {
+  private connectivityService: ConnectivityService) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
