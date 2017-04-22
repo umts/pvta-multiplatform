@@ -24,7 +24,6 @@ export class MyApp {
 
   constructor(public platform: Platform, private infoSvc: InfoService,
   private connectivityService: ConnectivityService) {
-
     this.initializeApp();
 
     // used for an example of ngFor and navigation
