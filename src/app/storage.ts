@@ -26,7 +26,7 @@ export function performMigrations(runningInBrowser: boolean) {
         // New users will never enter the loop.
         for (let version = previousVersion; version < currentVersion; version++) {
           // Perform each schema update here
-          if (version === 0) {
+          if (version === 1) {
             // The first database version for PVTrAck 2.0+.
             // This migration runs only when a user is coming from PVTrAck 1.x.
             getOldFavorites(runningInBrowser);
