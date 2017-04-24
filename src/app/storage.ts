@@ -2,7 +2,7 @@ import { Storage } from '@ionic/storage';
 import localforage from 'localforage';
 
 // INCREMENT THIS whenever you alter the database
-let currentVersion = 0;
+let currentVersion = 1;
 
 export function performMigrations(runningInBrowser: boolean) {
   this.storage.ready().then(() => {
@@ -24,7 +24,7 @@ export function performMigrations(runningInBrowser: boolean) {
         // For every database change added to the app since the user
         // was last here, make those changes to their device's storage.
         // New users will never enter the loop.
-        for (let version = previousVersion; version <= currentVersion; version++) {
+        for (let version = previousVersion; version < currentVersion; version++) {
           // Perform each schema update here
           if (version === 0) {
             // The first database version for PVTrAck 2.0+.
@@ -32,6 +32,9 @@ export function performMigrations(runningInBrowser: boolean) {
             getOldFavorites(runningInBrowser);
           }
         }
+        // Update the user's current DB version after running
+        // the migrations.
+        this.storage.set('previousVersion', currentVersion);
       });
     })
   });
@@ -58,9 +61,6 @@ function getOldFavorites(runningInBrowser: boolean): void {
           // In success, we no longer need 1.x's storage.
           console.log('PVTrAck 1.x storage copy completed');
           localforage.clear();
-          // ALWAYS update the user's current DB version after running
-          // a migration.
-          this.storage.set('previousVersion', currentVersion);
         }).catch((err) => {
           console.log(err);
         });
