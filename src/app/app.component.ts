@@ -8,6 +8,7 @@ import { SettingsComponent } from '../pages/settings/settings.component';
 import { ConnectivityService } from '../providers/connectivity.service';
 import { InfoService } from '../providers/info.service';
 import { performMigrations} from './storage';
+import { Storage } from '@ionic/storage';
 
 declare var ga;
 
@@ -23,7 +24,7 @@ export class MyApp {
   runningInBrowser = false;
 
   constructor(public platform: Platform, private infoSvc: InfoService,
-  private connectivityService: ConnectivityService) {
+  private connectivityService: ConnectivityService, private storage: Storage) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -60,7 +61,7 @@ export class MyApp {
       window.addEventListener('offline', this.onDeviceOffline, false);
       window.addEventListener('online', this.onDeviceOnline, false);
     });
-    performMigrations(this.runningInBrowser);
+    performMigrations(this.runningInBrowser, this.storage);
   }
 
   onAppPause = () => {
