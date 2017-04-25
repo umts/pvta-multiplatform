@@ -150,6 +150,9 @@ export class PlanTripComponent {
         this.request.time.datetime.setDate(new Date().getDate());
         this.request.time.datetime.setMonth(new Date().getMonth());
       }
+      if (typeof(this.request.time.option) !== 'number') {
+        this.request.time.option = this.request.time.option.id;
+      }
       // If the request has destinationOnly -> true, the user originally used
       // Location Services to plan their trip. We assume they again want to
       // use their current location as the trip's origin.

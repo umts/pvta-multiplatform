@@ -6,19 +6,27 @@ import * as _ from 'lodash';
 export class FavoriteTripService {
 
   constructor(private storage: Storage) { }
+  getSavedTrips(): Promise<any> {
+    return this.storage.ready().then(() => {
+      return this.storage.get('savedTrips').then(savedTrips => {
+        return JSON.parse(savedTrips);
+      });
+    });
+  }
 
   saveTrip(params: any): void {
     this.storage.ready().then(() => {
-      this.storage.get('savedTrips').then((savedTrips: any[]) => {
-        console.log('saved trips before', savedTrips);
-        if (savedTrips) {
+      this.storage.get('savedTrips').then((loadedTrips: string) => {
+        if (loadedTrips) {
+          let savedTrips: any[] = JSON.parse(loadedTrips);
+          console.log('saved trips before', savedTrips);
           savedTrips.push(params);
           console.log('trip existed, now is', savedTrips);
-          this.storage.set('savedTrips', savedTrips);
+          this.storage.set('savedTrips', JSON.stringify(savedTrips));
         } else {
           let savedTrips = [params];
           console.log('trip didnt exist, now is', savedTrips);
-          this.storage.set('savedTrips', savedTrips);
+          this.storage.set('savedTrips', JSON.stringify(savedTrips));
         }
       });
     });
@@ -26,10 +34,11 @@ export class FavoriteTripService {
   deleteTrip(params: any): void {
     console.log('delete trip', params);
     this.storage.ready().then(() => {
-      this.storage.get('savedTrips').then((savedTrips: any[]) => {
-        if (savedTrips) {
+      this.storage.get('savedTrips').then((loadedTrips: string) => {
+        if (loadedTrips) {
+          let savedTrips = JSON.parse(loadedTrips);
           _.remove(savedTrips, {name: params.name});
-          this.storage.set('savedTrips', savedTrips);
+          this.storage.set('savedTrips', JSON.stringify(savedTrips));
         }
       });
     });

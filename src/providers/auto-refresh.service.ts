@@ -17,7 +17,7 @@ export class AutoRefreshService {
     }
   }
   isAutoRefreshEnabled(autoRefresh: any): boolean {
-    if (autoRefresh > 0) {
+    if (autoRefresh > -1) {
       console.log('autorefresh is enabled');
       return true;
     } else {

@@ -21,7 +21,7 @@ export function performMigrations(runningInBrowser: boolean, storageInstance: St
       localforage.getItem('returningUser').then(returningUser => {
         // This would indicate that a user from 1.x is using 2.x
         // for the first time.
-        console.log(`Coming from 1.x? ${returningUser}`);
+        console.log(`Coming from 1.x? ${returningUser ? true : false}`);
         if (returningUser) {
           // Run all the migrations!
           previousVersion = 0;
@@ -30,7 +30,7 @@ export function performMigrations(runningInBrowser: boolean, storageInstance: St
         // was last here, make those changes to their device's storage.
         // New users will never enter the loop.
         for (let version = previousVersion; version < currentVersion; version++) {
-          console.log(`Looping through migrations, at ${version}`)
+          console.log(`Looping through migrations, at ${version}`);
           // Perform each schema update here
           if (version === 0) {
             // The first database version for PVTrAck 2.0+.
@@ -52,6 +52,9 @@ export function performMigrations(runningInBrowser: boolean, storageInstance: St
 function getOldFavorites(runningInBrowser: boolean): void {
   // Only do this specific migration if we're a native app.
   console.log('PVTrAck database migration 1');
+  // Regardless of device type, we're no longer worried about
+  // whether the user is coming from 1.x
+  localforage.removeItem('returningUser');
   if (!runningInBrowser) {
     storage.ready().then(() => {
       console.log(`Running on native device with driver ${storage.driver}`);
