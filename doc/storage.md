@@ -28,9 +28,62 @@ page for all the details.
 
 The schema consists of JSON objects, each with a key and a value.
 
-favoriteRoutes
+`favoriteRoutes`
 
-favoriteStops
+A JSON array containing the user's 'favorite' routes.
+
+Each property comes from Avail.
+A basic schema is as follows:
+```javascript
+[
+  {
+    RouteId: Integer,
+    GoogleDescription: String,
+    ShortName: String,
+    RouteAbbreviation: String,
+    Color: String
+  }
+]
+```
+An example (this could be a full example or truncated, depending on how many favorites the user has), is as follows:
+```javascript
+[
+  {
+    RouteId: 20030,
+    GoogleDescription: "North Amherst / Old Belchertown Rd",
+    ShortName: "30",
+    RouteAbbreviation: "30",
+    Color:"C7A020"
+  }
+]
+```
+`favoriteStops`
+
+A JSON array containing the user's 'favorite' stops.
+
+Each property comes from Avail.
+A basic schema is as follows:
+```javascript
+[
+  {
+    StopId: Integer,
+    Description: String
+  }
+]
+```
+An example (this could be a full example or truncated, depending on how many favorites the user has), is as follows:
+```javascript
+[
+  {
+    StopId: 50,
+    Description: "Computer Science"
+  },
+  {
+    StopId: 8001,
+    Description: "UMass Bus Garage"
+  }
+]
+```
 
 `returningUser`
 A boolean.
@@ -41,7 +94,49 @@ A boolean. Can be safely ignored.
 schema-11-7-2016_longname_and_stopname_cutoff_fix
 A boolean. Can be safely ignored.
 
-routes
+`routes`
+
+An object that contains the list of routes.
+```javascript
+{
+  list: Array,
+  time: String "A MomentJS parsable date string, i.e. 2017-04-25T18:32:36.900Z"
+}
+```
+
+The `list` property can take many forms. All properties of a route from the list come from Avail.
+The basic schema is as follows.
+```javascript
+[
+  {
+    RouteAbbreviation: String,
+    GoogleDescription: String,
+    ShortName: String,
+    Color: String,
+    RouteId: Integer
+  }
+]
+```
+An example, highly truncated version, is as follows:
+
+```javascript
+[
+  {
+    RouteAbbreviation: "30",
+    GoogleDescription: "North Amherst / Old Belchertown Rd",
+    ShortName: "30",
+    Color: "C7A020",
+    RouteId: 20030
+  },
+  {
+    RouteAbbreviation: "31",
+    GoogleDescription: "Sunderland / South Amherst",
+    ShortName: "31",
+    Color: "EF4E91",
+    RouteId: 20031
+  }
+]
+```
 
 `stops`
 An object that contains the list of stops.
@@ -69,15 +164,6 @@ An example, highly truncated version, is as follows:
 
 ```javascript
 [
-  {
-    StopId: 56,
-    Name: "Arnold House",
-    Liked: false,
-    Description: "Arnold House",
-    Latitude: 42.393825,
-    Longitude: -72.526103,
-    Distance: 0.007225709615654458
-  },
   {
     StopId: 58,
     Name: "GRC",
