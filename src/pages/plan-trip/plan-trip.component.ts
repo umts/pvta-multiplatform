@@ -150,6 +150,9 @@ export class PlanTripComponent {
         this.request.time.datetime.setDate(new Date().getDate());
         this.request.time.datetime.setMonth(new Date().getMonth());
       }
+      // A planned trip from 1.x saves the entire Option object,
+      // so if we see this, just change it be the id it already contains
+      // so that we can use the timeOptions from above.
       if (typeof(this.request.time.option) !== 'number') {
         this.request.time.option = this.request.time.option.id;
       }
