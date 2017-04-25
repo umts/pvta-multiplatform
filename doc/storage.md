@@ -28,7 +28,9 @@ page for all the details.
 
 The schema consists of JSON objects, each with a key and a value.
 
-`favoriteRoutes`
+
+
+### `favoriteRoutes`
 
 A JSON array containing the user's 'favorite' routes.
 
@@ -57,7 +59,10 @@ An example (this could be a full example or truncated, depending on how many fav
   }
 ]
 ```
-`favoriteStops`
+
+
+
+### `favoriteStops`
 
 A JSON array containing the user's 'favorite' stops.
 
@@ -85,16 +90,24 @@ An example (this could be a full example or truncated, depending on how many fav
 ]
 ```
 
-`returningUser`
+
+
+### `returningUser`
 A boolean.
 
-`plan-trip-update`
+
+
+### `plan-trip-update`
 A boolean. Can be safely ignored.
 
-schema-11-7-2016_longname_and_stopname_cutoff_fix
+
+
+### `schema-11-7-2016_longname_and_stopname_cutoff_fix`
 A boolean. Can be safely ignored.
 
-`routes`
+
+
+### `routes`
 
 An object that contains the list of routes.
 ```javascript
@@ -138,7 +151,9 @@ An example, highly truncated version, is as follows:
 ]
 ```
 
-`stops`
+
+
+### `stops`
 An object that contains the list of stops.
 ```javascript
 {
@@ -185,7 +200,9 @@ An example, highly truncated version, is as follows:
 ]
 ```
 
-`savedTrips`
+
+
+### `savedTrips`
 A **stringified** JSON array.
 There are an innumerable number of possible values.
 ```json
@@ -215,13 +232,16 @@ There are an innumerable number of possible values.
 ```
 
 
-`autoRefresh`
+
+### `autoRefresh`
 An integer value.
 
 Possible options are `-1, 15000, 30000, 45000, or 60000`
 Values `> 0` indicate a number of seconds, `-1` means "autoRefresh off."
 
-`stopDepartureOrdering`
+
+
+### `stopDepartureOrdering`
 A string value.
 
 Possible options are `0, 1`.  `0` means the user wants stop departures sorted by `RouteDirection`, `1` means the user wants stop departures sorted by time.
