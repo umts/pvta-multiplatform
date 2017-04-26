@@ -178,7 +178,7 @@ export class PlanTripComponent {
     }
   }
 
-  merf = (loadedTrip) => {
+  mapsLoadedCallback = (loadedTrip) => {
     let swBound = new google.maps.LatLng(41.93335, -72.85809);
     let neBound = new google.maps.LatLng(42.51138, -72.20302);
     this.bounds = new google.maps.LatLngBounds(swBound, neBound);
@@ -191,9 +191,9 @@ export class PlanTripComponent {
     // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
     let loadedTrip = this.navParams.get('loadedTrip');
     if(typeof google == "undefined" || typeof google.maps == "undefined"){
-      this.mapSvc.downloadGoogleMaps(this.merf);
+      this.mapSvc.downloadGoogleMaps(this.mapsLoadedCallback);
     } else {
-      this.merf(loadedTrip);
+      this.mapsLoadedCallback(loadedTrip);
     }
 
 
