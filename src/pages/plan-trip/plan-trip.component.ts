@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation } from 'ionic-native';
 import { NavController, ToastController, LoadingController, AlertController, NavParams } from 'ionic-angular';
 import { StopService } from '../../providers/stop.service';
+import { MapService } from '../../providers/map.service';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
 import { InfoService } from '../../providers/info.service';
 import { StopComponent } from '../stop/stop.component';
@@ -15,11 +16,7 @@ declare var google, ga;
 export class PlanTripComponent {
   @ViewChild('directionsMap') mapElement: ElementRef;
   @ViewChild('routeScrollArea') routeElement: ElementRef;
-  // defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
-  // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
-   swBound = new google.maps.LatLng(41.93335, -72.85809);
-   neBound = new google.maps.LatLng(42.51138, -72.20302);
-   bounds = new google.maps.LatLngBounds(this.swBound, this.neBound);
+    bounds;
    request;
 
    originPlace;
@@ -40,7 +37,7 @@ export class PlanTripComponent {
   constructor(public navCtrl: NavController, private stopService: StopService,
   private toastCtrl: ToastController, private loadingCtrl: LoadingController,
   private alertCtrl: AlertController, private tripService: FavoriteTripService,
-  private navParams: NavParams, private infoSvc: InfoService) {
+  private navParams: NavParams, private infoSvc: InfoService, private mapSvc: MapService) {
     /* List of the different types of times that we can request trips.
      * Each type has a name (for the UI) and a few properties for us:
      * type: whether the user wants a "departure" or "arrival"
@@ -181,12 +178,26 @@ export class PlanTripComponent {
     }
   }
 
+  merf = (loadedTrip) => {
+    let swBound = new google.maps.LatLng(41.93335, -72.85809);
+    let neBound = new google.maps.LatLng(42.51138, -72.20302);
+    this.bounds = new google.maps.LatLngBounds(swBound, neBound);
+   console.log(loadedTrip);
+   this.reload(loadedTrip);
+  }
+
   ionViewWillEnter() {
-    // @TODO Load saved trips
-    // let loadedTrip = null;
+    // defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
+    // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
     let loadedTrip = this.navParams.get('loadedTrip');
-    console.log(loadedTrip);
-    this.reload(loadedTrip);
+    if(typeof google == "undefined" || typeof google.maps == "undefined"){
+      this.mapSvc.downloadGoogleMaps(this.merf);
+    } else {
+      this.merf(loadedTrip);
+    }
+
+
+
   }
 
   constructMap(): void {

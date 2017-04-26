@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title role="heading">{{request?.name}}</ion-title>
+    <ion-title role="heading">{{request ? request?.name : 'Schedule'}}</ion-title>
   </ion-navbar>
 </ion-header>
 

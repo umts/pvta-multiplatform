@@ -8,13 +8,11 @@ declare const ENV, ga;
 
 let head = document.getElementsByTagName('head')[0];
 
-window['bootstrap'] = () => {
+// window['bootstrap'] = () => {
   platformBrowserDynamic().bootstrapModule(AppModule);
-}
+// }
 
-let mapsApi = document.createElement('script');
-mapsApi.src = `https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=${ENV.gmaps_key}&callback=bootstrap`;
-head.appendChild(mapsApi);
+
 
 if (ENV.ga) {
   ga('create', ENV.ga_id, 'auto');
