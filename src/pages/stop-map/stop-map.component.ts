@@ -21,6 +21,7 @@ export class StopMapComponent {
   stop: Stop;
   directionsRequested: boolean = false;
   directionsObtained: boolean = false;
+  directionsService;
   mapHeight: string = '100%';
   loader: any;
 
@@ -32,9 +33,8 @@ export class StopMapComponent {
     ga('set', 'page', '/stop/stop-map.html');
     ga('send', 'pageview');
   }
-  directionsService = new google.maps.DirectionsService();
 
-  ionViewDidEnter() {
+  mapsLoadedCallback = () => {
     let mapOptions = {
       center: new google.maps.LatLng(42.386270, -72.525844), // Haigis Mall
       zoom: 15,
@@ -43,7 +43,7 @@ export class StopMapComponent {
         position: google.maps.ControlPosition.LEFT_CENTER
       }
     };
-    this.presentLoader();
+    this.directionsService = new google.maps.DirectionsService();
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     this.mapSvc.init(this.map);
     // Be ready to display directions if the user requests them.
@@ -57,6 +57,16 @@ export class StopMapComponent {
     }).catch(err => {
       console.error(err);
     });
+  }
+
+  ionViewDidEnter() {
+    this.presentLoader();
+    if(typeof google == "undefined" || typeof google.maps == "undefined"){
+      this.mapSvc.downloadGoogleMaps(this.mapsLoadedCallback);
+    } else {
+      this.mapsLoadedCallback();
+    }
+
   }
 
   ionViewCanEnter(): boolean {
