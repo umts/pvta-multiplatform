@@ -4,6 +4,11 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class FavoriteTripService {
+  
+  /**
+   * NOTE to maintain compatibility with trips saved in 1.x, we always save
+   * trips as stringified versions of their objects and parse them when loading.
+   */
 
   constructor(private storage: Storage) { }
   getSavedTrips(): Promise<any> {
