@@ -1,14 +1,23 @@
 import { Injectable } from '@angular/core';
 declare var google;
-
+declare const ENV;
 @Injectable()
 export class MapService {
   map;
+
   currentLocation;
   options = { timeout: 5000, enableHighAccuracy: true };
   markers = [];
   windows = [];
   constructor() {}
+
+  downloadGoogleMaps(cb: Function) {
+    window['mapsCb'] = cb;
+    let head = document.getElementsByTagName('head')[0];
+    let mapsApi = document.createElement('script');
+    mapsApi.src = `https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=${ENV.gmaps_key}&callback=mapsCb`;
+    head.appendChild(mapsApi);
+  }
 
   dropPin(location): any {
     this.map.panTo(location);

@@ -24,12 +24,7 @@ export class RouteMapComponent {
   route: Route;
   interval: number;
   vehicles: Vehicle[];
-  mapOptions = {
-    center: new google.maps.LatLng(42.386270, -72.525844),
-    zoom: 15,
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    fullscreenControl: false
-  };
+  mapOptions = {};
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private routeSvc: RouteService, private vehicleSvc: VehicleService,
@@ -40,9 +35,14 @@ export class RouteMapComponent {
       ga('send', 'pageview');
     }
 
-  ionViewDidEnter() {
+  mapsLoadedCallback = () => {
+    this.mapOptions = {
+      center: new google.maps.LatLng(42.386270, -72.525844),
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      fullscreenControl: false
+    };
     this.loadMap();
-    // $ionicLoading.show(ionicLoadingConfig);
     this.routeSvc.getRoute(this.routeId).then(route => {
       if (!route) {
         return;
@@ -68,6 +68,13 @@ export class RouteMapComponent {
         }
       });
     });
+  }
+  ionViewDidEnter() {
+    if(typeof google == "undefined" || typeof google.maps == "undefined"){
+      this.mapSvc.downloadGoogleMaps(this.mapsLoadedCallback);
+    } else {
+      this.mapsLoadedCallback();
+    }
   }
 
   ionViewCanEnter(): boolean {
