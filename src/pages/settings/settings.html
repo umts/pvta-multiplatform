@@ -24,7 +24,7 @@
     <ion-item *ngIf="!isInternetExplorer">
       <ion-label>Autorefresh Timing</ion-label>
       <ion-select [(ngModel)]="autoRefresh">
-        <ion-option value="0">Autorefresh Off</ion-option>
+        <ion-option value="-1">Autorefresh Off</ion-option>
         <ion-option value="15000">15 Seconds</ion-option>
         <ion-option value="30000">30 Seconds</ion-option>
         <ion-option value="45000">45 Seconds</ion-option>
