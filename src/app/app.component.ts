@@ -1,13 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform} from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
-
 import { MyBusesComponent } from '../pages/my-buses/my-buses.component';
 import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
 import { RoutesAndStopsComponent } from '../pages/routes-and-stops/routes-and-stops.component';
 import { SettingsComponent } from '../pages/settings/settings.component';
 import { ConnectivityService } from '../providers/connectivity.service';
 import { InfoService } from '../providers/info.service';
+import { performMigrations} from './storage';
+import { Storage } from '@ionic/storage';
 
 declare var ga;
 
@@ -23,7 +24,7 @@ export class MyApp {
   runningInBrowser = false;
 
   constructor(public platform: Platform, private infoSvc: InfoService,
-  private connectivityService: ConnectivityService) {
+  private connectivityService: ConnectivityService, private storage: Storage) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -60,12 +61,16 @@ export class MyApp {
       window.addEventListener('offline', this.onDeviceOffline, false);
       window.addEventListener('online', this.onDeviceOnline, false);
     });
+    performMigrations(this.runningInBrowser, this.storage);
   }
+
   onAppPause = () => {
+    // Don't keep listening for network events when we're not active
     console.log('App: pause');
     window.removeEventListener('offline', this.onDeviceOffline);
     window.removeEventListener('online', this.onDeviceOnline);
   }
+
   onAppResume = () => {
     console.log('App: resume');
     window.addEventListener('offline', this.onDeviceOffline, false);
@@ -80,7 +85,7 @@ export class MyApp {
     this.connectivityService.setConnectionStatus(true);
   }
   onInstallPromptShown = (e: any) => {
-    // beforeinstallprompt Event fired
+    // beforeinstallprompt event fired
     // e.userChoice will return a Promise.
     e.userChoice.then(choiceResult => {
       ga('send', 'event', 'Native App Install Banner Interaction',

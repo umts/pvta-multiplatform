@@ -109,10 +109,8 @@ export class MyBusesComponent {
     });
   }
   getSavedTrips(): void {
-    this.storage.ready().then(() => {
-      this.storage.get('savedTrips').then(savedTrips => {
-        this.trips = savedTrips;
-      });
+    this.tripSvc.getSavedTrips().then(savedTrips => {
+      this.trips = savedTrips;
     });
   }
 
