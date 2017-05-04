@@ -7,7 +7,7 @@ import { StopService } from '../../providers/stop.service';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
 import { gaInit } from '../../app/ga';
 import { MyBusesComponent } from './my-buses.component';
-import { PlatformMock, ga } from '../../../test-config/mocks-ionic';
+import { PlatformMock } from '../../../test-config/mocks-ionic';
 import {} from 'jasmine';
 
 describe('MyBuses Component', () => {
