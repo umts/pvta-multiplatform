@@ -32,6 +32,8 @@ describe('MyApp Component', () => {
   }));
 
   afterEach(() => {
+    fixture.destroy();
+    component = null;
     (<any> window).ga = undefined;
   });
 

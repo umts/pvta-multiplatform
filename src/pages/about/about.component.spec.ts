@@ -1,8 +1,14 @@
 import { async, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController } from 'ionic-angular';
+import { IonicModule, NavController, Platform } from 'ionic-angular';
 import { InfoService } from '../../providers/info.service';
 import { AboutComponent } from './about.component';
+import { MyApp } from '../../app/app.component';
 import {} from 'jasmine';
+import { IonicStorageModule, Storage } from '@ionic/storage';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { ConnectivityService } from '../../providers/connectivity.service';
+import { PlatformMock } from '../../../test-config/mocks-ionic';
 
 describe('About Component', () => {
   let fixture;
@@ -10,13 +16,19 @@ describe('About Component', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AboutComponent],
+      declarations: [MyApp, AboutComponent],
       imports: [
-        IonicModule.forRoot(AboutComponent)
+        IonicModule.forRoot(MyApp),
+        IonicStorageModule.forRoot({name: 'test', storeName: 'test'})
       ],
       providers: [
         NavController,
-        InfoService
+        InfoService,
+        StatusBar,
+        SplashScreen,
+        ConnectivityService,
+        InfoService,
+        { provide: Platform, useClass: PlatformMock }
       ]
     })
   }));
@@ -28,7 +40,10 @@ describe('About Component', () => {
   });
 
   afterEach(() => {
+    fixture.destroy();
+    component = null;
     (<any> window).ga = undefined;
+
   });
 
   it ('should be created', () => {

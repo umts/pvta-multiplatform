@@ -41,6 +41,8 @@ describe('MyBuses Component', () => {
   });
 
   afterEach(() => {
+    fixture.destroy();
+    component = null;
     (<any> window).ga = undefined;
   });
 
