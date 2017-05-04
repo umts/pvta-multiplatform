@@ -1,7 +1,8 @@
 import { async, TestBed } from '@angular/core/testing';
 import { IonicModule, Platform } from 'ionic-angular';
 import { IonicStorageModule, Storage } from '@ionic/storage';
-import { StatusBar, Splashscreen } from 'ionic-native';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 import { ConnectivityService } from '../providers/connectivity.service';
 import { InfoService } from '../providers/info.service';
 

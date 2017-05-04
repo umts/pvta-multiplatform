@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { Geolocation } from 'ionic-native';
+import { Geolocation } from '@ionic-native/geolocation';
 import { NavController, ToastController, LoadingController, AlertController, NavParams } from 'ionic-angular';
 import { StopService } from '../../providers/stop.service';
 import { MapService } from '../../providers/map.service';
@@ -37,7 +37,8 @@ export class PlanTripComponent {
   constructor(public navCtrl: NavController, private stopService: StopService,
   private toastCtrl: ToastController, private loadingCtrl: LoadingController,
   private alertCtrl: AlertController, private tripService: FavoriteTripService,
-  private navParams: NavParams, private infoSvc: InfoService, private mapSvc: MapService) {
+  private navParams: NavParams, private infoSvc: InfoService, private mapSvc: MapService,
+private geolocation: Geolocation) {
     /* List of the different types of times that we can request trips.
      * Each type has a name (for the UI) and a few properties for us:
      * type: whether the user wants a "departure" or "arrival"
@@ -70,7 +71,7 @@ export class PlanTripComponent {
  // Loads the user's location and updates the origin
   loadLocation(): void {
     let options = {timeout: 5000, enableHighAccuracy: true};
-    Geolocation.getCurrentPosition(options).then(position => {
+    this.geolocation.getCurrentPosition(options).then(position => {
       // Geocode current position to retrieve its corresponding Google Maps ID
       new google.maps.Geocoder().geocode(
         {

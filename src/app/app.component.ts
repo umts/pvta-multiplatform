@@ -25,7 +25,8 @@ export class MyApp {
   runningInBrowser = false;
 
   constructor(public platform: Platform, private infoSvc: InfoService,
-  private connectivityService: ConnectivityService, private storage: Storage) {
+  private connectivityService: ConnectivityService, private storage: Storage,
+  private statusBar: StatusBar, private splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -43,9 +44,9 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       console.log('initializeApp');
-      StatusBar.styleDefault();
+      this.statusBar.styleDefault();
       if (this.platform.is('android')) {
-        StatusBar.backgroundColorByHexString('#1976D2');
+        this.statusBar.backgroundColorByHexString('#1976D2');
       }
       let isIE: boolean = navigator.userAgent.indexOf('Trident', 0) !== -1;
       this.infoSvc.setInternetExplorer(isIE);
@@ -54,7 +55,7 @@ export class MyApp {
       if (this.runningInBrowser) {
         window.addEventListener('beforeinstallprompt', this.onInstallPromptShown);
       }
-      Splashscreen.hide();
+      this.splashScreen.hide();
       // Must use document for pause/resume, and window for on/offline.
       // Great question.
       document.addEventListener('pause', this.onAppPause);
