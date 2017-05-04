@@ -18,7 +18,6 @@ describe('MyBuses Component', () => {
       declarations: [MyBusesComponent],
       imports: [
         IonicModule.forRoot(MyBusesComponent),
-        ga,
         IonicStorageModule.forRoot({name: 'test', storeName: 'test'})
       ],
       providers: [
