@@ -8,6 +8,7 @@ import { FavoriteTripService } from '../../providers/favorite-trip.service';
 import { gaInit } from '../../app/ga';
 import { MyBusesComponent } from './my-buses.component';
 import { PlatformMock, ga } from '../../../test-config/mocks-ionic';
+import {} from 'jasmine';
 
 describe('MyBuses Component', () => {
   let fixture;
@@ -34,13 +35,21 @@ describe('MyBuses Component', () => {
   }));
 
   beforeEach(() => {
+    (<any> window).ga = jasmine.createSpy('ga');
     fixture = TestBed.createComponent(MyBusesComponent);
     component = fixture.componentInstance;
-    component.ga = function(){};
+  });
+
+  afterEach(() => {
+    (<any> window).ga = undefined;
   });
 
   it ('should be created', () => {
     expect(component instanceof MyBusesComponent).toBe(true);
   });
 
+  it('sends a pageview to Google Analytics', () => {
+    expect((<any>window).ga.calls.allArgs()).toContain(
+    ['set', 'page', '/my-buses.html'])
+  });
 });
