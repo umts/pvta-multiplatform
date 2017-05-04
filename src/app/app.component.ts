@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform} from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 import { MyBusesComponent } from '../pages/my-buses/my-buses.component';
 import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
 import { RoutesAndStopsComponent } from '../pages/routes-and-stops/routes-and-stops.component';
@@ -13,7 +14,7 @@ import { Storage } from '@ionic/storage';
 declare var ga;
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: './app.html'
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
