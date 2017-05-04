@@ -52,4 +52,24 @@ describe('MyBuses Component', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
     ['set', 'page', '/my-buses.html'])
   });
+  describe('ionViewWillEnter', () => {
+    it('should call getFavoriteStops', () => {
+      spyOn(component, 'getFavoriteStops');
+      component.ionViewWillEnter();
+      expect(component.getFavoriteStops).toHaveBeenCalled();
+
+    });
+    it('should call getFavoriteRoutes', () => {
+      spyOn(component, 'getFavoriteRoutes');
+      component.ionViewWillEnter();
+      expect(component.getFavoriteRoutes).toHaveBeenCalled();
+
+    });
+    it('should call getSavedTrips', () => {
+      spyOn(component, 'getSavedTrips');
+      component.ionViewWillEnter();
+      expect(component.getSavedTrips).toHaveBeenCalled();
+
+    });
+  })
 });
