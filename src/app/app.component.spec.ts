@@ -8,6 +8,7 @@ import { InfoService } from '../providers/info.service';
 
 import { MyApp } from './app.component';
 import { PlatformMock } from '../../test-config/mocks-ionic';
+import {} from 'jasmine';
 
 describe('MyApp Component', () => {
   let fixture;
@@ -29,6 +30,10 @@ describe('MyApp Component', () => {
       ]
     })
   }));
+
+  afterEach(() => {
+    (<any> window).ga = undefined;
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyApp);

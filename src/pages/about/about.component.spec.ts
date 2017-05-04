@@ -1,6 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
-import { IonicModule, Platform, NavController } from 'ionic-angular';
-import { IonicStorageModule, Storage } from '@ionic/storage';
+import { IonicModule, NavController } from 'ionic-angular';
 import { InfoService } from '../../providers/info.service';
 import { AboutComponent } from './about.component';
 import {} from 'jasmine';
@@ -13,8 +12,7 @@ describe('About Component', () => {
     TestBed.configureTestingModule({
       declarations: [AboutComponent],
       imports: [
-        IonicModule.forRoot(AboutComponent),
-        IonicStorageModule.forRoot({name: 'test', storeName: 'test'})
+        IonicModule.forRoot(AboutComponent)
       ],
       providers: [
         NavController,
@@ -35,10 +33,5 @@ describe('About Component', () => {
 
   it ('should be created', () => {
     expect(component instanceof AboutComponent).toBe(true);
-  });
-
-  it('sends a pageview to Google Analytics', () => {
-    expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/settings/about.html'])
   });
 });
