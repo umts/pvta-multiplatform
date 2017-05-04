@@ -1,3 +1,6 @@
+export function ga(...params) {
+
+}
 export class PlatformMock {
   public ready(): Promise<{String}> {
     return new Promise((resolve) => {
