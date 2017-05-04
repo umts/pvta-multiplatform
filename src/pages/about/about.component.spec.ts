@@ -49,4 +49,8 @@ describe('About Component', () => {
   it ('should be created', () => {
     expect(component instanceof AboutComponent).toBe(true);
   });
+  it('sends a pageview to Google Analytics', () => {
+    expect((<any>window).ga.calls.allArgs()).toContain(
+    ['set', 'page', '/settings/about.html'])
+  });
 });
