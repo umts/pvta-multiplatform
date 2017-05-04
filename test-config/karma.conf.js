@@ -27,7 +27,7 @@ module.exports = function (config) {
     browserConsoleLogOptions: {
       level: 'log',
       format: '%b %T: %m',
-      terminal: true
+      terminal: false
     },
 
     reporters: ['spec'],
