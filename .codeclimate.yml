@@ -1,4 +1,6 @@
 engines:
+  tslint:
+    enabled: true
   duplication:
     enabled: true
     config:
@@ -11,16 +13,21 @@ engines:
         enabled: false
 ratings:
   paths:
-  - www/pages
-  - www/templates
-  - www/css
-  - www/directives
-  - "**.js"
+  - src/pages/*
+  - src/app/*
+  - src/modals/*
+  - src/models/*
+  - src/pages/*
+  - src/providers/*
 exclude_paths:
-- www/bower_components/*
-- hooks/*
-- platforms/*
-- node_modules/*
-- plugins/*
-- resources/*
-- www/lib/*
+  - config/*
+  - doc/*
+  - env/*
+  - lib/*
+  - node_modules/*
+  - platforms/*
+  - plugins/*
+  - resources/*
+  - test-config/*
+  - typings/*
+  - www/*
