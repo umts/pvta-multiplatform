@@ -30,7 +30,7 @@ module.exports = function (config) {
       terminal: false
     },
     coverageIstanbulReporter: {
-      reports: [ 'json-summary' ],
+      reports: [ 'lcov' ],
       fixWebpackSourcePaths: true
     },
     reporters: ['spec', 'coverage-istanbul'],

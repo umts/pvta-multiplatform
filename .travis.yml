@@ -14,6 +14,8 @@ addons:
       - google-chrome-stable
       - lib32stdc++6
       - lib32z1
+  code_climate:
+    repo_token: c4a44619a3aaf39674c80d235ce4147d36987d00a4af859f25de75a70223b28f
 
 branches:
     - master
@@ -37,3 +39,6 @@ before_script:
 script:
   - npm run test-ci  # unit tests
   # - npm run e2e      # run e2e tests against ionic
+after_success:
+  - npm install -g codeclimate-test-reporter
+  - codeclimate-test-reporter < lcov.info
