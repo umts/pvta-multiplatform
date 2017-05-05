@@ -1,18 +1,9 @@
-<<<<<<< HEAD
-<?xml version='1.0' encoding='utf-8'?>
-<widget id="com.umts.pvtamultiplaform" version="1.1.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>PVTrAck</name>
-    <description>
-      Official app of the Pioneer Valley Transit Authority.
-      The best way to find your buses on the go!
-=======
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.umts.pvtamultiplaform" android-versionCode="20004" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>PVTrAck</name>
   <description>
     Official app of the Pioneer Valley Transit Authority.
     The best way to find your buses on the go!
->>>>>>> ionic2/base
   </description>
   <author email="transit-it@umass.edu" href="http://umass.edu/bus">
     PVTA / UMass Transit
