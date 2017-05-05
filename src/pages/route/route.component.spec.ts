@@ -1,6 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
 import { MyApp } from '../../app/app.component';
-import {} from 'jasmine';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { RouteService } from '../../providers/route.service';
@@ -33,7 +32,7 @@ describe('Route Component', () => {
         FavoriteRouteService,
         AlertController
       ]
-    })
+    });
   }));
 
   beforeEach(() => {
@@ -54,6 +53,6 @@ describe('Route Component', () => {
   });
   it('sends a pageview to Google Analytics', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/route.html'])
+    ['set', 'page', '/route.html']);
   });
 });

@@ -3,11 +3,7 @@ import { IonicModule, NavController, Platform } from 'ionic-angular';
 import { InfoService } from '../../providers/info.service';
 import { AboutComponent } from './about.component';
 import { MyApp } from '../../app/app.component';
-import {} from 'jasmine';
-import { IonicStorageModule, Storage } from '@ionic/storage';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { ConnectivityService } from '../../providers/connectivity.service';
+import { IonicStorageModule } from '@ionic/storage';
 import { PlatformMock } from '../../../test-config/mocks-ionic';
 
 describe('About Component', () => {
@@ -26,7 +22,7 @@ describe('About Component', () => {
         InfoService,
         { provide: Platform, useClass: PlatformMock }
       ]
-    })
+    });
   }));
 
   beforeEach(() => {
@@ -47,6 +43,6 @@ describe('About Component', () => {
   });
   it('sends a pageview to Google Analytics', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/settings/about.html'])
+    ['set', 'page', '/settings/about.html']);
   });
 });

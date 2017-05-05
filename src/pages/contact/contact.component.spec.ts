@@ -2,8 +2,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from 'ionic-angular';
 import { ContactComponent } from './contact.component';
 import { MyApp } from '../../app/app.component';
-import {} from 'jasmine';
-import { IonicStorageModule, Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 
 describe('Contact Component', () => {
   let fixture;
@@ -19,7 +18,7 @@ describe('Contact Component', () => {
       providers: [
         NavController
       ]
-    })
+    });
   }));
 
   beforeEach(() => {
@@ -40,6 +39,6 @@ describe('Contact Component', () => {
   });
   it('sends a pageview to Google Analytics', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/settings/contact.html'])
+    ['set', 'page', '/settings/contact.html']);
   });
 });

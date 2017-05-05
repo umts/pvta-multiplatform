@@ -1,8 +1,7 @@
 import { async, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController, Platform, ToastController, AlertController } from 'ionic-angular';
+import { IonicModule, NavController, ToastController, AlertController } from 'ionic-angular';
 import { StorageSettingsComponent } from './storage-settings.component';
 import { MyApp } from '../../app/app.component';
-import {} from 'jasmine';
 import { IonicStorageModule } from '@ionic/storage';
 
 describe('StorageSettings Component', () => {
@@ -21,7 +20,7 @@ describe('StorageSettings Component', () => {
         ToastController,
         AlertController
       ]
-    })
+    });
   }));
 
   beforeEach(() => {
@@ -42,6 +41,6 @@ describe('StorageSettings Component', () => {
   });
   it('sends a pageview to Google Analytics', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/settings/storage-settings.html'])
+    ['set', 'page', '/settings/storage-settings.html']);
   });
 });

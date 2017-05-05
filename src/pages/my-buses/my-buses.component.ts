@@ -6,7 +6,6 @@ import { StopComponent } from '../stop/stop.component';
 import { RouteComponent } from '../route/route.component';
 import { PlanTripComponent } from '../plan-trip/plan-trip.component';
 import { AlertService } from '../../providers/alert.service';
-import { StopService } from '../../providers/stop.service';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
 import { Alert } from '../../models/alert.model';
 import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';

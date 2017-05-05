@@ -1,6 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
 import { MyApp } from '../../app/app.component';
-import {} from 'jasmine';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule, NavController, NavParams } from 'ionic-angular';
 import { RouteService } from '../../providers/route.service';
@@ -31,7 +30,7 @@ describe('RouteMap Component', () => {
         ConnectivityService,
         AutoRefreshService
       ]
-    })
+    });
   }));
 
   beforeEach(() => {
@@ -52,6 +51,6 @@ describe('RouteMap Component', () => {
   });
   it('sends a pageview to Google Analytics', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/route/route-map.html'])
+    ['set', 'page', '/route/route-map.html']);
   });
 });

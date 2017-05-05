@@ -5,7 +5,6 @@ import { AlertService } from '../../providers/alert.service';
 import { MyApp } from '../../app/app.component';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
 import { MyBusesComponent } from './my-buses.component';
-import {} from 'jasmine';
 
 describe('MyBuses Component', () => {
   let fixture;
@@ -25,7 +24,7 @@ describe('MyBuses Component', () => {
         ModalController,
         FavoriteTripService,
       ]
-    })
+    });
   }));
 
   beforeEach(() => {
@@ -46,7 +45,7 @@ describe('MyBuses Component', () => {
 
   it('sends a pageview to Google Analytics', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/my-buses.html'])
+    ['set', 'page', '/my-buses.html']);
   });
   describe('ionViewWillEnter', () => {
     it('should call getFavoriteStops', () => {
@@ -67,5 +66,5 @@ describe('MyBuses Component', () => {
       expect(component.getSavedTrips).toHaveBeenCalled();
 
     });
-  })
+  });
 });

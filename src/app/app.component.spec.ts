@@ -5,7 +5,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ConnectivityService } from '../providers/connectivity.service';
 import { InfoService } from '../providers/info.service';
-import * from 'jasmine';
 import { MyApp } from './app.component';
 import { PlatformMock } from '../../test-config/mocks-ionic';
 

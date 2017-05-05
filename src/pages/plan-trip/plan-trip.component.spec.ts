@@ -1,17 +1,15 @@
 import { async, TestBed } from '@angular/core/testing';
 import { IonicModule, Platform, NavParams, NavController, ModalController, AlertController, ToastController, LoadingController } from 'ionic-angular';
-import { IonicStorageModule, Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 import { RouteService } from '../../providers/route.service';
 import { StopService } from '../../providers/stop.service';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
 import { MyApp } from '../../app/app.component';
-import { gaInit } from '../../app/ga';
 import { PlanTripComponent } from './plan-trip.component';
 import { InfoService } from '../../providers/info.service';
 import { MapService } from '../../providers/map.service';
 import { PlatformMock, NavParamsMock } from '../../../test-config/mocks-ionic';
 import { Geolocation } from '@ionic-native/geolocation';
-import {} from 'jasmine';
 
 describe('PlanTrip Component', () => {
   let fixture;
@@ -39,7 +37,7 @@ describe('PlanTrip Component', () => {
         MapService,
         { provide: Platform, useClass: PlatformMock }
       ]
-    })
+    });
   }));
 
   beforeEach(() => {
@@ -58,6 +56,6 @@ describe('PlanTrip Component', () => {
 
   it('sends a pageview to Google Analytics', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/plan-trip.html'])
+    ['set', 'page', '/plan-trip.html']);
   });
 });

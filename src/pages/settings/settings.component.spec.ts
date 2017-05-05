@@ -1,14 +1,9 @@
 import { async, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController, Platform } from 'ionic-angular';
+import { IonicModule, NavController } from 'ionic-angular';
 import { InfoService } from '../../providers/info.service';
 import { SettingsComponent } from './settings.component';
 import { MyApp } from '../../app/app.component';
-import {} from 'jasmine';
-import { IonicStorageModule, Storage } from '@ionic/storage';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { ConnectivityService } from '../../providers/connectivity.service';
-import { PlatformMock } from '../../../test-config/mocks-ionic';
+import { IonicStorageModule } from '@ionic/storage';
 
 describe('Settings Component', () => {
   let fixture;
@@ -25,7 +20,7 @@ describe('Settings Component', () => {
         NavController,
         InfoService
       ]
-    })
+    });
   }));
 
   beforeEach(() => {
@@ -46,6 +41,6 @@ describe('Settings Component', () => {
   });
   it('sends a pageview to Google Analytics', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/settings.html'])
+    ['set', 'page', '/settings.html']);
   });
 });

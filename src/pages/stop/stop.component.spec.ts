@@ -1,6 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
 import { MyApp } from '../../app/app.component';
-import {} from 'jasmine';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { RouteService } from '../../providers/route.service';
@@ -37,7 +36,7 @@ describe('Stop Component', () => {
         AutoRefreshService,
         AlertController
       ]
-    })
+    });
   }));
 
   beforeEach(() => {
@@ -58,6 +57,6 @@ describe('Stop Component', () => {
   });
   it('sends a pageview to Google Analytics', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/stop.html'])
+    ['set', 'page', '/stop.html']);
   });
 });

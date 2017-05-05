@@ -1,6 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
 import { MyApp } from '../../app/app.component';
-import {} from 'jasmine';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule, NavController, LoadingController, AlertController } from 'ionic-angular';
@@ -35,7 +34,7 @@ describe('RoutesAndStops Component', () => {
         FavoriteStopService,
         Geolocation
       ]
-    })
+    });
   }));
 
   beforeEach(() => {
@@ -56,6 +55,6 @@ describe('RoutesAndStops Component', () => {
   });
   it('sends a pageview to Google Analytics', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/routes-and-stops.html'])
+    ['set', 'page', '/routes-and-stops.html']);
   });
 });

@@ -2,8 +2,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from 'ionic-angular';
 import { PrivacyPolicyComponent } from './privacy-policy.component';
 import { MyApp } from '../../app/app.component';
-import {} from 'jasmine';
-import { IonicStorageModule, Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 
 describe('PrivacyPolicy Component', () => {
   let fixture;
@@ -19,7 +18,7 @@ describe('PrivacyPolicy Component', () => {
       providers: [
         NavController
       ]
-    })
+    });
   }));
 
   beforeEach(() => {
@@ -40,6 +39,6 @@ describe('PrivacyPolicy Component', () => {
   });
   it('sends a pageview to Google Analytics', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/settings/about/privacy-policy.html'])
+    ['set', 'page', '/settings/about/privacy-policy.html']);
   });
 });

@@ -1,6 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
 import { MyApp } from '../../app/app.component';
-import {} from 'jasmine';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule, NavParams, ToastController, LoadingController } from 'ionic-angular';
 import { StopService } from '../../providers/stop.service';
@@ -30,7 +29,7 @@ describe('StopMap Component', () => {
         LoadingController,
         Geolocation
       ]
-    })
+    });
   }));
 
   beforeEach(() => {
@@ -51,6 +50,6 @@ describe('StopMap Component', () => {
   });
   it('sends a pageview to Google Analytics', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/stop/stop-map.html'])
+    ['set', 'page', '/stop/stop-map.html']);
   });
 });
