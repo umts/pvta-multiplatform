@@ -1,11 +1,6 @@
 {
-  "name": "PVTA",
+  "name": "PVTrAck",
   "app_id": "",
-  "gulpStartupTasks": [
-    "default"
-  ],
-  "watchPatterns": [
-    "www/**/*",
-    "!www/lib/**/*"
-  ]
+  "v2": true,
+  "typescript": true
 }

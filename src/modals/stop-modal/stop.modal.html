@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title attr.aria-label="{{ariaTitle}}">
+      <span role="heading">{{title}}</span>
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        Done
+      </button>
+   </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-searchbar
+    role="search"
+    aria-owns="stops"
+    aria-activedescendent="stops"
+    [(ngModel)]="searchQuery"
+    showCancelButton
+    (ionInput)="onSearchQueryChanged($event)">
+    <!-- (ionCancel)="onCancel($event)"> -->
+  </ion-searchbar>
+  <ion-list id="stops" role="list" aria-label="stops" *ngIf="requester === 1" text-wrap>
+    <button ion-item role="heading" *ngFor="let stop of stopsDisp | paginate: { itemsPerPage: 40, currentPage: p }" (click)="goToStopPage(stop.StopId)">
+        <ion-icon aria-hidden="true" name="pin" style="margin-right: 10px"></ion-icon>
+        <span>{{stop.Description}} ({{stop.StopId}})</span>
+    </button>
+  </ion-list>
+  <ion-list role="list" *ngIf="requester === 0" text-wrap>
+    <ion-item *ngFor="let stop of stopsDisp | paginate: { itemsPerPage: 40, currentPage: p }">
+      <ion-label>{{stop.Description}} ({{stop.StopId}})
+      </ion-label>
+      <ion-checkbox color="primary" checked="{{stop.Liked}}"
+        (click)="stop.Liked = !stop.Liked; toggleStopHeart(stop);">
+      </ion-checkbox>
+    </ion-item>
+  </ion-list>
+  <pagination-controls center class="pages" (pageChange)="p = $event"></pagination-controls>
+</ion-content>

@@ -1,0 +1,15 @@
+page-plan-trip {
+  .directions-map {
+    height:50%;
+  }
+
+  .user-input{
+    border: 1px solid #FFFFFF;
+    padding: 8px;
+    background-color: #f5f5f5;
+  }
+  .location-typeahead {
+    width:100%;
+    text-overflow: ellipsis;
+  }
+}

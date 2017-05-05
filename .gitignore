@@ -1,6 +1,10 @@
-platforms/android/*
+ngrok
 
-plugins/**/
+plugins/*
+
+www
+
+platforms/android/*
 
 platforms/ios/*
 

@@ -8,7 +8,8 @@ namespace :local_copy do
   end
 
   task create_release: :clone do
-    invoke 'bower:install'
+    invoke 'npm:install'
+    invoke 'npm:build'
   end
 
   task :upload_release do

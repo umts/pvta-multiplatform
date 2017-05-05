@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title role="heading">Storage Settings</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list text-wrap>
+    <button ion-item (click)="clearFavoriteRoutes()">
+      <p>Remove your favorite routes</p>
+    </button>
+    <button ion-item (click)="clearFavoriteStops()">
+      <p>Remove your favorite stops</p>
+    </button>
+    <button ion-item (click)="clearRoutes()">
+      <p>Remove data-saving route storage</p>
+    </button>
+    <button ion-item (click)="clearStops()">
+      <p>Remove data-saving stop storage</p>
+    </button>
+    <button ion-item (click)="clearAll()">
+      <p>Remove ALL of your stored data (use with caution!)</p>
+    </button>
+  </ion-list>
+</ion-content>

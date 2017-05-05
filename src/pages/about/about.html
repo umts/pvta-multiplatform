@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title role="heading">About</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content text-wrap>
+  <ion-card>
+    <ion-list>
+      <div ion-item>
+        Version: {{versionNumber}}, {{versionName}}
+      </div>
+      <div ion-item>
+        Made with
+        <a role="link">
+          <ion-icon name="ionic"
+          onclick="window.open('https://ionicframework.com', '_blank');">
+          </ion-icon>
+        </a>,
+        <a role="link">
+          <ion-icon name="logo-angular"
+          onclick="window.open('https://angular.io', '_blank');">
+          </ion-icon>
+        </a>,
+        and
+        <a role="link">
+          <ion-icon name="heart"
+          onclick="window.open('https://en.wikipedia.org/wiki/Compassion', '_blank');">
+          </ion-icon>
+        </a>,
+        by UMass Transit's student developers in Amherst, MA
+      </div>
+      <button ion-item role="link"
+      onclick="window.open('https://github.com/umts/pvta-multiplatform', '_system');">
+        <ion-icon name="logo-github" aria-hidden="true"></ion-icon>
+        Contribute to PVTrAck
+      </button>
+      <button ion-item role="link"
+      onclick="window.open('mailto:programmers@admin.umass.edu', '_system');">
+        <ion-icon name="bug" aria-hidden="true"></ion-icon>
+        Find a bug? Let us know!
+      </button>
+      <button ion-item (click)="goToPrivacyPolicyPage()">
+        <ion-icon name="lock" aria-hidden="true"></ion-icon>
+        View our Privacy Policy
+      </button>
+    </ion-list>
+  </ion-card>
+</ion-content>

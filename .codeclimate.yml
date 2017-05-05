@@ -24,5 +24,3 @@ exclude_paths:
 - plugins/*
 - resources/*
 - www/lib/*
-- www/css/ionic.app.css
-- www/css/ionic.app.min.css

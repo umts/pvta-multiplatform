@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Stop Map</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content text-wrap>
+  <ion-fab top right edge>
+    <button ion-fab mini color="danger"
+    (click)="retrieveDirections();">
+      <ion-icon name="navigate"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-toolbar *ngIf="directionsRequested && !directionsObtained" color="positive-dark" style="text-align: center;">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-auto>
+          <ion-spinner color="white"></ion-spinner>
+        </ion-col>
+        <ion-col>
+          <span text-wrap style="color: white;">
+            Getting directions to {{stop?.Description}}
+          </span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+  <div #map id="map" [style.height]="mapHeight"></div>
+  <div #directions id="directions"></div>
+</ion-content>

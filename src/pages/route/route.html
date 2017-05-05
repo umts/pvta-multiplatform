@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title role="heading">Route {{route?.RouteAbbreviation}} </ion-title>
+    <ion-buttons end>
+      <button aria-hidden="true" ion-button icon-only (click)="goToRouteMapPage()">
+        <ion-icon name="compass"></ion-icon>
+      </button>
+      <button ion-button icon-only item-right clear
+      (click)="route.Liked = !route.Liked; toggleRouteHeart(route);"
+      attr.aria-label="{{route?.Liked ? 'Unlike this route' : 'Like this route'}}">
+        <ion-icon name="{{route?.Liked ? 'ios-heart' : 'ios-heart-outline'}}"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="getVehicles($event)">
+    <ion-refresher-content pullingText="Pull to refresh buses...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-toolbar *ngIf="route" color="positive-dark" style="text-align: center;">
+    <span text-wrap style="font-size:125%; color: white; font-weight: bold;">
+      {{route.GoogleDescription}}
+    </span>
+  </ion-toolbar>
+  <ion-item-group>
+    <!-- <ion-item-divider  color="danger">Alerts</ion-item-divider> -->
+    <ion-toolbar *ngIf="alerts.length > 0" color="danger">
+      <ion-title role="heading">
+        Alerts
+      </ion-title>
+    </ion-toolbar>
+    <ion-list role="list" aria-label="alerts">
+      <ion-item text-wrap icon-left *ngFor="let alert of alerts">
+        <ion-icon aria-hidden="true" name="alert"></ion-icon>
+        {{alert.Message}}
+      </ion-item>
+    </ion-list>
+  </ion-item-group>
+
+  <ion-toolbar *ngIf="route && vehicles.length == 0">
+    <span text-wrap style="font-size: 125%; color: black; font-weight: bold">
+      There are no buses currently on the {{route?.RouteAbbreviation}}.
+    </span>
+  </ion-toolbar>
+  <ion-item-divider role="heading" id="buses-heading">
+    Buses
+  </ion-item-divider>
+    <ion-list role="list" aria-labelledby="buses-heading" *ngIf="route && vehicles && vehicles.length !== 0">
+        <div ion-item text-wrap *ngFor="let vehicle of vehicles" aria-labelledby="#destination-label #time-label #stop-label #riders-label">
+            <!-- The first row - destination and status -->
+            <ion-row>
+              <!-- Destination -->
+              <ion-col [style.color]="'#'+ route?.Color" aria-labelledby="destination-label">
+                  <ion-icon aria-hidden="true" name="bus" aria-label="bus"></ion-icon>
+                  <b id="destination-label">To {{vehicle?.Destination ? vehicle?.Destination : "an unreported destination"}}</b>
+              </ion-col>
+              <!-- Vehicle Status -->
+              <ion-col aria-labelledby="time-label">
+                <span class="vehicle-ontime" *ngIf="vehicle?.DisplayStatus==='On Time'">
+                  <ion-icon aria-hidden="true" name="clock"></ion-icon>
+                  <span id="time-label">{{vehicle?.DisplayStatus}}</span>
+                </span>
+                <span class="vehicle-late" *ngIf="vehicle?.DisplayStatus === 'Late'">
+                  <ion-icon aria-hidden="true" name="clock"></ion-icon>
+                  <span id="time-label">{{vehicle?.Deviation}} minutes late</span>
+                </span>
+              </ion-col>
+            </ion-row>
+            <!-- The second row - Last stop and pax -->
+            <ion-row>
+              <!-- Last stop -->
+              <ion-col aria-labelledby="stop-label">
+                <ion-icon aria-label="Last location of bus" class="icon ion-ios-pin"></ion-icon>
+                <span id="stop-label">{{vehicle?.LastStop? vehicle?.LastStop : "none specified"}}</span>
+              </ion-col>
+              <!-- Number of riders -->
+              <ion-col aria-labelledby="riders-label">
+               <ion-icon aria-hidden="true" name="md-people"></ion-icon>
+               <span id="riders-label">{{vehicle?.OnBoard}} {{vehicle?.OnBoard === 1 ? 'rider' : 'riders'}}</span>
+             </ion-col>
+           </ion-row>
+        </div>
+   </ion-list>
+   <button ion-button full *ngIf="route" (click)="showStopModal()" style="text-transform: none;">
+     Tap to view stops on the {{route?.RouteAbbreviation}}...
+   </button>
+</ion-content>
