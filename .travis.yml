@@ -20,7 +20,7 @@ addons:
 
 branches:
   only:
-    - test4
+    - ionic2/test4
 
 #
 # Build Lifecycle:
