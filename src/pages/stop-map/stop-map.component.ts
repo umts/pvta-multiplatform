@@ -61,7 +61,7 @@ export class StopMapComponent {
 
   ionViewDidEnter() {
     this.presentLoader();
-    if (typeof google == 'undefined' || typeof google.maps == 'undefined'){
+    if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
       this.mapSvc.downloadGoogleMaps(this.mapsLoadedCallback);
     } else {
       this.mapsLoadedCallback();
