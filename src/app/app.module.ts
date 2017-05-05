@@ -8,6 +8,10 @@ import 'intl';
 import 'intl/locale-data/jsonp/en';
 import { Ng2PaginationModule } from 'ng2-pagination';
 
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { Geolocation } from '@ionic-native/geolocation';
+
 // Pages
 import { AboutComponent } from '../pages/about/about.component';
 import { ContactComponent } from '../pages/contact/contact.component';
@@ -103,6 +107,7 @@ import { AutoRefreshService } from '../providers/auto-refresh.service';
   providers: [ {provide: ErrorHandler, useClass: IonicErrorHandler},
     RouteService, StopService, StopDepartureService, VehicleService, AlertService,
     FavoriteRouteService, FavoriteStopService, ConnectivityService,
-    MapService, InfoService, FavoriteTripService, AutoRefreshService]
+    MapService, InfoService, FavoriteTripService, AutoRefreshService,
+    StatusBar, SplashScreen, Geolocation]
 })
 export class AppModule {}

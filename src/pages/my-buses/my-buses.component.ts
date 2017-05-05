@@ -6,8 +6,6 @@ import { StopComponent } from '../stop/stop.component';
 import { RouteComponent } from '../route/route.component';
 import { PlanTripComponent } from '../plan-trip/plan-trip.component';
 import { AlertService } from '../../providers/alert.service';
-import { RouteService } from '../../providers/route.service';
-import { StopService } from '../../providers/stop.service';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
 import { Alert } from '../../models/alert.model';
 import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';
@@ -27,8 +25,7 @@ export class MyBusesComponent {
   trips;
   constructor(public navCtrl: NavController, private storage: Storage,
     private alertSvc: AlertService, private alertCtrl: AlertController,
-    private modalCtrl: ModalController, private routeSvc: RouteService,
-    private stopSvc: StopService, private tripSvc: FavoriteTripService) {
+    private modalCtrl: ModalController, private tripSvc: FavoriteTripService) {
       this.alerts = [];
       ga('set', 'page', '/my-buses.html');
       ga('send', 'pageview');

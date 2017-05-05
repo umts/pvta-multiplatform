@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import {Geolocation} from 'ionic-native';
+import { Geolocation } from '@ionic-native/geolocation';
 import { RouteService } from '../../providers/route.service';
 import { StopService } from '../../providers/stop.service';
 import { InfoService } from '../../providers/info.service';
@@ -41,7 +41,7 @@ export class RoutesAndStopsComponent {
     private routeSvc: RouteService, private stopSvc: StopService,
     private loadingCtrl: LoadingController, private storage: Storage,
     private favRouteSvc: FavoriteRouteService, private alertCtrl: AlertController,
-    private favStopSvc: FavoriteStopService) {
+    private favStopSvc: FavoriteStopService, private geolocation: Geolocation) {
       this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.order = 'favorites';
       this.cDisplay = 'routes';
@@ -158,7 +158,7 @@ export class RoutesAndStopsComponent {
       this.stopSvc.saveStopList(this.stops);
 
       let options = {timeout: 5000, enableHighAccuracy: true};
-      Geolocation.getCurrentPosition(options).then(position => {
+      this.geolocation.getCurrentPosition(options).then(position => {
         this.calculateStopDistances(position);
       }).catch(err => {
         this.calculateStopDistances();

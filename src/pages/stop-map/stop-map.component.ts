@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { NavParams, ToastController, LoadingController } from 'ionic-angular';
-import {Geolocation} from 'ionic-native';
+import { Geolocation } from '@ionic-native/geolocation';
 import { Stop } from '../../models/stop.model';
 import { MapService } from '../../providers/map.service';
 import { StopService } from '../../providers/stop.service';
@@ -28,7 +28,7 @@ export class StopMapComponent {
   constructor(public navParams: NavParams, private stopSvc: StopService,
     private mapSvc: MapService, private zone: NgZone,
     private toastCtrl: ToastController, private connection: ConnectivityService,
-    private loadingCtrl: LoadingController) {
+    private loadingCtrl: LoadingController, private geolocation: Geolocation) {
     this.stopId = navParams.get('stopId');
     ga('set', 'page', '/stop/stop-map.html');
     ga('send', 'pageview');
@@ -61,7 +61,7 @@ export class StopMapComponent {
 
   ionViewDidEnter() {
     this.presentLoader();
-    if(typeof google == "undefined" || typeof google.maps == "undefined"){
+    if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
       this.mapSvc.downloadGoogleMaps(this.mapsLoadedCallback);
     } else {
       this.mapsLoadedCallback();
@@ -107,7 +107,7 @@ export class StopMapComponent {
     this.directionsRequested = true;
     this.directionsObtained = false;
     this.mapHeight = '90%';
-    Geolocation.getCurrentPosition().then(position => {
+    this.geolocation.getCurrentPosition().then(position => {
       // If we have a location, download and display directions
       // from here to the stop.
       this.directionsDisplay.setPanel(this.directionsElement.nativeElement);

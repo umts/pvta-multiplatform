@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PrivacyPolicyComponent } from '../privacy-policy/privacy-policy.component.ts';
+import { PrivacyPolicyComponent } from '../privacy-policy/privacy-policy.component';
 import { NavController } from 'ionic-angular';
 import { InfoService } from '../../providers/info.service';
 
