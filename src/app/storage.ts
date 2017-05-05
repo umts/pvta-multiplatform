@@ -43,7 +43,7 @@ export function performMigrations(runningInBrowser: boolean, storageInstance: St
         console.log(`Setting previousVersion to currentVersion: ${currentVersion}`);
         storage.set('previousVersion', currentVersion);
       });
-    })
+    });
   });
 }
 /*
@@ -68,7 +68,7 @@ function getOldFavorites(runningInBrowser: boolean): void {
         localforage.iterate((value, key, iterationNumber) => {
           console.log([key, value]);
           storage.set(key, value);
-        }).then(() =>{
+        }).then(() => {
           // In success, we no longer need 1.x's storage.
           console.log('PVTrAck 1.x storage copy completed');
           localforage.clear();

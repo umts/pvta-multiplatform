@@ -1,14 +1,13 @@
 import { async, TestBed } from '@angular/core/testing';
 import { IonicModule, Platform } from 'ionic-angular';
-import { IonicStorageModule, Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ConnectivityService } from '../providers/connectivity.service';
 import { InfoService } from '../providers/info.service';
-
+import * from 'jasmine';
 import { MyApp } from './app.component';
 import { PlatformMock } from '../../test-config/mocks-ionic';
-import {} from 'jasmine';
 
 describe('MyApp Component', () => {
   let fixture;
@@ -28,7 +27,7 @@ describe('MyApp Component', () => {
         InfoService,
         { provide: Platform, useClass: PlatformMock }
       ]
-    })
+    });
   }));
 
   afterEach(() => {
