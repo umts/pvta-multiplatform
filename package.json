@@ -36,7 +36,6 @@
     "@ionic/storage": "^2.0.0",
     "@types/google.analytics": "0.0.33",
     "haversine": "^1.0.2",
-    "install": "^0.9.6",
     "intl": "^1.2.5",
     "ionic-angular": "2.2.0",
     "ionicons": "3.0.0",
@@ -44,7 +43,6 @@
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "ng2-pagination": "^2.0.1",
-    "npm": "^4.5.0",
     "rxjs": "5.0.1",
     "sw-toolbox": "3.4.0",
     "zone.js": "0.7.2"
