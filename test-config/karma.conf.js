@@ -29,8 +29,11 @@ module.exports = function (config) {
       format: '%b %T: %m',
       terminal: false
     },
-
-    reporters: ['spec'],
+    coverageIstanbulReporter: {
+      reports: [ 'json-summary' ],
+      fixWebpackSourcePaths: true
+    },
+    reporters: ['spec', 'coverage-istanbul'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
