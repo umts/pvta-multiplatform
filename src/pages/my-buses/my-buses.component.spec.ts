@@ -1,13 +1,10 @@
 import { async, TestBed } from '@angular/core/testing';
-import { IonicModule, Platform, NavController, ModalController, AlertController } from 'ionic-angular';
-import { IonicStorageModule, Storage } from '@ionic/storage';
+import { IonicModule, NavController, ModalController, AlertController } from 'ionic-angular';
+import { IonicStorageModule } from '@ionic/storage';
 import { AlertService } from '../../providers/alert.service';
-import { RouteService } from '../../providers/route.service';
-import { StopService } from '../../providers/stop.service';
+import { MyApp } from '../../app/app.component';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
-import { gaInit } from '../../app/ga';
 import { MyBusesComponent } from './my-buses.component';
-import { PlatformMock } from '../../../test-config/mocks-ionic';
 import {} from 'jasmine';
 
 describe('MyBuses Component', () => {
@@ -16,9 +13,9 @@ describe('MyBuses Component', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MyBusesComponent],
+      declarations: [MyApp, MyBusesComponent],
       imports: [
-        IonicModule.forRoot(MyBusesComponent),
+        IonicModule.forRoot(MyApp),
         IonicStorageModule.forRoot({name: 'test', storeName: 'test'})
       ],
       providers: [
@@ -26,10 +23,7 @@ describe('MyBuses Component', () => {
         AlertService,
         AlertController,
         ModalController,
-        RouteService,
-        StopService,
         FavoriteTripService,
-        { provide: Platform, useClass: PlatformMock }
       ]
     })
   }));

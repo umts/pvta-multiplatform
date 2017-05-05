@@ -4,6 +4,7 @@ import { IonicStorageModule, Storage } from '@ionic/storage';
 import { RouteService } from '../../providers/route.service';
 import { StopService } from '../../providers/stop.service';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
+import { MyApp } from '../../app/app.component';
 import { gaInit } from '../../app/ga';
 import { PlanTripComponent } from './plan-trip.component';
 import { InfoService } from '../../providers/info.service';
@@ -18,9 +19,9 @@ describe('PlanTrip Component', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PlanTripComponent],
+      declarations: [MyApp, PlanTripComponent],
       imports: [
-        IonicModule.forRoot(PlanTripComponent),
+        IonicModule.forRoot(MyApp),
         IonicStorageModule.forRoot({name: 'test', storeName: 'test'})
       ],
       providers: [
