@@ -14,7 +14,7 @@ import { Storage } from '@ionic/storage';
 declare var ga;
 
 @Component({
-  templateUrl: './app.html'
+  templateUrl: 'app.html'
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
