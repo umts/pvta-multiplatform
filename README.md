@@ -8,7 +8,7 @@ Current release available at [m.pvta.com](m.pvta.com) and the [Play Store](https
 <a href="https://codeclimate.com/github/umts/pvta-multiplatform"><img src="https://codeclimate.com/github/umts/pvta-multiplatform/badges/gpa.svg" /></a>
 [![Issue Count](https://codeclimate.com/github/umts/pvta-multiplatform/badges/issue_count.svg)](https://codeclimate.com/github/umts/pvta-multiplatform)
 
-The app is a hybrid that uses Ionic.
+The app is a hybrid that uses Ionic 2+.
 
 All data is live, and comes from endpoints documented [here](http://bustracker.pvta.com/InfoPoint/swagger/ui/index#!).
 
@@ -22,8 +22,7 @@ To begin developing, follow these steps:
 
 1. Clone repository
 
-2. In your clone's directory, run the following setup stuff:
-  1. `npm install`
+2. Run `npm install`
 
 ## Developing
 
