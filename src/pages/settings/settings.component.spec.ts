@@ -40,7 +40,7 @@ describe('Settings Component', () => {
     expect(component instanceof SettingsComponent).toBe(true);
   });
   it('sends a pageview to Google Analytics', () => {
-    expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/settings.html']);
+    expect((<any>window).ga.calls.allArgs()).toEqual(
+    [["set","page","/settings.html"],["send","pageview"]]);
   });
 });

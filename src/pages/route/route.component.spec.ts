@@ -52,7 +52,7 @@ describe('Route Component', () => {
     expect(component instanceof RouteComponent).toBe(true);
   });
   it('sends a pageview to Google Analytics', () => {
-    expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/route.html']);
+    expect((<any>window).ga.calls.allArgs()).toEqual(
+    [["set","page","/route.html"],["send","pageview"]]);
   });
 });

@@ -42,7 +42,8 @@ describe('About Component', () => {
     expect(component instanceof AboutComponent).toBe(true);
   });
   it('sends a pageview to Google Analytics', () => {
-    expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/settings/about.html']);
+    console.log(JSON.stringify((<any>window).ga.calls.allArgs()));
+    expect((<any>window).ga.calls.allArgs()).toEqual(
+    [["set","page","/settings/about.html"],["send","pageview"]]);
   });
 });

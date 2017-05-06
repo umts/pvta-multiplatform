@@ -40,7 +40,7 @@ describe('StorageSettings Component', () => {
     expect(component instanceof StorageSettingsComponent).toBe(true);
   });
   it('sends a pageview to Google Analytics', () => {
-    expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/settings/storage-settings.html']);
+    expect((<any>window).ga.calls.allArgs()).toEqual(
+    [["set","page","/settings/storage-settings.html"],["send","pageview"]]);
   });
 });

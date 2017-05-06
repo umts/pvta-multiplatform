@@ -54,7 +54,7 @@ describe('RoutesAndStops Component', () => {
     expect(component instanceof RoutesAndStopsComponent).toBe(true);
   });
   it('sends a pageview to Google Analytics', () => {
-    expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/routes-and-stops.html']);
+    expect((<any>window).ga.calls.allArgs()).toEqual(
+    [["set","page","/routes-and-stops.html"],["send","pageview"]]);
   });
 });

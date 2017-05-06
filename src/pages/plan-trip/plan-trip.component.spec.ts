@@ -55,7 +55,7 @@ describe('PlanTrip Component', () => {
   });
 
   it('sends a pageview to Google Analytics', () => {
-    expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/plan-trip.html']);
+    expect((<any>window).ga.calls.allArgs()).toEqual(
+    [["set","page","/plan-trip.html"],["send","pageview"]]);
   });
 });

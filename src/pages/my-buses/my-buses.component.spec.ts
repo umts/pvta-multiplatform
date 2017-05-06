@@ -44,8 +44,8 @@ describe('MyBuses Component', () => {
   });
 
   it('sends a pageview to Google Analytics', () => {
-    expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/my-buses.html']);
+    expect((<any>window).ga.calls.allArgs()).toEqual(
+    [["set","page","/my-buses.html"],["send","pageview"]]);
   });
   describe('ionViewWillEnter', () => {
     it('should call getFavoriteStops', () => {

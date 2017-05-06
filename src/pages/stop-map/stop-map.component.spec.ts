@@ -49,7 +49,7 @@ describe('StopMap Component', () => {
     expect(component instanceof StopMapComponent).toBe(true);
   });
   it('sends a pageview to Google Analytics', () => {
-    expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/stop/stop-map.html']);
+    expect((<any>window).ga.calls.allArgs()).toEqual(
+    [["set","page","/stop/stop-map.html"],["send","pageview"]]);
   });
 });

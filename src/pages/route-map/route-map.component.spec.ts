@@ -50,7 +50,7 @@ describe('RouteMap Component', () => {
     expect(component instanceof RouteMapComponent).toBe(true);
   });
   it('sends a pageview to Google Analytics', () => {
-    expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/route/route-map.html']);
+    expect((<any>window).ga.calls.allArgs()).toEqual(
+    [["set","page","/route/route-map.html"],["send","pageview"]]);
   });
 });

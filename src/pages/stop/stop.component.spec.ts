@@ -56,7 +56,7 @@ describe('Stop Component', () => {
     expect(component instanceof StopComponent).toBe(true);
   });
   it('sends a pageview to Google Analytics', () => {
-    expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/stop.html']);
+    expect((<any>window).ga.calls.allArgs()).toEqual(
+    [["set","page","/stop.html"],["send","pageview"]]);
   });
 });

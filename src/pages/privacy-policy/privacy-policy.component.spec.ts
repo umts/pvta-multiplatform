@@ -38,7 +38,7 @@ describe('PrivacyPolicy Component', () => {
     expect(component instanceof PrivacyPolicyComponent).toBe(true);
   });
   it('sends a pageview to Google Analytics', () => {
-    expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/settings/about/privacy-policy.html']);
+    expect((<any>window).ga.calls.allArgs()).toEqual(
+    [["set","page","/settings/about/privacy-policy.html"],["send","pageview"]]);
   });
 });
