@@ -1,6 +1,7 @@
 import { async, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController, ModalController, AlertController } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
+import { AlertServiceMock } from '../../../test-config/mocks-ionic';
 import { AlertService } from '../../providers/alert.service';
 import { MyApp } from '../../app/app.component';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
@@ -19,7 +20,7 @@ describe('MyBuses Component', () => {
       ],
       providers: [
         NavController,
-        AlertService,
+        { provide: AlertService, useClass: AlertServiceMock },
         AlertController,
         ModalController,
         FavoriteTripService,
@@ -64,7 +65,29 @@ describe('MyBuses Component', () => {
       spyOn(component, 'getSavedTrips');
       component.ionViewWillEnter();
       expect(component.getSavedTrips).toHaveBeenCalled();
-
     });
+  });
+  describe('filterAlerts', () => {
+    beforeEach(() => {
+      component.routes = [{RouteId: 20038}, {RouteId: 20035}];
+    });
+    it('begins with an empty alerts array', () => {
+      expect(component.alerts).toBeTruthy();
+      expect(Array.isArray(component.alerts)).toEqual(true);
+      expect(component.alerts.length).toEqual(0);
+    });
+    it('adds alerts with no specific route to the array', () => {
+      component.filterAlerts();
+      // expect(component.alerts.length).toBeGreaterThan(0);
+      // expect(component.alerts).toContain({
+      //   MessageId: 0,
+      //   Message: "All routes",
+      //   Routes: []
+      // });
+      expect(false).toEqual(true);
+    });
+    it('keeps alerts whose routes are in the favorites', () => {
+      expect(false).toEqual(true);
+    })
   });
 });

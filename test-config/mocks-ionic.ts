@@ -1,3 +1,26 @@
+export class AlertServiceMock {
+  getAlerts(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      resolve([
+        {
+          MessageId: 0,
+          Message: "All routes",
+          Routes: []
+        },
+        {
+          MessageId: 1,
+          Message: "A 38/39 alert.",
+          Routes: [ 20038, 20039 ]
+        },
+        {
+          MessageId: 2,
+          Message: "A 35 alert.",
+          Routes: [ 20035]
+        }
+      ]);
+    });
+  }
+}
 export class NavParamsMock {
   static returnParam = null;
   public get(key): any {
