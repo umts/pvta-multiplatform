@@ -31,26 +31,31 @@
     <ion-refresher-content pullingText="Pull to refresh departures...">
     </ion-refresher-content>
   </ion-refresher>
-  <ion-list aria-label="upcoming departures at this stop" role="list" no-lines>
+  <ion-list aria-label="upcoming departures at this stop" role="list">
     <div *ngIf="order == '0'">
       <div *ngFor="let direction of departuresByDirection">
         <div ion-item (click)="toggleRouteDropdown(direction)" [style.background-color]="'#'+routeList[direction.RouteId]?.Color" [style.color]="'white'">
           <!-- [ngClass]="{active: isRouteDropdownShown({{direction}})}" -->
           <ion-grid>
             <ion-row>
-              <ion-col class="route-shortname">
+              <ion-col col-auto class="route-shortname">
                 {{routeList[direction.RouteId]?.RouteAbbreviation}}
               </ion-col>
-              <ion-col width-50>
+              <ion-col col-6-auto style="text-align: center;">
                 {{direction.Departures[0].Trip.InternetServiceDesc}}
               </ion-col>
-              <ion-col width-33 right>
-                <span>
+              <ion-col col-auto offset-12 style="text-align: right;">
+                <p style="color: white;">
                   {{direction.Departures[0].Times.eExact}}
-                </span>
+                </p>
                 <p style="color: white">
                   ({{direction.Departures[0].Times.eRelativeNoPrefix}})
                 </p>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col offset-11>
+                <ion-icon [name]="isRouteDropdownShown(direction) ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
               </ion-col>
             </ion-row>
           </ion-grid>
