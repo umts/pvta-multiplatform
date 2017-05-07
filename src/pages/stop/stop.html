@@ -63,17 +63,17 @@
         <!-- When a route has been expanded, show its departures -->
         <div ion-item [hidden]="!isRouteDropdownShown(direction)" (click)="goToRoutePage(direction.RouteId)">
           <!-- ^^ this was part of that tag >> class="item-accordion" -->
-          <ion-grid>
+          <ion-grid style="font-size: 90%">
             <ion-row>
-              <ion-col></ion-col>
+              <ion-col col-5></ion-col>
               <ion-col>
                 <div class="center">
-                  <b>Scheduled</b>
+                  <ion-icon name="calendar" ios="ios-calendar-outline"></ion-icon>
                 </div>
               </ion-col>
               <ion-col>
                 <div class="center">
-                  <b>Estimated</b>
+                  <ion-icon name="timer" ios="ios-timer-outline"></ion-icon>
                 </div>
               </ion-col>
             </ion-row>
@@ -83,14 +83,23 @@
               </ion-col>
               <ion-col>
                 <div class="center departure-padding">
-                  {{departure.Times.sExact}}
+                  {{departure.Times.sExact}}<br>
                   ({{departure.Times.sRelative}})
                 </div>
               </ion-col>
-              <ion-col>
-                <div class="center departure-padding">
-                  {{departure.Times.eExact}}
+              <ion-col class="center departure-padding">
+                <div *ngIf="departure.Times.msUntilTripStarts < 600000">
+                  {{departure.Times.eExact}}<br>
                   ({{departure.Times.eRelativeNoPrefix}})
+                  <br>
+                  <span [style.color]="departure.Times.estLateness > 5 ? 'red' : 'green'">
+                    {{departure.Times.estLateness > 4 ?
+                    departure.Times.estLateness + ' minutes late' :
+                    'On time'}}
+                  </span>
+                </div>
+                <div *ngIf="departure.Times.msUntilTripStarts > 600000">
+                  ---- <br>
                 </div>
               </ion-col>
             </ion-row>

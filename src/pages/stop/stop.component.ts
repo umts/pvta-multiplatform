@@ -173,15 +173,35 @@ export class StopComponent {
    * either a scheduled time ('s') or an estimated time ('e').
    */
   calculateTimes (departure): Object {
+    let sdt = moment(departure.SDT);
+    let edt = moment(departure.EDT);
+    // Avail bug: tripStart date is wrong, but time is correct
+    let badTrip = moment(departure.Trip.TripStartTime);
+    let tripStartAdjusted = moment()
+      .hour(badTrip.hour())
+      .minute(badTrip.minute())
+      .second(0)
+      .millisecond(0);
+    // Trip has started if start time is in the past
+    let msUntilTripStarts = tripStartAdjusted.diff(moment());
+    let tripHasStarted = msUntilTripStarts < 0;
+    // ex: '6 minutes'
+    let sRelativeNoPrefix =  moment(sdt).fromNow(true);
+    let eRelativeNoPrefix = moment(edt).fromNow(true);
+    let sRelative = moment(sdt).fromNow();
+    let eRelative = moment(edt).fromNow();
     return {
+      // ex: '2 minutes'
+      estLateness: edt.diff(sdt, 'minutes'),
+      tripStarted: tripHasStarted,
+      msUntilTripStarts: msUntilTripStarts,
       // ex: '8:12 PM'
-      sExact: moment(departure.SDT).format('LT'),
-      eExact: moment(departure.EDT).format('LT'),
-      // ex: 'in 6 minutes'
-      sRelative: moment(departure.SDT).fromNow(),
-      eRelative: moment(departure.EDT).fromNow(),
-      // ex: '6 minutes'
-      eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
+      sExact: moment(sdt).format('LT'),
+      eExact: moment(edt).format('LT'),
+      sRelative: sRelative,
+      eRelative: eRelative,
+      sRelativeNoPrefix: sRelativeNoPrefix,
+      eRelativeNoPrefix: eRelativeNoPrefix
     };
   }
   /**
