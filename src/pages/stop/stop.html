@@ -61,24 +61,24 @@
           </ion-grid>
         </div>
         <!-- When a route has been expanded, show its departures -->
-        <div ion-item [hidden]="!isRouteDropdownShown(direction)" (click)="goToRoutePage(direction.RouteId)">
+        <div [style.background-color]="'#'+routeList[direction.RouteId]?.Color" ion-item [hidden]="!isRouteDropdownShown(direction)" (click)="goToRoutePage(direction.RouteId)">
           <!-- ^^ this was part of that tag >> class="item-accordion" -->
-          <ion-grid style="font-size: 90%">
+          <ion-grid style="margin-left: 10%; font-size: 90%; padding-right: 10%" [style.color]="'white'">
             <ion-row>
-              <ion-col col-5></ion-col>
+              <ion-col></ion-col>
               <ion-col>
                 <div class="center">
-                  <ion-icon name="calendar" ios="ios-calendar-outline"></ion-icon>
+                  <b>Scheduled</b>
                 </div>
               </ion-col>
               <ion-col>
                 <div class="center">
-                  <ion-icon name="timer" ios="ios-timer-outline"></ion-icon>
+                  <b>Estimated</b>
                 </div>
               </ion-col>
             </ion-row>
             <ion-row *ngFor="let departure of direction.Departures">
-              <ion-col col-5 offset-0>
+              <ion-col>
                 {{departure.Trip.InternetServiceDesc}}
               </ion-col>
               <ion-col>
@@ -90,13 +90,7 @@
               <ion-col class="center departure-padding">
                 <div *ngIf="departure.Times.msUntilTripStarts < 600000">
                   {{departure.Times.eExact}}<br>
-                  ({{departure.Times.eRelativeNoPrefix}})
-                  <br>
-                  <span [style.color]="departure.Times.estLateness > 5 ? 'red' : 'green'">
-                    {{departure.Times.estLateness > 4 ?
-                    departure.Times.estLateness + ' minutes late' :
-                    'On time'}}
-                  </span>
+                  ({{departure.Times.eRelative}})
                 </div>
                 <div *ngIf="departure.Times.msUntilTripStarts > 600000">
                   ---- <br>
