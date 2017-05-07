@@ -10,7 +10,7 @@ import { AutoRefreshService } from '../../providers/auto-refresh.service';
 import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { ConnectivityService } from '../../providers/connectivity.service';
 import { StopComponent } from './stop.component';
-import { NavParamsMock } from '../../../test-config/mocks-ionic';
+import { NavParamsMock, StopDepartureServiceMock } from '../../../test-config/mocks-ionic';
 
 describe('Stop Component', () => {
   let fixture;
@@ -26,7 +26,7 @@ describe('Stop Component', () => {
       providers: [
         NavController,
         { provide: NavParams, useClass: NavParamsMock },
-        StopDepartureService,
+        { provide: StopDepartureService, useClass: StopDepartureServiceMock },
         InfoService,
         RouteService,
         LoadingController,
@@ -59,4 +59,15 @@ describe('Stop Component', () => {
     expect((<any>window).ga.calls.allArgs()).toEqual(
     [["set","page","/stop.html"],["send","pageview"]]);
   });
+  describe('getDepartures', () => {
+    it('gets stop departures', () => {
+      let departureService = fixture.debugElement.injector.get(StopDepartureService);
+      spyOn(departureService, 'getStopDeparture');
+      component.getDepartures();
+      expect(departureService.getStopDepartures).toHaveBeenCalled();
+    });
+  });
+  describe('sort', () => {
+
+  })
 });

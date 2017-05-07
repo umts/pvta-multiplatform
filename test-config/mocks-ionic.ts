@@ -1,3 +1,10 @@
+export class StopDepartureServiceMock {
+  getStopDeparture(): Promise<any> {
+    return new Promise((resolve, reject) => {
+        resolve([{}]);
+    });
+  }
+}
 export class AlertServiceMock {
   getAlerts(): Promise<any> {
     return new Promise((resolve, reject) => {
