@@ -73,14 +73,14 @@
         <ion-item-divider color="light">Destination</ion-item-divider>
         <ion-item>{{route['end_address']}}</ion-item>
       </ion-item-group>
-      <ion-item-group>
+      <ion-item-group *ngIf="route['departure_time']">
         <ion-item-divider color="light">Departure Time:</ion-item-divider>
         <ion-item>
           {{route['departure_time']['value'] | date: "h:mm a"}},
           {{route['departure_time']['value'] | date: "EEEE dd MMM yyyy"}}
         </ion-item>
       </ion-item-group>
-      <ion-item-group>
+      <ion-item-group *ngIf="route['arrival_time']">
         <ion-item-divider color="light">Arrival Time:</ion-item-divider>
         <ion-item>
           {{route['arrival_time']['value'] | date: "h:mm a"}},
