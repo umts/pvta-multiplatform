@@ -35,7 +35,6 @@
     <div *ngIf="order == '0'">
       <div *ngFor="let direction of departuresByDirection">
         <div ion-item (click)="toggleRouteDropdown(direction)" [style.background-color]="'#'+routeList[direction.RouteId]?.Color" [style.color]="'white'">
-          <!-- [ngClass]="{active: isRouteDropdownShown({{direction}})}" -->
           <ion-grid no-padding>
             <ion-row>
               <ion-col col-3 class="route-shortname">
@@ -60,8 +59,6 @@
         </div>
         <!-- When a route has been expanded, show its departures -->
         <div [style.background-color]="'#'+routeList[direction.RouteId]?.Color" ion-item [hidden]="!isRouteDropdownShown(direction)" (click)="goToRoutePage(direction.RouteId)">
-          <!-- ^^ this was part of that tag >> class="item-accordion" -->
-          
           <ion-grid style="margin-left: 10%; font-size: 90%; padding-right: 10%" [style.color]="'white'">
             <ion-row>
               <ion-col></ion-col>
