@@ -175,16 +175,6 @@ export class StopComponent {
   calculateTimes (departure): Object {
     let sdt = moment(departure.SDT);
     let edt = moment(departure.EDT);
-    // Avail bug: tripStart date is wrong, but time is correct
-    let badTrip = moment(departure.Trip.TripStartTime);
-    let tripStartAdjusted = moment()
-      .hour(badTrip.hour())
-      .minute(badTrip.minute())
-      .second(0)
-      .millisecond(0);
-    // Trip has started if start time is in the past
-    let msUntilTripStarts = tripStartAdjusted.diff(moment());
-    let tripHasStarted = msUntilTripStarts < 0;
     // ex: '6 minutes'
     let sRelativeNoPrefix =  moment(sdt).fromNow(true);
     let eRelativeNoPrefix = moment(edt).fromNow(true);
@@ -193,8 +183,6 @@ export class StopComponent {
     return {
       // ex: '2 minutes'
       estLateness: edt.diff(sdt, 'minutes'),
-      tripStarted: tripHasStarted,
-      msUntilTripStarts: msUntilTripStarts,
       // ex: '8:12 PM'
       sExact: moment(sdt).format('LT'),
       eExact: moment(edt).format('LT'),

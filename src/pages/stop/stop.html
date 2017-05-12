@@ -36,15 +36,15 @@
       <div *ngFor="let direction of departuresByDirection">
         <div ion-item (click)="toggleRouteDropdown(direction)" [style.background-color]="'#'+routeList[direction.RouteId]?.Color" [style.color]="'white'">
           <!-- [ngClass]="{active: isRouteDropdownShown({{direction}})}" -->
-          <ion-grid>
+          <ion-grid no-padding>
             <ion-row>
               <ion-col col-3 class="route-shortname">
                 {{routeList[direction.RouteId]?.RouteAbbreviation}}
               </ion-col>
-              <ion-col col-5 style="text-align: center;">
+              <ion-col col-4 style="text-align: left;">
                 {{direction.Departures[0].Trip.InternetServiceDesc}}
               </ion-col>
-              <ion-col col-4 style="text-align: right;">
+              <ion-col col-4 style="text-align: center;">
                 <p style="color: white;">
                   {{direction.Departures[0].Times.eExact}}
                 </p>
@@ -52,9 +52,7 @@
                   ({{direction.Departures[0].Times.eRelativeNoPrefix}})
                 </p>
               </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col offset-11>
+              <ion-col >
                 <ion-icon [name]="isRouteDropdownShown(direction) ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
               </ion-col>
             </ion-row>
@@ -63,6 +61,7 @@
         <!-- When a route has been expanded, show its departures -->
         <div [style.background-color]="'#'+routeList[direction.RouteId]?.Color" ion-item [hidden]="!isRouteDropdownShown(direction)" (click)="goToRoutePage(direction.RouteId)">
           <!-- ^^ this was part of that tag >> class="item-accordion" -->
+          
           <ion-grid style="margin-left: 10%; font-size: 90%; padding-right: 10%" [style.color]="'white'">
             <ion-row>
               <ion-col></ion-col>
@@ -88,12 +87,9 @@
                 </div>
               </ion-col>
               <ion-col class="center departure-padding">
-                <div *ngIf="departure.Times.msUntilTripStarts < 600000">
+                <div>
                   {{departure.Times.eExact}}<br>
                   ({{departure.Times.eRelative}})
-                </div>
-                <div *ngIf="departure.Times.msUntilTripStarts > 600000">
-                  ---- <br>
                 </div>
               </ion-col>
             </ion-row>
