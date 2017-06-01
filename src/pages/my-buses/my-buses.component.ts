@@ -7,6 +7,8 @@ import { RouteComponent } from '../route/route.component';
 import { PlanTripComponent } from '../plan-trip/plan-trip.component';
 import { AlertService } from '../../providers/alert.service';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
+import { FavoriteRouteService } from '../../providers/favorite-route.service';
+import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { Alert } from '../../models/alert.model';
 import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';
 import { RouteModal, RouteModalRequester } from '../../modals/route-modal/route.modal';
@@ -25,7 +27,8 @@ export class MyBusesComponent {
   trips;
   constructor(public navCtrl: NavController, private storage: Storage,
     private alertSvc: AlertService, private alertCtrl: AlertController,
-    private modalCtrl: ModalController, private tripSvc: FavoriteTripService) {
+    private modalCtrl: ModalController, private tripSvc: FavoriteTripService,
+    private stopSvc: FavoriteStopService, private routeSvc: FavoriteRouteService) {
       this.alerts = [];
       ga('set', 'page', '/my-buses.html');
       ga('send', 'pageview');
@@ -162,8 +165,21 @@ export class MyBusesComponent {
       loadedTrip: trip
     });
   }
+
   deleteTrip(trip): void {
     _.remove(this.trips, {name: trip.name});
     this.tripSvc.deleteTrip(trip);
+  }
+
+  removeRoute(route): void {
+    _.remove(this.routes, {name: route.name});
+    this.routeSvc.remove(route);
+    this.getFavoriteRoutes();
+  }
+
+  removeStop(stop): void {
+    _.remove(this.stops, {name: stop.name});
+    this.stopSvc.remove(stop);
+    this.getFavoriteStops();
   }
 }
