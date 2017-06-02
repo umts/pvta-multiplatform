@@ -28,7 +28,7 @@
         No favorite routes yet!
       </ion-item>
       <ion-list role="list" aria-label="your routes">
-        <ion-item-sliding *ngFor="let route of routes">
+        <ion-item-sliding #slidingRoute *ngFor="let route of routes">
           <button ion-item item-left  
           (click)="goToRoutePage(route?.RouteId)">
             <ion-row attr.aria-label="Route {{route.RouteAbbreviation}} {{route.GoogleDescription}}">
@@ -41,7 +41,7 @@
             </ion-row>
           </button>
           <ion-item-options>
-            <button ion-button color="danger" (click)="removeRoute(route)">Delete</button>
+            <button ion-button color="danger" (click)="removeRoute(route, slidingRoute)">Delete</button>
           </ion-item-options>
         </ion-item-sliding>
       </ion-list>
@@ -55,7 +55,7 @@
         <ion-item *ngIf="!stops">
           No favorite stops yet!
         </ion-item>
-        <ion-item-sliding *ngFor="let stop of stops">
+        <ion-item-sliding #slidingStop *ngFor="let stop of stops">
           <button ion-item item-left 
           (click)="goToStopPage(stop.StopId)" attr.aria-label="{{stop.Description}}, stop number {{stop.StopId}}">
             <ion-row>
@@ -68,7 +68,7 @@
             </ion-row>
           </button>
           <ion-item-options>
-            <button ion-button color="danger" (click)="removeStop(stop)">Delete</button>
+            <button ion-button color="danger" (click)="removeStop(stop, slidingStop)">Delete</button>
           </ion-item-options>
         </ion-item-sliding>
       </ion-list>

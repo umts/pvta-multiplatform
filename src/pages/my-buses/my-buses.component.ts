@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, ModalController, AlertController } from 'ionic-angular';
+import { NavController, ModalController, AlertController, ItemSliding } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StopComponent } from '../stop/stop.component';
 import { RouteComponent } from '../route/route.component';
@@ -171,13 +171,15 @@ export class MyBusesComponent {
     this.tripSvc.deleteTrip(trip);
   }
 
-  removeRoute(route): void {
+  removeRoute(route, slidingRoute: ItemSliding): void {
     _.remove(this.routes, {name: route.Name});
     this.routeSvc.remove(route);
+    slidingRoute.close();
   }
 
-  removeStop(stop): void {
+  removeStop(stop, slidingStop: ItemSliding): void {
     _.remove(this.stops, {name: stop.Name});
     this.stopSvc.remove(stop.StopId);
+    slidingStop.close();
   }
 }
