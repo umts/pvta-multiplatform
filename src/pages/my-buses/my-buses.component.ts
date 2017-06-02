@@ -172,14 +172,12 @@ export class MyBusesComponent {
   }
 
   removeRoute(route): void {
-    _.remove(this.routes, {name: route.name});
+    _.remove(this.routes, {name: route.Name});
     this.routeSvc.remove(route);
-    this.getFavoriteRoutes();
   }
 
   removeStop(stop): void {
-    _.remove(this.stops, {name: stop.name});
-    this.stopSvc.remove(stop);
-    this.getFavoriteStops();
+    _.remove(this.stops, {name: stop.Name});
+    this.stopSvc.remove(stop.StopId);
   }
 }
