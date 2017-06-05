@@ -20,7 +20,7 @@ To begin developing, follow these steps:
 
 ## Setup
 
-1. Clone repository
+1. Clone repository, cd into it.
 
 2. Run `npm install`
 
