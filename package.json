@@ -12,7 +12,7 @@
     "ionic:serve": "ionic-app-scripts serve",
     "test": "karma start ./test-config/karma.conf.js",
     "test-coverage": "karma start ./test-config/karma.conf.js --coverage",
-    "test-ci": "karma start ./test-config/karma.conf.js --single-run --coverage" ,
+    "test-ci": "karma start ./test-config/karma.conf.js --single-run --coverage",
     "e2e": "webdriver-manager update --standalone false --gecko false; protractor ./test-config/protractor.conf.js"
   },
   "config": {
@@ -51,6 +51,7 @@
     "@ionic/app-scripts": "1.1.4",
     "@ionic/cli-build-ionic-angular": "0.0.3",
     "@ionic/cli-plugin-cordova": "0.0.9",
+    "@ionic/cli-plugin-ionic-angular": "1.0.0",
     "@types/jasmine": "^2.5.41",
     "@types/node": "^7.0.8",
     "angular2-template-loader": "^0.6.2",
