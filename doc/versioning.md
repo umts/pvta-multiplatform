@@ -1,4 +1,4 @@
-which is (currently) a 4 digit integer, as follows:
+The following are recommendations for how to update the version, which is (currently) a 4 digit integer:
 
  - Round up to the nearest thousand for a major release (i.e. 1010 -> 2000, or in Semantic Versioning terms, this would be represented as 1.0.1 -> 2.0.0).
 
