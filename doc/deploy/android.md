@@ -10,33 +10,30 @@
 
 1. `npm install`
 
-2. (PVTrAck 1.x only) `bower install`
+2. Open `config.xml`. On line 2, increment `android-versionCode` with your appropriately chosen new version number.
 
-3. Open `config.xml`. On line 2, increment `android-versionCode` with your appropriately chosen new version number.
+3. (PVTrAck 2+) `ionic build android --prod --release`
 
-
-4. (PVTrAck 2+) `ionic build android --prod --release`
-
-  (PVTrAck 1.x) `ionic prepare android --release`
+    Troubleshooting: if you get an error related to whether this is an Android project, try the following:
 
   ```
-    Troubleshooting: if you get an error related to whether this is an Android project, try the following:
       $ ionic platform rm android
       $ ionic platform add android
   ```
-  *Steps 5-10 can be done in terminal and easily automated. See [Ionic's docs](http://ionicframework.com/docs/guide/publishing.html)*
+  *Steps 4-10 can be done in terminal and easily automated. See [Ionic's docs](http://ionicframework.com/docs/guide/publishing.html)*
 
-5. Open the project in Android Studio, where the Android project root is at `platforms/android/`.
+4. Open the project in Android Studio, where the Android project root is at `platforms/android/`.
 
-6. In Android Studio, select Build -> Generate Signed APK. An appropriately titled dialog box should appear.
-7. Select Next to choose the module we wish to build the APK against. We have only one, called `android`.
+5. In Android Studio, select Build -> Generate Signed APK. An appropriately titled dialog box should appear.
 
-8. Browse for your keystore that contains the official PVTrAck signing key. Enter the password for the store itself, the key alias, and key password. Enter your master password if prompted.
+6. Select Next to choose the module we wish to build the APK against. We have only one, called `android`.
 
-9. Specify a destination folder for the APK (default is OK). Leave the build type set to RELEASE unless you want a debug build for a test device. Select Finish.
+7. Browse for your keystore that contains the official PVTrAck signing key. Enter the password for the store itself, the key alias, and key password. Enter your master password if prompted.
 
-10. Navigate to where your new APK is.
+8. Specify a destination folder for the APK (default is OK). Leave the build type set to RELEASE unless you want a debug build for a test device. Select Finish.
 
-11. In the [Google Play Developer Console](play.google.com/apps/publish), follow the instructions for uploading a new APK.
+9. Navigate to where your new APK is.
+
+10. In the [Google Play Developer Console](play.google.com/apps/publish), follow the instructions for uploading a new APK.
 
 12. Rejoice! :party:
