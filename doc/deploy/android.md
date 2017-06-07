@@ -20,15 +20,14 @@
       $ ionic platform rm android
       $ ionic platform add android
   ```
-  *Steps 4-10 can be done in terminal and easily automated. See [Ionic's docs](http://ionicframework.com/docs/guide/publishing.html)*
 
 4. Open the project in Android Studio, where the Android project root is at `platforms/android/`.
 
 5. Follow the [official Android docs' guide](https://developer.android.com/studio/publish/app-signing.html#release-mode) for generating a signed `apk`. PVTrAck-specific details can be found in the [signing keys doc](android-keys.md).
 
 
-7. Navigate to where your new APK is.
+6. Navigate to where your new APK is.
 
-8. In the [Google Play Developer Console](play.google.com/apps/publish), follow the instructions for uploading a new APK.
+7. In the [Google Play Developer Console](play.google.com/apps/publish), follow the instructions for uploading a new APK.
 
-9. Rejoice! :party:
+8. Rejoice! :party:
