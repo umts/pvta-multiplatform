@@ -3,7 +3,7 @@
 Forthcoming, aka @akaplo doesn't entirely remember and will document when he steps through the process next. However, the general process is as follows.
 
 ##### Prerequirements
-- You **must** read the [general deploy info](https://github.com/umts/pvta-multiplatform/tree/master/doc/deploy.README.md).
+- You **must** read the [general deploy info](README.md).
 - You **must** have access to the PVTA's [Apple Developer](developer.apple.com) account.
 - You **must** have Xcode >= 7 installed on macOS >= 10.11.
 

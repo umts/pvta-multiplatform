@@ -1,7 +1,7 @@
 ## Deploying PVTrAck to the Web
 
 ##### Prerequirements
-- You **must** read the [general deploy info](https://github.com/umts/pvta-multiplatform/tree/master/doc/deploy.README.md).
+- You **must** read the [general deploy info](README.md).
 - You **must** have SSH access to `app3` at `UMass Amherst`. See @werebus or @sherson.
 
 From your local clone, execute the following commands (this assumes that your machine has a recent version of Ruby):

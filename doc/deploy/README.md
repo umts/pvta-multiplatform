@@ -12,13 +12,13 @@ Play Store and App Store sections loosely follow the [Ionic documentation for pu
 
 ## Deploying to the Web
 
-For detailed steps, see [the deploy/web doc](https://github.com/umts/pvta-multiplatform/tree/master/doc/deploy/web.md).
+For detailed steps, see [the deploy/web doc](web.md).
 
 ## Deploying to the Google Play Store
 
-For detailed steps, see [the deploy/android doc](https://github.com/umts/pvta-multiplatform/tree/master/doc/deploy/android.md).
+For detailed steps, see [the deploy/android doc](android.md).
 
 
 ## Deploying to the Apple App Store
 
-For detailed steps, see [the deploy/ios doc](https://github.com/umts/pvta-multiplatform/tree/master/doc/deploy/ios.md).
+For detailed steps, see [the deploy/ios doc](ios.md).

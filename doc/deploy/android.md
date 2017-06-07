@@ -1,6 +1,6 @@
 ## Deploying to the Google Play Store
 ##### Prerequirements
-- You **must** read the [general deploy info](https://github.com/umts/pvta-multiplatform/tree/master/doc/deploy.README.md).
+- You **must** read the [general deploy info](README.md).
 - You **must** have the official PVTrAck signing key. See @akaplo or @sherson.
 - You **must** have the Android SDK and Android build tools installed (both bundled with Android Studio). We target API level 25 (Nougat, 7.1).
 - You **must** have access to the [Google Play Developer Console](play.google.com/apps/publish) (see @sherson).
