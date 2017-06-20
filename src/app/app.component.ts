@@ -31,7 +31,7 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'My Buses', component: MyBusesComponent },
+      { title: 'Favorites', component: MyBusesComponent },
       { title: 'Routes and Stops', component: RoutesAndStopsComponent },
       { title: 'Schedule', component: PlanTripComponent },
       { title: 'Settings', component: SettingsComponent }
