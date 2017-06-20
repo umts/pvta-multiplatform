@@ -66,7 +66,7 @@ import { AutoRefreshService } from '../providers/auto-refresh.service';
   imports: [
     IonicModule.forRoot(MyApp, {}, {
       links: [
-        {component: MyBusesComponent, name: 'My Buses', segment: 'my-buses'},
+        {component: MyBusesComponent, name: 'My Buses', segment: 'favorites'},
         {component: RoutesAndStopsComponent, name: 'Routes and Stops', segment: 'routes-and-stops'},
         {component: PlanTripComponent, name: 'Plan Trip', segment: 'plan-trip'},
         {component: SettingsComponent, name: 'Settings', segment: 'settings'},
