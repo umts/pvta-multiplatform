@@ -9,6 +9,10 @@
     <ion-content>
       <ion-list role="navigation" id="navigation-menu" aria-label="Peeveetrack Menu">
         <button role="link" menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon name="ios-heart-outline" *ngIf="p.title == 'Favorites'"></ion-icon>
+        <ion-icon name="ios-cog-outline" *ngIf="p.title == 'Settings'"></ion-icon>
+        <ion-icon name="bus" *ngIf="p.title == 'Routes and Stops'"></ion-icon>
+        <ion-icon name="ios-calendar-outline" *ngIf="p.title == 'Schedule'"></ion-icon>
           {{p.title}}
         </button>
       </ion-list>
