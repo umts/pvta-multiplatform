@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, AlertController } from 'ionic-angular';
+import { NavController, LoadingController, ToastController, Toast, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation';
 import { RouteService } from '../../providers/route.service';
@@ -22,6 +22,7 @@ declare var ga;
 })
 
 export class RoutesAndStopsComponent {
+  toast: Toast;
   routes: Route[];
   stops: Stop[];
   favStops: FavoriteStopModel[];
@@ -38,10 +39,11 @@ export class RoutesAndStopsComponent {
   loader;
   isInternetExplorer: boolean = false;
   constructor(public navCtrl: NavController, private infoSvc: InfoService,
-    private routeSvc: RouteService, private stopSvc: StopService,
-    private loadingCtrl: LoadingController, private storage: Storage,
-    private favRouteSvc: FavoriteRouteService, private alertCtrl: AlertController,
-    private favStopSvc: FavoriteStopService, private geolocation: Geolocation) {
+    private toastCtrl: ToastController, private routeSvc: RouteService, 
+    private stopSvc: StopService, private loadingCtrl: LoadingController, 
+    private storage: Storage, private favRouteSvc: FavoriteRouteService, 
+    private alertCtrl: AlertController, private favStopSvc: FavoriteStopService,
+    private geolocation: Geolocation) {
       this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.order = 'favorites';
       this.cDisplay = 'routes';
@@ -71,6 +73,19 @@ export class RoutesAndStopsComponent {
         });
       }
     }
+  }
+  
+  showToast(message: string): void {
+    if (this.toast) {
+      this.toast.dismissAll();
+    }
+    
+  this.toast = this.toastCtrl.create({
+      message: message,
+      position: 'bottom',
+      showCloseButton: true
+      });
+    this.toast.present();
   }
 
   goToRoutePage(routeId: number): void {
@@ -108,10 +123,18 @@ export class RoutesAndStopsComponent {
 
   toggleRouteHeart(route: Route): void {
     this.favRouteSvc.toggleFavorite(route);
+    if (route.Liked) {
+      this.showToast('Route added to Favorites');
+    }
+    else this.showToast('Route removed from Favorites');
   }
   toggleStopHeart(stop: Stop): void {
     this.favStopSvc.toggleFavorite(stop.StopId, stop.Description);
-  }
+    if (stop.Liked) {
+      this.showToast('Stop added to Favorites');
+    }
+    else this.showToast('Stop removed from Favorites');
+   }
 
   getfavRoutes(): Promise<any> {
     return this.storage.ready().then(() => {
