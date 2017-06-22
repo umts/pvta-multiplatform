@@ -24,7 +24,7 @@
       <span role="heading">Your Routes</span>
       <button ion-button outline item-right aria-label="Add favorite routes. Opens a popup that won't get keyboard focus, please navigate to the bottom of the page after pressing" (click)="showRouteModal()">Add Routes</button>
     </ion-item-divider>
-      <ion-item *ngIf="!routes">
+      <ion-item *ngIf="!routes || routes.length == 0">
         No favorite routes yet!
       </ion-item>
       <div role="list" aria-label="your routes">
@@ -47,7 +47,7 @@
         <button ion-button outline item-right aria-label="Add favorite stops. Opens a popup that won't get keyboard focus, please navigate to the bottom of the page after pressing" (click)="showStopModal()">Add Stops</button>
       </ion-item-divider>
       <div role="list" aria-label="your stops">
-        <ion-item *ngIf="!stops">
+        <ion-item *ngIf="!stops || stops.length == 0">
           No favorite stops yet!
         </ion-item>
         <button ion-item item-left *ngFor="let stop of stops"
