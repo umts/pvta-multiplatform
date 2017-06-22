@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, ToastController, Toast, AlertController } from 'ionic-angular';
 import { RouteService } from '../../providers/route.service';
 import { VehicleService } from '../../providers/vehicle.service';
 import { AlertService } from '../../providers/alert.service';
@@ -21,6 +21,7 @@ declare var ga;
   templateUrl: 'route.html'
 })
 export class RouteComponent {
+  toast: Toast;
   routeId: number;
   route: RouteDetail;
   vehicles: Vehicle[];
@@ -30,11 +31,24 @@ export class RouteComponent {
     private routeService: RouteService, private vehicleService: VehicleService,
     private alertService: AlertService, private connection: ConnectivityService,
     private modalCtrl: ModalController, private favoriteRouteService: FavoriteRouteService,
-    private alertCtrl: AlertController) {
+    private toastCtrl: ToastController, private alertCtrl: AlertController) {
     this.routeId = parseInt(navParams.get('routeId'), 10);
     this.alerts = [];
     ga('set', 'page', '/route.html');
     ga('send', 'pageview');
+  }
+
+  showToast(message: string): void {
+    if (this.toast) {
+      this.toast.dismissAll();
+    }
+
+  this.toast = this.toastCtrl.create({
+    message: message,
+    position: 'bottom',
+    showCloseButton: true
+     });
+    this.toast.present();
   }
 
   getVehicles(refresher): void {
@@ -66,6 +80,10 @@ export class RouteComponent {
 
   toggleRouteHeart(route): void {
     this.favoriteRouteService.toggleFavorite(route);
+    if (route.Liked) {
+      this.showToast('Route added to Favorites');
+    }
+    else this.showToast('Route removed from Favorites');
   }
 
   showStopModal (): void {
