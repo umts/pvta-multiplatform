@@ -27,8 +27,8 @@ export class MyBusesComponent {
   trips;
   constructor(public navCtrl: NavController, private storage: Storage,
     private alertSvc: AlertService, private alertCtrl: AlertController,
-    private modalCtrl: ModalController, private tripSvc: FavoriteTripService,
-    private stopSvc: FavoriteStopService, private routeSvc: FavoriteRouteService) {
+    private modalCtrl: ModalController, private favTripSvc: FavoriteTripService,
+    private favStopSvc: FavoriteStopService, private favRouteSvc: FavoriteRouteService) {
       this.alerts = [];
       ga('set', 'page', '/my-buses.html');
       ga('send', 'pageview');
@@ -109,7 +109,7 @@ export class MyBusesComponent {
     });
   }
   getSavedTrips(): void {
-    this.tripSvc.getSavedTrips().then(savedTrips => {
+    this.favTripSvc.getSavedTrips().then(savedTrips => {
       this.trips = savedTrips;
     });
   }
@@ -168,18 +168,16 @@ export class MyBusesComponent {
 
   deleteTrip(trip): void {
     _.remove(this.trips, {name: trip.name});
-    this.tripSvc.deleteTrip(trip);
+    this.favTripSvc.deleteTrip(trip);
   }
 
   removeRoute(route, slidingRoute: ItemSliding): void {
-    _.remove(this.routes, {name: route.Name});
-    this.routeSvc.remove(route);
+    this.favRouteSvc.remove(route);
     slidingRoute.close();
   }
 
   removeStop(stop, slidingStop: ItemSliding): void {
-    _.remove(this.stops, {name: stop.Name});
-    this.stopSvc.remove(stop.StopId);
+    this.favStopSvc.remove(stop.StopId);
     slidingStop.close();
   }
 }
