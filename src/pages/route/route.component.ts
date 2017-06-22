@@ -42,12 +42,11 @@ export class RouteComponent {
     if (this.toast) {
       this.toast.dismissAll();
     }
-
-  this.toast = this.toastCtrl.create({
-    message: message,
-    position: 'bottom',
-    showCloseButton: true
-     });
+    this.toast = this.toastCtrl.create({
+      message: message,
+      position: 'bottom',
+      showCloseButton: true
+    });
     this.toast.present();
   }
 
