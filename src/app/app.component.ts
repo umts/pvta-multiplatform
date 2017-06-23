@@ -21,7 +21,7 @@ export class MyApp {
 
   rootPage: any = MyBusesComponent;
   offlineToast;
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{title: string, component: any, icon: string}>;
   runningInBrowser = false;
 
   constructor(public platform: Platform, private infoSvc: InfoService,
@@ -31,10 +31,26 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Favorites', component: MyBusesComponent },
-      { title: 'Routes and Stops', component: RoutesAndStopsComponent },
-      { title: 'Schedule', component: PlanTripComponent },
-      { title: 'Settings', component: SettingsComponent }
+      {
+        title: 'Favorites',
+        component: MyBusesComponent,
+        icon: 'ios-heart-outline'
+      },
+      {
+        title: 'Routes and Stops',
+        component: RoutesAndStopsComponent,
+        icon: 'bus'
+      },
+      {
+        title: 'Schedule',
+        component: PlanTripComponent,
+        icon: 'ios-calendar-outline'
+      },
+      {
+        title: 'Settings',
+        component: SettingsComponent,
+        icon: 'ios-cog-outline'
+      }
     ];
 
   }
