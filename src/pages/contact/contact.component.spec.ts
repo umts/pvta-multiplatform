@@ -1,5 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController } from 'ionic-angular';
+import { IonicModule } from 'ionic-angular';
 import { ContactComponent } from './contact.component';
 import { MyApp } from '../../app/app.component';
 import { IonicStorageModule } from '@ionic/storage';
@@ -16,7 +16,6 @@ describe('Contact Component', () => {
         IonicStorageModule.forRoot({name: 'test', storeName: 'test'})
       ],
       providers: [
-        NavController
       ]
     });
   }));

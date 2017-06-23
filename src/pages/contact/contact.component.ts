@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
 
 declare var ga;
 
@@ -8,9 +7,8 @@ declare var ga;
   templateUrl: 'contact.html'
 })
 export class ContactComponent {
-  constructor(public navCtrl: NavController) {
+  constructor() {
     ga('set', 'page', '/settings/contact.html');
     ga('send', 'pageview');
   }
-
 }
