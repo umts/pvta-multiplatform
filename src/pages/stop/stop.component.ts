@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 
-import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ToastController, Toast, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StopDeparture } from '../../models/stop-departure.model';
 import { Stop } from '../../models/stop.model';
@@ -23,6 +23,7 @@ declare var ga;
   templateUrl: 'stop.html'
 })
 export class StopComponent {
+  toast: Toast;
   directions: StopDeparture[];
   shownRoute: any = null;
   stopId: number;
@@ -42,6 +43,7 @@ export class StopComponent {
     private loadingCtrl: LoadingController, private favoriteStopSvc: FavoriteStopService,
     private stopSvc: StopService, private connection: ConnectivityService,
     private storage: Storage, private refreshSvc: AutoRefreshService,
+    private toastCtrl: ToastController,
     private alertCtrl: AlertController ) {
       this.stopId = parseInt(navParams.get('stopId'), 10);
       this.isInternetExplorer = infoSvc.isInternetExplorer();
@@ -51,6 +53,19 @@ export class StopComponent {
       ga('send', 'pageview');
       document.addEventListener('pause', this.handleAppPause);
       document.addEventListener('resume', this.handleAppResume);
+  }
+
+  showToast(message: string): void {
+    if (this.toast) {
+      this.toast.dismissAll();
+    }
+    
+  this.toast = this.toastCtrl.create({
+    message: message,
+    position: 'bottom',
+    showCloseButton: true
+    });
+    this.toast.present();
   }
 
   handleAppPause = () => {
@@ -163,7 +178,12 @@ export class StopComponent {
   toggleStopHeart(): void {
     // console.log('toggling', stop.Description);
     this.favoriteStopSvc.toggleFavorite(this.stopId, this.stop.Description);
+    if (this.liked) {
+      this.showToast('Stop added to Favorites');
+    }
+    else this.showToast('Stop removed from Favorites');
   }
+
   /**
    * Given a Departure object,
    * calculates the human-readable departure times
