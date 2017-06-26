@@ -4,7 +4,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AlertService } from '../../providers/alert.service';
 import { MyApp } from '../../app/app.component';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
-import { FavoritesComponent } from './my-buses.component';
+import { FavoritesComponent } from './favorites.component';
 
 describe('Favorites Component', () => {
   let fixture;
@@ -45,7 +45,7 @@ describe('Favorites Component', () => {
 
   it('sends a pageview to Google Analytics', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/my-buses.html']);
+    ['set', 'page', '/favorites.html']);
   });
   describe('ionViewWillEnter', () => {
     it('should call getFavoriteStops', () => {

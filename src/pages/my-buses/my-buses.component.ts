@@ -15,8 +15,8 @@ import * as _ from 'lodash';
 declare var ga;
 
 @Component({
-  selector: 'page-my-buses',
-  templateUrl: 'my-buses.html'
+  selector: 'page-favorites',
+  templateUrl: 'favorites.html'
 })
 export class FavoritesComponent {
   routes;
@@ -27,7 +27,7 @@ export class FavoritesComponent {
     private alertSvc: AlertService, private alertCtrl: AlertController,
     private modalCtrl: ModalController, private tripSvc: FavoriteTripService) {
       this.alerts = [];
-      ga('set', 'page', '/my-buses.html');
+      ga('set', 'page', '/favorites.html');
       ga('send', 'pageview');
     }
 

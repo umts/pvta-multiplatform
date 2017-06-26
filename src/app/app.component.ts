@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { FavoritesComponent } from '../pages/my-buses/my-buses.component';
+import { FavoritesComponent } from '../pages/favorites/favorites.component';
 import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
 import { RoutesAndStopsComponent } from '../pages/routes-and-stops/routes-and-stops.component';
 import { SettingsComponent } from '../pages/settings/settings.component';

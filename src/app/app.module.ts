@@ -15,7 +15,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 // Pages
 import { AboutComponent } from '../pages/about/about.component';
 import { ContactComponent } from '../pages/contact/contact.component';
-import { FavoritesComponent } from '../pages/my-buses/my-buses.component';
+import { FavoritesComponent } from '../pages/favorites/favorites.component';
 import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
 import { PrivacyPolicyComponent } from '../pages/privacy-policy/privacy-policy.component';
 import { RouteComponent } from '../pages/route/route.component';
@@ -66,7 +66,7 @@ import { AutoRefreshService } from '../providers/auto-refresh.service';
   imports: [
     IonicModule.forRoot(MyApp, {}, {
       links: [
-        {component: FavoritesComponent, name: 'Favorites', segment: 'my-buses'},
+        {component: FavoritesComponent, name: 'Favorites', segment: 'favorites'},
         {component: RoutesAndStopsComponent, name: 'Routes and Stops', segment: 'routes-and-stops'},
         {component: PlanTripComponent, name: 'Plan Trip', segment: 'plan-trip'},
         {component: SettingsComponent, name: 'Settings', segment: 'settings'},
