@@ -33,7 +33,7 @@ export class MyApp {
     this.pages = [
       {
         title: 'Favorites',
-        component: MyBusesComponent,
+        component: FavoritesComponent,
         icon: 'ios-heart-outline'
       },
       {
