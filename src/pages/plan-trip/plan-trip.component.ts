@@ -211,7 +211,8 @@ private geolocation: Geolocation) {
     var mapOptions = {
       zoom: 15,
       mapTypeControl: false,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      gestureHandling: 'cooperative'
     };
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     this.directionsDisplay = new google.maps.DirectionsRenderer;
