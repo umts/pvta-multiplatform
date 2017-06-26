@@ -18,7 +18,7 @@ declare var ga;
   selector: 'page-my-buses',
   templateUrl: 'my-buses.html'
 })
-export class MyBusesComponent {
+export class FavoritesComponent {
   routes;
   stops;
   alerts: Alert[];
@@ -114,7 +114,7 @@ export class MyBusesComponent {
   showStopModal(): void {
     let stopModal = this.modalCtrl.create(StopModal,
       {
-        requester: StopModalRequester.MyBuses,
+        requester: StopModalRequester.Favorites,
         title: 'Add Favorite Stops'
       }
     );
@@ -125,7 +125,7 @@ export class MyBusesComponent {
   showRouteModal(): void {
     let routeModal = this.modalCtrl.create(RouteModal,
       {
-        requester: RouteModalRequester.MyBuses,
+        requester: RouteModalRequester.Favorites,
         title: 'Add Favorite Routes'
       }
     );
