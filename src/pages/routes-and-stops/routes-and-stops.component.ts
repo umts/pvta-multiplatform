@@ -39,7 +39,7 @@ export class RoutesAndStopsComponent {
   loader;
   isInternetExplorer: boolean = false;
   constructor(public navCtrl: NavController, private infoSvc: InfoService,
-    private toastCtrl: ToastService, private routeSvc: RouteService, 
+    private toastSvc: ToastService, private routeSvc: RouteService, 
     private stopSvc: StopService, private loadingCtrl: LoadingController, 
     private storage: Storage, private favRouteSvc: FavoriteRouteService, 
     private alertCtrl: AlertController, private favStopSvc: FavoriteStopService,
@@ -110,11 +110,11 @@ i
 
   toggleRouteHeart(route: Route): void {
     this.favRouteSvc.toggleFavorite(route);
-    this.toastCtrl.favoriteToast(route.Liked);
+    this.toastSvc.favoriteToast(route.Liked);
   }
   toggleStopHeart(stop: Stop): void {
     this.favStopSvc.toggleFavorite(stop.StopId, stop.Description);
-    this.toastCtrl.favoriteToast(stop.Liked);
+    this.toastSvc.favoriteToast(stop.Liked);
    }
 
   getfavRoutes(): Promise<any> {

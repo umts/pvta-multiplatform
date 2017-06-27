@@ -31,7 +31,7 @@ export class RouteComponent {
     private routeService: RouteService, private vehicleService: VehicleService,
     private alertService: AlertService, private connection: ConnectivityService,
     private modalCtrl: ModalController, private favoriteRouteService: FavoriteRouteService,
-    private toastCtrl: ToastService, private alertCtrl: AlertController) {
+    private toastSvc: ToastService, private alertCtrl: AlertController) {
     this.routeId = parseInt(navParams.get('routeId'), 10);
     this.alerts = [];
     ga('set', 'page', '/route.html');
@@ -67,7 +67,7 @@ export class RouteComponent {
 
   toggleRouteHeart(route): void {
     this.favoriteRouteService.toggleFavorite(route);
-    this.toastCtrl.favoriteToast(route.Liked);
+    this.toastSvc.favoriteToast(route.Liked);
   }
 
   showStopModal (): void {

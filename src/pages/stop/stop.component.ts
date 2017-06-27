@@ -43,7 +43,7 @@ export class StopComponent {
     private loadingCtrl: LoadingController, private favoriteStopSvc: FavoriteStopService,
     private stopSvc: StopService, private connection: ConnectivityService,
     private storage: Storage, private refreshSvc: AutoRefreshService,
-    private toastCtrl: ToastService,
+    private toastSvc: ToastService,
     private alertCtrl: AlertController ) {
       this.stopId = parseInt(navParams.get('stopId'), 10);
       this.isInternetExplorer = infoSvc.isInternetExplorer();
@@ -165,7 +165,7 @@ export class StopComponent {
   toggleStopHeart(): void {
     // console.log('toggling', stop.Description);
     this.favoriteStopSvc.toggleFavorite(this.stopId, this.stop.Description);
-    this.toastCtrl.favoriteToast(this.liked);
+    this.toastSvc.favoriteToast(this.liked);
   }
 
   /**
