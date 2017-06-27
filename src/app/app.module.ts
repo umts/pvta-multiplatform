@@ -11,6 +11,7 @@ import { Ng2PaginationModule } from 'ng2-pagination';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geolocation } from '@ionic-native/geolocation';
+import { LocalNotifications } from '@ionic-native/local-notifications'
 
 // Pages
 import { AboutComponent } from '../pages/about/about.component';

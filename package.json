@@ -31,10 +31,12 @@
     "@ionic-native/core": "^3.6.1",
     "@ionic-native/geolocation": "^3.6.1",
     "@ionic-native/keyboard": "^3.6.1",
+    "@ionic-native/local-notifications": "^3.12.1",
     "@ionic-native/splash-screen": "^3.6.1",
     "@ionic-native/status-bar": "^3.6.1",
     "@ionic/storage": "^2.0.0",
     "@types/google.analytics": "0.0.33",
+    "de.appplant.cordova.plugin.local-notification": "^0.8.5",
     "haversine": "^1.0.2",
     "intl": "^1.2.5",
     "ionic-angular": "2.2.0",
@@ -89,5 +91,10 @@
       "version": "",
       "locator": "ios"
     }
-  ]
+  ],
+  "cordova": {
+    "plugins": {
+      "de.appplant.cordova.plugin.local-notification": {}
+    }
+  }
 }
