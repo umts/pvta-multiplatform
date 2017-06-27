@@ -41,7 +41,7 @@ import { ConnectivityService } from '../providers/connectivity.service';
 import { MapService } from '../providers/map.service';
 import { InfoService } from '../providers/info.service';
 import { AutoRefreshService } from '../providers/auto-refresh.service';
-
+import { ToastService } from '../providers/toast.service';
 
 
 @NgModule({
@@ -108,6 +108,6 @@ import { AutoRefreshService } from '../providers/auto-refresh.service';
     RouteService, StopService, StopDepartureService, VehicleService, AlertService,
     FavoriteRouteService, FavoriteStopService, ConnectivityService,
     MapService, InfoService, FavoriteTripService, AutoRefreshService,
-    StatusBar, SplashScreen, Geolocation]
+    StatusBar, SplashScreen, Geolocation, ToastService ]
 })
 export class AppModule {}
