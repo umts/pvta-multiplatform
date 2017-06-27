@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 
-import { NavController, NavParams, ModalController, ToastController, Toast, AlertController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, AlertController, ToastController } from 'ionic-angular';
 import { RouteService } from '../../providers/route.service';
 import { VehicleService } from '../../providers/vehicle.service';
 import { AlertService } from '../../providers/alert.service';
 import { FavoriteRouteService } from '../../providers/favorite-route.service';
+import { ToastService } from '../../providers/toast.service';
 import { RouteDetail } from '../../models/route-detail.model';
 import { Vehicle } from '../../models/vehicle.model';
 import { Alert } from '../../models/alert.model';
@@ -21,7 +22,6 @@ declare var ga;
   templateUrl: 'route.html'
 })
 export class RouteComponent {
-  toast: Toast;
   routeId: number;
   route: RouteDetail;
   vehicles: Vehicle[];
@@ -31,23 +31,11 @@ export class RouteComponent {
     private routeService: RouteService, private vehicleService: VehicleService,
     private alertService: AlertService, private connection: ConnectivityService,
     private modalCtrl: ModalController, private favoriteRouteService: FavoriteRouteService,
-    private toastCtrl: ToastController, private alertCtrl: AlertController) {
+    private toastCtrl: ToastService, private alertCtrl: AlertController) {
     this.routeId = parseInt(navParams.get('routeId'), 10);
     this.alerts = [];
     ga('set', 'page', '/route.html');
     ga('send', 'pageview');
-  }
-
-  showToast(message: string): void {
-    if (this.toast) {
-      this.toast.dismissAll();
-    }
-    this.toast = this.toastCtrl.create({
-      message: message,
-      position: 'bottom',
-      showCloseButton: true
-    });
-    this.toast.present();
   }
 
   getVehicles(refresher): void {
@@ -79,10 +67,7 @@ export class RouteComponent {
 
   toggleRouteHeart(route): void {
     this.favoriteRouteService.toggleFavorite(route);
-    if (route.Liked) {
-      this.showToast('Route added to Favorites');
-    }
-    else this.showToast('Route removed from Favorites');
+    this.toastCtrl.favoriteToast(route.Liked);
   }
 
   showStopModal (): void {
