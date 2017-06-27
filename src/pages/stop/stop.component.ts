@@ -15,6 +15,7 @@ import * as moment from 'moment';
 import { ConnectivityService } from '../../providers/connectivity.service';
 import { AutoRefreshService } from '../../providers/auto-refresh.service';
 import { InfoService } from '../../providers/info.service';
+import { LocalNotification } from '@ionic/native/local-notifications'
 
 declare var ga;
 
@@ -42,7 +43,7 @@ export class StopComponent {
     private loadingCtrl: LoadingController, private favoriteStopSvc: FavoriteStopService,
     private stopSvc: StopService, private connection: ConnectivityService,
     private storage: Storage, private refreshSvc: AutoRefreshService,
-    private alertCtrl: AlertController ) {
+    private alertCtrl: AlertController, private notifications: LocalNotifications) {
       this.stopId = parseInt(navParams.get('stopId'), 10);
       this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.title = `Stop ${this.stopId}`;
@@ -291,4 +292,15 @@ export class StopComponent {
      }).present();
    });
  }
+
+  scheduleNotification(departure, minutesBeforeDeparture): void {
+    // Schedule delayed notification
+    this.notifications.schedule({
+      text: `Your bus from ${this.stop.Description} is leaving in
+      ${minutesBeforeDeparture} minutes.`,
+      at: new Date(departure.SDT) - minutesBeforeDeparture,
+      led: 'FF0000',
+      sound: null
+    });
+  }
 }

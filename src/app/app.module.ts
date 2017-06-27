@@ -109,6 +109,6 @@ import { AutoRefreshService } from '../providers/auto-refresh.service';
     RouteService, StopService, StopDepartureService, VehicleService, AlertService,
     FavoriteRouteService, FavoriteStopService, ConnectivityService,
     MapService, InfoService, FavoriteTripService, AutoRefreshService,
-    StatusBar, SplashScreen, Geolocation]
+    StatusBar, SplashScreen, Geolocation, LocalNotifications]
 })
 export class AppModule {}
