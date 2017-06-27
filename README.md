@@ -2,7 +2,7 @@
 
 The official app of the Pioneer Valley Transit Authority ([PVTA](pvta.com))!
 
-Current release available at [m.pvta.com](m.pvta.com) and the [Play Store](https://play.google.com/store/apps/details?id=com.umts.pvtamultiplaform).
+Current release available at [m.pvta.com](m.pvta.com), the [Play Store](https://play.google.com/store/apps/details?id=com.umts.pvtamultiplaform), and the [App Store](itunes.apple.com/us/app/pvtrack/id1234619753).
 
 [![Build Status](https://travis-ci.org/umts/pvta-multiplatform.svg?branch=master)](https://travis-ci.org/umts/pvta-multiplatform)
 <a href="https://codeclimate.com/github/umts/pvta-multiplatform"><img src="https://codeclimate.com/github/umts/pvta-multiplatform/badges/gpa.svg" /></a>
