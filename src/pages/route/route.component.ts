@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, NavParams, ModalController, AlertController, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { RouteService } from '../../providers/route.service';
 import { VehicleService } from '../../providers/vehicle.service';
 import { AlertService } from '../../providers/alert.service';

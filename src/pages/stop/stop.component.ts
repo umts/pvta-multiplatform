@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 
-import { NavController, NavParams, LoadingController, ToastController, Toast, AlertController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StopDeparture } from '../../models/stop-departure.model';
 import { Stop } from '../../models/stop.model';
