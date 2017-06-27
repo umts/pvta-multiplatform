@@ -165,7 +165,7 @@ export class StopComponent {
   toggleStopHeart(): void {
     // console.log('toggling', stop.Description);
     this.favoriteStopSvc.toggleFavorite(this.stopId, this.stop.Description);
-    this.toastSvc.favoriteToast(this.liked);
+    this.toastSvc.favoriteToast('Stop', this.liked);
   }
 
   /**

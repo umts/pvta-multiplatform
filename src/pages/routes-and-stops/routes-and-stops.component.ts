@@ -110,11 +110,11 @@ i
 
   toggleRouteHeart(route: Route): void {
     this.favRouteSvc.toggleFavorite(route);
-    this.toastSvc.favoriteToast(route.Liked);
+    this.toastSvc.favoriteToast('Route', route.Liked);
   }
   toggleStopHeart(stop: Stop): void {
     this.favStopSvc.toggleFavorite(stop.StopId, stop.Description);
-    this.toastSvc.favoriteToast(stop.Liked);
+    this.toastSvc.favoriteToast('Stop', stop.Liked);
    }
 
   getfavRoutes(): Promise<any> {

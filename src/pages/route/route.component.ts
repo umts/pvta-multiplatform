@@ -67,7 +67,7 @@ export class RouteComponent {
 
   toggleRouteHeart(route): void {
     this.favoriteRouteService.toggleFavorite(route);
-    this.toastSvc.favoriteToast(route.Liked);
+    this.toastSvc.favoriteToast('Route', route.Liked);
   }
 
   showStopModal (): void {
