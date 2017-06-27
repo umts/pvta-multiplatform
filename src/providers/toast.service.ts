@@ -8,9 +8,9 @@ export class ToastService {
     
     favoriteToast(isFave: boolean): void {
         if (isFave){ 
-          this.faveToast = this.toast.create({message:'Added to favorites'});
+          this.faveToast = this.toast.create({message:'Added to favorites', position: 'bottom', showCloseButton: true});
         }
-        else this.faveToast = this.toast.create({message:'Removed from favorites'});
+        else this.faveToast = this.toast.create({message:'Removed from favorites', position: 'bottom', showCloseButton: true});
     this.faveToast.present();
     }
 }
