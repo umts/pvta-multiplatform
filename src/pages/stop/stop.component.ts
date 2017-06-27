@@ -10,6 +10,7 @@ import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { RouteComponent } from '../route/route.component';
 import { StopMapComponent } from '../stop-map/stop-map.component';
 import { RouteService } from '../../providers/route.service';
+import { ToastService } from '../../providers/toast.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ConnectivityService } from '../../providers/connectivity.service';
@@ -23,7 +24,6 @@ declare var ga;
   templateUrl: 'stop.html'
 })
 export class StopComponent {
-  toast: Toast;
   directions: StopDeparture[];
   shownRoute: any = null;
   stopId: number;
@@ -43,7 +43,7 @@ export class StopComponent {
     private loadingCtrl: LoadingController, private favoriteStopSvc: FavoriteStopService,
     private stopSvc: StopService, private connection: ConnectivityService,
     private storage: Storage, private refreshSvc: AutoRefreshService,
-    private toastCtrl: ToastController,
+    private toastCtrl: ToastService,
     private alertCtrl: AlertController ) {
       this.stopId = parseInt(navParams.get('stopId'), 10);
       this.isInternetExplorer = infoSvc.isInternetExplorer();
@@ -53,19 +53,6 @@ export class StopComponent {
       ga('send', 'pageview');
       document.addEventListener('pause', this.handleAppPause);
       document.addEventListener('resume', this.handleAppResume);
-  }
-
-  showToast(message: string): void {
-    if (this.toast) {
-      this.toast.dismissAll();
-    }
-    
-  this.toast = this.toastCtrl.create({
-    message: message,
-    position: 'bottom',
-    showCloseButton: true
-    });
-    this.toast.present();
   }
 
   handleAppPause = () => {
@@ -178,10 +165,7 @@ export class StopComponent {
   toggleStopHeart(): void {
     // console.log('toggling', stop.Description);
     this.favoriteStopSvc.toggleFavorite(this.stopId, this.stop.Description);
-    if (this.liked) {
-      this.showToast('Stop added to Favorites');
-    }
-    else this.showToast('Stop removed from Favorites');
+    this.toastCtrl.favoriteToast(this.liked);
   }
 
   /**
