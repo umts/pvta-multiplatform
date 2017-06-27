@@ -16,7 +16,8 @@ To begin developing, follow these steps:
 
 ## Prerequisites
 - [Node.js <b>6+ and NPM 3+</b>](https://nodejs.org/en/)
-- Ionic, Angular, and Cordova: `npm install -g cordova ionic`
+- Ionic, Angular, and Cordova: `npm install -g cordova ionic@3.4.0`
+ - Note the explicit version of the Ionic CLI. Using versions other than the one specified can cause problems on your machine and when Travis builds your code. 
 
 ## Setup
 
