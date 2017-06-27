@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ToastController, Toast, AlertController } from 'ionic-angular';
+import { NavController, LoadingController, AlertController, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation';
 import { RouteService } from '../../providers/route.service';
 import { StopService } from '../../providers/stop.service';
 import { InfoService } from '../../providers/info.service';
 import { FavoriteRouteService, FavoriteRouteModel } from '../../providers/favorite-route.service';
+import { ToastService } from '../../providers/toast.service';
 import { Route } from '../../models/route.model';
 import { Stop } from '../../models/stop.model';
 import { RouteComponent } from '../route/route.component';
@@ -22,7 +23,6 @@ declare var ga;
 })
 
 export class RoutesAndStopsComponent {
-  toast: Toast;
   routes: Route[];
   stops: Stop[];
   favStops: FavoriteStopModel[];
@@ -39,7 +39,7 @@ export class RoutesAndStopsComponent {
   loader;
   isInternetExplorer: boolean = false;
   constructor(public navCtrl: NavController, private infoSvc: InfoService,
-    private toastCtrl: ToastController, private routeSvc: RouteService, 
+    private toastCtrl: ToastService, private routeSvc: RouteService, 
     private stopSvc: StopService, private loadingCtrl: LoadingController, 
     private storage: Storage, private favRouteSvc: FavoriteRouteService, 
     private alertCtrl: AlertController, private favStopSvc: FavoriteStopService,
@@ -74,18 +74,6 @@ export class RoutesAndStopsComponent {
       }
     }
   }
-  
-  showToast(message: string): void {
-    if (this.toast) {
-      this.toast.dismissAll();
-    }
-    this.toast = this.toastCtrl.create({
-      message: message,
-      position: 'bottom',
-      showCloseButton: true
-    });
-    this.toast.present();
-  }
 
   goToRoutePage(routeId: number): void {
     this.navCtrl.push(RouteComponent, {
@@ -110,7 +98,7 @@ export class RoutesAndStopsComponent {
       }).present();
     });
   }
-
+i
   prepareRoutes(): any {
     // For each route, add the custom 'Liked' property and keep only
     // the properties we care about.  Doing this makes searching easier.
@@ -122,17 +110,11 @@ export class RoutesAndStopsComponent {
 
   toggleRouteHeart(route: Route): void {
     this.favRouteSvc.toggleFavorite(route);
-    if (route.Liked) {
-      this.showToast('Route added to Favorites');
-    }
-    else this.showToast('Route removed from Favorites');
+    this.toastCtrl.favoriteToast(route.Liked);
   }
   toggleStopHeart(stop: Stop): void {
     this.favStopSvc.toggleFavorite(stop.StopId, stop.Description);
-    if (stop.Liked) {
-      this.showToast('Stop added to Favorites');
-    }
-    else this.showToast('Stop removed from Favorites');
+    this.toastCtrl.favoriteToast(stop.Liked);
    }
 
   getfavRoutes(): Promise<any> {
