@@ -15,7 +15,7 @@ import * as moment from 'moment';
 import { ConnectivityService } from '../../providers/connectivity.service';
 import { AutoRefreshService } from '../../providers/auto-refresh.service';
 import { InfoService } from '../../providers/info.service';
-import { LocalNotification } from '@ionic/native/local-notifications'
+import { LocalNotifications } from '@ionic-native/local-notifications'
 
 declare var ga;
 
@@ -295,12 +295,14 @@ export class StopComponent {
 
   scheduleNotification(departure, minutesBeforeDeparture): void {
     // Schedule delayed notification
+    debugger;
+    console.log(`showing notification at ${moment(departure.SDT).subtract(minutesBeforeDeparture).format("dddd, MMMM Do YYYY, h:mm:ss a")}`)
     this.notifications.schedule({
-      text: `Your bus from ${this.stop.Description} is leaving in
-      ${minutesBeforeDeparture} minutes.`,
-      at: new Date(departure.SDT) - minutesBeforeDeparture,
+      title: 'Catch Your Bus!',
+      text: `Departs at ${departure.Times.sExact}
+      from ${this.stop.Description}.`,
+      at: moment(departure.SDT).subtract(minutesBeforeDeparture).toDate(),
       led: 'FF0000',
-      sound: null
     });
   }
 }
