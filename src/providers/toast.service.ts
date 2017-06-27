@@ -5,8 +5,10 @@ import { ToastController } from 'ionic-angular';
 export class ToastService {
     private faveToast; 
     constructor(private toast: ToastController) { } 
-
-  let txt = `${routeOrStop} ${isFave ? 'added' : 'removed'} from favorites`;
-  this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
-  this.toast.present();
+  
+  favoriteToast(routeOrStop: string, isFave: boolean): void {
+    let txt = `${routeOrStop} ${isFave ? 'added' : 'removed'} from favorites`;
+    this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
+    this.toast.present();
+  }
 }
