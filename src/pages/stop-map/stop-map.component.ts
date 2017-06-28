@@ -120,7 +120,6 @@ export class StopMapComponent {
         this.displayDirections(result, status);
       });
     }).catch(err => {
-      console.log('Unable to get current location');
       this.directionsObtained = false;
       this.directionsRequested = false;
       this.toastCtrl.create({
