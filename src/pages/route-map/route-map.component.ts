@@ -86,7 +86,6 @@ export class RouteMapComponent {
   }
 
   getVehicles() {
-    console.log('Refreshing vehicles');
     this.vehicleSvc.getRouteVehicles(this.routeId)
     .then(routeVehicles => {
       if (!routeVehicles) {

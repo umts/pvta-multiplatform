@@ -54,11 +54,9 @@ export class StopComponent {
   }
 
   handleAppPause = () => {
-    console.log('StopComponent: pause');
     clearInterval(this.interval);
   }
   handleAppResume = () => {
-    console.log('StopComponent: resume');
     this.ionViewWillEnter();
   }
 
@@ -110,7 +108,6 @@ export class StopComponent {
         // If autorefresh is on, set an interval to refresh departures.
         if (this.refreshSvc.isAutoRefreshEnabled(autoRefresh)) {
             this.interval = setInterval(() => {
-              console.log('Refreshing departures');
               this.getDepartures();
             }, autoRefresh);
         }
@@ -161,7 +158,6 @@ export class StopComponent {
     }
   };
   toggleStopHeart(): void {
-    // console.log('toggling', stop.Description);
     this.favoriteStopSvc.toggleFavorite(this.stopId, this.stop.Description);
   }
   /**

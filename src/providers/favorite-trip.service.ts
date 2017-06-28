@@ -24,20 +24,16 @@ export class FavoriteTripService {
       this.storage.get('savedTrips').then((loadedTrips: string) => {
         if (loadedTrips) {
           let savedTrips: any[] = JSON.parse(loadedTrips);
-          console.log('saved trips before', savedTrips);
           savedTrips.push(params);
-          console.log('trip existed, now is', savedTrips);
           this.storage.set('savedTrips', JSON.stringify(savedTrips));
         } else {
           let savedTrips = [params];
-          console.log('trip didnt exist, now is', savedTrips);
           this.storage.set('savedTrips', JSON.stringify(savedTrips));
         }
       });
     });
   }
   deleteTrip(params: any): void {
-    console.log('delete trip', params);
     this.storage.ready().then(() => {
       this.storage.get('savedTrips').then((loadedTrips: string) => {
         if (loadedTrips) {

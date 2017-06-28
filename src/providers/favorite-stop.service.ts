@@ -61,8 +61,6 @@ export class FavoriteStopService {
 
   toggleFavorite(stopId: any, description: string): void {
     this.contains(stopId, (wasFavorited: boolean) => {
-      console.log('stop being favd', description);
-      console.log('stopwasalreadyfavorited', wasFavorited);
       if (wasFavorited) {
         this.remove(stopId);
       } else {

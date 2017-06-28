@@ -72,7 +72,6 @@ export class StopModal {
   }
 
   toggleStopHeart(stop: Stop): void {
-    // console.log('toggling', stop.Description);
     this.favoriteStopService.toggleFavorite(stop.StopId, stop.Description);
   }
 

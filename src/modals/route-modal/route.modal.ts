@@ -32,7 +32,6 @@ export class RouteModal {
       let loader = this.loadingCtrl.create();
       loader.present();
       this.routeService.getRouteList().then((routes: Route[]) => {
-        console.log('have routes');
         this.routes = _.sortBy(routes, ['ShortName']);
         this.routeService.saveRouteList(this.routes);
         this.getFavoriteRoutes();
@@ -46,10 +45,8 @@ export class RouteModal {
   getFavoriteRoutes(): void {
     this.storage.ready().then(() => {
       this.storage.get('favoriteRoutes').then((favoriteRoutes: FavoriteRouteModel[]) => {
-        // console.log('favs', favoriteRoutes);
         this.favoriteRoutes = favoriteRoutes;
         this.routes = this.routeService.prepareRoutes(this.favoriteRoutes, this.routes);
-        console.log('FLKJDFKLJLDFJLKAJF', this.routes);
       });
     });
   }

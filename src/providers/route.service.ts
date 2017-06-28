@@ -16,7 +16,6 @@ export class RouteService {
   constructor(private http: Http, private storage: Storage) { }
 
   getAllRoutes(): Promise<Route[]> {
-    console.log('get all routes');
     return this.http.get(`${this.routesURL}visibleroutes`)
       .toPromise()
       .then(response => response.json() as Route[])
@@ -51,27 +50,19 @@ export class RouteService {
   }
 
   getRouteList(): Promise<any> {
-    console.log('getroutelist top');
     return this.storage.ready().then(() => {
-      console.log('getroutelist storage ready');
       return this.storage.get('routes').then((routes) => {
-        console.log('getroutelist list retrieved');
         if (routes && routes.list.length > 0) {
-          console.log('list length > 0 and it exists');
           let now = moment();
           let diff = now.diff(routes.time, 'days');
-          // console.log('the diference is', diff);
           if (diff <= 1) {
-            console.log('Routeservice forage, returning list');
             return new Promise((resolve, reject) => {
               resolve(routes.list);
             });
           } else {
-            console.log('Routeservice forage, list is too old!');
             return Promise.resolve(this.getAllRoutes());
           }
         } else {
-          console.log('Routeservice forage, download routes');
           return Promise.resolve(this.getAllRoutes());
         }
       }).catch(err => {
@@ -88,7 +79,6 @@ export class RouteService {
     });
   }
   saveRouteList(routes: Route[]): void {
-    // console.log('passed', routes);
     this.storage.ready().then(() => {
       this.storage.set('routes', {
         list: routes,

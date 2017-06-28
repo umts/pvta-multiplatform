@@ -38,7 +38,6 @@ export class RouteComponent {
   }
 
   getVehicles(refresher): void {
-    console.log('getvehicles', refresher);
     this.vehicleService.getRouteVehicles(this.routeId)
       .then(vehicles => {
         this.vehicles = vehicles;

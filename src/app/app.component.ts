@@ -43,7 +43,6 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      console.log('initializeApp');
       this.statusBar.styleDefault();
       if (this.platform.is('android')) {
         this.statusBar.backgroundColorByHexString('#1976D2');
@@ -68,22 +67,18 @@ export class MyApp {
 
   onAppPause = () => {
     // Don't keep listening for network events when we're not active
-    console.log('App: pause');
     window.removeEventListener('offline', this.onDeviceOffline);
     window.removeEventListener('online', this.onDeviceOnline);
   }
 
   onAppResume = () => {
-    console.log('App: resume');
     window.addEventListener('offline', this.onDeviceOffline, false);
     window.addEventListener('online', this.onDeviceOnline, false);
   }
   onDeviceOffline = () => {
-    console.log('App: offline');
     this.connectivityService.setConnectionStatus(false);
   }
   onDeviceOnline = () => {
-    console.log('App: online');
     this.connectivityService.setConnectionStatus(true);
   }
   onInstallPromptShown = (e: any) => {
