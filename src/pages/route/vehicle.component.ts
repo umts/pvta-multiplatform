@@ -17,6 +17,4 @@ export class VehicleComponent {
     this.vehicles = this.vehicleData as Vehicle[];
     this.color = this.vehicleColor;
   }
-
-  constructor() { }
 }
