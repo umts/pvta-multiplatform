@@ -173,26 +173,21 @@ export class RoutesAndStopsComponent {
     let fs: Promise<any> = this.getfavStops();
     let fr: Promise<any> = this.getfavRoutes();
     Promise.all([this.routesPromise, fr]).then((value) => {
-      console.log('Ready with routes and fav routes');
       this.favRoutes = value[1];
       this.routes = this.prepareRoutes();
     }).catch(err => {
-      console.log('weenies');
-      console.log(err);
+      console.error(err);
     });
     Promise.all([this.stopsPromise, fs]).then((value) => {
-      console.log('Ready with stops and fav stops');
       this.favStops = value[1];
       this.stops = this.prepareStops();
     }).catch(err => {
-      console.log('weenies');
-      console.log(err);
+      console.error(err);
     });
     Promise.all([this.routesPromise, fr, this.stopsPromise, fs]).then(() => {
       this.toggleOrdering();
     }).catch(err => {
-      console.log('weenies');
-      console.log(err);
+      console.error(err);
     });
   }
   /*
@@ -280,7 +275,6 @@ export class RoutesAndStopsComponent {
         var msg = 'Current position found, but no previous position or has moved; calculating stop distances.';
         ga('send', 'event', 'CalculatingStopDistances',
           'RoutesAndStopsComponent.calculateStopDistances()', msg);
-        console.log(msg);
 
         for (let stop of this.stops) {
           // Use the well-known Distance Formula, aka
