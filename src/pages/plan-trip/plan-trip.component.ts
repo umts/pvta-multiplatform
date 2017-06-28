@@ -79,7 +79,6 @@ private geolocation: Geolocation) {
         },
         (results, status) => {
           if (status === google.maps.GeocoderStatus.OK) {
-            console.log(results);
             if (results[0] && this.bounds.contains(results[0].geometry.location)) {
               let closestGeolocationAddress = results[0];
               this.originPlace = closestGeolocationAddress;
@@ -189,7 +188,6 @@ private geolocation: Geolocation) {
     let swBound = new google.maps.LatLng(41.93335, -72.85809);
     let neBound = new google.maps.LatLng(42.51138, -72.20302);
     this.bounds = new google.maps.LatLngBounds(swBound, neBound);
-   console.log(loadedTrip);
    this.reload(loadedTrip);
   }
 
@@ -380,7 +378,6 @@ private geolocation: Geolocation) {
         ga('send', 'event', 'TripStepsRetrieved', 'PlanTripComponent.getRoute()',
         'Received steps for a planned trip!');
       } else  {
-        console.log(status);
         this.presentAlert('Unable to Find Trip', `There are no scheduled buses for your trip. Error: ${status}`);
         this.loader.dismiss();
         ga('send', 'event', 'TripStepsRetrievalFailure',
@@ -399,7 +396,6 @@ private geolocation: Geolocation) {
    * for display on My Buses
   */
   saveTrip(): void {
-    console.log('saving trip yo');
      this.alertCtrl.create({
        title: 'Save Trip',
        message: 'Give this trip a name',
@@ -412,16 +408,12 @@ private geolocation: Geolocation) {
        buttons: [
          {
            text: 'Cancel',
-           handler: data => {
-             console.log('Cancel clicked');
-           }
+           handler: data => { }
          },
          {
            text: 'Save',
            handler: data => {
-             console.log('data', data);
              this.request.name = data.name;
-             console.log('Saved clicked');
              this.tripService.saveTrip(this.request);
              ga('send', 'event', 'TripSaveSuccessful', 'PlanTripComponent.saveTrip()',
              'Saved a trip to favorites!');
@@ -435,7 +427,6 @@ private geolocation: Geolocation) {
   * typeahead on mobile devices
   */
   disableTap(): void {
-    console.log('disable tap');
     // @TODO Figure out if this needs to be a thing
     //  let container = document.getElementsByClassName('pac-container');
     // disable ionic data tap
