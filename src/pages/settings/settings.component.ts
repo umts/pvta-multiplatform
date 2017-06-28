@@ -41,7 +41,6 @@ export class SettingsComponent {
   }
   ionViewWillLeave() {
     this.storage.ready().then(() => {
-      console.log('setting autorefresh to', this.autoRefresh);
       this.storage.set('autoRefresh', this.autoRefresh);
     });
   }
