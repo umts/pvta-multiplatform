@@ -61,9 +61,7 @@ export class StorageSettingsComponent {
         {
           text: 'No',
           role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
+          handler: () => { }
         },
         {
           text: 'Yes',
