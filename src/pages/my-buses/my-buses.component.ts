@@ -66,7 +66,6 @@ export class MyBusesComponent {
 
          // Also if there are no routes for that alert , show it by default
         if (alert.Routes.length === 0) {
-          console.log('no orutes for alert');
           this.alerts.push(alert);
         } else {
           for (let routeId of alert.Routes) {
