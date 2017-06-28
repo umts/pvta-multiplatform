@@ -46,23 +46,19 @@ export class StopService {
           let now = moment();
           let diff = now.diff(stops.time, 'days');
           if (diff <= 1) {
-            console.log('stoplist is loaded and recent');
             return new Promise((resolve, reject) => {
               resolve(stops.list);
             });
           } else {
-            console.log('stop list is too old!');
             return this.getAllStops();
           }
         } else {
-          console.log('got to download stops');
           return this.getAllStops();
         }
       });
     });
   }
   saveStopList(stops: Stop[]): void {
-    // console.log('passed', stops);
     this.storage.ready().then(() => {
       this.storage.set('stops', {
         list: stops,
