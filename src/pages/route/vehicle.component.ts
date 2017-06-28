@@ -16,11 +16,7 @@ export class VehicleComponent {
     // viewChild is set after the view has been initialized
     this.vehicles = this.vehicleData as Vehicle[];
     this.color = this.vehicleColor;
-    console.log(this.vehicleData);
-    console.log(this.vehicles);
   }
 
-  constructor() {
-    console.log('a vehicle');
-  }
+  constructor() { }
 }
