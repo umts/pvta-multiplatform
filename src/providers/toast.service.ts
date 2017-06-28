@@ -8,7 +8,7 @@ export class ToastService {
   
   favoriteToast(routeOrStop: string, isFave: boolean): void {
     let txt = `${routeOrStop} ${isFave ? 'added' : 'removed'} from favorites`;
-    this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
-    this.toast.present();
+    this.faveToast = this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
+    this.faveToast.present();
   }
 }
