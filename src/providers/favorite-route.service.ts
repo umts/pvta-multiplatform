@@ -65,8 +65,6 @@ export class FavoriteRouteService {
 
   toggleFavorite(route: Route): void {
     this.contains(route, (wasFavorited: boolean) => {
-      console.log('route being favd', route);
-      console.log('routewasalreadyfavorited', wasFavorited);
       if (wasFavorited) {
         this.remove(route);
       } else {
