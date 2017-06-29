@@ -98,7 +98,7 @@ export class RoutesAndStopsComponent {
       }).present();
     });
   }
-i
+
   prepareRoutes(): any {
     // For each route, add the custom 'Liked' property and keep only
     // the properties we care about.  Doing this makes searching easier.
