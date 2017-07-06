@@ -2,13 +2,16 @@
   <ion-menu [content]="content">
     <ion-header aria-hidden="true">
       <ion-toolbar color="primary">
-        <ion-title>PVTrAck</ion-title>
+        <ion-title>
+          PVTrAck
+          <button ion-button menuClose style="float: right;">Close Menu</button>
+        </ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content>
       <ion-list role="navigation" id="navigation-menu" aria-label="Peeveetrack Menu">
-        <button role="link" menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <button role="link" ion-item *ngFor="let p of pages" (click)="openPage(p)">
           {{p.title}}
         </button>
       </ion-list>
