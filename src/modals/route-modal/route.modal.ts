@@ -6,7 +6,7 @@ import { Route } from '../../models/route.model';
 import { RouteService} from '../../providers/route.service';
 import * as _ from 'lodash';
 
-export enum RouteModalRequester { MyBuses }
+export enum RouteModalRequester { Favorites }
 
 @Component({
   templateUrl: 'route.modal.html'
@@ -28,7 +28,7 @@ export class RouteModal {
     this.title = this.params.get('title');
     }
   ionViewWillEnter() {
-    if (this.requester === RouteModalRequester.MyBuses) {
+    if (this.requester === RouteModalRequester.Favorites) {
       let loader = this.loadingCtrl.create();
       loader.present();
       this.routeService.getRouteList().then((routes: Route[]) => {

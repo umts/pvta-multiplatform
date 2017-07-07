@@ -7,6 +7,7 @@ import { VehicleService } from '../../providers/vehicle.service';
 import { AlertService } from '../../providers/alert.service';
 import { FavoriteRouteService } from '../../providers/favorite-route.service';
 import { ConnectivityService } from '../../providers/connectivity.service';
+import { ToastService } from '../../providers/toast.service';
 import { RouteComponent } from './route.component';
 import { NavParamsMock } from '../../../test-config/mocks-ionic';
 
@@ -30,7 +31,8 @@ describe('Route Component', () => {
         ConnectivityService,
         ModalController,
         FavoriteRouteService,
-        AlertController
+        AlertController,
+        ToastService
       ]
     });
   }));
