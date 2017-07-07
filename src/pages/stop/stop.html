@@ -31,38 +31,37 @@
     <ion-refresher-content pullingText="Pull to refresh departures...">
     </ion-refresher-content>
   </ion-refresher>
-  <ion-list aria-label="upcoming departures at this stop" role="list" no-lines>
+  <ion-list aria-label="upcoming departures at this stop" role="list">
     <div *ngIf="order == '0'">
       <div *ngFor="let direction of departuresByDirection">
         <div ion-item (click)="toggleRouteDropdown(direction)" [style.background-color]="'#'+routeList[direction.RouteId]?.Color" [style.color]="'white'">
-          <!-- [ngClass]="{active: isRouteDropdownShown({{direction}})}" -->
-          <ion-grid>
+          <ion-grid no-padding>
             <ion-row>
-              <ion-col class="route-shortname">
+              <ion-col col-3 class="route-shortname">
                 {{routeList[direction.RouteId]?.RouteAbbreviation}}
               </ion-col>
-              <ion-col width-50>
+              <ion-col col-4 style="text-align: left;">
                 {{direction.Departures[0].Trip.InternetServiceDesc}}
               </ion-col>
-              <ion-col width-33 right>
-                <span>
+              <ion-col col-4 style="text-align: center;">
+                <p style="color: white;">
                   {{direction.Departures[0].Times.eExact}}
-                </span>
+                </p>
                 <p style="color: white">
                   ({{direction.Departures[0].Times.eRelativeNoPrefix}})
                 </p>
+              </ion-col>
+              <ion-col >
+                <ion-icon [name]="isRouteDropdownShown(direction) ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
               </ion-col>
             </ion-row>
           </ion-grid>
         </div>
         <!-- When a route has been expanded, show its departures -->
-        <div ion-item *ngFor="let departure of direction.Departures" [hidden]="!isRouteDropdownShown(direction)" (click)="goToRoutePage(direction.RouteId)">
-          <!-- ^^ this was part of that tag >> class="item-accordion" -->
-          <div class="bold center">
-            {{departure.Trip.InternetServiceDesc}}
-          </div>
-          <ion-grid>
+        <div [style.background-color]="'#'+routeList[direction.RouteId]?.Color" ion-item [hidden]="!isRouteDropdownShown(direction)" (click)="goToRoutePage(direction.RouteId)">
+          <ion-grid style="margin-left: 10%; font-size: 90%; padding-right: 10%" [style.color]="'white'">
             <ion-row>
+              <ion-col></ion-col>
               <ion-col>
                 <div class="center">
                   <b>Scheduled</b>
@@ -74,20 +73,19 @@
                 </div>
               </ion-col>
             </ion-row>
-            <ion-row>
+            <ion-row *ngFor="let departure of direction.Departures">
               <ion-col>
-                <div class="center departure-padding">
-                  {{departure.Times.sExact}}
-                </div>
-                <div class="center">
-                  ({{departure.Times.sRelative}})
-                </div>
+                {{departure.Trip.InternetServiceDesc}}
               </ion-col>
               <ion-col>
                 <div class="center departure-padding">
-                  {{departure.Times.eExact}}
+                  {{departure.Times.sExact}}<br>
+                  ({{departure.Times.sRelative}})
                 </div>
-                <div class="center">
+              </ion-col>
+              <ion-col class="center departure-padding">
+                <div>
+                  {{departure.Times.eExact}}<br>
                   ({{departure.Times.eRelative}})
                 </div>
               </ion-col>
@@ -100,16 +98,16 @@
       <div ion-item *ngFor="let direction of departuresByTime" (click)="goToRoutePage(direction.RouteId)" [style.background-color]="'#'+routeList[direction.RouteId]?.Color" [style.color]="'white'">
         <ion-grid>
           <ion-row>
-            <ion-col class="route-shortname">
+            <ion-col col-auto class="route-shortname">
               {{routeList[direction.RouteId]?.RouteAbbreviation}}
             </ion-col>
-            <ion-col width-50>
+            <ion-col col-6-auto>
               {{direction.Departures?.Trip.InternetServiceDesc}}
             </ion-col>
-            <ion-col width-33 right>
-              <span>
+            <ion-col col-auto right>
+              <p style="color: white;">
                 {{direction.Departures?.Times.eExact}}
-              </span>
+              </p>
               <p style="color: white">
                 ({{direction.Departures?.Times.eRelativeNoPrefix}})
               </p>
