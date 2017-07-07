@@ -4,15 +4,15 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AlertService } from '../../providers/alert.service';
 import { MyApp } from '../../app/app.component';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
-import { MyBusesComponent } from './my-buses.component';
+import { FavoritesComponent } from './favorites.component';
 
-describe('MyBuses Component', () => {
+describe('Favorites Component', () => {
   let fixture;
   let component;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MyApp, MyBusesComponent],
+      declarations: [MyApp, FavoritesComponent],
       imports: [
         IonicModule.forRoot(MyApp),
         IonicStorageModule.forRoot({name: 'test', storeName: 'test'})
@@ -29,7 +29,7 @@ describe('MyBuses Component', () => {
 
   beforeEach(() => {
     (<any> window).ga = jasmine.createSpy('ga');
-    fixture = TestBed.createComponent(MyBusesComponent);
+    fixture = TestBed.createComponent(FavoritesComponent);
     component = fixture.componentInstance;
   });
 
@@ -40,12 +40,12 @@ describe('MyBuses Component', () => {
   });
 
   it ('should be created', () => {
-    expect(component instanceof MyBusesComponent).toBe(true);
+    expect(component instanceof FavoritesComponent).toBe(true);
   });
 
   it('sends a pageview to Google Analytics', () => {
     expect((<any>window).ga.calls.allArgs()).toContain(
-    ['set', 'page', '/my-buses.html']);
+    ['set', 'page', '/favorites.html']);
   });
   describe('ionViewWillEnter', () => {
     it('should call getFavoriteStops', () => {
