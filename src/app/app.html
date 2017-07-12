@@ -4,7 +4,7 @@
       <ion-toolbar color="primary">
         <ion-title aria-label="Peeveetrack">PVTrAck</ion-title>
         <ion-buttons end>
-        <button ion-button menuClose aria-label="Close the menu" tabindex=2>
+        <button ion-button menuClose aria-label="Close the menu" tabindex=2 *ngIf="notOnDesktop">
           <ion-icon name="close"></ion-icon>
         </button>
         </ion-buttons>
