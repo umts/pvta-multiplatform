@@ -23,6 +23,7 @@ export class MyApp {
   offlineToast;
   pages: Array<{title: string, component: any}>;
   runningInBrowser = false;
+  notOnDesktop = false;
 
   constructor(public platform: Platform, private infoSvc: InfoService,
   private connectivityService: ConnectivityService, private storage: Storage,
@@ -36,7 +37,6 @@ export class MyApp {
       { title: 'Schedule', component: PlanTripComponent },
       { title: 'Settings', component: SettingsComponent }
     ];
-
   }
 
   initializeApp() {
@@ -51,6 +51,7 @@ export class MyApp {
       let isIE: boolean = navigator.userAgent.indexOf('Trident', 0) !== -1;
       this.infoSvc.setInternetExplorer(isIE);
       this.runningInBrowser = this.platform.is('mobileweb') || this.platform.is('core');
+      this.notOnDesktop = !this.platform.is('core');
       // Listen for the app install banner interactions
       if (this.runningInBrowser) {
         window.addEventListener('beforeinstallprompt', this.onInstallPromptShown);
