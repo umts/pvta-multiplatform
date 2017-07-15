@@ -9,6 +9,7 @@ import { InfoService } from '../../providers/info.service';
 import { AutoRefreshService } from '../../providers/auto-refresh.service';
 import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { ConnectivityService } from '../../providers/connectivity.service';
+import { ToastService } from '../../providers/toast.service';
 import { StopComponent } from './stop.component';
 import { NavParamsMock } from '../../../test-config/mocks-ionic';
 
@@ -34,7 +35,8 @@ describe('Stop Component', () => {
         StopService,
         ConnectivityService,
         AutoRefreshService,
-        AlertController
+        AlertController,
+        ToastService
       ]
     });
   }));
