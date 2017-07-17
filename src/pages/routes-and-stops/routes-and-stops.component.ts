@@ -6,6 +6,7 @@ import { RouteService } from '../../providers/route.service';
 import { StopService } from '../../providers/stop.service';
 import { InfoService } from '../../providers/info.service';
 import { FavoriteRouteService, FavoriteRouteModel } from '../../providers/favorite-route.service';
+import { ToastService } from '../../providers/toast.service';
 import { Route } from '../../models/route.model';
 import { Stop } from '../../models/stop.model';
 import { RouteComponent } from '../route/route.component';
@@ -38,10 +39,11 @@ export class RoutesAndStopsComponent {
   loader;
   isInternetExplorer: boolean = false;
   constructor(public navCtrl: NavController, private infoSvc: InfoService,
-    private routeSvc: RouteService, private stopSvc: StopService,
-    private loadingCtrl: LoadingController, private storage: Storage,
-    private favRouteSvc: FavoriteRouteService, private alertCtrl: AlertController,
-    private favStopSvc: FavoriteStopService, private geolocation: Geolocation) {
+    private toastSvc: ToastService, private routeSvc: RouteService, 
+    private stopSvc: StopService, private loadingCtrl: LoadingController, 
+    private storage: Storage, private favRouteSvc: FavoriteRouteService, 
+    private alertCtrl: AlertController, private favStopSvc: FavoriteStopService,
+    private geolocation: Geolocation) {
       this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.order = 'favorites';
       this.cDisplay = 'routes';
@@ -108,10 +110,12 @@ export class RoutesAndStopsComponent {
 
   toggleRouteHeart(route: Route): void {
     this.favRouteSvc.toggleFavorite(route);
+    this.toastSvc.favoriteToast('Route', route.Liked);
   }
   toggleStopHeart(stop: Stop): void {
     this.favStopSvc.toggleFavorite(stop.StopId, stop.Description);
-  }
+    this.toastSvc.favoriteToast('Stop', stop.Liked);
+   }
 
   getfavRoutes(): Promise<any> {
     return this.storage.ready().then(() => {

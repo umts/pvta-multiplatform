@@ -15,10 +15,10 @@ import * as _ from 'lodash';
 declare var ga;
 
 @Component({
-  selector: 'page-my-buses',
-  templateUrl: 'my-buses.html'
+  selector: 'page-favorites',
+  templateUrl: 'favorites.html'
 })
-export class MyBusesComponent {
+export class FavoritesComponent {
   routes;
   stops;
   alerts: Alert[];
@@ -27,7 +27,7 @@ export class MyBusesComponent {
     private alertSvc: AlertService, private alertCtrl: AlertController,
     private modalCtrl: ModalController, private tripSvc: FavoriteTripService) {
       this.alerts = [];
-      ga('set', 'page', '/my-buses.html');
+      ga('set', 'page', '/favorites.html');
       ga('send', 'pageview');
     }
 
@@ -114,7 +114,7 @@ export class MyBusesComponent {
   showStopModal(): void {
     let stopModal = this.modalCtrl.create(StopModal,
       {
-        requester: StopModalRequester.MyBuses,
+        requester: StopModalRequester.Favorites,
         title: 'Add Favorite Stops'
       }
     );
@@ -125,7 +125,7 @@ export class MyBusesComponent {
   showRouteModal(): void {
     let routeModal = this.modalCtrl.create(RouteModal,
       {
-        requester: RouteModalRequester.MyBuses,
+        requester: RouteModalRequester.Favorites,
         title: 'Add Favorite Routes'
       }
     );
