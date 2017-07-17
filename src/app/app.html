@@ -14,7 +14,7 @@
     <ion-content>
       <ion-list role="navigation" id="navigation-menu" aria-label="Peeveetrack Menu">
         <button role="link" menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-          <ion-icon name={{p.icon}}></ion-icon>
+          <ion-icon name={{p.icon}} aria-hidden="true"></ion-icon>
           {{p.title}}
         </button>
       </ion-list>
