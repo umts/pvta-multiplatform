@@ -4,7 +4,7 @@
       <ion-toolbar color="primary">
         <ion-title aria-label="Peeveetrack">PVTrAck</ion-title>
         <ion-buttons end>
-        <button ion-button menuClose aria-label="Close the menu" tabindex=2 *ngIf="notOnDesktop">
+        <button ion-button menuClose aria-label="Close the menu" tabindex=3 *ngIf="notOnDesktop">
           <ion-icon name="close"></ion-icon>
         </button>
         </ion-buttons>
@@ -13,7 +13,7 @@
 
     <ion-content>
       <ion-list role="navigation" id="navigation-menu">
-        <button role="menuitem" menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <button role="menuitem" menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)" tabindex=2>
           <ion-icon name={{p.icon}} aria-hidden="true"></ion-icon>
           {{p.title}}
         </button>
