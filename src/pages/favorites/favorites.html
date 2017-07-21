@@ -28,17 +28,21 @@
         No favorite routes yet!
       </ion-item>
       <ion-list role="list" aria-label="your routes">
-        <button ion-item *ngFor="let route of routes"
-        (click)="goToRoutePage(route?.RouteId)">
-          <ion-row attr.aria-label="Route {{route.RouteAbbreviation}} {{route.GoogleDescription}}">
-            <ion-col col-auto [style.color]="'#' + route.Color" style="font-size: 120%; font-weight: bold;" >
-            {{route?.RouteAbbreviation}}
-            </ion-col>
-            <ion-col style="padding-left: 20px;">
-              {{route?.GoogleDescription}}
-            </ion-col>
-          </ion-row>
-        </button>
+        <ion-item-sliding *ngFor="let route of routes">
+          <button ion-item (click)="goToRoutePage(route?.RouteId)">
+            <ion-row attr.aria-label="Route {{route.RouteAbbreviation}} {{route.GoogleDescription}}">
+              <ion-col col-auto [style.color]="'#' + route.Color" style="font-size: 120%; font-weight: bold;" >
+              {{route?.RouteAbbreviation}}
+              </ion-col>
+              <ion-col style="padding-left: 20px;">
+                {{route?.GoogleDescription}}
+              </ion-col>
+            </ion-row>
+          </button>
+          <ion-item-options>
+            <button ion-button color="danger" (click)="removeRoute(route)">Delete</button>
+          </ion-item-options>
+        </ion-item-sliding>
       </ion-list>
     </ion-item-group>
     <ion-item-group>
