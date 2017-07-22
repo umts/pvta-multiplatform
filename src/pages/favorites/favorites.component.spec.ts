@@ -4,6 +4,8 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AlertService } from '../../providers/alert.service';
 import { MyApp } from '../../app/app.component';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
+import { FavoriteStopService } from '../../providers/favorite-stop.service';
+import { FavoriteRouteService } from '../../providers/favorite-route.service';
 import { FavoritesComponent } from './favorites.component';
 
 describe('Favorites Component', () => {
@@ -23,6 +25,8 @@ describe('Favorites Component', () => {
         AlertController,
         ModalController,
         FavoriteTripService,
+        FavoriteRouteService,
+        FavoriteStopService
       ]
     });
   }));
