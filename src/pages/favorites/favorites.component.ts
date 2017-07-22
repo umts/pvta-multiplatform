@@ -173,8 +173,8 @@ export class FavoritesComponent {
     _.remove(this.routes, {name: route.name});
     this.faveRouteSvc.remove(route);
   }
-  removeStop(stop): void {
-    _.remove(this.stops, {stopId: stop.StopId});
-    this.faveStopSvc.remove(stop.StopId);
+  removeStop(stopId): void {
+    _.remove(this.stops, {stopId: stopId});
+    this.faveStopSvc.remove(stopId);
   }
 }
