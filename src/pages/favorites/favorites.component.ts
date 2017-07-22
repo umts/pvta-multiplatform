@@ -174,7 +174,7 @@ export class FavoritesComponent {
     this.faveRouteSvc.remove(route);
   }
   removeStop(stop): void {
-    _.remove(this.stops, {name: stop.name});
+    _.remove(this.stops, {stopId: stop.StopId});
     this.faveStopSvc.remove(stop.StopId);
   }
 }
