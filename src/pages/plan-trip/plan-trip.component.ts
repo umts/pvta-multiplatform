@@ -199,6 +199,7 @@ private geolocation: Geolocation) {
     let loadedTrip = this.navParams.get('loadedTrip');
     if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
       this.mapSvc.downloadGoogleMaps(this.mapsLoadedCallback);
+      this.mapsLoadedCallback(loadedTrip);
     } else {
       this.mapsLoadedCallback(loadedTrip);
     }
