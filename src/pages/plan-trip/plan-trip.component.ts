@@ -199,6 +199,7 @@ private geolocation: Geolocation) {
     let loadedTrip = this.navParams.get('loadedTrip');
     if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
       this.mapSvc.downloadGoogleMaps(this.mapsLoadedCallback);
+      this.mapsLoadedCallback(loadedTrip);
     } else {
       this.mapsLoadedCallback(loadedTrip);
     }
@@ -211,7 +212,8 @@ private geolocation: Geolocation) {
     var mapOptions = {
       zoom: 15,
       mapTypeControl: false,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      gestureHandling: 'cooperative'
     };
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     this.directionsDisplay = new google.maps.DirectionsRenderer;
