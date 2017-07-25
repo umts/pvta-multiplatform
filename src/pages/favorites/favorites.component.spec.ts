@@ -71,4 +71,37 @@ describe('Favorites Component', () => {
 
     });
   });
+  describe('removeRoute', () => {
+    // Make an arbitrary route object available to each test
+    beforeAll(() => {
+      this.route = {
+        RouteId: 20035,
+        GoogleDescription: 'Campus Shuttle Southbound',
+        ShortName: '35',
+        RouteAbbreviation: '35',
+        Color: '00467E'
+      }
+    });
+    it('removes an item from the routes array', () => {
+      // Set the class-wide this.routes array in the component
+      component.routes = [ this.route ];
+      expect(component.routes.length).toEqual(1);
+      // Call the function we're testing`
+      component.removeRoute(this.route);
+      expect(component.routes.length).toEqual(0);
+    });
+    it('calls the FavoriteRouteService\'s remove() function', () => {
+      // Obtain a reference to a the service
+      // https://stackoverflow.com/questions/35733846/how-to-spy-a-service-call-in-angular2
+      let mockFavRouteSvc = fixture.debugElement.injector.get(FavoriteRouteService);
+      // Set the class-wide variable again (component isn't available in beforeAll?)
+      component.routes = [ this.route ];
+      // Insert ourselves into the FavoriteRouteService and
+      // listen specifically for stuff related to remove()
+      spyOn(mockFavRouteSvc, 'remove');
+      // Call our function
+      component.removeRoute(this.route);
+      expect(mockFavRouteSvc.remove).toHaveBeenCalledWith(this.route)
+    })
+  });
 });
