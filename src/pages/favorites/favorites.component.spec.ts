@@ -86,7 +86,7 @@ describe('Favorites Component', () => {
       // Set the class-wide this.routes array in the component
       component.routes = [ this.route ];
       expect(component.routes.length).toEqual(1);
-      // Call the function we're testing`
+      // Call the function we're testing
       component.removeRoute(this.route);
       expect(component.routes.length).toEqual(0);
     });
@@ -101,7 +101,7 @@ describe('Favorites Component', () => {
       spyOn(mockFavRouteSvc, 'remove');
       // Call our function
       component.removeRoute(this.route);
-      expect(mockFavRouteSvc.remove).toHaveBeenCalledWith(this.route)
-    })
+      expect(mockFavRouteSvc.remove).toHaveBeenCalledWith(this.route);
+    });
   });
 });
