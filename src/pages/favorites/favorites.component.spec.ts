@@ -76,7 +76,7 @@ describe('Favorites Component', () => {
     beforeAll(() => {
       this.route = {
         RouteId: 20035,
-        GoogleDescription: 'Campus Shuttle Southbound',
+        GoogleDescription: 'Route to delete',
         ShortName: '35',
         RouteAbbreviation: '35',
         Color: '00467E'
@@ -109,7 +109,7 @@ describe('Favorites Component', () => {
     beforeAll(() => {
       this.stop = {
         StopId: 45,
-        Description: 'I am the ultimate stop'
+        Description: 'Stop to delete'
       }
     });
     it('removes an item from the stops array', () => {
@@ -130,7 +130,7 @@ describe('Favorites Component', () => {
     // Make an arbitrary route object available to each test
     beforeAll(() => {
       this.trip = {
-        name: 'To work'
+        name: 'Trip to delete'
       }
     });
     it('removes an item from the trips array', () => {
