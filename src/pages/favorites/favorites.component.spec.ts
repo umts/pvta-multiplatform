@@ -71,7 +71,6 @@ describe('Favorites Component', () => {
 
     });
   });
-
   describe('removeRoute', () => {
     // Make an arbitrary route object available to each test
     beforeAll(() => {
@@ -105,7 +104,6 @@ describe('Favorites Component', () => {
       expect(mockFaveRouteSvc.remove).toHaveBeenCalledWith(this.route);
     });
   });
-
   describe('removeStop', () => {
     // Make an arbitrary route object available to each test
     beforeAll(() => {
@@ -126,6 +124,27 @@ describe('Favorites Component', () => {
       spyOn(mockFaveStopSvc, 'remove');
       component.removeStop(this.stop);
       expect(mockFaveStopSvc.remove).toHaveBeenCalledWith(this.stop);
+    });
+  });
+  describe('deleteTrip', () => {
+    // Make an arbitrary route object available to each test
+    beforeAll(() => {
+      this.trip = {
+        name: 'To work'
+      }
+    });
+    it('removes an item from the trips array', () => {
+      component.trips = [ this.trip ];
+      expect(component.trips.length).toEqual(1);
+      component.deleteTrip(this.trip);
+      expect(component.trips.length).toEqual(0);
+    });
+    it("calls the FavoriteTripService's deleteTrip() function", () => {
+      let mockFaveTripSvc = fixture.debugElement.injector.get(FavoriteTripService);
+      component.trips = [ this.trip ];
+      spyOn(mockFaveTripSvc, 'deleteTrip');
+      component.deleteTrip(this.trip);
+      expect(mockFaveTripSvc.deleteTrip).toHaveBeenCalledWith(this.trip);
     });
   });
 });
