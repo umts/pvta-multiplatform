@@ -71,6 +71,7 @@ describe('Favorites Component', () => {
 
     });
   });
+
   describe('removeRoute', () => {
     // Make an arbitrary route object available to each test
     beforeAll(() => {
@@ -90,18 +91,41 @@ describe('Favorites Component', () => {
       component.removeRoute(this.route);
       expect(component.routes.length).toEqual(0);
     });
-    it('calls the FavoriteRouteService\'s remove() function', () => {
+    it("calls the FavoriteRouteService's remove() function", () => {
       // Obtain a reference to a the service
       // https://stackoverflow.com/questions/35733846/how-to-spy-a-service-call-in-angular2
-      let mockFavRouteSvc = fixture.debugElement.injector.get(FavoriteRouteService);
+      let mockFaveRouteSvc = fixture.debugElement.injector.get(FavoriteRouteService);
       // Set the class-wide variable again (component isn't available in beforeAll?)
       component.routes = [ this.route ];
       // Insert ourselves into the FavoriteRouteService and
       // listen specifically for stuff related to remove()
-      spyOn(mockFavRouteSvc, 'remove');
+      spyOn(mockFaveRouteSvc, 'remove');
       // Call our function
       component.removeRoute(this.route);
-      expect(mockFavRouteSvc.remove).toHaveBeenCalledWith(this.route);
+      expect(mockFaveRouteSvc.remove).toHaveBeenCalledWith(this.route);
+    });
+  });
+
+  describe('removeStop', () => {
+    // Make an arbitrary route object available to each test
+    beforeAll(() => {
+      this.stop = {
+        StopId: 45,
+        Description: 'I am the ultimate stop'
+      }
+    });
+    it('removes an item from the stops array', () => {
+      component.stops = [ this.stop ];
+      expect(component.stops.length).toEqual(1);
+      component.removeStop(this.stop.StopId);
+      expect(component.stops.length).toEqual(0);
+    });
+    it("calls the FavoriteStopService's remove() function", () => {
+      let mockFaveStopSvc = fixture.debugElement.injector.get(FavoriteStopService);
+      component.stops = [ this.stop ];
+      spyOn(mockFaveStopSvc, 'remove');
+      component.removeStop(this.stop);
+      expect(mockFaveStopSvc.remove).toHaveBeenCalledWith(this.stop);
     });
   });
 });
