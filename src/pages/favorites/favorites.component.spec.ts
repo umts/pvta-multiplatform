@@ -105,7 +105,6 @@ describe('Favorites Component', () => {
     });
   });
   describe('removeStop', () => {
-    // Make an arbitrary route object available to each test
     beforeAll(() => {
       this.stop = {
         StopId: 45,
@@ -127,7 +126,6 @@ describe('Favorites Component', () => {
     });
   });
   describe('deleteTrip', () => {
-    // Make an arbitrary route object available to each test
     beforeAll(() => {
       this.trip = {
         name: 'Trip to delete'
