@@ -7,6 +7,8 @@ import { RouteComponent } from '../route/route.component';
 import { PlanTripComponent } from '../plan-trip/plan-trip.component';
 import { AlertService } from '../../providers/alert.service';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
+import { FavoriteRouteService } from '../../providers/favorite-route.service';
+import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { Alert } from '../../models/alert.model';
 import { StopModal, StopModalRequester } from '../../modals/stop-modal/stop.modal';
 import { RouteModal, RouteModalRequester } from '../../modals/route-modal/route.modal';
@@ -25,7 +27,8 @@ export class FavoritesComponent {
   trips;
   constructor(public navCtrl: NavController, private storage: Storage,
     private alertSvc: AlertService, private alertCtrl: AlertController,
-    private modalCtrl: ModalController, private tripSvc: FavoriteTripService) {
+    private modalCtrl: ModalController, private faveTripSvc: FavoriteTripService,
+    private faveRouteSvc: FavoriteRouteService, private faveStopSvc: FavoriteStopService) {
       this.alerts = [];
       ga('set', 'page', '/favorites.html');
       ga('send', 'pageview');
@@ -106,7 +109,7 @@ export class FavoritesComponent {
     });
   }
   getSavedTrips(): void {
-    this.tripSvc.getSavedTrips().then(savedTrips => {
+    this.faveTripSvc.getSavedTrips().then(savedTrips => {
       this.trips = savedTrips;
     });
   }
@@ -164,6 +167,14 @@ export class FavoritesComponent {
   }
   deleteTrip(trip): void {
     _.remove(this.trips, {name: trip.name});
-    this.tripSvc.deleteTrip(trip);
+    this.faveTripSvc.deleteTrip(trip);
+  }
+  removeRoute(route): void {
+    _.remove(this.routes, {RouteId: route.RouteId});
+    this.faveRouteSvc.remove(route);
+  }
+  removeStop(stopId): void {
+    _.remove(this.stops, {StopId: stopId});
+    this.faveStopSvc.remove(stopId);
   }
 }
