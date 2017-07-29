@@ -7,6 +7,7 @@ import { MyApp } from './app.component';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
 import { Ng2PaginationModule } from 'ng2-pagination';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -82,6 +83,7 @@ import { ToastService } from '../providers/toast.service';
     }),
     // For backwards compatibility with V1 users' storage!
     IonicStorageModule.forRoot({name: 'localforage', storeName: 'keyvaluepairs'}),
+    BrowserModule,
     HttpModule,
     Ng2PaginationModule
   ],
