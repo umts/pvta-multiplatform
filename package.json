@@ -28,7 +28,7 @@
     "@angular/platform-browser": "4.0.0",
     "@angular/platform-browser-dynamic": "4.0.0",
     "@angular/platform-server": "4.0.0",
-    "@ionic-native/core": "^3.6.1",
+    "@ionic-native/core": "^3.14.0",
     "@ionic-native/geolocation": "^3.6.1",
     "@ionic-native/keyboard": "^3.6.1",
     "@ionic-native/splash-screen": "^3.6.1",
