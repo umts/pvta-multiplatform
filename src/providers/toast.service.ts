@@ -7,6 +7,9 @@ export class ToastService {
     constructor(private toast: ToastController) { } 
   
   favoriteToast(routeOrStop: string, isFave: boolean): void {
+    if (this.faveToast) {
+      this.faveToast.dismiss();
+    }
     let txt = `${routeOrStop} ${isFave ? 'added to' : 'removed from'} Favorites`;
     this.faveToast = this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
     this.faveToast.present();
