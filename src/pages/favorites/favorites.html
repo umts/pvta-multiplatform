@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding text-wrap>
+<ion-content text-wrap>
   <ion-item-group *ngIf="alerts?.length > 0">
     <ion-item-divider item role="heading" id="alerts-heading">
       Alerts and Detours {{routes && routes?.length > 0 ? 'For Your Routes' : ''}}
@@ -20,7 +20,7 @@
     </div>
   </ion-item-group>
   <ion-item-group>
-    <ion-item-divider item id="routes-heading">
+    <ion-item-divider sticky item id="routes-heading">
       <span role="heading">Your Favorite Routes</span>
       <button ion-button outline item-right (click)="showRouteModal()">
         <ion-icon name="create" aria-label="Edit favorite routes. Opens a popup that won't get keyboard focus, please navigate to the bottom of the page after pressing"></ion-icon>
