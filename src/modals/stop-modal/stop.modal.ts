@@ -33,7 +33,7 @@ export class StopModal {
     this.requester = <StopModalRequester> this.params.get('requester');
     this.title = this.params.get('title');
     if (this.requester === StopModalRequester.Favorites) {
-      this.ariaTitle = 'Add favorite stops popup. Check the stops you want to favorite, and click done.';
+      this.ariaTitle = 'Edit favorite stops popup. Check the stops you want to favorite, and click done.';
     } else {
       this.ariaTitle = this.title;
       this.stops = this.params.get('stops');
