@@ -22,7 +22,7 @@
   <ion-item-group>
     <ion-item-divider item id="routes-heading">
       <span role="heading">Your Favorite Routes</span>
-      <button ion-button outline item-right aria-label="Add favorite routes. Opens a popup that won't get keyboard focus, please navigate to the bottom of the page after pressing" (click)="showRouteModal()">Add Routes</button>
+      <button ion-button outline item-right aria-label="Edit favorite routes. Opens a popup that won't get keyboard focus, please navigate to the bottom of the page after pressing" (click)="showRouteModal()">Edit Routes</button>
     </ion-item-divider>
       <ion-item *ngIf="!routes || routes.length == 0">
         No favorite routes yet!
@@ -48,7 +48,7 @@
     <ion-item-group>
       <ion-item-divider id="stops-heading">
         <span role="heading">Your Favorite Stops</span>
-        <button ion-button outline item-right aria-label="Add favorite stops. Opens a popup that won't get keyboard focus, please navigate to the bottom of the page after pressing" (click)="showStopModal()">Add Stops</button>
+        <button ion-button outline item-right aria-label="Edit favorite stops. Opens a popup that won't get keyboard focus, please navigate to the bottom of the page after pressing" (click)="showStopModal()">Edit Stops</button>
       </ion-item-divider>
       <ion-list role="list" aria-label="your stops">
         <ion-item *ngIf="!stops || stops.length == 0">
