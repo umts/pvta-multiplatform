@@ -36,7 +36,7 @@
               <ion-col col-auto [style.color]="'#' + route.Color" style="font-size: 120%; font-weight: bold;" >
               {{route?.RouteAbbreviation}}
               </ion-col>
-              <ion-col style="padding-left: 20px;">
+              <ion-col style="padding-left: auto;">
                 {{route?.GoogleDescription}}
               </ion-col>
             </ion-row>
@@ -62,7 +62,7 @@
           <button ion-item item-left (click)="goToStopPage(stop.StopId)" attr.aria-label="{{stop.Description}}, stop number {{stop.StopId}}">
             <ion-row>
               <ion-col col-auto>
-                <ion-icon name="pin" aria-hidden="true"></ion-icon>
+                <ion-icon name="pin" style="margin-right: 10px" aria-hidden="true"></ion-icon>
               </ion-col>
               <ion-col>
                 {{stop.Description}} ({{stop.StopId}})
