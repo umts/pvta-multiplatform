@@ -1,4 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
+import { HttpModule } from '@angular/http';
 import { IonicModule, NavController, ModalController, AlertController } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { AlertService } from '../../providers/alert.service';
@@ -17,6 +18,7 @@ describe('Favorites Component', () => {
       declarations: [MyApp, FavoritesComponent],
       imports: [
         IonicModule.forRoot(MyApp),
+        HttpModule,
         IonicStorageModule.forRoot({name: 'test', storeName: 'test'})
       ],
       providers: [

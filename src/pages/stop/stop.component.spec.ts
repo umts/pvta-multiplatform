@@ -1,4 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
+import { HttpModule } from '@angular/http';
 import { MyApp } from '../../app/app.component';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
@@ -22,6 +23,7 @@ describe('Stop Component', () => {
       declarations: [MyApp, StopComponent],
       imports: [
         IonicModule.forRoot(MyApp),
+        HttpModule,
         IonicStorageModule.forRoot({name: 'test', storeName: 'test'})
       ],
       providers: [
