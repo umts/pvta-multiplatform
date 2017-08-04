@@ -161,7 +161,7 @@ export class StopComponent {
     for (let routeId of routes) {
       this.getRoute(routeId);
     }
-  };
+  }
   toggleStopHeart(): void {
     // console.log('toggling', stop.Description);
     this.favoriteStopSvc.toggleFavorite(this.stopId, this.stop.Description);
@@ -269,13 +269,13 @@ export class StopComponent {
      } else {
        this.shownRoute = routeDirection.RouteId + routeDirection.DirectionCode;
      }
-   };
+   }
 
    // **Checks** whether a route's departures
  // have been expanded on the page
   isRouteDropdownShown (routeDirection): any  {
    return this.shownRoute === (routeDirection.RouteId + routeDirection.DirectionCode);
- };
+ }
 
  goToRoutePage(routeId: number): void {
    this.navCtrl.push(RouteComponent, {

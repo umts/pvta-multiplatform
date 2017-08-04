@@ -80,7 +80,7 @@ describe('Favorites Component', () => {
         ShortName: '35',
         RouteAbbreviation: '35',
         Color: '00467E'
-      }
+      };
     });
     it('removes an item from the routes array', () => {
       // Set the class-wide this.routes array in the component
@@ -90,7 +90,7 @@ describe('Favorites Component', () => {
       component.removeRoute(this.route);
       expect(component.routes.length).toEqual(0);
     });
-    it("calls the FavoriteRouteService's remove() function", () => {
+    it('calls the FavoriteRouteService\'s remove() function', () => {
       // Obtain a reference to a the service
       // https://stackoverflow.com/questions/35733846/how-to-spy-a-service-call-in-angular2
       let mockFaveRouteSvc = fixture.debugElement.injector.get(FavoriteRouteService);
@@ -109,7 +109,7 @@ describe('Favorites Component', () => {
       this.stop = {
         StopId: 45,
         Description: 'Stop to delete'
-      }
+      };
     });
     it('removes an item from the stops array', () => {
       component.stops = [ this.stop ];
@@ -117,7 +117,7 @@ describe('Favorites Component', () => {
       component.removeStop(this.stop.StopId);
       expect(component.stops.length).toEqual(0);
     });
-    it("calls the FavoriteStopService's remove() function", () => {
+    it('calls the FavoriteStopService\'s remove() function', () => {
       let mockFaveStopSvc = fixture.debugElement.injector.get(FavoriteStopService);
       component.stops = [ this.stop ];
       spyOn(mockFaveStopSvc, 'remove');
@@ -129,7 +129,7 @@ describe('Favorites Component', () => {
     beforeAll(() => {
       this.trip = {
         name: 'Trip to delete'
-      }
+      };
     });
     it('removes an item from the trips array', () => {
       component.trips = [ this.trip ];
@@ -137,7 +137,7 @@ describe('Favorites Component', () => {
       component.deleteTrip(this.trip);
       expect(component.trips.length).toEqual(0);
     });
-    it("calls the FavoriteTripService's deleteTrip() function", () => {
+    it('calls the FavoriteTripService\'s deleteTrip() function', () => {
       let mockFaveTripSvc = fixture.debugElement.injector.get(FavoriteTripService);
       component.trips = [ this.trip ];
       spyOn(mockFaveTripSvc, 'deleteTrip');
