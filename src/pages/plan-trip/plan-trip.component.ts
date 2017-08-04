@@ -22,7 +22,6 @@ export class PlanTripComponent {
   originInput: string = '';
   destinationPlace;
   noLocation: boolean;
-  loadedTrip;
   destinationInput;
   directionsDisplay;
   map;
