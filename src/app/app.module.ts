@@ -72,14 +72,14 @@ import { ToastService } from '../providers/toast.service';
         {component: RoutesAndStopsComponent, name: 'Routes and Stops', segment: 'routes-and-stops'},
         {component: PlanTripComponent, name: 'Plan Trip', segment: 'plan-trip'},
         {component: SettingsComponent, name: 'Settings', segment: 'settings'},
-        {component: AboutComponent, name: 'About', segment: 'settings/about'},
-        {component: StorageSettingsComponent, name: 'Storage', segment: 'settings/storage'},
-        {component: ContactComponent, name: 'Contact', segment: 'settings/contact'},
-        {component: PrivacyPolicyComponent, name: 'Privacy Policy', segment: 'settings/about/privacy-policy'},
-        {component: RouteComponent, name: 'Route', segment: 'route/:routeId'},
-        {component: StopComponent, name: 'Stop', segment: 'stop/:stopId'},
-        {component: RouteMapComponent, name: 'Route Map', segment: 'route/:routeId/map'},
-        {component: StopMapComponent, name: 'Stop Map', segment: 'stop/:stopId/map'},
+        {component: AboutComponent, name: 'About', segment: 'settings/about', defaultHistory: [SettingsComponent]},
+        {component: StorageSettingsComponent, name: 'Storage', segment: 'settings/storage', defaultHistory: [SettingsComponent]},
+        {component: ContactComponent, name: 'Contact', segment: 'settings/contact', defaultHistory: [SettingsComponent]},
+        {component: PrivacyPolicyComponent, name: 'Privacy Policy', segment: 'settings/about/privacy-policy', defaultHistory: [AboutComponent, SettingsComponent]},
+        {component: RouteComponent, name: 'Route', segment: 'route/:routeId', defaultHistory: [FavoritesComponent]},
+        {component: StopComponent, name: 'Stop', segment: 'stop/:stopId', defaultHistory: [FavoritesComponent]},
+        {component: RouteMapComponent, name: 'Route Map', segment: 'route/:routeId/map', defaultHistory: [FavoritesComponent]},
+        {component: StopMapComponent, name: 'Stop Map', segment: 'stop/:stopId/map', defaultHistory: [FavoritesComponent]}
       ]
     }),
     // For backwards compatibility with V1 users' storage!
