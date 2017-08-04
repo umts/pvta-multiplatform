@@ -16,23 +16,22 @@ declare var google, ga;
 export class PlanTripComponent {
   @ViewChild('directionsMap') mapElement: ElementRef;
   @ViewChild('routeScrollArea') routeElement: ElementRef;
-    bounds;
-   request;
-
-   originPlace;
-   originInput: string = '';
-   destinationPlace;
-   noLocation: boolean;
-  //  loadedTrip;
-   destinationInput;
-   directionsDisplay;
-   map;
-   route;
-   loader;
-   timeOptions = [];
-   noLocationToast;
-   noOriginOrDestinationToast;
-   isInternetExplorer: boolean = false;
+  bounds;
+  request;
+  originPlace;
+  originInput: string = '';
+  destinationPlace;
+  noLocation: boolean;
+  loadedTrip;
+  destinationInput;
+  directionsDisplay;
+  map;
+  route;
+  loader;
+  timeOptions = [];
+  noLocationToast;
+  noOriginOrDestinationToast;
+  isInternetExplorer: boolean = false;
 
   constructor(public navCtrl: NavController, private stopService: StopService,
   private toastCtrl: ToastController, private loadingCtrl: LoadingController,
@@ -198,8 +197,7 @@ private geolocation: Geolocation) {
     // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
     let loadedTrip = this.navParams.get('loadedTrip');
     if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
-      this.mapSvc.downloadGoogleMaps(this.mapsLoadedCallback);
-      this.mapsLoadedCallback(loadedTrip);
+      this.mapSvc.downloadGoogleMaps(() => this.mapsLoadedCallback(loadedTrip));
     } else {
       this.mapsLoadedCallback(loadedTrip);
     }

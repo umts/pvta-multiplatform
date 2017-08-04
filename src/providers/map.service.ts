@@ -16,7 +16,7 @@ export class MapService {
     let head = document.getElementsByTagName('head')[0];
     let mapsApi = document.createElement('script');
     mapsApi.src = `https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=${ENV.gmaps_key}&callback=mapsCb`;
-    head.appendChild(mapsApi);
+    document.body.appendChild(mapsApi);
   }
 
   dropPin(location): any {
