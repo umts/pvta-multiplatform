@@ -41,7 +41,7 @@
     "@types/google.analytics": "0.0.33",
     "haversine": "^1.0.2",
     "intl": "^1.2.5",
-    "localforage": "1.4.0",
+    "localforage": "^1.4.0",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "ng2-pagination": "^2.0.1"
@@ -64,14 +64,14 @@
     "karma-jasmine": "^1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-spec-reporter": "0.0.31",
+    "karma-spec-reporter": "^0.0.31",
     "karma-webpack": "^2.0.3",
     "null-loader": "^0.1.1",
     "protractor": "^5.1.1",
     "ts-loader": "^2.0.3",
     "ts-node": "^3.0.2",
     "tslint": "^5.5.0",
-    "tslint-ionic-rules": "0.0.8",
+    "tslint-ionic-rules": "^0.0.8",
     "typescript": "2.3.4"
   },
   "cordovaPlugins": [
