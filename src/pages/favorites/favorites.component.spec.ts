@@ -92,7 +92,7 @@ describe('Favorites Component', () => {
       component.removeRoute(this.route);
       expect(component.routes.length).toEqual(0);
     });
-    it('calls the FavoriteRouteService\'s remove() function', () => {
+    it("calls the FavoriteRouteService's remove() function", () => {
       // Obtain a reference to a the service
       // https://stackoverflow.com/questions/35733846/how-to-spy-a-service-call-in-angular2
       let mockFaveRouteSvc = fixture.debugElement.injector.get(FavoriteRouteService);
@@ -119,7 +119,7 @@ describe('Favorites Component', () => {
       component.removeStop(this.stop.StopId);
       expect(component.stops.length).toEqual(0);
     });
-    it('calls the FavoriteStopService\'s remove() function', () => {
+    it("calls the FavoriteStopService's remove() function", () => {
       let mockFaveStopSvc = fixture.debugElement.injector.get(FavoriteStopService);
       component.stops = [ this.stop ];
       spyOn(mockFaveStopSvc, 'remove');
@@ -139,7 +139,7 @@ describe('Favorites Component', () => {
       component.deleteTrip(this.trip);
       expect(component.trips.length).toEqual(0);
     });
-    it('calls the FavoriteTripService\'s deleteTrip() function', () => {
+    it("calls the FavoriteTripService's deleteTrip() function", () => {
       let mockFaveTripSvc = fixture.debugElement.injector.get(FavoriteTripService);
       component.trips = [ this.trip ];
       spyOn(mockFaveTripSvc, 'deleteTrip');
