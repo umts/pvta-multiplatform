@@ -173,23 +173,15 @@ export class StopComponent {
    * either a scheduled time ('s') or an estimated time ('e').
    */
   calculateTimes (departure): Object {
-    let sdt = moment(departure.SDT);
-    let edt = moment(departure.EDT);
-    // ex: '6 minutes'
-    let sRelativeNoPrefix =  moment(sdt).fromNow(true);
-    let eRelativeNoPrefix = moment(edt).fromNow(true);
-    let sRelative = moment(sdt).fromNow();
-    let eRelative = moment(edt).fromNow();
+    const sdt = moment(departure.SDT);
+    const edt = moment(departure.EDT);
     return {
-      // ex: '2 minutes'
-      estLateness: edt.diff(sdt, 'minutes'),
       // ex: '8:12 PM'
       sExact: moment(sdt).format('LT'),
       eExact: moment(edt).format('LT'),
-      sRelative: sRelative,
-      eRelative: eRelative,
-      sRelativeNoPrefix: sRelativeNoPrefix,
-      eRelativeNoPrefix: eRelativeNoPrefix
+      // ex: '6 minutes'
+      sRelativeNoPrefix: moment(sdt).fromNow(true),
+      eRelativeNoPrefix: moment(edt).fromNow(true)
     };
   }
   /**
