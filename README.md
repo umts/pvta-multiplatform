@@ -1,8 +1,8 @@
 # PVTrAck
 
-The official app of the Pioneer Valley Transit Authority ([PVTA](pvta.com))!
+The official app of the Pioneer Valley Transit Authority ([PVTA](http://pvta.com))!
 
-Current release available at [m.pvta.com](m.pvta.com), the [Play Store](https://play.google.com/store/apps/details?id=com.umts.pvtamultiplaform), and the [App Store](itunes.apple.com/us/app/pvtrack/id1234619753).
+Current release available at [m.pvta.com](https://m.pvta.com), the [Play Store](https://play.google.com/store/apps/details?id=com.umts.pvtamultiplaform), and the [App Store](https://itunes.apple.com/us/app/pvtrack/id1234619753).
 
 [![Build Status](https://travis-ci.org/umts/pvta-multiplatform.svg?branch=master)](https://travis-ci.org/umts/pvta-multiplatform)
 <a href="https://codeclimate.com/github/umts/pvta-multiplatform"><img src="https://codeclimate.com/github/umts/pvta-multiplatform/badges/gpa.svg" /></a>
@@ -41,10 +41,10 @@ The app's source code is in the `src` directory, and consists of Typescript, HTM
 
 You must have
 
-> **android**: JDK (version 1.7 or 1.8) and the [Android SDK](http://developer.android.com/sdk/installing/index.html) installed.
+- **Android**: JDK (version 1.7 or 1.8) and the [Android SDK](http://developer.android.com/sdk/installing/index.html) installed.
 You must also [create an Android Virtual Device](http://developer.android.com/tools/devices/managing-avds.html).
 
-> **ios**: macOS, Xcode, and Xcode command line tools installed.
+- **iOS**: macOS, Xcode, and Xcode command line tools installed.
 
 The project has been configured to be an Android and iOS project.  You have 3 options for testing the native app:
 
