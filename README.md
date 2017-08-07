@@ -41,10 +41,10 @@ The app's source code is in the `src` directory, and consists of Typescript, HTM
 
 You must have
 
-> **android**: JDK (version 1.7 or 1.8) and the [Android SDK](http://developer.android.com/sdk/installing/index.html) installed.
+- **Android**: JDK (version 1.7 or 1.8) and the [Android SDK](http://developer.android.com/sdk/installing/index.html) installed.
 You must also [create an Android Virtual Device](http://developer.android.com/tools/devices/managing-avds.html).
 
-> **ios**: macOS, Xcode, and Xcode command line tools installed.
+- **iOS**: macOS, Xcode, and Xcode command line tools installed.
 
 The project has been configured to be an Android and iOS project.  You have 3 options for testing the native app:
 
