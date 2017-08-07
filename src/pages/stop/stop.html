@@ -102,20 +102,23 @@
       [style.background-color]="'#'+routeList[direction.RouteId]?.Color"
       class="white">
         <ion-grid>
-          <ion-row>
-            <ion-col col-auto class="route-shortname">
+          <ion-row align-items-center>
+            <ion-col col-3 class="route-shortname">
               {{routeList[direction.RouteId]?.RouteAbbreviation}}
             </ion-col>
-            <ion-col col-6-auto>
+            <ion-col col-4 style="text-align: left;">
               {{direction.Departures?.Trip.InternetServiceDesc}}
             </ion-col>
-            <ion-col col-auto right>
+            <ion-col col-4 style="text-align: center;">
               <p style="color: white;">
                 {{direction.Departures?.Times.eExact}}
               </p>
               <p style="color: white">
                 ({{direction.Departures?.Times.eRelativeNoPrefix}})
               </p>
+            </ion-col>
+            <ion-col>
+              <ion-icon class="forward-icon" [name]="'ios-arrow-forward'"></ion-icon>
             </ion-col>
           </ion-row>
         </ion-grid>
