@@ -41,15 +41,15 @@ The app's source code is in the `src` directory, and consists of Typescript, HTM
 
 You must have
 
-> **android**: JDK (version 1.7 or 1.8) and the [Android SDK](http://developer.android.com/sdk/installing/index.html) installed.
+- **android**: JDK (version 1.7 or 1.8) and the [Android SDK](http://developer.android.com/sdk/installing/index.html) installed.
 You must also [create an Android Virtual Device](http://developer.android.com/tools/devices/managing-avds.html).
 
-> **ios**: macOS, Xcode, and Xcode command line tools installed.
+- **ios**: macOS, Xcode, and Xcode command line tools installed.
 
 The project has been configured to be an Android and iOS project.  You have 3 options for testing the native app:
 
-   a. `ionic build [ios OR android]` generates necessary files (`.apk` or `.app`) to run on a device, but does nothing more.
+   a. `ionic cordova build [ios OR android]` generates necessary files (`.apk` or `.app`) to run on a device, but does nothing more.
 
-   b. `ionic emulate [ios OR android]` builds the app, opens an emulator, and starts the app for you.
+   b. `ionic cordova emulate [ios OR android]` builds the app, opens an emulator, and starts the app for you.
 
-   c. `ionic run [ios OR android]` builds the app and installs it on your USB-connected phone (and opens an emulator if no phone is connected). For iPhones, this only works on iOS >= 10, and requires special configuration (see [ionic's docs](http://ionicframework.com/docs/intro/deploying/)).
+   c. `ionic cordova run [ios OR android]` builds the app and installs it on your USB-connected phone (and opens an emulator if no phone is connected). For iPhones, this only works on iOS >= 10, and requires special configuration (see [ionic's docs](http://ionicframework.com/docs/intro/deploying/)).
