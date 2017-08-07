@@ -118,7 +118,7 @@ export class FavoritesComponent {
     let stopModal = this.modalCtrl.create(StopModal,
       {
         requester: StopModalRequester.Favorites,
-        title: 'Add Favorite Stops'
+        title: 'Edit Favorite Stops'
       }
     );
     stopModal.present();
@@ -129,7 +129,7 @@ export class FavoritesComponent {
     let routeModal = this.modalCtrl.create(RouteModal,
       {
         requester: RouteModalRequester.Favorites,
-        title: 'Add Favorite Routes'
+        title: 'Edit Favorite Routes'
       }
     );
     routeModal.present();
