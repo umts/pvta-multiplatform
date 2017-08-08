@@ -47,7 +47,7 @@
       There are no buses currently on the {{route?.RouteAbbreviation}}.
     </span>
   </ion-toolbar>
-  <ion-item-divider role="heading" id="buses-heading">
+  <ion-item-divider role="heading" id="buses-heading" *ngIf="route && vehicles.length !== 0">
     Buses
   </ion-item-divider>
     <ion-list role="list" aria-labelledby="buses-heading" *ngIf="route && vehicles && vehicles.length !== 0">
