@@ -9,7 +9,8 @@ import * as _ from 'lodash';
 @Injectable()
 export class StopService {
   private stopsURL = 'https://bustracker.pvta.com/InfoPoint/rest/stops/get';
-  private nearestStopURL = 'https://bustracker.pvta.com/InfoPoint/rest/stops/NearestStop';
+  private nearestStopURL = 'https://bustracker.pvta.com/InfoPoint/rest/stops/Nearest';
+
   constructor(private http: Http, private storage: Storage) { }
 
   getAllStops(): Promise<Stop[]> {
@@ -28,6 +29,14 @@ export class StopService {
   }
 
   getNearestStop(lat: number, long: number): Promise<Stop> {
+    const url = `${this.nearestStopURL}Stop?latitude=${lat}&longitude=${long}`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json() as Stop)
+      .catch(this.handleError);
+  }
+
+  getNearestStops(lat: number, long: number): Promise<Stop> {
     const url = `${this.nearestStopURL}?latitude=${lat}&longitude=${long}`;
     return this.http.get(url)
       .toPromise()

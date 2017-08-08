@@ -9,7 +9,25 @@
 
 <ion-content padding>
   <div [style.height]="showBottomPanel ? '50%' : '100%'" class="map-panel">
-    <button ion-button color="positive" (click)="handleMapClick()">Click me</button>
+    There's a map here
   </div>
-  <div class="bottom-panel" [style.opacity]="showBottomPanel ? '1' : '0'">Bottom panel</div>
+  <button ion-button icon-only color="dark" style="float:right; z-index: 1; margin-top: -2.5rem"
+  (click)="handleMapClick()" class="arrow-down">
+    <ion-icon [name]="showBottomPanel ? 'arrow-dropdown' : 'arrow-dropup'"></ion-icon>
+  </button>
+  <div class="bottom-panel" [style.opacity]="showBottomPanel ? '1' : '0'">
+    The nearest stops to you are
+    <ol>
+      <li>
+        <a style="cursor: pointer">{{nearestStops? nearestStops[0].Description : ''}}</a>
+      </li>
+      <li>
+        {{nearestStops? nearestStops[1].Description : ''}}
+      </li>
+      <li>
+        {{nearestStops? nearestStops[2].Description : ''}}
+      </li>
+    </ol>
+
+  </div>
 </ion-content>
