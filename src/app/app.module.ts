@@ -16,6 +16,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { AboutComponent } from '../pages/about/about.component';
 import { ContactComponent } from '../pages/contact/contact.component';
 import { FavoritesComponent } from '../pages/favorites/favorites.component';
+import { NearbyComponent } from '../pages/nearby/nearby.component';
 import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
 import { PrivacyPolicyComponent } from '../pages/privacy-policy/privacy-policy.component';
 import { RouteComponent } from '../pages/route/route.component';
@@ -50,6 +51,7 @@ import { ToastService } from '../providers/toast.service';
     AboutComponent,
     ContactComponent,
     FavoritesComponent,
+    NearbyComponent,
     PlanTripComponent,
     PrivacyPolicyComponent,
     RouteComponent,
@@ -67,6 +69,7 @@ import { ToastService } from '../providers/toast.service';
     IonicModule.forRoot(MyApp, {}, {
       links: [
         {component: FavoritesComponent, name: 'Favorites', segment: 'favorites'},
+        {component: NearbyComponent, name: 'Nearby', segment: 'nearby'},
         {component: RoutesAndStopsComponent, name: 'Routes and Stops', segment: 'routes-and-stops'},
         {component: PlanTripComponent, name: 'Plan Trip', segment: 'plan-trip'},
         {component: SettingsComponent, name: 'Settings', segment: 'settings'},
@@ -91,6 +94,7 @@ import { ToastService } from '../providers/toast.service';
     AboutComponent,
     ContactComponent,
     FavoritesComponent,
+    NearbyComponent,
     PlanTripComponent,
     PrivacyPolicyComponent,
     RouteComponent,

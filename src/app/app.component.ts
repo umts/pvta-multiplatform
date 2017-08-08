@@ -3,6 +3,7 @@ import { Nav, Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { FavoritesComponent } from '../pages/favorites/favorites.component';
+import { NearbyComponent } from '../pages/nearby/nearby.component';
 import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
 import { RoutesAndStopsComponent } from '../pages/routes-and-stops/routes-and-stops.component';
 import { SettingsComponent } from '../pages/settings/settings.component';
@@ -36,6 +37,11 @@ export class MyApp {
         title: 'Favorites',
         component: FavoritesComponent,
         icon: 'ios-heart-outline'
+      },
+      {
+        title: 'Nearby',
+        component: NearbyComponent,
+        icon: 'compass'
       },
       {
         title: 'Routes and Stops',

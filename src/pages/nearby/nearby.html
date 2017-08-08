@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle aria-label="Open the menu" tabindex=1>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title role="heading">Nearby</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div [style.height]="showBottomPanel ? '50%' : '100%'" class="map-panel">
+    <button ion-button color="positive" (click)="handleMapClick()">Click me</button>
+  </div>
+  <div class="bottom-panel" [style.opacity]="showBottomPanel ? '1' : '0'">Bottom panel</div>
+</ion-content>

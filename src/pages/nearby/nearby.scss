@@ -1,0 +1,13 @@
+page-nearby {
+  .map-panel {
+    border-style: solid;
+    border-color: blue;
+    transition: all 2s ease-in-out;
+  }
+  .bottom-panel {
+    border-style: solid;
+    border-color: red;
+    height: 50%;
+    transition: all 2s ease-in-out;
+  }
+}
