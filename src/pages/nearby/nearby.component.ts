@@ -22,6 +22,7 @@ export class NearbyComponent {
   currentHighlightedStop;
   bounds;
   position;
+  nearestStopsPromise;
   map: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -67,6 +68,8 @@ export class NearbyComponent {
       }
     };
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    this.mapSvc.init(this.map);
+    this.mapSvc.dropPin(location);
     // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
     let swBound = new google.maps.LatLng(41.93335, -72.85809);
     let neBound = new google.maps.LatLng(42.51138, -72.20302);
@@ -75,6 +78,27 @@ export class NearbyComponent {
       console.error('Can\'t Use Current Location',
       'Your current location isn\'t in the PVTA\'s service area. Please search for a starting location above.');
     }
+    Promise.resolve(this.nearestStopsPromise).then(() => {
+      console.log('adding bounds change listener');
+      //  this.plotStopsOnMap();
+      google.maps.event.addListener(this.map, 'idle', () => {
+        console.log('bounds changed');
+        this.plotStopsOnMap();
+      });
+    });
+  }
+
+  plotStopsOnMap() {
+    console.log('plot stops on map');
+    const bounds = this.map.getBounds();
+    console.log(bounds);
+    for (let stop of this.nearestStops) {
+      const x = new google.maps.LatLng(stop.Latitude, stop.Longitude);
+      if (bounds.contains(x)) {
+        // console.log(`Mapping ${this.nearestStops[index].Description}`);
+        this.mapSvc.dropPin(x);
+      }
+    }
   }
 
   onCollapseToggleClicked() {
@@ -82,7 +106,8 @@ export class NearbyComponent {
   }
 
   getNearestStops() {
-    this.stopSvc.getNearestStops(this.position.coords.latitude, this.position.coords.longitude).then(stops => {
+    this.nearestStopsPromise = this.stopSvc.getNearestStops(this.position.coords.latitude, this.position.coords.longitude);
+    this.nearestStopsPromise.then(stops => {
       this.nearestStops = stops.slice(0, 5);
     }).catch(err => {
       console.error(err);
