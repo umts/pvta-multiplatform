@@ -14,4 +14,13 @@ page-nearby {
   .arrow-down {
     transform: rotate(0deg) all .5s ease-out;
   }
+  .nearest-stops {
+    transition: all 2s ease-in-out;
+  }
+  .loading-stops {
+    transition: all 2s ease-in-out;
+  }
+  .vertical-line {
+    border-left: thick solid black;
+  }
 }

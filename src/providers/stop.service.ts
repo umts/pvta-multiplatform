@@ -36,11 +36,11 @@ export class StopService {
       .catch(this.handleError);
   }
 
-  getNearestStops(lat: number, long: number): Promise<Stop> {
+  getNearestStops(lat: number, long: number): Promise<Stop[]> {
     const url = `${this.nearestStopURL}?latitude=${lat}&longitude=${long}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json() as Stop)
+      .then(response => response.json() as Stop[])
       .catch(this.handleError);
   }
 

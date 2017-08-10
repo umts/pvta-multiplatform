@@ -8,26 +8,39 @@
 </ion-header>
 
 <ion-content padding>
-  <div [style.height]="showBottomPanel ? '50%' : '100%'" class="map-panel">
+  <div #map id="map" [style.height]="showBottomPanel ? '50%' : '100%'" class="map-panel">
     There's a map here
   </div>
   <button ion-button icon-only color="dark" style="float:right; z-index: 1; margin-top: -2.5rem"
-  (click)="handleMapClick()" class="arrow-down">
+  (click)="onCollapseToggleClicked()" class="arrow-down">
     <ion-icon [name]="showBottomPanel ? 'arrow-dropdown' : 'arrow-dropup'"></ion-icon>
   </button>
   <div class="bottom-panel" [style.opacity]="showBottomPanel ? '1' : '0'">
-    The nearest stops to you are
-    <ol>
-      <li>
-        <a style="cursor: pointer">{{nearestStops? nearestStops[0].Description : ''}}</a>
-      </li>
-      <li>
-        {{nearestStops? nearestStops[1].Description : ''}}
-      </li>
-      <li>
-        {{nearestStops? nearestStops[2].Description : ''}}
-      </li>
-    </ol>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-12 col-sm>
+          {{!nearestStops ? loadingStopsStatus : 'The nearest stops to you are'}}
+          <ol>
+            <li *ngFor="let stop of nearestStops | slice:0:5" (click)="onShowRightPanelClick(stop)">
+              <a style="cursor: pointer">{{stop.Description}}</a>
+            </li>
+          </ol>
+        </ion-col>
+        <div class="vertical-line">
+        </div>
+        <ion-col col-12 col-sm>
+          {{currentHighlightedStop?.Description}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <!-- <div [hidden]="nearestStops" class="loading-stops">
 
+    </div>
+    <div [hidden]="!nearestStops" [style.float]="left" [style.width]="showBottomRightPanel ? '50' : '100'"class="nearest-stops">
+
+    </div>
+    <div [style.width]="showBottomRightPanel ? '50' : '0'" [style.float]="right">
+
+    </div> -->
   </div>
 </ion-content>
