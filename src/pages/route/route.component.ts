@@ -5,6 +5,7 @@ import { RouteService } from '../../providers/route.service';
 import { VehicleService } from '../../providers/vehicle.service';
 import { AlertService } from '../../providers/alert.service';
 import { FavoriteRouteService } from '../../providers/favorite-route.service';
+import { ToastService } from '../../providers/toast.service';
 import { RouteDetail } from '../../models/route-detail.model';
 import { Vehicle } from '../../models/vehicle.model';
 import { Alert } from '../../models/alert.model';
@@ -30,7 +31,7 @@ export class RouteComponent {
     private routeService: RouteService, private vehicleService: VehicleService,
     private alertService: AlertService, private connection: ConnectivityService,
     private modalCtrl: ModalController, private favoriteRouteService: FavoriteRouteService,
-    private alertCtrl: AlertController) {
+    private toastSvc: ToastService, private alertCtrl: AlertController) {
     this.routeId = parseInt(navParams.get('routeId'), 10);
     this.alerts = [];
     ga('set', 'page', '/route.html');
@@ -66,6 +67,7 @@ export class RouteComponent {
 
   toggleRouteHeart(route): void {
     this.favoriteRouteService.toggleFavorite(route);
+    this.toastSvc.favoriteToast('Route', route.Liked);
   }
 
   showStopModal (): void {

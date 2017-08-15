@@ -10,6 +10,7 @@ import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { RouteComponent } from '../route/route.component';
 import { StopMapComponent } from '../stop-map/stop-map.component';
 import { RouteService } from '../../providers/route.service';
+import { ToastService } from '../../providers/toast.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ConnectivityService } from '../../providers/connectivity.service';
@@ -42,6 +43,7 @@ export class StopComponent {
     private loadingCtrl: LoadingController, private favoriteStopSvc: FavoriteStopService,
     private stopSvc: StopService, private connection: ConnectivityService,
     private storage: Storage, private refreshSvc: AutoRefreshService,
+    private toastSvc: ToastService,
     private alertCtrl: AlertController ) {
       this.stopId = parseInt(navParams.get('stopId'), 10);
       this.isInternetExplorer = infoSvc.isInternetExplorer();
@@ -163,7 +165,9 @@ export class StopComponent {
   toggleStopHeart(): void {
     // console.log('toggling', stop.Description);
     this.favoriteStopSvc.toggleFavorite(this.stopId, this.stop.Description);
+    this.toastSvc.favoriteToast('Stop', this.liked);
   }
+
   /**
    * Given a Departure object,
    * calculates the human-readable departure times
