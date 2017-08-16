@@ -1,4 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
+import { HttpModule } from '@angular/http';
 import { IonicModule, NavController, ModalController, AlertController } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { AlertService } from '../../providers/alert.service';
@@ -17,6 +18,7 @@ describe('Favorites Component', () => {
       declarations: [MyApp, FavoritesComponent],
       imports: [
         IonicModule.forRoot(MyApp),
+        HttpModule,
         IonicStorageModule.forRoot({name: 'test', storeName: 'test'})
       ],
       providers: [
@@ -80,7 +82,7 @@ describe('Favorites Component', () => {
         ShortName: '35',
         RouteAbbreviation: '35',
         Color: '00467E'
-      }
+      };
     });
     it('removes an item from the routes array', () => {
       // Set the class-wide this.routes array in the component
@@ -109,7 +111,7 @@ describe('Favorites Component', () => {
       this.stop = {
         StopId: 45,
         Description: 'Stop to delete'
-      }
+      };
     });
     it('removes an item from the stops array', () => {
       component.stops = [ this.stop ];
@@ -129,7 +131,7 @@ describe('Favorites Component', () => {
     beforeAll(() => {
       this.trip = {
         name: 'Trip to delete'
-      }
+      };
     });
     it('removes an item from the trips array', () => {
       component.trips = [ this.trip ];
