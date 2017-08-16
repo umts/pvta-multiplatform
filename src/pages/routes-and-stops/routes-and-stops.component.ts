@@ -39,9 +39,9 @@ export class RoutesAndStopsComponent {
   loader;
   isInternetExplorer: boolean = false;
   constructor(public navCtrl: NavController, private infoSvc: InfoService,
-    private toastSvc: ToastService, private routeSvc: RouteService, 
-    private stopSvc: StopService, private loadingCtrl: LoadingController, 
-    private storage: Storage, private favRouteSvc: FavoriteRouteService, 
+    private toastSvc: ToastService, private routeSvc: RouteService,
+    private stopSvc: StopService, private loadingCtrl: LoadingController,
+    private storage: Storage, private favRouteSvc: FavoriteRouteService,
     private alertCtrl: AlertController, private favStopSvc: FavoriteStopService,
     private geolocation: Geolocation) {
       this.isInternetExplorer = infoSvc.isInternetExplorer();
