@@ -1,4 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
+import { HttpModule } from '@angular/http';
 import { IonicModule, Platform, NavParams, NavController, ModalController, AlertController, ToastController, LoadingController } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { RouteService } from '../../providers/route.service';
@@ -20,6 +21,7 @@ describe('PlanTrip Component', () => {
       declarations: [MyApp, PlanTripComponent],
       imports: [
         IonicModule.forRoot(MyApp),
+        HttpModule,
         IonicStorageModule.forRoot({name: 'test', storeName: 'test'})
       ],
       providers: [
