@@ -41,7 +41,6 @@
     "@types/google.analytics": "^0.0.33",
     "haversine": "^1.0.2",
     "intl": "^1.2.5",
-    "localforage": "^1.4.0",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "ng2-pagination": "^2.0.1"
