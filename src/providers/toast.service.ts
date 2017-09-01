@@ -3,9 +3,9 @@ import { ToastController } from 'ionic-angular';
 
 @Injectable()
 export class ToastService {
-    private faveToast; 
-    constructor(private toast: ToastController) { } 
-  
+    private faveToast;
+    constructor(private toast: ToastController) { }
+
   favoriteToast(routeOrStop: string, isFave: boolean): void {
     if (this.faveToast) {
       this.faveToast.dismiss();

@@ -3,6 +3,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
+import { BrowserModule } from '@angular/platform-browser';
 import { MyApp } from './app.component';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
@@ -66,6 +67,7 @@ import { ToastService } from '../providers/toast.service';
     VehicleComponent
   ],
   imports: [
+    BrowserModule,
     IonicModule.forRoot(MyApp, {}, {
       links: [
         {component: FavoritesComponent, name: 'Favorites', segment: 'favorites'},
@@ -80,7 +82,7 @@ import { ToastService } from '../providers/toast.service';
         {component: RouteComponent, name: 'Route', segment: 'route/:routeId', defaultHistory: [FavoritesComponent]},
         {component: StopComponent, name: 'Stop', segment: 'stop/:stopId', defaultHistory: [FavoritesComponent]},
         {component: RouteMapComponent, name: 'Route Map', segment: 'route/:routeId/map', defaultHistory: [FavoritesComponent]},
-        {component: StopMapComponent, name: 'Stop Map', segment: 'stop/:stopId/map', defaultHistory: [FavoritesComponent]},
+        {component: StopMapComponent, name: 'Stop Map', segment: 'stop/:stopId/map', defaultHistory: [FavoritesComponent]}
       ]
     }),
     // For backwards compatibility with V1 users' storage!

@@ -16,23 +16,21 @@ declare var google, ga;
 export class PlanTripComponent {
   @ViewChild('directionsMap') mapElement: ElementRef;
   @ViewChild('routeScrollArea') routeElement: ElementRef;
-    bounds;
-   request;
-
-   originPlace;
-   originInput: string = '';
-   destinationPlace;
-   noLocation: boolean;
-  //  loadedTrip;
-   destinationInput;
-   directionsDisplay;
-   map;
-   route;
-   loader;
-   timeOptions = [];
-   noLocationToast;
-   noOriginOrDestinationToast;
-   isInternetExplorer: boolean = false;
+  bounds;
+  request;
+  originPlace;
+  originInput: string = '';
+  destinationPlace;
+  noLocation: boolean;
+  destinationInput;
+  directionsDisplay;
+  map;
+  route;
+  loader;
+  timeOptions = [];
+  noLocationToast;
+  noOriginOrDestinationToast;
+  isInternetExplorer: boolean = false;
 
   constructor(public navCtrl: NavController, private stopService: StopService,
   private toastCtrl: ToastController, private loadingCtrl: LoadingController,
@@ -198,8 +196,7 @@ private geolocation: Geolocation) {
     // defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
     let loadedTrip = this.navParams.get('loadedTrip');
     if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
-      this.mapSvc.downloadGoogleMaps(this.mapsLoadedCallback);
-      this.mapsLoadedCallback(loadedTrip);
+      this.mapSvc.downloadGoogleMaps(() => this.mapsLoadedCallback(loadedTrip));
     } else {
       this.mapsLoadedCallback(loadedTrip);
     }

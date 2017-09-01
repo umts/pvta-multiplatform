@@ -161,7 +161,7 @@ export class StopComponent {
     for (let routeId of routes) {
       this.getRoute(routeId);
     }
-  };
+  }
   toggleStopHeart(): void {
     // console.log('toggling', stop.Description);
     this.favoriteStopSvc.toggleFavorite(this.stopId, this.stop.Description);
@@ -177,15 +177,15 @@ export class StopComponent {
    * either a scheduled time ('s') or an estimated time ('e').
    */
   calculateTimes (departure): Object {
+    const sdt = moment(departure.SDT);
+    const edt = moment(departure.EDT);
     return {
       // ex: '8:12 PM'
-      sExact: moment(departure.SDT).format('LT'),
-      eExact: moment(departure.EDT).format('LT'),
-      // ex: 'in 6 minutes'
-      sRelative: moment(departure.SDT).fromNow(),
-      eRelative: moment(departure.EDT).fromNow(),
+      sExact: moment(sdt).format('LT'),
+      eExact: moment(edt).format('LT'),
       // ex: '6 minutes'
-      eRelativeNoPrefix: moment(departure.EDT).fromNow(true)
+      sRelativeNoPrefix: moment(sdt).fromNow(true),
+      eRelativeNoPrefix: moment(edt).fromNow(true)
     };
   }
   /**
@@ -269,13 +269,13 @@ export class StopComponent {
      } else {
        this.shownRoute = routeDirection.RouteId + routeDirection.DirectionCode;
      }
-   };
+   }
 
    // **Checks** whether a route's departures
  // have been expanded on the page
   isRouteDropdownShown (routeDirection): any  {
    return this.shownRoute === (routeDirection.RouteId + routeDirection.DirectionCode);
- };
+ }
 
  goToRoutePage(routeId: number): void {
    this.navCtrl.push(RouteComponent, {
