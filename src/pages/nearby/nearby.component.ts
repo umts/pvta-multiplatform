@@ -69,7 +69,7 @@ export class NearbyComponent {
     };
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     this.mapSvc.init(this.map);
-    this.mapSvc.dropPin(location);
+    this.mapSvc.placeCurrentLocationMarker(location);
     // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
     let swBound = new google.maps.LatLng(41.93335, -72.85809);
     let neBound = new google.maps.LatLng(42.51138, -72.20302);
@@ -82,7 +82,7 @@ export class NearbyComponent {
       this.plotStopsOnMap();
       console.log('adding bounds change listener');
       //  this.plotStopsOnMap();
-      google.maps.event.addListener(this.map, 'dragend', () => {
+      google.maps.event.addListener(this.map, 'idle', () => {
         console.log('bounds changed');
         this.plotStopsOnMap();
       });
@@ -97,9 +97,25 @@ export class NearbyComponent {
     for (let stop of this.nearestStops) {
       const x = new google.maps.LatLng(stop.Latitude, stop.Longitude);
       if (bounds.contains(x)) {
-        console.log(stop.Description);
+        if (this.mapSvc.getMarkers().length > 150) {
+            this.mapSvc.removeAllMarkers();
+            console.error('too many pins, try zooming in yo');
+            break;
+        } else {
+            var icon = {
+              path: this.mapSvc.vehicleSVGPath(),
+              fillColor: '#fff',
+              fillOpacity: 1,
+              strokeWeight: 0.75,
+              scale: .02,
+              // 180 degrees is rightside-up
+              rotation: 180
+            };
+            this.mapSvc.dropPin(x, true, true, icon);
+        }
+        // console.log(stop.Description);
         // console.log(`Mapping ${this.nearestStops[index].Description}`);
-        this.mapSvc.dropPin(x, true);
+
       }
     }
   }
