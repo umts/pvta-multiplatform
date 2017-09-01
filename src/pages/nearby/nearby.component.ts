@@ -79,9 +79,10 @@ export class NearbyComponent {
       'Your current location isn\'t in the PVTA\'s service area. Please search for a starting location above.');
     }
     Promise.resolve(this.nearestStopsPromise).then(() => {
+      this.plotStopsOnMap();
       console.log('adding bounds change listener');
       //  this.plotStopsOnMap();
-      google.maps.event.addListener(this.map, 'idle', () => {
+      google.maps.event.addListener(this.map, 'dragend', () => {
         console.log('bounds changed');
         this.plotStopsOnMap();
       });
@@ -89,14 +90,16 @@ export class NearbyComponent {
   }
 
   plotStopsOnMap() {
+    this.mapSvc.removeAllMarkers();
     console.log('plot stops on map');
     const bounds = this.map.getBounds();
-    console.log(bounds);
+    console.log(bounds, this.nearestStops);
     for (let stop of this.nearestStops) {
       const x = new google.maps.LatLng(stop.Latitude, stop.Longitude);
       if (bounds.contains(x)) {
+        console.log(stop.Description);
         // console.log(`Mapping ${this.nearestStops[index].Description}`);
-        this.mapSvc.dropPin(x);
+        this.mapSvc.dropPin(x, true);
       }
     }
   }
@@ -108,7 +111,7 @@ export class NearbyComponent {
   getNearestStops() {
     this.nearestStopsPromise = this.stopSvc.getNearestStops(this.position.coords.latitude, this.position.coords.longitude);
     this.nearestStopsPromise.then(stops => {
-      this.nearestStops = stops.slice(0, 5);
+      this.nearestStops = stops;
     }).catch(err => {
       console.error(err);
       this.loadingStopsStatus = 'Error downloading stops';

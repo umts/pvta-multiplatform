@@ -19,13 +19,17 @@ export class MapService {
     head.appendChild(mapsApi);
   }
 
-  dropPin(location): any {
-    this.map.panTo(location);
-    return new google.maps.Marker({
+  dropPin(location, keepBounds?: boolean): any {
+    if (!keepBounds) {
+      this.map.panTo(location);
+    }
+    let marker = new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
       position: location
     });
+    this.markers.push(marker);
+    return marker;
   }
 
   placeVehicleMarker(location, icon, isVehicleRefresh): any {
