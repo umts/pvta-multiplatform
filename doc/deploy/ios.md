@@ -13,7 +13,7 @@ Forthcoming, aka @akaplo doesn't entirely remember and will document when he ste
 
 2. Open `config.xml`. On line 2, increment `ios-CFBundleVersion` with your appropriately chosen new version number.
 
-3. (PVTrAck 2+) `ionic build ios --prod --release`
+3. (PVTrAck 2+) `ionic cordova build ios --prod --release`
 
     Troubleshooting: if you get an error related to whether this is an iOS project, try the following:
 
