@@ -4,6 +4,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 
 import { MapService } from '../../providers/map.service';
 import { StopService } from '../../providers/stop.service';
+import { RouteService } from '../../providers/route.service';
 
 import { StopComponent } from '../stop/stop.component';
 
@@ -24,10 +25,13 @@ export class NearbyComponent {
   position;
   nearestStopsPromise;
   map: any;
+  routes = [];
+  routesOnMap = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
   public geolocation: Geolocation, private stopSvc: StopService,
-  private alertCtrl: AlertController, private mapSvc: MapService) {
+  private alertCtrl: AlertController, private mapSvc: MapService,
+  private routeSvc: RouteService) {
     // Get location, then get nearest stops and load the map
     const options = {timeout: 5000, enableHighAccuracy: true};
     this.geolocation.getCurrentPosition(options).then(position => {
@@ -38,6 +42,7 @@ export class NearbyComponent {
       console.error(`No location ${err}`);
       this.loadingStopsStatus = 'Error retrieving location';
     });
+    this.routeSvc.getAllRoutes().then(routes => this.routes = routes);
 
     this.loadingStopsStatus = 'Loading stops near you';
   }
@@ -70,6 +75,7 @@ export class NearbyComponent {
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     this.mapSvc.init(this.map);
     this.mapSvc.placeCurrentLocationMarker(location);
+    // this.plotKMLs();
     // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
     let swBound = new google.maps.LatLng(41.93335, -72.85809);
     let neBound = new google.maps.LatLng(42.51138, -72.20302);
@@ -86,7 +92,13 @@ export class NearbyComponent {
         console.log('bounds changed');
         this.plotStopsOnMap();
       });
-    });
+    }).catch(err => console.error(err));
+  }
+
+  plotKMLs() {
+    for (let route of this.routesOnMap) {
+      this.mapSvc.addKML(route.RouteTraceFilename, true);
+    }
   }
 
   plotStopsOnMap() {
@@ -147,6 +159,30 @@ export class NearbyComponent {
         buttons: ['Dismiss']
       }).present();
     });
+  }
+
+  showCheckbox() {
+    let alert = this.alertCtrl.create();
+    alert.setTitle('Routes to See on Map');
+    for (let route of this.routes) {
+      alert.addInput({
+        type: 'checkbox',
+        label: route.RouteAbbreviation,
+        value: route,
+        checked: this.routesOnMap.includes(route)
+      });
+    }
+
+    alert.addButton('Cancel');
+    alert.addButton({
+      text: 'Okay',
+      handler: data => {
+        console.log('Checkbox data:', data);
+        this.routesOnMap = data;
+        this.plotKMLs();
+      }
+    });
+    alert.present();
   }
 
 }

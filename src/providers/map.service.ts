@@ -96,11 +96,12 @@ export class MapService {
     });
   }
 
-  addKML (fileName) {
+  addKML (fileName, preserveViewport?: boolean) {
     let toAdd = `https://bustracker.pvta.com/infopoint/Resources/Traces/${fileName}`;
     let georssLayer = new google.maps.KmlLayer({
       url: toAdd,
-      suppressInfoWindows: true
+      suppressInfoWindows: true,
+      preserveViewport: preserveViewport 
     });
     georssLayer.setMap(this.map);
   }

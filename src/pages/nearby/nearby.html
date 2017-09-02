@@ -8,6 +8,19 @@
 </ion-header>
 
 <ion-content padding>
+
+  <button ion-item (click)="showCheckbox()" [ngClass]="{active: isRouteListExpanded}">
+    Routes
+    <ion-icon item-right [name]="isRouteListExpanded ? 'md-arrow-dropup' : 'md-arrow-dropdown'"></ion-icon>
+  </button>
+
+  <ion-list *ngIf="isRouteListExpanded">
+    <ion-item *ngFor="let route of routes" text-wrap (click)="1">
+      {{route.RouteAbbreviation}}
+    </ion-item>
+  </ion-list>
+
+
   <div #map id="map" [style.height]="showBottomPanel ? '50%' : '100%'" class="map-panel">
     There's a map here
   </div>
