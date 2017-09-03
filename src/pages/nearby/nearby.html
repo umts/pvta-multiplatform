@@ -11,6 +11,7 @@
 
   <button ion-item (click)="showCheckbox()" [ngClass]="{active: isRouteListExpanded}">
     Routes
+    <p>{{getRoutesOnMap()}}</p>
     <ion-icon item-right [name]="isRouteListExpanded ? 'md-arrow-dropup' : 'md-arrow-dropdown'"></ion-icon>
   </button>
 

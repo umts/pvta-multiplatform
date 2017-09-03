@@ -4,6 +4,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 
 import { MapService } from '../../providers/map.service';
 import { StopService } from '../../providers/stop.service';
+import { StopDepartureService } from '../../providers/stop-departure.service';
 import { RouteService } from '../../providers/route.service';
 
 import { StopComponent } from '../stop/stop.component';
@@ -27,11 +28,13 @@ export class NearbyComponent {
   map: any;
   routes = [];
   routesOnMap = [];
+  routesPromise;
+  stopsOnMap = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
   public geolocation: Geolocation, private stopSvc: StopService,
   private alertCtrl: AlertController, private mapSvc: MapService,
-  private routeSvc: RouteService) {
+  private routeSvc: RouteService, private stopDepartureSvc: StopDepartureService) {
     // Get location, then get nearest stops and load the map
     const options = {timeout: 5000, enableHighAccuracy: true};
     this.geolocation.getCurrentPosition(options).then(position => {
@@ -42,7 +45,8 @@ export class NearbyComponent {
       console.error(`No location ${err}`);
       this.loadingStopsStatus = 'Error retrieving location';
     });
-    this.routeSvc.getAllRoutes().then(routes => this.routes = routes);
+    this.routesPromise = this.routeSvc.getAllRoutes();
+    this.routesPromise.then(routes => this.routes = routes);
 
     this.loadingStopsStatus = 'Loading stops near you';
   }
@@ -70,7 +74,11 @@ export class NearbyComponent {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       zoomControlOptions: {
         position: google.maps.ControlPosition.LEFT_CENTER
-      }
+      },
+      styles: [{
+        "featureType": "transit.station.bus",
+        "stylers": [{ "visibility": "off" }]
+     }]
     };
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     this.mapSvc.init(this.map);
@@ -91,6 +99,7 @@ export class NearbyComponent {
       google.maps.event.addListener(this.map, 'idle', () => {
         console.log('bounds changed');
         this.plotStopsOnMap();
+        this.getRoutesForEachStop();
       });
     }).catch(err => console.error(err));
   }
@@ -101,8 +110,43 @@ export class NearbyComponent {
     }
   }
 
+  getRoutesForEachStop() {
+    Promise.all([this.routesPromise, this.nearestStopsPromise]).then(values => {
+      let [routes, stops] = values;
+      // debugger;
+      // console.log('opppp', values);
+      // From each stop on the map:
+      //   1. Get departures
+      //   2. Get routeIds from each one
+      //   3. Add RouteAbbreviation to infowindow
+      for (let stop of this.stopsOnMap) {
+        this.stopDepartureSvc.getStopDeparture(stop.stop.StopId).then(departures => {
+          if (departures.length > 0) {
+            departures[0].RouteDirections.map(d => d.RouteId)
+            let routeIds = departures[0].RouteDirections.map(d => d.RouteId);
+            let routeAbbreviations = [];
+            for (let id of routeIds) {
+              let x = routes.find(route => {
+                return route.RouteId === id
+              });
+              if (x) {
+                routeAbbreviations.push(x.RouteAbbreviation)
+              }
+            }
+            let str = `${stop.stop.Description}: routes that stop here ${routeAbbreviations.join(' ')}`
+            this.mapSvc.addMapListener(stop.marker, str, true);
+            console.log(stop.stop.Description + '\n' + '     ' + routeIds);
+          } else {
+            this.mapSvc.addMapListener(stop.marker, `${stop.stop.Description}: No routes currently service this stop`, true);
+          }
+        });
+      }
+    });
+  }
+
   plotStopsOnMap() {
     this.mapSvc.removeAllMarkers();
+    this.stopsOnMap = [];
     console.log('plot stops on map');
     const bounds = this.map.getBounds();
     console.log(bounds, this.nearestStops);
@@ -116,14 +160,15 @@ export class NearbyComponent {
         } else {
             var icon = {
               path: this.mapSvc.vehicleSVGPath(),
-              fillColor: '#fff',
+              fillColor: '#ff0000',
               fillOpacity: 1,
               strokeWeight: 0.75,
-              scale: .02,
+              scale: .07,
               // 180 degrees is rightside-up
               rotation: 180
             };
-            this.mapSvc.dropPin(x, true, true, icon);
+            const marker = this.mapSvc.dropPin(x, true, true, icon);
+            this.stopsOnMap.push({stop: stop, marker: marker});
         }
         // console.log(stop.Description);
         // console.log(`Mapping ${this.nearestStops[index].Description}`);
@@ -183,6 +228,9 @@ export class NearbyComponent {
       }
     });
     alert.present();
+  }
+  getRoutesOnMap() {
+    return this.routesOnMap.map(x => x.RouteAbbreviation).join(', ');
   }
 
 }
