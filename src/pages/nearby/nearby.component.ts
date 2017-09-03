@@ -137,7 +137,7 @@ export class NearbyComponent {
             this.mapSvc.addMapListener(stop.marker, str, true);
             console.log(stop.stop.Description + '\n' + '     ' + routeIds);
           } else {
-            this.mapSvc.addMapListener(stop.marker, `${stop.stop.Description}: No routes currently service this stop`, true);
+            this.mapSvc.addMapListener(stop.marker, `${stop.stop.Description}: No routes service this stop today`, true);
           }
         });
       }
