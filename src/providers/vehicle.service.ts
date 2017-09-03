@@ -16,6 +16,14 @@ export class VehicleService {
       .catch(this.handleError);
   }
 
+  getAllVehicles(): Promise<Vehicle[]> {
+    const url = `${this.vehiclesURL}allvehicles`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json() as Vehicle[])
+      .catch(this.handleError);
+  }
+
   getRouteVehicles(routeId: number): Promise<Vehicle[]> {
     const url = `${this.vehiclesURL}AllVehiclesForRoute?routeid=${routeId}`;
     return this.http.get(url)

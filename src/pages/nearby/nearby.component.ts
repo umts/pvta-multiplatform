@@ -6,6 +6,7 @@ import { MapService } from '../../providers/map.service';
 import { StopService } from '../../providers/stop.service';
 import { StopDepartureService } from '../../providers/stop-departure.service';
 import { RouteService } from '../../providers/route.service';
+import { VehicleService } from '../../providers/vehicle.service';
 
 import { StopComponent } from '../stop/stop.component';
 
@@ -30,11 +31,15 @@ export class NearbyComponent {
   routesOnMap = [];
   routesPromise;
   stopsOnMap = [];
+  vehiclesOnMap = [];
+  vehiclesPromise;
+  vehicles = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
   public geolocation: Geolocation, private stopSvc: StopService,
   private alertCtrl: AlertController, private mapSvc: MapService,
-  private routeSvc: RouteService, private stopDepartureSvc: StopDepartureService) {
+  private routeSvc: RouteService, private stopDepartureSvc: StopDepartureService,
+  private vehicleSvc: VehicleService) {
     // Get location, then get nearest stops and load the map
     const options = {timeout: 5000, enableHighAccuracy: true};
     this.geolocation.getCurrentPosition(options).then(position => {
@@ -47,7 +52,8 @@ export class NearbyComponent {
     });
     this.routesPromise = this.routeSvc.getAllRoutes();
     this.routesPromise.then(routes => this.routes = routes);
-
+    this.vehiclesPromise = this.vehicleSvc.getAllVehicles();
+    this.vehiclesPromise.then(vs => this.vehicles = vs);
     this.loadingStopsStatus = 'Loading stops near you';
   }
 
@@ -93,12 +99,12 @@ export class NearbyComponent {
       'Your current location isn\'t in the PVTA\'s service area. Please search for a starting location above.');
     }
     Promise.resolve(this.nearestStopsPromise).then(() => {
-      this.plotStopsOnMap();
+      this.plotMarkersOnMap();
       console.log('adding bounds change listener');
       //  this.plotStopsOnMap();
       google.maps.event.addListener(this.map, 'idle', () => {
         console.log('bounds changed');
-        this.plotStopsOnMap();
+        this.plotMarkersOnMap();
         this.getRoutesForEachStop();
       });
     }).catch(err => console.error(err));
@@ -144,11 +150,46 @@ export class NearbyComponent {
     });
   }
 
-  plotStopsOnMap() {
-    this.mapSvc.removeAllMarkers();
+  plotVehiclesOnMap(bounds) {
+    Promise.all([this.vehiclesPromise, this.routesPromise]).then(values => {
+      const [vehicles, routes] = values;
+      this.vehiclesOnMap = [];
+      for (let v of vehicles) {
+        const loc = new google.maps.LatLng(v.Latitude, v.Longitude);
+        if (bounds.contains(loc)) {
+          const routeForThisVehicle = routes.find(r => r.RouteId === v.RouteId);
+          var icon = {
+            path: this.mapSvc.vehicleSVGPath(),
+            fillColor: `#${routeForThisVehicle.Color}`,
+            fillOpacity: 1,
+            strokeWeight: 4,
+            strokeColor: '#f0f0f0',
+            scale: .13
+          };
+          const marker = this.mapSvc.dropPin(loc, true, true, icon);
+          const str = `
+          <span style=\"color: #${routeForThisVehicle.Color}\">
+
+          </span>
+
+          `;
+          var content = `
+          <span style=\"color: #${routeForThisVehicle.Color}; font-weight: bold\">
+            ${routeForThisVehicle.RouteAbbreviation}
+          </span>
+          : ${v.DirectionLong} toward <br>
+          ${v.Destination} <br>
+          Last Stop: ${v.LastStop}
+          `;
+          this.mapSvc.addMapListener(marker, content, true)
+          this.vehiclesOnMap.push({vehicle: v, marker: marker});
+        }
+      }
+    });
+  }
+
+  plotStopsOnMap(bounds) {
     this.stopsOnMap = [];
-    console.log('plot stops on map');
-    const bounds = this.map.getBounds();
     console.log(bounds, this.nearestStops);
     for (let stop of this.nearestStops) {
       const x = new google.maps.LatLng(stop.Latitude, stop.Longitude);
@@ -163,18 +204,22 @@ export class NearbyComponent {
               fillColor: '#ff0000',
               fillOpacity: 1,
               strokeWeight: 0.75,
-              scale: .07,
-              // 180 degrees is rightside-up
-              rotation: 180
+              scale: .07
             };
             const marker = this.mapSvc.dropPin(x, true, true, icon);
             this.stopsOnMap.push({stop: stop, marker: marker});
         }
-        // console.log(stop.Description);
-        // console.log(`Mapping ${this.nearestStops[index].Description}`);
 
       }
     }
+  }
+
+  plotMarkersOnMap() {
+    this.mapSvc.removeAllMarkers();
+    console.log('plot stops on map');
+    const bounds = this.map.getBounds();
+    this.plotStopsOnMap(bounds);
+    this.plotVehiclesOnMap(bounds);
   }
 
   onCollapseToggleClicked() {
