@@ -141,9 +141,9 @@ export class NearbyComponent {
             }
             let str = `${stop.stop.Description}: routes that stop here ${routeAbbreviations.join(' ')}`
             this.mapSvc.addMapListener(stop.marker, str, true);
-            console.log(stop.stop.Description + '\n' + '     ' + routeIds);
+            // console.log(stop.stop.Description + '\n' + '     ' + routeIds);
           } else {
-            this.mapSvc.addMapListener(stop.marker, `${stop.stop.Description}: No routes service this stop today`, true);
+            this.mapSvc.addMapListener(stop.marker, `${stop.stop.Description}: No routes stop here today`, true);
           }
         });
       }
@@ -162,11 +162,17 @@ export class NearbyComponent {
             path: this.mapSvc.vehicleSVGPath(),
             fillColor: `#${routeForThisVehicle.Color}`,
             fillOpacity: 1,
-            strokeWeight: 4,
-            strokeColor: '#f0f0f0',
-            scale: .13
+            strokeWeight: 2,
+            strokeColor: '#000',
+            scale: .12,
+            labelOrigin: new google.maps.Point(102, 110)
           };
-          const marker = this.mapSvc.dropPin(loc, true, true, icon);
+          const marker = this.mapSvc.dropPin(loc, true, true, icon, {
+            fontWeight: 'bold',
+            fontSize: '11px',
+            color: 'white',
+            text: routeForThisVehicle.RouteAbbreviation.slice(-2)
+          });
           const str = `
           <span style=\"color: #${routeForThisVehicle.Color}\">
 
@@ -190,7 +196,7 @@ export class NearbyComponent {
 
   plotStopsOnMap(bounds) {
     this.stopsOnMap = [];
-    console.log(bounds, this.nearestStops);
+    // console.log(bounds, this.nearestStops);
     for (let stop of this.nearestStops) {
       const x = new google.maps.LatLng(stop.Latitude, stop.Longitude);
       if (bounds.contains(x)) {
@@ -201,9 +207,10 @@ export class NearbyComponent {
         } else {
             var icon = {
               path: this.mapSvc.vehicleSVGPath(),
-              fillColor: '#ff0000',
+              fillColor: '#98012e',
               fillOpacity: 1,
-              strokeWeight: 0.75,
+              strokeWeight: 2.75,
+              strokeColor: '#fff',
               scale: .07
             };
             const marker = this.mapSvc.dropPin(x, true, true, icon);

@@ -33,7 +33,7 @@ export class MapService {
     return marker;
   }
 
-  dropPin(location, keepBounds?: boolean, noAnimation?: boolean, iconURL?: any): any {
+  dropPin(location, keepBounds?: boolean, noAnimation?: boolean, iconURL?: any, label?: any): any {
     if (!keepBounds) {
       this.map.panTo(location);
     }
@@ -41,7 +41,8 @@ export class MapService {
       map: this.map,
       animation: noAnimation ? false : google.maps.Animation.DROP,
       position: location,
-      icon: iconURL ? iconURL : null
+      icon: iconURL ? iconURL : null,
+      label: label
     });
     this.markers.push(marker);
     return marker;
