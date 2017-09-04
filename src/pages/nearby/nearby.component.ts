@@ -9,6 +9,7 @@ import { RouteService } from '../../providers/route.service';
 import { VehicleService } from '../../providers/vehicle.service';
 
 import { StopComponent } from '../stop/stop.component';
+import * as _ from 'lodash';
 
 declare const google;
 
@@ -28,7 +29,7 @@ export class NearbyComponent {
   nearestStopsPromise;
   map: any;
   routes = [];
-  routesOnMap = [];
+  // routesOnMap = [];
   routesPromise;
   stopsOnMap = [];
   vehiclesOnMap = [];
@@ -89,7 +90,6 @@ export class NearbyComponent {
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     this.mapSvc.init(this.map);
     this.mapSvc.placeCurrentLocationMarker(location);
-    // this.plotKMLs();
     // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
     let swBound = new google.maps.LatLng(41.93335, -72.85809);
     let neBound = new google.maps.LatLng(42.51138, -72.20302);
@@ -110,12 +110,6 @@ export class NearbyComponent {
     }).catch(err => console.error(err));
   }
 
-  plotKMLs() {
-    for (let route of this.routesOnMap) {
-      this.mapSvc.addKML(route.RouteTraceFilename, true);
-    }
-  }
-
   getRoutesForEachStop() {
     Promise.all([this.routesPromise, this.nearestStopsPromise]).then(values => {
       let [routes, stops] = values;
@@ -128,18 +122,18 @@ export class NearbyComponent {
       for (let stop of this.stopsOnMap) {
         this.stopDepartureSvc.getStopDeparture(stop.stop.StopId).then(departures => {
           if (departures.length > 0) {
-            departures[0].RouteDirections.map(d => d.RouteId)
+            departures[0].RouteDirections.map(d => d.RouteId);
             let routeIds = departures[0].RouteDirections.map(d => d.RouteId);
             let routeAbbreviations = [];
             for (let id of routeIds) {
               let x = routes.find(route => {
-                return route.RouteId === id
+                return route.RouteId === id;
               });
               if (x) {
-                routeAbbreviations.push(x.RouteAbbreviation)
+                routeAbbreviations.push(x.RouteAbbreviation);
               }
             }
-            let str = `${stop.stop.Description}: routes that stop here ${routeAbbreviations.join(' ')}`
+            let str = `${stop.stop.Description}: routes that stop here ${routeAbbreviations.join(' ')}`;
             this.mapSvc.addMapListener(stop.marker, str, true);
             // console.log(stop.stop.Description + '\n' + '     ' + routeIds);
           } else {
@@ -187,7 +181,10 @@ export class NearbyComponent {
           ${v.Destination} <br>
           Last Stop: ${v.LastStop}
           `;
-          this.mapSvc.addMapListener(marker, content, true)
+          this.mapSvc.addMapListener(marker, content, true);
+          marker.addListener('click', () => {
+            this.mapSvc.toggleKMLs([routeForThisVehicle.RouteTraceFilename]);
+          });
           this.vehiclesOnMap.push({vehicle: v, marker: marker});
         }
       }
@@ -266,7 +263,7 @@ export class NearbyComponent {
         type: 'checkbox',
         label: route.RouteAbbreviation,
         value: route,
-        checked: this.routesOnMap.includes(route)
+        checked: this.mapSvc.layerIsOnMap(route.RouteTraceFilename)
       });
     }
 
@@ -275,14 +272,17 @@ export class NearbyComponent {
       text: 'Okay',
       handler: data => {
         console.log('Checkbox data:', data);
-        this.routesOnMap = data;
-        this.plotKMLs();
+        this.mapSvc.toggleKMLs(data.map(d => d.RouteTraceFilename));
       }
     });
     alert.present();
   }
   getRoutesOnMap() {
-    return this.routesOnMap.map(x => x.RouteAbbreviation).join(', ');
+    // get all the filenames currently on the map
+    const fileNames = this.mapSvc.getKMLLayers().map(l => l.fileName);
+    // get all the routeabbreviations whose filenames are on the map
+    return _.filter(this.routes, route => fileNames.includes(route.RouteTraceFilename))
+    .map(filteredRoute => filteredRoute.RouteAbbreviation).join(', ');
   }
 
 }

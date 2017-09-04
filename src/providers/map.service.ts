@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 declare var google;
 declare const ENV;
+import * as _ from 'lodash';
+
 @Injectable()
 export class MapService {
   map;
@@ -9,6 +11,7 @@ export class MapService {
   options = { timeout: 5000, enableHighAccuracy: true };
   private markers = [];
   windows = [];
+  private kmlLayers = [];
   constructor() {}
 
   getMarkers() {
@@ -98,6 +101,16 @@ export class MapService {
     });
   }
 
+  toggleKMLs(fileNames: string[], preserveViewport?: boolean) {
+    for (let file of fileNames) {
+      if (this.layerIsOnMap(file)) {
+        this.removeKML(file);
+      } else {
+        this.addKML(file, true);
+      }
+    }
+  }
+
   addKML (fileName, preserveViewport?: boolean) {
     let toAdd = `https://bustracker.pvta.com/infopoint/Resources/Traces/${fileName}`;
     let georssLayer = new google.maps.KmlLayer({
@@ -105,7 +118,28 @@ export class MapService {
       suppressInfoWindows: true,
       preserveViewport: preserveViewport
     });
+    this.kmlLayers.push({layer: georssLayer, fileName: fileName});
     georssLayer.setMap(this.map);
+  }
+
+  getKMLLayers() {
+    return this.kmlLayers;
+  }
+
+  layerIsOnMap (fileName): boolean {
+    if (this.kmlLayers.map(l => l.fileName).includes(fileName)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  removeKML(fileName: string) {
+    const removedLayers: any[] = _.remove(this.kmlLayers, l => l.fileName === fileName);
+    for (let remove of removedLayers) {
+      remove.layer.setMap(null);
+    }
   }
 
   init(incomingMap): void {
