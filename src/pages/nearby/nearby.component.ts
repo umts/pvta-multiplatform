@@ -71,10 +71,22 @@ export class NearbyComponent {
   }
 
   mapsLoadedCallback() {
-    console.log('maps loaded');
-    const location = new google.maps.LatLng(
+    // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
+    let swBound = new google.maps.LatLng(41.93335, -72.85809);
+    let neBound = new google.maps.LatLng(42.51138, -72.20302);
+    this.bounds = new google.maps.LatLngBounds(swBound, neBound);
+
+    let location = new google.maps.LatLng(
       this.position.coords.latitude, this.position.coords.longitude
     );
+
+    if (!this.bounds.contains(location)) {
+      console.error('Can\'t Use Current Location',
+      'Your current location isn\'t in the PVTA\'s service area. Please search for a starting location above.');
+      // Just use the UMass Campus Center
+      location = new google.maps.LatLng(42.3918143, -72.5291417);
+    }
+
     let mapOptions = {
       center: location,
       zoom: 15,
@@ -83,21 +95,13 @@ export class NearbyComponent {
         position: google.maps.ControlPosition.LEFT_CENTER
       },
       styles: [{
-        "featureType": "transit.station.bus",
-        "stylers": [{ "visibility": "off" }]
+        'featureType': 'transit.station.bus',
+        'stylers': [{ 'visibility': 'off' }]
      }]
     };
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     this.mapSvc.init(this.map);
     this.mapSvc.placeCurrentLocationMarker(location);
-    // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
-    let swBound = new google.maps.LatLng(41.93335, -72.85809);
-    let neBound = new google.maps.LatLng(42.51138, -72.20302);
-    this.bounds = new google.maps.LatLngBounds(swBound, neBound);
-    if (!this.bounds.contains(location)) {
-      console.error('Can\'t Use Current Location',
-      'Your current location isn\'t in the PVTA\'s service area. Please search for a starting location above.');
-    }
     Promise.resolve(this.nearestStopsPromise).then(() => {
       this.plotMarkersOnMap();
       console.log('adding bounds change listener');
