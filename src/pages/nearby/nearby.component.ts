@@ -157,20 +157,22 @@ export class NearbyComponent {
         const loc = new google.maps.LatLng(v.Latitude, v.Longitude);
         if (bounds.contains(loc)) {
           const routeForThisVehicle = routes.find(r => r.RouteId === v.RouteId);
+          console.log(`${routeForThisVehicle.RouteAbbreviation}: ${v.Heading}`);
           var icon = {
             path: this.mapSvc.vehicleSVGPath(),
             fillColor: `#${routeForThisVehicle.Color}`,
             fillOpacity: 1,
-            strokeWeight: 2,
-            strokeColor: '#000',
-            scale: .12,
-            labelOrigin: new google.maps.Point(102, 110)
+            strokeWeight: 0,
+            // strokeColor: '#000',
+            rotation: v.Heading,
+            scale: .7,
+            labelOrigin: new google.maps.Point(0, 0)
           };
           const marker = this.mapSvc.dropPin(loc, true, true, icon, {
             fontWeight: 'bold',
             fontSize: '11px',
-            color: 'white',
-            text: routeForThisVehicle.RouteAbbreviation.slice(-2)
+            color: 'black',
+            text: routeForThisVehicle.RouteAbbreviation.slice(-3)
           });
           const str = `
           <span style=\"color: #${routeForThisVehicle.Color}\">
@@ -208,7 +210,7 @@ export class NearbyComponent {
             break;
         } else {
             var icon = {
-              path: this.mapSvc.vehicleSVGPath(),
+              path: this.mapSvc.busStopSVGPath(),
               fillColor: '#98012e',
               fillOpacity: 1,
               strokeWeight: 2.75,
