@@ -35,6 +35,7 @@ export class NearbyComponent {
   vehiclesOnMap = [];
   vehiclesPromise;
   vehicles = [];
+  numberOfStopsToShow: number = 5;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
   public geolocation: Geolocation, private stopSvc: StopService,
@@ -189,7 +190,7 @@ export class NearbyComponent {
           marker.addListener('click', () => {
             this.mapSvc.toggleKMLs([routeForThisVehicle.RouteTraceFilename]);
           });
-          this.vehiclesOnMap.push({vehicle: v, marker: marker});
+          this.vehiclesOnMap.push({vehicle: v, marker: marker, route: routeForThisVehicle});
         }
       }
     });
@@ -237,7 +238,7 @@ export class NearbyComponent {
   getNearestStops() {
     this.nearestStopsPromise = this.stopSvc.getNearestStops(this.position.coords.latitude, this.position.coords.longitude);
     this.nearestStopsPromise.then(stops => {
-      this.nearestStops = stops;
+      this.nearestStops = _.uniqBy(stops, 'StopId');
     }).catch(err => {
       console.error(err);
       this.loadingStopsStatus = 'Error downloading stops';

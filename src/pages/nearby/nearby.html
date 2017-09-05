@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
   <button ion-item (click)="showCheckbox()" [ngClass]="{active: isRouteListExpanded}">
     Routes
@@ -32,18 +32,42 @@
   <div class="bottom-panel" [style.opacity]="showBottomPanel ? '1' : '0'">
     <ion-grid>
       <ion-row>
-        <ion-col col-12 col-sm>
-          {{!nearestStops ? loadingStopsStatus : 'The nearest stops to you are'}}
-          <ol>
-            <li *ngFor="let stop of nearestStops | slice:0:5" (click)="onShowRightPanelClick(stop)">
-              <a style="cursor: pointer">{{stop.Description}}</a>
-            </li>
-          </ol>
+        <ion-col col-12 col-sm *ngIf="currentHighlightedStop">
+          <ion-item-group>
+            <ion-item-divider color="secondary">{{currentHighlightedStop?.Description}}</ion-item-divider>
+              (departures go here)
+          </ion-item-group>
         </ion-col>
-        <div class="vertical-line">
-        </div>
         <ion-col col-12 col-sm>
-          {{currentHighlightedStop?.Description}}
+          <ion-item-group *ngIf="nearestStops">
+            <ion-item-divider color="secondary">Nearby Stops</ion-item-divider>
+              <button ion-item *ngFor="let stop of nearestStops | slice:0:numberOfStopsToShow" (click)="onShowRightPanelClick(stop)">
+                {{stop.Description}}
+              </button>
+              <ion-item>
+                <p>
+                  <span class="nearby-list-less" *ngIf="numberOfStopsToShow >= 10" (click)="numberOfStopsToShow = numberOfStopsToShow - 5">
+                    See less...
+                  </span>
+                  <span class="nearby-list-more" *ngIf="numberOfStopsToShow < 500"  (click)="numberOfStopsToShow = numberOfStopsToShow + 5">
+                    See more...
+                  </span>
+                </p>
+              </ion-item>
+            </ion-item-group>
+        </ion-col>
+        <ion-col col-12 col-sm>
+          <ion-item-group>
+            <ion-item-divider color="secondary">Nearby Buses</ion-item-divider>
+              <p *ngIf="vehiclesOnMap.length === 0">
+                No nearby buses - try zooming out on the map!
+              </p>
+              <ion-item *ngFor="let p of vehiclesOnMap" (click)="onShowRightPanelClick(stop)">
+                <a style="cursor: pointer">{{p?.route?.RouteAbbreviation}}:</a>
+                headed {{p?.vehicle?.DirectionLong}} toward
+                <a style="cursor: pointer">{{p?.vehicle?.Destination}}</a>
+              </ion-item>
+            </ion-item-group>
         </ion-col>
       </ion-row>
     </ion-grid>

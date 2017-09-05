@@ -1,12 +1,23 @@
 page-nearby {
   .map-panel {
-    border-style: solid;
-    border-color: blue;
+    // border-style: solid;
+    // border-color: blue;
     transition: all 2s ease-in-out;
   }
+  .pointer {
+    cursor: pointer;
+  }
+  .nearby-list-less {
+    @extend .pointer;
+    float:left;
+  }
+  .nearby-list-more {
+    @extend .pointer;
+    float: right;
+  }
   .bottom-panel {
-    border-style: solid;
-    border-color: red;
+    // border-style: solid;
+    // border-color: red;
     margin-top: 0.5rem;
     height: 50%;
     transition: all 2s ease-in-out;
