@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StopDepartures } from '../../components/stop-departures/stop-departures.component.ts';
 
 import { NavController, ModalController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';

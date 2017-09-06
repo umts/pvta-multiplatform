@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content text-wrap>
+  <stop-departures stopId="72" sortBy="time" limit="3"></stop-departures>
   <ion-item-group *ngIf="alerts?.length > 0">
     <ion-item-divider item role="heading" id="alerts-heading">
       Alerts and Detours {{routes && routes?.length > 0 ? 'For Your Routes' : ''}}

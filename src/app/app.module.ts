@@ -30,6 +30,9 @@ import { StopComponent } from '../pages/stop/stop.component';
 import { StopMapComponent } from '../pages/stop-map/stop-map.component';
 import { StorageSettingsComponent } from '../pages/storage-settings/storage-settings.component';
 import { VehicleComponent } from '../pages/route/vehicle.component';
+
+// Common Components
+import { StopDepartures } from '../components/stop-departures/stop-departures.component.ts';
 // Services
 import { RouteService }          from '../providers/route.service';
 import { StopService }          from '../providers/stop.service';
@@ -62,6 +65,7 @@ import { ToastService } from '../providers/toast.service';
     RoutesAndStopsComponent,
     SettingsComponent,
     StopComponent,
+    StopDepartures,
     StopMapComponent,
     StorageSettingsComponent,
     VehicleComponent
@@ -106,6 +110,7 @@ import { ToastService } from '../providers/toast.service';
     RoutesAndStopsComponent,
     SettingsComponent,
     StopComponent,
+    StopDepartures,
     StopMapComponent,
     StorageSettingsComponent,
     VehicleComponent

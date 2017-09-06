@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 
+import { StopDepartures } from '../../components/stop-departures/stop-departures.component.ts';
 import { MapService } from '../../providers/map.service';
 import { StopService } from '../../providers/stop.service';
 import { StopDepartureService } from '../../providers/stop-departure.service';
