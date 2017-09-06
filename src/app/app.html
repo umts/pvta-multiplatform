@@ -1,14 +1,20 @@
 <ion-split-pane>
   <ion-menu [content]="content">
-    <ion-header aria-hidden="true">
+    <ion-header>
       <ion-toolbar color="primary">
-        <ion-title>PVTrAck</ion-title>
+        <ion-title attr.aria-label="{{notOnDesktop ? 'Peeveetrack menu is currently open.' : 'Peeveetrack menu.'}}" tabindex=2>PVTrAck</ion-title>
+        <ion-buttons end>
+        <button ion-button menuClose aria-label="Close the menu" tabindex=3 *ngIf="notOnDesktop">
+          <ion-icon name="close"></ion-icon>
+        </button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
 
     <ion-content>
-      <ion-list role="navigation" id="navigation-menu" aria-label="Peeveetrack Menu">
-        <button role="link" menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+      <ion-list role="navigation" id="navigation-menu">
+        <button role="menuitem" menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)" tabindex=2>
+          <ion-icon name={{p.icon}} aria-hidden="true"></ion-icon>
           {{p.title}}
         </button>
       </ion-list>

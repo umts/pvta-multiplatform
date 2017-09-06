@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { MyBusesComponent } from '../pages/my-buses/my-buses.component';
+import { FavoritesComponent } from '../pages/favorites/favorites.component';
 import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
 import { RoutesAndStopsComponent } from '../pages/routes-and-stops/routes-and-stops.component';
 import { SettingsComponent } from '../pages/settings/settings.component';
@@ -19,10 +19,11 @@ declare var ga;
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = MyBusesComponent;
+  rootPage: any = FavoritesComponent;
   offlineToast;
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{title: string, component: any, icon: string}>;
   runningInBrowser = false;
+  notOnDesktop = false;
 
   constructor(public platform: Platform, private infoSvc: InfoService,
   private connectivityService: ConnectivityService, private storage: Storage,
@@ -31,12 +32,27 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'My Buses', component: MyBusesComponent },
-      { title: 'Routes and Stops', component: RoutesAndStopsComponent },
-      { title: 'Schedule', component: PlanTripComponent },
-      { title: 'Settings', component: SettingsComponent }
+      {
+        title: 'Favorites',
+        component: FavoritesComponent,
+        icon: 'ios-heart-outline'
+      },
+      {
+        title: 'Routes and Stops',
+        component: RoutesAndStopsComponent,
+        icon: 'bus'
+      },
+      {
+        title: 'Schedule',
+        component: PlanTripComponent,
+        icon: 'ios-calendar-outline'
+      },
+      {
+        title: 'Settings',
+        component: SettingsComponent,
+        icon: 'ios-cog-outline'
+      }
     ];
-
   }
 
   initializeApp() {
@@ -51,6 +67,7 @@ export class MyApp {
       let isIE: boolean = navigator.userAgent.indexOf('Trident', 0) !== -1;
       this.infoSvc.setInternetExplorer(isIE);
       this.runningInBrowser = this.platform.is('mobileweb') || this.platform.is('core');
+      this.notOnDesktop = !this.platform.is('core');
       // Listen for the app install banner interactions
       if (this.runningInBrowser) {
         window.addEventListener('beforeinstallprompt', this.onInstallPromptShown);

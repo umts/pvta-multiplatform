@@ -1,4 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
+import { HttpModule } from '@angular/http';
 import { MyApp } from '../../app/app.component';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
@@ -7,6 +8,7 @@ import { VehicleService } from '../../providers/vehicle.service';
 import { AlertService } from '../../providers/alert.service';
 import { FavoriteRouteService } from '../../providers/favorite-route.service';
 import { ConnectivityService } from '../../providers/connectivity.service';
+import { ToastService } from '../../providers/toast.service';
 import { RouteComponent } from './route.component';
 import { NavParamsMock } from '../../../test-config/mocks-ionic';
 
@@ -19,6 +21,7 @@ describe('Route Component', () => {
       declarations: [MyApp, RouteComponent],
       imports: [
         IonicModule.forRoot(MyApp),
+        HttpModule,
         IonicStorageModule.forRoot({name: 'test', storeName: 'test'})
       ],
       providers: [
@@ -30,7 +33,8 @@ describe('Route Component', () => {
         ConnectivityService,
         ModalController,
         FavoriteRouteService,
-        AlertController
+        AlertController,
+        ToastService
       ]
     });
   }));

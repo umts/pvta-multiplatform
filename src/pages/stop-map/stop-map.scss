@@ -1,3 +1,8 @@
 page-stop-map {
-
+  .map-panel {
+    transition: all 2s ease-in-out;
+  }
+  #directions {
+    transition: all 2s ease-in-out;
+  }
 }

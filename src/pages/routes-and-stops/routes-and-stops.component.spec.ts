@@ -1,4 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
+import { HttpModule } from '@angular/http';
 import { MyApp } from '../../app/app.component';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { IonicStorageModule } from '@ionic/storage';
@@ -10,6 +11,7 @@ import { InfoService } from '../../providers/info.service';
 import { FavoriteRouteService } from '../../providers/favorite-route.service';
 import { RoutesAndStopsComponent } from './routes-and-stops.component';
 import { FavoriteStopService } from '../../providers/favorite-stop.service';
+import { ToastService } from '../../providers/toast.service';
 
 describe('RoutesAndStops Component', () => {
   let fixture;
@@ -20,6 +22,7 @@ describe('RoutesAndStops Component', () => {
       declarations: [MyApp, RoutesAndStopsComponent],
       imports: [
         IonicModule.forRoot(MyApp),
+        HttpModule,
         IonicStorageModule.forRoot({name: 'test', storeName: 'test'}),
         Ng2PaginationModule
       ],
@@ -32,7 +35,8 @@ describe('RoutesAndStops Component', () => {
         FavoriteRouteService,
         AlertController,
         FavoriteStopService,
-        Geolocation
+        Geolocation,
+        ToastService
       ]
     });
   }));

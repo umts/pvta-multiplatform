@@ -28,6 +28,6 @@
       </ion-row>
     </ion-grid>
   </ion-toolbar>
-  <div #map id="map" [style.height]="mapHeight"></div>
-  <div #directions id="directions"></div>
+  <div #map id="map" class="map-panel" [style.height]="directionsObtained ? '50%' : '100%'"></div>
+  <div #directions [style.opacity]="directionsObtained ? '1' : '0'" id="directions"></div>
 </ion-content>

@@ -8,7 +8,7 @@ import { StopService} from '../../providers/stop.service';
 import * as _ from 'lodash';
 
 export enum StopModalRequester {
-  MyBuses, Route
+  Favorites, Route
 }
 
 @Component({
@@ -32,8 +32,8 @@ export class StopModal {
   ) {
     this.requester = <StopModalRequester> this.params.get('requester');
     this.title = this.params.get('title');
-    if (this.requester === StopModalRequester.MyBuses) {
-      this.ariaTitle = 'Add favorite stops popup. Check the stops you want to favorite, and click done.';
+    if (this.requester === StopModalRequester.Favorites) {
+      this.ariaTitle = 'Edit favorite stops popup. Check the stops you want to favorite, and click done.';
     } else {
       this.ariaTitle = this.title;
       this.stops = this.params.get('stops');
@@ -59,7 +59,7 @@ export class StopModal {
   }
 
   ionViewWillEnter() {
-    if (this.requester === StopModalRequester.MyBuses) {
+    if (this.requester === StopModalRequester.Favorites) {
       let loader = this.loadingCtrl.create();
       loader.present();
       this.stopService.getStopList().then((stops: Stop[]) => {

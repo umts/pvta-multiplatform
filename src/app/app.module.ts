@@ -3,6 +3,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
+import { BrowserModule } from '@angular/platform-browser';
 import { MyApp } from './app.component';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
@@ -15,7 +16,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 // Pages
 import { AboutComponent } from '../pages/about/about.component';
 import { ContactComponent } from '../pages/contact/contact.component';
-import { MyBusesComponent } from '../pages/my-buses/my-buses.component';
+import { FavoritesComponent } from '../pages/favorites/favorites.component';
 import { PlanTripComponent } from '../pages/plan-trip/plan-trip.component';
 import { PrivacyPolicyComponent } from '../pages/privacy-policy/privacy-policy.component';
 import { RouteComponent } from '../pages/route/route.component';
@@ -41,7 +42,7 @@ import { ConnectivityService } from '../providers/connectivity.service';
 import { MapService } from '../providers/map.service';
 import { InfoService } from '../providers/info.service';
 import { AutoRefreshService } from '../providers/auto-refresh.service';
-
+import { ToastService } from '../providers/toast.service';
 
 
 @NgModule({
@@ -49,7 +50,7 @@ import { AutoRefreshService } from '../providers/auto-refresh.service';
     MyApp,
     AboutComponent,
     ContactComponent,
-    MyBusesComponent,
+    FavoritesComponent,
     PlanTripComponent,
     PrivacyPolicyComponent,
     RouteComponent,
@@ -64,9 +65,10 @@ import { AutoRefreshService } from '../providers/auto-refresh.service';
     VehicleComponent
   ],
   imports: [
+    BrowserModule,
     IonicModule.forRoot(MyApp, {}, {
       links: [
-        {component: MyBusesComponent, name: 'My Buses', segment: 'my-buses'},
+        {component: FavoritesComponent, name: 'Favorites', segment: 'favorites'},
         {component: RoutesAndStopsComponent, name: 'Routes and Stops', segment: 'routes-and-stops'},
         {component: PlanTripComponent, name: 'Plan Trip', segment: 'plan-trip'},
         {component: SettingsComponent, name: 'Settings', segment: 'settings'},
@@ -74,10 +76,10 @@ import { AutoRefreshService } from '../providers/auto-refresh.service';
         {component: StorageSettingsComponent, name: 'Storage', segment: 'settings/storage', defaultHistory: [SettingsComponent]},
         {component: ContactComponent, name: 'Contact', segment: 'settings/contact', defaultHistory: [SettingsComponent]},
         {component: PrivacyPolicyComponent, name: 'Privacy Policy', segment: 'settings/about/privacy-policy', defaultHistory: [AboutComponent, SettingsComponent]},
-        {component: RouteComponent, name: 'Route', segment: 'route/:routeId', defaultHistory: [MyBusesComponent]},
-        {component: StopComponent, name: 'Stop', segment: 'stop/:stopId', defaultHistory: [MyBusesComponent]},
-        {component: RouteMapComponent, name: 'Route Map', segment: 'route/:routeId/map', defaultHistory: [MyBusesComponent]},
-        {component: StopMapComponent, name: 'Stop Map', segment: 'stop/:stopId/map', defaultHistory: [MyBusesComponent]},
+        {component: RouteComponent, name: 'Route', segment: 'route/:routeId', defaultHistory: [FavoritesComponent]},
+        {component: StopComponent, name: 'Stop', segment: 'stop/:stopId', defaultHistory: [FavoritesComponent]},
+        {component: RouteMapComponent, name: 'Route Map', segment: 'route/:routeId/map', defaultHistory: [FavoritesComponent]},
+        {component: StopMapComponent, name: 'Stop Map', segment: 'stop/:stopId/map', defaultHistory: [FavoritesComponent]}
       ]
     }),
     // For backwards compatibility with V1 users' storage!
@@ -90,7 +92,7 @@ import { AutoRefreshService } from '../providers/auto-refresh.service';
     MyApp,
     AboutComponent,
     ContactComponent,
-    MyBusesComponent,
+    FavoritesComponent,
     PlanTripComponent,
     PrivacyPolicyComponent,
     RouteComponent,
@@ -108,6 +110,6 @@ import { AutoRefreshService } from '../providers/auto-refresh.service';
     RouteService, StopService, StopDepartureService, VehicleService, AlertService,
     FavoriteRouteService, FavoriteStopService, ConnectivityService,
     MapService, InfoService, FavoriteTripService, AutoRefreshService,
-    StatusBar, SplashScreen, Geolocation]
+    StatusBar, SplashScreen, Geolocation, ToastService ]
 })
 export class AppModule {}

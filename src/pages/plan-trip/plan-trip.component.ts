@@ -16,23 +16,21 @@ declare var google, ga;
 export class PlanTripComponent {
   @ViewChild('directionsMap') mapElement: ElementRef;
   @ViewChild('routeScrollArea') routeElement: ElementRef;
-    bounds;
-   request;
-
-   originPlace;
-   originInput: string = '';
-   destinationPlace;
-   noLocation: boolean;
-  //  loadedTrip;
-   destinationInput;
-   directionsDisplay;
-   map;
-   route;
-   loader;
-   timeOptions = [];
-   noLocationToast;
-   noOriginOrDestinationToast;
-   isInternetExplorer: boolean = false;
+  bounds;
+  request;
+  originPlace;
+  originInput: string = '';
+  destinationPlace;
+  noLocation: boolean;
+  destinationInput;
+  directionsDisplay;
+  map;
+  route;
+  loader;
+  timeOptions = [];
+  noLocationToast;
+  noOriginOrDestinationToast;
+  isInternetExplorer: boolean = false;
 
   constructor(public navCtrl: NavController, private stopService: StopService,
   private toastCtrl: ToastController, private loadingCtrl: LoadingController,
@@ -137,7 +135,7 @@ private geolocation: Geolocation) {
     this.constructMap();
     this.noLocation = false;
     // If we loaded a trip (user came via
-    // saved trip on My Buses), pull out
+    // saved trip on Favorites), pull out
     // its details and display them.
     if (loadedTrip) {
       this.request = loadedTrip;
@@ -198,7 +196,7 @@ private geolocation: Geolocation) {
     // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
     let loadedTrip = this.navParams.get('loadedTrip');
     if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
-      this.mapSvc.downloadGoogleMaps(this.mapsLoadedCallback);
+      this.mapSvc.downloadGoogleMaps(() => this.mapsLoadedCallback(loadedTrip));
     } else {
       this.mapsLoadedCallback(loadedTrip);
     }
@@ -211,7 +209,8 @@ private geolocation: Geolocation) {
     var mapOptions = {
       zoom: 15,
       mapTypeControl: false,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      gestureHandling: 'cooperative'
     };
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     this.directionsDisplay = new google.maps.DirectionsRenderer;
@@ -396,7 +395,7 @@ private geolocation: Geolocation) {
 
   /*
    * Saves the current trip parameters to the db
-   * for display on My Buses
+   * for display on Favorites
   */
   saveTrip(): void {
     console.log('saving trip yo');
