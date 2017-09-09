@@ -73,14 +73,14 @@
       <ion-grid>
         <ion-row align-items-center text-wrap>
 
-          <ion-col col-12 col-xxs-3  class="route-shortname">
+          <ion-col col-3 col-xs-3  class="route-shortname">
             {{routeList[direction.RouteId]?.RouteAbbreviation}}
           </ion-col>
 
-          <ion-col col-12 col-xxs-4  style="text-align: left;">
+          <ion-col col-9 col-xs-4  style="text-align: left;">
             {{direction.Departures?.Trip.InternetServiceDesc}}
           </ion-col>
-          <ion-col col-12 col-xxs-4 style="text-align: center;">
+          <ion-col col-10 col-xs-4 style="text-align: center;">
             <p style="color: white;">
               {{direction.Departures?.Times.eExact}}
             </p>
@@ -88,7 +88,7 @@
               ({{direction.Departures?.Times.eRelativeNoPrefix}})
             </p>
           </ion-col>
-          <ion-col col-xxs>
+          <ion-col col-2 col-xs>
             <ion-icon class="forward-icon" [name]="'ios-arrow-forward'"></ion-icon>
           </ion-col>
         </ion-row>

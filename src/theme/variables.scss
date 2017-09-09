@@ -35,6 +35,23 @@ $colors: (
   white:          #ffffff
 );
 
+$grid-breakpoints: (
+  xxs: 0px,
+  xs: 350px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
+
+$grid-max-widths: (
+  xs: 330px,
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px
+  ) !default;
+
 
 // App iOS Variables
 // --------------------------------------------------
