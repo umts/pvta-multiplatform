@@ -32,9 +32,9 @@
     </ion-refresher-content>
   </ion-refresher>
   <stop-departures aria-label="upcoming departures at this stop" role="list"
-    stopId="{{stopId}}" sortBy="{{sortBy}}">
+    stopId="{{stopId}}" sortBy="{{'time'}}">
   </stop-departures>
-  
+
   <ion-toolbar *ngIf="!departuresByDirection.length && stop">
     {{stop.Description}} has no departures for at least the next 3 hours.
   </ion-toolbar>

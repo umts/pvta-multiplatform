@@ -42,7 +42,9 @@ export class StopDepartures implements OnInit {
   ngOnInit() {
     this.stopId = parseInt(this.stopId, 10);
     this.limit = this.limit ? parseInt(this.limit, 10) : undefined;
-    this.sortBy = this.sortBy ? this.sortBy : 'routes';
+    // if (!this.sortBy) {
+    //   this.sortBy = 'routes';
+    // }
     this.getDepartures();
   }
 
@@ -50,10 +52,18 @@ export class StopDepartures implements OnInit {
     for (let propertyName in changes) {
       let newProp = changes[propertyName].currentValue;
       switch (propertyName) {
-        case 'stopId': this.stopId = parseInt(newProp, 10);
-        case 'limit': this.limit = parseInt(newProp, 10);
-        case 'sortBy': newProp === 'time' ?
-          this.sortBy = 'time' : this.sortBy = 'routes';
+        case 'stopId': {
+          this.stopId = parseInt(newProp, 10);
+          break;
+        }
+        case 'limit': {
+          this.limit = parseInt(newProp, 10);
+          break;
+        }
+        case 'sortBy': {
+          this.sortBy = newProp;
+          break;
+        }
       }
     }
     this.getDepartures();
