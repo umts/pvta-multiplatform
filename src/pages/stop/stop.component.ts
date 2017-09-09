@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import { StopDeparture } from '../../models/stop-departure.model';
 import { Stop } from '../../models/stop.model';
 import { StopDepartureService } from '../../providers/stop-departure.service';
+import { StopDepartures } from '../../components/stop-departures/stop-departures.component.ts';
 import { StopService } from '../../providers/stop.service';
 import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { RouteComponent } from '../route/route.component';
@@ -34,7 +35,7 @@ export class StopComponent {
   interval;
   // autoRefreshTime: number;
   title: string;
-  order: String;
+  sortBy: String;
   stop: Stop;
   isInternetExplorer: boolean = false;
   constructor(public navCtrl: NavController, private navParams: NavParams,
@@ -48,7 +49,7 @@ export class StopComponent {
       this.stopId = parseInt(navParams.get('stopId'), 10);
       this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.title = `Stop ${this.stopId}`;
-      this.order = '0';
+      this.sortBy = 'routes';
       ga('set', 'page', '/stop.html');
       ga('send', 'pageview');
       document.addEventListener('pause', this.handleAppPause);

@@ -33,7 +33,6 @@ export class StopDepartures implements OnInit {
   interval;
   // autoRefreshTime: number;
   title: string;
-  order: String;
   stop: Stop;
 
   constructor(private stopDepartureSvc: StopDepartureService, private stopSvc: StopService,
@@ -41,18 +40,20 @@ export class StopDepartures implements OnInit {
   public navCtrl: NavController, private navParams: NavParams) {
   }
   ngOnInit() {
-    console.log(`stopid: ${this.stopId}`)
     this.stopId = parseInt(this.stopId, 10);
-    console.log(this.limit);
     this.limit = this.limit ? parseInt(this.limit, 10) : undefined;
+    this.sortBy = this.sortBy ? this.sortBy : 'routes';
     this.getDepartures();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    for (let propName in changes) {
-      switch (propName) {
-        case 'stopId': this.stopId = parseInt(changes.stopId.currentValue, 10);
-        case 'limit': this.limit = parseInt(this.limit, 10);
+    for (let propertyName in changes) {
+      let newProp = changes[propertyName].currentValue;
+      switch (propertyName) {
+        case 'stopId': this.stopId = parseInt(newProp, 10);
+        case 'limit': this.limit = parseInt(newProp, 10);
+        case 'sortBy': newProp === 'time' ?
+          this.sortBy = 'time' : this.sortBy = 'routes';
       }
     }
     this.getDepartures();

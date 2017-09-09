@@ -1,6 +1,6 @@
 <!-- Generated template for the StopDeparturesComponent component -->
 <ion-list>
-  <div *ngIf="sortBy === 'direction'">
+  <div *ngIf="sortBy === 'routes'">
     <div *ngFor="let direction of departuresByDirection">
       <div ion-item (click)="toggleRouteDropdown(direction)" [style.background-color]="'#'+routeList[direction.RouteId]?.Color" [style.color]="'white'">
         <ion-grid no-padding>

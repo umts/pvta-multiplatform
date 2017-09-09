@@ -18,9 +18,9 @@
   <ion-toolbar color="primary" *ngIf="!isInternetExplorer">
     <ion-item color="primary">
       <ion-label style="color: white;">Order Departures By</ion-label>
-      <ion-select [(ngModel)]="order">
-        <ion-option value="0">Route</ion-option>
-        <ion-option value="1">Time</ion-option>
+      <ion-select [(ngModel)]="sortBy">
+        <ion-option value="routes">Route</ion-option>
+        <ion-option value="time">Time</ion-option>
       </ion-select>
     </ion-item>
   </ion-toolbar>
@@ -31,7 +31,10 @@
     <ion-refresher-content pullingText="Pull to refresh departures...">
     </ion-refresher-content>
   </ion-refresher>
-  <ion-list aria-label="upcoming departures at this stop" role="list">
+  <stop-departures aria-label="upcoming departures at this stop" role="list"
+    stopId="{{stopId}}" sortBy="{{sortBy}}">
+  </stop-departures>
+  <!-- <ion-list >
     <div *ngIf="order == '0'">
       <div *ngFor="let direction of departuresByDirection">
         <div ion-item (click)="toggleRouteDropdown(direction)" [style.background-color]="'#'+routeList[direction.RouteId]?.Color" [style.color]="'white'">
@@ -57,7 +60,7 @@
             </ion-row>
           </ion-grid>
         </div>
-        <!-- When a route has been expanded, show its departures -->
+        -- When a route has been expanded, show its departures --
         <div ion-item [hidden]="!isRouteDropdownShown(direction)" (click)="goToRoutePage(direction.RouteId)">
           <ion-grid class="expanded-grid">
             <ion-row align-items-center>
@@ -124,7 +127,7 @@
         </ion-grid>
       </div>
     </div>
-  </ion-list>
+  </ion-list> -->
 
   <ion-toolbar *ngIf="!departuresByDirection.length && stop">
     {{stop.Description}} has no departures for at least the next 3 hours.
