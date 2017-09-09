@@ -33,20 +33,31 @@
     <ion-grid>
       <ion-row>
         <ion-col col-12 col-sm *ngIf="currentHighlightedStop">
-          <ion-item-group>
-            <ion-item-divider color="secondary">{{currentHighlightedStop?.Description}}</ion-item-divider>
-            <!-- <ion-scroll scrollY style="height:300px; width: 200px"> -->
+          <ion-item-group text-wrap>
+            <ion-item-divider color="secondary">
+              {{currentHighlightedStop?.Description}}
+            </ion-item-divider>
+            <ion-scroll scrollY style="height:300px;">
+              <ion-item color="grey">
+                <p>Showing soonest departures</p>
+                <button ion-button item-end outline color="light" icon-right
+                  (click)="goToStopPage(currentHighlightedStop.StopId)">
+                  See All
+                  <ion-icon name="ios-arrow-forward"></ion-icon>
+                </button>
+              </ion-item>
               <stop-departures stopId="{{currentHighlightedStop.StopId}}" sortBy="time" limit="6"
                 aria-label="Next 6 departures at this stop" role="list">
               </stop-departures>
-            <!-- </ion-scroll> -->
+            </ion-scroll>
 
 
           </ion-item-group>
         </ion-col>
         <ion-col col-12 col-sm>
-          <ion-item-group *ngIf="nearestStops">
+          <ion-item-group *ngIf="nearestStops" text-wrap>
             <ion-item-divider color="secondary">Nearby Stops</ion-item-divider>
+            <ion-scroll scrollY style="height:300px;">
               <button ion-item *ngFor="let stop of nearestStops | slice:0:numberOfStopsToShow" (click)="onShowRightPanelClick(stop)">
                 {{stop.Description}}
               </button>
@@ -60,6 +71,11 @@
                   </span>
                 </p>
               </ion-item>
+            </ion-scroll>
+              <!-- <button ion-item *ngFor="let stop of nearestStops | slice:0:numberOfStopsToShow" (click)="onShowRightPanelClick(stop)">
+                {{stop.Description}}
+              </button>
+               -->
             </ion-item-group>
         </ion-col>
         <ion-col col-12 col-sm>

@@ -93,6 +93,7 @@ export class NearbyComponent {
       center: location,
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
+      gestureHandling: 'cooperative',
       zoomControlOptions: {
         position: google.maps.ControlPosition.LEFT_CENTER
       },
