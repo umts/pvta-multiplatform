@@ -86,7 +86,7 @@
               </p>
               <ion-item *ngFor="let p of vehiclesOnMap" (click)="onShowRightPanelClick(stop)">
                 <a style="cursor: pointer">{{p?.route?.RouteAbbreviation}}:</a>
-                headed {{p?.vehicle?.DirectionLong}} toward
+                headed {{p?.vehicle?.DirectionLong.toLowerCase()}} toward
                 <a style="cursor: pointer">{{p?.vehicle?.Destination}}</a>
               </ion-item>
             </ion-item-group>
