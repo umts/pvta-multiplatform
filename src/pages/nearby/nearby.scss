@@ -34,4 +34,8 @@ page-nearby {
   .vertical-line {
     border-left: thick solid black;
   }
+  // Necessary for it to scroll vertically (per docs)
+  ion-scroll[scrollX] {
+    white-space: nowrap;
+  }
 }

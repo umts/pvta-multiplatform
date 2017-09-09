@@ -35,7 +35,11 @@
         <ion-col col-12 col-sm *ngIf="currentHighlightedStop">
           <ion-item-group>
             <ion-item-divider color="secondary">{{currentHighlightedStop?.Description}}</ion-item-divider>
-              <stop-departures stopId={{currentHighlightedStop.StopId}} sortBy="time" limit="3"></stop-departures>
+            <ion-scroll scrollY style="height:300px;">
+              <stop-departures stopId="{{currentHighlightedStop.StopId}}" sortBy="time" limit="6"></stop-departures>
+            </ion-scroll>
+
+
           </ion-item-group>
         </ion-col>
         <ion-col col-12 col-sm>

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { StopDeparture } from '../../models/stop-departure.model';
 import { Stop } from '../../models/stop.model';
 import { StopDepartureService } from '../../providers/stop-departure.service';
 import { StopService } from '../../providers/stop.service';
 import { RouteService } from '../../providers/route.service';
+import { RouteComponent } from '../../pages/route/route.component';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
@@ -44,6 +45,16 @@ export class StopDepartures implements OnInit {
     this.stopId = parseInt(this.stopId, 10);
     console.log(this.limit);
     this.limit = this.limit ? parseInt(this.limit, 10) : undefined;
+    this.getDepartures();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (let propName in changes) {
+      switch (propName) {
+        case 'stopId': this.stopId = parseInt(changes.stopId.currentValue, 10);
+        case 'limit': this.limit = parseInt(this.limit, 10);
+      }
+    }
     this.getDepartures();
   }
 
@@ -189,5 +200,29 @@ export class StopDepartures implements OnInit {
       this.loader.dismiss();
     }
   }
+
+  // **Sets** whether a route's
+  // departures have been expanded on the page
+  toggleRouteDropdown (routeDirection): void {
+   if (this.isRouteDropdownShown(routeDirection)) {
+     this.shownRoute = null;
+   } else {
+     this.shownRoute = routeDirection.RouteId + routeDirection.DirectionCode;
+   }
+ }
+
+ // **Checks** whether a route's departures
+// have been expanded on the page
+isRouteDropdownShown (routeDirection): any  {
+ return this.shownRoute === (routeDirection.RouteId + routeDirection.DirectionCode);
+}
+
+goToRoutePage(routeId: number): void {
+ this.navCtrl.push(RouteComponent, {
+   routeId: routeId
+ }).catch(() => {
+   console.error('Unable to go to route page');
+ });
+}
 
 }
