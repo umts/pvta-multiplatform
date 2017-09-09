@@ -5,6 +5,8 @@ import 'rxjs/add/operator/toPromise';
 import { Stop } from '../models/stop.model';
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import * as haversine from 'haversine';
+import { Geoposition } from '@ionic-native/geolocation';
 
 @Injectable()
 export class StopService {
@@ -88,5 +90,16 @@ export class StopService {
       return (stop.Description.toLowerCase().includes(query) ||
       stop.StopId.toString().includes(query));
     });
+  }
+  calculateStopDistance(geolocatorPosition: Geoposition, stop: Stop): number {
+    const currentPosition = {
+        latitude: geolocatorPosition.coords.latitude,
+        longitude: geolocatorPosition.coords.longitude
+    };
+    const stopPosition = {
+      latitude: stop.Latitude,
+      longitude: stop.Longitude
+    };
+    return haversine(stopPosition, currentPosition, { unit: 'mile'});
   }
 }

@@ -9,7 +9,7 @@
 
 <ion-content>
 
-  <button ion-item (click)="showCheckbox()" [ngClass]="{active: isRouteListExpanded}">
+  <button ion-item (click)="pickRoutesToMap()" [ngClass]="{active: isRouteListExpanded}">
     Routes
     <p>{{getRoutesOnMap()}}</p>
     <ion-icon item-right [name]="isRouteListExpanded ? 'md-arrow-dropup' : 'md-arrow-dropdown'"></ion-icon>
@@ -58,15 +58,19 @@
           <ion-item-group *ngIf="nearestStops" text-wrap>
             <ion-item-divider color="secondary">Nearby Stops</ion-item-divider>
             <ion-scroll scrollY style="height:300px;">
+              <ion-item color="grey">
+                <p>Tap a stop to see upcoming departures</p>
+              </ion-item>
               <button ion-item *ngFor="let stop of nearestStops | slice:0:numberOfStopsToShow" (click)="onShowRightPanelClick(stop)">
                 {{stop.Description}}
+                <p *ngIf="stop.Distance">{{stop.Distance.toFixed(2)}} miles</p>
               </button>
               <ion-item>
                 <p>
-                  <span class="nearby-list-less" *ngIf="numberOfStopsToShow >= 10" (click)="numberOfStopsToShow = numberOfStopsToShow - 5">
+                  <span class="nearby-list-less" *ngIf="numberOfStopsToShow >= 10" (click)="seeFewerStops()">
                     See less...
                   </span>
-                  <span class="nearby-list-more" *ngIf="numberOfStopsToShow < 500"  (click)="numberOfStopsToShow = numberOfStopsToShow + 5">
+                  <span class="nearby-list-more" *ngIf="numberOfStopsToShow < 500"  (click)="seeMoreStops(5)">
                     See more...
                   </span>
                 </p>
