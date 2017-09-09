@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 
@@ -42,7 +42,7 @@ export class NearbyComponent {
   public geolocation: Geolocation, private stopSvc: StopService,
   private alertCtrl: AlertController, private mapSvc: MapService,
   private routeSvc: RouteService, private stopDepartureSvc: StopDepartureService,
-  private vehicleSvc: VehicleService) {
+  private vehicleSvc: VehicleService, private ref: ChangeDetectorRef) {
     // Get location, then get nearest stops and load the map
     const options = {timeout: 5000, enableHighAccuracy: true};
     this.geolocation.getCurrentPosition(options).then(position => {
@@ -154,117 +154,19 @@ export class NearbyComponent {
   plotVehiclesOnMap(bounds) {
     Promise.all([this.vehiclesPromise, this.routesPromise]).then(values => {
       const [vehicles, routes] = values;
-      this.vehiclesOnMap = [];
-      const p = [
-        {
-          "VehicleId": 82,
-          "Name": "3214",
-          "Latitude": 42.363315,
-          "Longitude": -72.520745,
-          "RouteId": 20031,
-          "TripId": 2353,
-          "RunId": 227662,
-          "Direction": "N",
-          "DirectionLong": "Northbound",
-          "Destination": "UMass",
-          "Speed": null,
-          "Heading": 0,
-          "Deviation": 1,
-          "OpStatus": "ONTIME",
-          "CommStatus": "GOOD",
-          "GPSStatus": 2,
-          "DriverName": null,
-          "LastStop": "Memorial Drive (In)",
-          "OnBoard": 4,
-          "LastUpdated": "/Date(1504583875000-0400)/",
-          "DisplayStatus": "On Time",
-          "BlockFareboxId": 313
-        },
-        {
-          "VehicleId": 82,
-          "Name": "3214",
-          "Latitude": 42.363322,
-          "Longitude": -72.520766,
-          "RouteId": 20031,
-          "TripId": 2353,
-          "RunId": 227662,
-          "Direction": "N",
-          "DirectionLong": "Northbound",
-          "Destination": "UMass",
-          "Speed": null,
-          "Heading": 90,
-          "Deviation": 1,
-          "OpStatus": "ONTIME",
-          "CommStatus": "GOOD",
-          "GPSStatus": 2,
-          "DriverName": null,
-          "LastStop": "Memorial Drive (In)",
-          "OnBoard": 4,
-          "LastUpdated": "/Date(1504583875000-0400)/",
-          "DisplayStatus": "On Time",
-          "BlockFareboxId": 313
-        },
-        {
-          "VehicleId": 82,
-          "Name": "3214",
-          "Latitude": 42.363311,
-          "Longitude": -72.520777,
-          "RouteId": 20031,
-          "TripId": 2353,
-          "RunId": 227662,
-          "Direction": "N",
-          "DirectionLong": "Northbound",
-          "Destination": "UMass",
-          "Speed": null,
-          "Heading": 180,
-          "Deviation": 1,
-          "OpStatus": "ONTIME",
-          "CommStatus": "GOOD",
-          "GPSStatus": 2,
-          "DriverName": null,
-          "LastStop": "Memorial Drive (In)",
-          "OnBoard": 4,
-          "LastUpdated": "/Date(1504583875000-0400)/",
-          "DisplayStatus": "On Time",
-          "BlockFareboxId": 313
-        },
-        {
-          "VehicleId": 82,
-          "Name": "3214",
-          "Latitude": 42.363300,
-          "Longitude": -72.520788,
-          "RouteId": 20031,
-          "TripId": 2353,
-          "RunId": 227662,
-          "Direction": "N",
-          "DirectionLong": "Northbound",
-          "Destination": "UMass",
-          "Speed": null,
-          "Heading": 270,
-          "Deviation": 1,
-          "OpStatus": "ONTIME",
-          "CommStatus": "GOOD",
-          "GPSStatus": 2,
-          "DriverName": null,
-          "LastStop": "Memorial Drive (In)",
-          "OnBoard": 4,
-          "LastUpdated": "/Date(1504583875000-0400)/",
-          "DisplayStatus": "On Time",
-          "BlockFareboxId": 313
-        }
-      ]
-      for (let v of p) {
+      let newVehiclesOnMap = [];
+      for (let v of vehicles) {
         const loc = new google.maps.LatLng(v.Latitude, v.Longitude);
         if (bounds.contains(loc)) {
           const routeForThisVehicle = routes.find(r => r.RouteId === v.RouteId);
           console.log(`${routeForThisVehicle.RouteAbbreviation}: ${v.Heading}`);
           var icon = {
             path: this.mapSvc.vehicleSVGPath(v.Heading),
-            fillColor: `#00467E`,
+            fillColor: `#${routeForThisVehicle.Color}`,
             fillOpacity: 1,
             strokeWeight: 3,
-            strokeColor: `#00467E`,
-            // rotation: v.Heading,
+            strokeColor: `#${routeForThisVehicle.Color}`,
+            rotation: v.Heading,
             scale: .7,
             labelOrigin: new google.maps.Point(30, 33)
           };
@@ -272,8 +174,7 @@ export class NearbyComponent {
             fontWeight: 'bold',
             fontSize: '11px',
             color: 'white',
-            // text: routeForThisVehicle.RouteAbbreviation.slice(-3)
-            text: 'B43'
+            text: routeForThisVehicle.RouteAbbreviation.slice(-3)
           });
           const str = `
           <span style=\"color: #${routeForThisVehicle.Color}\">
@@ -293,9 +194,14 @@ export class NearbyComponent {
           marker.addListener('click', () => {
             this.mapSvc.toggleKMLs([routeForThisVehicle.RouteTraceFilename]);
           });
-          this.vehiclesOnMap.push({vehicle: v, marker: marker, route: routeForThisVehicle});
+          newVehiclesOnMap.push({vehicle: v, marker: marker, route: routeForThisVehicle});
         }
       }
+      // Angular doesn't catch this reassignment on its own, so manually
+      // trigger the change detector
+      this.vehiclesOnMap = newVehiclesOnMap;
+      this.ref.detectChanges();
+      console.log(this.vehiclesOnMap);
     });
   }
 
