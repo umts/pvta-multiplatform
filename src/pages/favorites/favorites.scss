@@ -1,3 +1,5 @@
 page-favorites {
-
+  .pages /deep/ .ng2-pagination .current {
+    padding-left: -40px;
+  }
 }
