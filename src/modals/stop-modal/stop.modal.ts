@@ -60,7 +60,9 @@ export class StopModal {
 
   ionViewWillEnter() {
     if (this.requester === StopModalRequester.Favorites) {
-      let loader = this.loadingCtrl.create();
+      let loader = this.loadingCtrl.create({
+        enableBackdropDismiss: true
+      });
       loader.present();
       this.stopService.getStopList().then((stops: Stop[]) => {
         this.stops = _.uniqBy(stops, 'StopId');

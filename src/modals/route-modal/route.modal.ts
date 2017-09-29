@@ -29,7 +29,9 @@ export class RouteModal {
     }
   ionViewWillEnter() {
     if (this.requester === RouteModalRequester.Favorites) {
-      let loader = this.loadingCtrl.create();
+      let loader = this.loadingCtrl.create({
+        enableBackdropDismiss: true
+      });
       loader.present();
       this.routeService.getRouteList().then((routes: Route[]) => {
         console.log('have routes');
