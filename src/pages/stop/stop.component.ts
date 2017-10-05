@@ -67,6 +67,7 @@ export class StopComponent {
   presentLoader(): void {
       this.loader = this.loadingCtrl.create({
         content: 'Downloading departures...',
+        enableBackdropDismiss: true
       });
       this.loader.present();
   }

@@ -48,7 +48,8 @@ export class RoutesAndStopsComponent {
       this.order = 'favorites';
       this.cDisplay = 'routes';
       this.loader = loadingCtrl.create({
-        content: 'Downloading...'
+        content: 'Downloading...',
+        enableBackdropDismiss: true
       });
       ga('set', 'page', '/routes-and-stops.html');
       ga('send', 'pageview');
