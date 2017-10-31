@@ -18,12 +18,12 @@
       </ion-checkbox>
         <ion-label (click)="route.Liked = !route.Liked; toggleRouteHeart(route);">
           <ion-row wrap attr.aria-label="Route {{route.RouteAbbreviation}} {{route.GoogleDescription}}">
-            <div aria-hidden="true" width-25 [style.color]="'#' + route.Color" style="font-size: 125%; font-weight: bold; margin-left: 5%">
+            <ion-col aria-hidden="true" width-25 [style.color]="'#' + route.Color" style="font-size: 125%; font-weight: bold; margin-left: 5%">
               {{route.RouteAbbreviation}}
-            </div>
-            <div aria-hidden="true" padding-left>
+            </ion-col>
+            <ion-col aria-hidden="true" padding-left>
               {{route.GoogleDescription}}
-            </div>
+            </ion-col>
           </ion-row>
         </ion-label>
     </ion-item>
