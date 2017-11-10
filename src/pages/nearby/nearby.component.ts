@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation';
 
 import { StopDepartures } from '../../components/stop-departures/stop-departures.component.ts';
@@ -30,7 +31,7 @@ export class NearbyComponent {
   nearestStopsPromise;
   map: any;
   routes = [];
-  // routesOnMap = [];
+  routesOnMap = [];
   routesPromise;
   stopsOnMap = [];
   vehiclesOnMap = [];
@@ -42,17 +43,9 @@ export class NearbyComponent {
   public geolocation: Geolocation, private stopSvc: StopService,
   private alertCtrl: AlertController, private mapSvc: MapService,
   private routeSvc: RouteService, private stopDepartureSvc: StopDepartureService,
-  private vehicleSvc: VehicleService, private ref: ChangeDetectorRef) {
-    // Get location, then get nearest stops and load the map
-    const options = {timeout: 5000, enableHighAccuracy: true};
-    this.geolocation.getCurrentPosition(options).then(position => {
-      this.position = position;
-      this.getNearestStops();
-      this.loadMap();
-    }).catch(err => {
-      console.error(`No location ${err}`);
-      this.loadingStopsStatus = 'Error retrieving location';
-    });
+  private vehicleSvc: VehicleService, private ref: ChangeDetectorRef,
+  private storage: Storage) {
+    console.log('constructor');
     this.routesPromise = this.routeSvc.getAllRoutes();
     this.routesPromise.then(routes => this.routes = routes);
     this.vehiclesPromise = this.vehicleSvc.getAllVehicles();
@@ -70,6 +63,8 @@ export class NearbyComponent {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NearbyPage');
+    // Get location, then get nearest stops and load the map
+    this.loadMap();
   }
 
   mapsLoadedCallback() {
@@ -77,20 +72,9 @@ export class NearbyComponent {
     let swBound = new google.maps.LatLng(41.93335, -72.85809);
     let neBound = new google.maps.LatLng(42.51138, -72.20302);
     this.bounds = new google.maps.LatLngBounds(swBound, neBound);
-
-    let location = new google.maps.LatLng(
-      this.position.coords.latitude, this.position.coords.longitude
-    );
-
-    if (!this.bounds.contains(location)) {
-      console.error('Can\'t Use Current Location',
-      'Your current location isn\'t in the PVTA\'s service area. Please search for a starting location above.');
-      // Just use the UMass Campus Center
-      location = new google.maps.LatLng(42.3918143, -72.5291417);
-    }
-
+    const options = {timeout: 5000, enableHighAccuracy: true};
     let mapOptions = {
-      center: location,
+      center: new google.maps.LatLng(42.3918143, -72.5291417),
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       gestureHandling: 'cooperative',
@@ -104,17 +88,52 @@ export class NearbyComponent {
     };
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     this.mapSvc.init(this.map);
-    this.mapSvc.placeCurrentLocationMarker(location);
-    Promise.resolve(this.nearestStopsPromise).then(() => {
-      this.plotMarkersOnMap();
-      console.log('adding bounds change listener');
-      //  this.plotStopsOnMap();
-      google.maps.event.addListener(this.map, 'idle', () => {
-        console.log('bounds changed');
-        this.plotMarkersOnMap();
-        this.getRoutesForEachStop();
+    this.geolocation.getCurrentPosition(options).then(position => {
+      this.position = position;
+      let location = new google.maps.LatLng(
+        this.position.coords.latitude, this.position.coords.longitude
+      );
+
+      if (!this.bounds.contains(location)) {
+        console.error('Can\'t Use Current Location',
+        'Your current location isn\'t in the PVTA\'s service area. Please search for a starting location above.');
+        // Just use the UMass Campus Center
+        location = new google.maps.LatLng(42.3918143, -72.5291417);
+        const newPositionObject = {
+          coords: {
+            latitude: 42.3918143,
+            longitude: -72.5291417
+          }
+        };
+        this.position = newPositionObject;
+      }
+      this.getNearestStops();
+      this.mapSvc.placeCurrentLocationMarker(location);
+      Promise.resolve(this.routesPromise).then(() => {
+        this.storage.ready().then(() => {
+          this.storage.get('favoriteRoutes').then(routes => {
+            console.log(this.routesOnMap + " routes on map");
+            console.log(routes, ' favs');
+            this.routesOnMap = _.union(this.routesOnMap, _.map(routes, 'RouteId'));
+            console.log('new routes on map ' + this.routesOnMap)
+            this.plotKMLs(_.map(routes, 'RouteId'));
+          });
+        });
       });
-    }).catch(err => console.error(err));
+      Promise.resolve(this.nearestStopsPromise).then(() => {
+        this.plotMarkersOnMap();
+        console.log('adding bounds change listener');
+        //  this.plotStopsOnMap();
+        google.maps.event.addListener(this.map, 'idle', () => {
+          console.log('bounds changed');
+          this.plotMarkersOnMap();
+          this.getRoutesForEachStop();
+        });
+      }).catch(err => console.error(err));
+    }).catch(err => {
+      console.error(`No location ${err}`);
+      this.loadingStopsStatus = 'Error retrieving location';
+    });
   }
 
   getRoutesForEachStop() {
@@ -157,9 +176,9 @@ export class NearbyComponent {
       let newVehiclesOnMap = [];
       for (let v of vehicles) {
         const loc = new google.maps.LatLng(v.Latitude, v.Longitude);
-        if (bounds.contains(loc)) {
-          const routeForThisVehicle = routes.find(r => r.RouteId === v.RouteId);
-          console.log(`${routeForThisVehicle.RouteAbbreviation}: ${v.Heading}`);
+        const routeForThisVehicle = routes.find(r => r.RouteId === v.RouteId);
+        if (bounds.contains(loc) && routeForThisVehicle) {
+          //console.log(`${routeForThisVehicle.RouteAbbreviation}: ${v.Heading}`);
           var icon = {
             path: this.mapSvc.vehicleSVGPath(v.Heading),
             fillColor: `#${routeForThisVehicle.Color}`,
@@ -201,7 +220,7 @@ export class NearbyComponent {
       // trigger the change detector
       this.vehiclesOnMap = newVehiclesOnMap;
       this.ref.detectChanges();
-      console.log(this.vehiclesOnMap);
+      //console.log(this.vehiclesOnMap);
     });
   }
 
@@ -287,11 +306,30 @@ export class NearbyComponent {
       text: 'Okay',
       handler: data => {
         console.log('Checkbox data:', data);
-        this.mapSvc.toggleKMLs(data.map(d => d.RouteTraceFilename));
+        this.mapSvc.removeKMLs();
+        let kmls = _.map(data, 'RouteTraceFilename');
+        console.log(kmls);
+        for (let kml of kmls) {
+          this.mapSvc.addKML(kml, true);
+        }
+        // this.mapSvc.toggleKMLs(kmls);
       }
     });
     alert.present();
   }
+
+  plotKMLs(routeIds: number[]) {
+    // First, toggle each of the currently enabled KMLS
+    // this.mapSvc.toggleKMLs(this.mapSvc.getKMLLayers());
+    //console.log(routeIds);
+    let routes = _.filter(this.routes, route => {
+      //console.log(route);
+      return routeIds.includes(route.RouteId);
+    });
+    //console.log(routes);
+    this.mapSvc.toggleKMLs(routes.map(r => r.RouteTraceFilename));
+  }
+
   getRoutesOnMap() {
     // get all the filenames currently on the map
     const fileNames = this.mapSvc.getKMLLayers().map(l => l.fileName);

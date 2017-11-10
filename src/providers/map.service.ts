@@ -142,6 +142,12 @@ export class MapService {
     }
   }
 
+  removeKMLs() {
+    for (let kml of this.kmlLayers) {
+      this.removeKML(kml);
+    }
+  }
+
   init(incomingMap): void {
     this.map = incomingMap;
   }
