@@ -63,7 +63,7 @@
               </ion-item>
               <button ion-item *ngFor="let stop of nearestStops | slice:0:numberOfStopsToShow" (click)="onShowRightPanelClick(stop)">
                 {{stop.Description}}
-                <p *ngIf="stop.Distance">{{stop.Distance.toFixed(2)}} miles</p>
+                <p *ngIf="stop.Distance">{{stop.Distance.toFixed(2)}} miles away</p>
               </button>
               <ion-item>
                 <p>

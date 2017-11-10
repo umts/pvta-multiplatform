@@ -346,6 +346,7 @@ export class NearbyComponent {
   }
 
   seeFewerStops() {
+    console.log('see fewer');
     this.numberOfStopsToShow = this.numberOfStopsToShow - 5;
   }
 
@@ -358,7 +359,7 @@ export class NearbyComponent {
   seeMoreStops(howManyMore: number): void {
     // Check for/calculate distance to each stop we're about to show
     for (let i = this.numberOfStopsToShow; i < this.numberOfStopsToShow + howManyMore; i++) {
-      if (!stop.hasOwnProperty('Distance')) {
+      if (!this.nearestStops[i].hasOwnProperty('Distance')) {
         // Calculate the distance from us to the stop
         this.nearestStops[i].Distance = this.stopSvc.calculateStopDistance(
           this.position, this.nearestStops[i]
