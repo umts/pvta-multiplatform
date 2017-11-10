@@ -1,0 +1,26 @@
+<ion-item-group *ngIf="stops" text-wrap>
+  <ion-item-divider color="secondary">Nearby Stops</ion-item-divider>
+  <ion-scroll scrollY style="height:300px;">
+    <ion-item color="grey">
+      <p>Tap a stop to see upcoming departures</p>
+    </ion-item>
+    <button ion-item *ngFor="let stop of stops | slice:0:limit" (click)="onShowRightPanelClick(stop)">
+      {{stop.Description}}
+      <p *ngIf="stop.Distance">{{stop.Distance.toFixed(2)}} miles away</p>
+    </button>
+    <ion-item>
+      <p>
+        <span class="nearby-list-less" *ngIf="limit >= 10" (click)="seeFewerStops()">
+          See less...
+        </span>
+        <span class="nearby-list-more" *ngIf="limit < 500"  (click)="seeMoreStops(5)">
+          See more...
+        </span>
+      </p>
+    </ion-item>
+  </ion-scroll>
+    <!-- <button ion-item *ngFor="let stop of nearestStops | slice:0:numberOfStopsToShow" (click)="onShowRightPanelClick(stop)">
+      {{stop.Description}}
+    </button>
+     -->
+</ion-item-group>

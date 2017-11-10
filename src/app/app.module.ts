@@ -33,6 +33,7 @@ import { VehicleComponent } from '../pages/route/vehicle.component';
 
 // Common Components
 import { StopDepartures } from '../components/stop-departures/stop-departures.component.ts';
+import { NearestStops } from '../components/nearest-stops/nearest-stops.ts';
 // Services
 import { RouteService }          from '../providers/route.service';
 import { StopService }          from '../providers/stop.service';
@@ -56,6 +57,7 @@ import { ToastService } from '../providers/toast.service';
     ContactComponent,
     FavoritesComponent,
     NearbyComponent,
+    NearestStops,
     PlanTripComponent,
     PrivacyPolicyComponent,
     RouteComponent,
@@ -101,6 +103,7 @@ import { ToastService } from '../providers/toast.service';
     ContactComponent,
     FavoritesComponent,
     NearbyComponent,
+    NearestStops,
     PlanTripComponent,
     PrivacyPolicyComponent,
     RouteComponent,

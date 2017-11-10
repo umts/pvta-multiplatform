@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { StopDeparturesComponent } from './stop-departures/stop-departures';
+import { NearestStops } from './nearest-stops/nearest-stops';
 @NgModule({
-	declarations: [StopDeparturesComponent],
-	imports: [],
-	exports: [StopDeparturesComponent]
+  declarations: [StopDeparturesComponent, NearestStops],
+  imports: [],
+  exports: [StopDeparturesComponent, NearestStops]
 })
 export class ComponentsModule {}
