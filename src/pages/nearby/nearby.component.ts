@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation';
 
@@ -38,13 +38,14 @@ export class NearbyComponent {
   vehiclesPromise;
   vehicles = [];
   numberOfStopsToShow: number = 0;
+  loader;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
   public geolocation: Geolocation, private stopSvc: StopService,
   private alertCtrl: AlertController, private mapSvc: MapService,
   private routeSvc: RouteService, private stopDepartureSvc: StopDepartureService,
   private vehicleSvc: VehicleService, private ref: ChangeDetectorRef,
-  private storage: Storage) {
+  private storage: Storage, private loadingCtrl: LoadingController) {
     console.log('constructor');
     this.routesPromise = this.routeSvc.getAllRoutes();
     this.routesPromise.then(routes => this.routes = routes);
@@ -64,6 +65,8 @@ export class NearbyComponent {
   ionViewDidLoad() {
     console.log('ionViewDidLoad NearbyPage');
     // Get location, then get nearest stops and load the map
+    this.loader = this.loadingCtrl.create({enableBackdropDismiss: true});
+    this.loader.present();
     this.loadMap();
   }
 
@@ -130,6 +133,10 @@ export class NearbyComponent {
           this.getRoutesForEachStop();
         });
       }).catch(err => console.error(err));
+      Promise.all([this.routesPromise, this.nearestStopsPromise])
+      .then(() => {
+        this.loader.dismiss();
+      })
     }).catch(err => {
       console.error(`No location ${err}`);
       this.loadingStopsStatus = 'Error retrieving location';
