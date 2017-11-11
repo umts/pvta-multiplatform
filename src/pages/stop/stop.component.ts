@@ -180,13 +180,26 @@ export class StopComponent {
   calculateTimes (departure): Object {
     const sdt = moment(departure.SDT);
     const edt = moment(departure.EDT);
+
+    /** Determine whether the departure times are before
+     * or after the current time, and send that boolean value to
+     * fromNow. The argument true will remove 'ago'
+     * from the human readable time.
+     *
+     * ex:
+     * moment([2015, 0, 28]).fromNow(); '2 years ago'
+     * moment([2015, 0, 28]).fromNow(true); '2 years'
+     */
+    let sdt_str = sdt.fromNow(sdt.isAfter(moment()));
+    let edt_str = edt.fromNow(edt.isAfter(moment()));
+     
     return {
       // ex: '8:12 PM'
       sExact: moment(sdt).format('LT'),
       eExact: moment(edt).format('LT'),
       // ex: '6 minutes'
-      sRelativeNoPrefix: moment(sdt).fromNow(true),
-      eRelativeNoPrefix: moment(edt).fromNow(true)
+      sRelativeNoPrefix: sdt_str,
+      eRelativeNoPrefix: edt_str
     };
   }
   /**
