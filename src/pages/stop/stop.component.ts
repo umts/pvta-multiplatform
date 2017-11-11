@@ -181,6 +181,15 @@ export class StopComponent {
     const sdt = moment(departure.SDT);
     const edt = moment(departure.EDT);
 
+    /** Determine whether the departure times are before
+     * or after the current time, and send that boolean value to
+     * fromNow. The argument true will remove 'ago'
+     * from the human readable time.
+     *
+     * ex:
+     * moment([2015, 0, 28]).fromNow(); '2 years ago'
+     * moment([2015, 0, 28]).fromNow(true); '2 years'
+     */
     let sdt_str = sdt.fromNow(sdt.isAfter(moment()));
     let edt_str = edt.fromNow(edt.isAfter(moment()));
      
