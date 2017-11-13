@@ -179,7 +179,7 @@ export class StopComponent {
    */
   calculateTimes (departure): Object {
     const sdt = moment(departure.SDT);
-    const edt = moment(departure.EDT);
+    const edt = moment(departure.EDT).startOf('minute');
     return {
       // ex: '8:12 PM'
       sExact: moment(sdt).format('LT'),
