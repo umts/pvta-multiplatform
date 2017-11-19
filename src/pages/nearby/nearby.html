@@ -55,7 +55,12 @@
           </ion-item-group>
         </ion-col>
         <ion-col col-12 col-sm>
-          <nearest-stops stops="{{nearestStops | json}}" limit="{{numberOfStopsToShow}}" seeMoreStops="{{seeMoreStops}}"></nearest-stops>
+          <nearest-stops
+                  [stops]="nearestStops | json"
+                  [limit]="numberOfStopsToShow"
+                  [position]="position"
+          >
+          </nearest-stops>
         </ion-col>
         <ion-col col-12 col-sm>
           <ion-item-group>
