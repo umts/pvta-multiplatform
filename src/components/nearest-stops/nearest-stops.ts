@@ -23,6 +23,7 @@ export class NearestStops implements OnInit {
     @Input() position: Geoposition;
     @Output() onShowRightPanelClick: EventEmitter<any> = new EventEmitter<any>();
     numberOfStopsToShow: number = 5;
+    selectedStop: Stop;
 
   constructor(private stopSvc: StopService, private changeDetector: ChangeDetectorRef) {
     console.log('Hello NearestStopsComponent Component');
@@ -71,6 +72,7 @@ export class NearestStops implements OnInit {
     }
 
     onRowClick(stop: Stop) {
+        this.selectedStop = stop;
         this.onShowRightPanelClick.emit(stop);
     }
 

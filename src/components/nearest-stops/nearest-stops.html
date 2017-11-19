@@ -4,7 +4,11 @@
     <ion-item color="grey">
       <p>Tap a stop to see upcoming departures</p>
     </ion-item>
-    <button ion-item *ngFor="let stop of stops | slice:0:numberOfStopsToShow" (click)="onRowClick(stop)">
+    <button ion-item
+            *ngFor="let stop of stops | slice:0:numberOfStopsToShow"
+            (click)="onRowClick(stop)"
+            [class.selected]="selectedStop === stop"
+    >
       {{stop.Description}}
       <p *ngIf="stop.Distance">{{stop.Distance.toFixed(2)}} miles away</p>
     </button>
