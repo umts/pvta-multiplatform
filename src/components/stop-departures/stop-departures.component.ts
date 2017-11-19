@@ -74,11 +74,8 @@ export class StopDepartures implements OnInit {
   }
 
   getDepartures(refresher?: any): void {
-    // console.log('penispenispenis');
-    // console.log(typeof this.stopId);
     this.stopDepartureSvc.getStopDeparture(this.stopId)
       .then(directions => {
-        // console.log(directions);
         this.sort(directions[0]);
         this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
         this.hideLoader();
