@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {Component, OnInit, OnChanges, SimpleChanges, Input, ChangeDetectorRef} from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { StopDeparture } from '../../models/stop-departure.model';
 import { Stop } from '../../models/stop.model';
@@ -17,13 +17,13 @@ import * as moment from 'moment';
  */
 @Component({
   selector: 'stop-departures',
-  templateUrl: 'stop-departures.html',
-  inputs: ['stopId', 'sortBy', 'limit']
+  templateUrl: 'stop-departures.html'
 })
 export class StopDepartures implements OnInit {
-  stopId: any;
-  limit: any;
-  sortBy: string;
+  @Input() stopId: any;
+  @Input() stopName: string;
+  @Input() limit: any;
+  @Input() sortBy: string;
   directions: StopDeparture[];
   shownRoute: any = null;
   liked: boolean;
@@ -37,7 +37,7 @@ export class StopDepartures implements OnInit {
 
   constructor(private stopDepartureSvc: StopDepartureService, private stopSvc: StopService,
   private routeSvc: RouteService, private loadingCtrl: LoadingController,
-  public navCtrl: NavController, private navParams: NavParams) {
+  public navCtrl: NavController, private navParams: NavParams, private changeDetector: ChangeDetectorRef) {
   }
   ngOnInit() {
     this.stopId = parseInt(this.stopId, 10);
@@ -64,6 +64,10 @@ export class StopDepartures implements OnInit {
           this.sortBy = newProp;
           break;
         }
+          case 'stopName': {
+            this.stopName = newProp;
+            break;
+          }
       }
     }
     this.getDepartures();
@@ -79,6 +83,7 @@ export class StopDepartures implements OnInit {
         this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
         this.hideLoader();
         if (refresher) refresher.complete();
+        this.changeDetector.detectChanges();
     }).catch(err => {
       console.error(`Couldn't download departures, error: ${err}`);
       this.hideLoader();

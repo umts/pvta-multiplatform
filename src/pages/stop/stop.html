@@ -31,13 +31,19 @@
     <ion-refresher-content pullingText="Pull to refresh departures...">
     </ion-refresher-content>
   </ion-refresher>
-  <stop-departures aria-label="upcoming departures at this stop" role="list"
-    stopId="{{stopId}}" sortBy="{{sortBy}}">
+  <stop-departures
+          *ngIf="stop"
+          stopId="{{stopId}}"
+          sortBy="{{sortBy}}"
+          stopName="{{stop.Description}}"
+          aria-label="upcoming departures at this stop"
+          role="list"
+    >
   </stop-departures>
 
-  <ion-toolbar *ngIf="!departuresByDirection.length && stop">
-    {{stop.Description}} has no departures for at least the next 3 hours.
-  </ion-toolbar>
+  <!--<ion-toolbar *ngIf="!departuresByDirection.length && stop">-->
+    <!--{{stop.Description}} has no departures for at least the next 3 hours.-->
+  <!--</ion-toolbar>-->
 
   <ion-item>
     <i>Disclaimer:</i>

@@ -44,7 +44,7 @@ export class NearbyComponent {
   public geolocation: Geolocation, private stopSvc: StopService,
   private alertCtrl: AlertController, private mapSvc: MapService,
   private routeSvc: RouteService, private stopDepartureSvc: StopDepartureService,
-  private vehicleSvc: VehicleService, private ref: ChangeDetectorRef,
+  private vehicleSvc: VehicleService, private changeDetector: ChangeDetectorRef,
   private storage: Storage, private loadingCtrl: LoadingController) {
     console.log('constructor');
     this.routesPromise = this.routeSvc.getAllRoutes();
@@ -226,7 +226,7 @@ export class NearbyComponent {
       // Angular doesn't catch this reassignment on its own, so manually
       // trigger the change detector
       this.vehiclesOnMap = newVehiclesOnMap;
-      this.ref.detectChanges();
+      this.changeDetector.detectChanges();
       //console.log(this.vehiclesOnMap);
     });
   }
@@ -283,6 +283,8 @@ export class NearbyComponent {
   onShowRightPanelClick(stop: number) {
     this.showBottomRightPanel = !this.showBottomRightPanel;
     this.currentHighlightedStop = stop;
+    this.changeDetector.detectChanges();
+
   }
   goToStopPage(stopId: number): void {
     this.navCtrl.push(StopComponent, {

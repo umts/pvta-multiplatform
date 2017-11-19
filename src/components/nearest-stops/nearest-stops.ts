@@ -1,7 +1,11 @@
-import {Component, OnInit, OnChanges, SimpleChanges, Input, Output, ChangeDetectorRef} from '@angular/core';
+import {
+    Component, OnInit, OnChanges, SimpleChanges, Input, Output, ChangeDetectorRef,
+    EventEmitter
+} from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import {StopService} from "../../providers/stop.service";
 import {Geoposition} from "@ionic-native/geolocation";
+import {Stop} from "../../models/stop.model";
 
 
 /**
@@ -15,23 +19,20 @@ import {Geoposition} from "@ionic-native/geolocation";
   templateUrl: 'nearest-stops.html',
 })
 export class NearestStops implements OnInit {
-
     @Input() stops;
- @Input() limit;
- @Input() position: Geoposition;
-  numberOfStopsToShow: number = 5;
+    @Input() position: Geoposition;
+    @Output() onShowRightPanelClick: EventEmitter<any> = new EventEmitter<any>();
+    numberOfStopsToShow: number = 5;
 
   constructor(private stopSvc: StopService, private changeDetector: ChangeDetectorRef) {
     console.log('Hello NearestStopsComponent Component');
   }
   ngOnInit() {
     console.log(this);
-    this.limit = this.limit ? parseInt(this.limit, 10) : 5;
     if (this.stops && typeof this.stops === 'string') {
       // console.log('new propsss' + this.stops);
       this.stops = JSON.parse(this.stops);
     }
-    console.log(this.stops, this.limit)
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -43,10 +44,6 @@ export class NearestStops implements OnInit {
             // console.log('new propsss' + newProp);
             this.stops = JSON.parse(newProp);
           }
-          break;
-        }
-        case 'limit': {
-          this.limit = parseInt(newProp, 10);
           break;
         }
       }
@@ -71,6 +68,10 @@ export class NearestStops implements OnInit {
         this.numberOfStopsToShow += 5;
         this.changeDetector.detectChanges();
 
+    }
+
+    onRowClick(stop: Stop) {
+        this.onShowRightPanelClick.emit(stop);
     }
 
 }

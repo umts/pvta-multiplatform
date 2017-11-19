@@ -96,3 +96,6 @@
     </div>
   </div>
 </ion-list>
+<ion-toolbar *ngIf="(!departuresByDirection.length && !departuresByTime.length )&& stopName">
+  {{stopName}} has no departures for at least the next 3 hours.
+</ion-toolbar>

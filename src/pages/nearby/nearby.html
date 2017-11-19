@@ -46,8 +46,13 @@
                   <ion-icon name="ios-arrow-forward"></ion-icon>
                 </button>
               </ion-item>
-              <stop-departures stopId="{{currentHighlightedStop.StopId}}" sortBy="time" limit="6"
-                aria-label="Next 6 departures at this stop" role="list">
+              <stop-departures
+                      stopId="{{currentHighlightedStop.StopId}}"
+                      stopName="{{currentHighlightedStop.Description}}"
+                      sortBy="time"
+                      limit="6"
+                      aria-label="Next 6 departures at this stop"
+                      role="list">
               </stop-departures>
             </ion-scroll>
 
@@ -57,8 +62,8 @@
         <ion-col col-12 col-sm>
           <nearest-stops
                   [stops]="nearestStops | json"
-                  [limit]="numberOfStopsToShow"
                   [position]="position"
+                  (onShowRightPanelClick)="onShowRightPanelClick($event)"
           >
           </nearest-stops>
         </ion-col>
