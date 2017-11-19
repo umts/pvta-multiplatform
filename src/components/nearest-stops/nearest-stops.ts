@@ -31,7 +31,6 @@ export class NearestStops implements OnInit {
   ngOnInit() {
     console.log(this);
     if (this.stops && typeof this.stops === 'string') {
-      // console.log('new propsss' + this.stops);
       this.stops = JSON.parse(this.stops);
     }
   }
@@ -69,6 +68,10 @@ export class NearestStops implements OnInit {
         this.numberOfStopsToShow += 5;
         this.changeDetector.detectChanges();
 
+    }
+    seeFewerStops() {
+        this.numberOfStopsToShow = this.numberOfStopsToShow - 5;
+        this.changeDetector.detectChanges();
     }
 
     onRowClick(stop: Stop) {

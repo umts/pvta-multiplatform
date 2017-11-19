@@ -1,5 +1,12 @@
 <ion-item-group *ngIf="stops" text-wrap>
-  <ion-item-divider color="secondary">Nearby Stops</ion-item-divider>
+    <ion-toolbar color="secondary">
+        <ion-title>Nearest Stops</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only color="light">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
   <ion-scroll scrollY style="height:300px;">
     <ion-item color="grey">
       <p>Tap a stop to see upcoming departures</p>

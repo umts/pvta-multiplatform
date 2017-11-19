@@ -42,9 +42,14 @@
         </ion-col>
           <ion-col col-12 col-sm *ngIf="currentHighlightedStop">
               <ion-item-group text-wrap>
-                  <ion-item-divider color="secondary">
-                      {{currentHighlightedStop?.Description}}
-                  </ion-item-divider>
+                  <ion-toolbar color="secondary">
+                      <ion-title>{{currentHighlightedStop?.Description}}</ion-title>
+                      <ion-buttons end>
+                          <button ion-button icon-only color="light">
+                              <ion-icon name="close"></ion-icon>
+                          </button>
+                      </ion-buttons>
+                  </ion-toolbar>
                   <ion-scroll scrollY style="height:300px;">
                       <ion-item color="grey">
                           <p>Showing soonest departures</p>
@@ -69,7 +74,14 @@
           </ion-col>
         <ion-col col-12 col-sm>
           <ion-item-group>
-            <ion-item-divider color="secondary">Nearby Buses</ion-item-divider>
+              <ion-toolbar color="secondary">
+                  <ion-title>Nearest Buses</ion-title>
+                  <ion-buttons end>
+                      <button ion-button icon-only color="light">
+                          <ion-icon name="close"></ion-icon>
+                      </button>
+                  </ion-buttons>
+              </ion-toolbar>
               <p *ngIf="vehiclesOnMap.length === 0">
                 No nearby buses - try zooming out on the map!
               </p>

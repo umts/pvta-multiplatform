@@ -274,7 +274,7 @@ export class NearbyComponent {
     this.nearestStopsPromise = this.stopSvc.getNearestStops(this.position.coords.latitude, this.position.coords.longitude);
     this.nearestStopsPromise.then(stops => {
       this.nearestStops = _.uniqBy(stops, 'StopId');
-      this.seeMoreStops(5);
+      this.calculateInitialStopDistances();
     }).catch(err => {
       console.error(err);
       this.loadingStopsStatus = 'Error downloading stops';
@@ -347,20 +347,11 @@ export class NearbyComponent {
     .map(filteredRoute => filteredRoute.RouteAbbreviation).join(', ');
   }
 
-  seeFewerStops() {
-    console.log('see fewer');
-    this.numberOfStopsToShow = this.numberOfStopsToShow - 5;
-  }
-
   /*
-   * Adds more stops to the Nearby Stops section of the page.
-   * When a stop being added has an unknown distance from us,
-   * we calculate it.
-   * @param howManyMore - The number of additional stops we want to show
+   * Calculate distances from user to the 5 closest stops.
    */
-  seeMoreStops(howManyMore: number): void {
-    // Check for/calculate distance to each stop we're about to show
-    for (let i = this.numberOfStopsToShow; i < this.numberOfStopsToShow + howManyMore; i++) {
+  calculateInitialStopDistances(): void {
+    for (let i of [0,1,2,3,4]) {
       if (!this.nearestStops[i].hasOwnProperty('Distance')) {
         // Calculate the distance from us to the stop
         this.nearestStops[i].Distance = this.stopSvc.calculateStopDistance(
@@ -368,6 +359,5 @@ export class NearbyComponent {
         );
       }
     }
-    this.numberOfStopsToShow = this.numberOfStopsToShow + howManyMore;
   }
 }
