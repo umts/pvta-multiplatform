@@ -21,9 +21,11 @@ import {Stop} from "../../models/stop.model";
 export class NearestStops implements OnInit {
     @Input() stops;
     @Input() position: Geoposition;
-    @Output() onShowRightPanelClick: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onShowStopDeparturesPanel: EventEmitter<any> = new EventEmitter<any>();
+    @Output() toggleStopDeparturesPanel: EventEmitter<any> = new EventEmitter<any>();
     numberOfStopsToShow: number = 5;
     selectedStop: Stop;
+    showPanel = true;
 
   constructor(private stopSvc: StopService, private changeDetector: ChangeDetectorRef) {
     console.log('Hello NearestStopsComponent Component');
@@ -76,7 +78,11 @@ export class NearestStops implements OnInit {
 
     onRowClick(stop: Stop) {
         this.selectedStop = stop;
-        this.onShowRightPanelClick.emit(stop);
+        this.onShowStopDeparturesPanel.emit(stop);
+    }
+    togglePanel() {
+        this.showPanel= !this.showPanel;
+        this.changeDetector.detectChanges();
     }
 
 }

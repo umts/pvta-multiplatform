@@ -1,13 +1,16 @@
 <ion-item-group *ngIf="stops" text-wrap>
-    <ion-toolbar color="secondary">
+    <ion-toolbar
+            color="secondary"
+            (click)="togglePanel()"
+    >
         <ion-title>Nearest Stops</ion-title>
         <ion-buttons end>
             <button ion-button icon-only color="light">
-                <ion-icon name="close"></ion-icon>
+                <ion-icon [name]="showPanel ? 'ios-arrow-down' : 'ios-arrow-up'"></ion-icon>
             </button>
         </ion-buttons>
     </ion-toolbar>
-  <ion-scroll scrollY style="height:300px;">
+  <ion-scroll scrollY style="height:300px;" *ngIf="showPanel">
     <ion-item color="grey">
       <p>Tap a stop to see upcoming departures</p>
     </ion-item>
@@ -31,7 +34,7 @@
       </p>
     </ion-item>
   </ion-scroll>
-    <!-- <button ion-item *ngFor="let stop of nearestStops | slice:0:numberOfStopsToShow" (click)="onShowRightPanelClick(stop)">
+    <!-- <button ion-item *ngFor="let stop of nearestStops | slice:0:numberOfStopsToShow" (click)="onShowStopDeparturesPanel(stop)">
       {{stop.Description}}
     </button>
      -->

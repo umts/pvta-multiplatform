@@ -22,7 +22,7 @@ declare const google;
 export class NearbyComponent {
   @ViewChild('map') mapElement: ElementRef;
   showBottomPanel: boolean = true;
-  showBottomRightPanel: boolean = false;
+  showStopDeparturesPanel: boolean = false;
   nearestStops;
   loadingStopsStatus: String;
   currentHighlightedStop;
@@ -39,6 +39,7 @@ export class NearbyComponent {
   vehicles = [];
   numberOfStopsToShow: number = 0;
   loader;
+  showNearestBusesPanel: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
   public geolocation: Geolocation, private stopSvc: StopService,
@@ -280,11 +281,23 @@ export class NearbyComponent {
       this.loadingStopsStatus = 'Error downloading stops';
     });
   }
-  onShowRightPanelClick(stop: number) {
-    this.showBottomRightPanel = !this.showBottomRightPanel;
+  onShowStopDeparturesPanel(stop: number) {
+    this.showStopDeparturesPanel = true;
     this.currentHighlightedStop = stop;
     this.changeDetector.detectChanges();
+  }
 
+  toggleStopDeparturesPanel() {
+      this.showStopDeparturesPanel = !this.showStopDeparturesPanel;
+      this.changeDetector.detectChanges();
+  }
+  onShowNearestBusesPanel() {
+    this.showNearestBusesPanel = true;
+    this.changeDetector.detectChanges();
+  }
+  toggleNearestBusesPanel() {
+      this.showNearestBusesPanel = !this.showNearestBusesPanel;
+      this.changeDetector.detectChanges();
   }
   goToStopPage(stopId: number): void {
     this.navCtrl.push(StopComponent, {

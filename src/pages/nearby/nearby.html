@@ -36,21 +36,27 @@
           <nearest-stops
                   [stops]="nearestStops | json"
                   [position]="position"
-                  (onShowRightPanelClick)="onShowRightPanelClick($event)"
+                  (onShowStopDeparturesPanel)="onShowStopDeparturesPanel($event)"
           >
           </nearest-stops>
         </ion-col>
           <ion-col col-12 col-sm *ngIf="currentHighlightedStop">
               <ion-item-group text-wrap>
-                  <ion-toolbar color="secondary">
+                  <ion-toolbar
+                          color="secondary"
+                          (click)="toggleStopDeparturesPanel()"
+
+                  >
                       <ion-title>{{currentHighlightedStop?.Description}}</ion-title>
                       <ion-buttons end>
-                          <button ion-button icon-only color="light">
-                              <ion-icon name="close"></ion-icon>
+                          <button ion-button icon-only
+                                  color="light"
+                          >
+                              <ion-icon [name]="showStopDeparturesPanel ? 'ios-arrow-down' : 'ios-arrow-up'"></ion-icon>
                           </button>
                       </ion-buttons>
                   </ion-toolbar>
-                  <ion-scroll scrollY style="height:300px;">
+                  <ion-scroll scrollY style="height:300px;" *ngIf="showStopDeparturesPanel">
                       <ion-item color="grey">
                           <p>Showing soonest departures</p>
                           <button ion-button item-end outline color="light" icon-right
@@ -74,22 +80,29 @@
           </ion-col>
         <ion-col col-12 col-sm>
           <ion-item-group>
-              <ion-toolbar color="secondary">
+              <ion-toolbar
+                      color="secondary"
+                      (click)="toggleNearestBusesPanel()"
+              >
                   <ion-title>Nearest Buses</ion-title>
                   <ion-buttons end>
-                      <button ion-button icon-only color="light">
-                          <ion-icon name="close"></ion-icon>
+                      <button ion-button icon-only
+                              color="light"
+                      >
+                          <ion-icon [name]="showNearestBusesPanel? 'ios-arrow-down' : 'ios-arrow-up'"></ion-icon>
                       </button>
                   </ion-buttons>
               </ion-toolbar>
-              <p *ngIf="vehiclesOnMap.length === 0">
-                No nearby buses - try zooming out on the map!
-              </p>
-              <ion-item *ngFor="let p of vehiclesOnMap" (click)="onShowRightPanelClick(stop)">
-                <a style="cursor: pointer">{{p?.route?.RouteAbbreviation}}:</a>
-                headed {{p?.vehicle?.DirectionLong.toLowerCase()}} toward
-                <a style="cursor: pointer">{{p?.vehicle?.Destination}}</a>
-              </ion-item>
+              <div *ngIf="showNearestBusesPanel">
+                  <p *ngIf="vehiclesOnMap.length === 0">
+                      No nearby buses - try zooming out on the map!
+                  </p>
+                  <ion-item *ngFor="let p of vehiclesOnMap" (click)="onShowStopDeparturesPanel(stop)">
+                      <a style="cursor: pointer">{{p?.route?.RouteAbbreviation}}:</a>
+                      headed {{p?.vehicle?.DirectionLong.toLowerCase()}} toward
+                      <a style="cursor: pointer">{{p?.vehicle?.Destination}}</a>
+                  </ion-item>
+              </div>
             </ion-item-group>
         </ion-col>
       </ion-row>
@@ -97,10 +110,10 @@
     <!-- <div [hidden]="nearestStops" class="loading-stops">
 
     </div>
-    <div [hidden]="!nearestStops" [style.float]="left" [style.width]="showBottomRightPanel ? '50' : '100'"class="nearest-stops">
+    <div [hidden]="!nearestStops" [style.float]="left" [style.width]="showStopDeparturesPanel ? '50' : '100'"class="nearest-stops">
 
     </div>
-    <div [style.width]="showBottomRightPanel ? '50' : '0'" [style.float]="right">
+    <div [style.width]="showStopDeparturesPanel ? '50' : '0'" [style.float]="right">
 
     </div> -->
   </div>
