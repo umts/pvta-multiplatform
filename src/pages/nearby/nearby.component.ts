@@ -252,6 +252,14 @@ export class NearbyComponent {
               scale: .07
             };
             const marker = this.mapSvc.dropPin(x, true, true, icon);
+            this.mapSvc.addMapListener(marker, '', true, () => {
+              this.currentHighlightedStop = stop;
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+                setTimeout(() => marker.setAnimation(null), 500);
+
+
+              this.changeDetector.detectChanges();
+            });
             this.stopsOnMap.push({stop: stop, marker: marker});
         }
 

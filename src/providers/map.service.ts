@@ -82,7 +82,7 @@ export class MapService {
     this.markers = [];
   }
 
-  addMapListener (marker, onClick, disableAutoPan?: boolean) {
+  addMapListener (marker, infoString?: string, disableAutoPan?: boolean, callback?: Function) {
     google.maps.event.addListener(marker, 'click', () => {
       // This auto-closes any bubbles that may already be open
       // when you open another one, so that only one bubble can
@@ -93,11 +93,14 @@ export class MapService {
       this.windows = [];
       // Create the new InfoWindow, and show it!
       let infoWindow = new google.maps.InfoWindow({
-        content: onClick,
+        content: infoString,
         disableAutoPan: disableAutoPan
       });
       this.windows.push(infoWindow);
       infoWindow.open(this.map, marker);
+      if (callback) {
+          callback();
+      }
     });
   }
 
