@@ -21,7 +21,7 @@ import {Stop} from "../../models/stop.model";
 export class NearestStops implements OnInit {
     @Input() stops;
     @Input() position: Geoposition;
-    @Output() onShowStopDeparturesPanel: EventEmitter<any> = new EventEmitter<any>();
+    @Output() handleStopClick: EventEmitter<any> = new EventEmitter<any>();
     @Output() toggleStopDeparturesPanel: EventEmitter<any> = new EventEmitter<any>();
     numberOfStopsToShow: number = 5;
     selectedStop: Stop;
@@ -78,7 +78,7 @@ export class NearestStops implements OnInit {
 
     onRowClick(stop: Stop) {
         this.selectedStop = stop;
-        this.onShowStopDeparturesPanel.emit(stop);
+        this.handleStopClick.emit(stop);
     }
     togglePanel() {
         this.showPanel= !this.showPanel;

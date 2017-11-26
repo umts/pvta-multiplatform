@@ -12,6 +12,7 @@ import { VehicleService } from '../../providers/vehicle.service';
 
 import { StopComponent } from '../stop/stop.component';
 import * as _ from 'lodash';
+import {Stop} from "../../models/stop.model";
 
 declare const google;
 
@@ -128,11 +129,7 @@ export class NearbyComponent {
         this.plotMarkersOnMap();
         console.log('adding bounds change listener');
         //  this.plotStopsOnMap();
-        google.maps.event.addListener(this.map, 'idle', () => {
-          console.log('bounds changed');
-          this.plotMarkersOnMap();
-          this.getRoutesForEachStop();
-        });
+        google.maps.event.addListener(this.map, 'idle', this.mapsIdleListener);
       }).catch(err => console.error(err));
       Promise.all([this.routesPromise, this.nearestStopsPromise])
       .then(() => {
@@ -289,9 +286,31 @@ export class NearbyComponent {
       this.loadingStopsStatus = 'Error downloading stops';
     });
   }
-  onShowStopDeparturesPanel(stop: number) {
+
+    /**
+     * Handler for a stop selected from the Nearest Stops panel.
+     *
+     * Displays the stop's departures in the Stop Departures panel and
+     * centers the stop on the map.
+     *
+     * @param {Stop} stop
+     */
+  handleNearbyStopClick(stop: Stop) {
     this.showStopDeparturesPanel = true;
     this.currentHighlightedStop = stop;
+    // Handle the map redraw manually to ensure synchronous stopsOnMap refreshing.
+    google.maps.event.clearListeners(this.map, 'idle');
+    this.map.setCenter({lat: stop.Latitude, lng: stop.Longitude});
+    this.mapsIdleListener();
+    // After centering the stop on the map, animate its marker for the user.
+    let marker = this.stopsOnMap.find(s => s.stop.StopId === stop.StopId).marker;
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(() => {
+      // After 500ms, remove animation and replace map listener.
+      marker.setAnimation(null);
+      google.maps.event.addListener(this.map, 'idle', this.mapsIdleListener);
+      }, 500
+    );
     this.changeDetector.detectChanges();
   }
 
@@ -381,4 +400,10 @@ export class NearbyComponent {
       }
     }
   }
+    mapsIdleListener = () => {
+        console.log('bounds changed');
+        this.plotMarkersOnMap();
+        this.getRoutesForEachStop();
+    };
+
 }

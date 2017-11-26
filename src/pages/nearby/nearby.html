@@ -36,7 +36,7 @@
           <nearest-stops
                   [stops]="nearestStops | json"
                   [position]="position"
-                  (onShowStopDeparturesPanel)="onShowStopDeparturesPanel($event)"
+                  (handleStopClick)="handleNearbyStopClick($event)"
           >
           </nearest-stops>
         </ion-col>
@@ -97,7 +97,7 @@
                   <p *ngIf="vehiclesOnMap.length === 0">
                       No nearby buses - try zooming out on the map!
                   </p>
-                  <ion-item *ngFor="let p of vehiclesOnMap" (click)="onShowStopDeparturesPanel(stop)">
+                  <ion-item *ngFor="let p of vehiclesOnMap">
                       <a style="cursor: pointer">{{p?.route?.RouteAbbreviation}}:</a>
                       headed {{p?.vehicle?.DirectionLong.toLowerCase()}} toward
                       <a style="cursor: pointer">{{p?.vehicle?.Destination}}</a>
@@ -107,14 +107,5 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <!-- <div [hidden]="nearestStops" class="loading-stops">
-
-    </div>
-    <div [hidden]="!nearestStops" [style.float]="left" [style.width]="showStopDeparturesPanel ? '50' : '100'"class="nearest-stops">
-
-    </div>
-    <div [style.width]="showStopDeparturesPanel ? '50' : '0'" [style.float]="right">
-
-    </div> -->
   </div>
 </ion-content>
