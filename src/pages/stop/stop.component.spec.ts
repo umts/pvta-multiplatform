@@ -39,7 +39,8 @@ describe('Stop Component', () => {
         ConnectivityService,
         AutoRefreshService,
         AlertController,
-        ToastService
+        ToastService,
+        DepartureSortService
       ]
     });
   }));
