@@ -92,7 +92,7 @@ export class StopComponent {
             this.routeList[route.RouteId] = route;
           }
           this.departuresByDirection = _.sortBy(this.departuresByDirection, departure => {
-            return this.routeList[departure.RouteId].RouteAbbreviation.replace(/\D+/, '');
+            return parseInt(this.routeList[departure.RouteId].RouteAbbreviation.replace(/\D+/, ''));
           });
         });
         this.hideLoader();
