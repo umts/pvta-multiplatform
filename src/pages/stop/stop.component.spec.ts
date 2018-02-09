@@ -8,7 +8,7 @@ import { StopService } from '../../providers/stop.service';
 import { StopDepartureService } from '../../providers/stop-departure.service';
 import { InfoService } from '../../providers/info.service';
 import { AutoRefreshService } from '../../providers/auto-refresh.service';
-import { DepartureSortService } from '../../providers/departure-sort.service'
+import { DepartureSortService } from '../../providers/departure-sort.service';
 import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { ConnectivityService } from '../../providers/connectivity.service';
 import { ToastService } from '../../providers/toast.service';
