@@ -6,12 +6,12 @@ export class DepartureSortService {
 
   constructor(public storage: Storage) {  }
 
-  verifyValidity(sort: string): [boolean, string] {
+  validate(sort: string): string {
     if (sort === 'route' || sort === 'time') {
-      return [true, sort];
+      return sort;
     } else {
       this.storage.set('departureSort', 'route');
-      return [false, 'route'];
+      return 'route';
     }
   }
 }

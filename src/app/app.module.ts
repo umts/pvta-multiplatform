@@ -111,6 +111,6 @@ import { ToastService } from '../providers/toast.service';
     RouteService, StopService, StopDepartureService, VehicleService, AlertService,
     FavoriteRouteService, FavoriteStopService, ConnectivityService,
     MapService, InfoService, FavoriteTripService, AutoRefreshService,
-    StatusBar, SplashScreen, Geolocation, ToastService ]
+    StatusBar, SplashScreen, Geolocation, ToastService, DepartureSortService ]
 })
 export class AppModule {}
