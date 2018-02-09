@@ -31,5 +31,12 @@
         <ion-option value="60000">60 Seconds</ion-option>
       </ion-select>
     </ion-item>
+    <ion-item>
+      <ion-label>Sort Departures...</ion-label>
+      <ion-select [(ngModel)]="departureSort">
+        <ion-option value="route">By route</ion-option>
+        <ion-option value="time">By time</ion-option>
+      </ion-select>
+    </ion-item>
   </ion-list>
 </ion-content>
