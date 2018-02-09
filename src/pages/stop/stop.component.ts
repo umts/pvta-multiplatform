@@ -178,7 +178,7 @@ export class StopComponent {
    * either a scheduled time ('s') or an estimated time ('e').
    */
   calculateTimes (departure): Object {
-    const sdt = moment(departure.SDT);
+    const sdt = moment(departure.SDT).startOf('minute');
     const edt = moment(departure.EDT).startOf('minute');
     return {
       // ex: '8:12 PM'
