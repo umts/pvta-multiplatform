@@ -86,7 +86,15 @@ export class StopComponent {
     this.stopDepartureSvc.getStopDeparture(this.stopId)
       .then(directions => {
         this.sort(directions[0]);
-        this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
+        let routePromises = this.routeSvc.getEachRoute(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
+        Promise.all(routePromises).then(routes => {
+          for (let route of routes) {
+            this.routeList[route.RouteId] = route;
+          }
+          this.departuresByDirection = _.sortBy(this.departuresByDirection, departure => {
+            return this.routeList[departure.RouteId].RouteAbbreviation.replace(/\D+/, '');
+          });
+        });
         this.hideLoader();
         if (refresher) refresher.complete();
     }).catch(err => {
@@ -141,27 +149,6 @@ export class StopComponent {
 
   ionViewCanEnter(): boolean {
    return this.connection.getConnectionStatus();
-  }
-  // For a given RouteId, downloads the simplest
-  // version of the details for that route from
-  // Avail.  Adds it to a $scope-wide list.
-  // Returns nothing.
-  getRoute (id): any {
-    this.routeSvc
-      .getRoute(id)
-      .then(route => {
-        this.routeList[id] = (route);
-      }).catch(err => {
-        console.error(`Error downloading details for ${id}: ${err}`);
-      });
-  }
-  // Calls getRoute() for each RouteId in
-  // the input array.
-  // Ex input: [20030, 30031, 20035]
-  getRoutes (routes): any {
-    for (let routeId of routes) {
-      this.getRoute(routeId);
-    }
   }
   toggleStopHeart(): void {
     // console.log('toggling', stop.Description);
