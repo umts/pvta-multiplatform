@@ -14,6 +14,7 @@ declare var ga;
 })
 export class SettingsComponent {
   autoRefresh: string;
+  departureSort: string;
   isInternetExplorer: boolean = false;
   constructor(public navCtrl: NavController, private storage: Storage,
   private infoSvc: InfoService) {
@@ -24,6 +25,13 @@ export class SettingsComponent {
           this.autoRefresh = autoRefreshTiming;
         } else {
           this.autoRefresh = '45000';
+        }
+      });
+      storage.get('departureSort').then(departureSort => {
+        if (departureSort) { 
+          this.departureSort = departureSort;
+        } else {
+          this.departureSort = 'route';
         }
       });
     });
@@ -43,6 +51,7 @@ export class SettingsComponent {
     this.storage.ready().then(() => {
       console.log('setting autorefresh to', this.autoRefresh);
       this.storage.set('autoRefresh', this.autoRefresh);
+      this.storage.set('departureSort', this.departureSort);
     });
   }
 }
