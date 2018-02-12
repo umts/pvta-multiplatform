@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ConnectivityService } from '../../providers/connectivity.service';
 import { AutoRefreshService } from '../../providers/auto-refresh.service';
+import { DepartureSortService } from '../../providers/departure-sort.service';
 import { InfoService } from '../../providers/info.service';
 
 declare var ga;
@@ -43,12 +44,12 @@ export class StopComponent {
     private loadingCtrl: LoadingController, private favoriteStopSvc: FavoriteStopService,
     private stopSvc: StopService, private connection: ConnectivityService,
     private storage: Storage, private refreshSvc: AutoRefreshService,
-    private toastSvc: ToastService,
+    private depSortSvc: DepartureSortService, private toastSvc: ToastService,
     private alertCtrl: AlertController ) {
       this.stopId = parseInt(navParams.get('stopId'), 10);
       this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.title = `Stop ${this.stopId}`;
-      this.order = '0';
+      this.order = 'route';
       ga('set', 'page', '/stop.html');
       ga('send', 'pageview');
       document.addEventListener('pause', this.handleAppPause);
@@ -127,6 +128,12 @@ export class StopComponent {
         }
       }).catch(err => {
         console.error(`Error retrieving refresh time: ${err}`);
+      });
+      this.storage.get('departureSort').then(storedSort => {
+        let departureSort: string = this.depSortSvc.validate(storedSort);
+        this.order = departureSort;
+      }).catch(err => {
+        console.error(`Error retrieving departure sort: ${err}`);
       });
     }).catch(err => {
       console.error(`Error connecting to local storage: ${err}`);
