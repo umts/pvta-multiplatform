@@ -101,7 +101,23 @@ export class StopComponent {
     });
   }
 
+  getAlerts (): void {
+    this.alerts = [];
+    this.alertService
+    .getAlerts().then(alerts => {
+      if (!alerts) {
+        return;
+      }
+      for (let alert of alerts) {
+        if (_.includes(alert.Routes, this.routeId)) {
+          this.alerts.push(alert);
+        }
+      }
+    });
+  }
+
   ionViewWillEnter() {
+    this.getAlerts();
     this.favoriteStopSvc.contains(this.stopId, (liked) => {
       this.liked = liked;
     });
