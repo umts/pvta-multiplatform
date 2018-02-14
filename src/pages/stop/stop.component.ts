@@ -87,12 +87,17 @@ export class StopComponent {
       .then(directions => {
         this.sort(directions[0]);
         let routePromises = this.routeSvc.getEachRoute(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
-        Promise.all(routePromises).then(routes => {
-          for (let route of routes) {
+        for (let promise of routePromises) {
+          promise.then(route => {
             this.routeList[route.RouteId] = route;
-          }
+          });
+        }
+        Promise.all(routePromises).then(routes => {
           this.departuresByDirection = _.sortBy(this.departuresByDirection, departure => {
-            return parseInt(this.routeList[departure.RouteId].RouteAbbreviation.replace(/\D+/, ''));
+            let route = this.routeList[departure.RouteId];
+            if(route !== undefined)
+              return parseInt(route.RouteAbbreviation.replace(/\D+/, ''), 10);
+            else return 0;
           });
         });
         this.hideLoader();
