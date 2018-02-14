@@ -19,8 +19,8 @@
     <ion-item color="primary">
       <ion-label style="color: white;">Order Departures By</ion-label>
       <ion-select [(ngModel)]="order">
-        <ion-option value="0">Route</ion-option>
-        <ion-option value="1">Time</ion-option>
+        <ion-option value="route">Route</ion-option>
+        <ion-option value="time">Time</ion-option>
       </ion-select>
     </ion-item>
   </ion-toolbar>
@@ -32,7 +32,7 @@
     </ion-refresher-content>
   </ion-refresher>
   <ion-list aria-label="upcoming departures at this stop" role="list">
-    <div *ngIf="order == '0'">
+    <div *ngIf="order == 'route'">
       <div *ngFor="let direction of departuresByDirection">
         <div ion-item (click)="toggleRouteDropdown(direction)" [style.background-color]="'#'+routeList[direction.RouteId]?.Color" [style.color]="'white'">
           <ion-grid no-padding>
@@ -96,7 +96,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="order == '1'">
+    <div *ngIf="order == 'time'">
       <div ion-item *ngFor="let direction of departuresByTime"
       (click)="goToRoutePage(direction.RouteId)"
       [style.background-color]="'#'+routeList[direction.RouteId]?.Color"
