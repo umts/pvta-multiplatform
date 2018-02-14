@@ -27,6 +27,19 @@
 </ion-header>
 
 <ion-content text-wrap aria-label="This page auto refreshes content. To stop this, navigate to Settings and change the Auto refresh timing to off">
+  <ion-item-group>
+    <ion-toolbar *ngIf="alerts.length > 0" color="danger">
+      <ion-title role="heading">
+        Alerts
+      </ion-title>
+    </ion-toolbar>
+    <ion-list role="list" aria-label="alerts">
+      <ion-item text-wrap icon-left *ngFor="let alert of alerts">
+        <ion-icon aria-hidden="true" name="alert"></ion-icon>
+        {{alert.Message}}
+      </ion-item>
+    </ion-list>
+  </ion-item-group>
   <ion-refresher (ionRefresh)="pullToRefresh($event)">
     <ion-refresher-content pullingText="Pull to refresh departures...">
     </ion-refresher-content>
