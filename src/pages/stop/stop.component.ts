@@ -101,7 +101,7 @@ export class StopComponent {
     });
   }
 
-  getAlerts (): void {
+  getAlerts(): void {
     this.alerts = [];
     this.alertService
     .getAlerts().then(alerts => {
@@ -109,9 +109,7 @@ export class StopComponent {
         return;
       }
       for (let alert of alerts) {
-        if (_.includes(alert.Routes, this.routeId)) {
-          this.alerts.push(alert);
-        }
+        this.alerts.push(alert);
       }
     });
   }
