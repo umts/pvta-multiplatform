@@ -18,6 +18,7 @@ import { AutoRefreshService } from '../../providers/auto-refresh.service';
 import { DepartureSortService } from '../../providers/departure-sort.service';
 import { InfoService } from '../../providers/info.service';
 import { AlertService } from '../../providers/alert.service';
+import { Alert } from '../../models/alert.model';
 
 declare var ga;
 
@@ -52,6 +53,7 @@ export class StopComponent {
       this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.title = `Stop ${this.stopId}`;
       this.order = 'route';
+      this.alerts = [];
       ga('set', 'page', '/stop.html');
       ga('send', 'pageview');
       document.addEventListener('pause', this.handleAppPause);
