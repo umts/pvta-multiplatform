@@ -17,6 +17,7 @@ import { ConnectivityService } from '../../providers/connectivity.service';
 import { AutoRefreshService } from '../../providers/auto-refresh.service';
 import { DepartureSortService } from '../../providers/departure-sort.service';
 import { InfoService } from '../../providers/info.service';
+import { AlertService } from '../../providers/alert.service';
 
 declare var ga;
 
@@ -38,6 +39,7 @@ export class StopComponent {
   order: String;
   stop: Stop;
   isInternetExplorer: boolean = false;
+  alerts: Alert[];
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private stopDepartureSvc: StopDepartureService, private infoSvc: InfoService,
     private routeSvc: RouteService, private changer: ChangeDetectorRef,
@@ -45,7 +47,7 @@ export class StopComponent {
     private stopSvc: StopService, private connection: ConnectivityService,
     private storage: Storage, private refreshSvc: AutoRefreshService,
     private depSortSvc: DepartureSortService, private toastSvc: ToastService,
-    private alertCtrl: AlertController ) {
+    private alertCtrl: AlertController, private alertService: AlertService) {
       this.stopId = parseInt(navParams.get('stopId'), 10);
       this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.title = `Stop ${this.stopId}`;
