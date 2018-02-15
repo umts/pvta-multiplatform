@@ -109,7 +109,19 @@ export class StopComponent {
         return;
       }
       for (let alert of alerts) {
-        this.alerts.push(alert);
+        // display alerts that don't apply to any route
+        if (alert.Routes.length == 0) {
+          this.alerts.push(alert);
+        }
+        else {
+          // display alerts that apply to the route
+          for (var j = 0; j < this.routeList.length; j++) {
+            if (_.includes(this.routeList[j], alert.Routes)){
+              this.alerts.push(alert);
+              break;
+            }
+          }
+        }
       }
     });
   }
