@@ -115,8 +115,8 @@ export class StopComponent {
         }
         else {
           // display alerts that apply to the route
-          for (var j = 0; j < this.routeList.length; j++) {
-            if (_.includes(this.routeList[j], alert.Routes)){
+          for (var index = 0; index < this.routeList.length; index++) {
+            if (_.includes(this.routeList[index], alert.Routes) !== -1){
               this.alerts.push(alert);
               break;
             }
