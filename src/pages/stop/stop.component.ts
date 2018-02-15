@@ -112,8 +112,7 @@ export class StopComponent {
         // display alerts that don't apply to any route
         if (alert.Routes.length == 0) {
           this.alerts.push(alert);
-        }
-        else {
+        } else {
           // display alerts that apply to the route
           for (let route of this.routeList) {
             if (_.includes(route, alert.Routes) !== -1) {
