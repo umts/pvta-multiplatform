@@ -100,7 +100,7 @@ private geolocation: Geolocation, private toastSvc: ToastService) {
       // this.getRoute();
     })
     .catch(err => {
-      this.toastSvc.locationToast();
+      this.toastSvc.toastHandler('Unable to retrieve current location');
       // Tell Google Analytics that a user doesn't have location
       ga('send', 'event', 'LocationFailure',
       'PlanTripComponent.loadLocation()', `location failed on Plan Trip; error: ${err.message}`);
@@ -303,7 +303,7 @@ private geolocation: Geolocation, private toastSvc: ToastService) {
       if (!this.request.destination.id) {
         this.request.destination.name = '';
       }
-      this.toastSvc.noOriginOrDestinationToast();
+      this.toastSvc.toastHandler('You must select an origin and destination from the autocomplete dropdowns above in order to search the schedule');
       console.error('Missing an origin or destination id');
       return;
     }

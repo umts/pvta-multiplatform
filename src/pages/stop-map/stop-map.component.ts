@@ -123,7 +123,7 @@ export class StopMapComponent {
       console.log('Unable to get current location');
       this.directionsObtained = false;
       this.directionsRequested = false;
-      this.toastSvc.directionToast();
+      this.toastSvc.toastHandler('Cannot get directions to this stop. Please ensure location services are enabled.');
       // Tell Google Analytics that a user doesn't have location
       ga('send', 'event', 'LocationFailure',
       'StopMapComponent.retrieveDirections()', `location failure on Stop Map: ${err.message}`);
@@ -143,7 +143,7 @@ export class StopMapComponent {
     } else {
       this.directionsObtained = false;
       this.directionsRequested = false;
-      this.toastSvc.statusDirection(status);
+      this.toastSvc.toastHandler(`Could not get directions to this stop. Status code ${status}`);
     }
   }
 }
