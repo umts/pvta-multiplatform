@@ -7,7 +7,6 @@ import { ConnectivityService } from '../providers/connectivity.service';
 import { InfoService } from '../providers/info.service';
 import { MyApp } from './app.component';
 import { PlatformMock } from '../../test-config/mocks-ionic';
-import {} from 'jasmine'; //ignore this its just to get typescript working on atom
 
 describe('MyApp Component', () => {
   let fixture;
