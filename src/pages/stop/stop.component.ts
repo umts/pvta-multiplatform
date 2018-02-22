@@ -186,8 +186,8 @@ export class StopComponent {
       sExact: moment(sdt).format('LT'),
       eExact: moment(edt).format('LT'),
       // ex: '6 minutes'
-      sRelativeNoPrefix: moment(sdt).fromNow(),
-      eRelativeNoPrefix: moment(edt).fromNow()
+      sRelativeWithPrefix: moment(sdt).fromNow(),
+      eRelativeWithPrefix: moment(edt).fromNow()
     };
   }
   /**
