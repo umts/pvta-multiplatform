@@ -76,7 +76,8 @@ export class StopMapComponent {
   presentLoader(): void {
     this.loader = this.loadingCtrl.create({
       content: 'Mapping Stop...',
-      duration: 3000
+      duration: 3000,
+      enableBackdropDismiss: true
     });
     this.loader.present();
   }

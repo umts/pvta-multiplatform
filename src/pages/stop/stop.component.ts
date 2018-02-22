@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ConnectivityService } from '../../providers/connectivity.service';
 import { AutoRefreshService } from '../../providers/auto-refresh.service';
+import { DepartureSortService } from '../../providers/departure-sort.service';
 import { InfoService } from '../../providers/info.service';
 
 declare var ga;
@@ -43,12 +44,12 @@ export class StopComponent {
     private loadingCtrl: LoadingController, private favoriteStopSvc: FavoriteStopService,
     private stopSvc: StopService, private connection: ConnectivityService,
     private storage: Storage, private refreshSvc: AutoRefreshService,
-    private toastSvc: ToastService,
+    private depSortSvc: DepartureSortService, private toastSvc: ToastService,
     private alertCtrl: AlertController ) {
       this.stopId = parseInt(navParams.get('stopId'), 10);
       this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.title = `Stop ${this.stopId}`;
-      this.order = '0';
+      this.order = 'route';
       ga('set', 'page', '/stop.html');
       ga('send', 'pageview');
       document.addEventListener('pause', this.handleAppPause);
@@ -67,6 +68,7 @@ export class StopComponent {
   presentLoader(): void {
       this.loader = this.loadingCtrl.create({
         content: 'Downloading departures...',
+        enableBackdropDismiss: true
       });
       this.loader.present();
   }
@@ -85,7 +87,22 @@ export class StopComponent {
     this.stopDepartureSvc.getStopDeparture(this.stopId)
       .then(directions => {
         this.sort(directions[0]);
-        this.getRoutes(_.uniq(_.map(directions[0].RouteDirections, 'RouteId')));
+        let routeIds = _.uniq(_.map(directions[0].RouteDirections, 'RouteId'));
+        let routePromises = this.routeSvc.getEachRoute(routeIds);
+        for (let promise of routePromises) {
+          promise.then(route => {
+            if (route !== undefined)
+              this.routeList[route.RouteId] = route;
+          });
+        }
+        Promise.all(routePromises).then(routes => {
+          this.departuresByDirection = _.sortBy(this.departuresByDirection, departure => {
+            let route = this.routeList[departure.RouteId];
+            if (route !== undefined)
+              return parseInt(route.RouteAbbreviation.replace(/\D+/, ''), 10);
+            else return 0;
+          });
+        });
         this.hideLoader();
         if (refresher) refresher.complete();
     }).catch(err => {
@@ -119,6 +136,12 @@ export class StopComponent {
       }).catch(err => {
         console.error(`Error retrieving refresh time: ${err}`);
       });
+      this.storage.get('departureSort').then(storedSort => {
+        let departureSort: string = this.depSortSvc.validate(storedSort);
+        this.order = departureSort;
+      }).catch(err => {
+        console.error(`Error retrieving departure sort: ${err}`);
+      });
     }).catch(err => {
       console.error(`Error connecting to local storage: ${err}`);
     });
@@ -141,27 +164,6 @@ export class StopComponent {
   ionViewCanEnter(): boolean {
    return this.connection.getConnectionStatus();
   }
-  // For a given RouteId, downloads the simplest
-  // version of the details for that route from
-  // Avail.  Adds it to a $scope-wide list.
-  // Returns nothing.
-  getRoute (id): any {
-    this.routeSvc
-      .getRoute(id)
-      .then(route => {
-        this.routeList[id] = (route);
-      }).catch(err => {
-        console.error(`Error downloading details for ${id}: ${err}`);
-      });
-  }
-  // Calls getRoute() for each RouteId in
-  // the input array.
-  // Ex input: [20030, 30031, 20035]
-  getRoutes (routes): any {
-    for (let routeId of routes) {
-      this.getRoute(routeId);
-    }
-  }
   toggleStopHeart(): void {
     // console.log('toggling', stop.Description);
     this.favoriteStopSvc.toggleFavorite(this.stopId, this.stop.Description);
@@ -177,8 +179,8 @@ export class StopComponent {
    * either a scheduled time ('s') or an estimated time ('e').
    */
   calculateTimes (departure): Object {
-    const sdt = moment(departure.SDT);
-    const edt = moment(departure.EDT);
+    const sdt = moment(departure.SDT).startOf('minute');
+    const edt = moment(departure.EDT).startOf('minute');
     return {
       // ex: '8:12 PM'
       sExact: moment(sdt).format('LT'),

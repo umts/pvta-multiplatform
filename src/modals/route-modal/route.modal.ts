@@ -29,11 +29,15 @@ export class RouteModal {
     }
   ionViewWillEnter() {
     if (this.requester === RouteModalRequester.Favorites) {
-      let loader = this.loadingCtrl.create();
+      let loader = this.loadingCtrl.create({
+        enableBackdropDismiss: true
+      });
       loader.present();
       this.routeService.getRouteList().then((routes: Route[]) => {
         console.log('have routes');
-        this.routes = _.sortBy(routes, ['ShortName']);
+        this.routes = _.sortBy(routes, (route) => {
+          return parseInt(route.RouteAbbreviation.replace(/\D+/g, ''), 10);
+        });
         this.routeService.saveRouteList(this.routes);
         this.getFavoriteRoutes();
         loader.dismiss();
