@@ -303,7 +303,7 @@ private geolocation: Geolocation, private toastSvc: ToastService) {
       if (!this.request.destination.id) {
         this.request.destination.name = '';
       }
-      this.toastSvc.toastHandler('You must select an origin and destination from the autocomplete dropdowns above in order to search the schedule');
+      this.noOriginOrDestinationToast.present();
       console.error('Missing an origin or destination id');
       return;
     }
