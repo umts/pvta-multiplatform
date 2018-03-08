@@ -8,7 +8,7 @@ export class ToastService {
     private originDestination;
     constructor(private toast: ToastController) { }
 
-  toastHandler(text: string){
+  toastHandler(text: string): void{
 		let txt = text;
 		this.toastHandle = this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
 		this.toastHandle.present();
