@@ -29,7 +29,7 @@ export class PlanTripComponent {
   route;
   loader;
   timeOptions = [];
-  noLocationToast;
+  toastHandler;
   noOriginOrDestinationToast;
   isInternetExplorer: boolean = false;
 
