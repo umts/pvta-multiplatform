@@ -129,17 +129,15 @@ export class StopComponent {
           this.alerts.push(alert);
         } else {
           // display alerts that apply to the route
-          this.routeSvc.getRouteList().then(routeList => {
-            if (!routeList) {
-              return;
-            }
-            for (let route of routeList) {
-              this.routeList.push(route);
-              if (_.includes(alert.Routes, route)) {
-                this.alerts.push(alert);
+          this.routeSvc
+            .getRouteList().then(routeList => {
+              for (let route of routeList) {
+                if (_.includes(alert.Routes, route)) {
+                  // this shit don't work
+                  this.alerts.push(alert);
+                }
               }
-            }
-          });
+            });
         }
       }
     });
