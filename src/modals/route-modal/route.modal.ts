@@ -35,7 +35,9 @@ export class RouteModal {
       loader.present();
       this.routeService.getRouteList().then((routes: Route[]) => {
         console.log('have routes');
-        this.routes = _.sortBy(routes, ['ShortName']);
+        this.routes = _.sortBy(routes, (route) => {
+          return parseInt(route.RouteAbbreviation.replace(/\D+/g, ''), 10);
+        });
         this.routeService.saveRouteList(this.routes);
         this.getFavoriteRoutes();
         loader.dismiss();

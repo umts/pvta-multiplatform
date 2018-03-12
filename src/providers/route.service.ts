@@ -23,6 +23,14 @@ export class RouteService {
       .catch(this.handleError);
   }
 
+  getEachRoute(routeIds: number[]): Promise<Route>[] {
+    let promises = [];
+    for (let routeId of routeIds) {
+      promises.push(this.getRoute(routeId));
+    }
+    return promises;
+  }
+
   getRoute(id: number): Promise<Route> {
     const url = `${this.routesURL}/${id}`;
     return this.http.get(url)
