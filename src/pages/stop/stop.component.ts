@@ -129,11 +129,17 @@ export class StopComponent {
           this.alerts.push(alert);
         } else {
           // display alerts that apply to the route
-          for (let route of this.routeList) {
-            if (_.includes(alert.Routes, route)) {
-              this.alerts.push(alert);
+          this.routeSvc.getRouteList().then(routeList => {
+            if (!routeList) {
+              return;
             }
-          }
+            for (let route of routeList) {
+              this.routeList.push(route);
+              if (_.includes(alert.Routes, route)) {
+                this.alerts.push(alert);
+              }
+            }
+          });
         }
       }
     });
@@ -141,7 +147,6 @@ export class StopComponent {
 
   ionViewWillEnter() {
     this.getAlerts();
-    this.routeSvc.getRouteList();
     this.favoriteStopSvc.contains(this.stopId, (liked) => {
       this.liked = liked;
     });
