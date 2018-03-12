@@ -141,6 +141,7 @@ export class StopComponent {
 
   ionViewWillEnter() {
     this.getAlerts();
+    this.routeSvc.getRouteList();
     this.favoriteStopSvc.contains(this.stopId, (liked) => {
       this.liked = liked;
     });
