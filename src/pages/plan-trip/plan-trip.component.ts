@@ -292,7 +292,7 @@ export class PlanTripComponent {
    */
    getRoute(): void {
      if (this.originDestToast) {
-       this.noOriginOrDestinationToast();
+       this.toastSvc.noOriginOrDestinationToast();
      }
     // We need an origin and destination
     if (!this.request.origin.id || !this.request.destination.id) {

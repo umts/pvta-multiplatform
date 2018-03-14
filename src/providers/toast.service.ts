@@ -38,3 +38,4 @@ export class ToastService {
     this.noLocation = this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
     this.noLocation.present();
   }
+}
