@@ -17,7 +17,7 @@ export class SettingsComponent {
   departureSort: string;
   isInternetExplorer: boolean = false;
   constructor(public navCtrl: NavController, private storage: Storage,
-  private infoSvc: InfoService) {
+    infoSvc: InfoService) {
     this.isInternetExplorer = infoSvc.isInternetExplorer();
     storage.ready().then(() => {
       storage.get('autoRefresh').then(autoRefreshTiming => {
