@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation';
-import { NavController, ToastController, LoadingController, AlertController, NavParams } from 'ionic-angular';
+import { NavController, LoadingController, AlertController, NavParams } from 'ionic-angular';
 import { StopService } from '../../providers/stop.service';
 import { MapService } from '../../providers/map.service';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
@@ -35,7 +35,7 @@ export class PlanTripComponent {
   isInternetExplorer: boolean = false;
 
   constructor(public navCtrl: NavController, private stopService: StopService,
-    private toastCtrl: ToastController, private loadingCtrl: LoadingController,
+    private loadingCtrl: LoadingController,
     private alertCtrl: AlertController, private tripService: FavoriteTripService,
     private navParams: NavParams, private infoSvc: InfoService,
     private mapSvc: MapService, private geolocation: Geolocation,
