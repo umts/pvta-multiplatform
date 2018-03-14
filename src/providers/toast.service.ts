@@ -9,9 +9,9 @@ export class ToastService {
     constructor(private toast: ToastController) { }
 
   toastHandler(text: string): void{
-		let txt = text;
-		this.toastHandle = this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
-		this.toastHandle.present();
+    let txt = text;
+    this.toastHandle = this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
+    this.toastHandle.present();
   }
   favoriteToast(routeOrStop: string, isFave: boolean): void {
     if (this.faveToast) {
