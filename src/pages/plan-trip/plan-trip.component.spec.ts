@@ -29,7 +29,7 @@ describe('PlanTrip Component', () => {
         { provide: NavParams, useClass: NavParamsMock },
         LoadingController,
         AlertController,
-        ToastController,
+        ToastService,
         ModalController,
         RouteService,
         StopService,
