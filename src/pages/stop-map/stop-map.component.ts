@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
-import { NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { NavParams, LoadingController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Stop } from '../../models/stop.model';
 import { MapService } from '../../providers/map.service';
@@ -27,7 +27,7 @@ export class StopMapComponent {
 
   constructor(public navParams: NavParams, private stopSvc: StopService,
     private mapSvc: MapService, private zone: NgZone,
-    private toastCtrl: ToastController, private toastSvc: ToastService, private connection: ConnectivityService,
+    private toastSvc: ToastService, private connection: ConnectivityService,
     private loadingCtrl: LoadingController, private geolocation: Geolocation) {
     this.stopId = navParams.get('stopId');
     ga('set', 'page', '/stop/stop-map.html');
