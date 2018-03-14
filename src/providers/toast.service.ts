@@ -34,7 +34,7 @@ export class ToastService {
     if (this.noLocation) {
       this.noLocation.dismiss();
     }
-    let txt = 'Unable to retrieve current location'
+    let txt = 'Unable to retrieve current location';
     this.noLocation = this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
     this.noLocation.present();
   }
