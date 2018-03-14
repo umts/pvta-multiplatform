@@ -1,8 +1,9 @@
 import { async, TestBed } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
-import { IonicModule, Platform, NavParams, NavController, ModalController, AlertController, ToastController, LoadingController } from 'ionic-angular';
+import { IonicModule, Platform, NavParams, NavController, ModalController, AlertController, LoadingController } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { RouteService } from '../../providers/route.service';
+import { ToastService } from '../../providers/toast.service'
 import { StopService } from '../../providers/stop.service';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
 import { MyApp } from '../../app/app.component';
