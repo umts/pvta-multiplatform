@@ -29,6 +29,7 @@ export class PlanTripComponent {
   route;
   loader;
   timeOptions = [];
+  noLocationToast;
   toastHandler;
   noOriginOrDestinationToast;
   isInternetExplorer: boolean = false;
@@ -101,7 +102,13 @@ export class PlanTripComponent {
       // this.getRoute();
     })
     .catch(err => {
-      this.toastSvc.toastHandler('Unable to retrieve current location');
+      this.noLocationToast = this.toastCtrl.create({
+        message: 'Unable to retrieve current location',
+        position: 'bottom',
+        showCloseButton: true
+      });
+      
+      this.noLocationToast.present();
       // Tell Google Analytics that a user doesn't have location
       ga('send', 'event', 'LocationFailure',
       'PlanTripComponent.loadLocation()', `location failed on Plan Trip; error: ${err.message}`);
