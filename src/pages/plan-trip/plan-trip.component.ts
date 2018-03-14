@@ -34,10 +34,11 @@ export class PlanTripComponent {
   isInternetExplorer: boolean = false;
 
   constructor(public navCtrl: NavController, private stopService: StopService,
-  private toastCtrl: ToastController, private loadingCtrl: LoadingController,
-  private alertCtrl: AlertController, private tripService: FavoriteTripService,
-  private navParams: NavParams, private infoSvc: InfoService, private mapSvc: MapService,
-private geolocation: Geolocation, private toastSvc: ToastService) {
+    private toastCtrl: ToastController, private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController, private tripService: FavoriteTripService,
+    private navParams: NavParams, private infoSvc: InfoService,
+    private mapSvc: MapService, private geolocation: Geolocation,
+    private toastSvc: ToastService) {
     /* List of the different types of times that we can request trips.
      * Each type has a name (for the UI) and a few properties for us:
      * type: whether the user wants a "departure" or "arrival"
@@ -294,7 +295,6 @@ private geolocation: Geolocation, private toastSvc: ToastService) {
      }
     // We need an origin and destination
     if (!this.request.origin.id || !this.request.destination.id) {
-
       // Clear out the search boxes for either/both of the incorrectly
       // selected fields
       if (!this.request.origin.id) {
