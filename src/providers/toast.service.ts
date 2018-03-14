@@ -6,6 +6,7 @@ export class ToastService {
     private faveToast;
     private toastHandle;
     private originDestination;
+    private noLocation;
     constructor(private toast: ToastController) { }
 
   toastHandler(text: string): void{
@@ -30,4 +31,10 @@ export class ToastService {
     this.originDestination.present();
   }
   noLocationToast(): void{
+    if (this.noLocation) {
+      this.noLocation.dismiss();
+    }
+    let txt = 'Unable to retrieve current location'
+    this.noLocation = this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
+    this.noLocation.present();
   }
