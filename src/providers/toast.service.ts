@@ -5,6 +5,7 @@ import { ToastController } from 'ionic-angular';
 export class ToastService {
     private faveToast;
     private toastHandle;
+    private originDestination;
     constructor(private toast: ToastController) { }
 
   toastHandler(text: string): void{
@@ -20,4 +21,8 @@ export class ToastService {
     this.faveToast = this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
     this.faveToast.present();
   }
+  noOriginOrDestinationToast(): void{
+    let txt = 'You must select an origin and destination from the autocomplete dropdowns above in order to search the schedule';
+    this.originDestination = this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
+    this.originDestination.present();
 }
