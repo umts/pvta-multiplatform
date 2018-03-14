@@ -5,7 +5,6 @@ import { ToastController } from 'ionic-angular';
 export class ToastService {
     private faveToast;
     private toastHandle;
-    private originDestination;
     constructor(private toast: ToastController) { }
 
   toastHandler(text: string): void{
