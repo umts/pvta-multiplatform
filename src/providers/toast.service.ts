@@ -22,6 +22,9 @@ export class ToastService {
     this.faveToast.present();
   }
   noOriginOrDestinationToast(): void{
+    if (this.originDestination) {
+      this.originDestination.dismiss();
+    }
     let txt = 'You must select an origin and destination from the autocomplete dropdowns above in order to search the schedule';
     this.originDestination = this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
     this.originDestination.present();
