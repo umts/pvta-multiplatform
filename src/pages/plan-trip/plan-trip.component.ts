@@ -31,7 +31,7 @@ export class PlanTripComponent {
   timeOptions = [];
   noLocationToast;
   toastHandler;
-  noOriginOrDestinationToast;
+  originDestToast;
   isInternetExplorer: boolean = false;
 
   constructor(public navCtrl: NavController, private stopService: StopService,
@@ -297,25 +297,20 @@ export class PlanTripComponent {
    * This function is the crown jewel of this component.
    */
    getRoute(): void {
-     if (this.noOriginOrDestinationToast) {
-       this.noOriginOrDestinationToast.dismiss();
+     if (this.originDestToast) {
+       this.noOriginOrDestinationToast();
      }
     // We need an origin and destination
     if (!this.request.origin.id || !this.request.destination.id) {
       // Clear out the search boxes for either/both of the incorrectly
       // selected fields
-      this.noOriginOrDestinationToast = this.toastCtrl.create({
-        message: 'You must select an origin and destination from the autocomplete dropdowns above in order to search the schedule',
-        position: 'bottom',
-        showCloseButton: true
-      });
       if (!this.request.origin.id) {
         this.request.origin.name = '';
       }
       if (!this.request.destination.id) {
         this.request.destination.name = '';
       }
-      this.noOriginOrDestinationToast.present();
+      this.originDestToast = this.toastSvc.noOriginOrDestinationToast();
       console.error('Missing an origin or destination id');
       return;
     }
