@@ -28,7 +28,7 @@ export class SettingsComponent {
         }
       });
       storage.get('departureSort').then(departureSort => {
-        if (departureSort) { 
+        if (departureSort) {
           this.departureSort = departureSort;
         } else {
           this.departureSort = 'route';
