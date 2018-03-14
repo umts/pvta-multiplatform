@@ -304,6 +304,11 @@ export class PlanTripComponent {
     if (!this.request.origin.id || !this.request.destination.id) {
       // Clear out the search boxes for either/both of the incorrectly
       // selected fields
+      this.noOriginOrDestinationToast = this.toastCtrl.create({
+        message: 'You must select an origin and destination from the autocomplete dropdowns above in order to search the schedule',
+        position: 'bottom',
+        showCloseButton: true
+      });
       if (!this.request.origin.id) {
         this.request.origin.name = '';
       }
