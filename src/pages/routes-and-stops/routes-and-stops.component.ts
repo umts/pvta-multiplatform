@@ -48,7 +48,8 @@ export class RoutesAndStopsComponent {
       this.order = 'favorites';
       this.cDisplay = 'routes';
       this.loader = loadingCtrl.create({
-        content: 'Downloading...'
+        content: 'Downloading...',
+        enableBackdropDismiss: true
       });
       ga('set', 'page', '/routes-and-stops.html');
       ga('send', 'pageview');
@@ -148,7 +149,9 @@ export class RoutesAndStopsComponent {
   ionViewDidLoad() {
     this.routesPromise = this.routeSvc.getRouteList();
     this.routesPromise.then((routes: Route[]) => {
-      this.routes = _.sortBy(routes, ['ShortName']);
+      this.routes = _.sortBy(routes, (route) => {
+        return parseInt(route.RouteAbbreviation.replace(/\D+/g, ''), 10);
+      });
       this.routesDisp = this.routes;
       this.routeSvc.saveRouteList(this.routes);
     }).catch(err => {

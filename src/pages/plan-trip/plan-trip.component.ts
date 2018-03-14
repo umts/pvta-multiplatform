@@ -316,7 +316,9 @@ private geolocation: Geolocation, private toastSvc: ToastService) {
       'Trips in the past are not supported. Defaulting to buses leaving now.');
       console.error('Trips in the past are not supported. Defaulting to buses leaving now.');
     }
-    this.loader = this.loadingCtrl.create();
+    this.loader = this.loadingCtrl.create({
+      enableBackdropDismiss: true
+    });
     this.loader.present();
     let transitOptions = {
       modes: [google.maps.TransitMode.BUS],
