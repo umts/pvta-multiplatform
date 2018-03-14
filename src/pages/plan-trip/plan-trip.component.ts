@@ -102,13 +102,7 @@ export class PlanTripComponent {
       // this.getRoute();
     })
     .catch(err => {
-      this.noLocationToast = this.toastCtrl.create({
-        message: 'Unable to retrieve current location',
-        position: 'bottom',
-        showCloseButton: true
-      });
-      
-      this.noLocationToast.present();
+      this.noLocationToast = this.toastSvc.noLocationToast();
       // Tell Google Analytics that a user doesn't have location
       ga('send', 'event', 'LocationFailure',
       'PlanTripComponent.loadLocation()', `location failed on Plan Trip; error: ${err.message}`);
@@ -359,7 +353,7 @@ export class PlanTripComponent {
       }, (response, status) => {
       if (status === google.maps.DirectionsStatus.OK ) {
         if (this.noLocationToast) {
-          this.noLocationToast.dismiss();
+          this.toastSvc.noLocationToast();
         }
         // Force a map redraw because it was hidden before.
         // There's an angular bug (with [hidden]) that will cause
