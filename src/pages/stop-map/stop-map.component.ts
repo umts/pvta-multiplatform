@@ -1,11 +1,11 @@
 import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
-import { NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { NavParams, LoadingController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Stop } from '../../models/stop.model';
 import { MapService } from '../../providers/map.service';
 import { StopService } from '../../providers/stop.service';
 import { ConnectivityService } from '../../providers/connectivity.service';
-
+import { ToastService } from '../../providers/toast.service';
 declare var google, ga;
 
 @Component({
@@ -27,7 +27,7 @@ export class StopMapComponent {
 
   constructor(public navParams: NavParams, private stopSvc: StopService,
     private mapSvc: MapService, private zone: NgZone,
-    private toastCtrl: ToastController, private connection: ConnectivityService,
+    private toastSvc: ToastService, private connection: ConnectivityService,
     private loadingCtrl: LoadingController, private geolocation: Geolocation) {
     this.stopId = navParams.get('stopId');
     ga('set', 'page', '/stop/stop-map.html');
@@ -124,11 +124,7 @@ export class StopMapComponent {
       console.log('Unable to get current location');
       this.directionsObtained = false;
       this.directionsRequested = false;
-      this.toastCtrl.create({
-        message: 'Cannot get directions to this stop. Please ensure location services are enabled.',
-        position: 'bottom',
-        showCloseButton: true
-      }).present();
+      this.toastSvc.toastHandler('Cannot get directions to this stop. Please ensure location services are enabled.');
       // Tell Google Analytics that a user doesn't have location
       ga('send', 'event', 'LocationFailure',
       'StopMapComponent.retrieveDirections()', `location failure on Stop Map: ${err.message}`);
@@ -148,11 +144,7 @@ export class StopMapComponent {
     } else {
       this.directionsObtained = false;
       this.directionsRequested = false;
-      this.toastCtrl.create({
-        message: `Couldn't get directions to this stop. Status code ${status}`,
-        position: 'bottom',
-        showCloseButton: true
-      }).present();
+      this.toastSvc.toastHandler(`Could not get directions to this stop. Status code ${status}`);
     }
   }
 }
