@@ -2,10 +2,11 @@ import { async, TestBed } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 import { MyApp } from '../../app/app.component';
 import { IonicStorageModule } from '@ionic/storage';
-import { IonicModule, NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { IonicModule, NavParams, LoadingController } from 'ionic-angular';
 import { StopService } from '../../providers/stop.service';
 import { MapService } from '../../providers/map.service';
 import { ConnectivityService } from '../../providers/connectivity.service';
+import { ToastService } from '../../providers/toast.service';
 import { StopMapComponent } from './stop-map.component';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NavParamsMock } from '../../../test-config/mocks-ionic';
@@ -26,7 +27,7 @@ describe('StopMap Component', () => {
         { provide: NavParams, useClass: NavParamsMock },
         StopService,
         MapService,
-        ToastController,
+        ToastService,
         ConnectivityService,
         LoadingController,
         Geolocation
