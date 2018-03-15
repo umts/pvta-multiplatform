@@ -1,11 +1,12 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation';
-import { NavController, ToastController, LoadingController, AlertController, NavParams } from 'ionic-angular';
+import { NavController, LoadingController, AlertController, NavParams } from 'ionic-angular';
 import { StopService } from '../../providers/stop.service';
 import { MapService } from '../../providers/map.service';
 import { FavoriteTripService } from '../../providers/favorite-trip.service';
 import { InfoService } from '../../providers/info.service';
 import { StopComponent } from '../stop/stop.component';
+import { ToastService } from '../../providers/toast.service';
 import * as moment from 'moment';
 
 declare var google, ga;
@@ -29,14 +30,15 @@ export class PlanTripComponent {
   loader;
   timeOptions = [];
   noLocationToast;
-  noOriginOrDestinationToast;
+  toastHandler;
+  originDestToast;
   isInternetExplorer: boolean = false;
 
   constructor(public navCtrl: NavController, private stopService: StopService,
-  private toastCtrl: ToastController, private loadingCtrl: LoadingController,
-  private alertCtrl: AlertController, private tripService: FavoriteTripService,
-  private navParams: NavParams, private infoSvc: InfoService, private mapSvc: MapService,
-private geolocation: Geolocation) {
+    private loadingCtrl: LoadingController, private alertCtrl: AlertController,
+    private tripService: FavoriteTripService, private navParams: NavParams,
+    private infoSvc: InfoService, private mapSvc: MapService,
+    private geolocation: Geolocation, private toastSvc: ToastService) {
     /* List of the different types of times that we can request trips.
      * Each type has a name (for the UI) and a few properties for us:
      * type: whether the user wants a "departure" or "arrival"
@@ -99,13 +101,7 @@ private geolocation: Geolocation) {
       // this.getRoute();
     })
     .catch(err => {
-      this.noLocationToast = this.toastCtrl.create({
-        message: 'Unable to retrieve current location',
-        position: 'bottom',
-        showCloseButton: true
-        });
-
-      this.noLocationToast.present();
+      this.noLocationToast = this.toastSvc.noLocationToast();
       // Tell Google Analytics that a user doesn't have location
       ga('send', 'event', 'LocationFailure',
       'PlanTripComponent.loadLocation()', `location failed on Plan Trip; error: ${err.message}`);
@@ -294,16 +290,11 @@ private geolocation: Geolocation) {
    * This function is the crown jewel of this component.
    */
    getRoute(): void {
-     if (this.noOriginOrDestinationToast) {
-       this.noOriginOrDestinationToast.dismiss();
+     if (this.originDestToast) {
+       this.toastSvc.noOriginOrDestinationToast();
      }
     // We need an origin and destination
     if (!this.request.origin.id || !this.request.destination.id) {
-      this.noOriginOrDestinationToast = this.toastCtrl.create({
-        message: 'You must select an origin and destination from the autocomplete dropdowns above in order to search the schedule',
-        position: 'bottom',
-        showCloseButton: true
-        });
       // Clear out the search boxes for either/both of the incorrectly
       // selected fields
       if (!this.request.origin.id) {
@@ -312,7 +303,7 @@ private geolocation: Geolocation) {
       if (!this.request.destination.id) {
         this.request.destination.name = '';
       }
-      this.noOriginOrDestinationToast.present();
+      this.originDestToast = this.toastSvc.noOriginOrDestinationToast();
       console.error('Missing an origin or destination id');
       return;
     }
@@ -361,7 +352,7 @@ private geolocation: Geolocation) {
       }, (response, status) => {
       if (status === google.maps.DirectionsStatus.OK ) {
         if (this.noLocationToast) {
-          this.noLocationToast.dismiss();
+          this.toastSvc.noLocationToast();
         }
         // Force a map redraw because it was hidden before.
         // There's an angular bug (with [hidden]) that will cause
