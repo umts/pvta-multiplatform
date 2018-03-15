@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MyApp } from './app.component';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
-import { Ng2PaginationModule } from 'ng2-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
