@@ -86,7 +86,7 @@ import { ToastService } from '../providers/toast.service';
     // For backwards compatibility with V1 users' storage!
     IonicStorageModule.forRoot({name: 'localforage', storeName: 'keyvaluepairs'}),
     HttpModule,
-    Ng2PaginationModule
+    NgxPaginationModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
