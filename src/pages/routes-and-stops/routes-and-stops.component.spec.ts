@@ -9,7 +9,7 @@ import { RouteService } from '../../providers/route.service';
 import { StopService } from '../../providers/stop.service';
 import { InfoService } from '../../providers/info.service';
 import { FavoriteRouteService } from '../../providers/favorite-route.service';
-import { RoutesAndStopsComponent } from './routes-and-stops.component';
+import { RoutesAndStopsComponent } from '../routes-and-stops.component';
 import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { ToastService } from '../../providers/toast.service';
 
