@@ -13,6 +13,7 @@ module.exports = {
    */
   compress: {
     toplevel: true,
-    pure_getters: true
+    pure_getters: true,
+    drop_console: true
   }
 };
