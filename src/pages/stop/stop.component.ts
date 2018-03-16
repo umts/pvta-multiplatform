@@ -130,11 +130,14 @@ export class StopComponent {
         } else {
           // display alerts that apply to the route
           this.routeSvc
-            .getRouteList().then(routeList => {
+            .getAllRoutes().then(routeList => {
               for (let route of routeList) {
-                if (_.includes(alert.Routes, route)) {
-                  console.log('weenies');
+                if ((!_.includes(this.alerts, alert)) && _.includes(alert.Routes, route.RouteId)) {
                   this.alerts.push(alert);
+                  console.log('shooooot dooood');
+                  console.log(`${JSON.stringify(route.RouteId)}`);
+                  console.log('alerts');
+                  console.log(`${JSON.stringify(alert.Routes)}`);
                 }
               }
             });
@@ -144,7 +147,6 @@ export class StopComponent {
   }
 
   ionViewWillEnter() {
-    this.routeSvc.getRouteList();
     this.getAlerts();
     this.favoriteStopSvc.contains(this.stopId, (liked) => {
       this.liked = liked;
