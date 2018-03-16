@@ -130,14 +130,12 @@ export class StopComponent {
         } else {
           // display alerts that apply to the route
           this.routeSvc
-            .getAllRoutes().then(routeList => {
+            .getRouteList().then(routeList => {
               for (let route of routeList) {
-                if ((!_.includes(this.alerts, alert)) && _.includes(alert.Routes, route.RouteId)) {
-                  this.alerts.push(alert);
-                  console.log('shooooot dooood');
-                  console.log(`${JSON.stringify(route.RouteId)}`);
-                  console.log('alerts');
-                  console.log(`${JSON.stringify(alert.Routes)}`);
+                if (_.includes(alert.Routes, route.RouteId)) {
+                  if (!_.includes(this.alerts, alert)){
+                    this.alerts.push(alert);
+                  }
                 }
               }
             });
