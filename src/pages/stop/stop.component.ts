@@ -128,7 +128,7 @@ export class StopComponent {
         if (alert.Routes.length === 0) {
           this.alerts.push(alert);
         } else {
-          // display alerts that apply to the route
+          // display alerts that apply to routes that service the stop
           this.routeSvc
             .getRouteList().then(routeList => {
               for (let route of routeList) {
