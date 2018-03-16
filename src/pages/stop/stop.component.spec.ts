@@ -42,6 +42,7 @@ describe('Stop Component', () => {
         AutoRefreshService,
         AlertController,
         ToastService,
+        AlertService,
         DepartureSortService
       ]
     });
