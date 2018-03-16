@@ -12,6 +12,7 @@ import { DepartureSortService } from '../../providers/departure-sort.service';
 import { FavoriteStopService } from '../../providers/favorite-stop.service';
 import { ConnectivityService } from '../../providers/connectivity.service';
 import { ToastService } from '../../providers/toast.service';
+import { AlertService } from '../../providers/alert.service';
 import { StopComponent } from './stop.component';
 import { NavParamsMock } from '../../../test-config/mocks-ionic';
 
