@@ -126,14 +126,18 @@ export class StopComponent {
       for (let alert of alerts) {
         // display alerts that don't apply to any route
         if (alert.Routes.length === 0) {
-          this.alerts.push(alert);
+          if (!_.includes(this.alerts, alert)) {
+            this.alerts.push(alert);
+          }
         } else {
           // display alerts that apply to routes that service the stop
           this.stopDepartureSvc.getStopDeparture(this.stopId)
             .then(directions => {
               for (let route of directions[0].RouteDirections) {
                 if (_.includes(alert.Routes, route.RouteId)) {
-                  this.alerts.push(alert);
+                  if (!_.includes(this.alerts, alert)) {
+                    this.alerts.push(alert);
+                  }
                 }
               }
             });
