@@ -133,7 +133,7 @@ export class StopComponent {
             .getRouteList().then(routeList => {
               for (let route of routeList) {
                 if (_.includes(alert.Routes, route)) {
-                  // this shit don't work
+                  console.log('weenies');
                   this.alerts.push(alert);
                 }
               }
@@ -144,6 +144,7 @@ export class StopComponent {
   }
 
   ionViewWillEnter() {
+    this.routeSvc.getRouteList();
     this.getAlerts();
     this.favoriteStopSvc.contains(this.stopId, (liked) => {
       this.liked = liked;
