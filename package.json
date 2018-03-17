@@ -44,6 +44,7 @@
     "ng2-pagination": "^2.0.1",
     "rxjs": "5.4.0",
     "sw-toolbox": "3.6.0",
+    "webpack": "^1.15.0",
     "zone.js": "0.8.12"
   },
   "devDependencies": {
