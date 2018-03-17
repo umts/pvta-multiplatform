@@ -44,7 +44,6 @@
     "ng2-pagination": "^2.0.1",
     "rxjs": "5.4.0",
     "sw-toolbox": "3.6.0",
-    "webpack": "^1.15.0",
     "zone.js": "0.8.12"
   },
   "devDependencies": {
@@ -70,7 +69,8 @@
     "ts-node": "^3.0.2",
     "tslint": "^5.5.0",
     "tslint-ionic-rules": "^0.0.8",
-    "typescript": "2.3.4"
+    "typescript": "2.3.4",
+    "webpack": "^1.15.0"
   },
   "cordovaPlugins": [
     "cordova-plugin-whitelist",
