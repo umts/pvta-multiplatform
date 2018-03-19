@@ -44,7 +44,7 @@
     "intl": "^1.2.5",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
-    "ng2-pagination": "^2.0.1"
+    "ngx-pagination": "^3.0.0"
   },
   "devDependencies": {
     "@ionic/app-scripts": "2.1.3",
