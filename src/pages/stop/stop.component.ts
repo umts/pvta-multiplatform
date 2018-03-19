@@ -17,6 +17,8 @@ import { ConnectivityService } from '../../providers/connectivity.service';
 import { AutoRefreshService } from '../../providers/auto-refresh.service';
 import { DepartureSortService } from '../../providers/departure-sort.service';
 import { InfoService } from '../../providers/info.service';
+import { AlertService } from '../../providers/alert.service';
+import { Alert } from '../../models/alert.model';
 
 declare var ga;
 
@@ -38,6 +40,7 @@ export class StopComponent {
   order: String;
   stop: Stop;
   isInternetExplorer: boolean = false;
+  alerts: Alert[];
   constructor(public navCtrl: NavController, private navParams: NavParams,
     private stopDepartureSvc: StopDepartureService, private infoSvc: InfoService,
     private routeSvc: RouteService, private changer: ChangeDetectorRef,
@@ -45,11 +48,12 @@ export class StopComponent {
     private stopSvc: StopService, private connection: ConnectivityService,
     private storage: Storage, private refreshSvc: AutoRefreshService,
     private depSortSvc: DepartureSortService, private toastSvc: ToastService,
-    private alertCtrl: AlertController ) {
+    private alertCtrl: AlertController, private alertService: AlertService) {
       this.stopId = parseInt(navParams.get('stopId'), 10);
       this.isInternetExplorer = infoSvc.isInternetExplorer();
       this.title = `Stop ${this.stopId}`;
       this.order = 'route';
+      this.alerts = [];
       ga('set', 'page', '/stop.html');
       ga('send', 'pageview');
       document.addEventListener('pause', this.handleAppPause);
@@ -112,7 +116,38 @@ export class StopComponent {
     });
   }
 
+  getAlerts(): void {
+    this.alerts = [];
+    this.alertService
+    .getAlerts().then(alerts => {
+      if (!alerts) {
+        return;
+      }
+      for (let alert of alerts) {
+        // display alerts that don't apply to any route
+        if (alert.Routes.length === 0) {
+          if (!_.includes(this.alerts, alert)) {
+            this.alerts.push(alert);
+          }
+        } else {
+          // display alerts that apply to routes that service the stop
+          this.stopDepartureSvc.getStopDeparture(this.stopId)
+            .then(directions => {
+              for (let route of directions[0].RouteDirections) {
+                if (_.includes(alert.Routes, route.RouteId)) {
+                  if (!_.includes(this.alerts, alert)) {
+                    this.alerts.push(alert);
+                  }
+                }
+              }
+            });
+        }
+      }
+    });
+  }
+
   ionViewWillEnter() {
+    this.getAlerts();
     this.favoriteStopSvc.contains(this.stopId, (liked) => {
       this.liked = liked;
     });
