@@ -1,7 +1,7 @@
 import { async, TestBed } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 import { MyApp } from '../../app/app.component';
-import { Ng2PaginationModule } from 'ng2-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule, NavController, LoadingController, AlertController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -24,7 +24,7 @@ describe('RoutesAndStops Component', () => {
         IonicModule.forRoot(MyApp),
         HttpModule,
         IonicStorageModule.forRoot({name: 'test', storeName: 'test'}),
-        Ng2PaginationModule
+        NgxPaginationModule
       ],
       providers: [
         NavController,
