@@ -38,9 +38,9 @@ export class RoutesAndStopsComponent {
   routesPromise: Promise<any>;
   loader;
   isInternetExplorer: boolean = false;
-  constructor(public navCtrl: NavController, private infoSvc: InfoService,
+  constructor(public navCtrl: NavController, infoSvc: InfoService,
     private toastSvc: ToastService, private routeSvc: RouteService,
-    private stopSvc: StopService, private loadingCtrl: LoadingController,
+    private stopSvc: StopService, loadingCtrl: LoadingController,
     private storage: Storage, private favRouteSvc: FavoriteRouteService,
     private alertCtrl: AlertController, private favStopSvc: FavoriteStopService,
     private geolocation: Geolocation) {

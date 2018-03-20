@@ -17,7 +17,7 @@ export class SettingsComponent {
   departureSort: string;
   isInternetExplorer: boolean = false;
   constructor(public navCtrl: NavController, private storage: Storage,
-  private infoSvc: InfoService) {
+    infoSvc: InfoService) {
     this.isInternetExplorer = infoSvc.isInternetExplorer();
     storage.ready().then(() => {
       storage.get('autoRefresh').then(autoRefreshTiming => {
@@ -28,7 +28,7 @@ export class SettingsComponent {
         }
       });
       storage.get('departureSort').then(departureSort => {
-        if (departureSort) { 
+        if (departureSort) {
           this.departureSort = departureSort;
         } else {
           this.departureSort = 'route';
