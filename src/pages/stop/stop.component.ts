@@ -41,6 +41,7 @@ export class StopComponent {
   stop: Stop;
   isInternetExplorer: boolean = false;
   alerts: Alert[];
+  constructor(public navCtrl: NavController, private navParams: NavParams,  
     private loadingCtrl: LoadingController, private favoriteStopSvc: FavoriteStopService,
     private stopSvc: StopService, private connection: ConnectivityService,
     private storage: Storage, private refreshSvc: AutoRefreshService,
