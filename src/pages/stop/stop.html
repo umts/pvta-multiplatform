@@ -61,7 +61,7 @@
                   {{direction.Departures[0].Times.eExact}}
                 </p>
                 <p class="white">
-                  ({{direction.Departures[0].Times.eRelativeNoPrefix}})
+                  ({{direction.Departures[0].Times.eRelativeWithPrefix}})
                 </p>
               </ion-col>
               <ion-col >
@@ -95,13 +95,13 @@
               <ion-col>
                 <div class="center departure-padding">
                   {{departure.Times.sExact}}<br>
-                  ({{departure.Times.sRelativeNoPrefix}})
+                  ({{departure.Times.sRelativeWithPrefix}})
                 </div>
               </ion-col>
               <ion-col class="center departure-padding">
                 <div>
                   {{departure.Times.eExact}}<br>
-                  ({{departure.Times.eRelativeNoPrefix}})
+                  ({{departure.Times.eRelativeWithPrefix}})
                 </div>
               </ion-col>
             </ion-row>
@@ -127,7 +127,7 @@
                 {{direction.Departures?.Times.eExact}}
               </p>
               <p style="color: white">
-                ({{direction.Departures?.Times.eRelativeNoPrefix}})
+                ({{direction.Departures?.Times.eRelativeWithPrefix}})
               </p>
             </ion-col>
             <ion-col>
