@@ -12,7 +12,7 @@ declare var ga;
 export class AboutComponent {
   versionName;
   versionNumber;
-  constructor(public navCtrl: NavController, private infoService: InfoService) {
+  constructor(public navCtrl: NavController, infoService: InfoService) {
     this.versionName = infoService.getVersionName();
     this.versionNumber = infoService.getVersionNumber();
     ga('set', 'page', '/settings/about.html');

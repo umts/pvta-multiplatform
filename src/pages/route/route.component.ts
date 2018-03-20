@@ -27,7 +27,7 @@ export class RouteComponent {
   vehicles: Vehicle[];
   alerts: Alert[];
   stops: Stop[];
-  constructor(public navCtrl: NavController, private navParams: NavParams,
+  constructor(public navCtrl: NavController, navParams: NavParams,
     private routeService: RouteService, private vehicleService: VehicleService,
     private alertService: AlertService, private connection: ConnectivityService,
     private modalCtrl: ModalController, private favoriteRouteService: FavoriteRouteService,

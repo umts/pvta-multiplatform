@@ -9,7 +9,7 @@ export class ToastService {
     private noLocation;
     constructor(private toast: ToastController) { }
 
-  toastHandler(text: string): void{
+  toastHandler(text: string): void {
     let txt = text;
     this.toastHandle = this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
     this.toastHandle.present();
@@ -22,7 +22,7 @@ export class ToastService {
     this.faveToast = this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
     this.faveToast.present();
   }
-  noOriginOrDestinationToast(): void{
+  noOriginOrDestinationToast(): void {
     if (this.originDestination) {
       this.originDestination.dismiss();
     }
@@ -30,7 +30,7 @@ export class ToastService {
     this.originDestination = this.toast.create({message: txt, position: 'bottom', showCloseButton: true});
     this.originDestination.present();
   }
-  noLocationToast(): void{
+  noLocationToast(): void {
     if (this.noLocation) {
       this.noLocation.dismiss();
     }
