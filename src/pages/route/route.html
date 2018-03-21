@@ -44,7 +44,7 @@
 
   <ion-toolbar *ngIf="route && vehicles.length == 0">
     <span text-wrap style="font-size: 125%; color: black; font-weight: bold">
-      There are no buses currently on the {{route?.RouteAbbreviation}}.
+      There are no buses currently on the {{route?.RouteAbbreviation}} (or none are reporting their location: please check your stop's scheduled departures).
     </span>
   </ion-toolbar>
   <ion-item-divider role="heading" id="buses-heading" *ngIf="route && vehicles.length !== 0">
