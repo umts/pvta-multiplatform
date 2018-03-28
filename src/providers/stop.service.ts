@@ -16,6 +16,7 @@ export class StopService {
     return this.http.get(`${this.stopsURL}allstops`)
       .toPromise()
       .then(response => response.json() as Stop[])
+      .timeout(10000)
       .catch(this.handleError);
   }
 
@@ -24,6 +25,7 @@ export class StopService {
     return this.http.get(url)
       .toPromise()
       .then(response => response.json() as Stop)
+      .timeout(10000)
       .catch(this.handleError);
   }
 
@@ -32,6 +34,7 @@ export class StopService {
     return this.http.get(url)
       .toPromise()
       .then(response => response.json() as Stop)
+      .timeout(10000)
       .catch(this.handleError);
   }
 
