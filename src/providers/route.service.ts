@@ -20,6 +20,7 @@ export class RouteService {
     return this.http.get(`${this.routesURL}visibleroutes`)
       .toPromise()
       .then(response => response.json() as Route[])
+      .timeout(10000)
       .catch(this.handleError);
   }
 
@@ -36,6 +37,7 @@ export class RouteService {
     return this.http.get(url)
       .toPromise()
       .then(response => response.json() as Route)
+      .timeout(10000)
       .catch(this.handleError);
   }
 
@@ -43,6 +45,7 @@ export class RouteService {
     return this.http.get(`${this.routeDetailsURL}allroutedetails`)
       .toPromise()
       .then(response => response.json() as RouteDetail[])
+      .timeout(10000)
       .catch(this.handleError);
   }
 
@@ -50,6 +53,7 @@ export class RouteService {
     return this.http.get(`${this.routeDetailsURL}/${id}`)
       .toPromise()
       .then(response => response.json() as RouteDetail)
+      .timeout(10000)
       .catch(this.handleError);
   }
 
