@@ -39,7 +39,11 @@ export class StopService {
   }
 
   private handleError(error: any): void {
-    console.error('An error occurred', error); // for demo purposes only
+    if (error.name === "TimeoutError") {
+      console.error('A timeout error occurred', error);
+    } else {
+      console.error('An error occurred', error); // for demo purposes only
+    }
   }
 
   getStopList (): Promise<any> {
