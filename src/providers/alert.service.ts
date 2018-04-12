@@ -17,10 +17,7 @@ export class AlertService {
   }
 
   private handleError(error: any): void {
-    if (error.name === "TimeoutError") {
-      console.error('A timeout error occurred', error);
-    } else {
-      console.error('An error occurred', error); // for demo purposes only
-    }
+    let errorMessage = `${error.name} error occurred`;
+    console.error(errorMessage, error); // for demo purposes only
   }
 }
