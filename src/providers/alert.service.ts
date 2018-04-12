@@ -12,11 +12,12 @@ export class AlertService {
     return this.http.get(this.alertsURL)
       .toPromise()
       .then(response => response.json() as Alert[])
+      .timeout(10000)
       .catch(this.handleError);
   }
 
   private handleError(error: any): void {
-    console.error('An error occurred', error); // for demo purposes only
-    // return Promise.reject(error.message || error);
+    let errorMessage = `${error.name} error occurred`;
+    console.error(errorMessage, error); // for demo purposes only
   }
 }
