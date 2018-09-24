@@ -23,8 +23,11 @@ export class MapService {
         gmaps_key = ENV.gmaps_dev;
       }
     } else {
-      // will need separate gmaps vars for android and ios
-      gmaps_key = ENV.gmaps_mobile;
+        if(this.platform.is('android')) {
+          gmaps_key = ENV.gmaps_android;
+        } else {
+          gmaps_key = ENV.gmaps_ios;
+        }
       }
     }
     mapsApi.src = `https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=${gmaps_key}&callback=mapsCb`;
