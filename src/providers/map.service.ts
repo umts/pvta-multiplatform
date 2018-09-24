@@ -12,7 +12,7 @@ export class MapService {
   gmaps_key;
   constructor() {}
 
-  downloadGoogleMaps(cb: Function, public platform: Platform) {
+  downloadGoogleMaps(cb: Function) {
     window['mapsCb'] = cb;
     let head = document.getElementsByTagName('head')[0];
     let mapsApi = document.createElement('script');
