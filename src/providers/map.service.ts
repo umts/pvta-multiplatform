@@ -16,7 +16,7 @@ export class MapService {
     window['mapsCb'] = cb;
     let head = document.getElementsByTagName('head')[0];
     let mapsApi = document.createElement('script');
-    if(this.platform.is('cordova') && (this.platform.is('core'))){
+    if(this.platform.is('cordova') && (this.platform.is('core') || this.platform.is('mobileweb'))){
       if(ENV === 'prod'){
         gmaps_key = ENV.gmaps_core;
       } else {
