@@ -18,20 +18,20 @@ export class MapService {
     window['mapsCb'] = cb;
     let head = document.getElementsByTagName('head')[0];
     let mapsApi = document.createElement('script');
-    if(this.platform.is('cordova')){
-      if(ENV === 'dev') {
+    if (this.platform.is('cordova')) {
+      if (ENV === 'dev') {
         this.gmaps_key = ENV.gmaps_dev;
       } else {
-        if(this.platform.is('core') || this.platform.is('mobileweb')){
+        if (this.platform.is('core') || this.platform.is('mobileweb')) {
           this.gmaps_key = ENV.gmaps_core;
-        } else if (this.platform.is('ios')){
+        } else if (this.platform.is('ios')) {
           this.gmaps_key = ENV.gmaps_ios;
         } else {
           this.gmaps_key = ENV.gmaps_android;
         }
       }
     }
-    mapsApi.src = `https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=${this.gmaps_key}&callback=mapsCb`;
+    mapsApi.src = `https://maps.googleapis.com/maps/api/js?key=${this.gmaps_key}&callback=mapsCb`;
     head.appendChild(mapsApi);
   }
 
