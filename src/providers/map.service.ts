@@ -16,17 +16,18 @@ export class MapService {
     window['mapsCb'] = cb;
     let head = document.getElementsByTagName('head')[0];
     let mapsApi = document.createElement('script');
-    if(this.platform.is('cordova') && (this.platform.is('core') || this.platform.is('mobileweb'))){
-      if(ENV === 'prod'){
-        gmaps_key = ENV.gmaps_core;
-      } else {
+    if(this.platform.is('cordova')){
+      if(ENV === 'dev') {
         gmaps_key = ENV.gmaps_dev;
-      }
-    } else {
-        if(this.platform.is('android')) {
-          gmaps_key = ENV.gmaps_android;
-        } else {
+      } else {
+        if(this.platform.is('core') || this.platform.is('mobileweb')){
+          gmaps_key = ENV.gmaps_core;
+        }
+        else if (this.platform.is('ios')){
           gmaps_key = ENV.gmaps_ios;
+        }
+        else {
+          gmaps_key = ENV.gmaps_android;
         }
       }
     }
