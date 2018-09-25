@@ -12,9 +12,9 @@ export class MapService {
   markers = [];
   windows = [];
   gmaps_key;
-  constructor() {}
+  constructor(public platform: Platform) {}
 
-  downloadGoogleMaps(cb: Function, public platform: Platform) {
+  downloadGoogleMaps(cb: Function) {
     window['mapsCb'] = cb;
     let head = document.getElementsByTagName('head')[0];
     let mapsApi = document.createElement('script');
