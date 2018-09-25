@@ -24,11 +24,9 @@ export class MapService {
       } else {
         if(this.platform.is('core') || this.platform.is('mobileweb')){
           this.gmaps_key = ENV.gmaps_core;
-        }
-        else if (this.platform.is('ios')){
+        } else if (this.platform.is('ios')){
           this.gmaps_key = ENV.gmaps_ios;
-        }
-        else {
+        } else {
           this.gmaps_key = ENV.gmaps_android;
         }
       }
