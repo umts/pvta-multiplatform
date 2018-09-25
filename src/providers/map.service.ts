@@ -18,16 +18,16 @@ export class MapService {
     let mapsApi = document.createElement('script');
     if(this.platform.is('cordova')){
       if(ENV === 'dev') {
-        gmaps_key = ENV.gmaps_dev;
+        this.gmaps_key = ENV.gmaps_dev;
       } else {
         if(this.platform.is('core') || this.platform.is('mobileweb')){
-          gmaps_key = ENV.gmaps_core;
+          this.gmaps_key = ENV.gmaps_core;
         }
         else if (this.platform.is('ios')){
-          gmaps_key = ENV.gmaps_ios;
+          this.gmaps_key = ENV.gmaps_ios;
         }
         else {
-          gmaps_key = ENV.gmaps_android;
+          this.gmaps_key = ENV.gmaps_android;
         }
       }
     }
