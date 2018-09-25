@@ -9,13 +9,29 @@ export class MapService {
   options = { timeout: 5000, enableHighAccuracy: true };
   markers = [];
   windows = [];
+  gmaps_key;
   constructor() {}
 
-  downloadGoogleMaps(cb: Function) {
+  downloadGoogleMaps(cb: Function, public platform: Platform) {
     window['mapsCb'] = cb;
     let head = document.getElementsByTagName('head')[0];
     let mapsApi = document.createElement('script');
-    mapsApi.src = `https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=${ENV.gmaps_key}&callback=mapsCb`;
+    if(this.platform.is('cordova')){
+      if(ENV === 'dev') {
+        this.gmaps_key = ENV.gmaps_dev;
+      } else {
+        if(this.platform.is('core') || this.platform.is('mobileweb')){
+          this.gmaps_key = ENV.gmaps_core;
+        }
+        else if (this.platform.is('ios')){
+          this.gmaps_key = ENV.gmaps_ios;
+        }
+        else {
+          this.gmaps_key = ENV.gmaps_android;
+        }
+      }
+    }
+    mapsApi.src = `https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=${gmaps_key}&callback=mapsCb`;
     head.appendChild(mapsApi);
   }
 
