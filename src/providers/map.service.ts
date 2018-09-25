@@ -33,7 +33,7 @@ export class MapService {
         }
       }
     }
-    mapsApi.src = `https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=${gmaps_key}&callback=mapsCb`;
+    mapsApi.src = `https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=${this.gmaps_key}&callback=mapsCb`;
     head.appendChild(mapsApi);
   }
 
