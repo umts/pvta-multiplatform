@@ -2,7 +2,7 @@
 
 To upload a new build of PVTrAck to the Play Store, the `.apk` **must** be signed with the same key that was used to sign all previous builds.
 
-To obtain the key, see @akaplo or @sherson.
+The key is stored on Box in the "IT" folder in a subfolder named "PVTrAck"
 
 Steps to generate a Play Store-ready APK are [here](https://developer.android.com/studio/publish/app-signing.html#release-mode).
 
