@@ -8,7 +8,7 @@ running Linux, just translate them like you're probably used to doing._
 ### General
 - Did you read the [general deploy info](README.md)?
 - Do you have access to the [Google Play Developer Console](play.google.com/apps/publish)?
- If not, see @sherson.
+ If not, see Adam.
 
 ### Android Studio
 We use Android Studio to easily manage the Android SDK tools. If you wish, you can attempt
@@ -56,7 +56,7 @@ attempt maddening. Plus, Android Studio will keep track of updates for you, whic
  `~/Library/Android/sdk/platform-tools/adb install /Users/my_name/pvta-multiplatform/platforms/android/build/outputs/apk/debug/android-debug.apk
   1. Obtain the PVTrAck signing key. See [the keys doc](android-keys.md) for more info.
   Place it in the `platforms/android` directory. The `jks` extension is gitignored by default.
-  1. Obtain the password. See @mboneil, @sherson, or @anbranin for access.
+  1. Obtain the password. See Molly, Adam, or Karin for access.
   1. `$cp keystore.properties.example platforms/android/keystore.properties`
   1. Replace the two password lines in `platforms/android/keystore.properties` with the actual
   password. No space between the `=` sign and the password! This file is also gitignored. Please
