@@ -11,19 +11,20 @@ running Linux, just translate them like you're probably used to doing._
  If not, see Adam.
 
 ### Android Studio
-We use Android Studio to easily manage the Android SDK tools. If you wish, you can attempt
-to download the tools separately, but these instructions will not help you because I found the
-attempt maddening. Plus, Android Studio will keep track of updates for you, which is nice.
+We use Android Studio to easily manage the Android SDK tools due to Android Studio
+automatically checking for updates and allowing easy management. The tools can
+be downloaded separately, but these instructions do not cover how.
 1. Get [Android Studio](https://developer.android.com/studio/)
 1. Use it to download the SDK platforms and tools: 
-  1. Click menu items Android Studio -> Appearance and Behavior -> System Settings -> Android SDK
+  1. Navigate through these menu items:
+   Android Studio -> Appearance and Behavior -> System Settings -> Android SDK
   1. In the main window, click "sdk platforms"
   1. Click 'edit' to choose an sdk location. Follow the prompts. 
-  The default location is fine--keep note of where that is so you can run the tools 
-  from the command line.  Wait for it to download the components.
+  The default location is fine--keep note of where that is so you can run the 
+  tools from the command line.  Wait for it to download the components.
   1. Keep waiting
-  1. Check the boxes next to Android 8.0(Oreo) and any others leading up to the latest--you'll see that that's API 
-  level 26, which we target at the moment. 
+  1. Check the boxes next to Android 8.0(Oreo) and any others leading up to the 
+  latest--you'll see that that's API level 26, which we target at the moment. 
   1. Click on the "tools" tab. Make sure "Android SDK Platform Tools", "Android SDK Tools", and
   "Android SDK Build Tools" are checked. If you don't have access to an Android phone, make sure
   the Emulator is also installed. Click "apply"
@@ -53,7 +54,7 @@ attempt maddening. Plus, Android Studio will keep track of updates for you, whic
   an emulator or phone: `$ionic cordova build android`.
   1. If you have an Android: Plug it into the computer with a USB cable and enable USB
   debugging. Side-load like so, replacing the paths with your own:
- `~/Library/Android/sdk/platform-tools/adb install /Users/my_name/pvta-multiplatform/platforms/android/build/outputs/apk/debug/android-debug.apk
+ `<android-sdk>/platform-tools/adb install /Users/my_name/pvta-multiplatform/platforms/android/build/outputs/apk/debug/android-debug.apk
   1. Obtain the PVTrAck signing key. See [the keys doc](android-keys.md) for more info.
   Place it in the `platforms/android` directory. The `jks` extension is gitignored by default.
   1. Obtain the password. See Molly, Adam, or Karin for access.
@@ -64,7 +65,7 @@ attempt maddening. Plus, Android Studio will keep track of updates for you, whic
   1. Now you can build a release APK that should be signed automatically:
   `$ionic cordova build android --prod --release`
 The terminal output should tell you your release location. If it's something like this:
-`/platforms/android/build/outputs/apk/release/android-release.apk`
+`platforms/android/build/outputs/apk/release/android-release.apk`
 you should be fine.
 "android-release" and not "android-release-unsigned."
 that's a pretty good indication that you do not have a signed release APK.
@@ -90,8 +91,7 @@ that's a pretty good indication that you do not have a signed release APK.
   my location was `/Users/my_name/Library/Android/sdk`
 
   For "JAVA_HOME" problems, find the location of your JDK installation. My location
-  was `/Library/Java/JavaVirtualMachines/jdk-11.jdk/Contents/Home` and I don't know how
-  to figure that one out.
+  was `/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home`. YRMV
 
   Put either or both of these lines in your `.bashrc` or `.bash_profile`:
   ```
