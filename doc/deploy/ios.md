@@ -45,10 +45,25 @@ macOS and reinstalling the latest version of XCode.
 1. Product > Build
   1. Follow the proper steps to fix the code if the build fails. If the build passes, continue on.
 
+## Resubmitting a Build
+1. In XCode, go to the project editor. In "TARGETS" > PVTrAck, look at the "Identity" section.
+  There is a field for "Build". This value is for App Store Connect
+  and it does _not_ affect the version number. However, there is a chance
+  that the build and version numbers are the same.
+1. In order to submit a new build (due to any relevant issues below or not listed),
+increment the build number. Then, rebuild. That's it!
+
 ## Troubleshooting
 
-- You get an error related to whether this is an iOS project, try adding and removing the platform:
+- Error related to whether this is an iOS project, try adding and removing the platform:
   ```
       $ ionic platform rm ios
       $ ionic platform add ios
   ```
+- Build "disappears" once uploaded and processing in App Store Connect
+  
+  Resubmit the build and try again.
+
+- Duplicate Error
+- Legacy Build
+- Not signed
