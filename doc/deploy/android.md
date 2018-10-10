@@ -64,11 +64,10 @@ be downloaded separately, but these instructions do not cover how.
   do not put the real password in the `.example` file and push it to github.
   1. Now you can build a release APK that should be signed automatically:
   `$ionic cordova build android --prod --release`
-The terminal output should tell you your release location. If it's something like this:
-`platforms/android/build/outputs/apk/release/android-release.apk`
-you should be fine.
-"android-release" and not "android-release-unsigned."
-that's a pretty good indication that you do not have a signed release APK.
+The terminal output should tell you your release location. The name will be
+something like this: `platforms/android/build/outputs/apk/release/android-release.apk`.
+It should not include the words "unsigned" or "debug".
+  1. You can verify the signature with `jarsigner` like so: `$jarsigner -verify -verbose -certs my_app.apk`
   1. In the [Google Play Developer Console](play.google.com/apps/publish), follow the instructions for uploading a new APK.
   1. 🎉
 
