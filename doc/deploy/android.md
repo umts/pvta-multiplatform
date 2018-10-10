@@ -26,8 +26,8 @@ be downloaded separately, but these instructions do not cover how.
   1. Check the boxes next to Android 8.0(Oreo) and any others leading up to the 
   latest--you'll see that that's API level 26, which we target at the moment. 
   1. Click on the "tools" tab. Make sure "Android SDK Platform Tools", "Android SDK Tools", and
-  "Android SDK Build Tools" are checked. If you don't have access to an Android phone, make sure
-  the Emulator is also installed. Click "apply"
+  "Android SDK Build Tools" are checked. If you don't have access to an Android phone, you might
+  also check that the Emulator is installed. Click "apply"
 
 ### Java 1.8
   1. `$brew update`
