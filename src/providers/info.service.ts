@@ -10,11 +10,11 @@ export class InfoService {
   }
 
   getVersionNumber(): string {
-    return '2.2.0';
+    return '2.2.1';
   }
 
   getVersionName(): string {
-    return 'PVTrAck Fall 18 Update';
+    return 'PVTrAck Fall 2018';
   }
 
   setInternetExplorer(isIE: boolean): void {
