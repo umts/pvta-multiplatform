@@ -1,7 +1,7 @@
 {
   "name": "PVTrAck",
   "author": "Pioneer Valley Transit Authority",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "license": "MIT",
   "homepage": "https://m.pvta.com",
   "repository": "github.com/umts/pvta-multiplatform",
@@ -45,7 +45,9 @@
     "ngx-pagination": "^3.2.0",
     "rxjs": "5.4.0",
     "sw-toolbox": "3.6.0",
-    "zone.js": "0.8.12"
+    "zone.js": "0.8.12",
+    "cordova-android": "^6.2.3",
+    "cordova-ios": "^4.4.0"
   },
   "devDependencies": {
     "@ionic/app-scripts": "2.1.3",
@@ -88,5 +90,11 @@
       "version": "",
       "locator": "ios"
     }
-  ]
+  ],
+  "cordova": {
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  }
 }
