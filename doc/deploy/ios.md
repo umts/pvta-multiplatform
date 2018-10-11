@@ -18,20 +18,16 @@ macOS and reinstalling the latest version of XCode.
   download it from [apple](https://developer.apple.com/download)
 
 ## Build the app
+1. General instructions can be found in the [ionic docs](https://ionicframework.com/docs/intro/deploying/). I'll be referring to them.
 1. In `config.xml`, replace the value of `ios-CFBundleVersion` with the new version number.
 1. Run `ionic cordova build ios --prod --release`.
-1. To open the project in XCode, let's use the terminal:
-  1. cd into the project directory
-  1. Then, `cd /pvta-multiplatform/platforms/ios/`
-  1. From there, run `open -a Finder .`.
-  1. The file `PVTrAck.xcodeproj` is the one that we want to open with XCode.
-1. Sign into XCode:
-  1. XCode > Preferences > Accounts > + > Apple ID
-  1. Click "Continue"
+1. Open the project in XCode, following the instructions for "Running your App". The file `PVTrAck.xcodeproj` is the one that we want to open with XCode.
+1. Sign into XCode using steps from ionic docs.
   1. Fill in apple ID with "pvtadeveloper@gmail.com" and password with the password from Karin, Adam, or Molly.
   1. Click "Next".
   1. Exit out of Preferences.
-1. Cosign the app:
+1. Code Sign the app (these steps are not on the ionic docs).
+  1. Select "General".
   1. Go into the project editor. Click "PVTrAck" under "TARGETS".
   1. Go to the "Signing" section.
   1. Uncheck "Automatically manage signing", select "Pioneer Valley Transit Authority"
