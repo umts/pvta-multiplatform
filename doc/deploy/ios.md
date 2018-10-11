@@ -14,7 +14,7 @@ That is, you may be able to build the app in XCode x.x,
 but it can't be submitted to the app store.
 The latest version of XCode may involve updating to the latest
 macOS and reinstalling XCode.
-1. XCode is probably already on your Mac. If not, or if you need the latest version,
+- XCode is probably already on your Mac. If not, or if you need the latest version,
   you can download it from [apple](https://developer.apple.com/download)
 
 ## Build the app
@@ -48,11 +48,11 @@ macOS and reinstalling XCode.
 1. At the end of the process, XCode will confirm that the build was uploaded to apple.
 
 ## Resubmitting a Build
-1. In XCode, go to the project editor. In TARGETS > PVTrAck, look at the "Identity" section.
+- In XCode, go to the project editor. In TARGETS > PVTrAck, look at the "Identity" section.
   There is a field for "Build". This value is for App Store Connect
   and it does _not_ affect the version number. However, there is a chance
   that the build and version numbers are the same.
-1. In order to submit a new build (due to any relevant issues below or not listed),
+- In order to submit a new build (due to any relevant issues below or not listed),
   increment the build number. Then, rebuild. That's it!
 
 ## Troubleshooting
