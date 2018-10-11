@@ -1,7 +1,7 @@
 {
   "name": "PVTrAck",
   "author": "Pioneer Valley Transit Authority",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "license": "MIT",
   "homepage": "https://m.pvta.com",
   "repository": "github.com/umts/pvta-multiplatform",
