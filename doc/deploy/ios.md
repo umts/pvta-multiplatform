@@ -56,16 +56,17 @@ macOS and reinstalling XCode.
   increment the build number. Then, rebuild. That's it!
 
 ## Troubleshooting
-- Problems with `ionic cordova build ios --prod --release`.
-  Make sure all requirements are installed by running `ionic cordova requirements`.
+- **Problems with `ionic cordova build ios --prod --release`.**
+Make sure all requirements are installed by running `ionic cordova requirements`.
 
-- Error related to whether this is an iOS project, try adding and removing the platform:
-  ```
-      $ ionic platform rm ios
-      $ ionic platform add ios
-  ```
-- Build "disappears" once uploaded and processing in App Store Connect
-  Resubmit the build and try again.
+- **Error related to whether this is an iOS project**
+Try adding and removing the platform:
+```
+    $ ionic platform rm ios
+    $ ionic platform add ios
+```
+- **Build "disappears" once uploaded and processing in App Store Connect**
+Resubmit the build and try again.
 
-- Duplicate Error
-  Resubmit the build and try again.
+- **Duplicate Error on Build**
+Resubmit the build and try again.
