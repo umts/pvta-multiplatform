@@ -1,11 +1,11 @@
 # Building an Android App to Deploy in Google Play
 
-### Requirements
+### Before you continue...
 - Did you read the [general deploy info](README.md)?
 - Do you have access to the [Google Play Developer Console](play.google.com/apps/publish)?
  If not, see Adam.
 
-### Java 1.8
+### Notes on Java
 Our app can't use the most recent version of the JDK, so please install Java 1.8 like so:
   1. `$brew update`
   1. `$brew tap caskroom/versions`
@@ -13,13 +13,6 @@ Our app can't use the most recent version of the JDK, so please install Java 1.8
   1. `brew cask install java8`
   1. If you can figure out why this app requires an old version of Java, please
   fix it.
-
-### Node
-If for some reason you don't have Node installed, make sure you do:
-  1. Install node: `$brew install node`.
-  1. Then use it actually install our packages:`$npm install` (You probably
-  already did this when doing work on the application, but it can't hurt to
-  update if you pulled from master)
 
 ## Ready to build?
   1. Open `config.xml`: On line 2, increment `android-versionCode`
