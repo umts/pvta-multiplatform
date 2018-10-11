@@ -25,24 +25,24 @@ macOS and reinstalling XCode.
 1. Open the project in XCode, following the ionic doc iOS instructions for "Running your App".
    The file `PVTrAck.xcodeproj` is the one that we want to open with XCode.
 1. Sign into XCode using steps from the ionic docs.
-  1. Fill in apple ID with "pvtadeveloper@gmail.com" and password with the password from @anbranin, @sherson, or @mboneil10.
-  1. Click "Next".
-  1. Exit out of Preferences.
+    1. Fill in apple ID with "pvtadeveloper@gmail.com" and password with the password from @anbranin, @sherson, or @mboneil10.
+    1. Click "Next".
+    1. Exit out of Preferences.
 1. Code Sign the app (these steps are not on the ionic docs for XCode 9+).
-  1. Select "General".
-  1. Go into the project editor. Click "PVTrAck" under "TARGETS".
-  1. Go to the "Signing" section.
-  1. Uncheck "Automatically manage signing", recheck it, and select "Pioneer Valley Transit Authority"
+    1. Select "General".
+    1. Go into the project editor. Click "PVTrAck" under "TARGETS".
+    1. Go to the "Signing" section.
+    1. Uncheck "Automatically manage signing", recheck it, and select "Pioneer Valley Transit Authority"
   from the "Team" dropdown (this prevents the build from failing for some reason).
 1. Set the Build to Legacy Build
-  1. Our project was last on XCode 8, so we need to use the Legacy Build or else the build fails.
-  1. To do so: File > Project Settings > Select "Legacy Build System" from "Build System" drop down.
+    1. Our project was last on XCode 8, so we need to use the Legacy Build or else the build fails.
+    1. To do so: File > Project Settings > Select "Legacy Build System" from "Build System" drop down.
 1. Create an archive:
-  1. In XCode, select Product > Scheme > Edit Scheme.
-  1. Choose "Archive" from the list on the left.
-  1. The build config should be "Release" unless you're making a debug build.
+    1. In XCode, select Product > Scheme > Edit Scheme.
+    1. Choose "Archive" from the list on the left.
+    1. The build config should be "Release" unless you're making a debug build.
 1. Select Product > Build (use Product > Run for debugging purposes.).
-  1. Follow the proper steps to fix the code if the build fails. The XCode Organizer should pop up when the build succeeds.
+    1. Follow the proper steps to fix the code if the build fails. The XCode Organizer should pop up when the build succeeds.
 1. Click the "Validate App" button on the right. All preselected options are okay.
 1. If the build is valid, click "Distribute App". Again, accept with the preselected options to upload to the app store.
 1. At the end of the process, XCode will confirm that the build was uploaded to apple.
