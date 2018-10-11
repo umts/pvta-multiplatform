@@ -16,9 +16,10 @@ For detailed steps, see [the deploy/web doc](web.md).
 
 ## Deploying to the Google Play Store
 
-For detailed steps, see [the deploy/android doc](android.md).
-
+Read and follow the instructions from [Cordova](https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html)
+For app-specific steps, see [the deploy/android doc](android.md)
 
 ## Deploying to the Apple App Store
 
-For detailed steps, see [the deploy/ios doc](ios.md).
+Read and follow the instructions from [Cordova](https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html)
+For app-specific steps, see [the deploy/ios doc](ios.md).

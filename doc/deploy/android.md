@@ -1,35 +1,12 @@
 # Building an Android App to Deploy in Google Play
 
-## Requirements
-_These instructions assume you are running a Mac. If you're not, the installation
-instructions will be vastly different. You can ask for help or, since you're probably
-running Linux, just translate them like you're probably used to doing._
-
-### General
+### Requirements
 - Did you read the [general deploy info](README.md)?
 - Do you have access to the [Google Play Developer Console](play.google.com/apps/publish)?
  If not, see Adam.
 
-### Android Studio
-We use Android Studio to easily manage the Android SDK tools due to Android Studio
-automatically checking for updates and allowing easy management. The tools can
-be downloaded separately, but these instructions do not cover how.
-1. Get [Android Studio](https://developer.android.com/studio/)
-1. Use it to download the SDK platforms and tools: 
-  1. Navigate through these menu items:
-   Android Studio -> Appearance and Behavior -> System Settings -> Android SDK
-  1. In the main window, click "sdk platforms"
-  1. Click 'edit' to choose an sdk location. Follow the prompts. 
-  The default location is fine--keep note of where that is so you can run the 
-  tools from the command line.  Wait for it to download the components.
-  1. Keep waiting
-  1. Check the boxes next to Android 8.0(Oreo) and any others leading up to the 
-  latest--you'll see that that's API level 26, which we target at the moment. 
-  1. Click on the "tools" tab. Make sure "Android SDK Platform Tools", "Android SDK Tools", and
-  "Android SDK Build Tools" are checked. If you don't have access to an Android phone, you might
-  also check that the Emulator is installed. Click "apply"
-
 ### Java 1.8
+Our app can't use the most recent version of the JDK, so please install Java 1.8 like so:
   1. `$brew update`
   1. `$brew tap caskroom/versions`
   1. `brew search java`
@@ -37,11 +14,8 @@ be downloaded separately, but these instructions do not cover how.
   1. If you can figure out why this app requires an old version of Java, please
   fix it.
 
-### Gradle
-  1. `$brew install gradle`
-  1. Follow any additional commands to set Gradle up.
-
 ### Node
+If for some reason you don't have Node installed, make sure you do:
   1. Install node: `$brew install node`.
   1. Then use it actually install our packages:`$npm install` (You probably
   already did this when doing work on the application, but it can't hurt to
