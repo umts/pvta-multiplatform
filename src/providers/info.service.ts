@@ -15,7 +15,7 @@ export class InfoService {
   }
 
   getVersionName(): string {
-    return 'PVTrAck Fall 18 Update';
+    return 'PVTrAck Fall 2018';
   }
 
   setInternetExplorer(isIE: boolean): void {
