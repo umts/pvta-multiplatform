@@ -10,7 +10,7 @@
 
 1. `npm install`
 
-2. Open `config.xml`. On line 2, increment `android-versionCode` with your appropriately chosen new version number.
+2. Update the Android version: `rake version:android`
 
 3. (PVTrAck 2+) `ionic build android --prod --release`
 

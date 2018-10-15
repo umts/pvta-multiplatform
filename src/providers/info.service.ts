@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ToastController} from 'ionic-angular';
+declare const VERSION;
 
 @Injectable()
 export class InfoService {
@@ -10,7 +11,7 @@ export class InfoService {
   }
 
   getVersionNumber(): string {
-    return '2.2.0';
+    return VERSION;
   }
 
   getVersionName(): string {
