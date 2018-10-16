@@ -1,0 +1,12 @@
+{
+  "extends": "/code/.ionic-tslint.js",
+  "rules": {
+    "no-duplicate-variable": true,
+    "no-unused-variable": [
+      true
+    ]
+  },
+  "rulesDirectory": [
+    "/usr/src/app/node_modules/tslint-eslint-rules/dist/rules"
+  ]
+}
