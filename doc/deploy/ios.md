@@ -1,7 +1,7 @@
 # Building an iOS app to Deploy in XCode.
 
 ## Requirements
-_It is assumed that you are using a Mac._
+_Mac_
 
 ### General
 - Read the [general deploy doc information](README.md) first.
