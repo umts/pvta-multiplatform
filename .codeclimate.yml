@@ -1,7 +1,3 @@
-prepare:
-  fetch:
-    - url: "https://raw.githubusercontent.com/ionic-team/tslint-ionic-rules/master/tslint.js"
-      path: .ionic-tslint.js
 engines:
   tslint:
     enabled: true
