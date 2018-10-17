@@ -15,7 +15,7 @@ but it can't be submitted to the app store.
 The latest version of XCode may involve updating to the latest
 macOS and reinstalling XCode.
 - XCode is probably already on your Mac. If not, or if you need the latest version,
-  you can download it from [apple](https://developer.apple.com/download)
+  you can download it from [apple](https://developer.apple.com/download) or the app store.
 
 ## Build the app
 1. General instructions can be found in the [ionic docs](https://ionicframework.com/docs/intro/deploying/). I'll be referring to them periodically.
