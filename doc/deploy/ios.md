@@ -35,7 +35,7 @@ macOS and reinstalling XCode.
     1. Uncheck "Automatically manage signing", recheck it, and select "Pioneer Valley Transit Authority"
   from the "Team" dropdown (this prevents the build from failing for some reason).
 1. Set the Build to Legacy Build
-    1. Our project was last on XCode 8, so we need to use the Legacy Build or else the build fails.
+    1. cordova-ios doesn't support the new build system yet and would result in failures.
     1. To do so: File > Project Settings > Select "Legacy Build System" from "Build System" drop down.
 1. Create an archive:
     1. In XCode, select Product > Scheme > Edit Scheme.
