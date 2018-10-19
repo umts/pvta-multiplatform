@@ -22,6 +22,11 @@ To begin developing, follow these steps:
 
     Note the explicit versions. Using versions other than the ones specified can
     cause local problems and Travis failures.
+-   To develop and test on Android, you need the prerequisites for the
+    [Cordova Android platform][cordova-android] installed. You must also
+    [create an Android Virtual Device][avd].
+-   To develop and test on iOS, you need the prerequisites for the
+    [Cordova iOS platform][cordova-ios] installed.
 
 ## Setup
 
@@ -42,17 +47,6 @@ HTML, and SCSS. Start editing away!
     opening one, please!
 
 ### Testing On Devices
-
-You must have
-
--   **Android**: JDK (version 1.7 or 1.8) and the
-    [Android SDK](http://developer.android.com/sdk/installing/index.html)
-    installed.
-
-    You must also
-    [create an Android Virtual Device](http://developer.android.com/tools/devices/managing-avds.html).
-
--   **iOS**: macOS, Xcode, and Xcode command line tools installed.
 
 The project has been configured to be an Android and iOS project.  You have 3
 options for testing the native app:
@@ -76,3 +70,6 @@ options for testing the native app:
 [codeclimate-gpa-badge]: https://codeclimate.com/github/umts/pvta-multiplatform/badges/gpa.svg
 [codeclimate-issues-badge]: https://codeclimate.com/github/umts/pvta-multiplatform/badges/issue_count.svg
 [swagger]: http://bustracker.pvta.com/InfoPoint/swagger/ui/index#!
+[cordova-andriod]: https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html#installing-the-requirements
+[cordova-ios]: https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html#installing-the-requirements
+[avd]: http://developer.android.com/tools/devices/managing-avds.html
