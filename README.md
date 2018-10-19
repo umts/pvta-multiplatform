@@ -4,17 +4,15 @@ The official app of the Pioneer Valley Transit Authority
 ([PVTA](http://pvta.com))!
 
 Current release available at [m.pvta.com](https://m.pvta.com), the
-[Play Store](https://play.google.com/store/apps/details?id=com.umts.pvtamultiplaform),
-and the [App Store](https://itunes.apple.com/us/app/pvtrack/id1234619753).
+[Play Store][play-store], and the [App Store][app-store].
 
-[![Build Status](https://travis-ci.org/umts/pvta-multiplatform.svg?branch=master)](https://travis-ci.org/umts/pvta-multiplatform)
-[![Maintainability](https://codeclimate.com/github/umts/pvta-multiplatform/badges/gpa.svg)](https://codeclimate.com/github/umts/pvta-multiplatform)
-[![Issue Count](https://codeclimate.com/github/umts/pvta-multiplatform/badges/issue_count.svg)](https://codeclimate.com/github/umts/pvta-multiplatform)
+[![Build Status][travis-badge]][travis]
+[![Maintainability][codeclimate-gpa-badge]][codeclimate]
+[![Issue Count][codeclimate-issues-badge]][codeclimate]
 
 The app is a hybrid that uses Ionic 2+.
 
-All data is live, and comes from endpoints documented
-[here](http://bustracker.pvta.com/InfoPoint/swagger/ui/index#!).
+All data is live, and comes from endpoints documented [here][swagger].
 
 To begin developing, follow these steps:
 
@@ -72,3 +70,12 @@ options for testing the native app:
     USB-connected phone (and opens an emulator if no phone is connected). For
     iPhones, this only works on iOS >= 10, and requires special configuration
     (see [ionic's docs](http://ionicframework.com/docs/intro/deploying/)).
+
+[play-store]: https://play.google.com/store/apps/details?id=com.umts.pvtamultiplaform
+[app-store]: https://itunes.apple.com/us/app/pvtrack/id1234619753
+[travis]: https://travis-ci.org/umts/pvta-multiplatform
+[travis-badge]: https://travis-ci.org/umts/pvta-multiplatform.svg?branch=master
+[codeclimate]: https://codeclimate.com/github/umts/pvta-multiplatform
+[codeclimate-gpa-badge]: https://codeclimate.com/github/umts/pvta-multiplatform/badges/gpa.svg
+[codeclimate-issues-badge]: https://codeclimate.com/github/umts/pvta-multiplatform/badges/issue_count.svg
+[swagger]: http://bustracker.pvta.com/InfoPoint/swagger/ui/index#!
