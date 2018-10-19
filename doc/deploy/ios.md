@@ -11,7 +11,7 @@ Forthcoming, aka @akaplo doesn't entirely remember and will document when he ste
 
 1. `npm install`
 
-2. Open `config.xml`. On line 2, increment `ios-CFBundleVersion` with your appropriately chosen new version number.
+2. Update the iOS version number: `rake version:ios`
 
 3. (PVTrAck 2+) `ionic cordova build ios --prod --release`
 
