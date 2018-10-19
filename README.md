@@ -38,9 +38,6 @@ HTML, and SCSS. Start editing away!
     Just run `ionic serve -c` from the root  directory. Ionic will open your 
     default browser and navigate to itself for you.
 
-*Note*: `master` is for PVTrAck 2.0+.  If you wish to contribute to PVTrAck 1.x,
-please checkout `ionic1/base`.
-
 -   We encourage PRs! Add unit tests for your code and run `npm test` before
     opening one, please!
 
