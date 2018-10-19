@@ -1,12 +1,6 @@
 {
   "extends": "tslint-ionic-rules",
   "rules": {
-    "no-duplicate-variable": true,
-    "no-unused-variable": [
-      true
-    ]
-  },
-  "rulesDirectory": [
-    "node_modules/tslint-eslint-rules/dist/rules"
-  ]
+    "no-unused-variable": [ true ]
+  }
 }

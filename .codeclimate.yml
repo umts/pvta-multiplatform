@@ -1,6 +1,7 @@
 engines:
   tslint:
     enabled: true
+    config: tslint-codeclimate.json
   duplication:
     enabled: true
     config:
