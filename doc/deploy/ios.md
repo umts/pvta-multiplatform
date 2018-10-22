@@ -20,6 +20,7 @@ macOS and reinstalling XCode.
 ## Build the app
 1. General instructions can be found in the [ionic docs](https://ionicframework.com/docs/intro/deploying/). I'll be referring to them periodically.
 1. In `config.xml`, replace the value of `ios-CFBundleVersion` with the new version number.
+1. Update the iOS version number: `rake version:ios`
 1. Run `npm install`.
 1. Then, run `ionic cordova build ios --prod --release`.
 1. Open the project in XCode, following the ionic doc iOS instructions for "Running your App".

@@ -22,6 +22,11 @@ config.plugins.push(
     })
   })
 );
+config.plugins.push(
+  new webpack.DefinePlugin({
+    VERSION: JSON.stringify(require("./package.json").version)
+  })
+);
 
 if (env === 'prod') {
   config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin());

@@ -44,7 +44,10 @@ module.exports = {
       /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
       root('./src'), // location of your src
       {} // a map of your routes
-    )
+    ),
+    new webpack.DefinePlugin({
+      VERSION: JSON.stringify(require("../package.json").version)
+    })
   ]
 };
 
