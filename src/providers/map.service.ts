@@ -63,16 +63,13 @@ export class MapService {
     this.markers = [];
   }
 
+  // Open only one infoWindow at a time
   addMapListener (marker, onClick) {
     google.maps.event.addListener(marker, 'click', () => {
-      // This auto-closes any bubbles that may already be open
-      // when you open another one, so that only one bubble can
-      // be open at once
       for (let window of this.windows) {
         window.close();
       }
       this.windows = [];
-      // Create the new InfoWindow, and show it!
       let infoWindow = new google.maps.InfoWindow({
         content: onClick
       });
