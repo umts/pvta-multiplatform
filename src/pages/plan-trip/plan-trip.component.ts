@@ -55,11 +55,9 @@ export class PlanTripComponent {
     ga('send', 'pageview');
   }
   /**
-  * Checks whether we're trying to
-  * get directions starting at the
-  * current location.  If so, get it.
-  * Otherwise, clear out the values
-  * for origin so the user knows to type something.
+  * Checks whether we're trying to get directions starting at the current
+  * location. If so, get it. Otherwise, clear out the values for origin
+  * so the user knows to type something.
  */
  updateOrigin(): void {
    if (this.request.destinationOnly) {
@@ -98,7 +96,6 @@ export class PlanTripComponent {
           }
         }
       );
-      // this.getRoute();
     })
     .catch(err => {
       this.noLocationToast = this.toastSvc.noLocationToast();
@@ -129,14 +126,13 @@ export class PlanTripComponent {
     // @TODO Scroll to input area first
     this.constructMap();
     this.noLocation = false;
-    // If we loaded a trip (user came via
-    // saved trip on Favorites), pull out
-    // its details and display them.
+    // If we loaded a trip (user came via saved trip on Favorites), pull out its
+    // details and display them.
     if (loadedTrip) {
       this.request = loadedTrip;
       loadedTrip = null;
-      // If the datetime of loaded trip is in the past,
-      // keep the time and update the date to today. Else do nothing.
+      // If the datetime of loaded trip is in the past, keep the time and update
+      // the date to today. Else do nothing.
       if (this.request.time.datetime < Date.now()) {
         this.request.time.datetime.setDate(new Date().getDate());
         this.request.time.datetime.setMonth(new Date().getMonth());
@@ -225,9 +221,8 @@ export class PlanTripComponent {
         ga('send', 'event', 'AutocompleteFailure', 'originAutocomplete.place_changed',
         'autocomplete failure in plan trip: user didnt pick a value from dropdown');
         // If the location chosen is not valid, an error is thrown.
-        // request.origin.name still holds the text that the user
-        // originally typed into the field. We will set the field's value
-        // back to this text.
+        // request.origin.name still holds the text that the user originally
+        // typed into the field. We will set the field's value back to this text.
         this.request.origin.id = null;
         originInput.value = this.request.origin.name;
         console.error('No geometry, invalid input.');
@@ -291,8 +286,7 @@ export class PlanTripComponent {
      }
     // We need an origin and destination
     if (!this.request.origin.id || !this.request.destination.id) {
-      // Clear out the search boxes for either/both of the incorrectly
-      // selected fields
+      // Clear out the search boxes for either/both of the incorrectly selected fields
       if (!this.request.origin.id) {
         this.request.origin.name = '';
       }
@@ -303,9 +297,8 @@ export class PlanTripComponent {
       console.error('Missing an origin or destination id');
       return;
     }
-    // Google won't return trips for times past.
-    // Instead of throwing an error, assume the user wants
-    // directions for right now
+    // Google won't return trips for times past. Instead of throwing an error,
+    // assume the user wants directions for right now.
     if (!this.timeOptions[this.request.time.option].isASAP && moment(this.request.time.datetime).isBefore(moment())) {
       this.request.time.option = this.timeOptions[0].id;
       this.presentAlert('Invalid Trip Date',
@@ -336,9 +329,7 @@ export class PlanTripComponent {
       }
     }
     let directionsService = new google.maps.DirectionsService;
-    /*
-     * Send the official request to Google!
-     */
+    // Send the official request to Google!
     directionsService.route(
       {
         origin: {'placeId': this.request.origin.id},
@@ -350,10 +341,9 @@ export class PlanTripComponent {
         if (this.noLocationToast) {
           this.toastSvc.noLocationToast();
         }
-        // Force a map redraw because it was hidden before.
-        // There's an angular bug (with [hidden]) that will cause
-        // the map to draw only grey after being hidden
-        // unless we force a redraw TWICE after delays -_-
+        // Force a map redraw because it was hidden before. There's an angular
+        // bug (with [hidden]) that will cause the map to draw only grey after
+        // being hidden unless we force a redraw TWICE after delays -_-
         setTimeout(() => {
           this.loader.dismiss();
           google.maps.event.trigger(this.map, 'resize');
@@ -374,18 +364,14 @@ export class PlanTripComponent {
         ga('send', 'event', 'TripStepsRetrievalFailure',
         'PlanTripComponent.getRoute()', `Unable to get a route; error: ${status}`);
 
-        // In cases of error, we set the route object that
-        // otherwise contained all our data to undefined, because, well,
-        // the data was bad.
+        // In cases of error, we set the route object that otherwise contained
+        // all our data to undefined, because, well, the data was bad.
         this.route = null;
       }
     });
   }
 
-  /*
-   * Saves the current trip parameters to the db
-   * for display on Favorites
-  */
+  // Saves the current trip parameters to the db for display on Favorites
   saveTrip(): void {
     console.log('saving trip yo');
      this.alertCtrl.create({
@@ -419,9 +405,7 @@ export class PlanTripComponent {
      }).present();
   }
 
-  /* Allows for location selection on google
-  * typeahead on mobile devices
-  */
+  // Allows for location selection on google typeahead on mobile devices
   disableTap(): void {
     console.log('disable tap');
   }
