@@ -195,9 +195,6 @@ export class PlanTripComponent {
     } else {
       this.mapsLoadedCallback(loadedTrip);
     }
-
-
-
   }
 
   constructMap(): void {
