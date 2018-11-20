@@ -428,16 +428,6 @@ export class PlanTripComponent {
   */
   disableTap(): void {
     console.log('disable tap');
-    // @TODO Figure out if this needs to be a thing
-    //  let container = document.getElementsByClassName('pac-container');
-    // disable ionic data tap
-    //  element(container).attr('data-tap-disabled', 'true');
-    //  angular.element(container).attr('id', 'places');
-    //  leave input field if google-address-entry is selected
-    //  angular.element(container).on('click', function () {
-    //    document.getElementById('origin-input').blur();
-    //    document.getElementById('destination-input').blur();
-    //  });
   }
 
   goToStop(loc): void {
