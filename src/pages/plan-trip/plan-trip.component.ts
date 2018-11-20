@@ -118,7 +118,6 @@ export class PlanTripComponent {
         this.request.destinationOnly = false;
       }, 1000);
       console.error('unable to get location ' + err.message);
-      // this.getRoute();
     });
   }
 
