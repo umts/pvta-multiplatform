@@ -427,9 +427,7 @@ export class PlanTripComponent {
   }
 
   goToStop(loc): void {
-    // @TODO Show loader
     this.stopService.getNearestStop(loc.lat(), loc.lng()).then(stop => {
-      // @TODO Hide loader
       this.navCtrl.push(StopComponent, {stopId: stop.StopId});
     });
   }
