@@ -135,7 +135,7 @@ export class PlanTripComponent {
     if (loadedTrip) {
       this.request = loadedTrip;
       loadedTrip = null;
-      // If the datetime of loeaded trip is in the past,
+      // If the datetime of loaded trip is in the past,
       // keep the time and update the date to today. Else do nothing.
       if (this.request.time.datetime < Date.now()) {
         this.request.time.datetime.setDate(new Date().getDate());
