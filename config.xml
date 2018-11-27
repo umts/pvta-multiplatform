@@ -95,4 +95,8 @@
     <plugin name="cordova-sqlite-storage" spec="^2.0.4" />
     <engine name="android" spec="^6.2.3" />
     <engine name="ios" spec="^4.4.0" />
+    <plugin name="cordova-plugin-googlemaps" spec="~2.4.6">
+        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyDd-q-_zNO68ULwTQKOv3Vk7AhsCarAicQ" />
+        <variable name="API_KEY_FOR_IOS" value="AIzaSyDd-q-_zNO68ULwTQKOv3Vk7AhsCarAicQ" />
+    </plugin>
 </widget>
