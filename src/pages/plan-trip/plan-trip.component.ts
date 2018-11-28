@@ -145,9 +145,8 @@ export class PlanTripComponent {
       }
       // If the request has destinationOnly -> true, the user originally used
       // Location Services to plan their trip. We assume they again want to
-      // use their current location as the trip's origin.
-      // If destinationOnly is false, then we use the origin that
-      // was saved with the trip.
+      // use their current location as the trip's origin. If destinationOnly
+      // is false, then we use the origin that was saved with the trip.
       if (this.request.destinationOnly) {
         this.request.origin = {};
         this.loadLocation();
