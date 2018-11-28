@@ -53,12 +53,12 @@ export class PlanTripComponent {
     ga('set', 'page', '/plan-trip.html');
     ga('send', 'pageview');
   }
+
   /*
   * Checks whether we're trying to get directions starting at the current
   * location. If so, get it. Otherwise, clear out the values for origin so
   * the user knows to type something.
-  */
- 
+  */ 
   updateOrigin(): void {
     if (this.request.destinationOnly) {
       this.loadLocation();
@@ -131,7 +131,7 @@ export class PlanTripComponent {
     if (loadedTrip) {
       this.request = loadedTrip;
       loadedTrip = null;
-      // If the datetime of loeaded trip is in the past,
+      // If the datetime of loaded trip is in the past,
       // keep the time and update the date to today. Else do nothing.
       if (this.request.time.datetime < Date.now()) {
         this.request.time.datetime.setDate(new Date().getDate());
