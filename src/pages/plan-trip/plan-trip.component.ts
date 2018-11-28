@@ -108,6 +108,7 @@ export class PlanTripComponent {
      this.request.origin = {};
    }
  }
+
  // Loads the user's location and updates the origin
   loadLocation(): void {
     let options = {timeout: 5000, enableHighAccuracy: true};
@@ -138,7 +139,6 @@ export class PlanTripComponent {
           }
         }
       );
-      // this.getRoute();
     })
     .catch(err => {
       this.noLocationToast = this.toastSvc.noLocationToast();
@@ -158,7 +158,6 @@ export class PlanTripComponent {
         this.request.destinationOnly = false;
       }, 1000);
       console.error('unable to get location ' + err.message);
-      // this.getRoute();
     });
   }
 
@@ -167,11 +166,9 @@ export class PlanTripComponent {
    * newTrip method. Constructs the map, and then sets this.request as either default
    * or loaded parameters */
   reload(loadedTrip): void {
-    // @TODO Scroll to input area first
     this.constructMap();
     this.noLocation = false;
-    // If we loaded a trip (user came via
-    // saved trip on Favorites), pull out
+    // If we loaded a trip (user came via saved trip on Favorites), pull out
     // its details and display them.
     if (loadedTrip) {
       this.request = loadedTrip;
@@ -208,7 +205,7 @@ export class PlanTripComponent {
         name: 'Schedule',
         time: {
           datetime: moment().format(),
-          option: 0 // The ID of the timeOption the trip will use
+          option: 0
         },
         origin: {},
         destination: {},
@@ -380,9 +377,7 @@ export class PlanTripComponent {
       }
     }
     let directionsService = new google.maps.DirectionsService;
-    /*
-     * Send the official request to Google!
-     */
+    // Send the official request to Google!
     directionsService.route(
       {
         origin: {'placeId': this.request.origin.id},
@@ -426,10 +421,7 @@ export class PlanTripComponent {
     });
   }
 
-  /*
-   * Saves the current trip parameters to the db
-   * for display on Favorites
-  */
+  // Saves the current trip parameters to the db for display on Favorites
   saveTrip(): void {
     console.log('saving trip yo');
      this.alertCtrl.create({
@@ -463,27 +455,13 @@ export class PlanTripComponent {
      }).present();
   }
 
-  /* Allows for location selection on google
-  * typeahead on mobile devices
-  */
+  // Allows for location selection on google typeahead on mobile devices
   disableTap(): void {
     console.log('disable tap');
-    // @TODO Figure out if this needs to be a thing
-    //  let container = document.getElementsByClassName('pac-container');
-    // disable ionic data tap
-    //  element(container).attr('data-tap-disabled', 'true');
-    //  angular.element(container).attr('id', 'places');
-    //  leave input field if google-address-entry is selected
-    //  angular.element(container).on('click', function () {
-    //    document.getElementById('origin-input').blur();
-    //    document.getElementById('destination-input').blur();
-    //  });
   }
 
   goToStop(loc): void {
-    // @TODO Show loader
     this.stopService.getNearestStop(loc.lat(), loc.lng()).then(stop => {
-      // @TODO Hide loader
       this.navCtrl.push(StopComponent, {stopId: stop.StopId});
     });
   }
