@@ -54,13 +54,11 @@ export class PlanTripComponent {
     ga('set', 'page', '/plan-trip.html');
     ga('send', 'pageview');
   }
-  /**
-  * Checks whether we're trying to
-  * get directions starting at the
-  * current location.  If so, get it.
-  * Otherwise, clear out the values
-  * for origin so the user knows to type something.
- */
+  /*
+  * Checks whether we're trying to get directions starting at the current
+  * location. If so, get it. Otherwise, clear out the values for origin so
+  * the user knows to type something.
+  */
 /*
   ionViewDidLoad() {
     this.loadMap();
