@@ -13,7 +13,7 @@ declare var google, ga;
 @Component({
   selector: 'page-plan-trip',
   templateUrl: 'plan-trip.html'
-})
+)
 export class PlanTripComponent {
   @ViewChild('directionsMap') mapElement: ElementRef;
   @ViewChild('routeScrollArea') routeElement: ElementRef;
@@ -30,7 +30,6 @@ export class PlanTripComponent {
   loader;
   timeOptions = [];
   noLocationToast;
-  toastHandler;
   originDestToast;
   isInternetExplorer: boolean = false;
 
