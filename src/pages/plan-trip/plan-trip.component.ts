@@ -438,7 +438,6 @@ export class PlanTripComponent {
          {
            text: 'Save',
            handler: data => {
-             console.log('data', data);
              this.request.name = data.name;
              console.log('Saved clicked');
              this.tripService.saveTrip(this.request);
@@ -448,11 +447,6 @@ export class PlanTripComponent {
          }
        ]
      }).present();
-  }
-
-  // Allows for location selection on google typeahead on mobile devices
-  disableTap(): void {
-    console.log('disable tap');
   }
 
   goToStop(loc): void {
