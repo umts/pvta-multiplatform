@@ -180,6 +180,8 @@ export class PlanTripComponent {
   }
 
   mapsLoadedCallback = (loadedTrip) => {
+    // defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
+    // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
     let swBound = new google.maps.LatLng(41.93335, -72.85809);
     let neBound = new google.maps.LatLng(42.51138, -72.20302);
     this.bounds = new google.maps.LatLngBounds(swBound, neBound);
@@ -188,8 +190,6 @@ export class PlanTripComponent {
   }
 
   ionViewWillEnter() {
-    // defaultMapCenter = new google.maps.LatLng(42.3918143, -72.5291417);//Coords for UMass Campus Center
-    // These coordinates draw a rectangle around all PVTA-serviced area. Used to restrict requested locations to only PVTALand
     let loadedTrip = this.navParams.get('loadedTrip');
     this.mapsLoadedCallback(loadedTrip);
   }
