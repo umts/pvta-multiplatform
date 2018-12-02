@@ -12,6 +12,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geolocation } from '@ionic-native/geolocation';
+import { GoogleMaps } from '@ionic-native/google-maps';
 
 // Pages
 import { AboutComponent } from '../pages/about/about.component';
@@ -108,9 +109,10 @@ import { ToastService } from '../providers/toast.service';
     VehicleComponent
   ],
   providers: [ {provide: ErrorHandler, useClass: IonicErrorHandler},
-    RouteService, StopService, StopDepartureService, VehicleService, AlertService,
-    FavoriteRouteService, FavoriteStopService, ConnectivityService,
-    MapService, InfoService, FavoriteTripService, AutoRefreshService,
-    StatusBar, SplashScreen, Geolocation, ToastService, DepartureSortService ]
+    RouteService, StopService, StopDepartureService, VehicleService,
+    AlertService, FavoriteRouteService, FavoriteStopService,
+    ConnectivityService, MapService, InfoService, FavoriteTripService,
+    AutoRefreshService, StatusBar, SplashScreen, Geolocation, ToastService,
+    DepartureSortService, GoogleMaps ]
 })
 export class AppModule {}
