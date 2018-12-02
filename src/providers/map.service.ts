@@ -7,31 +7,11 @@ declare const ENV;
 export class MapService {
   map;
 
-  gmaps_key;
   currentLocation;
   options = { timeout: 5000, enableHighAccuracy: true };
   markers = [];
   windows = [];
   constructor(public platform: Platform) {}
-
-  downloadGoogleMaps(cb: Function) {
-    window['mapsCb'] = cb;
-    let head = document.getElementsByTagName('head')[0];
-    let mapsApi = document.createElement('script');
-    if (ENV.environment === 'dev') {
-      this.gmaps_key = ENV.gmaps_dev;
-    } else {
-      if (this.platform.is('core') || this.platform.is('mobileweb')) {
-        this.gmaps_key = ENV.gmaps_core;
-      } else if (this.platform.is('ios')) {
-        this.gmaps_key = ENV.gmaps_ios;
-      } else {
-        this.gmaps_key = ENV.gmaps_android;
-      }
-    }
-    mapsApi.src = `https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=${this.gmaps_key}&callback=mapsCb`;
-    head.appendChild(mapsApi);
-  }
 
   dropPin(location): any {
     this.map.panTo(location);
