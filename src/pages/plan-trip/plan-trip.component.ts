@@ -54,20 +54,6 @@ export class PlanTripComponent {
     ga('set', 'page', '/plan-trip.html');
     ga('send', 'pageview');
   }
-  /**
-  * Checks whether we're trying to
-  * get directions starting at the
-  * current location.  If so, get it.
-  * Otherwise, clear out the values
-  * for origin so the user knows to type something.
- */
- updateOrigin(): void {
-   if (this.request.destinationOnly) {
-     this.loadLocation();
-   } else {
-     this.request.origin = {};
-   }
- }
  // Loads the user's location and updates the origin
   loadLocation(): void {
     let options = {timeout: 5000, enableHighAccuracy: true};
