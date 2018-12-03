@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
+import { GoogleMap, GoogleMaps } from '@ionic-native/google-maps';
 
 declare var google;
 @Injectable()
@@ -10,7 +11,7 @@ export class MapService {
   options = { timeout: 5000, enableHighAccuracy: true };
   markers = [];
   windows = [];
-  constructor(public platform: Platform) {}
+  constructor(public platform: Platform, private googleMaps: GoogleMaps) {}
 
   dropPin(location): any {
     this.map.panTo(location);
