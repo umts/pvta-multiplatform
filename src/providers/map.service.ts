@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 
 declare var google;
-declare const ENV;
 @Injectable()
 export class MapService {
   map;
