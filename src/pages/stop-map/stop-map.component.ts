@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { NavParams, LoadingController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
-import { GoogleMap, GoogleMaps } from '@ionic-native/google-maps';
+import { GoogleMap, GoogleMaps, LatLng } from '@ionic-native/google-maps';
 import { Stop } from '../../models/stop.model';
 import { MapService } from '../../providers/map.service';
 import { StopService } from '../../providers/stop.service';
@@ -37,8 +37,9 @@ export class StopMapComponent {
   }
 
   mapsLoadedCallback = () => {
+    let haigisMall = new LatLng(42.386270, -72.525844)
     let mapOptions = {
-      center: new google.maps.LatLng(42.386270, -72.525844), // Haigis Mall
+      center: haigisMall,
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       zoomControlOptions: {
