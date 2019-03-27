@@ -428,6 +428,22 @@ export class PlanTripComponent {
   */
   disableTap(): void {
     console.log('disable tap');
+    let container = document.getElementsByClassName('pac-container');
+    let backdrop = document.getElementsByClassName('backdrop');
+    for (let i = 0; i < container.length; i++) {
+        container[i].setAttribute('data-tap-disabled', 'true');
+        container[i].addEventListener("click", function(){
+        let items = document.getElementsByClassName('pack-item');
+        for(let j = 0; j < items.length; j++){
+          (items[j] as HTMLElement).blur();
+        }
+      });
+    }
+    for (let i = 0; i < backdrop.length; i++) {
+        backdrop[i].setAttribute('data-tap-disabled', 'true');
+    }
+
+    
     // @TODO Figure out if this needs to be a thing
     //  let container = document.getElementsByClassName('pac-container');
     // disable ionic data tap

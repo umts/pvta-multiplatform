@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="backdrop">
   <!-- <div ng-include="'pages/app/no-network.html'"></div> -->
   <ion-list id="input">
     <ion-item>
@@ -15,8 +15,8 @@
         <!-- ng-focus="disableTap()" / -->
         <input id="origin-input" role="combobox" aria-autocomplete="list"
         aria-owns="places" aria-activedescendant="places"
-        aria-label="Begin typing an origin and choose a location from the drop-down"
-         class="user-input location-typeahead" type="text"
+        aria-label="Begin typing an origin and choose a location from the drop-down" 
+          class="user-input location-typeahead" type="text"  ng-focus="disableTap()"
          placeholder="Enter a starting location" [(ngModel)]="request?.origin.name">
       </label>
       <!-- aria-label="{{request?.destinationOnly ? 'Stop using' : 'Use'}} location of device" -->
