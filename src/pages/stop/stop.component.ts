@@ -249,7 +249,8 @@ export class StopComponent {
         for (let departure of direction.Departures) {
 
           // A departure is invalid if it was in the past
-          if (!moment(departure.EDT).isAfter(Date.now())) {
+          const oneMinute = 60 * 1000;
+          if (moment(departure.EDT).isBefore(Date.now() + oneMinute)) {
             continue;
           } else {
             /* Manipuate the departure object.
