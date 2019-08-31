@@ -73,3 +73,7 @@ options for testing the native app:
 [cordova-andriod]: https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html#installing-the-requirements
 [cordova-ios]: https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html#installing-the-requirements
 [avd]: http://developer.android.com/tools/devices/managing-avds.html
+
+## Archived
+
+This project was started years ago to learn about mobile development and JavaScript frameworks, and to provide PVTA's passengers with a mobile app to retrieve realtime information. Since then, PVTA's vendor has released two major revisions, overhauling and significantly improving its realtime mobile app, and PVTA’s information has also started appearing in TransitApp.  
